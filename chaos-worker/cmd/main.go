@@ -12,4 +12,6 @@ func main() {
 	name3 := "Mikasa"
 
 	fmt.Println(name)
+	fmt.Println(name2)
+	fmt.Println(name3)
 }
