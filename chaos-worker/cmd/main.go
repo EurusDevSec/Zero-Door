@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func main() {
 	// fmt.Println("Hello ")
 
@@ -31,5 +33,19 @@ func main() {
 	// 	var f float64
 	// 	var s string
 	// 	var b bool
+
+	users := []string{"Alice", "Bob", "Charlie"}
+	fmt.Println(users)
+	var result []string
+	result = append(result, "Data-1")
+	result = append(result, "Data-2")
+	result = append(result, "Data-3")
+	fmt.Println(result)
+
+	orders := make([]string, 0, 100)
+	orders = append(orders, "Order-66")
+	fmt.Println(orders)
+
+	fmt.Println(len(orders))
 
 }

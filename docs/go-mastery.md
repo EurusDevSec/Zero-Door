@@ -171,6 +171,24 @@ var b bool     // false
 ### 4.2. Arrays & Slices
 
 ```go
+
+// Slice: Kích thước ĐỘNG (dùng nhiều) ⭐
+pods := []string{"pod-1", "pod-2", "pod-3"}
+
+// Tạo slice rỗng
+var emptySlice []int           // nil slice
+emptySlice := make([]int, 0)   // empty slice (preferred)
+
+// Thêm phần tử
+pods = append(pods, "pod-4")
+
+// Slice của slice
+firstTwo := pods[0:2]  // ["pod-1", "pod-2"]
+fromSecond := pods[1:] // ["pod-2", "pod-3", "pod-4"]
+
+// Độ dài
+len(pods)  // 4
+
 // Array: Kích thước CỐ ĐỊNH (ít dùng)
 var arr [3]int = [3]int{1, 2, 3}
 
@@ -190,6 +208,8 @@ fromSecond := pods[1:] // ["pod-2", "pod-3", "pod-4"]
 
 // Độ dài
 len(pods)  // 4
+
+
 ```
 
 ### 4.3. Maps
