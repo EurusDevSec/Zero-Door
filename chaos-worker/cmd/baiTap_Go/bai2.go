@@ -34,7 +34,8 @@ func main() {
 
 	t := 1
 	for i := 1; i <= n; i++ {
-
+		t *= i
 	}
+	fmt.Println(t)
 
 }
