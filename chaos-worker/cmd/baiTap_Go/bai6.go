@@ -9,7 +9,10 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func reverseString(s string) string {
 	runes := []rune(s)
@@ -22,7 +25,9 @@ func reverseString(s string) string {
 
 func main() {
 	input := "golang"
+	start := time.Now()
 	result := reverseString(input)
+	fmt.Printf("go mat: %v\n", time.Since(start))
 	fmt.Println(result)
 
 }
