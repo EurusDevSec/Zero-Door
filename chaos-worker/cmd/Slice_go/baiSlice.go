@@ -33,22 +33,32 @@ func mergeSlices(s1 []int, s2 []int) []int {
 
 func main() {
 
-	fmt.Println("Bai1 - InitSlice")
-	initSlice()
-	fmt.Println("------------")
-	fmt.Println("Bai2 - clone Slice")
-	src := []int{1, 2, 3}
-	result := cloneSlice(src)
-	fmt.Println(result)
-	fmt.Println("------------")
-	fmt.Println("Bai 3 - GetSubSlice")
-	arr := []int{10, 20, 30, 40, 50}
-	fmt.Print(getSubSlice(arr))
-	fmt.Println("------------")
+	// fmt.Println("Bai1 - InitSlice")
+	// initSlice()
+	// fmt.Println("------------")
+	// fmt.Println("Bai2 - clone Slice")
+	// src := []int{1, 2, 3}
+	// result := cloneSlice(src)
+	// fmt.Println(result)
+	// fmt.Println("------------")
+	// fmt.Println("Bai 3 - GetSubSlice")
+	// arr := []int{10, 20, 30, 40, 50}
+	// fmt.Print(getSubSlice(arr))
+	// fmt.Println("------------")
 
-	s1 := []int{1, 2}
-	s2 := []int{3, 4}
-	merge := mergeSlices(s1, s2)
-	fmt.Println(merge)
+	// s1 := []int{1, 2}
+	// s2 := []int{3, 4}
+	// merge := mergeSlices(s1, s2)
+	// fmt.Println(merge)
 
+	// input := []int{1, 2, 3}
+	// fmt.Println("-----------------")
+	// fmt.Println(input[len(input)-1])
+
+	fmt.Println("-----------------")
+	fmt.Println("Delete at Index")
+	nums := []int{1, 2, 3, 4, 5}
+	index := 2
+	temp := append(nums[:index], nums[index+1:]...)
+	fmt.Println(temp)
 }
