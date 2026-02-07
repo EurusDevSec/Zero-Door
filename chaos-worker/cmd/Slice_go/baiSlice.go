@@ -1,0 +1,59 @@
+package main
+
+import (
+	"fmt"
+)
+
+func initSlice() {
+	nums := make([]int, 0, 5)
+
+	fmt.Printf("len of nums %v, cap of nums %v \n", len(nums), cap(nums))
+	nums = append(nums, 5)
+	nums = append(nums, 10)
+	fmt.Printf("len of nums %v, cap of nums %v\n", len(nums), cap(nums))
+
+}
+
+func cloneSlice(src []int) []int {
+	dst := make([]int, len(src))
+	copy(dst, src)
+	return dst
+}
+
+func getSubSlice(arr []int) []int {
+	return arr[1:4]
+
+}
+
+func mergeSlices(s1 []int, s2 []int) []int {
+	var s3 []int
+	for _, v := range s1 {
+		s3 = append(s3, v)
+	}
+	for _, v := range s2 {
+		s3 = append(s3, v)
+	}
+	return s3
+}
+
+func main() {
+
+	fmt.Println("Bai1 - InitSlice")
+	initSlice()
+	fmt.Println("------------")
+	fmt.Println("Bai2 - clone Slice")
+	src := []int{1, 2, 3}
+	result := cloneSlice(src)
+	fmt.Println(result)
+	fmt.Println("------------")
+	fmt.Println("Bai 3 - GetSubSlice")
+	arr := []int{10, 20, 30, 40, 50}
+	fmt.Print(getSubSlice(arr))
+	fmt.Println("------------")
+
+	s1 := []int{1, 2}
+	s2 := []int{3, 4}
+	merge := mergeSlices(s1, s2)
+	fmt.Println(merge)
+
+}
