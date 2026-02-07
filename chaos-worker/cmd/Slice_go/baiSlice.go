@@ -69,6 +69,19 @@ func findIndex(nums []int, target int) int {
 	return -1
 }
 
+func removeDuplicates(nums []int) []int {
+	seen := make(map[int]bool)
+	result := []int{}
+
+	for _, v := range nums {
+		if !seen[v] {
+			seen[v] = true
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
 func main() {
 
 	// fmt.Println("Bai1 - InitSlice")
@@ -115,8 +128,10 @@ func main() {
 	// nums := []int{1, 2, 3, 4, 5}
 	// fmt.Println(filterOddNumber(nums))
 
-	nums := []int{10, 20, 30}
-	target := 20
+	// nums := []int{10, 20, 30}
+	// target := 20
 
-	fmt.Println(findIndex(nums, target))
+	// fmt.Println(findIndex(nums, target))
+	nums := []int{1, 2, 3, 3, 1}
+	fmt.Println(removeDuplicates(nums))
 }
