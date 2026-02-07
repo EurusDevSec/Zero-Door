@@ -26,14 +26,9 @@ func getSubSlice(arr []int) []int {
 }
 
 func mergeSlices(s1 []int, s2 []int) []int {
-	var s3 []int
-	for _, v := range s1 {
-		s3 = append(s3, v)
-	}
-	for _, v := range s2 {
-		s3 = append(s3, v)
-	}
-	return s3
+
+	s1 = append(s1, s2...)
+	return s1
 }
 
 func main() {
