@@ -55,10 +55,20 @@ func main() {
 	// fmt.Println("-----------------")
 	// fmt.Println(input[len(input)-1])
 
-	fmt.Println("-----------------")
-	fmt.Println("Delete at Index")
-	nums := []int{1, 2, 3, 4, 5}
+	// fmt.Println("-----------------")
+	// fmt.Println("Delete at Index")
+	// nums := []int{1, 2, 3, 4, 5}
+	// index := 2
+	// temp := append(nums[:index], nums[index+1:]...)
+	// fmt.Println(temp)
+	fmt.Println("----------------")
+
+	nums := []int{1, 2, 4, 5}
 	index := 2
-	temp := append(nums[:index], nums[index+1:]...)
+	value := 3
+
+	temp := append(nums[:index], append([]int{value}, nums[index:]...)...)
+
 	fmt.Println(temp)
+
 }
