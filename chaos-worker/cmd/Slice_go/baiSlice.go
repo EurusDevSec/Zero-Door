@@ -94,6 +94,23 @@ func reverseSlice(nums []int) []int {
 
 }
 
+func chunkSlice(nums []int, size int) [][]int {
+
+	result := [][]int{}
+	subResult := []int{}
+	for i, v := range nums {
+		subResult = append(subResult, v)
+
+		if len(subResult) == size || i == len(nums)-1 {
+			result = append(result, subResult)
+			subResult = []int{}
+		}
+
+	}
+	return result
+
+}
+
 func main() {
 
 	// fmt.Println("Bai1 - InitSlice")
@@ -147,7 +164,12 @@ func main() {
 	// nums := []int{1, 2, 3, 3, 1}
 	// fmt.Println(removeDuplicates(nums))
 
-	nums := []int{1, 2, 3}
-	fmt.Println(reverseSlice(nums))
+	// nums := []int{1, 2, 3}
+	// fmt.Println(reverseSlice(nums))
+
+	nums := []int{1, 2, 3, 4, 5}
+	size := 2
+
+	fmt.Println(chunkSlice(nums, size))
 
 }
