@@ -50,6 +50,25 @@ func filterOddNumber(nums []int) []int {
 	return result
 }
 
+func findIndex(nums []int, target int) int {
+	left := 0
+	right := len(nums) - 1
+	var mid int = 0
+	for left <= right {
+		mid = (left + right) / 2
+		if target == nums[mid] {
+			return mid
+		} else if target > nums[mid] {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+
+	}
+
+	return -1
+}
+
 func main() {
 
 	// fmt.Println("Bai1 - InitSlice")
@@ -93,7 +112,11 @@ func main() {
 	// nums := []int{1, 2, 3}
 	// fmt.Println(updateAll(nums))
 
-	nums := []int{1, 2, 3, 4, 5}
-	fmt.Println(filterOddNumber(nums))
+	// nums := []int{1, 2, 3, 4, 5}
+	// fmt.Println(filterOddNumber(nums))
 
+	nums := []int{10, 20, 30}
+	target := 20
+
+	fmt.Println(findIndex(nums, target))
 }
