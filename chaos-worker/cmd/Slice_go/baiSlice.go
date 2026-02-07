@@ -82,6 +82,18 @@ func removeDuplicates(nums []int) []int {
 	return result
 }
 
+func reverseSlice(nums []int) []int {
+	left := 0
+	right := len(nums) - 1
+
+	for left < right {
+		nums[left], nums[right] = nums[right], nums[left]
+	}
+
+	return nums
+
+}
+
 func main() {
 
 	// fmt.Println("Bai1 - InitSlice")
@@ -132,6 +144,10 @@ func main() {
 	// target := 20
 
 	// fmt.Println(findIndex(nums, target))
-	nums := []int{1, 2, 3, 3, 1}
-	fmt.Println(removeDuplicates(nums))
+	// nums := []int{1, 2, 3, 3, 1}
+	// fmt.Println(removeDuplicates(nums))
+
+	nums := []int{1, 2, 3}
+	fmt.Println(reverseSlice(nums))
+
 }
