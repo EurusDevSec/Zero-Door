@@ -31,6 +31,25 @@ func mergeSlices(s1 []int, s2 []int) []int {
 	return s1
 }
 
+func updateAll(nums []int) []int {
+	for i := range nums {
+		nums[i] *= 2
+	}
+	return nums
+}
+
+func filterOddNumber(nums []int) []int {
+	result := make([]int, 0, len(nums))
+
+	for i := range nums {
+		if nums[i]%2 != 0 {
+			result = append(result, nums[i])
+		}
+	}
+
+	return result
+}
+
 func main() {
 
 	// fmt.Println("Bai1 - InitSlice")
@@ -61,14 +80,20 @@ func main() {
 	// index := 2
 	// temp := append(nums[:index], nums[index+1:]...)
 	// fmt.Println(temp)
-	fmt.Println("----------------")
+	// fmt.Println("----------------")
 
-	nums := []int{1, 2, 4, 5}
-	index := 2
-	value := 3
+	// nums := []int{1, 2, 4, 5}
+	// index := 2
+	// value := 3
 
-	temp := append(nums[:index], append([]int{value}, nums[index:]...)...)
+	// temp := append(nums[:index], append([]int{value}, nums[index:]...)...)
 
-	fmt.Println(temp)
+	// fmt.Println(temp)
+
+	// nums := []int{1, 2, 3}
+	// fmt.Println(updateAll(nums))
+
+	nums := []int{1, 2, 3, 4, 5}
+	fmt.Println(filterOddNumber(nums))
 
 }
