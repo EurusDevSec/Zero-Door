@@ -155,8 +155,8 @@ Framework của Google tập trung vào các chỉ số:
 | ---------------------------------------- | ---------------------- | --------------------------------------------------------- |
 | **Gremlin, Harness Chaos**               | Commercial             | Chi phí cao ($$$), không accessible cho startup/sinh viên |
 | **Dynatrace Davis AI, IBM Watson AIOps** | Enterprise AIOps       | License đắt, closed-source, cần team chuyên gia           |
-| **LitmusChaos, Chaos Toolkit**           | Open-source Chaos      | Chỉ chaos injection, THIỪU AI-driven và auto-remediation  |
-| **Prometheus + Alertmanager**            | Open-source Monitoring | Chỉ alert, THIỪU auto-response                            |
+| **LitmusChaos, Chaos Toolkit**           | Open-source Chaos      | Chỉ chaos injection, THIẾU AI-driven và auto-remediation  |
+| **Prometheus + Alertmanager**            | Open-source Monitoring | Chỉ alert, THIẾU auto-response                            |
 
 #### 3.3.2. Khoảng trống được xác định
 
@@ -300,16 +300,81 @@ _Điều này đảm bảo không chỉ so với "manual" mà còn với các gi
 
 ### 5.1. Tech Stack
 
-| Layer              | Công nghệ                                   | Lý do lựa chọn                      |
-| ------------------ | ------------------------------------------- | ----------------------------------- |
-| **Infrastructure** | Docker, Kubernetes (K3s)                    | Industry standard, dễ mở rộng       |
-| **Backend Core**   | Java Spring Boot 3.x                        | Mature ecosystem, Spring AI support |
-| **AI Integration** | Spring AI + OpenAI/Ollama                   | Linh hoạt Cloud/Local LLM           |
-| **Message Broker** | Apache Kafka                                | High throughput, reliable messaging |
-| **Monitoring**     | Prometheus + Grafana                        | De-facto standard observability     |
-| **Logging**        | ELK Stack (Elasticsearch, Logstash, Kibana) | Centralized log analysis            |
+| Layer              | Công nghệ                                   | Lý do lựa chọn                              |
+| ------------------ | ------------------------------------------- | ------------------------------------------- |
+| **Infrastructure** | Docker, Kubernetes (K3s)                    | Industry standard, dễ mở rộng                |
+| **Backend Core**   | Java Spring Boot 3.x                        | Mature ecosystem, Spring AI support          |
+| **Chaos Worker**   | Go (Golang)                                 | Hiệu năng cao, lightweight, phù hợp CLI/Worker |
+| **AI Integration** | Spring AI + OpenAI/Ollama                   | Linh hoạt Cloud/Local LLM                    |
+| **Message Broker** | Apache Kafka                                | High throughput, reliable messaging          |
+| **Monitoring**     | Prometheus + Grafana                        | De-facto standard observability              |
+| **Logging**        | ELK Stack (Elasticsearch, Logstash, Kibana) | Centralized log analysis                     |
+
+> **Lưu ý về Polyglot Architecture:** Dự án sử dụng đa ngôn ngữ theo nguyên tắc "right tool for the right job":
+> - **Java Spring Boot**: Orchestration, AI integration, business logic (Agents core)
+> - **Go**: Chaos worker, attack execution, high-performance tasks (low latency, low memory footprint)
 
 ### 5.2. Kiến trúc 3 Agents
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         ZERO DOOR ARCHITECTURE                            │
+│                                                                           │
+│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐               │
+│  │   NEMESIS    │     │    GAIA      │     │  HEPHAESTUS  │               │
+│  │  (Red Team)  │     │  (Observer)  │     │ (Blue Team)  │               │
+│  │              │     │              │     │              │               │
+│  │ • GenAI      │     │ • Prometheus │     │ • K8s API    │               │
+│  │   Payloads   │     │   Scraper    │     │   Client     │               │
+│  │ • Go Chaos   │     │ • Anomaly    │     │ • Auto-scale │               │
+│  │   Worker     │     │   Detection  │     │ • Block IP   │               │
+│  │ • OWASP      │     │ • Log        │     │ • Rollback   │               │
+│  │   Templates  │     │   Analysis   │     │ • Restart    │               │
+│  └──────┬───────┘     └──────┬───────┘     └──────┬───────┘               │
+│         │                    │                    │                       │
+│         ▼                    ▼                    ▼                       │
+│  ┌─────────────────────────────────────────────────────────────┐          │
+│  │                    APACHE KAFKA                             │          │
+│  │  Topics:                                                    │          │
+│  │  • attack.commands   (Nemesis → Target)                     │          │
+│  │  • attack.results    (Nemesis → Gaia)                       │          │
+│  │  • monitoring.alerts (Gaia → Hephaestus)                    │          │
+│  │  • healing.actions   (Hephaestus → Gaia)                    │          │
+│  │  • system.logs       (All → Dashboard)                      │          │
+│  └─────────────────────────────────────────────────────────────┘          │
+│                              │                                            │
+│                              ▼                                            │
+│  ┌─────────────────────────────────────────────────────────────┐          │
+│  │                    TARGET APPLICATION                       │          │
+│  │            (Google Online Boutique - 10+ services)          │          │
+│  └─────────────────────────────────────────────────────────────┘          │
+│                              │                                            │
+│                              ▼                                            │
+│  ┌─────────────────────────────────────────────────────────────┐          │
+│  │                OBSERVABILITY STACK                           │          │
+│  │        Prometheus + Grafana + ELK Stack                     │          │
+│  └─────────────────────────────────────────────────────────────┘          │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Agent Communication Protocol
+
+| Kafka Topic           | Producer    | Consumer     | Message Format | Mô tả                              |
+| --------------------- | ----------- | ------------ | -------------- | ----------------------------------- |
+| `attack.commands`     | Nemesis     | Target App   | JSON           | Payload tấn công được sinh bởi AI  |
+| `attack.results`      | Nemesis     | Gaia         | JSON           | Kết quả attack (success/fail)       |
+| `monitoring.alerts`   | Gaia        | Hephaestus   | JSON           | Alert khi phát hiện anomaly         |
+| `healing.actions`     | Hephaestus  | Gaia         | JSON           | Log hành động phục hồi đã thực hiện |
+| `system.logs`         | All Agents  | Dashboard    | JSON           | System-wide logging                |
+
+#### Conflict Resolution
+
+> **Vấn đề:** Nemesis tấn công trong khi Hephaestus đang heal → xung đột?
+
+**Cơ chế giải quyết:**
+1. **Priority-based:** Hephaestus (heal) luôn có priority cao hơn Nemesis (attack)
+2. **Cooldown Period:** Sau mỗi healing action, Nemesis tạm dừng 30-60 giây
+3. **State Machine:** Mỗi Agent có state (IDLE, ACTIVE, COOLDOWN) được publish lên Kafka
 
 ### 5.3. Chi tiết từng Agent
 
@@ -491,6 +556,58 @@ Phase 6 ░░░░░░░░░░░░░░│░░░░░░░░░
 
 > Nghiên cứu này được thực hiện với mục đích học thuật và cải thiện bảo mật hệ thống. Các kỹ thuật tấn công chỉ được áp dụng trong môi trường kiểm soát do nhóm tự xây dựng.
 
+### 9.3. Threat Model
+
+#### 9.3.1. OWASP Top 10 Mapping
+
+| OWASP Category                        | Covered? | Attack Vector trong ZERO DOOR        | Priority |
+| ------------------------------------- | -------- | ------------------------------------ | -------- |
+| A03:2021 - Injection                  | ✅       | SQL Injection (Nemesis)              | P0       |
+| A05:2021 - Security Misconfiguration  | ✅       | Resource Exhaustion (CPU/Memory)     | P0       |
+| N/A - Availability                    | ✅       | DDoS Layer 7 (HTTP Flood)            | P0       |
+| A01:2021 - Broken Access Control      | ❌       | Out of Scope (v1.0)                  | Future   |
+| A07:2021 - XSS                        | ❌       | Out of Scope (v1.0)                  | Future   |
+| A10:2021 - SSRF                       | ❌       | Out of Scope (v1.0)                  | Future   |
+
+#### 9.3.2. Attack Flow
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                  ATTACK SCENARIOS                         │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  Scenario 1: SQL Injection                               │
+│  Nemesis → LLM sinh SQLi payload → HTTP Request          │
+│  → Target API → Database query → Detect by Gaia          │
+│  → Hephaestus block IP + alert                           │
+│                                                          │
+│  Scenario 2: DDoS Layer 7                                │
+│  Nemesis → Go Worker sinh concurrent HTTP requests       │
+│  → Target CPU/Memory spike → Prometheus alert            │
+│  → Gaia detect anomaly → Hephaestus auto-scale pods      │
+│                                                          │
+│  Scenario 3: Resource Exhaustion                         │
+│  Nemesis → Memory bomb / CPU intensive requests          │
+│  → Pod OOMKilled / CrashLoopBackOff                      │
+│  → Gaia detect → Hephaestus rollback deployment          │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+```
+
+### 9.4. Giới hạn Nghiên cứu (Limitations)
+
+> **Quan trọng:** Mọi nghiên cứu đều có giới hạn. Việc nêu rõ giới hạn thể hiện tính trung thực khoa học.
+
+| #   | Giới hạn                                  | Giải thích                                                                   | Hướng khắc phục (Future Work)          |
+| --- | ----------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------- |
+| L1  | **Chỉ sandbox, chưa production**          | Kết quả trong controlled environment, chưa validate ở production scale       | Pilot deployment với partner           |
+| L2  | **3 attack types chỉ là subset**          | OWASP Top 10 có 10 categories, chỉ cover 3                                  | Mở rộng XSS, SSRF, CSRF               |
+| L3  | **Single Kubernetes cluster**             | Chưa test multi-cluster, federation                                          | Multi-cluster support                  |
+| L4  | **LLM dependency**                        | Chất lượng payload phụ thuộc LLM, có thể không stable                        | Fine-tuned domain-specific model       |
+| L5  | **Thiếu long-term evaluation**            | 6 tháng chưa đủ đánh giá reliability dài hạn                                 | Extended evaluation period             |
+| L6  | **Benchmark limited**                     | So sánh chủ yếu với manual, chưa so với commercial tools (Gremlin, Harness)  | Partnership với vendors                |
+| L7  | **Chỉ hỗ trợ Prometheus metrics**         | App cần expose Prometheus endpoint, không hỗ trợ Datadog/CloudWatch          | Adapter pattern cho multi-source       |
+
 ---
 
 ## 10. Sản phẩm Bàn giao (Deliverables)
@@ -670,32 +787,40 @@ zero_door/
 
 ## 11. Tài liệu Tham khảo (References)
 
+> Xem thêm chi tiết tại [docs/references.md](references.md)
+
 ### Academic Papers
 
 1. Basiri, A., et al. (2016). "Chaos Engineering." _IEEE Software_, 33(3), 35-41.
 2. Wooldridge, M. (2009). _An Introduction to MultiAgent Systems_. John Wiley & Sons.
 3. Soldani, J., et al. (2022). "Automated Anomaly Detection and Root Cause Analysis for Microservices." _IEEE Transactions on Services Computing_.
 4. Chen, P., et al. (2021). "AIOps: Real-World Challenges and Research Innovations." _IEEE ICSE-SEIP_.
+5. Sarda, K., Namrud, Z., et al. (2023). "ADARMA: Auto-Detection and Auto-Remediation of Microservice Anomalies by Leveraging LLMs." _ACM ISSTA_. [ACM](https://dl.acm.org/doi/abs/10.5555/3615924.3615949)
+6. Malik, S., Naqvi, M.A., Moonen, L. (2023). "CHESS: A Framework for Evaluation of Self-Adaptive Systems Based on Chaos Engineering." _IEEE SEAMS_. [IEEE](https://ieeexplore.ieee.org/abstract/document/10174151/)
+7. Zhang, L., Jia, T., et al. (2024). "A Survey of AIOps for Failure Management in the Era of Large Language Models." _arXiv_. [arXiv](https://arxiv.org/abs/2406.11213)
+8. Naqvi, M.A., Malik, S., Astekin, M. (2022). "On Evaluating Self-Adaptive and Self-Healing Systems Using Chaos Engineering." _IEEE International Conference_. [IEEE](https://ieeexplore.ieee.org/abstract/document/9935013/)
 
 ### Industry Reports (Baseline Data Sources)
 
-5. IBM Security. (2023). "Cost of a Data Breach Report 2023." IBM. _[MTTD: 204 days, MTTR: 73 days]_
-6. Splunk. (2023). "State of Security 2023." _[55% organizations: >1 hour incident response]_
-7. Gartner. (2023). "Market Guide for AIOps Platforms."
-8. OWASP Foundation. (2021). "OWASP Top 10:2021." https://owasp.org/Top10/
+9. IBM Security. (2023). "Cost of a Data Breach Report 2023." IBM. _[MTTD: 204 days, MTTR: 73 days]_
+10. Splunk. (2023). "State of Security 2023." _[55% organizations: >1 hour incident response]_
+11. Gartner. (2023). "Market Guide for AIOps Platforms."
+12. OWASP Foundation. (2021). "OWASP Top 10:2021." https://owasp.org/Top10/
 
 ### Books
 
-9. Google SRE Team. (2016). _Site Reliability Engineering: How Google Runs Production Systems_. O'Reilly Media.
-10. Netflix Technology Blog. (2011). "The Netflix Simian Army." Netflix.
+13. Google SRE Team. (2016). _Site Reliability Engineering: How Google Runs Production Systems_. O'Reilly Media.
+14. Rosenthal, C., Jones, N. (2020). _Chaos Engineering: System Resiliency in Practice_. O'Reilly Media.
+15. Netflix Technology Blog. (2011). "The Netflix Simian Army." Netflix.
 
 ### Technical Documentation
 
-11. CNCF. (2023). "LitmusChaos Documentation." https://litmuschaos.io/
-12. Spring AI Documentation. (2024). https://docs.spring.io/spring-ai/reference/
-13. Kubernetes Official Documentation. (2024). https://kubernetes.io/docs/
-14. Prometheus Documentation. (2024). https://prometheus.io/docs/
-15. OWASP Testing Guide v4.2. (2023). https://owasp.org/www-project-web-security-testing-guide/
+16. CNCF. (2023). "LitmusChaos Documentation." https://litmuschaos.io/
+17. Spring AI Documentation. (2024). https://docs.spring.io/spring-ai/reference/
+18. Kubernetes Official Documentation. (2024). https://kubernetes.io/docs/
+19. Prometheus Documentation. (2024). https://prometheus.io/docs/
+20. OWASP Testing Guide v4.2. (2023). https://owasp.org/www-project-web-security-testing-guide/
+21. Go Programming Language. (2024). https://go.dev/doc/
 
 ---
 
@@ -717,11 +842,13 @@ zero_door/
 - [ ] Setup GitHub repository
 - [ ] Đăng ký Cloud account (GCP/AWS/DigitalOcean)
 - [ ] Tạo OpenAI API key
-- [ ] Cài đặt development environment (Java 17+, Docker, kubectl)
+- [ ] Cài đặt development environment (Java 17+, Go 1.21+, Docker, kubectl)
 - [ ] Review tài liệu Chaos Engineering
 - [ ] Review Spring AI documentation
+- [ ] Setup Go development environment (chaos-worker)
+- [ ] Đọc kỹ ADARMA paper (closest related work)
 
 ---
 
-_Cập nhật lần cuối: 26/01/2026_  
-_Version: 2.0_
+_Cập nhật lần cuối: 04/03/2026_  
+_Version: 3.0_
