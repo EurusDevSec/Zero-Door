@@ -518,7 +518,6 @@ chore: update dependencies
 - [ ] Tests pass
 - [ ] Docs updated
 - [ ] No hardcoded secrets
-
 ## Screenshots/Video (nếu có)
 [Paste ảnh/video demo]
 ```
