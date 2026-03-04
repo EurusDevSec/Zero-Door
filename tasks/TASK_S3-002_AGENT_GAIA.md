@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 3-4 (Tuần 5-8)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 Teammate (Grafana + Tests)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Grafana + Tests)  
 > **Blocked by**: S2-001 (architecture), S2-002 (Kafka), S2-003 (Prometheus), S3-001 (target app)  
 > **Blocks**: S5-002 (Nemesis needs Gaia online to complete loop)
 
@@ -30,9 +30,9 @@
 - [ ] Alert message format đúng với schema đã design (S2-001)
 - [ ] State machine: MONITORING → ALERT_TRIGGERED → ANALYZING → MONITORING
 - [ ] REST API: `GET /api/gaia/status` returns current state + last alert
-- [ ] 🟡 Teammate: Viết test cases cho Gaia (happy path + edge cases)
-- [ ] 🟡 Teammate: Customize Grafana dashboard "Gaia Alert History"
-- [ ] 🟡 Teammate: Thu thập baseline metrics (CPU/Memory usage when idle)
+- [ ] 🟡 hp8001: Viết test cases cho Gaia (happy path + edge cases)
+- [ ] 🟡 hp8001: Customize Grafana dashboard "Gaia Alert History"
+- [ ] 🟡 hp8001: Thu thập baseline metrics (CPU/Memory usage when idle)
 - [ ] Docker image build thành công, deploy trên K8s `zero-door` namespace
 
 ---
@@ -59,7 +59,7 @@
 - [ ] 3.2.8 Dockerize + K8s Deployment manifest
 - [ ] 3.2.9 Integration test: deploy on K8s, trigger CPU spike → verify alert published
 
-### Subtasks — 🟡 Teammate
+### Subtasks — 🟡 hp8001
 
 - [ ] 3.2.10 Viết test cases document (markdown): 10 test scenarios
 - [ ] 3.2.11 Thu thập baseline metrics: CPU, Memory khi target app idle (screenshot Grafana)

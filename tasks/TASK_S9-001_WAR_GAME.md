@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 9-10 (Tuần 17-20)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 Teammate (Data collection, Video, Reports)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Data collection, Video, Reports)  
 > **Blocked by**: S3-002 (Gaia), S5-002 (Nemesis), S7-001 (Hephaestus) — tất cả 3 agents  
 > **Blocks**: S11-001 (Report cần experiment data)
 
@@ -31,9 +31,9 @@
 - [ ] Self-Healing experiment: auto response
 - [ ] So sánh bảng: Baseline vs Self-Healing (MTTD, MTTR, Uptime)
 - [ ] 3 attack scenarios tested: SQLi, DDoS, Resource Exhaustion
-- [ ] 🟡 Teammate: Thu thập data (MTTD, MTTR, Uptime) vào spreadsheet
-- [ ] 🟡 Teammate: Record video demo (full War Game flow, 5-10 phút)
-- [ ] 🟡 Teammate: Tạo bảng so sánh Baseline vs Self-Healing (charts)
+- [ ] 🟡 hp8001: Thu thập data (MTTD, MTTR, Uptime) vào spreadsheet
+- [ ] 🟡 hp8001: Record video demo (full War Game flow, 5-10 phút)
+- [ ] 🟡 hp8001: Tạo bảng so sánh Baseline vs Self-Healing (charts)
 - [ ] Stress test: 3 attacks đồng thời → system survives
 
 ---
@@ -62,7 +62,7 @@
 - [ ] 9.1.7 Analyze data: calculate averages, p-values (if applicable)
 - [ ] 9.1.8 Generate experiment report (`experiments/results/`)
 
-### Subtasks — 🟡 Teammate
+### Subtasks — 🟡 hp8001
 
 - [ ] 9.1.9 Create data collection spreadsheet template (Google Sheets/Excel):
     ```

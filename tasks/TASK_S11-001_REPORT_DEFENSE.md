@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 11-12 (Tuần 21-24)  
-> **Assignee**: 🔴 Hoàng (Ch3-4-5, Review) + 🟡 Teammate (Ch1-2, Slides, Poster)  
+> **Assignee**: 🔴 Hoàng (Ch3-4-5, Review) + 🟡 hp8001 (Ch1-2, Slides, Poster)  
 > **Blocked by**: S9-001 (experiment results needed for report)  
 > **Blocks**: Defense date
 
@@ -34,7 +34,7 @@
 
 ## 🛠️ Implementation
 
-### Subtasks — 🟡 Teammate (Chương 1-2)
+### Subtasks — 🟡 hp8001 (Chương 1-2)
 
 - [ ] 11.1.1 Viết Chương 1: Mở đầu
     - 1.1 Lý do chọn đề tài
@@ -69,9 +69,9 @@
     - 5.2 Đóng góp
     - 5.3 Giới hạn
     - 5.4 Hướng phát triển tương lai
-- [ ] 11.1.7 Merge Chương 1-2 của Teammate + Format theo mẫu trường
+- [ ] 11.1.7 Merge Chương 1-2 của hp8001 + Format theo mẫu trường
 
-### Subtasks — 🟡 Teammate (Slides + Support)
+### Subtasks — 🟡 hp8001 (Slides + Support)
 
 - [ ] 11.1.8 Tạo slides bảo vệ (PowerPoint/Google Slides):
     - Slide 1: Title

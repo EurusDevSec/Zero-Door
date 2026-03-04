@@ -437,29 +437,380 @@ _Lưu ý: Scope 3 attack types là đủ cho proof-of-concept. Có thể mở r�
 
 ## 6. Lộ trình Thực hiện (Timeline)
 
-### 6.1. Gantt Chart tổng quan
+### 6.1. Tổng quan Timeline
 
 ```
-        Tháng 1    Tháng 2    Tháng 3    Tháng 4    Tháng 5    Tháng 6
-           │          │          │          │          │          │
-Phase 1 ████████░░░░░░│░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│ Setup
-Phase 2 ░░░░░░░░██████████░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│ Target + Gaia
-Phase 3 ░░░░░░░░░░░░░░│██████████│░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│ Nemesis
-Phase 4 ░░░░░░░░░░░░░░│░░░░░░░░░░│██████████│░░░░░░░░░░│░░░░░░░░░░│ Hephaestus
-Phase 5 ░░░░░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│██████████│░░░░░░░░░░│ War Game
-Phase 6 ░░░░░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│░░░░░░░░░░│██████████│ Closing
+2026
+Jan            Feb            Mar            Apr            May            Jun
+ |──────────────|──────────────|──────────────|──────────────|──────────────|
+ │◄── PHASE 1 ──►│             │              │              │              │
+ │  Setup &      │             │              │              │              │
+ │  Research     │             │              │              │              │
+ │◄Sprint1►│◄Sprint2►│        │              │              │              │
+ │ Infra   │ Design  │        │              │              │              │
+ │         │         │◄──── PHASE 2 ────►│   │              │              │
+ │         │         │  Target + Gaia     │   │              │              │
+ │         │         │◄Sprint3►│◄Sprint4►│   │              │              │
+ │         │         │ Deploy   │ Gaia     │   │              │              │
+ │         │         │         │          │◄── PHASE 3 ──►│  │              │
+ │         │         │         │          │  Nemesis       │  │              │
+ │         │         │         │          │◄Sprint5►│◄S6►│  │              │
+ │         │         │         │          │         │     │◄── PHASE 4 ──►│
+ │         │         │         │          │         │     │  Hephaestus   │
+ │         │         │         │          │         │     │◄S7►│◄S8►│     │
+ │         │         │         │          │         │     │    │    │◄P5──►│
+ │         │         │         │          │         │     │    │    │WarGame│
+ │         │         │         │          │         │     │    │    │◄S9►│◄S10►
+ │         │         │◄──────────── PHASE 6 (Song song) ────────────────►│
+ │         │         │  Report (hp8001 Ch1-2 từ tháng 3)               │
+ │         │         │                                         │◄S11►│◄S12►│
 ```
+
+> **Nguyên tắc timeline:**
+>
+> - **12 sprints × 2 tuần** = 24 tuần = 6 tháng
+> - **Overlap** Phase 6 (Report) với các phase khác → hp8001 viết Ch1-2 song song từ tháng 3
+> - Task files chi tiết: xem thư mục [`tasks/`](../tasks/)
 
 ### 6.2. Chi tiết từng Phase
 
-| Phase                | Thời gian | Tasks                                                                                                           | Deliverables                                                                    | Milestone            |
-| -------------------- | --------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------- |
-| **1. Setup**         | Tháng 01  | • Nghiên cứu Chaos Engineering, Spring AI<br>• Setup K8s cluster<br>• Thiết kế kiến trúc chi tiết               | • K8s environment ready<br>• Architecture document<br>• Literature review       | ✓ Infra ready        |
-| **2. Target + Gaia** | Tháng 02  | • Deploy **Google Online Boutique** (Demo app có sẵn)<br>• Xây dựng Agent Gaia<br>• Tích hợp Prometheus/Grafana | • K8s Cluster with 10+ microservices<br>• Gaia module<br>• Dashboard monitoring | ✓ Environment ready  |
-| **3. Nemesis**       | Tháng 03  | • Phát triển Agent Nemesis<br>• Tích hợp LLM sinh payload<br>• Test từng loại attack                            | • Nemesis module<br>• Attack scenarios<br>• Test results                        | ✓ Attack successful  |
-| **4. Hephaestus**    | Tháng 04  | • Phát triển Agent Hephaestus<br>• Tích hợp K8s API<br>• Implement healing actions                              | • Hephaestus module<br>• K8s integration<br>• Auto-response works               | ✓ Self-healing works |
-| **5. War Game**      | Tháng 05  | • Tích hợp 3 Agents<br>• Chạy thực nghiệm<br>• Thu thập & phân tích data                                        | • Video demo<br>• Experimental data<br>• MTTD/MTTR metrics                      | ✓ Full system demo   |
-| **6. Closing**       | Tháng 06  | • Viết báo cáo tổng kết<br>• Đóng gói source code<br>• Chuẩn bị bảo vệ                                          | • Final report<br>• Full source code<br>• Presentation slides                   | ✓ Project complete   |
+---
+
+## 📦 PHASE 1: Setup & Research (T01-T02/2026)
+
+> **Mục tiêu Phase**: Thiết lập toàn bộ infrastructure + thiết kế kiến trúc chi tiết
+> **Thời gian**: 2 tháng (01/2026 - 02/2026)
+> **Hoàng**: Infra, K8s, Dev env, Architecture | **hp8001**: Research papers, Grafana, Board setup
+
+### Sprint 1: Foundation (Tuần 1-2)
+
+**Mục tiêu Sprint**: Setup infrastructure nền tảng — GitHub, K8s, dev environment
+
+| Task ID | Task                     | Subtasks                                                           | Assignee         | Target   | Status |
+| ------- | ------------------------ | ------------------------------------------------------------------ | ---------------- | -------- | ------ |
+| S1-001  | **Infra Setup**          |                                                                    | Hoàng            | Tuần 1   | ⬜     |
+|         |                          | 1.1.1 Tạo GitHub repository + branch protection                   | Hoàng            |          | ⬜     |
+|         |                          | 1.1.2 Tạo GitHub Projects board (6 cột)                           | 🟡 hp8001     |          | ⬜     |
+|         |                          | 1.1.3 Tạo Labels + Milestones (Sprint 1→12)                       | 🟡 hp8001     |          | ⬜     |
+|         |                          | 1.1.4 Setup PR Template + CONTRIBUTING.md                         | Hoàng            |          | ⬜     |
+| S1-002  | **K8s Cluster Setup**    |                                                                    | Hoàng            | Tuần 1-2 | ⬜     |
+|         |                          | 1.2.1 Cài K3s/Minikube + kubectl + Helm                           | Hoàng            |          | ⬜     |
+|         |                          | 1.2.2 Tạo 3 namespaces: zero-door, monitoring, target-app         | Hoàng            |          | ⬜     |
+|         |                          | 1.2.3 Cài Ingress controller + test pod                           | Hoàng            |          | ⬜     |
+|         |                          | 1.2.4 Viết docs/guides/GUIDE_K8S_SETUP.md                         | Hoàng            |          | ⬜     |
+| S1-003  | **Dev Environment**      |                                                                    | Hoàng + hp8001 | Tuần 2   | ⬜     |
+|         |                          | 1.3.1 Cài Java 17+ + Maven + Spring Boot skeleton                 | Hoàng            |          | ⬜     |
+|         |                          | 1.3.2 Cài Go 1.21+ + Go module cho chaos-worker                   | Hoàng            |          | ⬜     |
+|         |                          | 1.3.3 Verify: `mvn compile` + `go build` cả 2 pass                | Hoàng            |          | ⬜     |
+|         |                          | 1.3.4 Đọc + tóm tắt paper ADARMA (1-2 trang)                     | 🟡 hp8001     |          | ⬜     |
+|         |                          | 1.3.5 Viết README.md v1                                           | 🟡 hp8001     |          | ⬜     |
+
+**✅ Milestone 1**: K8s cluster Ready + Dev env OK + GitHub board functional
+
+---
+
+### Sprint 2: Architecture & Design (Tuần 3-4)
+
+**Mục tiêu Sprint**: Thiết kế kiến trúc chi tiết + Setup Kafka & Observability
+
+| Task ID | Task                        | Subtasks                                                             | Assignee         | Target   | Status |
+| ------- | --------------------------- | -------------------------------------------------------------------- | ---------------- | -------- | ------ |
+| S2-001  | **Architecture Design**     |                                                                      | Hoàng + hp8001 | Tuần 3   | ⬜     |
+|         |                             | 2.1.1 Design 5 Kafka topics + JSON message schemas                   | Hoàng            |          | ⬜     |
+|         |                             | 2.1.2 Design Agent State Machines (3 agents)                         | Hoàng            |          | ⬜     |
+|         |                             | 2.1.3 Design Conflict Resolution protocol                           | Hoàng            |          | ⬜     |
+|         |                             | 2.1.4 Vẽ System Architecture diagram (Draw.io)                      | 🟡 hp8001     |          | ⬜     |
+|         |                             | 2.1.5 Tóm tắt papers CHESS + AIOps Survey                           | 🟡 hp8001     |          | ⬜     |
+| S2-002  | **Kafka Cluster Setup**     |                                                                      | Hoàng            | Tuần 3-4 | ⬜     |
+|         |                             | 2.2.1 Install Kafka via Helm (Bitnami)                               | Hoàng            |          | ⬜     |
+|         |                             | 2.2.2 Create 5 topics + test produce/consume                        | Hoàng            |          | ⬜     |
+|         |                             | 2.2.3 Install Kafka UI (Kafdrop)                                     | Hoàng            |          | ⬜     |
+| S2-003  | **Observability Stack**     |                                                                      | Hoàng + hp8001 | Tuần 3-4 | ⬜     |
+|         |                             | 2.3.1 Install kube-prometheus-stack (Prometheus + Grafana)           | Hoàng            |          | ⬜     |
+|         |                             | 2.3.2 Configure basic alert rules (CPU, Memory, Pod restart)        | Hoàng            |          | ⬜     |
+|         |                             | 2.3.3 Customize Grafana dashboard "ZERO DOOR Overview"              | 🟡 hp8001     |          | ⬜     |
+|         |                             | 2.3.4 Export dashboard JSON → commit vào infra/grafana/              | 🟡 hp8001     |          | ⬜     |
+
+**✅ Milestone 2**: Architecture documented + Kafka messaging works + Grafana dashboard live
+
+**📊 Phase 1 Deliverables**:
+
+- [ ] K8s cluster ready (3 namespaces, ingress, Helm)
+- [ ] Architecture document hoàn chỉnh (Kafka topics, state machines, conflict resolution)
+- [ ] Kafka cluster + 5 topics operational
+- [ ] Prometheus + Grafana monitoring live
+- [ ] Literature review (ADARMA, CHESS, AIOps Survey summaries)
+
+---
+
+## 📦 PHASE 2: Target App + Agent Gaia (T02-T03/2026)
+
+> **Mục tiêu Phase**: Deploy target app + Phát triển Agent Gaia (Observer)
+> **Thời gian**: 2 tháng (02/2026 - 03/2026)
+> **Hoàng**: Target deploy, Gaia core, Kafka integration | **hp8001**: Test cases, Grafana dashboards, baseline metrics
+
+### Sprint 3: Deploy Target & Gaia Core (Tuần 5-6)
+
+**Mục tiêu Sprint**: Deploy Google Online Boutique + bắt đầu Agent Gaia
+
+| Task ID | Task                     | Subtasks                                                           | Assignee         | Target   | Status |
+| ------- | ------------------------ | ------------------------------------------------------------------ | ---------------- | -------- | ------ |
+| S3-001  | **Deploy Target App**    |                                                                    | Hoàng            | Tuần 5   | ⬜     |
+|         |                          | 3.1.1 Clone + deploy Google Online Boutique lên K8s                | Hoàng            |          | ⬜     |
+|         |                          | 3.1.2 Verify 10+ pods Running + shopping flow works                | Hoàng            |          | ⬜     |
+|         |                          | 3.1.3 Configure ServiceMonitor cho Prometheus scraping             | Hoàng            |          | ⬜     |
+|         |                          | 3.1.4 Run basic load test                                          | Hoàng            |          | ⬜     |
+| S3-002  | **Agent Gaia — Core**    |                                                                    | Hoàng + hp8001 | Tuần 5-6 | ⬜     |
+|         |                          | 3.2.1 Create Spring Boot module `agent-gaia`                       | Hoàng            |          | ⬜     |
+|         |                          | 3.2.2 Implement Prometheus HTTP API client (WebClient)             | Hoàng            |          | ⬜     |
+|         |                          | 3.2.3 Implement MetricsCollector (scheduled every 15s)             | Hoàng            |          | ⬜     |
+|         |                          | 3.2.4 Implement AnomalyDetector (threshold-based: CPU, Mem, Error) | Hoàng            |          | ⬜     |
+|         |                          | 3.2.5 Thu thập baseline metrics (idle state screenshots)           | 🟡 hp8001     |          | ⬜     |
+
+### Sprint 4: Gaia Integration & Testing (Tuần 7-8)
+
+**Mục tiêu Sprint**: Hoàn thiện Gaia — Kafka integration + deploy lên K8s
+
+| Task ID | Task                      | Subtasks                                                          | Assignee         | Target   | Status |
+| ------- | ------------------------- | ----------------------------------------------------------------- | ---------------- | -------- | ------ |
+| S3-002  | **Agent Gaia — Complete** | _(tiếp tục)_                                                      |                  |          |        |
+|         |                           | 3.2.6 Implement Kafka producer → `monitoring.alerts`              | Hoàng            | Tuần 7   | ⬜     |
+|         |                           | 3.2.7 Implement State Machine (MONITORING → ALERT → ANALYZING)   | Hoàng            |          | ⬜     |
+|         |                           | 3.2.8 Implement REST API: `/api/gaia/status`, `/api/gaia/alerts` | Hoàng            |          | ⬜     |
+|         |                           | 3.2.9 Dockerize + K8s Deployment manifest                        | Hoàng            | Tuần 8   | ⬜     |
+|         |                           | 3.2.10 Integration test: CPU spike → alert published             | Hoàng            |          | ⬜     |
+|         |                           | 3.2.11 Viết test cases document (10 scenarios)                   | 🟡 hp8001     |          | ⬜     |
+|         |                           | 3.2.12 Tạo Grafana dashboard "Gaia Alert History"                | 🟡 hp8001     |          | ⬜     |
+
+**✅ Milestone 3**: Target app running + Gaia detects anomalies + alerts via Kafka
+
+**📊 Phase 2 Deliverables**:
+
+- [ ] Google Online Boutique deployed (10+ microservices running)
+- [ ] Agent Gaia deployed on K8s, anomaly detection working
+- [ ] Kafka `monitoring.alerts` topic receiving messages
+- [ ] Gaia Grafana dashboard live
+- [ ] Test cases documented
+
+---
+
+## 📦 PHASE 3: Agent Nemesis — Red Team (T03-T04/2026)
+
+> **Mục tiêu Phase**: Phát triển Go Chaos Worker + Agent Nemesis orchestrator
+> **Thời gian**: 2 tháng (03/2026 - 04/2026)
+> **Hoàng**: Chaos Worker (Go), Nemesis core (Java), LLM integration | **hp8001**: OWASP templates, attack testing, logging
+
+### Sprint 5: Go Chaos Worker + Nemesis Core (Tuần 9-10)
+
+**Mục tiêu Sprint**: Build Go worker + Nemesis Spring Boot module
+
+| Task ID | Task                     | Subtasks                                                          | Assignee         | Target    | Status |
+| ------- | ------------------------ | ----------------------------------------------------------------- | ---------------- | --------- | ------ |
+| S5-001  | **Go Chaos Worker**      |                                                                   | Hoàng            | Tuần 9    | ⬜     |
+|         |                          | 5.1.1 Setup Go project structure (cmd + internal + Dockerfile)    | Hoàng            |           | ⬜     |
+|         |                          | 5.1.2 Implement Kafka consumer (attack.commands)                  | Hoàng            |           | ⬜     |
+|         |                          | 5.1.3 Implement HTTP Flood executor (goroutines)                  | Hoàng            |           | ⬜     |
+|         |                          | 5.1.4 Implement CPU/Memory Stress executors                       | Hoàng            |           | ⬜     |
+|         |                          | 5.1.5 Implement Kafka producer → attack.results                   | Hoàng            |           | ⬜     |
+|         |                          | 5.1.6 Docker image < 20MB (multi-stage build)                     | Hoàng            |           | ⬜     |
+| S5-002  | **Agent Nemesis — Core** |                                                                   | Hoàng + hp8001 | Tuần 9-10 | ⬜     |
+|         |                          | 5.2.1 Create Spring Boot module `agent-nemesis`                   | Hoàng            |           | ⬜     |
+|         |                          | 5.2.2 Integrate Spring AI (OpenAI/Ollama)                         | Hoàng            |           | ⬜     |
+|         |                          | 5.2.3 Implement LLMPayloadGenerator (template → LLM → variations) | Hoàng            |           | ⬜     |
+|         |                          | 5.2.4 Implement AttackOrchestrator + Kafka producer               | Hoàng            |           | ⬜     |
+|         |                          | 5.2.5 Tạo OWASP SQLi template library (≥10 templates)            | 🟡 hp8001     |           | ⬜     |
+
+### Sprint 6: Nemesis Complete + Attack Testing (Tuần 11-12)
+
+**Mục tiêu Sprint**: Hoàn thiện Nemesis + test từng loại attack riêng lẻ
+
+| Task ID | Task                         | Subtasks                                                       | Assignee         | Target    | Status |
+| ------- | ---------------------------- | -------------------------------------------------------------- | ---------------- | --------- | ------ |
+| S5-002  | **Agent Nemesis — Complete** | _(tiếp tục)_                                                   |                  |           |        |
+|         |                              | 5.2.6 Implement State Machine (IDLE → PLANNING → ATTACKING → COOLDOWN) | Hoàng    | Tuần 11   | ⬜     |
+|         |                              | 5.2.7 Implement REST API: start/stop/status                   | Hoàng            |           | ⬜     |
+|         |                              | 5.2.8 Dockerize + K8s Deployment manifest                     | Hoàng            | Tuần 12   | ⬜     |
+|         |                              | 5.2.9 Integration test: Nemesis → Kafka → Worker → attack     | Hoàng            |           | ⬜     |
+|         |                              | 5.2.10 Test từng loại attack riêng lẻ + ghi log              | 🟡 hp8001     |           | ⬜     |
+|         |                              | 5.2.11 Record kết quả attack vào experiments/attack-logs/     | 🟡 hp8001     |           | ⬜     |
+
+**✅ Milestone 4**: Nemesis attacks target successfully + Gaia detects all attacks
+
+**📊 Phase 3 Deliverables**:
+
+- [ ] Go Chaos Worker Docker image (< 20MB)
+- [ ] Agent Nemesis deployed on K8s
+- [ ] Spring AI integrated (LLM sinh payload hoạt động)
+- [ ] OWASP attack template library (≥ 10 templates)
+- [ ] 3 attack types tested individually (SQLi, DDoS, Resource)
+- [ ] Attack logs documented
+
+---
+
+## 📦 PHASE 4: Agent Hephaestus — Blue Team (T04-T05/2026)
+
+> **Mục tiêu Phase**: Phát triển Agent Hephaestus — tự động heal qua K8s API
+> **Thời gian**: 1.5 tháng (04/2026 - giữa 05/2026)
+> **Hoàng**: Hephaestus core, K8s client, healing logic | **hp8001**: Test healing actions, API docs
+
+### Sprint 7: Hephaestus Core + K8s Client (Tuần 13-14)
+
+**Mục tiêu Sprint**: Build Hephaestus với 4 healing actions
+
+| Task ID | Task                          | Subtasks                                                         | Assignee         | Target    | Status |
+| ------- | ----------------------------- | ---------------------------------------------------------------- | ---------------- | --------- | ------ |
+| S7-001  | **Agent Hephaestus — Core**   |                                                                  | Hoàng + hp8001 | Tuần 13-14 | ⬜    |
+|         |                               | 7.1.1 Create Spring Boot module `agent-hephaestus`               | Hoàng            |           | ⬜     |
+|         |                               | 7.1.2 Integrate Kubernetes Java Client (fabric8io)               | Hoàng            |           | ⬜     |
+|         |                               | 7.1.3 Implement ScaleAction (increase replicas)                  | Hoàng            |           | ⬜     |
+|         |                               | 7.1.4 Implement BlockIPAction (NetworkPolicy)                    | Hoàng            |           | ⬜     |
+|         |                               | 7.1.5 Implement RollbackAction + RestartAction                   | Hoàng            |           | ⬜     |
+|         |                               | 7.1.6 Implement DecisionEngine (alert → action mapping)          | Hoàng            |           | ⬜     |
+
+### Sprint 8: Hephaestus Complete + Verification (Tuần 15-16)
+
+**Mục tiêu Sprint**: Hoàn thiện verification loop + deploy lên K8s
+
+| Task ID | Task                             | Subtasks                                                       | Assignee         | Target    | Status |
+| ------- | -------------------------------- | -------------------------------------------------------------- | ---------------- | --------- | ------ |
+| S7-001  | **Agent Hephaestus — Complete**  | _(tiếp tục)_                                                   |                  |           |        |
+|         |                                  | 7.1.7 Implement State Machine (STANDBY → HEALING → VERIFYING)  | Hoàng            | Tuần 15   | ⬜     |
+|         |                                  | 7.1.8 Implement verification (re-check metrics after healing)  | Hoàng            |           | ⬜     |
+|         |                                  | 7.1.9 Kafka producer → `healing.actions` + RBAC manifest       | Hoàng            |           | ⬜     |
+|         |                                  | 7.1.10 Dockerize + K8s Deployment                              | Hoàng            | Tuần 16   | ⬜     |
+|         |                                  | 7.1.11 Test mỗi healing action riêng lẻ (manual trigger)      | 🟡 hp8001     |           | ⬜     |
+|         |                                  | 7.1.12 Viết API docs + test scenarios document                 | 🟡 hp8001     |           | ⬜     |
+
+**✅ Milestone 5**: Full loop works — Nemesis attack → Gaia detect → Hephaestus heal
+
+**📊 Phase 4 Deliverables**:
+
+- [ ] Agent Hephaestus deployed on K8s
+- [ ] 4 healing actions working (Scale, Block IP, Rollback, Restart)
+- [ ] K8s RBAC configured correctly
+- [ ] Verification loop: heal → check metrics → confirm recovery
+- [ ] API documentation
+
+---
+
+## 📦 PHASE 5: War Game & Experiments (T05/2026)
+
+> **Mục tiêu Phase**: Tích hợp 3 Agents, chạy thực nghiệm, thu thập MTTD/MTTR metrics
+> **Thời gian**: 1 tháng (05/2026)
+> **Hoàng**: Integration, experiment scripts, data analysis | **hp8001**: Data collection, video demo, charts
+
+### Sprint 9: Full Integration (Tuần 17-18)
+
+**Mục tiêu Sprint**: 3 agents chạy đồng thời + fix integration bugs
+
+| Task ID | Task                      | Subtasks                                                            | Assignee         | Target    | Status |
+| ------- | ------------------------- | ------------------------------------------------------------------- | ---------------- | --------- | ------ |
+| S9-001  | **Full Integration**      |                                                                     | Hoàng + hp8001 | Tuần 17-18 | ⬜    |
+|         |                           | 9.1.1 Deploy 3 agents + target + Kafka + Prometheus trên K8s       | Hoàng            |           | ⬜     |
+|         |                           | 9.1.2 Fix integration bugs (serialization, RBAC, namespace, etc.)  | Hoàng            |           | ⬜     |
+|         |                           | 9.1.3 Create experiment script: `scripts/run_experiment.sh`         | Hoàng            |           | ⬜     |
+|         |                           | 9.1.4 Tạo data collection spreadsheet template                     | 🟡 hp8001     |           | ⬜     |
+
+### Sprint 10: Experiments & Data Collection (Tuần 19-20)
+
+**Mục tiêu Sprint**: Chạy experiments, đo MTTD/MTTR, so sánh baseline
+
+| Task ID | Task                       | Subtasks                                                          | Assignee         | Target    | Status |
+| ------- | -------------------------- | ----------------------------------------------------------------- | ---------------- | --------- | ------ |
+| S9-001  | **Experiments** _(tiếp)_   |                                                                   |                  |           |        |
+|         |                            | 9.1.5 Run Experiment 1: Baseline (manual response, 5 runs)       | Hoàng            | Tuần 19   | ⬜     |
+|         |                            | 9.1.6 Run Experiment 2: Self-Healing (3 attack types × 5 runs)   | Hoàng            |           | ⬜     |
+|         |                            | 9.1.7 Run Stress Test: 3 concurrent attacks                      | Hoàng            | Tuần 20   | ⬜     |
+|         |                            | 9.1.8 Analyze data: MTTD/MTTR averages, comparison table         | Hoàng            |           | ⬜     |
+|         |                            | 9.1.9 Thu thập MTTD/MTTR cho mỗi run (≥20 runs)                  | 🟡 hp8001     |           | ⬜     |
+|         |                            | 9.1.10 Record video demo (5-10 phút, Grafana + logs)              | 🟡 hp8001     |           | ⬜     |
+|         |                            | 9.1.11 Tạo comparison chart (Baseline vs Self-Healing)            | 🟡 hp8001     |           | ⬜     |
+
+**✅ Milestone 6**: MTTD < 60s (≥70% cases) + MTTR < 180s (≥70% cases) + Video demo recorded
+
+**📊 Phase 5 Deliverables**:
+
+- [ ] Experiment data (≥ 20 runs documented)
+- [ ] Comparison table: Baseline vs Self-Healing (MTTD, MTTR, Uptime)
+- [ ] Video demo (5-10 phút)
+- [ ] Experiment report (`experiments/results/`)
+- [ ] Grafana dashboard screenshots during attack + healing
+
+---
+
+## 📦 PHASE 6: Report & Defense (T03-T06/2026, Song song)
+
+> **Mục tiêu Phase**: Viết báo cáo khoa học + chuẩn bị bảo vệ
+> **Thời gian**: 4 tháng (bắt đầu song song từ 03/2026, tập trung 05-06/2026)
+> **Hoàng**: Chương 3-4-5, Review, Q&A, Demo | **hp8001**: Chương 1-2, Slides, Poster
+
+### Sprint 11: Report Writing (Tuần 21-22)
+
+**Mục tiêu Sprint**: Hoàn thành bản nháp báo cáo
+
+| Task ID | Task                        | Subtasks                                                        | Assignee          | Target    | Status |
+| ------- | --------------------------- | --------------------------------------------------------------- | ----------------- | --------- | ------ |
+| S11-001 | **Report — Chương 1-2** ✨  |                                                                 | 🟡 hp8001      | Tuần 21   | ⬜     |
+|         |                             | 11.1.1 Chương 1: Mở đầu (lý do, mục tiêu, phạm vi, PP)        | 🟡 hp8001      |           | ⬜     |
+|         |                             | 11.1.2 Chương 2: Cơ sở lý thuyết (Microservices, Chaos, MAS)   | 🟡 hp8001      |           | ⬜     |
+|         |                             | 11.1.3 Gửi Hoàng review                                        | 🟡 hp8001      |           | ⬜     |
+| S11-001 | **Report — Chương 3-4-5**   |                                                                 | Hoàng             | Tuần 21-22 | ⬜    |
+|         |                             | 11.1.4 Chương 3: Phương pháp và Xây dựng hệ thống              | Hoàng             |           | ⬜     |
+|         |                             | 11.1.5 Chương 4: Kết quả thực nghiệm (bảng, biểu đồ)          | Hoàng             |           | ⬜     |
+|         |                             | 11.1.6 Chương 5: Kết luận + Hướng phát triển                   | Hoàng             |           | ⬜     |
+
+### Sprint 12: Defense Preparation (Tuần 23-24)
+
+**Mục tiêu Sprint**: Merge report + slides + dry run defense
+
+| Task ID | Task                       | Subtasks                                                        | Assignee          | Target    | Status |
+| ------- | -------------------------- | --------------------------------------------------------------- | ----------------- | --------- | ------ |
+| S11-001 | **Final Assembly** _(tiếp)_ |                                                                |                   |           |        |
+|         |                            | 11.1.7 Merge Ch1-2 + Ch3-4-5 + Format theo mẫu trường          | Hoàng             | Tuần 23   | ⬜     |
+|         |                            | 11.1.8 Tạo slides bảo vệ (15-20 slides)                        | 🟡 hp8001      |           | ⬜     |
+|         |                            | 11.1.9 Quay video demo (narrated)                               | Hoàng             |           | ⬜     |
+|         |                            | 11.1.10 Chuẩn bị Q&A (20 câu hỏi dự đoán + trả lời)            | Hoàng             | Tuần 24   | ⬜     |
+|         |                            | 11.1.11 Dry run defense ×2 (tập thuyết trình 15-20 phút)       | Hoàng + hp8001  |           | ⬜     |
+|         |                            | 11.1.12 Đóng gói source code (clean, no secrets, README final)  | Hoàng             |           | ⬜     |
+
+**✅ Milestone 7**: Báo cáo hoàn chỉnh + Slides ready + Video demo recorded + Dry run done
+
+**📊 Phase 6 Deliverables**:
+
+- [ ] Báo cáo khoa học hoàn chỉnh (5 chương, format trường)
+- [ ] Slides bảo vệ (15-20 slides)
+- [ ] Video demo (5-10 phút, narrated)
+- [ ] Q&A preparation (20 câu hỏi)
+- [ ] Source code đóng gói sạch
+- [ ] Dry run ≥ 2 lần
+
+---
+
+### 6.3. Tổng hợp Task Tracking
+
+| Phase | Sprint | Tasks | Tổng Subtasks | Target         |
+| ----- | ------ | ----- | ------------- | -------------- |
+| 1     | S1-S2  | 6     | 22            | T01-T02/2026   |
+| 2     | S3-S4  | 2     | 12            | T02-T03/2026   |
+| 3     | S5-S6  | 2     | 11            | T03-T04/2026   |
+| 4     | S7-S8  | 1     | 12            | T04-T05/2026   |
+| 5     | S9-S10 | 1     | 11            | T05/2026       |
+| 6     | S11-S12| 1     | 12            | T03-T06/2026   |
+| **Σ** |        | **13**| **80**        | **6 tháng**    |
+
+**Legend:** ⬜ Not Started | 🔄 In Progress | ✅ Completed | ⏸️ Paused | ❌ Cancelled
+
+### 6.4. Milestone Summary
+
+| #  | Milestone                  | Target       | KPI                                    |
+| -- | -------------------------- | ------------ | -------------------------------------- |
+| M1 | Infra Ready                | Cuối Sprint 2 | K8s + Kafka + Prometheus hoạt động     |
+| M2 | Architecture Documented    | Cuối Sprint 2 | Architecture.md hoàn chỉnh             |
+| M3 | Gaia Detects Anomalies     | Cuối Sprint 4 | Alert published khi CPU spike          |
+| M4 | Nemesis Attacks Successfully | Cuối Sprint 6 | 3 attack types work                  |
+| M5 | Full Loop Works            | Cuối Sprint 8 | Attack → Detect → Heal automated      |
+| M6 | Experiments Complete       | Cuối Sprint 10 | MTTD < 60s, MTTR < 180s (≥70%)       |
+| M7 | Project Complete           | Cuối Sprint 12 | Report + Demo + Defense ready         |
 
 ---
 

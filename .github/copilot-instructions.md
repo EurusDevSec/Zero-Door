@@ -15,7 +15,7 @@
   - **Gaia** (Observer) — giám sát metrics, phát hiện anomaly
   - **Hephaestus** (Blue Team) — tự động heal qua Kubernetes API
 - **Tech Stack:** Java Spring Boot (Agents) + Go (Chaos Worker) + Kubernetes + Kafka + Prometheus
-- **Team:** 2 người — Hoàng (Lead Dev ~70%) + Teammate (Support ~30%)
+- **Team:** 2 người — Hoàng (Lead Dev ~70%) + hp8001 (Support ~30%)
 - **Timeline:** 6 tháng (01/2026 - 06/2026), 12 sprints × 2 tuần
 - **Methodology:** Scrumban
 
@@ -44,7 +44,7 @@ Tất cả task files nằm trong thư mục [`tasks/`](../tasks/):
 | **Phase 5** War Game | `TASK_S9-001_WAR_GAME.md` |
 | **Phase 6** Closing | `TASK_S11-001_REPORT_DEFENSE.md` |
 
-**Format mỗi task file:** Context → User Story → Acceptance Criteria → Subtasks (🔴 Lead / 🟡 Teammate) → Branch & PR → Notes
+**Format mỗi task file:** Context → User Story → Acceptance Criteria → Subtasks (🔴 Lead / 🟡 hp8001) → Branch & PR → Notes
 
 ---
 
@@ -58,7 +58,7 @@ Tất cả task files nằm trong thư mục [`tasks/`](../tasks/):
 ### 2. Task Workflow
 - Mỗi task có file riêng trong `tasks/` → đọc task file trước khi bắt tay làm
 - Follow Acceptance Criteria như checklist — tick khi hoàn thành
-- Subtask có icon: 🔴 = Hoàng làm, 🟡 = Teammate làm
+- Subtask có icon: 🔴 = Hoàng làm, 🟡 = hp8001 làm
 - **Dependency chain:** xem "Blocked by" trong task file → đảm bảo dependency đã xong
 
 ### 3. Git Convention

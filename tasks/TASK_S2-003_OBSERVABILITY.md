@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 2 (Tuần 3-4)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 Teammate (Grafana dashboards)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Grafana dashboards)  
 > **Blocked by**: S1-002 (cần K8s cluster)  
 > **Blocks**: S3-002 (Gaia cần Prometheus data)
 
@@ -28,7 +28,7 @@
 - [ ] Prometheus scraping K8s node metrics (node-exporter)
 - [ ] Grafana có ít nhất 1 dashboard: K8s Cluster Overview
 - [ ] Alertmanager configured (basic alert rules)
-- [ ] 🟡 Teammate: Customize Grafana dashboard với panels: CPU, Memory, Network, Pod status
+- [ ] 🟡 hp8001: Customize Grafana dashboard với panels: CPU, Memory, Network, Pod status
 - [ ] ServiceMonitor CRD ready (cho future custom metrics)
 
 ---
@@ -47,7 +47,7 @@
 - [ ] 2.3.4 Configure basic alert rules (CPU > 80%, Memory > 85%, Pod restart)
 - [ ] 2.3.5 Setup ServiceMonitor for future custom metrics
 
-### Subtasks — 🟡 Teammate
+### Subtasks — 🟡 hp8001
 
 - [ ] 2.3.6 Login Grafana (admin/prom-operator) → explore built-in dashboards
 - [ ] 2.3.7 Create custom dashboard "ZERO DOOR Overview":
@@ -83,12 +83,12 @@
 > rate(http_server_requests_seconds_count{status=~"5.."}[1m])
 > ```
 
-> **Dashboard cho Teammate:**
+> **Dashboard cho hp8001:**
 >
 > Grafana có built-in dashboards khi dùng kube-prometheus-stack:
 > - Dashboard ID 15757: K8s Cluster Monitoring
 > - Dashboard ID 6417: Kubernetes Pods
-> - Teammate cần import + customize thêm cho ZERO DOOR branding
+> - hp8001 cần import + customize thêm cho ZERO DOOR branding
 
 > **Tham khảo:**
 >

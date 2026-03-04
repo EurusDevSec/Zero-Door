@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 5-6 (Tuần 9-12)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 Teammate (Attack templates, testing, logging)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Attack templates, testing, logging)  
 > **Blocked by**: S2-001 (architecture), S2-002 (Kafka), S5-001 (chaos worker)  
 > **Blocks**: S9-001 (full integration)
 
@@ -32,8 +32,8 @@
 - [ ] State Machine: IDLE → PLANNING → ATTACKING → COOLDOWN → IDLE
 - [ ] REST API: `/api/nemesis/status`, `/api/nemesis/start`, `/api/nemesis/stop`
 - [ ] Safety: cooldown timer, max concurrent attacks, namespace lock
-- [ ] 🟡 Teammate: Tạo OWASP attack template library (10 SQLi templates)
-- [ ] 🟡 Teammate: Test từng loại attack riêng lẻ + ghi log kết quả
+- [ ] 🟡 hp8001: Tạo OWASP attack template library (10 SQLi templates)
+- [ ] 🟡 hp8001: Test từng loại attack riêng lẻ + ghi log kết quả
 
 ---
 
@@ -53,7 +53,7 @@
 - [ ] 5.2.10 Dockerize + K8s Deployment manifest
 - [ ] 5.2.11 Integration test: Nemesis → Kafka → Worker → attack executes
 
-### Subtasks — 🟡 Teammate
+### Subtasks — 🟡 hp8001
 
 - [ ] 5.2.12 Create OWASP SQLi template library (`configs/attack-templates/sqli.yaml`):
     ```yaml
