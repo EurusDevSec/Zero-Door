@@ -44,5 +44,5 @@ Example: `feat: add Spring AI integration for Nemesis payload generation`
 * **Go**: Use `gofmt` for consistent formatting.
 * **K8s**: Ensure all manifests are valid YAML.
 
----
-*Last Updated: 2026-03-05*
+
+
