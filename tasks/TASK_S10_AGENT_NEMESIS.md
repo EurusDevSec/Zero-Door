@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S5-002  
+> **Task ID**: S10  
 > **Phase**: Phase 3 - Nemesis  
 > **Sprint**: Sprint 5-6  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 5-6 (Tuần 9-12)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Attack templates, testing, logging)  
-> **Blocked by**: S2-001 (architecture), S2-002 (Kafka), S5-001 (chaos worker)  
-> **Blocks**: S9-001 (full integration)
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Attack templates, testing, logging)  
+> **Blocked by**: S4 (architecture), S5 (Kafka), S9 (chaos worker)  
+> **Blocks**: S12 (full integration)
 
 > Phát triển Agent Nemesis (Red Team) — agent orchestrator tự động sinh payload tấn công
 > sử dụng LLM (Spring AI) và điều phối Go Chaos Worker qua Kafka.
@@ -32,8 +32,8 @@
 - [ ] State Machine: IDLE → PLANNING → ATTACKING → COOLDOWN → IDLE
 - [ ] REST API: `/api/nemesis/status`, `/api/nemesis/start`, `/api/nemesis/stop`
 - [ ] Safety: cooldown timer, max concurrent attacks, namespace lock
-- [ ] 🟡 hp8001: Tạo OWASP attack template library (10 SQLi templates)
-- [ ] 🟡 hp8001: Test từng loại attack riêng lẻ + ghi log kết quả
+- [ ] 🟡 hpt8001: Tạo OWASP attack template library (10 SQLi templates)
+- [ ] 🟡 hpt8001: Test từng loại attack riêng lẻ + ghi log kết quả
 
 ---
 
@@ -53,7 +53,7 @@
 - [ ] 5.2.10 Dockerize + K8s Deployment manifest
 - [ ] 5.2.11 Integration test: Nemesis → Kafka → Worker → attack executes
 
-### Subtasks — 🟡 hp8001
+### Subtasks — 🟡 hpt8001
 
 - [ ] 5.2.12 Create OWASP SQLi template library (`configs/attack-templates/sqli.yaml`):
     ```yaml

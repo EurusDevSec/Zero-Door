@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S3-001  
+> **Task ID**: S7  
 > **Phase**: Phase 2 - Target App + Gaia  
 > **Sprint**: Sprint 3 - Deploy Target & Gaia Core  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 3 (Tuần 5-6)  
 > **Assignee**: 🔴 Hoàng (Lead)  
-> **Blocked by**: S1-002 (K8s cluster), S2-003 (Prometheus)  
-> **Blocks**: S3-002 (Gaia cần target app để monitor), S5-001 (Nemesis cần target để attack)
+> **Blocked by**: S2 (K8s cluster), S6 (Prometheus)  
+> **Blocks**: S8 (Gaia cần target app để monitor), S9 (Nemesis cần target để attack)
 
 > Deploy Google Online Boutique (10+ microservices) lên K8s cluster.
 > Đây là "mục tiêu" mà Nemesis tấn công và Gaia giám sát.

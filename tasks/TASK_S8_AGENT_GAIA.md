@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S3-002  
+> **Task ID**: S8  
 > **Phase**: Phase 2 - Target App + Gaia  
 > **Sprint**: Sprint 3-4  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 3-4 (Tuần 5-8)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Grafana + Tests)  
-> **Blocked by**: S2-001 (architecture), S2-002 (Kafka), S2-003 (Prometheus), S3-001 (target app)  
-> **Blocks**: S5-002 (Nemesis needs Gaia online to complete loop)
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Grafana + Tests)  
+> **Blocked by**: S4 (architecture), S5 (Kafka), S6 (Prometheus), S7 (target app)  
+> **Blocks**: S10 (Nemesis needs Gaia online to complete loop)
 
 > Phát triển Agent Gaia (Observer) — agent giám sát hệ thống, phát hiện bất thường,
 > và gửi alert qua Kafka. Đây là "mắt thần" của ZERO DOOR.
@@ -27,12 +27,12 @@
 - [ ] Prometheus client integrated: scrapes metrics from target app via Prometheus API
 - [ ] Anomaly detection: threshold-based detection cho CPU, Memory, Error Rate, Response Time
 - [ ] Kafka producer: publishes `monitoring.alerts` topic khi detect anomaly
-- [ ] Alert message format đúng với schema đã design (S2-001)
+- [ ] Alert message format đúng với schema đã design (S4)
 - [ ] State machine: MONITORING → ALERT_TRIGGERED → ANALYZING → MONITORING
 - [ ] REST API: `GET /api/gaia/status` returns current state + last alert
-- [ ] 🟡 hp8001: Viết test cases cho Gaia (happy path + edge cases)
-- [ ] 🟡 hp8001: Customize Grafana dashboard "Gaia Alert History"
-- [ ] 🟡 hp8001: Thu thập baseline metrics (CPU/Memory usage when idle)
+- [ ] 🟡 hpt8001: Viết test cases cho Gaia (happy path + edge cases)
+- [ ] 🟡 hpt8001: Customize Grafana dashboard "Gaia Alert History"
+- [ ] 🟡 hpt8001: Thu thập baseline metrics (CPU/Memory usage when idle)
 - [ ] Docker image build thành công, deploy trên K8s `zero-door` namespace
 
 ---
@@ -59,7 +59,7 @@
 - [ ] 3.2.8 Dockerize + K8s Deployment manifest
 - [ ] 3.2.9 Integration test: deploy on K8s, trigger CPU spike → verify alert published
 
-### Subtasks — 🟡 hp8001
+### Subtasks — 🟡 hpt8001
 
 - [ ] 3.2.10 Viết test cases document (markdown): 10 test scenarios
 - [ ] 3.2.11 Thu thập baseline metrics: CPU, Memory khi target app idle (screenshot Grafana)

@@ -1,6 +1,6 @@
 ## 💡 Context
 
-> **Task ID**: S1-001  
+> **Task ID**: S1  
 > **Phase**: Phase 1 - Setup & Research  
 > **Sprint**: Sprint 1 - Foundation  
 > **Status**: ⬜ NOT STARTED  
@@ -8,7 +8,7 @@
 > **Target**: Sprint 1 (Tuần 1-2)  
 > **Assignee**: 🔴 Hoàng (Lead)  
 > **Blocked by**: Không  
-> **Blocks**: S1-002, S1-003, S2-001, S2-002, S2-003 (tất cả task Phase 1 phụ thuộc infra)
+> **Blocks**: S2, S3, S4, S5, S6 (tất cả task Phase 1 phụ thuộc infra)
 
 > Thiết lập toàn bộ infrastructure nền tảng cho dự án ZERO DOOR.
 > Đây là task đầu tiên, phải xong trước khi bắt tay vào bất cứ development nào.
@@ -64,9 +64,9 @@
 > - Milestones = Sprints → track velocity qua từng sprint
 > - PR Template enforce checklist → không miss items quan trọng
 
-> **Tips cho hp8001:**
+> **Tips cho hpt8001:**
 >
-> - Task S1-001 subtask 1.1.3 và 1.1.4 có thể giao cho hp8001
+> - Task S1 subtask 1.1.3 và 1.1.4 có thể giao cho hpt8001
 > - Cung cấp screenshot hướng dẫn cách tạo board trên GitHub Projects
 
 > **Tham khảo:**

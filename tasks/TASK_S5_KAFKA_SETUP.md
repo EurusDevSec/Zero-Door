@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S2-002  
+> **Task ID**: S5  
 > **Phase**: Phase 1 - Setup & Research  
 > **Sprint**: Sprint 2 - Architecture & Design  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 2 (Tuần 3-4)  
 > **Assignee**: 🔴 Hoàng (Lead)  
-> **Blocked by**: S1-002 (cần K8s cluster)  
-> **Blocks**: S3-002 (Gaia cần Kafka), S4-002 (Gaia Kafka integration)
+> **Blocked by**: S2 (cần K8s cluster)  
+> **Blocks**: S8 (Gaia cần Kafka), S4-002 (Gaia Kafka integration)
 
 > Setup Kafka cluster trên Kubernetes + tạo tất cả topics cần thiết cho
 > inter-agent communication. Verify produce/consume hoạt động.

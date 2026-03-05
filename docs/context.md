@@ -1,7 +1,7 @@
 # ZERO DOOR Project — Session Context
 
 > File này lưu trữ toàn bộ context của quá trình phát triển dự án để không bị mất giữa các phiên chat.
-> Cập nhật lần cuối: 2026-03-04 (Khởi tạo context)
+> Cập nhật lần cuối: 2026-03-05
 
 ---
 
@@ -11,7 +11,7 @@
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | **Tên dự án**       | ZERO DOOR — Ứng dụng kiến trúc Multi-Agent AI và kỹ thuật Chaos Engineering xây dựng cơ chế Self-Healing cho hệ thống Microservices |
 | **Trường**          | Đại học Thủ Dầu Một, Viện Công nghệ Số, 2025-2026                                                                       |
-| **Nhóm**            | Lê Văn Hoàng (trưởng nhóm, code chính ~70%), hp8001 (hỗ trợ ~30%)                                                     |
+| **Nhóm**            | Lê Văn Hoàng (trưởng nhóm, code chính ~70%), hpt8001 (hỗ trợ ~30%)                                                     |
 | **Công nghệ chính** | Java Spring Boot (Agents), Go (Chaos Worker), Kubernetes, Kafka, Prometheus, Spring AI                                   |
 | **Mục tiêu**        | Hệ thống Self-Healing cho Microservices: Attack → Detect → Heal (3 AI Agents: Nemesis, Gaia, Hephaestus)                |
 
@@ -31,62 +31,58 @@
 - **Methodology**: Scrumban (Scrum + Kanban hybrid)
 - **Sprint**: 2 tuần mỗi sprint, 12 sprints tổng cộng
 - **Board**: GitHub Projects (6 cột: Backlog, To Do, In Progress, Review, Done, Blocked)
-- **WIP Limit**: IN PROGRESS = 3 (2 Lead + 1 hp8001)
+- **WIP Limit**: IN PROGRESS = 3 (2 Lead + 1 hpt8001)
 - **Communication**: Daily standup qua Discord/Zalo (5 phút)
 - **Git Flow**: GitHub Flow (feature branches → PR → main)
+- **GitHub Milestone** = 1 Sprint (12 milestones tổng cộng)
 
 ## 4. Task Progress
 
-### Phase 1 — Setup (Sprint 1-2)
+> **Task ID format**: S[số thứ tự] — tuần tự từ S1→S13
+> **Sprint** ghi trong cột Target, không gắn vào Task ID
 
-| Task                      | Trạng thái     | Target    | Ghi chú |
-| ------------------------- | -------------- | --------- | ------- |
-| **S1-001** Infra Setup    | ⬜ Not Started | Sprint 1  |         |
-| **S1-002** K8s Cluster    | ⬜ Not Started | Sprint 1  |         |
-| **S1-003** Dev Env Setup  | ⬜ Not Started | Sprint 1  |         |
-| **S2-001** Architecture   | ⬜ Not Started | Sprint 2  |         |
-| **S2-002** Kafka Design   | ⬜ Not Started | Sprint 2  |         |
-| **S2-003** Observability  | ⬜ Not Started | Sprint 2  |         |
+### Phase 1 — Setup & Research (Sprint 1-2)
+
+| Task   | Tên                    | Trạng thái     | Sprint    | Ghi chú |
+| ------ | ---------------------- | -------------- | --------- | ------- |
+| **S1** | Infra Setup            | ⬜ Not Started | Sprint 1  |         |
+| **S2** | K8s Cluster            | ⬜ Not Started | Sprint 1  |         |
+| **S3** | Dev Environment        | ⬜ Not Started | Sprint 1  |         |
+| **S4** | Architecture Design    | ⬜ Not Started | Sprint 2  |         |
+| **S5** | Kafka Setup            | ⬜ Not Started | Sprint 2  |         |
+| **S6** | Observability          | ⬜ Not Started | Sprint 2  |         |
 
 ### Phase 2 — Target + Gaia (Sprint 3-4)
 
-| Task                          | Trạng thái     | Target    | Ghi chú |
-| ----------------------------- | -------------- | --------- | ------- |
-| **S3-001** Deploy Target App  | ⬜ Not Started | Sprint 3  |         |
-| **S3-002** Agent Gaia Core    | ⬜ Not Started | Sprint 3  |         |
-| **S4-001** Gaia Anomaly       | ⬜ Not Started | Sprint 4  |         |
-| **S4-002** Gaia Kafka Integ   | ⬜ Not Started | Sprint 4  |         |
+| Task   | Tên                    | Trạng thái     | Sprint    | Ghi chú |
+| ------ | ---------------------- | -------------- | --------- | ------- |
+| **S7** | Deploy Target App      | ⬜ Not Started | Sprint 3  |         |
+| **S8** | Agent Gaia             | ⬜ Not Started | Sprint 3-4 |        |
 
 ### Phase 3 — Nemesis (Sprint 5-6)
 
-| Task                           | Trạng thái     | Target    | Ghi chú |
-| ------------------------------ | -------------- | --------- | ------- |
-| **S5-001** Go Chaos Worker     | ⬜ Not Started | Sprint 5  |         |
-| **S5-002** Agent Nemesis Core  | ⬜ Not Started | Sprint 5  |         |
-| **S6-001** LLM Integration    | ⬜ Not Started | Sprint 6  |         |
-| **S6-002** Attack Testing     | ⬜ Not Started | Sprint 6  |         |
+| Task    | Tên                   | Trạng thái     | Sprint    | Ghi chú |
+| ------- | --------------------- | -------------- | --------- | ------- |
+| **S9**  | Go Chaos Worker       | ⬜ Not Started | Sprint 5  |         |
+| **S10** | Agent Nemesis         | ⬜ Not Started | Sprint 5-6 |        |
 
 ### Phase 4 — Hephaestus (Sprint 7-8)
 
-| Task                              | Trạng thái     | Target    | Ghi chú |
-| --------------------------------- | -------------- | --------- | ------- |
-| **S7-001** Hephaestus K8s Client  | ⬜ Not Started | Sprint 7  |         |
-| **S7-002** Healing Actions        | ⬜ Not Started | Sprint 7  |         |
-| **S8-001** Advanced Healing       | ⬜ Not Started | Sprint 8  |         |
+| Task    | Tên                   | Trạng thái     | Sprint    | Ghi chú |
+| ------- | --------------------- | -------------- | --------- | ------- |
+| **S11** | Agent Hephaestus      | ⬜ Not Started | Sprint 7-8 |        |
 
 ### Phase 5 — War Game (Sprint 9-10)
 
-| Task                                | Trạng thái     | Target    | Ghi chú |
-| ----------------------------------- | -------------- | --------- | ------- |
-| **S9-001** Full Integration         | ⬜ Not Started | Sprint 9  |         |
-| **S10-001** Experiments + Metrics   | ⬜ Not Started | Sprint 10 |         |
+| Task    | Tên                   | Trạng thái     | Sprint     | Ghi chú |
+| ------- | --------------------- | -------------- | ---------- | ------- |
+| **S12** | War Game & Experiments | ⬜ Not Started | Sprint 9-10 |        |
 
 ### Phase 6 — Closing (Sprint 11-12)
 
-| Task                           | Trạng thái     | Target     | Ghi chú |
-| ------------------------------ | -------------- | ---------- | ------- |
-| **S11-001** Report Writing     | ⬜ Not Started | Sprint 11  |         |
-| **S12-001** Defense Prep       | ⬜ Not Started | Sprint 12  |         |
+| Task    | Tên                   | Trạng thái     | Sprint      | Ghi chú |
+| ------- | --------------------- | -------------- | ----------- | ------- |
+| **S13** | Report & Defense      | ⬜ Not Started | Sprint 11-12 |        |
 
 ## 5. Các vấn đề đã giải quyết
 
@@ -100,8 +96,10 @@ _(Cập nhật trong quá trình phát triển)_
 | Kafka cho inter-agent comm         | Async, decoupled, fault-tolerant                           |
 | Google Online Boutique target app  | Well-documented, 10+ microservices, K8s-native             |
 | Scrumban workflow                  | Vừa đủ kỷ luật cho 2 người, linh hoạt hơn Scrum thuần     |
+| Task ID sequential (S1→S13)       | Dễ track, không confuse với Sprint number                  |
+| GitHub Milestone = Sprint          | 12 milestones, mỗi milestone = 2 tuần                     |
 
 ---
 
-_Cập nhật: 04/03/2026_
-_Version: 1.0_
+_Cập nhật: 05/03/2026_
+_Version: 1.1_

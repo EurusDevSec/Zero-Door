@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S1-002  
+> **Task ID**: S2  
 > **Phase**: Phase 1 - Setup & Research  
 > **Sprint**: Sprint 1 - Foundation  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 1 (Tuần 1-2)  
 > **Assignee**: 🔴 Hoàng (Lead)  
-> **Blocked by**: S1-001 (cần repo trước)  
-> **Blocks**: S2-003 (Prometheus cần K8s), S3-001 (Target app cần K8s), tất cả code deployments
+> **Blocked by**: S1 (cần repo trước)  
+> **Blocks**: S6 (Prometheus cần K8s), S7 (Target app cần K8s), tất cả code deployments
 
 > Setup Kubernetes cluster hoàn chỉnh cho toàn bộ dự án.
 > Đây là nền tảng hạ tầng — không có K8s thì không deploy được gì cả.

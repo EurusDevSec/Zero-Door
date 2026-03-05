@@ -15,7 +15,7 @@
   - **Gaia** (Observer) — giám sát metrics, phát hiện anomaly
   - **Hephaestus** (Blue Team) — tự động heal qua Kubernetes API
 - **Tech Stack:** Java Spring Boot (Agents) + Go (Chaos Worker) + Kubernetes + Kafka + Prometheus
-- **Team:** 2 người — Hoàng (Lead Dev ~70%) + hp8001 (Support ~30%)
+- **Team:** 2 người — Hoàng (Lead Dev ~70%) + hpt8001 (Support ~30%)
 - **Timeline:** 6 tháng (01/2026 - 06/2026), 12 sprints × 2 tuần
 - **Methodology:** Scrumban
 
@@ -36,15 +36,15 @@ Tất cả task files nằm trong thư mục [`tasks/`](../tasks/):
 
 | Phase | Task Files |
 |-------|-----------|
-| **Phase 1** Setup | `TASK_S1-001_INFRA_SETUP.md`, `TASK_S1-002_K8S_CLUSTER.md`, `TASK_S1-003_DEV_ENVIRONMENT.md` |
-| **Phase 1** Design | `TASK_S2-001_ARCHITECTURE_DESIGN.md`, `TASK_S2-002_KAFKA_SETUP.md`, `TASK_S2-003_OBSERVABILITY.md` |
-| **Phase 2** Target+Gaia | `TASK_S3-001_TARGET_APP.md`, `TASK_S3-002_AGENT_GAIA.md` |
-| **Phase 3** Nemesis | `TASK_S5-001_CHAOS_WORKER.md`, `TASK_S5-002_AGENT_NEMESIS.md` |
-| **Phase 4** Hephaestus | `TASK_S7-001_AGENT_HEPHAESTUS.md` |
-| **Phase 5** War Game | `TASK_S9-001_WAR_GAME.md` |
-| **Phase 6** Closing | `TASK_S11-001_REPORT_DEFENSE.md` |
+| **Phase 1** Setup | `TASK_S1_INFRA_SETUP.md`, `TASK_S2_K8S_CLUSTER.md`, `TASK_S3_DEV_ENVIRONMENT.md` |
+| **Phase 1** Design | `TASK_S4_ARCHITECTURE_DESIGN.md`, `TASK_S5_KAFKA_SETUP.md`, `TASK_S6_OBSERVABILITY.md` |
+| **Phase 2** Target+Gaia | `TASK_S7_TARGET_APP.md`, `TASK_S8_AGENT_GAIA.md` |
+| **Phase 3** Nemesis | `TASK_S9_CHAOS_WORKER.md`, `TASK_S10_AGENT_NEMESIS.md` |
+| **Phase 4** Hephaestus | `TASK_S11_AGENT_HEPHAESTUS.md` |
+| **Phase 5** War Game | `TASK_S12_WAR_GAME.md` |
+| **Phase 6** Closing | `TASK_S13_REPORT_DEFENSE.md` |
 
-**Format mỗi task file:** Context → User Story → Acceptance Criteria → Subtasks (🔴 Lead / 🟡 hp8001) → Branch & PR → Notes
+**Format mỗi task file:** Context → User Story → Acceptance Criteria → Subtasks (🔴 Lead / 🟡 hpt8001) → Branch & PR → Notes
 
 ---
 
@@ -58,7 +58,7 @@ Tất cả task files nằm trong thư mục [`tasks/`](../tasks/):
 ### 2. Task Workflow
 - Mỗi task có file riêng trong `tasks/` → đọc task file trước khi bắt tay làm
 - Follow Acceptance Criteria như checklist — tick khi hoàn thành
-- Subtask có icon: 🔴 = Hoàng làm, 🟡 = hp8001 làm
+- Subtask có icon: 🔴 = Hoàng làm, 🟡 = hpt8001 làm
 - **Dependency chain:** xem "Blocked by" trong task file → đảm bảo dependency đã xong
 
 ### 3. Git Convention
@@ -82,7 +82,7 @@ Tất cả task files nằm trong thư mục [`tasks/`](../tasks/):
 
 ### 6. Khi User Hỏi Về Kiến trúc / Design
 - Đọc `docs/architecture.md` + `docs/plan.md` Section 5
-- Tham khảo Kafka message schemas trong task files (S2-001, S3-002, S5-002, S7-001)
+- Tham khảo Kafka message schemas trong task files (S4, S8, S10, S11)
 - Luôn giữ consistent với design đã document
 
 ### 7. Ngôn ngữ
@@ -108,10 +108,10 @@ zero_door/
 │   ├── slides.md                  # Presentation draft
 │   └── go-mastery.md              # Go learning guide
 ├── tasks/                         # ⭐ 13 TASK FILES (Phase 1-6)
-│   ├── TASK_S1-001_INFRA_SETUP.md
-│   ├── TASK_S1-002_K8S_CLUSTER.md
+│   ├── TASK_S1_INFRA_SETUP.md
+│   ├── TASK_S2_K8S_CLUSTER.md
 │   ├── ...
-│   └── TASK_S11-001_REPORT_DEFENSE.md
+│   └── TASK_S13_REPORT_DEFENSE.md
 ├── example/                       # Reference project (HolmHz)
 │   ├── PROJECT_PLAN.md            # Example plan structure
 │   ├── TASK_1.1_ENVIRONMENT_SETUP.md  # Example task format

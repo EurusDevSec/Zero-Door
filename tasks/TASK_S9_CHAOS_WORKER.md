@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S5-001  
+> **Task ID**: S9  
 > **Phase**: Phase 3 - Nemesis  
 > **Sprint**: Sprint 5-6  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 5 (Tuần 9-10)  
 > **Assignee**: 🔴 Hoàng (Lead)  
-> **Blocked by**: S1-003 (Go env), S3-001 (target app to attack)  
-> **Blocks**: S5-002 (Nemesis cần worker để execute attacks)
+> **Blocked by**: S3 (Go env), S7 (target app to attack)  
+> **Blocks**: S10 (Nemesis cần worker để execute attacks)
 
 > Phát triển Go Chaos Worker — tool thực thi attack commands từ Nemesis.
 > Worker nhận lệnh qua Kafka, execute DDoS/stress test, trả kết quả.

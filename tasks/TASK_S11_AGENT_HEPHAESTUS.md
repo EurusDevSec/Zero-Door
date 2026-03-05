@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S7-001  
+> **Task ID**: S11  
 > **Phase**: Phase 4 - Hephaestus  
 > **Sprint**: Sprint 7-8  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 7-8 (Tuần 13-16)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Tests, Docs)  
-> **Blocked by**: S2-001 (architecture), S3-002 (Gaia → alerts trigger healing)  
-> **Blocks**: S9-001 (full integration needs all 3 agents)
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Tests, Docs)  
+> **Blocked by**: S4 (architecture), S8 (Gaia → alerts trigger healing)  
+> **Blocks**: S12 (full integration needs all 3 agents)
 
 > Phát triển Agent Hephaestus (Blue Team/Defender) — agent tự động phản ứng và khắc phục
 > sự cố bằng Kubernetes API. Đây là "bàn tay chữa lành" của ZERO DOOR.
@@ -35,8 +35,8 @@
 - [ ] State Machine: STANDBY → HEALING → VERIFYING → STANDBY
 - [ ] Verification: after healing, check metrics normalized → publish `healing.actions`
 - [ ] Priority: Hephaestus actions override Nemesis attacks (conflict resolution)
-- [ ] 🟡 hp8001: Test healing actions riêng lẻ (manual trigger each action)
-- [ ] 🟡 hp8001: Viết API docs cho Hephaestus endpoints
+- [ ] 🟡 hpt8001: Test healing actions riêng lẻ (manual trigger each action)
+- [ ] 🟡 hpt8001: Viết API docs cho Hephaestus endpoints
 
 ---
 
@@ -70,7 +70,7 @@
 - [ ] 7.1.12 RBAC: K8s ServiceAccount with required permissions
 - [ ] 7.1.13 Dockerize + K8s Deployment + RBAC manifest
 
-### Subtasks — 🟡 hp8001
+### Subtasks — 🟡 hpt8001
 
 - [ ] 7.1.14 Test mỗi healing action riêng lẻ:
     - Scale: verify pod count increases

@@ -1,14 +1,14 @@
 ## 💡 Context
 
-> **Task ID**: S9-001  
+> **Task ID**: S12  
 > **Phase**: Phase 5 - War Game  
 > **Sprint**: Sprint 9-10  
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 9-10 (Tuần 17-20)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Data collection, Video, Reports)  
-> **Blocked by**: S3-002 (Gaia), S5-002 (Nemesis), S7-001 (Hephaestus) — tất cả 3 agents  
-> **Blocks**: S11-001 (Report cần experiment data)
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Data collection, Video, Reports)  
+> **Blocked by**: S8 (Gaia), S10 (Nemesis), S11 (Hephaestus) — tất cả 3 agents  
+> **Blocks**: S13 (Report cần experiment data)
 
 > Tích hợp toàn bộ 3 Agents, chạy War Game, thu thập metrics MTTD/MTTR.
 > Đây là phase quan trọng nhất — chứng minh hệ thống hoạt động end-to-end.
@@ -31,9 +31,9 @@
 - [ ] Self-Healing experiment: auto response
 - [ ] So sánh bảng: Baseline vs Self-Healing (MTTD, MTTR, Uptime)
 - [ ] 3 attack scenarios tested: SQLi, DDoS, Resource Exhaustion
-- [ ] 🟡 hp8001: Thu thập data (MTTD, MTTR, Uptime) vào spreadsheet
-- [ ] 🟡 hp8001: Record video demo (full War Game flow, 5-10 phút)
-- [ ] 🟡 hp8001: Tạo bảng so sánh Baseline vs Self-Healing (charts)
+- [ ] 🟡 hpt8001: Thu thập data (MTTD, MTTR, Uptime) vào spreadsheet
+- [ ] 🟡 hpt8001: Record video demo (full War Game flow, 5-10 phút)
+- [ ] 🟡 hpt8001: Tạo bảng so sánh Baseline vs Self-Healing (charts)
 - [ ] Stress test: 3 attacks đồng thời → system survives
 
 ---
@@ -62,7 +62,7 @@
 - [ ] 9.1.7 Analyze data: calculate averages, p-values (if applicable)
 - [ ] 9.1.8 Generate experiment report (`experiments/results/`)
 
-### Subtasks — 🟡 hp8001
+### Subtasks — 🟡 hpt8001
 
 - [ ] 9.1.9 Create data collection spreadsheet template (Google Sheets/Excel):
     ```
