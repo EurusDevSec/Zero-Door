@@ -125,7 +125,7 @@ gh issue edit 1 --add-label "priority:P0,type:infra"
 gh issue edit 1 --remove-label "priority:P2"
 
 # Gán assignee
-gh issue edit 1 --add-assignee "EurusDevSec,hpt8001"
+gh issue edit 1 --add-assignee "EurusDevSec,hp8001"
 
 # Đổi title + milestone + labels cùng lúc
 gh issue edit 1 \
@@ -310,7 +310,7 @@ gh pr create --title "feat(s1): setup infrastructure" --body "Closes #1"
 gh pr create \
   --title "feat(s8): implement agent gaia" \
   --body "Closes #8" \
-  --reviewer "hpt8001" \
+  --reviewer "hp8001" \
   --assignee "EurusDevSec" \
   --label "phase:gaia" \
   --milestone "M3: Gaia Detects Anomalies"
