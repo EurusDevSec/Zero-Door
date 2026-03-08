@@ -11,7 +11,7 @@
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | **Tên dự án**       | ZERO DOOR — Ứng dụng kiến trúc Multi-Agent AI và kỹ thuật Chaos Engineering xây dựng cơ chế Self-Healing cho hệ thống Microservices |
 | **Trường**          | Đại học Thủ Dầu Một, Viện Công nghệ Số, 2025-2026                                                                       |
-| **Nhóm**            | Lê Văn Hoàng (trưởng nhóm, code chính ~70%), hpt8001 (hỗ trợ ~30%)                                                     |
+| **Nhóm**            | Lê Văn Hoàng (trưởng nhóm, code chính ~70%), hp8001 (hỗ trợ ~30%)                                                     |
 | **Công nghệ chính** | Java Spring Boot (Agents), Go (Chaos Worker), Kubernetes, Kafka, Prometheus, Spring AI                                   |
 | **Mục tiêu**        | Hệ thống Self-Healing cho Microservices: Attack → Detect → Heal (3 AI Agents: Nemesis, Gaia, Hephaestus)                |
 
@@ -31,7 +31,7 @@
 - **Methodology**: Scrumban (Scrum + Kanban hybrid)
 - **Sprint**: 2 tuần mỗi sprint, 12 sprints tổng cộng
 - **Board**: GitHub Projects (6 cột: Backlog, To Do, In Progress, Review, Done, Blocked)
-- **WIP Limit**: IN PROGRESS = 3 (2 Lead + 1 hpt8001)
+- **WIP Limit**: IN PROGRESS = 3 (2 Lead + 1 hp8001)
 - **Communication**: Daily standup qua Discord/Zalo (5 phút)
 - **Git Flow**: GitHub Flow (feature branches → PR → main)
 - **GitHub Milestone** = 1 Sprint (12 milestones tổng cộng)
