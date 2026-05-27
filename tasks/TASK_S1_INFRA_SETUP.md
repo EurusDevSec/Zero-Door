@@ -64,9 +64,9 @@
 > - Milestones = Sprints → track velocity qua từng sprint
 > - PR Template enforce checklist → không miss items quan trọng
 
-> **Tips cho hpt8001:**
+> **Tips cho hp8001:**
 >
-> - Task S1 subtask 1.1.3 và 1.1.4 có thể giao cho hpt8001
+> - Task S1 subtask 1.1.3 và 1.1.4 có thể giao cho hp8001
 > - Cung cấp screenshot hướng dẫn cách tạo board trên GitHub Projects
 
 > **Tham khảo:**

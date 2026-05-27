@@ -6,12 +6,12 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 1 (Tuần 1-2)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Research)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Research)  
 > **Blocked by**: S1  
 > **Blocks**: S9 (Go worker cần Go env), S10 (Nemesis cần Java env)
 
 > Thiết lập môi trường phát triển đầy đủ cho cả 2 ngôn ngữ chính (Java + Go)
-> và các công cụ hỗ trợ. hpt8001 đọc + tóm tắt papers nghiên cứu.
+> và các công cụ hỗ trợ. hp8001 đọc + tóm tắt papers nghiên cứu.
 
 ---
 
@@ -30,8 +30,8 @@
 - [ ] VS Code extensions: Java Extension Pack, Go, Kubernetes, Docker
 - [ ] Spring Boot project skeleton created (Maven, Spring Web, Spring AI, Kafka)
 - [ ] Go module initialized (`go mod init github.com/yourorg/chaos-worker`)
-- [ ] 🟡 hpt8001: Đọc + tóm tắt paper ADARMA (1-2 trang)
-- [ ] 🟡 hpt8001: Viết README v1 cho project
+- [ ] 🟡 hp8001: Đọc + tóm tắt paper ADARMA (1-2 trang)
+- [ ] 🟡 hp8001: Viết README v1 cho project
 
 ---
 
@@ -48,7 +48,7 @@
 - [ ] 1.3.6 Verify: `mvn clean compile` (Java) + `go build ./...` (Go) cả 2 pass
 - [ ] 1.3.7 Cài VS Code extensions
 
-### Subtasks — 🟡 hpt8001
+### Subtasks — 🟡 hp8001
 
 - [ ] 1.3.8 Đọc paper ADARMA (link: [ACM](https://dl.acm.org/doi/abs/10.5555/3615924.3615949))
 - [ ] 1.3.9 Viết tóm tắt ADARMA (1-2 trang): mục tiêu, methodology, kết quả, relevance cho ZERO DOOR
@@ -93,7 +93,7 @@
 > └── Dockerfile
 > ```
 
-> **Template cho hpt8001 — README outline:**
+> **Template cho hp8001 — README outline:**
 > 1. Project Name + Badge
 > 2. What is ZERO DOOR? (2-3 sentences)
 > 3. Architecture Diagram (link to architecture.md)

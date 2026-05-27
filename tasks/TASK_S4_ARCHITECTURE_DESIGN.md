@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 2 (Tuần 3-4)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Diagrams)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Diagrams)  
 > **Blocked by**: S1, S3  
 > **Blocks**: S8 (Gaia cần architecture), S10 (Nemesis cần architecture), S11 (Hephaestus)
 
@@ -29,8 +29,8 @@
 - [ ] Kafka topic design: 5 topics + JSON message schema cho mỗi topic
 - [ ] Conflict Resolution protocol documented (priority: Hephaestus > Nemesis)
 - [ ] API contracts giữa các agents (input/output schema)
-- [ ] 🟡 hpt8001: Vẽ architecture diagrams trên Draw.io (theo sketch của Hoàng)
-- [ ] 🟡 hpt8001: Tóm tắt 3 papers quan trọng (CHESS, AIOps Survey, Netflix Chaos)
+- [ ] 🟡 hp8001: Vẽ architecture diagrams trên Draw.io (theo sketch của Hoàng)
+- [ ] 🟡 hp8001: Tóm tắt 3 papers quan trọng (CHESS, AIOps Survey, Netflix Chaos)
 
 ---
 
@@ -58,7 +58,7 @@
 - [ ] 2.1.5 Update `docs/architecture.md` với tất cả design decisions
 - [ ] 2.1.6 Review architecture với mentor/GVHD (nếu có)
 
-### Subtasks — 🟡 hpt8001
+### Subtasks — 🟡 hp8001
 
 - [ ] 2.1.7 Vẽ System Architecture diagram (Draw.io) theo sketch Hoàng cung cấp
 - [ ] 2.1.8 Vẽ Agent State Machine diagrams (3 diagrams)

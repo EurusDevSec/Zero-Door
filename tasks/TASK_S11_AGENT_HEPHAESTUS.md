@@ -6,7 +6,7 @@
 > **Status**: ⬜ NOT STARTED  
 > **Created**: 04/03/2026  
 > **Target**: Sprint 7-8 (Tuần 13-16)  
-> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hpt8001 (Tests, Docs)  
+> **Assignee**: 🔴 Hoàng (Lead) + 🟡 hp8001 (Tests, Docs)  
 > **Blocked by**: S4 (architecture), S8 (Gaia → alerts trigger healing)  
 > **Blocks**: S12 (full integration needs all 3 agents)
 
@@ -35,8 +35,8 @@
 - [ ] State Machine: STANDBY → HEALING → VERIFYING → STANDBY
 - [ ] Verification: after healing, check metrics normalized → publish `healing.actions`
 - [ ] Priority: Hephaestus actions override Nemesis attacks (conflict resolution)
-- [ ] 🟡 hpt8001: Test healing actions riêng lẻ (manual trigger each action)
-- [ ] 🟡 hpt8001: Viết API docs cho Hephaestus endpoints
+- [ ] 🟡 hp8001: Test healing actions riêng lẻ (manual trigger each action)
+- [ ] 🟡 hp8001: Viết API docs cho Hephaestus endpoints
 
 ---
 
@@ -70,7 +70,7 @@
 - [ ] 7.1.12 RBAC: K8s ServiceAccount with required permissions
 - [ ] 7.1.13 Dockerize + K8s Deployment + RBAC manifest
 
-### Subtasks — 🟡 hpt8001
+### Subtasks — 🟡 hp8001
 
 - [ ] 7.1.14 Test mỗi healing action riêng lẻ:
     - Scale: verify pod count increases
