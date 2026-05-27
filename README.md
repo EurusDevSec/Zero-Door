@@ -70,8 +70,8 @@ Target metrics for the Sandbox environment:
 
 ## 👥 Team
 
-* **🔴 EurusDevSec (SM, PO, DevTeams):** Architecture, Core Logic (Java/Go), Infrastructure.
-* **🟡 hp8001 (Support, DevTeam):** Research, Testing, Dashboards.
+* **🔴 EurusDevSec (Lead Dev, Devops, Cloud):** Architecture, Core Logic (Java/Go), Infrastructure.
+* **🟡 hp8001 (DevTeams):** Research, Testing, Dashboards.
 
 ## 📄 License
 
