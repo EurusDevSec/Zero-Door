@@ -196,12 +196,8 @@ Target metrics trong môi trường Sandbox:
 
 ## 👥 Team
 
-| Thành viên | Vai trò | Trách nhiệm chính |
-|---|---|---|
-| 🔴 **EurusDevSec (Hoàng)** | SM, PO, Lead Dev | Architecture, Core Logic (Java/Go), Infrastructure, K8s |
-| 🟡 **hp8001** | Support, Dev Team | Research papers, Testing, Dashboards, Documentation |
-
----
+* **🔴 EurusDevSec (Lead Dev, Devops, Cloud):** Architecture, Core Logic (Java/Go), Infrastructure.
+* **🟡 hp8001 (DevTeams):** Research, Testing, Dashboards.
 
 ## 📄 License
 
