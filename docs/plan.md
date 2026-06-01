@@ -41,7 +41,8 @@
 | RQ2: Chaos Engineering tìm lỗ hổng chủ động? | CI/CD pipeline của bạn inject failure như thế nào? | Coverage rate |
 | RQ3: Self-Healing hiệu quả hơn thủ công? | SRE runbook vs automated playbook — đo được gì? | MTTR < 180s |
 
-> **Câu hỏi đầu tiên cho bạn:** Nếu hệ thống của bạn là một "bệnh nhân", thì Prometheus/Grafana là gì? Và ai là "bác sĩ" trong vòng lặp Attack→Detect→Heal?
+> **Câu hỏi đầu tiên cho bạn:** Nếu hệ thống của bạn là một "bệnh nhân", thì Prometheus/Grafana là gì? Và ai là "bác sĩ" trong vòng lặp Attack→Detect→Heal? 
+Prometheus/grafana là thiết bị giám sát còn bác sĩ ở đây là hephaetus agents
 
 ### 1.2. Vai trò của bạn trong dự án (DevOps/Cloud Focus)
 
