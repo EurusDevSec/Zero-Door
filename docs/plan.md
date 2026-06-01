@@ -5,7 +5,7 @@
 > **Author:** EurusDevSec (Team Lead — DevOps, Cloud, Infrastructure)
 
 ---
-
+![High Level Architecture](image.png)  
 ## ⚠️ MENTOR DIRECTIVES (Đọc kỹ trước khi bắt đầu)
 
 ```

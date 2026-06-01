@@ -19,7 +19,7 @@ Nghiên cứu này đề xuất một hệ thống Self-Healing cho kiến trúc
 | **Tên đề tài**          | Ứng dụng kiến trúc Multi-Agent AI và kỹ thuật Chaos Engineering xây dựng cơ chế Self-Healing cho hệ thống Microservices |
 | **Mã dự án**            | Zero Door                                                                                                               |
 | **Thời gian thực hiện** | 06 tháng (01/2026 - 06/2026)                                                                                            |
-| **Ngân sách vận hành**  | 4.900.000 VNĐ                                                                        ![High Level Architecture](image.png)                                   |
+| **Ngân sách vận hành**  | 4.900.000 VNĐ                                                                                                        |
 
 ### 1.1. Phân bổ Ngân sách
 
