@@ -1,0 +1,23 @@
+# ingress-nginx-values.yaml — Lean Local (16GB RAM laptop)
+# ========================================================
+# Cấu hình tối giản cho Nginx Ingress Controller trên local
+# Giảm thiểu RAM và CPU request/limit để tránh OOM.
+
+controller:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "90Mi"
+    limits:
+      cpu: "300m"
+      memory: "150Mi"
+  # Tối ưu hóa log và admission webhooks để tiết kiệm tài nguyên
+  admissionWebhooks:
+    enabled: false # Tắt webhook validation trên local để khởi động nhanh hơn
+  config:
+    log-format-escape-json: "true"
+    enable-real-ip: "false"
+  # Service type là LoadBalancer để nhận traffic từ K3d LoadBalancer
+  service:
+    type: LoadBalancer

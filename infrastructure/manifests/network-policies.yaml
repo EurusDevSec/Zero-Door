@@ -1,0 +1,81 @@
+# network-policies.yaml — Network Security Foundation
+# ====================================================
+# Cấu hình NetworkPolicy để bảo vệ namespace monitoring
+# Lưu ý: Cần CNI hỗ trợ NetworkPolicy (như Calico). Flannel mặc định của K3s
+# sẽ bỏ qua các rules này, nhưng cấu hình vẫn cần thiết cho đúng chuẩn Production.
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-fluent-bit-to-elasticsearch
+  namespace: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      app: elasticsearch
+  policyTypes:
+    - Ingress
+  ingress:
+    # 1. Cho phép Fluent Bit trong namespace monitoring đẩy logs
+    - from:
+        - podSelector:
+            matchLabels:
+              app: fluent-bit
+      ports:
+        - protocol: TCP
+          port: 9200
+    # 2. Cho phép Gaia Agent trong namespace zero-door query Elasticsearch (Phase 2)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: zero-door
+      ports:
+        - protocol: TCP
+          port: 9200
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scraping-egress
+  namespace: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+  policyTypes:
+    - Egress
+  egress:
+    # Cho phép Prometheus kết nối ra ngoài để scrape metrics từ các namespace khác
+    # như target-app (Boutique) và zero-door (Kafka, Agents)
+    - to:
+        - namespaceSelector: {} # Rỗng = tất cả namespaces
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 9090
+        - protocol: TCP
+          port: 9092 # Kafka client port
+        - protocol: TCP
+          port: 9308 # Kafka Exporter / JMX
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-grafana-ingress
+  namespace: monitoring
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  policyTypes:
+    - Ingress
+  ingress:
+    # Cho phép truy cập Grafana UI từ bên ngoài (thông qua Ingress hoặc port-forward)
+    - ports:
+        - protocol: TCP
+          port: 3000
+        - protocol: TCP
+          port: 80

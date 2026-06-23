@@ -1,0 +1,13 @@
+# Namespace: target-app
+# Chứa: Google Online Boutique (ứng dụng mục tiêu bị tấn công và tự phục hồi)
+# Label 'attack-target: true' được Chaos Worker và Hephaestus dùng để xác nhận
+# đây là vùng hợp lệ để tấn công/phục hồi (blast radius control)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: target-app
+  labels:
+    project: zero-door
+    component: target
+    attack-target: "true"
+    monitoring: enabled

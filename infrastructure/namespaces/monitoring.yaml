@@ -1,0 +1,13 @@
+# Namespace: monitoring
+# Chứa: Prometheus, Grafana, Elasticsearch, Fluent Bit
+# Đây là namespace "read-only" — chỉ quan sát, không bao giờ bị tấn công
+# Label 'attack-target: false' đảm bảo Chaos Worker không nhắm vào đây
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    project: zero-door
+    component: observability
+    attack-target: "false"
+    monitoring: enabled

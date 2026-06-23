@@ -1,0 +1,87 @@
+# Bitnami Kafka Helm Values — LEAN LOCAL (16GB RAM laptop)
+# ========================================================
+# Tối ưu tối đa: KRaft combined mode (1 pod duy nhất thay vì 2)
+# Tổng RAM Kafka: ~600-800MB thay vì 1.5GB
+#
+# Lệnh install:
+#   helm install kafka oci://registry-1.docker.io/bitnamicharts/kafka \
+#     -n zero-door -f kafka-values.yaml
+
+# ---- KRaft Combined Mode ----
+# Controller + Broker gộp vào 1 process duy nhất
+# → Chỉ 1 pod Kafka thay vì 2 pods riêng biệt
+kraft:
+  enabled: true
+
+controller:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "768Mi"       # Gộp controller+broker nên cần hơn chút
+  persistence:
+    enabled: true
+    size: 2Gi
+    storageClass: "local-path"
+
+# Tắt broker riêng (dùng combined mode)
+broker:
+  replicaCount: 0            # 0 = dùng controller làm broker luôn
+
+# ---- Listeners ----
+listeners:
+  client:
+    protocol: PLAINTEXT
+  interbroker:
+    protocol: PLAINTEXT
+  controller:
+    protocol: PLAINTEXT
+
+# ---- 5 Topics tự động tạo ----
+provisioning:
+  enabled: true
+  topics:
+    - name: attack.commands
+      partitions: 1
+      replicationFactor: 1
+      config:
+        retention.ms: "86400000"
+
+    - name: attack.results
+      partitions: 1
+      replicationFactor: 1
+      config:
+        retention.ms: "86400000"
+
+    - name: monitoring.alerts
+      partitions: 1
+      replicationFactor: 1
+      config:
+        retention.ms: "86400000"
+
+    - name: healing.actions
+      partitions: 1
+      replicationFactor: 1
+      config:
+        retention.ms: "86400000"
+
+    - name: system.logs
+      partitions: 1
+      replicationFactor: 1
+      config:
+        retention.ms: "172800000"
+
+# ---- Metrics ----
+metrics:
+  jmx:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+
+# ---- Zookeeper tắt ----
+zookeeper:
+  enabled: false

@@ -1,0 +1,40 @@
+# ResourceQuota cho namespace monitoring
+# ==========================================
+# Prometheus + Grafana + Elasticsearch + Fluent Bit
+# Prometheus scraping + TSDB storage khá nặng (~1-2GB RAM)
+# Elasticsearch single-node cần ~1GB RAM tối thiểu
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: monitoring-quota
+  namespace: monitoring
+spec:
+  hard:
+    requests.cpu: "500m"
+    requests.memory: "1800Mi"
+    limits.cpu: "2"
+    limits.memory: "3Gi"
+    pods: "10"
+    persistentvolumeclaims: "3"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: monitoring-limits
+  namespace: monitoring
+spec:
+  limits:
+    - type: Container
+      default:
+        cpu: "500m"
+        memory: "512Mi"
+      defaultRequest:
+        cpu: "100m"
+        memory: "128Mi"
+      max:
+        cpu: "2"
+        memory: "2Gi"
+      min:
+        cpu: "50m"
+        memory: "64Mi"

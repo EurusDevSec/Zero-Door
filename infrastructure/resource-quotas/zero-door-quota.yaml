@@ -1,0 +1,45 @@
+# ResourceQuota — LEAN LOCAL (16GB RAM laptop)
+# =============================================
+# Tính toán thực tế:
+#   16GB tổng - 3GB OS - 2GB Chrome - 1GB IDE - 1.5GB Docker = ~8.5GB cho K3d
+#   K3d system pods (coredns, metrics-server, etc.) chiếm ~500MB
+#   Còn ~8GB cho workload → chia 3 namespace
+#
+#   zero-door:  ~3GB (Kafka 768MB + agents sẽ thêm sau)
+#   target-app: ~2GB (Boutique app Phase 2)
+#   monitoring: ~2.5GB (Prometheus 512MB + Grafana 192MB + ES 512MB + FB 256MB)
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: zero-door-quota
+  namespace: zero-door
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: "1Gi"
+    limits.cpu: "3"
+    limits.memory: "3Gi"
+    pods: "10"
+    persistentvolumeclaims: "3"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: zero-door-limits
+  namespace: zero-door
+spec:
+  limits:
+    - type: Container
+      default:
+        cpu: "300m"
+        memory: "256Mi"
+      defaultRequest:
+        cpu: "50m"
+        memory: "64Mi"
+      max:
+        cpu: "1"
+        memory: "1Gi"
+      min:
+        cpu: "25m"
+        memory: "32Mi"

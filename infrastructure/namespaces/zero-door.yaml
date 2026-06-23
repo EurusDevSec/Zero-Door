@@ -1,0 +1,12 @@
+# Namespace: zero-door
+# Chứa: 3 AI Agents (Nemesis, Gaia, Hephaestus), Chaos Worker, Apache Kafka
+# Label 'project: zero-door' dùng cho NetworkPolicy selector
+# Label 'monitoring: enabled' cho phép Prometheus scrape metrics từ namespace này
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zero-door
+  labels:
+    project: zero-door
+    component: agents
+    monitoring: enabled

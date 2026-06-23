@@ -41,7 +41,7 @@
 > **Task ID format**: S[số thứ tự] — tuần tự từ S1→S13
 > **Sprint** ghi trong cột Target, không gắn vào Task ID
 
-### Phase 1 — Setup & Research (Sprint 1-2)
+### Phase 1 — Setup & Research (Sprint 1-2) — [Specs](phases/phase1_foundation.md)
 
 | Task   | Tên                    | Trạng thái     | Sprint    | Ghi chú |
 | ------ | ---------------------- | -------------- | --------- | ------- |
@@ -52,33 +52,33 @@
 | **S5** | Kafka Setup            | ⬜ Not Started | Sprint 2  |         |
 | **S6** | Observability          | ⬜ Not Started | Sprint 2  |         |
 
-### Phase 2 — Target + Gaia (Sprint 3-4)
+### Phase 2 — Target + Gaia (Sprint 3-4) — [Specs](phases/phase2_target_gaia.md)
 
 | Task   | Tên                    | Trạng thái     | Sprint    | Ghi chú |
 | ------ | ---------------------- | -------------- | --------- | ------- |
 | **S7** | Deploy Target App      | ⬜ Not Started | Sprint 3  |         |
 | **S8** | Agent Gaia             | ⬜ Not Started | Sprint 3-4 |        |
 
-### Phase 3 — Nemesis (Sprint 5-6)
+### Phase 3 — Nemesis (Sprint 5-6) — [Specs](phases/phase3_nemesis_chaos.md)
 
 | Task    | Tên                   | Trạng thái     | Sprint    | Ghi chú |
 | ------- | --------------------- | -------------- | --------- | ------- |
 | **S9**  | Go Chaos Worker       | ⬜ Not Started | Sprint 5  |         |
 | **S10** | Agent Nemesis         | ⬜ Not Started | Sprint 5-6 |        |
 
-### Phase 4 — Hephaestus (Sprint 7-8)
+### Phase 4 — Hephaestus (Sprint 7-8) — [Specs](phases/phase4_hephaestus_loop.md)
 
 | Task    | Tên                   | Trạng thái     | Sprint    | Ghi chú |
 | ------- | --------------------- | -------------- | --------- | ------- |
 | **S11** | Agent Hephaestus      | ⬜ Not Started | Sprint 7-8 |        |
 
-### Phase 5 — War Game (Sprint 9-10)
+### Phase 5 — War Game (Sprint 9-10) — [Specs](phases/phase5_experiments.md)
 
 | Task    | Tên                   | Trạng thái     | Sprint     | Ghi chú |
 | ------- | --------------------- | -------------- | ---------- | ------- |
 | **S12** | War Game & Experiments | ⬜ Not Started | Sprint 9-10 |        |
 
-### Phase 6 — Closing (Sprint 11-12)
+### Phase 6 — Closing (Sprint 11-12) — [Specs](phases/phase6_cloud_report.md)
 
 | Task    | Tên                   | Trạng thái     | Sprint      | Ghi chú |
 | ------- | --------------------- | -------------- | ----------- | ------- |

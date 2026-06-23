@@ -1,4 +1,7 @@
-#k3d-config.yaml
+# k3d-config.yaml — Lean Local (Acer Nitro 5, 16GB RAM)
+# =====================================================
+# Tối ưu cho máy có 16GB RAM nhưng đang chạy Chrome + IDE + Docker
+# Chỉ 1 Server + 1 Agent node (tiết kiệm ~500MB so với 2 agents)
 
 apiVersion: k3d.io/v1alpha5
 kind: Simple
@@ -6,7 +9,7 @@ metadata:
   name: zero-door
 
 servers: 1
-agents: 2
+agents: 1
 
 ports:
   - port: 8080:80

@@ -1,0 +1,40 @@
+# ResourceQuota cho namespace target-app
+# ==========================================
+# Target App (Google Online Boutique) có 6-10 microservices
+# Mỗi service cần ít nhất 64Mi RAM → 6 services × 256Mi limit = ~1.5GB
+# Cộng thêm HPA scale-up buffer → cấp 3GB limit
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: target-app-quota
+  namespace: target-app
+spec:
+  hard:
+    requests.cpu: "1500m"
+    requests.memory: "2Gi"
+    limits.cpu: "3"
+    limits.memory: "4Gi"
+    pods: "20"                 # 6-10 services + HPA scaled pods + stress test pods
+    persistentvolumeclaims: "3"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: target-app-limits
+  namespace: target-app
+spec:
+  limits:
+    - type: Container
+      default:
+        cpu: "200m"
+        memory: "256Mi"
+      defaultRequest:
+        cpu: "50m"
+        memory: "64Mi"
+      max:
+        cpu: "1"
+        memory: "1Gi"
+      min:
+        cpu: "25m"
+        memory: "32Mi"

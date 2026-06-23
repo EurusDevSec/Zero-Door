@@ -249,14 +249,16 @@ Trước khi inject failure, bạn phải định nghĩa "bình thường" là g
 
 ### 6.1. Phase Overview
 
-```
-Phase 1 (T1-T2): Foundation — Infrastructure, K8s, Observability
-Phase 2 (T2-T3): Core Services — Gaia (Monitor) + Target App
-Phase 3 (T3-T4): Attack Surface — Nemesis (Red Team) + Chaos Worker
-Phase 4 (T4-T5): Defense Layer — Hephaestus (Blue Team) + Full Loop
-Phase 5 (T5-T6): Experiments — War Game, Data Collection, Analysis
-Phase 6 (T3-T6): Scientific Report — Writing parallel with implementation
-```
+> Chi tiết từng Phase xem tại [docs/phases/](phases/README.md)
+
+| Phase | Tên | Timeline | Tài liệu chi tiết |
+|---|---|---|---|
+| **Phase 1** | Foundation — Infrastructure, K8s, Kafka, Observability | Week 1-4 (Sprint 1-2) | [phase1_foundation.md](phases/phase1_foundation.md) |
+| **Phase 2** | Core Services — Target App + Gaia (Observer Agent) | Week 5-8 (Sprint 3-4) | [phase2_target_gaia.md](phases/phase2_target_gaia.md) |
+| **Phase 3** | Attack Surface — Nemesis (Red Team) + Go Chaos Worker | Week 9-12 (Sprint 5-6) | [phase3_nemesis_chaos.md](phases/phase3_nemesis_chaos.md) |
+| **Phase 4** | Defense Layer — Hephaestus (Blue Team) + Closed-Loop | Week 13-16 (Sprint 7-8) | [phase4_hephaestus_loop.md](phases/phase4_hephaestus_loop.md) |
+| **Phase 5** | Experiments — War Game, Data Collection, KPI Analysis | Week 17-20 (Sprint 9-10) | [phase5_experiments.md](phases/phase5_experiments.md) |
+| **Phase 6** | Cloud Transition + Scientific Report & Defense | Week 21-24 (Sprint 11-12) | [phase6_cloud_report.md](phases/phase6_cloud_report.md) |
 
 ### 6.2. Key Milestones
 

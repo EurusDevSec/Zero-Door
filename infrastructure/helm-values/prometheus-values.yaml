@@ -1,0 +1,91 @@
+# kube-prometheus-stack — LEAN LOCAL (16GB RAM laptop)
+# ====================================================
+# Tối ưu: tắt AlertManager, giảm retention, giảm resource limits
+# Tổng RAM: ~800MB (Prometheus ~512MB + Grafana ~192MB + Node Exporter ~30MB + KSM ~64MB)
+#
+# Lệnh install:
+#   helm install prometheus prometheus-community/kube-prometheus-stack \
+#     -n monitoring -f prometheus-values.yaml
+
+# ---- Prometheus Server ----
+prometheus:
+  prometheusSpec:
+    # Scrape từ TẤT CẢ namespaces
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+
+    # Giảm retention xuống 3 ngày (tiết kiệm disk + RAM cho TSDB)
+    retention: 3d
+
+    # Storage nhỏ hơn
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 2Gi           # 2GB thay vì 5GB
+
+    # Resources giảm mạnh
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"              # 512MB thay vì 1.5GB
+
+    # Tăng scrape interval lên 30s (giảm 50% số lần scrape)
+    scrapeInterval: "30s"
+    evaluationInterval: "30s"
+
+# ---- Grafana (giảm resources) ----
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: zerodoor123
+
+  service:
+    type: ClusterIP
+
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "300m"
+      memory: "192Mi"              # 192MB thay vì 512MB
+
+  # Tắt persistence cho Grafana (tiết kiệm PVC)
+  # Dashboard import lại cũng nhanh, không cần lưu persistent
+  persistence:
+    enabled: false
+
+  sidecar:
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
+
+# ---- AlertManager: TẮT (chưa cần ở Phase 1) ----
+alertmanager:
+  enabled: false
+
+# ---- Node Exporter: giữ (rất nhẹ ~30MB) ----
+nodeExporter:
+  enabled: true
+
+# ---- Kube State Metrics: giữ (metrics về pods, deployments) ----
+kubeStateMetrics:
+  enabled: true
+
+# ---- Tắt các components K3d không hỗ trợ ----
+kubeEtcd:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
