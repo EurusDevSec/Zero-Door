@@ -76,9 +76,9 @@ Xây dựng nền tảng hạ tầng hoàn chỉnh trên **Local K3d** để to�
 - [ ] **T1.16** Tạo cấu trúc thư mục dự án chuẩn:
   ```
   Zero-Door/
-  ├── agent-orchestrator/          # Java Spring Boot (Nemesis, Gaia, Hephaestus)
-  │   ├── pom.xml
-  │   └── src/
+  ├── agent-orchestrator/          # Python Agents (Nemesis, Gaia, Hephaestus)
+  │   ├── requirements.txt
+  │   └── gaia/ (etc.)
   ├── chaos-worker/                # Go Chaos Worker
   │   ├── go.mod
   │   ├── cmd/
@@ -92,7 +92,7 @@ Xây dựng nền tảng hạ tầng hoàn chỉnh trên **Local K3d** để to�
   ```
 - [ ] **T1.17** Khởi tạo GitHub Actions CI Pipeline cơ bản (file `.github/workflows/ci.yml`):
   - Job: Lint Helm charts (`helm lint`)
-  - Job: Placeholder cho Java build + Go build (sẽ có code ở Phase 2-3)
+  - Job: Placeholder cho Python check + Go build (sẽ có code ở Phase 2-3)
 
 ---
 
@@ -114,21 +114,28 @@ Xây dựng nền tảng hạ tầng hoàn chỉnh trên **Local K3d** để to�
 > Trả lời các câu hỏi này trước khi bắt tay vào triển khai. Ghi câu trả lời trực tiếp vào đây.
 
 ### Q1: Tại sao chọn K3d thay vì Minikube hoặc Kind cho local development?
-> _Trả lời:_
+> _Trả lời:_ K3d chạy K3s (bản phân phối Kubernetes siêu nhẹ của Rancher) bên trong các Docker containers. K3d khởi động cực nhanh (chỉ mất ~20-30 giây), tiêu thụ rất ít tài nguyên (chỉ khoảng 1GB RAM cho node nền), hỗ trợ mô phỏng multi-node dễ dàng và quản lý qua Docker rất mượt mà. Minikube nặng hơn do chạy qua VM, còn Kind đôi khi khởi động lâu hơn và tiêu thụ nhiều RAM hơn K3d trên môi trường Windows.
 
 ### Q2: ResourceQuota cho namespace `zero-door` nên đặt bao nhiêu CPU và Memory?
 > Gợi ý: Máy bạn có bao nhiêu RAM? Chia cho 3 namespace + system overhead thì mỗi namespace được bao nhiêu?
-> _Trả lời:_
+> _Trả lời:_ Máy có 16GB RAM, sau khi trừ đi OS (~3GB), Chrome (~2GB), IDE (~1GB) và Docker Engine (~1.5GB) thì còn khoảng 8-8.5GB RAM khả dụng cho K3d. Ta phân bổ quota hợp lý như sau để tránh OOM treo máy:
+> - `zero-door`: 1 CPU / 1Gi RAM requests, 3 CPU / 3Gi RAM limits (đủ cho Kafka KRaft combined pod ~700MB và 3 Agents sau này).
+> - `target-app`: 1.5 CPU / 2Gi RAM requests, 3 CPU / 4Gi RAM limits (đủ cho 10 microservices nhỏ của Online Boutique).
+> - `monitoring`: 0.5 CPU / 2Gi RAM requests, 2 CPU / 4Gi RAM limits (đủ cho Prometheus, Grafana, Elasticsearch và Fluent Bit sau khi đã tối ưu hóa).
 
 ### Q3: Kafka trên local chỉ cần 1 broker, 1 partition. Nhưng khi lên Cloud, bạn sẽ thay đổi gì?
-> _Trả lời:_
+> _Trả lời:_ Khi lên Cloud (môi trường Production):
+> - Triển khai tối thiểu 3 Kafka Brokers trải rộng trên 3 Availability Zones (AZs) để đảm bảo độ khả dụng cao (High Availability).
+> - Tăng `replication.factor` cho các topic quan trọng lên 3 và đặt `min.insync.replicas` là 2 để tránh mất mát dữ liệu.
+> - Tăng số lượng partitions (ví dụ: 3 hoặc 6 partitions mỗi topic) tương ứng với số lượng replicas của consumer group để xử lý dữ liệu song song (parallel processing).
+> - Sử dụng dịch vụ managed hoàn toàn như Amazon MSK hoặc Confluent Cloud để giảm tải vận hành hạ tầng.
 
 ### Q4: StorageClass nào phù hợp cho Kafka PersistentVolume trên K3d?
 > Gợi ý: Chạy `kubectl get storageclass` trên K3d để xem có sẵn gì.
-> _Trả lời:_
+> _Trả lời:_ Trên K3d, StorageClass mặc định là `local-path` (do Rancher phát triển). Nó tự động cấp phát và mount thư mục trực tiếp từ host node vào container, rất phù hợp và tiện lợi cho việc chạy thử nghiệm local mà không cần cấu hình các Cloud CSI drivers phức tạp.
 
 ### Q5: Tại sao disable Traefik mặc định của K3d và thay bằng Nginx Ingress?
-> _Trả lời:_
+> _Trả lời:_ Mặc dù Traefik được tích hợp sẵn rất tốt trong K3s, nhưng Nginx Ingress Controller là chuẩn công nghiệp thực tế và được sử dụng rộng rãi nhất ở các doanh nghiệp hiện nay. Tự tay cài đặt Nginx Ingress giúp nắm vững kiến thức cài đặt Helm, cấu hình Ingress Class, và tránh xung đột cổng 80/443 với Traefik.
 
 ---
 

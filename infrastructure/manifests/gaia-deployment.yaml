@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gaia-sa
+  namespace: zero-door
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaia
+  namespace: zero-door
+  labels:
+    app: gaia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gaia
+  template:
+    metadata:
+      labels:
+        app: gaia
+    spec:
+      serviceAccountName: gaia-sa
+      containers:
+      - name: gaia
+        image: zero-door/gaia:latest
+        imagePullPolicy: Never  # Use local loaded image
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka.zero-door.svc.cluster.local:9092"
+        - name: PROMETHEUS_URL
+          value: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090"
+        - name: ELASTICSEARCH_URL
+          value: "http://elasticsearch.monitoring.svc.cluster.local:9200"
+        - name: POLL_INTERVAL
+          value: "15"
+        - name: COOLDOWN_PERIOD
+          value: "60"
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gaia
+  namespace: zero-door
+  labels:
+    app: gaia
+spec:
+  type: ClusterIP
+  selector:
+    app: gaia
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8000

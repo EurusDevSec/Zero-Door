@@ -55,11 +55,10 @@ Deploy ứng dụng mục tiêu (Google Online Boutique) lên K8s cluster và x�
   - Pod CPU/Memory usage per service
   - Pod restart count
 
-### 2.3. Agent Gaia — Java Spring Boot Project
+### 2.3. Agent Gaia — Python Project
 
-- [ ] **T2.9** Khởi tạo project Java Spring Boot 3.x cho Gaia trong thư mục `agent-orchestrator/`:
-  - Dependencies: `spring-boot-starter-web`, `spring-kafka`, `spring-boot-starter-actuator`
-  - Package: `com.zerodoor.gaia`
+- [ ] **T2.9** Khởi tạo project Python cho Gaia trong thư mục `agent-orchestrator/gaia/`:
+  - Thư viện cần thiết: `FastAPI`, `uvicorn`, `kafka-python`, `elasticsearch`, `requests` hoặc `httpx`
 - [ ] **T2.10** Cấu hình Kafka Consumer trong Gaia:
   - Subscribe topic `attack.results` (nhận kết quả tấn công từ Chaos Worker)
   - Consumer Group: `gaia-observer-group`
@@ -70,7 +69,7 @@ Deploy ứng dụng mục tiêu (Google Online Boutique) lên K8s cluster và x�
 ### 2.4. Gaia — Anomaly Detection Logic
 
 - [ ] **T2.12** Implement module **Prometheus Query Client** trong Gaia:
-  - Sử dụng Spring `WebClient` hoặc `RestTemplate` để gọi Prometheus HTTP API (`/api/v1/query`)
+  - Sử dụng thư viện `requests` hoặc `httpx` trong Python để gọi Prometheus HTTP API (`/api/v1/query`)
   - Viết các PromQL query để kiểm tra: CPU spike, Memory spike, Error Rate spike, Latency spike
   - Polling interval: mỗi 10-15 giây
 - [ ] **T2.13** Implement module **Elasticsearch Log Analyzer** trong Gaia:
@@ -101,9 +100,8 @@ Deploy ứng dụng mục tiêu (Google Online Boutique) lên K8s cluster và x�
 ### 2.5. Containerization & Deployment
 
 - [ ] **T2.16** Viết `Dockerfile` cho Gaia (Multi-stage build):
-  - Stage 1: Maven build (`maven:3.9-eclipse-temurin-17`)
-  - Stage 2: Runtime (`eclipse-temurin:17-jre-alpine`)
-  - Target image size: < 200MB
+  - Base Image: `python:3.11-slim`
+  - Target image size: < 80MB
   - Run as non-root user
 - [ ] **T2.17** Viết Kubernetes manifests cho Gaia Deployment:
   - Deployment + Service + ConfigMap (Kafka bootstrap server, Prometheus URL, Elasticsearch URL)

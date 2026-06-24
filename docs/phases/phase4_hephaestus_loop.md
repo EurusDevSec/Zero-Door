@@ -17,11 +17,10 @@ Phase này là **phase quan trọng nhất** vì nó đóng vòng lặp Attack �
 
 ## 2. Tasks
 
-### 2.1. Agent Hephaestus — Java Spring Boot
+### 2.1. Agent Hephaestus — Python
 
-- [ ] **T4.1** Khởi tạo Hephaestus package trong `agent-orchestrator/`:
-  - Package: `com.zerodoor.hephaestus`
-  - Dependencies bổ sung: `io.kubernetes:client-java` (Official Kubernetes Java Client)
+- [ ] **T4.1** Khởi tạo Hephaestus project trong `agent-orchestrator/hephaestus/`:
+  - Thư viện cần thiết: `kubernetes` (Official Kubernetes Python Client), `kafka-python`
 - [ ] **T4.2** Cấu hình Kafka Consumer:
   - Subscribe topic `monitoring.alerts` (nhận alert từ Gaia)
   - Consumer Group: `hephaestus-defender-group`
@@ -44,11 +43,11 @@ Phase này là **phase quan trọng nhất** vì nó đóng vòng lặp Attack �
   | `HIGH_LATENCY` | WARNING | `SCALE_UP` | Scale up để phân tải |
 
 - [ ] **T4.5** (Tùy chọn nâng cao) Implement **AI-Assisted Decision Making**:
-  - Gửi context (alert details + system state) cho LLM (Spring AI)
+  - Gửi context (alert details + system state) cho LLM (OpenAI Python SDK / LangChain)
   - LLM phân tích và đề xuất healing action phù hợp nhất
   - Có fallback về rule-based matrix (T4.4) nếu LLM không khả dụng
 
-### 2.3. Healing Action Executors (Kubernetes Java Client)
+### 2.3. Healing Action Executors (Kubernetes Python Client)
 
 - [ ] **T4.6** Implement **Scale Up Action**:
   - Gọi Kubernetes API: `PATCH /apis/apps/v1/namespaces/target-app/deployments/{name}/scale`
@@ -181,7 +180,7 @@ Phase này là **phase quan trọng nhất** vì nó đóng vòng lặp Attack �
 
 | Resource | Link |
 |---|---|
-| Kubernetes Java Client | https://github.com/kubernetes-client/java |
+| Kubernetes Python Client | https://github.com/kubernetes-client/python |
 | K8s RBAC Authorization | https://kubernetes.io/docs/reference/access-authn-authz/rbac/ |
 | K8s NetworkPolicy | https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
 | K8s Deployment Rollback | https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment |

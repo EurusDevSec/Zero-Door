@@ -1,0 +1,191 @@
+---
+# ServiceAccount — Hephaestus runs in zero-door namespace
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hephaestus-sa
+  namespace: zero-door
+  labels:
+    app: hephaestus
+    phase: "4"
+automountServiceAccountToken: true
+
+---
+# Role — scoped to target-app namespace with least-privilege
+# Hephaestus needs: pods (restart), deployments/scale (scale-up),
+# deployments (rollback via patch), replicasets (check rollout),
+# networkpolicies (block IP)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: hephaestus-healer-role
+  namespace: target-app
+  labels:
+    app: hephaestus
+    phase: "4"
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments/scale"]
+    verbs: ["get", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["replicasets"]
+    verbs: ["get", "list"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "create", "delete"]
+
+---
+# RoleBinding — binds hephaestus-sa (zero-door) to the Role in target-app
+# This is the correct cross-namespace RBAC pattern:
+#   Role is in target-app (defines WHAT), RoleBinding references the SA from zero-door (defines WHO)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hephaestus-healer-binding
+  namespace: target-app
+  labels:
+    app: hephaestus
+    phase: "4"
+subjects:
+  - kind: ServiceAccount
+    name: hephaestus-sa
+    namespace: zero-door          # SA lives in zero-door
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: hephaestus-healer-role   # Role lives in target-app
+
+---
+# ConfigMap — all non-sensitive configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hephaestus-config
+  namespace: zero-door
+  labels:
+    app: hephaestus
+    phase: "4"
+data:
+  KAFKA_BOOTSTRAP_SERVERS:  "kafka.zero-door.svc.cluster.local:9092"
+  KAFKA_ALERTS_TOPIC:       "monitoring.alerts"
+  KAFKA_HEALING_TOPIC:      "healing.actions"
+  KAFKA_LOGS_TOPIC:         "system.logs"
+  KAFKA_GROUP_ID:           "hephaestus-defender-group"
+  TARGET_NAMESPACE:         "target-app"
+  HEALING_COOLDOWN_SEC:     "90"
+  MAX_REPLICAS:             "3"
+  NETWORK_POLICY_TTL_SEC:   "300"
+
+---
+# Deployment — Hephaestus agent
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hephaestus
+  namespace: zero-door
+  labels:
+    app: hephaestus
+    phase: "4"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hephaestus
+  template:
+    metadata:
+      labels:
+        app: hephaestus
+        phase: "4"
+    spec:
+      serviceAccountName: hephaestus-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+      containers:
+        - name: hephaestus
+          image: hephaestus:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: hephaestus-config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false  # uvicorn writes temp files
+            capabilities:
+              drop: ["ALL"]
+      restartPolicy: Always
+
+---
+# Service — exposes Hephaestus REST API within cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: hephaestus
+  namespace: zero-door
+  labels:
+    app: hephaestus
+    phase: "4"
+spec:
+  selector:
+    app: hephaestus
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
+
+---
+# Ingress — expose Hephaestus REST API at /hephaestus/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hephaestus-ingress
+  namespace: zero-door
+  labels:
+    app: hephaestus
+    phase: "4"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /hephaestus(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: hephaestus
+                port:
+                  number: 8000

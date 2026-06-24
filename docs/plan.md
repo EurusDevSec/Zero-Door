@@ -127,9 +127,9 @@ AI code (Nemesis/Gaia/Hephaestus logic) — bạn containerize và deploy. Bạn
 | **Container Orchestration** | Kubernetes (K3s / local) → EKS/GKE (cloud) | Industry standard, CNCF ecosystem |
 | **Service Mesh** | Cân nhắc: Istio vs Linkerd vs không dùng | Traffic management, mTLS, observability |
 | **Message Broker** | Apache Kafka | High-throughput, durable, replay capable |
-| **Agent Core** | Java Spring Boot 3.x | Spring AI integration, mature ecosystem |
+| **Agent Core** | Python (FastAPI / asyncio) | High performance, lightweight, fast development, rich AI/LLM libraries |
 | **Chaos Worker** | Go (Golang) | Low latency, low memory, goroutine-based concurrency |
-| **AI Integration** | Spring AI + OpenAI/Ollama | Cloud/Local LLM flexibility |
+| **AI Integration** | LangChain / OpenAI SDK / Ollama Python | Native LLM SDK support, local & cloud LLM flexibility |
 | **Metrics** | Prometheus + Grafana | De-facto cloud-native observability |
 | **Logging** | ELK Stack | Centralized log aggregation |
 | **CI/CD** | GitHub Actions | Native SCM integration |
@@ -176,7 +176,7 @@ AI code (Nemesis/Gaia/Hephaestus logic) — bạn containerize và deploy. Bạn
 
 ### 3.4. CI/CD Pipeline
 
-- [ ] **Build Strategy:** Multi-stage Dockerfile để optimize image size — Java image target < 200MB, Go < 20MB
+- [ ] **Build Strategy:** Multi-stage Dockerfile để optimize image size — Python image target < 80MB, Go < 20MB
 - [ ] **Deploy Strategy:** Rolling update vs Recreate vs Blue-Green? Kịch bản nào phù hợp Chaos testing?
 - [ ] **Image Scanning:** Trivy hay Snyk? Scan ở bước nào trong pipeline?
 - [ ] **Helm Packaging:** Một chart cho toàn bộ hệ thống hay split thành sub-charts?

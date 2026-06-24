@@ -1,0 +1,122 @@
+---
+# ServiceAccount for Chaos Worker — minimal permissions following least-privilege
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: chaos-worker-sa
+  namespace: zero-door
+  labels:
+    app: chaos-worker
+    phase: "3"
+automountServiceAccountToken: true
+
+---
+# Role — grants ONLY the permissions needed for chaos attacks inside target-app
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: chaos-worker-role
+  namespace: target-app
+  labels:
+    app: chaos-worker
+    phase: "3"
+rules:
+  # Pod Kill: list/get running pods, then delete them
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "delete"]
+  # CPU Stress: create + delete ephemeral stress pods
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["create"]
+
+---
+# RoleBinding — binds the Role to chaos-worker's ServiceAccount
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: chaos-worker-rolebinding
+  namespace: target-app
+  labels:
+    app: chaos-worker
+    phase: "3"
+subjects:
+  - kind: ServiceAccount
+    name: chaos-worker-sa
+    namespace: zero-door
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: chaos-worker-role
+
+---
+# ConfigMap — non-sensitive configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chaos-worker-config
+  namespace: zero-door
+  labels:
+    app: chaos-worker
+    phase: "3"
+data:
+  KAFKA_BOOTSTRAP_SERVERS: "kafka.zero-door.svc.cluster.local:9092"
+  KAFKA_COMMANDS_TOPIC: "attack.commands"
+  KAFKA_RESULTS_TOPIC: "attack.results"
+  KAFKA_GROUP_ID: "chaos-worker-group"
+  ALLOWED_NAMESPACES: "target-app"
+  MAX_ATTACK_DURATION_SEC: "120"
+  DEFAULT_CONCURRENCY: "50"
+  DEFAULT_RPS: "100"
+
+---
+# Deployment — single replica (one chaos worker is enough)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chaos-worker
+  namespace: zero-door
+  labels:
+    app: chaos-worker
+    phase: "3"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chaos-worker
+  template:
+    metadata:
+      labels:
+        app: chaos-worker
+        phase: "3"
+    spec:
+      serviceAccountName: chaos-worker-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+      containers:
+        - name: chaos-worker
+          image: chaos-worker:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: chaos-worker-config
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "ps aux | grep chaos-worker | grep -v grep"]
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+      restartPolicy: Always

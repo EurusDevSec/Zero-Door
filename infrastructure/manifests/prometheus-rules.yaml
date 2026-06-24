@@ -1,0 +1,60 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: target-app-alerts
+  namespace: target-app
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: target-app-alerts.rules
+      rules:
+        # Alert when container CPU usage > 80% of limit (which is 200m -> 0.16s/s rate) for 30s
+        - alert: HighCPUUsage
+          expr: sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[1m])) by (pod, container) > 0.16
+          for: 30s
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage on pod {{ $labels.pod }}"
+            description: "CPU usage for container {{ $labels.container }} in pod {{ $labels.pod }} is above 80% of resource limit."
+
+        # Alert when container memory > 80% of limit (which is 256Mi -> 214748364 bytes) for 30s
+        - alert: HighMemoryUsage
+          expr: container_memory_working_set_bytes{namespace="target-app", container!=""} > 214748364
+          for: 30s
+          labels:
+            severity: warning
+          annotations:
+            summary: "High Memory usage on pod {{ $labels.pod }}"
+            description: "Memory usage for container {{ $labels.container }} in pod {{ $labels.pod }} is above 80% of resource limit."
+
+        # Alert when HTTP 5xx rate > 5% for 15s (from nginx ingress)
+        - alert: HighErrorRate
+          expr: sum(rate(nginx_ingress_controller_requests{status=~"5..", namespace="target-app"}[1m])) by (service) / sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[1m])) by (service) > 0.05
+          for: 15s
+          labels:
+            severity: critical
+          annotations:
+            summary: "High HTTP 5xx error rate for service {{ $labels.service }}"
+            description: "HTTP 5xx error rate is above 5% on service {{ $labels.service }}."
+
+        # Alert when container restarts increase > 3 in 5m
+        - alert: PodCrashLooping
+          expr: sum(increase(kube_pod_container_status_restarts_total{namespace="target-app"}[5m])) by (pod, container) > 3
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod {{ $labels.pod }} container {{ $labels.container }} is looping or crashing"
+            description: "Pod {{ $labels.pod }} container {{ $labels.container }} restarted more than 3 times in 5 minutes."
+
+        # Alert when HTTP P99 latency > 1000ms for 30s (from nginx ingress)
+        - alert: HighLatency
+          expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{namespace="target-app"}[1m])) by (le, service)) > 1.0
+          for: 30s
+          labels:
+            severity: warning
+          annotations:
+            summary: "High latency on service {{ $labels.service }}"
+            description: "99th percentile of HTTP request duration for service {{ $labels.service }} is above 1000ms."

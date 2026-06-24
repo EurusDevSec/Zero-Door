@@ -367,6 +367,16 @@ kubectl logs -l app=fluent-bit -n monitoring
 # → elasticsearch.monitoring.svc.cluster.local:9200
 ```
 
+### Lỗi lệch IP chứng chỉ x509 (Sau khi Docker Desktop hoặc Máy tính khởi động lại)
+Khi máy tính Sleep hoặc Docker Engine khởi động lại, Docker có thể cấp phát lại dải IP khác cho các node K3d (ví dụ: IP server đổi từ `172.18.0.3` thành `172.18.0.4`). Tuy nhiên, chứng chỉ TLS của Kubelet được cache trên node cũ sẽ không trùng khớp, dẫn đến việc chạy các lệnh `kubectl exec` hoặc gọi API nội bộ cluster bị từ chối với lỗi:
+`tls: failed to verify certificate: x509: certificate is valid for ...`
+
+**👉 Giải pháp khắc phục triệt để:**
+Nhóm đã chuẩn bị sẵn một script tự động xóa sạch cluster cũ và dựng lại nhanh từ đầu (do Docker đã cache sẵn image nên chạy mất chưa đầy 3 phút):
+```powershell
+.\infrastructure\scripts\recreate-cluster.ps1
+```
+
 ---
 
 ## 6. Cleanup (Khi cần xóa sạch)
@@ -380,3 +390,4 @@ helm uninstall kafka -n zero-door
 helm uninstall prometheus -n monitoring
 kubectl delete -f infrastructure/logging/ -n monitoring
 ```
+

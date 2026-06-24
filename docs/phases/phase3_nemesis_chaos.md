@@ -9,7 +9,7 @@
 
 ## 1. Mục tiêu Phase
 
-Xây dựng khả năng tấn công chủ động (Proactive Attack) cho hệ thống. Nemesis (Java) đóng vai trò "Bộ não chiến lược" — sử dụng LLM (Spring AI) để phân tích hệ thống và sinh ra kịch bản tấn công thông minh. Chaos Worker (Go) đóng vai trò "Tay chân thực thi" — nhận lệnh từ Nemesis qua Kafka và trực tiếp thực hiện hành động phá hoại lên Target App.
+Xây dựng khả năng tấn công chủ động (Proactive Attack) cho hệ thống. Nemesis (Python) đóng vai trò "Bộ não chiến lược" — sử dụng LLM (LangChain / OpenAI SDK / Ollama Python) để phân tích hệ thống và sinh ra kịch bản tấn công thông minh. Chaos Worker (Go) đóng vai trò "Tay chân thực thi" — nhận lệnh từ Nemesis qua Kafka và trực tiếp thực hiện hành động phá hoại lên Target App.
 
 Phase này kết thúc khi Nemesis có thể sinh 3 loại kịch bản tấn công và Chaos Worker thực thi thành công các kịch bản đó trên Target App.
 
@@ -74,16 +74,15 @@ Phase này kết thúc khi Nemesis có thể sinh 3 loại kịch bản tấn c�
   - Nếu attack chạy quá thời gian tối đa (configurable, default 120s) → tự động dừng
   - Nếu Kafka mất kết nối → tạm dừng mọi attack, không thực thi tiếp
 
-### 2.4. Agent Nemesis — Java Spring Boot (Attack Strategist)
+### 2.4. Agent Nemesis — Python (Attack Strategist)
 
-- [ ] **T3.9** Khởi tạo Nemesis package trong `agent-orchestrator/`:
-  - Package: `com.zerodoor.nemesis`
-  - Dependencies bổ sung: `spring-ai-openai-spring-boot-starter` (hoặc `spring-ai-ollama-spring-boot-starter`)
-- [ ] **T3.10** Cấu hình **Spring AI** cho Nemesis:
+- [ ] **T3.9** Khởi tạo Nemesis project trong `agent-orchestrator/nemesis/`:
+  - Thư viện cần thiết: `openai`, `langchain`, `kafka-python`
+- [ ] **T3.10** Cấu hình **LLM Client** cho Nemesis:
   - Primary: OpenAI API (GPT-4o-mini hoặc GPT-3.5-turbo) — cho production
   - Fallback: Ollama (local LLM, model `llama3:8b` hoặc `phi3`) — cho local dev
   - Toggle qua environment variable: `NEMESIS_LLM_PROVIDER=openai|ollama`
-- [ ] **T3.11** Implement **Attack Plan Generator** sử dụng Spring AI:
+- [ ] **T3.11** Implement **Attack Plan Generator** sử dụng OpenAI Python SDK / LangChain:
   - Input: Trạng thái hiện tại của hệ thống (metrics summary từ Prometheus)
   - Prompt Template: Yêu cầu LLM sinh kịch bản tấn công dựa trên thông tin hệ thống
   - Output: JSON object `AttackCommand` chứa loại tấn công, target, parameters
@@ -202,7 +201,7 @@ Phase này kết thúc khi Nemesis có thể sinh 3 loại kịch bản tấn c�
 | Resource | Link |
 |---|---|
 | Spring AI Documentation | https://docs.spring.io/spring-ai/reference/ |
-| Kubernetes Java Client | https://github.com/kubernetes-client/java |
+| Kubernetes Python Client | https://github.com/kubernetes-client/python |
 | Go Kubernetes Client (client-go) | https://github.com/kubernetes/client-go |
 | Ollama Local LLM | https://ollama.com/ |
 | Go Concurrency Patterns | https://go.dev/blog/pipelines |

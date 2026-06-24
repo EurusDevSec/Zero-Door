@@ -140,7 +140,7 @@
 │                     └───────────┘                               │
 │                                                                 │
 │  📦 TECH STACK:                                                 │
-│  • Backend: Java Spring Boot + Spring AI                        │
+│  • Backend: Python (FastAPI) + Go (Chaos Worker)                 │
 │  • Infra: Kubernetes (K3s) + Docker                             │
 │  • AI: OpenAI / Ollama (Local LLM)                              │
 │  • Monitor: Prometheus + Grafana                                │
@@ -216,7 +216,7 @@
 │   • Phù hợp cho SME/Startups với team DevOps nhỏ                │
 │                                                                 │
 │   📦 SẢN PHẨM BÀN GIAO:                                         │
-│   • 3 Microservices (Java Spring Boot)                          │
+│   • 3 Microservices (Python)                                    │
 │   • Helm Charts (deploy 1-click)                                │
 │   • Dashboard Grafana                                           │
 │   • Báo cáo + Video Demo                                        │
@@ -297,7 +297,7 @@
 
 > "Thưa thầy/cô, sản phẩm là một **Backend Platform** gồm:
 >
-> - **3 Microservices** Java Spring Boot chạy trên Kubernetes
+> - **3 Microservices** Python chạy trên Kubernetes
 > - **Helm Charts** để deploy 1-click
 > - **Dashboard Grafana** để xem trạng thái real-time
 > - **Target Demo App** để test

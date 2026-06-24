@@ -5,6 +5,11 @@
 
 controller:
   replicaCount: 1
+  image:
+    registry: docker.io
+    image: dyrnq/ingress-nginx-controller
+    tag: v1.15.1
+    digest: ""
   resources:
     requests:
       cpu: "50m"

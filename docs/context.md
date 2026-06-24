@@ -12,7 +12,7 @@
 | **Tên dự án**       | ZERO DOOR — Ứng dụng kiến trúc Multi-Agent AI và kỹ thuật Chaos Engineering xây dựng cơ chế Self-Healing cho hệ thống Microservices |
 | **Trường**          | Đại học Thủ Dầu Một, Viện Công nghệ Số, 2025-2026                                                                       |
 | **Nhóm**            | Lê Văn Hoàng (trưởng nhóm, code chính ~70%), hp8001 (hỗ trợ ~30%)                                                     |
-| **Công nghệ chính** | Java Spring Boot (Agents), Go (Chaos Worker), Kubernetes, Kafka, Prometheus, Spring AI                                   |
+| **Công nghệ chính** | Python (Agents), Go (Chaos Worker), Kubernetes, Kafka, Prometheus, LangChain / OpenAI SDK                                  |
 | **Mục tiêu**        | Hệ thống Self-Healing cho Microservices: Attack → Detect → Heal (3 AI Agents: Nemesis, Gaia, Hephaestus)                |
 
 ## 2. Môi trường phát triển
@@ -20,11 +20,11 @@
 | Thành phần          | Phiên bản / Chi tiết                         |
 | ------------------- | -------------------------------------------- |
 | **OS**              | Windows, terminal Git Bash/MINGW64           |
-| **Java**            | OpenJDK 17+ (Spring Boot 3.x)               |
+| **Python**          | 3.11+ (FastAPI / asyncio)                    |
 | **Go**              | 1.21+ (Chaos Worker)                          |
 | **Docker/K8s**      | Docker Desktop + K3s/Minikube                |
 | **Kafka**           | Bitnami Kafka Helm chart                     |
-| **IDE**             | VS Code + Extensions (Java, Go, K8s)         |
+| **IDE**             | VS Code + Extensions (Python, Go, K8s)        |
 
 ## 3. Quy trình làm việc
 
@@ -92,7 +92,7 @@ _(Cập nhật trong quá trình phát triển)_
 
 | Quyết định                        | Lý do                                                      |
 | --------------------------------- | ---------------------------------------------------------- |
-| Polyglot: Java + Go               | Java cho orchestration/AI, Go cho high-perf chaos worker   |
+| Polyglot: Python + Go               | Python cho orchestration/AI, Go cho high-perf chaos worker   |
 | Kafka cho inter-agent comm         | Async, decoupled, fault-tolerant                           |
 | Google Online Boutique target app  | Well-documented, 10+ microservices, K8s-native             |
 | Scrumban workflow                  | Vừa đủ kỷ luật cho 2 người, linh hoạt hơn Scrum thuần     |

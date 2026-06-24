@@ -257,7 +257,7 @@ Mỗi ngày, cả 2 người gửi vào nhóm chat (Discord/Zalo):
 | Loại công việc           | Ví dụ cụ thể                                           | Skill level |
 | ----------------------- | ------------------------------------------------------- | ----------- |
 | **Architecture Design** | Thiết kế kiến trúc 3 Agents, Kafka topics               | Hard        |
-| **Core Development**    | Code Agent Nemesis, Gaia, Hephaestus (Java Spring Boot)  | Hard        |
+| **Core Development**    | Code Agent Nemesis, Gaia, Hephaestus (Python / FastAPI)  | Hard        |
 | **Chaos Worker**        | Code Go chaos-worker (DDoS, stress test)                 | Hard        |
 | **AI Integration**      | Spring AI + LLM, prompt engineering                      | Hard        |
 | **K8s/Infra**           | Helm charts, K8s manifests, Docker configs               | Medium-Hard |
@@ -328,7 +328,7 @@ Sprint 11-12 ░░░░░░░░░░░░░░░░░░░░██�
 | 2 | Setup K8s cluster (K3s/Minikube)  | 🔴 Bạn       | 3 ngày | P0       |
 | 3 | Setup GitHub Projects board       | 🟡 hp8001  | 1 ngày | P0       |
 | 4 | Đọc + tóm tắt paper ADARMA       | 🟡 hp8001  | 3 ngày | P1       |
-| 5 | Setup dev environment (Java, Go)  | 🔴 Bạn       | 1 ngày | P0       |
+| 5 | Setup dev environment (Python, Go)| 🔴 Bạn       | 1 ngày | P0       |
 | 6 | Viết README v1                    | 🟡 hp8001  | 1 ngày | P2       |
 
 **Demo cho "khách hàng":** K8s cluster chạy được, board setup xong, README có.

@@ -7,6 +7,13 @@
 #   helm install kafka oci://registry-1.docker.io/bitnamicharts/kafka \
 #     -n zero-door -f kafka-values.yaml
 
+# ---- Global Image Overrides ----
+# Sử dụng repository legacy do chính sách phân phối mới của Bitnami (từ tháng 6/2026)
+image:
+  registry: docker.io
+  repository: bitnamilegacy/kafka
+  tag: 3.8.0-debian-12-r7
+
 # ---- KRaft Combined Mode ----
 # Controller + Broker gộp vào 1 process duy nhất
 # → Chỉ 1 pod Kafka thay vì 2 pods riêng biệt
@@ -78,6 +85,10 @@ provisioning:
 metrics:
   jmx:
     enabled: true
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/jmx-exporter
+      tag: 1.0.1-debian-12-r2
   serviceMonitor:
     enabled: true
     namespace: monitoring
@@ -85,3 +96,10 @@ metrics:
 # ---- Zookeeper tắt ----
 zookeeper:
   enabled: false
+
+# ---- Single Broker Optimization ----
+extraConfig: |
+  offsets.topic.replication.factor=1
+  transaction.state.log.replication.factor=1
+  transaction.state.log.min.isr=1
+  default.replication.factor=1
