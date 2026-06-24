@@ -4,4 +4,25 @@ node_modules/
 target/
 bin/
 
-*.env 
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+dist/
+.pytest_cache/
+
+# Go
+chaos-worker-bin
+*.exe
+*.test
+
+# IDE
+.idea/
+.vscode/
+*.swp

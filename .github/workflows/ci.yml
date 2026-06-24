@@ -7,7 +7,9 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # Job 1: Lint Kubernetes Helm Charts
+  # ─────────────────────────────────────────────
+  # Job 1: Lint Kubernetes manifests + Helm
+  # ─────────────────────────────────────────────
   helm-lint:
     name: Helm Chart Lint
     runs-on: ubuntu-latest
@@ -20,34 +22,52 @@ jobs:
         with:
           version: v3.12.0
 
-      - name: Lint Helm Values/Configs
+      - name: Lint Helm CLI (smoke test)
         run: |
-          echo "Linting custom Helm configurations..."
-          # Do we have custom charts? In Phase 1 we only have custom values for public charts.
-          # We can test helm template or helm lint if we build custom charts later.
-          echo "Helm CLI checked successfully."
+          echo "Helm $(helm version --short) available."
+          echo "Linting custom manifests..."
+          # Validate all YAML manifests are parseable
+          find infrastructure/manifests -name "*.yaml" | while read f; do
+            python3 -c "import yaml,sys; list(yaml.safe_load_all(open('$f')))" \
+              && echo "  ✓ $f" \
+              || (echo "  ✗ $f INVALID" && exit 1)
+          done
 
-  # Job 2: Spring Boot Java Build (Agent Orchestrator)
-  java-build:
-    name: Build Java Agent Orchestrator
+  # ─────────────────────────────────────────────
+  # Job 2: Python Agents (Gaia, Nemesis, Hephaestus)
+  # Replaces the old Java/Maven job — tech stack migrated to Python
+  # ─────────────────────────────────────────────
+  python-build:
+    name: Build Python Agent Orchestrator
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        agent: [gaia, nemesis, hephaestus]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: agent-orchestrator/${{ matrix.agent }}/requirements.txt
 
-      - name: Build with Maven
+      - name: Install dependencies — ${{ matrix.agent }}
         run: |
-          cd agent-orchestrator
-          mvn -B clean package -DskipTests
+          cd agent-orchestrator/${{ matrix.agent }}
+          pip install --no-cache-dir -r requirements.txt
 
-  # Job 3: Go Build (Chaos Worker)
+      - name: Syntax check — ${{ matrix.agent }}
+        run: |
+          cd agent-orchestrator/${{ matrix.agent }}
+          python -m py_compile main.py
+          echo "✓ ${{ matrix.agent }}/main.py syntax OK"
+
+  # ─────────────────────────────────────────────
+  # Job 3: Go Build — Chaos Worker
+  # ─────────────────────────────────────────────
   go-build:
     name: Build Go Chaos Worker
     runs-on: ubuntu-latest
@@ -55,15 +75,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Go
+      - name: Set up Go 1.21
         uses: actions/setup-go@v5
         with:
           go-version: '1.21'
           cache-dependency-path: chaos-worker/go.sum
 
+      - name: Download modules
+        run: |
+          cd chaos-worker
+          go mod download
+
       - name: Build Go Application
         run: |
           cd chaos-worker
-          # Disable CGO for static compilation since librdkafka needs CGO
-          # In local builds confluent-kafka-go needs CGO, but for simple skeleton lint/compile we can test:
-          go build -v ./cmd/...
+          # Output to explicit binary name — avoids conflict with cmd/ directory
+          CGO_ENABLED=0 GOOS=linux go build -v -o chaos-worker-bin ./cmd/
+          echo "✓ chaos-worker binary built ($(du -sh chaos-worker-bin | cut -f1))"
+
+      - name: Vet
+        run: |
+          cd chaos-worker
+          go vet ./...
+          echo "✓ go vet passed"
