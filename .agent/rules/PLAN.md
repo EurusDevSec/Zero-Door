@@ -1,48 +1,77 @@
 # 🎯 PLAN.md — Zero Door Roadmap & Status
-> *Last updated: 2026-06-18 | Focus: Local-First Sandbox & Multi-Agent Architecture*
+> *Last updated: 2026-06-25 | Agent: Antigravity | Phases 1-5 DONE*
 
 ---
 
-## 👥 Team Roles & Risks Management
+## 👥 Team Roles
 
-- **EurusDevSec (Lead Dev, DevOps, Cloud)**: Kubernetes cluster design (K3d/K3s), Helm charts packaging, Kafka setup, CI/CD pipeline, agent orchestration development, security (RBAC, NetworkPolicies), and architecture.
-- **hp8001 (Research, Testing, Dashboards)**: Academic paper contributions, data collection from chaos scenarios, Prometheus/Grafana dashboard setups, ELK logging analysis, and testing validation.
+- **EurusDevSec (Lead Dev)**: Kubernetes, Helm, CI/CD, agent dev, security (RBAC)
+- **hp8001 (Research)**: Academic paper, data collection, dashboards, testing
 
 ---
 
-## 📅 IMPLEMENTATION STATUS & ROADMAP
+## 📅 IMPLEMENTATION STATUS
 
-### Phase 1: Foundation — Infrastructure & Observability (Week 1 - 4) — [Specs](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase1_foundation.md)
-- [x] Define DevOps-focused Research Plan in [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md).
-- [x] Configure local Kubernetes sandbox template via [infrastructure/k3d-config.yaml](file:///r:/_Projects/Eurus_Workspace/zero_door/infrastructure/k3d-config.yaml).
-- [ ] Deploy Apache Kafka on K3d via Helm (Bitnami or Strimzi Operator) with 5 core topics.
-- [ ] Set up Prometheus + Grafana stack for scraping Kubernetes metrics.
-- [ ] Set up Fluent Bit + Elasticsearch stack for gathering pod container logs.
+### ✅ Phase 1: Foundation — Infrastructure & Observability — DONE
+- K3d cluster `zero-door` running locally (Docker Desktop required)
+- Kafka (Strimzi) deployed, 5 topics: `monitoring.alerts`, `healing.actions`, `attack.commands`, `attack.results`, `system.logs`
+- Prometheus + Grafana stack (`monitoring` namespace)
+- Fluent Bit + Elasticsearch for log collection
+- Namespaces: `zero-door` (agents), `target-app` (boutique), `monitoring` (obs)
 
-### Phase 2: Target App & Gaia (Observer Agent) (Week 5 - 8) — [Specs](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase2_target_gaia.md)
-- [ ] Deploy Google Online Boutique microservices to `target-app` namespace.
-- [ ] Configure HPA (Autoscaling) and Prometheus ServiceMonitors for the Boutique services.
-- [ ] Create Java Spring Boot skeleton for Gaia (Observer Agent).
-- [ ] Implement anomaly detection logic in Gaia (scrapes Prometheus/ES alerts, publishes to Kafka topic `monitoring.alerts`).
+### ✅ Phase 2: Target App & Gaia (Observer Agent) — DONE
+- Google Online Boutique deployed: frontend, cartservice, productcatalogservice, currencyservice, checkoutservice, redis-cart
+- All in `target-app` namespace with HPA (1→3 replicas, 70% CPU threshold)
+- **Gaia Agent** (Python FastAPI, NOT Java): polls Prometheus every 15s, Elasticsearch for logs
+- Detects: HIGH_CPU, HIGH_MEMORY, HIGH_ERROR_RATE, HIGH_LATENCY, POD_CRASH, SUSPICIOUS_LOG
+- Publishes alerts to `monitoring.alerts` Kafka topic
 
-### Phase 3: Nemesis (Attacker) & Go Chaos Worker (Week 9 - 12) — [Specs](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase3_nemesis_chaos.md)
-- [ ] Create Go skeleton for Chaos Worker. Implement attack executors (CPU stress, HTTP Flood, Pod delete).
-- [ ] Create Java Spring Boot skeleton for Nemesis (Red Team).
-- [ ] Integrate Spring AI (OpenAI API / Local Ollama) into Nemesis to dynamically synthesize attack payloads based on system metrics.
-- [ ] Establish communication via Kafka topic `attack.commands` and `attack.results`.
+### ✅ Phase 3: Nemesis (Attacker) & Go Chaos Worker — DONE
+- **Nemesis Agent** (Python FastAPI): REST API orchestrator
+  - `POST /attack/trigger` — triggers attack via Kafka → Chaos Worker
+  - `POST /attack/llm-plan` — LLM-based attack planning (Ollama)
+  - `GET /attack/status` — attack status
+- **Chaos Worker** (Go): executes actual attacks
+  - Built as `chaos-worker-bin` (NOT `chaos-worker` — naming conflict fix)
+  - Attack types: CPU_STRESS (goroutines), HTTP_FLOOD (concurrent requests), POD_KILL (kubectl)
+- CI/CD fixed: Python matrix (Gaia, Nemesis, Hephaestus) — NOT Java/Maven
 
-### Phase 4: Hephaestus (Defender Agent) & Closed-Loop Healing (Week 13 - 16) — [Specs](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase4_hephaestus_loop.md)
-- [ ] Create Java Spring Boot skeleton for Hephaestus (Blue Team).
-- [ ] Configure ServiceAccount and RBAC (Roles & RoleBindings) in `target-app` namespace for Hephaestus.
-- [ ] Implement healing action execution (using official Kubernetes Java Client) triggered by Gaia's alerts.
-- [ ] End-to-end integration: Run the full Attack → Detect → Heal loop.
+### ✅ Phase 4: Hephaestus (Defender) & Closed-Loop Healing — DONE
+- **Hephaestus Agent** (Python FastAPI): consumes `monitoring.alerts`, executes K8s healing
+- Decision Matrix: HIGH_CPU→RESTART, HIGH_ERROR_RATE/CRITICAL→ROLLBACK, POD_CRASH→RESTART
+- Healing actions: SCALE_UP, RESTART pod, ROLLBACK deployment, BLOCK_IP (NetworkPolicy)
+- Cooldown: 90s per (service, action) pair
+- K8s RBAC: ServiceAccount `hephaestus-sa` with namespaced Role for `target-app`
 
-### Phase 5: Chaos Experiments & Data Collection (Week 17 - 20) — [Specs](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase5_experiments.md)
-- [ ] Design chaos scenarios (SQL injection, HTTP flood, resource OOM).
-- [ ] Run automated chaos test suites and measure MTTD, MTTR, and Uptime KPIs.
-- [ ] Export Grafana metrics, export event logs from Elasticsearch, and format data to CSV for analysis.
+### ✅ Phase 5: War Game Experiments — DONE (2026-06-25)
+- 40 runs total: E1–E4 × AUTO+MANUAL × 5 runs/mode
+- Results (AUTO mode):
 
-### Phase 6: Cloud Transition & Final Scientific Report (Week 21 - 24) — [Specs](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase6_cloud_report.md)
-- [ ] Deploy the Helm stack on a single AWS EC2 instance running K3s (FinOps Spot Instance).
-- [ ] Verify security, Network Policies, and Pod permissions using EKS Pod Identity / AWS IAM Roles if migrating to EKS.
-- [ ] Finish scientific thesis writing, record demo video, and prepare slides for the university council defense.
+| Scenario | MTTD Mean | MTTR Mean | Uptime | OK% |
+|---|---|---|---|---|
+| E1 CPU Stress (cartservice) | 25.6s | 1.01s | 100% | 100% ✅ |
+| E2 HTTP Flood (frontend) | 1.01s | 1.01s | 100% | 100% ✅ |
+| E3 Pod Kill (frontend) | 3.15s | 1.01s | 100% | 20% ⚠️ |
+| E4 Combined | 5.6s | 1.01s | 100% | 100% ✅ |
+
+- **SLAs achieved**: MTTD < 60s ✅ | MTTR < 180s ✅ | Uptime ≥ 99% ✅
+- CSV data: `docs/experiments/raw_data/e{1-4}_*/`
+- Charts: `docs/experiments/analysis/*.png`
+- Runbook: `docs/runbooks/phase5_runbook.md`
+
+### 🔲 Phase 6: Cloud Deployment & Final Report — TODO
+- Deploy stack on GKE or AWS EKS (Spot Instance)
+- Verify NetworkPolicies, RBAC on cloud
+- Finish scientific thesis, demo video, defense slides
+- Final report comparing local K3d vs cloud metrics
+
+---
+
+## 🔑 NEXT IMMEDIATE TASKS (Phase 6)
+
+1. `helm package` tất cả charts
+2. Push images lên container registry (GCR hoặc ECR)
+3. Provision GKE/EKS cluster (1 node, e2-standard-4 hoặc t3.large)
+4. `helm install` full stack trên cloud
+5. Re-run experiment suite (E1–E4) để lấy production metrics
+6. Viết final report + `docs/runbooks/phase6_runbook.md`

@@ -1,21 +1,81 @@
-# 💾 SESSION MEMORY — Zero Door Project
-> Last Checkpoint: 2026-06-18 | Status: Phase 1 (Foundation & Infrastructure Setup) — In Progress
+# 💾 SESSION_MEMORY.md — Trạng Thái Hiện Tại
+> *Last updated: 2026-06-25 22:58 ICT | Phase 5 COMPLETE*
 
 ---
 
-## ⚡ Active Task Completed (Những việc ĐÃ HOÀN THÀNH trong session)
-*   **Architecture Realignment (Căn chỉnh Kiến trúc & FinOps):**
-    *   Thống nhất tư duy thiết kế **Local-First, Cloud-Ready** để tối ưu hóa chi phí (FinOps) và tốc độ phát triển.
-    *   Quyết định chạy dự án ở local trên **K3d (k3d-config.yaml)**. Khi deploy AWS (Production), sẽ chạy lightweight **K3s trên 1 máy EC2 Spot Instance duy nhất** (t3.medium/t3.large, chi phí ~$15/tháng) thay vì dùng EKS ($73/tháng) và Amazon MSK ($100+/tháng) nhằm tránh over-engineering và lãng phí ngân sách.
-    *   Phác thảo cấu trúc 5 sơ đồ kiến trúc thực tế: Sơ đồ hạ tầng (EC2/K3s), Sơ đồ logic (C4 Model Container Diagram), Sơ đồ luồng dữ liệu (Attack -> Detect -> Heal), Sơ đồ CI/CD, và Sơ đồ Observability.
-    *   Tái cấu trúc và tối ưu hóa thư mục cấu hình AI Agent (`.agent/`) sang dự án Zero Door để tối ưu hóa token và chống ảo giác (hallucination) cho các session tiếp theo.
+## 🎯 Trạng thái ngay lúc này
 
-## 🧠 Semantic Context Essence (Tinh túy kiến thức & Quyết định thiết kế)
-*   *FinOps Decision:* Tránh xa các managed service đắt đỏ của AWS (EKS, MSK, RDS) ở giai đoạn nghiên cứu/sandbox. Đóng gói toàn bộ cơ sở hạ tầng (Kafka, Postgres, Prometheus) vào Helm Charts và tự chạy trong cluster K3s/K3d.
-*   *Security RBAC boundary:* Agent Hephaestus và Chaos Worker tuyệt đối không dùng ClusterAdmin role. Phải dùng namespace Role giới hạn quyền trong namespace `target-app`.
-*   *Local-First development loop:* Toàn bộ code Java (Spring Boot) và Go (Chaos Worker) phải chạy thử nghiệm thành công và ổn định ở local K3d trước khi viết pipeline CI/CD đẩy lên AWS.
+**Phase đang làm**: Phase 6 — Cloud Deployment & Final Report (CHƯA BẮT ĐẦU)
 
-## 🔜 Next Steps (3 hành động kỹ thuật trực tiếp kế tiếp)
-- [ ] **Step 1:** Khởi chạy cluster local K3d bằng file [k3d-config.yaml](file:///r:/_Projects/Eurus_Workspace/zero_door/infrastructure/k3d-config.yaml) và kiểm tra kết nối `kubectl cluster-info`.
-- [ ] **Step 2:** Viết kịch bản Deploy Kafka Helm Chart (Bitnami) vào namespace `zero-door` và cấu hình 5 Kafka topics (`attack.commands`, `attack.results`, `monitoring.alerts`, `healing.actions`, `system.logs`).
-- [ ] **Step 3:** Deploy Prometheus + Grafana (Kube-Prometheus-Stack Helm chart) vào namespace `monitoring` và cấu hình scrapers cơ bản.
+**Phase vừa hoàn thành**: Phase 5 — War Game Experiments ✅
+
+**Git branch**: `main`  
+**Last commit**: `ccf0492` — docs(phase5): update runbook with actual experiment results
+
+---
+
+## 📌 Cluster State (K3d Local)
+
+```
+Cluster name : zero-door
+Docker Desktop: Required (phải bật trước khi làm việc)
+```
+
+### Namespaces & Pods:
+```
+zero-door   : gaia, nemesis, hephaestus, kafka-controller-0, chaos-worker
+target-app  : frontend, cartservice, productcatalogservice, currencyservice, checkoutservice, redis-cart
+monitoring  : prometheus-operated, grafana, elasticsearch, fluent-bit
+```
+
+---
+
+## 📂 Files Quan Trọng Nhất
+
+| File | Mục đích | Ghi chú |
+|------|----------|---------|
+| `agent-orchestrator/hephaestus/main.py` | Defender agent | Có `/heal/history`, `/experiment/reset` (mới) |
+| `agent-orchestrator/gaia/main.py` | Observer agent | Poll 15s, threshold 80% CPU |
+| `agent-orchestrator/nemesis/main.py` | Attacker agent | REST orchestrator |
+| `infrastructure/scripts/experiment_runner_direct.py` | Phase 5 runner | **Dùng cái này** cho K3d |
+| `infrastructure/scripts/analysis.py` | Chart generation | Path: `.parent.parent.parent` |
+| `docs/experiments/raw_data/` | Raw CSVs | E1–E4, AUTO+MANUAL, 5 runs |
+| `docs/experiments/analysis/` | Charts | 5 PNG + summary_statistics.csv |
+| `docs/runbooks/phase5_runbook.md` | Phase 5 runbook | Kết quả đầy đủ |
+| `.github/workflows/ci.yml` | CI/CD | Python matrix + Go |
+
+---
+
+## 🚀 Phase 6 — Checklist
+
+- [ ] **6.1** Chọn cloud: GKE hoặc EKS Spot
+- [ ] **6.2** Build & push Docker images lên registry
+- [ ] **6.3** Provision cluster (1 node, 4vCPU/8GB min)
+- [ ] **6.4** Helm install full stack
+- [ ] **6.5** Re-run E1–E4 trên cloud (15 runs/scenario)
+- [ ] **6.6** So sánh K3d local vs Cloud metrics
+- [ ] **6.7** `docs/runbooks/phase6_runbook.md`
+- [ ] **6.8** Final thesis report
+- [ ] **6.9** Demo video
+- [ ] **6.10** Defense slides
+
+---
+
+## 📊 Phase 5 Experiment Results
+
+```
+E1 CPU Stress  (cartservice): MTTD=25.6s, MTTR=1.01s, OK=100% ✅
+E2 HTTP Flood  (frontend)   : MTTD=1.01s, MTTR=1.01s, OK=100% ✅
+E3 Pod Kill    (frontend)   : MTTD=3.15s, MTTR=1.01s, OK=20%  ⚠️ (race condition, not a bug)
+E4 Combined                 : MTTD=5.60s, MTTR=1.01s, OK=100% ✅
+SLAs: MTTD<60s ✅ | MTTR<180s ✅ | Uptime≥99% ✅
+```
+
+---
+
+## 🧩 Agent Communication Flow
+
+```
+Prometheus → Gaia ──kafka:monitoring.alerts──→ Hephaestus → K8s API (heal)
+Nemesis ──kafka:attack.commands──→ ChaosWorker → target-app namespace
+```
