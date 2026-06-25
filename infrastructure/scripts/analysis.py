@@ -31,10 +31,11 @@ from rich.table import Table
 
 console = Console()
 
-BASE_DIR      = Path(__file__).parent.parent / "docs" / "experiments"
+BASE_DIR      = Path(__file__).parent.parent.parent / "docs" / "experiments"
 RAW_DIR       = BASE_DIR / "raw_data"
 ANALYSIS_DIR  = BASE_DIR / "analysis"
 ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
+
 
 SCENARIO_DIRS = {
     "E1": "e1_cpu_stress",

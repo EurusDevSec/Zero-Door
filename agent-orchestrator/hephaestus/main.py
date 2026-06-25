@@ -36,6 +36,10 @@ app = FastAPI(title="Hephaestus Agent — Self-Healing Executor")
 # Key: (service, action), Value: last heal timestamp
 heal_cooldowns: Dict[Tuple[str, str], float] = {}
 
+# In-memory audit log — last 200 heal events (for Phase 5 experiment polling)
+heal_history: list = []
+MAX_HISTORY = 200
+
 # ---- Kafka clients ----
 kafka_producer: Optional[KafkaProducer] = None
 
@@ -440,14 +444,15 @@ def process_alert(alert: dict):
     set_cooldown(service, action)
 
     # Execute healing action
+    status = "UNKNOWN"
     if action == "SCALE_UP":
-        action_scale_up(service, alert_id)
+        status = action_scale_up(service, alert_id)
 
     elif action == "RESTART":
-        action_restart_pod(service, alert_id)
+        status = action_restart_pod(service, alert_id)
 
     elif action == "ROLLBACK":
-        action_rollback(service, alert_id)
+        status = action_rollback(service, alert_id)
 
     elif action == "BLOCK_IP":
         # Extract source IP from alert description if available
@@ -457,10 +462,24 @@ def process_alert(alert: dict):
             import re
             match = re.search(r'(\d{1,3}(?:\.\d{1,3}){3})', description)
             source_ip = match.group(1) if match else "0.0.0.0"
-        action_block_ip(service, source_ip, alert_id)
+        status = action_block_ip(service, source_ip, alert_id)
 
     else:
         logger.warning(f"Unknown action '{action}' — skipping.")
+        status = "SKIPPED"
+
+    # Append to in-memory audit log (capped at MAX_HISTORY)
+    heal_history.append({
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "alertId":   alert_id,
+        "alertType": alert_type,
+        "severity":  severity,
+        "service":   service,
+        "action":    action,
+        "status":    status,
+    })
+    if len(heal_history) > MAX_HISTORY:
+        heal_history.pop(0)
 
 
 # ============================================================
@@ -593,3 +612,30 @@ def list_managed_network_policies():
         }
     except Exception as e:
         return {"error": str(e)}
+
+
+@app.get("/heal/history")
+def get_heal_history():
+    """
+    Return the in-memory audit log of all healing events.
+    Used by Phase 5 experiment_runner_direct.py to measure MTTD/MTTR
+    without requiring direct Kafka access from outside the cluster.
+    """
+    return {
+        "total":   len(heal_history),
+        "history": list(reversed(heal_history)),   # newest first
+    }
+
+
+@app.post("/experiment/reset")
+def experiment_reset():
+    """
+    Reset all cooldowns and clear heal_history.
+    Called by experiment_runner_direct.py between runs so cooldowns
+    from the previous run don't block the next injection.
+    """
+    heal_cooldowns.clear()
+    heal_history.clear()
+    logger.info("[EXPERIMENT] Cooldowns and history cleared for new experiment run.")
+    return {"message": "Cooldowns and heal history cleared.", "timestamp": datetime.now(timezone.utc).isoformat()}
+
