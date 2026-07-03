@@ -120,6 +120,16 @@ def publish_alert(alert_type: str, service: str, metric_name: str, current_value
     else:
         logger.warning(f"[Local Alert - Kafka Offline] {description}")
 
+def get_service_name(pod: str, container: str) -> str:
+    if not pod:
+        return container
+    if "-stress" in pod:
+        return pod.split("-stress")[0]
+    parts = pod.split("-")
+    if len(parts) > 2:
+        return "-".join(parts[:-2])
+    return parts[0]
+
 async def query_prometheus(client: httpx.AsyncClient, query: str):
     try:
         url = f"{PROMETHEUS_URL}/api/v1/query"
@@ -135,52 +145,54 @@ async def query_prometheus(client: httpx.AsyncClient, query: str):
 async def poll_prometheus_metrics():
     logger.info("Starting Prometheus metrics polling...")
     async with httpx.AsyncClient() as client:
-        # 1. Check CPU Spikes
-        # Expr: sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[1m])) by (container)
-        # Threshold: 0.16 (80% of 200m limit) for general services, 0.10 for redis-cart
-        cpu_query = 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[1m])) by (container)'
+        # 1. Check CPU Spikes (group by pod and container to resolve container name overlap)
+        cpu_query = 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[1m])) by (pod, container)'
         cpu_data = await query_prometheus(client, cpu_query)
         if cpu_data and cpu_data.get("status") == "success":
             results = cpu_data.get("data", {}).get("result", [])
             for res in results:
+                pod = res.get("metric", {}).get("pod")
                 container = res.get("metric", {}).get("container")
                 val = float(res.get("value", [0, "0"])[1])
-                limit = 0.125 if container == "redis" else 0.200
+                
+                service = get_service_name(pod, container)
+                limit = 0.125 if service == "redis-cart" else 0.200
                 threshold = limit * 0.8
                 
                 if val > threshold:
                     publish_alert(
                         alert_type="HIGH_CPU",
-                        service=container,
+                        service=service,
                         metric_name="cpu_usage_percent",
                         current_value=round(val / limit * 100, 2),
                         threshold=80.0,
-                        description=f"CPU utilization of container '{container}' is at {round(val / limit * 100, 1)}% (using {round(val, 3)} cores, limit is {limit} cores).",
+                        description=f"CPU utilization of service '{service}' (pod '{pod}') is at {round(val / limit * 100, 1)}% (using {round(val, 3)} cores, limit is {limit} cores).",
                         severity="WARNING",
                         suggested_action="SCALE_UP"
                     )
 
-        # 2. Check Memory Spikes
-        # Expr: sum(container_memory_working_set_bytes{namespace="target-app", container!=""}) by (container)
-        # Limit: 256Mi (268435456 bytes), threshold = 214748364 bytes (80%)
-        memory_query = 'sum(container_memory_working_set_bytes{namespace="target-app", container!=""}) by (container)'
+        # 2. Check Memory Spikes (group by pod and container)
+        memory_query = 'sum(container_memory_working_set_bytes{namespace="target-app", container!=""}) by (pod, container)'
         mem_data = await query_prometheus(client, memory_query)
         if mem_data and mem_data.get("status") == "success":
             results = mem_data.get("data", {}).get("result", [])
             for res in results:
+                pod = res.get("metric", {}).get("pod")
                 container = res.get("metric", {}).get("container")
                 val = float(res.get("value", [0, "0"])[1])
+                
+                service = get_service_name(pod, container)
                 limit_bytes = 268435456  # 256Mi
                 threshold_bytes = limit_bytes * 0.8
                 
                 if val > threshold_bytes:
                     publish_alert(
                         alert_type="HIGH_MEMORY",
-                        service=container,
+                        service=service,
                         metric_name="memory_working_set_bytes",
                         current_value=round(val / 1024 / 1024, 2),
                         threshold=204.8,
-                        description=f"Memory utilization of container '{container}' is at {round(val / limit_bytes * 100, 1)}% ({round(val / 1024 / 1024, 1)} MiB of {round(limit_bytes / 1024 / 1024, 1)} MiB limit).",
+                        description=f"Memory utilization of service '{service}' (pod '{pod}') is at {round(val / limit_bytes * 100, 1)}% ({round(val / 1024 / 1024, 1)} MiB of {round(limit_bytes / 1024 / 1024, 1)} MiB limit).",
                         severity="WARNING",
                         suggested_action="RESTART"
                     )

@@ -66,36 +66,35 @@ Mở sẵn trình duyệt Web với các tab sau:
 ### BƯỚC 2: NEMESIS KÍCH HOẠT TẤN CÔNG (ATTACK PHASE) (1.5 PHÚT)
 
 *   **Hành động trên màn hình:**
-    *   Mở một Terminal mới, thực hiện cuộc tấn công **HTTP Flood (DDoS L7)** vào Web Frontend thông qua API của Nemesis bằng lệnh `curl`:
+    *   Mở một Terminal mới, thực hiện cuộc tấn công **Ép quá tải CPU (CPU Stress)** vào dịch vụ giỏ hàng (`cartservice`) thông qua API của Nemesis bằng lệnh `curl`:
     ```bash
     curl -X POST http://localhost:9092/attack/trigger \
       -H "Content-Type: application/json" \
-      -d '{"attack_type": "HTTP_FLOOD", "target_service": "frontend", "duration": 45, "concurrency": 200}'
+      -d '{"attackType": "CPU_STRESS", "targetService": "cartservice", "durationSec": 60, "concurrency": 4}'
     ```
     *   *Mẹo:* Bạn cũng có thể mở logs của Chaos Worker bằng lệnh sau để hội đồng thấy lệnh được nhận tức thì:
     ```bash
     kubectl logs -n zero-door -l app=chaos-worker -f
     ```
 *   **Lời thoại thuyết trình (Talking Points):**
-    > *"Bây giờ, em sẽ đóng vai trò Red Team bằng cách sử dụng **Agent Nemesis** để kích hoạt một cuộc tấn công từ chối dịch vụ HTTP Flood với cường độ 200 connections đồng thời vào web frontend.*
+    > *"Bây giờ, em sẽ đóng vai trò Red Team bằng cách sử dụng **Agent Nemesis** để kích hoạt một cuộc tấn công vắt kiệt tài nguyên CPU (CPU Stress) vào microservice `cartservice` (dịch vụ giỏ hàng).*
     > *Lệnh tấn công được Nemesis lập kế hoạch thông qua AI (Ollama/OpenAI), đóng gói thành cấu trúc JSON chuẩn và gửi vào Kafka topic `attack.commands`.*
-    > ***Go Chaos Worker** nhận lệnh này qua Kafka, thực hiện kiểm tra an toàn (Blast Radius Validation) để chắc chắn mục tiêu nằm trong vùng an toàn được phép tấn công (`target-app`), sau đó kích hoạt hàng trăm goroutines song song bắn phá trực tiếp vào Frontend. Như thầy cô thấy trên logs, Chaos Worker đang bắn phá thời gian thực."*
+    > ***Go Chaos Worker** nhận lệnh này qua Kafka, thực hiện kiểm tra an toàn (Blast Radius Validation) để chắc chắn mục tiêu nằm trong vùng an toàn được phép tấn công (`target-app`), sau đó deploy một ephemeral stress pod để ép CPU của `cartservice` chạy hết công suất. Như thầy cô thấy trên logs, Chaos Worker đã nhận lệnh và bắt đầu ép CPU của cartservice."*
 
 ---
 
 ### BƯỚC 3: GAIA PHÁT HIỆN BẤT THƯỜNG (DETECTION PHASE) (1 PHÚT)
 
 *   **Hành động trên màn hình:**
-    *   Chuyển sang Tab 1 (Google Boutique), bấm F5 tải lại trang $\rightarrow$ Trang web sẽ bị xoay tròn, tải chậm hoặc trả về lỗi `502/503 Bad Gateway` do nghẽn mạng.
-    *   Chuyển sang Tab 2 (Grafana), chỉ vào biểu đồ **Error Rate** bắt đầu dựng cột đỏ vọt lên $> 5\%$.
+    *   Chuyển sang Tab 2 (Grafana), chỉ vào biểu đồ **CPU Utilization** của `cartservice` bắt đầu dựng cột đứng vọt lên mức $100\%$ (vượt qua ngưỡng cảnh báo $80\%$).
     *   Mở Terminal xem logs của Gaia:
     ```bash
     kubectl logs -n zero-door -l app=gaia -f --tail=30
     ```
-    *   Hội đồng sẽ nhìn thấy log Gaia in ra dòng chữ phát hiện lỗi: `[CRITICAL] HIGH_ERROR_RATE detected on frontend...`.
+    *   Hội đồng sẽ nhìn thấy log Gaia in ra dòng chữ phát hiện lỗi: `[WARNING] ALERT PUBLISHED to Kafka: CPU utilization of container 'cartservice' is at 100%...`.
 *   **Lời thoại thuyết trình (Talking Points):**
-    > *"Khi cuộc tấn công xảy ra, dịch vụ Web bắt đầu bị nghẽn. Khách hàng truy cập sẽ bị xoay tròn hoặc nhận lỗi HTTP 5xx. Trên Grafana, biểu đồ tỉ lệ lỗi đã vọt qua ngưỡng cảnh báo 5%.*
-    > *Ngay lập tức, **Agent Gaia** đang giám sát ngầm phát hiện ra bất thường này thông qua việc truy vấn định kỳ Prometheus HTTP API. Nó lập tức đóng gói thông tin sự cố thành một cảnh báo JSON gửi vào Kafka topic `monitoring.alerts` để thông báo cho Agent phòng thủ cứu trợ."*
+    > *"Khi cuộc tấn công diễn ra, dịch vụ giỏ hàng bị quá tải CPU. Trên Grafana, biểu đồ sử dụng CPU của `cartservice` đã lập tức dựng cột đứng vọt lên mức tối đa 100%.*
+    > *Ngay lập tức, **Agent Gaia** đang giám sát ngầm phát hiện ra bất thường này thông qua việc truy vấn định kỳ Prometheus HTTP API. Nó lập tức đóng gói thông tin sự cố thành một cảnh báo JSON gửi vào Kafka topic `monitoring.alerts` để báo cáo cho Agent phòng thủ."*
 
 ---
 
@@ -106,21 +105,16 @@ Mở sẵn trình duyệt Web với các tab sau:
     ```bash
     kubectl logs -n zero-door -l app=hephaestus -f --tail=30
     ```
-    *   Hội đồng sẽ nhìn thấy log dạng: `[INFO] Received alert HIGH_ERROR_RATE on frontend. Executing BLOCK_IP via NetworkPolicy and SCALE_UP...`
-    *   Chạy nhanh các lệnh kiểm tra xem hệ thống đã thay đổi thế nào:
+    *   Hội đồng sẽ nhìn thấy log dạng: `[INFO] Received alert HIGH_CPU on cartservice. Executing SCALE_UP...`
+    *   Chạy nhanh lệnh kiểm tra xem hệ thống đã thay đổi thế nào:
     ```bash
-    # Kiểm tra số lượng pods frontend tăng lên (Scale up)
-    kubectl get pods -n target-app -l app=frontend
-    
-    # Kiểm tra NetworkPolicy chặn IP tấn công được tạo ra tự động
-    kubectl get networkpolicies -n target-app
+    # Kiểm tra số lượng pods cartservice tăng lên (Scale up từ 1 lên 2 pods)
+    kubectl get pods -n target-app -l app=cartservice
     ```
-    *   F5 lại trang Google Boutique (Tab 1) $\rightarrow$ Web tải nhanh, hoạt động bình thường trở lại.
+    *   Hội đồng sẽ thấy xuất hiện một pod `cartservice` thứ hai đang được dựng lên để chia tải. Sau đó CPU sẽ giảm xuống và hệ thống ổn định trở lại.
 *   **Lời thoại thuyết trình (Talking Points):**
-    > *"Khi cảnh báo xuất hiện trên Kafka, **Agent Hephaestus** (Defender) lập tức hoạt động. Dựa trên ma trận quyết định (Decision Matrix), đối với lỗi nghẽn dịch vụ `HIGH_ERROR_RATE`, Hephaestus tự động kích hoạt 2 hành động phòng thủ:*
-    > *Thứ nhất, nó gọi Kubernetes API tăng số lượng bản sao (Scale-up) pod Frontend lên để giảm tải lượng nghẽn mạng.*
-    > *Thứ hai, nó tạo ra một **NetworkPolicy** chặn trực tiếp IP của kẻ tấn công (ở đây là IP của Chaos Worker).*
-    > *Như thầy cô thấy, số lượng pod frontend đã được tăng lên và NetworkPolicy chặn IP đã được thiết lập tự động trong namespace `target-app`. Trang web bán hàng đã hoạt động mượt mà trở lại. Toàn bộ quá trình phản ứng tự động này diễn ra hoàn toàn khép kín không cần sự can thiệp của con người."*
+    > *"Khi cảnh báo xuất hiện trên Kafka, **Agent Hephaestus** (Defender) lập tức hoạt động. Dựa trên ma trận quyết định (Decision Matrix), đối với lỗi quá tải `HIGH_CPU`, Hephaestus tự động kích hoạt hành động phòng thủ **SCALE_UP**.*
+    > *Nó gọi trực tiếp đến Kubernetes API để tăng số lượng bản sao (replicas) của deployment `cartservice` lên. Như thầy cô thấy trên terminal, một pod `cartservice` thứ hai đã được tạo ra tự động để phân chia tải lượng, giúp xử lý các request giỏ hàng nhanh chóng. Sự cố đã được xử lý khép kín hoàn toàn tự động."*
 
 ---
 

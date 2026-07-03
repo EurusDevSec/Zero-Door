@@ -48,7 +48,7 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 		memWorkers = 0
 	}
 
-	podName := fmt.Sprintf("stress-%s", uuid.New().String()[:8])
+	podName := fmt.Sprintf("%s-stress-%s", cmd.Target.Service, uuid.New().String()[:8])
 
 	stressArgs := []string{
 		"--cpu", fmt.Sprintf("%d", cpuWorkers),

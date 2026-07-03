@@ -45,21 +45,8 @@ spec:
   policyTypes:
     - Egress
   egress:
-    # Cho phép Prometheus kết nối ra ngoài để scrape metrics từ các namespace khác
-    # như target-app (Boutique) và zero-door (Kafka, Agents)
-    - to:
-        - namespaceSelector: {} # Rỗng = tất cả namespaces
-      ports:
-        - protocol: TCP
-          port: 80
-        - protocol: TCP
-          port: 8080
-        - protocol: TCP
-          port: 9090
-        - protocol: TCP
-          port: 9092 # Kafka client port
-        - protocol: TCP
-          port: 9308 # Kafka Exporter / JMX
+    # Cho phép Prometheus Egress hoàn toàn tự do đến mọi đích (CoreDNS, API Server, Kubelet và các Pods metrics)
+    - {}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

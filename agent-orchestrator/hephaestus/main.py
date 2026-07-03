@@ -500,7 +500,6 @@ def _kafka_consumer_thread():
                 group_id=KAFKA_GROUP_ID,
                 auto_offset_reset="latest",
                 value_deserializer=lambda m: json.loads(m.decode("utf-8")),
-                consumer_timeout_ms=2000,
                 enable_auto_commit=True,
             )
             logger.info("Kafka consumer connected. Listening for alerts...")
