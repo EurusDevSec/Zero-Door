@@ -1,32 +1,41 @@
-# 💾 SESSION_MEMORY.md — Trạng Thái Hiện Tại
-> *Last updated: 2026-06-25 22:58 ICT | Phase 5 COMPLETE*
+# 💾 SESSION_MEMORY.md — Trạng Thế Hiện Tại
+> *Last updated: 2026-07-04 | Phase 5 COMPLETED & OPTIMIZED (Local Demo Ready) | Next: Phase 6 Cloud*
 
 ---
 
 ## 🎯 Trạng thái ngay lúc này
 
-**Phase đang làm**: Phase 6 — Cloud Deployment & Final Report (CHƯA BẮT ĐẦU)
+**Phase đang làm**: Chuẩn bị báo cáo & Demo local + Khởi động Phase 6 (Cloud Deployment).
 
-**Phase vừa hoàn thành**: Phase 5 — War Game Experiments ✅
+**Phase vừa hoàn thành**: Khắc phục triệt để các lỗi tích hợp trên Local K3d cluster giúp vòng lặp tự vá lỗi (Nemesis -> Gaia -> Hephaestus) hoạt động tự động 100% không cần giả lập.
 
-**Git branch**: `main`  
-**Last commit**: `ccf0492` — docs(phase5): update runbook with actual experiment results
+**Git branch**: `main`
 
 ---
 
-## 📌 Cluster State (K3d Local)
+## ⚡ Active Task Completed (Những việc ĐÃ HOÀN THÀNH trong session)
 
-```
-Cluster name : zero-door
-Docker Desktop: Required (phải bật trước khi làm việc)
-```
+*   **Khắc phục giám sát Prometheus (0 targets):**
+    *   Phát hiện NetworkPolicy `allow-prometheus-scraping-egress` thiếu cổng 53 (DNS), 443 (API Server) và 10250 (Kubelet/cAdvisor), chặn đứng Prometheus discovery.
+    *   Đã cập nhật [network-policies.yaml](file:///r:/_Projects/Eurus_Workspace/zero_door/infrastructure/manifests/network-policies.yaml) cho phép Prometheus Egress hoàn toàn tự do (`- {}`). Prometheus hiện cào bình thường với **`18 active targets`**.
+*   **Sửa lỗi Kafka Reconnect vô hạn ở Hephaestus:**
+    *   Loại bỏ tham số `consumer_timeout_ms` trong [hephaestus/main.py](file:///r:/_Projects/Eurus_Workspace/zero_door/agent-orchestrator/hephaestus/main.py) giúp Kafka consumer chạy blocking ổn định, không bị ngắt kết nối và kích hoạt rebalance liên tục nữa.
+*   **Khắc phục lỗi gộp tên container (cAdvisor/Gaia overlap):**
+    *   Google Boutique Microservices đều đặt tên container mặc định là `server`.
+    *   Đã sửa query của Gaia trong [gaia/main.py](file:///r:/_Projects/Eurus_Workspace/zero_door/agent-orchestrator/gaia/main.py) nhóm theo cả `pod` và `container`.
+*   **Giải quyết bài toán map tự động từ stress pod sang target service:**
+    *   Sửa [chaos-worker/internal/attack/cpu_stress.go](file:///r:/_Projects/Eurus_Workspace/zero_door/chaos-worker/internal/attack/cpu_stress.go) đặt tên stress pod theo định dạng `<targetService>-stress-xxxx` (ví dụ `cartservice-stress-xxxx`).
+    *   Cấu hình Gaia tự động giải mã ngược từ tên pod stress để xác định chính xác target service bị ảnh hưởng (ví dụ: `cartservice-stress-xxxx` -> alert `HIGH_CPU` trên `cartservice`).
+*   **Xác minh thành công luồng tự vá lỗi:**
+    *   Đã chạy thực tế kịch bản: Nemesis trigger CPU stress -> K3d deploy pod `cartservice-stress-xxxx` -> Gaia detect CPU spike -> Hephaestus scale up `cartservice` từ 1 lên 2 replicas tự động hoàn toàn 100%.
 
-### Namespaces & Pods:
-```
-zero-door   : gaia, nemesis, hephaestus, kafka-controller-0, chaos-worker
-target-app  : frontend, cartservice, productcatalogservice, currencyservice, checkoutservice, redis-cart
-monitoring  : prometheus-operated, grafana, elasticsearch, fluent-bit
-```
+---
+
+## 🧠 Semantic Context Essence (Tinh túy kiến thức & Quyết định thiết kế)
+
+*   **Quyết định NetworkPolicy:** Prometheus bắt buộc phải có quyền Egress đến CoreDNS (cổng 53), API Server (cổng 443) và Kubelet (cổng 10250) để Service Discovery và cAdvisor hoạt động.
+*   **Cấu hình Kafka:** Không được đặt `consumer_timeout_ms` trong vòng lặp vô hạn ở Kafka consumer của Hephaestus nếu không muốn consumer tự recreate liên tục gây rebalance.
+*   **Nhóm metrics:** Đối với Google Boutique, cAdvisor metrics group by `container` sẽ làm mất thông tin service (do tất cả đều dùng tên `server`). Phải group by `pod, container` và parse tên deployment từ pod name.
 
 ---
 
@@ -34,48 +43,15 @@ monitoring  : prometheus-operated, grafana, elasticsearch, fluent-bit
 
 | File | Mục đích | Ghi chú |
 |------|----------|---------|
-| `agent-orchestrator/hephaestus/main.py` | Defender agent | Có `/heal/history`, `/experiment/reset` (mới) |
-| `agent-orchestrator/gaia/main.py` | Observer agent | Poll 15s, threshold 80% CPU |
-| `agent-orchestrator/nemesis/main.py` | Attacker agent | REST orchestrator |
-| `infrastructure/scripts/experiment_runner_direct.py` | Phase 5 runner | **Dùng cái này** cho K3d |
-| `infrastructure/scripts/analysis.py` | Chart generation | Path: `.parent.parent.parent` |
-| `docs/experiments/raw_data/` | Raw CSVs | E1–E4, AUTO+MANUAL, 5 runs |
-| `docs/experiments/analysis/` | Charts | 5 PNG + summary_statistics.csv |
-| `docs/runbooks/phase5_runbook.md` | Phase 5 runbook | Kết quả đầy đủ |
-| `.github/workflows/ci.yml` | CI/CD | Python matrix + Go |
+| `agent-orchestrator/hephaestus/main.py` | Defender agent | Đã sửa bug Kafka consumer timeout |
+| `agent-orchestrator/gaia/main.py` | Observer agent | Đã sửa group metrics query theo pod/container |
+| `chaos-worker/internal/attack/cpu_stress.go` | Chaos Executor | Đã sửa cách đặt tên pod stress theo service prefix |
+| `infrastructure/manifests/network-policies.yaml` | Network Security | Đã mở Egress hoàn toàn tự do cho Prometheus |
+| `docs/demo_script.md` | Hướng dẫn demo | Đã rà soát và khớp 100% với luồng tự vá lỗi thực tế |
 
 ---
 
-## 🚀 Phase 6 — Checklist
-
-- [ ] **6.1** Chọn cloud: GKE hoặc EKS Spot
-- [ ] **6.2** Build & push Docker images lên registry
-- [ ] **6.3** Provision cluster (1 node, 4vCPU/8GB min)
-- [ ] **6.4** Helm install full stack
-- [ ] **6.5** Re-run E1–E4 trên cloud (15 runs/scenario)
-- [ ] **6.6** So sánh K3d local vs Cloud metrics
-- [ ] **6.7** `docs/runbooks/phase6_runbook.md`
-- [ ] **6.8** Final thesis report
-- [ ] **6.9** Demo video
-- [ ] **6.10** Defense slides
-
----
-
-## 📊 Phase 5 Experiment Results
-
-```
-E1 CPU Stress  (cartservice): MTTD=25.6s, MTTR=1.01s, OK=100% ✅
-E2 HTTP Flood  (frontend)   : MTTD=1.01s, MTTR=1.01s, OK=100% ✅
-E3 Pod Kill    (frontend)   : MTTD=3.15s, MTTR=1.01s, OK=20%  ⚠️ (race condition, not a bug)
-E4 Combined                 : MTTD=5.60s, MTTR=1.01s, OK=100% ✅
-SLAs: MTTD<60s ✅ | MTTR<180s ✅ | Uptime≥99% ✅
-```
-
----
-
-## 🧩 Agent Communication Flow
-
-```
-Prometheus → Gaia ──kafka:monitoring.alerts──→ Hephaestus → K8s API (heal)
-Nemesis ──kafka:attack.commands──→ ChaosWorker → target-app namespace
-```
+## 🔜 Next Steps (3 hành động kỹ thuật trực tiếp kế tiếp)
+- [ ] **Step 1:** Hỗ trợ EurusDevSec chuẩn bị slide và demo video dựa trên kịch bản [demo_script.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/demo_script.md).
+- [ ] **Step 2:** Đóng gói toàn bộ charts bằng Helm (`helm package`) chuẩn bị cho Phase 6.
+- [ ] **Step 3:** Bắt đầu setup và deploy hạ tầng trên cloud (GKE/EKS Spot) theo checklist Phase 6.
