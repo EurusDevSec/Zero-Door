@@ -14,15 +14,17 @@ data:
   KAFKA_RESULTS_TOPIC: "attack.results"
   KAFKA_GROUP_ID: "nemesis-group"
   PROMETHEUS_URL: "http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090"
-  NEMESIS_LLM_PROVIDER: "ollama"          # Change to "openai" for production
+  NEMESIS_LLM_PROVIDER: "gemini"          # Use gemini with round-robin keys
   OLLAMA_BASE_URL: "http://ollama.zero-door.svc.cluster.local:11434/v1"
   OLLAMA_MODEL: "llama3"
   OPENAI_MODEL: "gpt-4o-mini"
+  GEMINI_MODEL: "gemini-3.1-flash-lite"   # Gemini target model
+  HEPHAESTUS_URL: "http://hephaestus.zero-door.svc.cluster.local:8000"
   MAX_ATTACK_DURATION_SEC: "60"
 
 ---
-# Secret — stores the OpenAI API key (base64-encoded)
-# Replace the placeholder value with: echo -n "sk-your-key" | base64
+# Secret — stores the OpenAI and Gemini API keys (base64-encoded)
+# Replace the placeholder value with: echo -n "key1,key2" | base64
 apiVersion: v1
 kind: Secret
 metadata:
@@ -33,7 +35,8 @@ metadata:
     phase: "3"
 type: Opaque
 data:
-  OPENAI_API_KEY: ""   # <-- base64-encoded key. Leave empty when using Ollama.
+  OPENAI_API_KEY: ""   # <-- base64-encoded key.
+  GEMINI_API_KEYS: ""  # <-- base64-encoded keys (comma-separated, e.g. key1,key2)
 
 ---
 # Deployment — Nemesis agent
