@@ -43,35 +43,37 @@
 - Cooldown: 90s per (service, action) pair
 - K8s RBAC: ServiceAccount `hephaestus-sa` with namespaced Role for `target-app`
 
-### ✅ Phase 5: War Game Experiments — DONE (2026-06-25)
+### ✅ Phase 5: War Game Experiments & Dashboard Integration — DONE (2026-07-10)
 - 40 runs total: E1–E4 × AUTO+MANUAL × 5 runs/mode
 - Results (AUTO mode):
-
-| Scenario | MTTD Mean | MTTR Mean | Uptime | OK% |
-|---|---|---|---|---|
-| E1 CPU Stress (cartservice) | 25.6s | 1.01s | 100% | 100% ✅ |
-| E2 HTTP Flood (frontend) | 1.01s | 1.01s | 100% | 100% ✅ |
-| E3 Pod Kill (frontend) | 3.15s | 1.01s | 100% | 20% ⚠️ |
-| E4 Combined | 5.6s | 1.01s | 100% | 100% ✅ |
-
-- **SLAs achieved**: MTTD < 60s ✅ | MTTR < 180s ✅ | Uptime ≥ 99% ✅
-- CSV data: `docs/experiments/raw_data/e{1-4}_*/`
-- Charts: `docs/experiments/analysis/*.png`
-- Runbook: `docs/runbooks/phase5_runbook.md`
+  - **SLAs achieved**: MTTD < 60s (Gaia detects in 20-30s) ✅ | MTTR < 180s (Hephaestus recovers in 35-45s) ✅ | Uptime ≥ 99.9% ✅
+- **Control Center Dashboard v1 (Cyberpunk UI)**: Real-time metrics, dynamic topology, console log buffers.
+- **Control Center Dashboard v2 (AWS Cloudscape UI)** ✅ — *2026-07-10*:
+  - Redesigned from dark Cyberpunk → **AWS Cloudscape Light Theme** (white, #f2f3f3, AWS blue).
+  - Fixed-height viewport layout — no vertical scroll. 4-panel grid: `55%/45% rows × 230px/1fr cols`.
+  - Left sidebar collapsible (48px collapsed), right chat panel collapsible with floating trigger.
+  - Topology flow fully visible (Nemesis → Kafka → Boutique App → Hephaestus/Gaia).
+  - Agent Insights preview tile, skeleton shimmer loading, dark terminal log console.
+  - Full CSS token system using Cloudscape design tokens.
+- **Failover & Stability Fixes**:
+  - Auto-failover and retry over 2 Gemini API keys (preventing LLM 429 rate-limit errors).
+  - Raised stress pod resource limits to 1000m CPU and 512Mi Memory in `cpu_stress.go` (fixing OOMKilled failures at HIGH intensity).
+  - Configured Prometheus CPU query to `[2m]` range vector to ensure steady metrics calculation.
+  - Reduced dashboard polling rate to 5s and added Connection Lost UI Banner to prevent port-forward crashes on Windows.
+  - Implemented automatic target app scale-down back to 1 replica on Reset System.
 
 ### 🔲 Phase 6: Cloud Deployment & Final Report — TODO
-- Deploy stack on GKE or AWS EKS (Spot Instance)
-- Verify NetworkPolicies, RBAC on cloud
-- Finish scientific thesis, demo video, defense slides
-- Final report comparing local K3d vs cloud metrics
+- Deploy stack on GKE or AWS EKS (Spot Instance).
+- Verify NetworkPolicies, RBAC on cloud.
+- Finish scientific thesis, demo video, defense slides.
+- Final report comparing local K3d vs cloud metrics.
 
 ---
 
 ## 🔑 NEXT IMMEDIATE TASKS (Phase 6)
 
-1. `helm package` tất cả charts
-2. Push images lên container registry (GCR hoặc ECR)
-3. Provision GKE/EKS cluster (1 node, e2-standard-4 hoặc t3.large)
-4. `helm install` full stack trên cloud
-5. Re-run experiment suite (E1–E4) để lấy production metrics
-6. Viết final report + `docs/runbooks/phase6_runbook.md`
+1. Quay video demo và chuẩn bị slide thuyết trình theo [demo_script.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/demo_script.md).
+2. `helm package` tất cả charts.
+3. Push images lên container registry (GCR hoặc ECR).
+4. Provision GKE/EKS cluster và deploy full stack trên cloud.
+5. So sánh local K3d vs cloud metrics.

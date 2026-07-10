@@ -50,12 +50,40 @@
 
 ---
 
-### 6. Gaia Không Detect CPU Stress trên K3d
-**LỖI**: Gaia dùng threshold `0.8 × 200m = 160m`. K3d single-node shared → Chaos Worker CPU pod không đẩy container metric vượt ngưỡng.
+### 6. Gaia Không Detect CPU Stress trên K3d (ĐÃ KHẮC PHỤC)
+**LỖI**: Prometheus cào metrics mỗi 30s. Sử dụng range vector `[30s]` hoặc `[1m]` trong query rate CPU khiến Prometheus trả về `0.000` do lệch chu kỳ.
+**FIX**:
+1. Đổi range vector CPU query sang **`[2m]`** ở cả Gaia và Nemesis để Prometheus luôn có tối thiểu 2 điểm dữ liệu để tính toán rate.
+2. Ép buộc thời gian tấn công tối thiểu là **90 giây** để stress pod tồn tại đủ lâu qua nhiều chu kỳ cào.
+**RULE**: Luôn dùng range vector `[2m]` cho rate query CPU trên K3d.
 
-**THỰC TẾ**: Gaia KHÔNG tự detect trên K3d local. Trên production cluster (GKE/EKS) mới detect tự động.
+---
 
-**RULE**: Trên K3d, inject alerts trực tiếp qua `/heal/trigger`. Ghi rõ trong methodology.
+### 7. Stress Pod bị OOMKilled ở Cường độ HIGH (ĐÃ KHẮC PHỤC)
+**LỖI**: Khi attack cường độ HIGH, Chaos Worker gọi stress-ng đòi cấp phát $> 256$MB RAM, vượt limits `256Mi` mặc định làm pod bị K8s giết ngầm ngay khi chạy.
+**FIX**: Nâng resource limits của stress container trong `chaos-worker/internal/attack/cpu_stress.go` lên `1000m` CPU và `512Mi` Memory.
+**RULE**: Giới hạn RAM của stress pod tối thiểu phải là `512Mi` để chịu tải HIGH.
+
+---
+
+### 8. Lỗi Reset không khôi phục số lượng Pods về 1 (ĐÃ KHẮC PHỤC)
+**LỖI**: Hephaestus `/experiment/reset` ban đầu chỉ clear cooldown/history. Số replicas đã scale up vẫn giữ ở 2, làm hỏng kịch bản demo tiếp theo.
+**FIX**: Tích hợp logic gọi Kubernetes Python Client `patch_namespaced_deployment_scale` vào trong API reset của Hephaestus để scale down toàn bộ target deployments về đúng **1 replica**.
+**RULE**: Bắt buộc scale-down deployments về 1 khi bấm Reset để khôi phục Steady State.
+
+---
+
+### 9. Lỗi API Key Rate Limit Gemini (ĐÃ KHẮC PHỤC)
+**LỖI**: Cơ chế Round Robin cũ xoay key thụ động qua mỗi request. Nếu key được chọn bị Rate Limit, request đó lập tức thất bại.
+**FIX**: Viết logic loop qua danh sách tất cả API keys có sẵn trong cùng một request. Nếu một key lỗi, tự động chuyển sang thử tiếp key thứ 2 (Auto-failover).
+**RULE**: Luôn gọi LLM qua loop retry/failover để tránh lỗi 500 khi một key bị Rate Limit.
+
+---
+
+### 10. Lỗi nghẽn Port-Forward trên Windows (ĐÃ KHẮC PHỤC)
+**LỖI**: Polling rate của Dashboard quá nhanh (3s/lần) làm Windows TCP stack bị quá tải, gây lỗi `net::ERR_CONNECTION_REFUSED`.
+**FIX**: Tăng chu kỳ polling của Dashboard lên **5 giây** và tích hợp banner nhấp nháy đỏ báo mất kết nối nếu API thất bại liên tiếp 2 lần.
+**RULE**: Polling rate qua Windows port-forward tối thiểu phải là 5s.
 
 ---
 
@@ -191,3 +219,36 @@ kubectl get pods -n monitoring --no-headers
     catch { Write-Host "$_`: DOWN" -ForegroundColor Red }
 }
 ```
+
+---
+
+### 11. Dashboard UI — Tailwind vs Custom CSS Conflict (2026-07-10)
+**LỖI**: Dùng Tailwind utility classes trực tiếp trong `updateWorkflowGraph()` (JS) để reset node classes → khi thay CSS architecture, mọi Tailwind class trong JS bị vô hiệu hóa, gây mất style node.
+
+**FIX**: Tách ra 2 lớp CSS rõ ràng:
+- Semantic classes trong `style.css` (`topo-node`, `topo-node-sub`, `node-healthy`, `node-danger`, `node-active`)
+- JS chỉ toggle semantic classes, không hardcode Tailwind utilities
+
+**RULE**: Không hardcode Tailwind utility classes trong JavaScript. Dùng CSS custom classes có tên rõ ràng.
+
+---
+
+### 12. Port-Forward Tự Ngắt Sau Mỗi `kubectl rollout restart` (Pattern cố định)
+**HÀNH VI**: Sau khi `kubectl rollout restart deployment/nemesis`, port-forward process tự chết do pod cũ terminate → namespace closed error.
+
+**PATTERN ĐÃ BIẾT**: Đây là hành vi bình thường — KHÔNG phải lỗi. Sau mỗi rollout, phải re-run:
+```powershell
+kubectl port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
+```
+
+**RULE**: Luôn restart port-forward sau mỗi `kubectl rollout restart`. Có thể dùng `start-demo.ps1` thay vì chạy tay.
+
+---
+
+### 13. Docker Build Với Static Files — Cần `--no-cache`
+**LỖI**: `docker build` bình thường sẽ cache layer `COPY static ./static` → static files mới KHÔNG được đưa vào image.
+
+**FIX**: Luôn dùng `docker build --no-cache` khi thay đổi `static/` files.
+
+**RULE**: Mọi thay đổi HTML/CSS/JS của dashboard cần `docker build --no-cache` mới có hiệu lực.
+
