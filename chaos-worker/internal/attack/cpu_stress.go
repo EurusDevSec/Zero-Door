@@ -87,8 +87,8 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 							corev1.ResourceMemory: resource.MustParse("64Mi"),
 						},
 						Limits: corev1.ResourceList{
-							corev1.ResourceCPU:    resource.MustParse("500m"),
-							corev1.ResourceMemory: resource.MustParse("256Mi"),
+							corev1.ResourceCPU:    resource.MustParse("1000m"),
+							corev1.ResourceMemory: resource.MustParse("512Mi"),
 						},
 					},
 				},

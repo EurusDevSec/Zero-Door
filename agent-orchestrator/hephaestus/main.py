@@ -629,12 +629,26 @@ def get_heal_history():
 @app.post("/experiment/reset")
 def experiment_reset():
     """
-    Reset all cooldowns and clear heal_history.
-    Called by experiment_runner_direct.py between runs so cooldowns
-    from the previous run don't block the next injection.
+    Reset all cooldowns, clear heal_history, and scale all target deployments back to 1 replica.
+    Called by experiment_runner_direct.py between runs or manually via Dashboard reset.
     """
     heal_cooldowns.clear()
     heal_history.clear()
-    logger.info("[EXPERIMENT] Cooldowns and history cleared for new experiment run.")
-    return {"message": "Cooldowns and heal history cleared.", "timestamp": datetime.now(timezone.utc).isoformat()}
+
+    # Scale down all target deployments to 1 replica for a clean steady state
+    target_deployments = [
+        "frontend", "cartservice", "productcatalogservice", "currencyservice",
+        "checkoutservice", "redis-cart", "shippingservice", "paymentservice", "emailservice"
+    ]
+
+    for dep_name in target_deployments:
+        try:
+            patch = {"spec": {"replicas": 1}}
+            apps_v1.patch_namespaced_deployment_scale(name=dep_name, namespace=TARGET_NAMESPACE, body=patch)
+            logger.info(f"[RESET] Scaled down deployment '{dep_name}' back to 1 replica.")
+        except Exception as e:
+            logger.warning(f"[RESET] Failed to scale down deployment '{dep_name}': {e}")
+
+    logger.info("[EXPERIMENT] Cooldowns, history cleared, and replicas reset to 1.")
+    return {"message": "Cooldowns, heal history cleared, and replicas reset to 1.", "timestamp": datetime.now(timezone.utc).isoformat()}
 

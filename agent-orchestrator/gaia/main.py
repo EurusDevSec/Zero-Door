@@ -146,7 +146,7 @@ async def poll_prometheus_metrics():
     logger.info("Starting Prometheus metrics polling...")
     async with httpx.AsyncClient() as client:
         # 1. Check CPU Spikes (group by pod and container to resolve container name overlap)
-        cpu_query = 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[1m])) by (pod, container)'
+        cpu_query = 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[2m])) by (pod, container)'
         cpu_data = await query_prometheus(client, cpu_query)
         if cpu_data and cpu_data.get("status") == "success":
             results = cpu_data.get("data", {}).get("result", [])

@@ -14,6 +14,7 @@ WORKDIR /app
 
 COPY --from=builder /install /usr/local
 COPY main.py .
+COPY static ./static
 
 # nobody user (65534) already exists in python:3.11-slim
 USER nobody

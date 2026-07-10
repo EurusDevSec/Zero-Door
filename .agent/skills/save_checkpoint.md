@@ -15,40 +15,20 @@ Mỗi khi người dùng yêu cầu lưu checkpoint (`/checkpoint`), bạn phả
 
 ### Bước 1: Tổng hợp & Nén ngữ cảnh vào `session_memory.md`
 Cập nhật file [session_memory.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/workflows/session_memory.md) theo mẫu nén tối ưu:
+- Tóm tắt ngắn gọn trạng thái hiện tại, branch và các tasks hoàn thành.
+- Đường dẫn cụ thể đến các file mới/file sửa đổi để agent sau đọc trực tiếp.
 
-```markdown
-# 💾 SESSION MEMORY — Zero Door Project
-> Last Checkpoint: [YYYY-MM-DD] | Status: [Tóm tắt ngắn gọn trạng thái hiện tại]
-
----
-
-## ⚡ Active Task Completed (Những việc ĐÃ HOÀN THÀNH trong session)
-*   **[Component / Module]:**
-    *   Mô tả chi tiết giải pháp kỹ thuật đã làm.
-    *   Đường dẫn cụ thể đến các file mới/file sửa đổi để agent sau đọc trực tiếp.
-
-## 🧠 Semantic Context Essence (Tinh túy kiến thức & Quyết định thiết kế)
-*   *Lưu lại lý do tại sao làm vậy để tránh Agent sau đổi ngược lại:*
-    *   **Quyết định A:** Tại sao lại chạy K3d thay vì EKS ở local?
-    *   **Cấu hình Kafka:** Có thay đổi gì về topic names, partition settings?
-    *   **Quyền RBAC:** ServiceAccount của Hephaestus có những quyền gì cụ thể?
-
-## 🔜 Next Steps (3 hành động kỹ thuật trực tiếp kế tiếp)
-- [ ] **Step 1:** [Hành động cụ thể 1]
-- [ ] **Step 2:** [Hành động cụ thể 2]
-- [ ] **Step 3:** [Hành động cụ thể 3]
-```
-
-### Bước 2: Đồng bộ hóa kế hoạch tổng thể
-1. Cập nhật các ô tích chọn (`[x]`) cho các tác vụ đã hoàn thành trong file [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) và [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md).
-2. Nếu có thay đổi về hạ tầng hay thiết kế, cập nhật trực tiếp vào [CONTEXT.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/CONTEXT.md).
+### Bước 2: Đồng bộ hóa Lộ trình & Bài học kinh nghiệm (PLAN.md & LESSONS_LEARNED.md)
+1. Cập nhật các ô tích chọn (`[x]`) cho các tác vụ đã hoàn thành và thêm các cập nhật kỹ thuật vào [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) và [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md).
+2. Nếu phát hiện lỗi hoặc kinh nghiệm kỹ thuật mới (như rate limits, resource constraints, port issues), cập nhật ngay vào [LESSONS_LEARNED.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/LESSONS_LEARNED.md).
+3. Nếu có thay đổi về hạ tầng hay thiết kế, cập nhật trực tiếp vào [CONTEXT.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/CONTEXT.md).
 
 ### Bước 3: Dọn dẹp & Xác thực
-1. Kiểm tra code đảm bảo biên dịch thành công (Java build, Go build).
+1. Kiểm tra code đảm bảo biên dịch và chạy thành công (Go build, Docker images, K8s pods).
 2. Commit toàn bộ thay đổi còn lại vào Git.
 
 ### Bước 4: Tạo "Handover Prompt" cho người dùng
 Xuất ra màn hình một đoạn Prompt ngắn gọn để người dùng sao chép (copy) và dán (paste) khi mở phiên chat mới. Định dạng mẫu:
 
 > **📋 [Handover Prompt cho Session mới]**
-> *"Tôi muốn bắt đầu một session mới. Vui lòng đọc file [session_memory.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/workflows/session_memory.md), [CONTEXT.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/CONTEXT.md) và [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) để nắm toàn bộ kiến thức và tiếp tục triển khai các bước tiếp theo trong mục Next Steps."*
+> *"Tôi muốn bắt đầu một session mới. Vui lòng đọc file [session_memory.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/workflows/session_memory.md), [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md), [LESSONS_LEARNED.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/LESSONS_LEARNED.md) và [CONTEXT.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/CONTEXT.md) để nắm toàn bộ kiến thức và tiếp tục triển khai các bước tiếp theo trong mục Next Steps."*
