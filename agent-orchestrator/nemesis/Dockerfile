@@ -7,18 +7,22 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # ---- Stage 2: Runtime ----
-FROM python:3.11-slim
+# Use Google Distroless Python image for strict hardening (no bash/sh, no package manager)
+FROM gcr.io/distroless/python3-debian12:nonroot
 
-# Run as non-root (use nobody user already present in slim image)
 WORKDIR /app
 
+# Copy dependencies and source code
 COPY --from=builder /install /usr/local
 COPY main.py .
 COPY static ./static
 
-# nobody user (65534) already exists in python:3.11-slim
-USER nobody
+# Configure python path to find copied site-packages
+ENV PYTHONPATH=/usr/local/lib/python3.11/site-packages
+ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Start application directly via python interpreter (no shell execution)
+ENTRYPOINT ["/usr/bin/python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+

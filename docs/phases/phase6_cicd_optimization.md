@@ -33,7 +33,7 @@ Xây dựng và tích hợp một quy trình **CI/CD hoàn chỉnh (Zero Door CI
 
 Để chuyển dự án từ mức Sandbox sang chuẩn doanh nghiệp (Production-grade), các tiêu chuẩn bảo mật sau được đưa vào thiết kế và tài liệu hóa:
 
-- [ ] **T6.4** Tối ưu hóa Container Image (**Docker Multi-stage & Distroless/Alpine**):
+- [x] **T6.4** Tối ưu hóa Container Image (**Docker Multi-stage & Distroless/Alpine**):
   - Áp dụng Multi-stage build cho Go Chaos Worker và các Python Agents để giảm dung lượng file image cuối xuống dưới 50MB.
   - Sử dụng base image là `Alpine` hoặc `Distroless` (không chứa shell `/bin/sh` hoặc `/bin/bash` và các lệnh curl/wget) nhằm triệt tiêu khả năng kẻ tấn công chiếm quyền điều khiển container và leo thang đặc quyền (Blast Radius Reduction).
 
