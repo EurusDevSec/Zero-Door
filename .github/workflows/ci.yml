@@ -134,3 +134,69 @@ jobs:
           exit-code: '1' # Fail on critical vulnerabilities
           severity: 'CRITICAL'
 
+  # ─────────────────────────────────────────────
+  # Job 5: Build & Push Images to GHCR
+  # ─────────────────────────────────────────────
+  publish-images:
+    name: Build & Push Docker Images to GHCR
+    needs: [python-build, go-build, iac-scan, helm-lint]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 1. Build and Push Chaos Worker
+      - name: Build & Push Go Chaos Worker
+        uses: docker/build-push-action@v5
+        with:
+          context: ./chaos-worker
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/chaos-worker:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 2. Build and Push Gaia
+      - name: Build & Push Gaia Agent
+        uses: docker/build-push-action@v5
+        with:
+          context: ./agent-orchestrator/gaia
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/gaia:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 3. Build and Push Nemesis
+      - name: Build & Push Nemesis Agent
+        uses: docker/build-push-action@v5
+        with:
+          context: ./agent-orchestrator/nemesis
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/nemesis:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 4. Build and Push Hephaestus
+      - name: Build & Push Hephaestus Agent
+        uses: docker/build-push-action@v5
+        with:
+          context: ./agent-orchestrator/hephaestus
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/hephaestus:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
