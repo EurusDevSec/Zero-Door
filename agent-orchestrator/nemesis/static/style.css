@@ -529,61 +529,134 @@ html, body {
 .kv-val-blue { color: var(--clr-brand-primary); font-size: 11px; }
 .kv-val-green { color: var(--clr-success); font-weight: 600; font-size: 11px; }
 
-/* ---- Topology Panel ---- */
-.panel-topology .card-body { padding: 0; }
+/* ---- Topology Panel — 2-Layer Architecture Diagram ---- */
+.panel-topology .card-body { padding: 0; overflow: hidden; }
 
 .topology-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    padding: 12px 12px;
+    flex-direction: column;
     height: 100%;
+    padding: 14px 16px 12px;
     gap: 0;
-    min-width: 0;
     overflow: hidden;
+    justify-content: center;
 }
 
+/* Top row: main flow  Nemesis → Kafka → Boutique → Hephaestus */
+.topo-flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    flex: 0 0 auto;
+}
+
+/* Bottom row: sub-components Gemini | Chaos Worker | (monitored) | Gaia */
+.topo-sub-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
+    flex-shrink: 0;
+    padding-top: 6px;
+    padding-bottom: 2px;
+}
+
+/* Spacer to align sub-nodes under parent */
+.topo-sub-spacer { flex: 1; min-width: 14px; max-width: 44px; flex-shrink: 1; }
+.topo-sub-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 1;
+    min-width: 0;
+    width: 110px;
+    flex: 0 0 110px;
+}
+
+/* Vertical connector from sub to parent */
+.topo-sub-cell::before {
+    content: '';
+    width: 1px;
+    height: 8px;
+    background: var(--clr-border-divider);
+    display: block;
+}
+
+/* Group wrapper for main node + label */
 .topo-node-group {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    flex-shrink: 1;
-    min-width: 0;
-    max-width: 100px;
+    gap: 4px;
+    flex-shrink: 0;
+    width: 110px;
 }
 
 .topo-node {
-    padding: 7px 8px;
+    padding: 8px 10px;
     border-radius: var(--radius-md);
-    border: 1px solid var(--clr-border-container);
+    border: 1.5px solid var(--clr-border-container);
     background: #ffffff;
     text-align: center;
     width: 100%;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-card);
+    cursor: default;
 }
 
-.topo-node-label { font-size: 8px; font-family: monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--clr-text-disabled); display: block; margin-bottom: 2px; }
-.topo-node-name { font-size: 11px; font-weight: 700; color: var(--clr-text-heading); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topo-node:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+}
 
+.topo-node-label {
+    font-size: 8px;
+    font-family: monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--clr-text-disabled);
+    display: block;
+    margin-bottom: 3px;
+}
+.topo-node-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--clr-text-heading);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.topo-node-icon {
+    font-size: 14px;
+    margin-bottom: 2px;
+    display: block;
+}
+
+/* Sub-nodes (smaller: Gemini, Chaos Worker, Gaia) */
 .topo-node-sub {
-    padding: 4px 6px;
+    padding: 5px 8px;
     border-radius: var(--radius-sm);
-    border: 1px solid var(--clr-border-divider);
+    border: 1px dashed var(--clr-border-divider);
     background: var(--clr-bg-layout);
     text-align: center;
     width: 100%;
+    transition: all 0.3s;
 }
+.topo-node-sub:hover { border-color: var(--clr-brand-primary); background: var(--clr-info-bg); }
 .topo-node-sub .topo-node-label { font-size: 7px; }
-.topo-node-sub .topo-node-name { font-size: 9px; font-weight: 500; color: var(--clr-text-body); }
+.topo-node-sub .topo-node-name { font-size: 9.5px; font-weight: 500; color: var(--clr-text-body); }
 
+/* Horizontal connector arrow */
 .topo-connector {
     flex: 1;
     display: flex;
     align-items: center;
-    min-width: 10px;
-    max-width: 36px;
+    min-width: 14px;
+    max-width: 44px;
     position: relative;
     flex-shrink: 1;
 }
@@ -593,17 +666,29 @@ html, body {
     display: block;
     width: 100%;
     height: 2px;
-    background: var(--clr-border-divider);
+    background: linear-gradient(90deg, var(--clr-border-divider), #c8cbd0);
 }
 
 .topo-connector::after {
     content: '▶';
     position: absolute;
-    right: -4px;
+    right: -3px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 8px;
-    color: var(--clr-text-disabled);
+    font-size: 9px;
+    color: #a0a8b4;
+}
+
+/* Active connector (data flowing) */
+.topo-connector.active::before {
+    background: linear-gradient(90deg, #6b46c1, #a78bfa);
+    animation: flow-pulse 1.2s ease-in-out infinite;
+}
+.topo-connector.active::after { color: #6b46c1; }
+
+@keyframes flow-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 /* Node state colors */
@@ -611,31 +696,49 @@ html, body {
 .node-healthy .topo-node-label { color: #037f0c !important; }
 .node-healthy .topo-node-name { color: #025c09 !important; }
 
-.node-danger { border-color: var(--clr-danger-border) !important; background: var(--clr-danger-bg) !important; animation: flash-danger 1.5s infinite alternate; }
-.node-warning { border-color: var(--clr-warning-border) !important; background: var(--clr-warning-bg) !important; animation: flash-warning 2s infinite alternate; }
-.node-active { border-color: #a78bfa !important; background: #f5f3ff !important; animation: glow-active 1s infinite alternate; }
+.node-danger { border-color: var(--clr-danger-border) !important; background: var(--clr-danger-bg) !important; animation: flash-danger 1.8s infinite alternate; }
+.node-warning { border-color: var(--clr-warning-border) !important; background: var(--clr-warning-bg) !important; animation: flash-warning 2.5s infinite alternate; }
+.node-active { border-color: #a78bfa !important; background: #f5f3ff !important; animation: glow-active 1.4s infinite alternate; }
 
-.monitor-dot { display: inline-flex; align-items: center; gap: 3px; font-size: 8px; font-family: monospace; font-weight: 700; color: var(--clr-success); margin-top: 4px; }
-.dot-ping { width: 5px; height: 5px; border-radius: 50%; background: var(--clr-success); animation: ping 1.5s infinite; }
+/* Monitored badge */
+.monitor-dot { display: inline-flex; align-items: center; gap: 4px; font-size: 8px; font-family: monospace; font-weight: 700; color: var(--clr-success); margin-top: 3px; }
+.dot-ping { width: 6px; height: 6px; border-radius: 50%; background: var(--clr-success); animation: ping 2s infinite; }
+
+/* Role label pill above/below node */
+.topo-role-pill {
+    font-size: 7.5px;
+    font-family: monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1px 6px;
+    border-radius: 9px;
+    border: 1px solid;
+}
+.role-attacker { background: rgba(181,0,0,0.08); color: #b50000; border-color: rgba(181,0,0,0.2); }
+.role-bus { background: rgba(0,115,187,0.08); color: #0073bb; border-color: rgba(0,115,187,0.2); }
+.role-target { background: rgba(107,70,193,0.1); color: #6b46c1; border-color: rgba(107,70,193,0.25); }
+.role-defender { background: rgba(3,127,12,0.08); color: #037f0c; border-color: rgba(3,127,12,0.2); }
+.role-observer { background: rgba(141,102,5,0.08); color: #7d5700; border-color: rgba(141,102,5,0.2); }
 
 @keyframes ping {
     0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
+    50% { transform: scale(1.6); opacity: 0.4; }
 }
 
 @keyframes flash-warning {
     0% { box-shadow: 0 0 0 rgba(217, 119, 6, 0); }
-    100% { box-shadow: 0 0 8px rgba(217, 119, 6, 0.35); }
+    100% { box-shadow: 0 0 10px rgba(217, 119, 6, 0.4); }
 }
 
 @keyframes flash-danger {
     0% { box-shadow: 0 0 0 rgba(181, 0, 0, 0); }
-    100% { box-shadow: 0 0 10px rgba(181, 0, 0, 0.4); }
+    100% { box-shadow: 0 0 12px rgba(181, 0, 0, 0.45); }
 }
 
 @keyframes glow-active {
-    0% { box-shadow: 0 0 2px rgba(139, 92, 246, 0.2); }
-    100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+    0% { box-shadow: 0 0 3px rgba(139, 92, 246, 0.2); }
+    100% { box-shadow: 0 0 14px rgba(139, 92, 246, 0.55); }
 }
 
 /* ---- Metrics Grid ---- */
@@ -888,9 +991,9 @@ html, body {
 }
 
 .shimmer {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
     background-size: 400% 100%;
-    animation: shimmer 1.6s infinite linear;
+    animation: shimmer 2.8s infinite linear;
     border-radius: var(--radius-sm);
 }
 

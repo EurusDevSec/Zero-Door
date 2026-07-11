@@ -191,66 +191,110 @@
                             <h2 class="card-title"><i class="fa-solid fa-network-wired"></i> Autonomous War Game Flow</h2>
                             <span class="card-meta">Real-time topology</span>
                         </div>
-                        <div class="card-body" style="padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                        <div class="card-body" style="padding:0; overflow:hidden;">
                             <div class="topology-wrapper">
 
-                                <!-- Attacker Node Group -->
-                                <div class="topo-node-group">
-                                    <div id="node-nemesis" class="topo-node">
-                                        <span class="topo-node-label">Attacker</span>
-                                        <span class="topo-node-name">Nemesis</span>
-                                    </div>
-                                    <div id="node-gemini" class="topo-node-sub">
-                                        <span class="topo-node-label">AI Model</span>
-                                        <span class="topo-node-name">Gemini 3.1</span>
-                                    </div>
-                                </div>
+                                <!-- ===== TOP ROW: Main Data Flow ===== -->
+                                <div class="topo-flow-row">
 
-                                <div class="topo-connector"></div>
-
-                                <!-- Message Bus -->
-                                <div class="topo-node-group">
-                                    <div id="node-kafka" class="topo-node">
-                                        <span class="topo-node-label">Message Bus</span>
-                                        <span class="topo-node-name"><i class="fa-brands fa-buffer" style="color:#6b46c1;"></i> Kafka</span>
-                                    </div>
-                                    <div id="node-worker" class="topo-node-sub">
-                                        <span class="topo-node-label">Failure Engine</span>
-                                        <span class="topo-node-name">Chaos Worker</span>
-                                    </div>
-                                </div>
-
-                                <div class="topo-connector"></div>
-
-                                <!-- Target -->
-                                <div class="topo-node-group">
-                                    <div id="node-target" class="topo-node node-healthy">
-                                        <span class="topo-node-label">Target Suite</span>
-                                        <span class="topo-node-name">Boutique App</span>
-                                        <div class="monitor-dot" style="justify-content:center;">
-                                            <span class="dot-ping"></span> MONITORED
+                                    <!-- Attacker: Nemesis -->
+                                    <div class="topo-node-group">
+                                        <span class="topo-role-pill role-attacker">Red Team</span>
+                                        <div id="node-nemesis" class="topo-node">
+                                            <span class="topo-node-icon">⚔️</span>
+                                            <span class="topo-node-label">Attacker</span>
+                                            <span class="topo-node-name">Nemesis</span>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="topo-connector"></div>
+                                    <div class="topo-connector" id="conn-nemesis-kafka"></div>
 
-                                <!-- Defender Node Group -->
-                                <div class="topo-node-group">
-                                    <div id="node-hephaestus" class="topo-node">
-                                        <span class="topo-node-label">Defender</span>
-                                        <span class="topo-node-name">Hephaestus</span>
+                                    <!-- Message Bus: Kafka -->
+                                    <div class="topo-node-group">
+                                        <span class="topo-role-pill role-bus">Event Bus</span>
+                                        <div id="node-kafka" class="topo-node">
+                                            <span class="topo-node-icon"><i class="fa-brands fa-buffer" style="color:#6b46c1; font-size:13px;"></i></span>
+                                            <span class="topo-node-label">Message Bus</span>
+                                            <span class="topo-node-name">Kafka</span>
+                                        </div>
                                     </div>
-                                    <div id="node-gaia" class="topo-node-sub">
-                                        <span class="topo-node-label">Observer</span>
-                                        <span class="topo-node-name">Gaia Agent</span>
-                                    </div>
-                                </div>
 
-                            </div>
+                                    <div class="topo-connector" id="conn-kafka-target"></div>
+
+                                    <!-- Target: Boutique App -->
+                                    <div class="topo-node-group">
+                                        <span class="topo-role-pill role-target">Target App</span>
+                                        <div id="node-target" class="topo-node node-healthy">
+                                            <span class="topo-node-icon">🛍️</span>
+                                            <span class="topo-node-label">Target Suite</span>
+                                            <span class="topo-node-name">Boutique App</span>
+                                            <div class="monitor-dot" style="justify-content:center;">
+                                                <span class="dot-ping"></span> MONITORED
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="topo-connector" id="conn-target-defender"></div>
+
+                                    <!-- Defender: Hephaestus -->
+                                    <div class="topo-node-group">
+                                        <span class="topo-role-pill role-defender">Blue Team</span>
+                                        <div id="node-hephaestus" class="topo-node">
+                                            <span class="topo-node-icon">🛡️</span>
+                                            <span class="topo-node-label">Defender</span>
+                                            <span class="topo-node-name">Hephaestus</span>
+                                        </div>
+                                    </div>
+
+                                </div><!-- end topo-flow-row -->
+
+                                <!-- ===== BOTTOM ROW: Sub-components ===== -->
+                                <div class="topo-sub-row">
+
+                                    <!-- Gemini (under Nemesis) -->
+                                    <div class="topo-sub-cell">
+                                        <div id="node-gemini" class="topo-node-sub">
+                                            <span class="topo-node-label">AI Model</span>
+                                            <span class="topo-node-name">✨ Gemini 3.1</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Connector spacer (matches topo-connector width) -->
+                                    <div style="flex:1; min-width:14px; max-width:44px;"></div>
+
+                                    <!-- Chaos Worker (under Kafka) -->
+                                    <div class="topo-sub-cell">
+                                        <div id="node-worker" class="topo-node-sub">
+                                            <span class="topo-node-label">Failure Engine</span>
+                                            <span class="topo-node-name">⚡ Chaos Worker</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Connector spacer -->
+                                    <div style="flex:1; min-width:14px; max-width:44px;"></div>
+
+                                    <!-- Empty placeholder under Target (no sub-component) -->
+                                    <div style="width:110px; flex-shrink:0;"></div>
+
+                                    <!-- Connector spacer -->
+                                    <div style="flex:1; min-width:14px; max-width:44px;"></div>
+
+                                    <!-- Gaia (under Hephaestus) -->
+                                    <div class="topo-sub-cell">
+                                        <div id="node-gaia" class="topo-node-sub">
+                                            <span class="topo-node-label">Observer</span>
+                                            <span class="topo-node-name">👁️ Gaia Agent</span>
+                                        </div>
+                                    </div>
+
+                                </div><!-- end topo-sub-row -->
+
+
+                            </div><!-- end topology-wrapper -->
                         </div>
                     </div>
                 </section>
+
 
                 <!-- ---- PANEL 3: Platform Status (left, bottom) ---- -->
                 <section class="panel-status">
