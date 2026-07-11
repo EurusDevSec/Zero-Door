@@ -1,0 +1,40 @@
+#cloud-config
+# Zero-Door Cloud Init — chạy tự động khi Droplet boot lần đầu
+# Tất cả bước được hardened dựa trên kinh nghiệm deploy lần 1
+
+write_files:
+  # Deploy script chính
+  - path: /opt/zero-door/deploy.sh
+    permissions: "0755"
+    encoding: b64
+    content: ${deploy_script}
+
+  # Python manifest patcher
+  - path: /opt/zero-door/patch_manifests.py
+    permissions: "0644"
+    encoding: b64
+    content: ${patch_script}
+
+runcmd:
+  # Tạo thư mục làm việc
+  - mkdir -p /opt/zero-door
+
+  # Cài git để clone infra files (hoặc sẽ được copy qua user_data)
+  - apt-get update -qq
+  - apt-get install -y -qq curl git python3
+
+  # Export GITHUB_PAT và chạy deploy script
+  - export GITHUB_PAT="${github_pat}"
+  - export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+  # Clone repo để lấy infrastructure files
+  - git clone https://${github_pat}@github.com/EurusDevSec/zero-door.git /opt/zero-door/repo
+
+  # Symlink infrastructure folder
+  - ln -sf /opt/zero-door/repo/infrastructure /opt/zero-door/infrastructure
+
+  # Chạy deploy script — log ra file
+  - GITHUB_PAT="${github_pat}" bash /opt/zero-door/deploy.sh
+
+final_message: |
+  Zero-Door cloud-init completed. Check /var/log/zero-door-deploy.log for details.

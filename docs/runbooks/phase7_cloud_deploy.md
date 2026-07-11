@@ -1,161 +1,218 @@
-# 🚀 HƯỚNG DẪN TRIỂN KHAI CLOUD (PHASE 7 CLOUD DEPLOYMENT RUNBOOK)
-> **Môi trường**: DigitalOcean Droplet (Ubuntu 22.04 LTS) + K3s  
-> **Mục tiêu**: Deploy Zero Door stack lên môi trường Cloud thực tế với chi phí tối thiểu (~$6/tháng)  
+# Phase 7 — Cloud Deploy Runbook (Terraform + deploy.sh IaC)
+
+> **Phiên bản:** v2.0 — IaC approach (Terraform + cloud-init)
+> **Cập nhật:** 2026-07-11
+> **Môi trường:** DigitalOcean Droplet — Ubuntu 22.04 LTS, 4vCPU/8GB RAM/160GB SSD
+> **K8s Engine:** K3s v1.36.2+k3s1 (Nginx Ingress, không dùng Traefik)
 
 ---
 
-## 1. Chuẩn bị Hạ tầng DigitalOcean Droplet
+## Tóm tắt Kiến trúc
 
-### 1.1. Khởi tạo Droplet (VM)
-1. Đăng nhập vào DigitalOcean Control Panel.
-2. Nhấn **Create** $\rightarrow$ **Droplets**.
-3. Cấu hình chi tiết:
-   * **Choose Region**: Chọn Singapore (`sgp1`) hoặc Bangalore (`blr1`) để có latency tốt nhất về Việt Nam.
-   * **Choose an OS**: `Ubuntu 22.04 LTS (x64)`.
-   * **Choose Size**: Chọn gói **Basic** $\rightarrow$ CPU Options chọn **Regular** $\rightarrow$ Chọn cấu hình **`$6/month (1 GB RAM / 1 vCPU / 25 GB SSD)`** hoặc tốt nhất là **`$12/month (2 GB RAM / 1 vCPU / 50 GB SSD)`** để đảm bảo Kafka + Prometheus + 3 Agents chạy không bị nghẽn RAM.
-   * **Authentication**: Chọn **SSH Key** để kết nối bảo mật tuyệt đối.
-
-### 1.2. Cấu hình DigitalOcean Cloud Firewall
-Tạo một Firewall gắn vào Droplet và mở các cổng sau:
-
-| Chiều (Direction) | Cổng (Port) | Giao thức (Protocol) | Mục đích (Purpose) | Nguồn (Source) |
-|---|---|---|---|---|
-| Inbound | `22` | TCP | Quản trị SSH | Chỉ cho phép từ IP cá nhân của bạn (My IP) |
-| Inbound | `80` | TCP | HTTP Traffic (Ingress) | Internet công cộng (`0.0.0.0/0`) |
-| Inbound | `443` | TCP | HTTPS Traffic (SSL Ingress) | Internet công cộng (`0.0.0.0/0`) |
-| Inbound | `8080` | TCP | Cổng phụ (Ingress Target App) | Internet công cộng (`0.0.0.0/0`) |
-
----
-
-## 2. Cài đặt K3s trên Droplet
-
-SSH vào Droplet bằng IP công cộng (`<droplet-ip>`):
-
-```bash
-ssh root@<droplet-ip>
 ```
+[Terraform: main.tf]
+    │
+    ├── digitalocean_droplet   → Droplet 4vCPU/8GB (sgp1)
+    ├── digitalocean_firewall  → Port 22 (SSH) + 80/443 (HTTP/HTTPS) | 6443 ĐÓNG
+    └── digitalocean_ssh_key   → Upload public key
+              │
+              └── user_data: cloud-init.yaml
+                        │
+                        └── Tự động khi Droplet boot:
+                            1. Clone repo từ GitHub
+                            2. GITHUB_PAT=xxx bash deploy.sh
 
-Chạy lệnh cài đặt K3s tối giản (đã tích hợp sẵn Traefik Ingress Controller mặc định):
-
-```bash
-curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
-```
-
-Kiểm tra trạng thái cluster:
-
-```bash
-# Kubeconfig được tự động lưu tại /etc/rancher/k3s/k3s.yaml
-kubectl get nodes
-```
-*Kết quả hiển thị node Droplet ở trạng thái `Ready` là thành công.*
-
----
-
-## 3. Cấu hình Kéo Image từ GitHub Container Registry (GHCR)
-
-Do các Docker images của Agents được đẩy lên repo cá nhân/tổ chức trên GHCR dưới dạng Private theo mặc định, bạn cần tạo một **ImagePullSecret** trên cụm K3s để kéo image về:
-
-### 3.1. Tạo GitHub Personal Access Token (PAT)
-1. Trên GitHub, vào **Settings** $\rightarrow$ **Developer Settings** $\rightarrow$ **Personal Access Tokens (classic)**.
-2. Nhấn **Generate new token (classic)**.
-3. Chọn các quyền: `read:packages`.
-4. Copy token nhận được (ví dụ: `ghp_ABC123xyz...`).
-
-### 3.2. Tạo Secret trên K3s Droplet
-Chạy lệnh sau trên terminal của Droplet (thay thế thông tin tương ứng):
-
-```bash
-# Tạo Namespace trước
-kubectl create namespace zero-door
-kubectl create namespace target-app
-
-# Tạo Secret kéo image trên cả 2 namespaces
-kubectl create secret docker-registry ghcr-secret \
-  --docker-server=ghcr.io \
-  --docker-username=<TEN-TAI-KHOAN-GITHUB> \
-  --docker-password=<GITHUB-PAT-TOKEN> \
-  --docker-email=<EMAIL-CUA-BAN> \
-  -n zero-door
-
-kubectl create secret docker-registry ghcr-secret \
-  --docker-server=ghcr.io \
-  --docker-username=<TEN-TAI-KHOAN-GITHUB> \
-  --docker-password=<GITHUB-PAT-TOKEN> \
-  --docker-email=<EMAIL-CUA-BAN> \
-  -n target-app
+[deploy.sh] — chạy bên trong Droplet:
+    ├── Cài K3s --disable traefik
+    ├── Symlink kubeconfig (~/.kube/config)
+    ├── Cài Helm
+    ├── Tạo namespaces + ghcr-secret
+    ├── Cài Nginx Ingress Controller
+    ├── Helm: Prometheus + Grafana
+    ├── Helm: Kafka KRaft
+    ├── kubectl apply: ResourceQuotas
+    ├── kubectl apply: Target App (Boutique)
+    ├── python3 patch_manifests.py → /tmp/manifests-cloud/
+    ├── kubectl apply: Agents (Nemesis, Gaia, Hephaestus, Chaos)
+    └── Verify endpoints: HTTP 200 ✅
 ```
 
 ---
 
-## 4. Deploy Helm Stack lên Cloud
+## Bài học từ Deploy Lần 1 (QUAN TRỌNG)
 
-### 4.1. File cấu hình Cloud: `cloud-values.yaml`
-Tạo file `infrastructure/helm/cloud-values.yaml` trên máy local để ghi đè các cấu hình local.
+| Lỗi đã gặp | Nguyên nhân | Giải pháp trong v2 |
+|---|---|---|
+| `kubectl` từ local timeout | DO Firewall chặn port 6443 | Deploy 100% từ bên trong Droplet, port 6443 luôn đóng |
+| PowerShell heredoc/escaping | Bash code truyền qua SSH bị parse | Tất cả script viết vào `.sh` file — không inline bash qua SSH |
+| `gaia` image sai | Manifest dùng `zero-door/gaia:latest` + `Never` | `patch_manifests.py` xử lý riêng case này |
+| Helm không tìm kubeconfig | `~/.kube/config` chưa symlink | `deploy.sh` tạo symlink ngay đầu script |
+| Traefik conflict với Nginx | K3s default bật Traefik | Cài K3s với `--disable traefik` từ đầu |
+| `sed` regex không portable | Bash `sed` phức tạp | Dùng Python `re.sub` trong `patch_manifests.py` |
 
-*Điểm khác biệt chính trên Cloud*:
-*   Không dùng `imagePullPolicy: Never` (vì ta cần kéo từ internet).
-*   Thêm `imagePullSecrets` trỏ đến `ghcr-secret`.
-*   Cấu hình domain động dùng dịch vụ miễn phí `.nip.io` (ví dụ: `http://<droplet-ip>.nip.io`).
+---
 
-```yaml
-global:
-  environment: cloud
-  imagePullSecrets:
-    - name: ghcr-secret
+## Cấu trúc File
 
-# Cấu hình kéo image cụ thể cho từng Agent từ GHCR
-gaia:
-  image:
-    repository: ghcr.io/eurusdevsec/zero-door/gaia
-    tag: latest
-    pullPolicy: Always
-
-nemesis:
-  image:
-    repository: ghcr.io/eurusdevsec/zero-door/nemesis
-    tag: latest
-    pullPolicy: Always
-  ingress:
-    enabled: true
-    hosts:
-      - host: nemesis.<droplet-ip>.nip.io
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-
-hephaestus:
-  image:
-    repository: ghcr.io/eurusdevsec/zero-door/hephaestus
-    tag: latest
-    pullPolicy: Always
-
-chaosWorker:
-  image:
-    repository: ghcr.io/eurusdevsec/zero-door/chaos-worker
-    tag: latest
-    pullPolicy: Always
+```
+infrastructure/
+├── terraform/
+│   ├── main.tf                  ← Droplet + Firewall + SSH key
+│   ├── variables.tf             ← Các biến cấu hình
+│   ├── outputs.tf               ← In ra IP và URLs sau deploy
+│   ├── cloud-init.yaml          ← Auto-run deploy.sh khi boot
+│   └── terraform.tfvars.example ← Template (COPY → terraform.tfvars)
+│
+└── scripts/
+    ├── deploy.sh                ← Script deploy toàn bộ stack
+    └── patch_manifests.py       ← Patch GHCR image + imagePullSecrets
 ```
 
-### 4.2. Deploy lệnh từ máy Local
-Để deploy từ máy local của bạn, tải file kubeconfig `/etc/rancher/k3s/k3s.yaml` từ Droplet về máy cá nhân, sửa IP `127.0.0.1` bên trong thành IP public của Droplet, sau đó chạy lệnh deploy:
+---
+
+## Prerequisites (Làm 1 lần)
+
+### 1. Cài Terraform trên máy Windows
+```powershell
+# Dùng Chocolatey (nếu đã cài choco):
+choco install terraform -y
+
+# Hoặc tải trực tiếp:
+# https://developer.hashicorp.com/terraform/install
+terraform version  # verify: >= 1.0
+```
+
+### 2. Cài OpenSSH và tạo SSH key (nếu chưa có)
+```powershell
+# Kiểm tra key đã tồn tại chưa
+ls ~/.ssh/id_rsa.pub
+
+# Nếu chưa có, tạo mới:
+ssh-keygen -t rsa -b 4096 -C "zero-door-deploy"
+```
+
+### 3. Lấy DigitalOcean API Token
+1. Vào [https://cloud.digitalocean.com/account/api/tokens](https://cloud.digitalocean.com/account/api/tokens)
+2. Click **Generate New Token**
+3. Token Name: `zero-door-terraform`
+4. Expiration: 90 days
+5. Scope: **Full Access**
+6. Click **Generate Token** → Copy ngay (chỉ hiện 1 lần!)
+
+### 4. Tạo terraform.tfvars
+```powershell
+cd r:\_Projects\Eurus_Workspace\zero_door\infrastructure\terraform
+Copy-Item terraform.tfvars.example terraform.tfvars
+# Mở terraform.tfvars và điền do_token + github_pat
+```
+
+---
+
+## Quy trình Deploy (Từ đầu → Xong)
+
+### Bước 1: Init Terraform
+```powershell
+cd r:\_Projects\Eurus_Workspace\zero_door\infrastructure\terraform
+terraform init
+```
+
+### Bước 2: Preview những gì sẽ tạo
+```powershell
+terraform plan
+# Review: 1 Droplet + 1 Firewall + 1 SSH Key
+```
+
+### Bước 3: Deploy! (1 lệnh)
+```powershell
+terraform apply
+# Xác nhận bằng cách gõ "yes"
+# Terraform sẽ in ra IP sau khi tạo xong
+```
+
+### Bước 4: Theo dõi quá trình deploy
+```powershell
+# Lấy IP từ output
+$IP = terraform output -raw droplet_ip
+
+# Theo dõi log deploy trên Droplet (cloud-init chạy deploy.sh)
+ssh root@$IP "tail -f /var/log/zero-door-deploy.log"
+
+# Quá trình mất khoảng 5-8 phút
+```
+
+### Bước 5: Verify
+```powershell
+$IP = terraform output -raw droplet_ip
+
+curl.exe http://$IP/                              # Boutique → 200 OK
+curl.exe http://$IP/nemesis/healthz               # {"status":"UP"}
+curl.exe http://$IP/nemesis/dashboard/            # Dashboard HTML
+curl.exe http://$IP/hephaestus/healthz            # {"status":"UP"}
+```
+
+---
+
+## Quy trình Destroy & Rebuild
 
 ```powershell
-# Ví dụ download kubeconfig từ Droplet về máy local
-scp root@<droplet-ip>:/etc/rancher/k3s/k3s.yaml ~/.kube/config-do
+# Xóa toàn bộ (Droplet + Firewall + SSH Key)
+terraform destroy
 
-# Chạy deploy sử dụng Helm trỏ vào file config cloud
-$env:KUBECONFIG="$HOME/.kube/config-do"
-helm upgrade --install zero-door ./infrastructure/helm/zero-door \
-  -f ./infrastructure/helm/cloud-values.yaml \
-  -n zero-door
+# Rebuild từ đầu (Droplet mới, IP mới)
+terraform apply
 ```
 
 ---
 
-## 5. Verify & So sánh Hiệu năng
+## Các Lệnh Quản trị Thường dùng
 
-Sau khi deploy hoàn tất, hãy truy cập các đường dẫn sau để xác nhận:
-*   **Target App**: `http://<droplet-ip>:8080/`
-*   **Nemesis Dashboard**: `http://nemesis.<droplet-ip>.nip.io/`
+```bash
+# SSH vào Droplet
+ssh root@$(terraform output -raw droplet_ip)
 
-Chạy lại kịch bản kiểm thử (Scenarios 1-4) và ghi nhận MTTD, MTTR để so sánh với kết quả chạy local K3d trước đó, hoàn thành báo cáo Chương 5 trong luận văn NCKH.
+# Xem tất cả pods
+kubectl get pods -A
+
+# Xem logs agent
+kubectl logs -n zero-door -l app=nemesis -f
+kubectl logs -n zero-door -l app=hephaestus -f
+kubectl logs -n zero-door -l app=gaia -f
+
+# Port-forward Grafana (từ máy local)
+ssh -L 3000:localhost:3000 root@$(terraform output -raw droplet_ip) \
+  "kubectl port-forward svc/prometheus-grafana 3000:80 -n monitoring"
+# Mở: http://localhost:3000 (admin / zerodoor123)
+
+# Port-forward Prometheus
+ssh -L 9090:localhost:9090 root@$(terraform output -raw droplet_ip) \
+  "kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring"
+# Mở: http://localhost:9090
+
+# Restart một agent
+kubectl rollout restart deployment/nemesis -n zero-door
+
+# Xem ingresses
+kubectl get ingress -A
+
+# Xem deploy log
+cat /var/log/zero-door-deploy.log
+```
+
+---
+
+## Ghi chú Kỹ thuật
+
+### Tại sao không mở port 6443?
+K8s API port (6443) bị giữ đóng trên Cloud Firewall. Đây là **security best practice**. Tất cả thao tác kubectl/helm thực hiện trực tiếp trên Droplet qua SSH. Không cần port-forward hay VPN.
+
+### Tại sao không dùng Traefik?
+Tất cả manifest dùng `ingressClassName: nginx` và annotations `nginx.ingress.kubernetes.io/*`. Nginx Ingress giữ nguyên 100% compatibility.
+
+### Klipper LoadBalancer
+K3s built-in Klipper LB tự động map port 80/443 của host → `ingress-nginx-controller` (type: LoadBalancer). Không cần mua external DO Load Balancer (~$12/tháng).
+
+### gaia-deployment.yaml đặc biệt
+File này dùng `image: zero-door/gaia:latest` (KHÁC với các agent khác `gaia:latest`) và `imagePullPolicy: Never`. `patch_manifests.py` có logic riêng để xử lý case này.
+
+### emailservice CrashLoopBackOff
+`emailservice` của Google Boutique dùng Python gRPC với startup chậm. **Không ảnh hưởng tới Zero-Door system**. Frontend vẫn `200 OK`.

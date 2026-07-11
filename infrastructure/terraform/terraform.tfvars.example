@@ -1,0 +1,27 @@
+# terraform.tfvars.example
+# ─────────────────────────────────────────────────────────────────
+# COPY file này thành "terraform.tfvars" và điền giá trị thật.
+# !! KHÔNG commit terraform.tfvars vào git (đã được gitignore) !!
+# ─────────────────────────────────────────────────────────────────
+
+# DigitalOcean API Token (Full Access)
+# Lấy từ: https://cloud.digitalocean.com/account/api/tokens
+do_token = "dop_v1_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# GitHub Personal Access Token
+# Lấy từ: https://github.com/settings/tokens
+# Cần quyền: read:packages (để pull images từ GHCR)
+# Cũng dùng để clone private repo qua HTTPS
+github_pat = "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# SSH public key path (để upload lên DigitalOcean)
+# ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Region (mặc định: sgp1 — Singapore)
+# region = "sgp1"
+
+# Droplet size (mặc định: 4vCPU/8GB ~ $48/tháng)
+# droplet_size = "s-4vcpu-8gb"
+
+# IPs được phép SSH (mặc định: tất cả — nên giới hạn để bảo mật)
+# allowed_ssh_ips = ["YOUR.PUBLIC.IP.ADDRESS/32"]
