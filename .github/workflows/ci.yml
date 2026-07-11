@@ -63,6 +63,15 @@ jobs:
           python -m py_compile main.py
           echo "✓ ${{ matrix.agent }}/main.py syntax OK"
 
+      - name: Run Bandit SAST Scan — ${{ matrix.agent }}
+        run: |
+          pip install --no-cache-dir bandit
+          cd agent-orchestrator/${{ matrix.agent }}
+          # Run bandit recursively on python source file(s)
+          # -lll: Only show medium/high severity issues, -iii: only show medium/high confidence issues
+          bandit -r main.py -lll -iii
+          echo "✓ bandit security scan passed for ${{ matrix.agent }}"
+
   # ─────────────────────────────────────────────
   # Job 3: Go Build — Chaos Worker
   # ─────────────────────────────────────────────
@@ -96,3 +105,11 @@ jobs:
           cd chaos-worker
           go vet ./...
           echo "✓ go vet passed"
+
+      - name: Run Gosec SAST Scan
+        run: |
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          cd chaos-worker
+          # Run gosec to find vulnerabilities, excluding vendor dir, fail on medium/high severity issues
+          gosec -severity medium -confidence medium ./...
+          echo "✓ gosec security scan passed"

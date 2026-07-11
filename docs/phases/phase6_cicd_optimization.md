@@ -37,7 +37,7 @@ Xây dựng và tích hợp một quy trình **CI/CD hoàn chỉnh (Zero Door CI
   - Áp dụng Multi-stage build cho Go Chaos Worker và các Python Agents để giảm dung lượng file image cuối xuống dưới 50MB.
   - Sử dụng base image là `Alpine` hoặc `Distroless` (không chứa shell `/bin/sh` hoặc `/bin/bash` và các lệnh curl/wget) nhằm triệt tiêu khả năng kẻ tấn công chiếm quyền điều khiển container và leo thang đặc quyền (Blast Radius Reduction).
 
-- [ ] **T6.5** Tích hợp quét tĩnh lỗ hổng mã nguồn (**SAST - Static Application Security Testing**):
+- [x] **T6.5** Tích hợp quét tĩnh lỗ hổng mã nguồn (**SAST - Static Application Security Testing**):
   - Thêm bước quét bảo mật code Go bằng **`gosec`** và quét code Python bằng **`bandit`** trong CI pipeline để tự động cảnh báo các lỗ hổng như SQL Injection, Command Injection, hardcoded tokens, v.v.
 
 - [ ] **T6.6** Thẩm định cấu hình Kubernetes (**Infrastructure as Code Scanning**):
