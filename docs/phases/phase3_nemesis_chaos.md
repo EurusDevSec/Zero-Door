@@ -79,20 +79,21 @@ Phase này kết thúc khi Nemesis có thể sinh 3 loại kịch bản tấn c�
 - [ ] **T3.9** Khởi tạo Nemesis project trong `agent-orchestrator/nemesis/`:
   - Thư viện cần thiết: `openai`, `langchain`, `kafka-python`
 - [ ] **T3.10** Cấu hình **LLM Client** cho Nemesis:
-  - Primary: OpenAI API (GPT-4o-mini hoặc GPT-3.5-turbo) — cho production
-  - Fallback: Ollama (local LLM, model `llama3:8b` hoặc `phi3`) — cho local dev
-  - Toggle qua environment variable: `NEMESIS_LLM_PROVIDER=openai|ollama`
-- [ ] **T3.11** Implement **Attack Plan Generator** sử dụng OpenAI Python SDK / LangChain:
-  - Input: Trạng thái hiện tại của hệ thống (metrics summary từ Prometheus)
-  - Prompt Template: Yêu cầu LLM sinh kịch bản tấn công dựa trên thông tin hệ thống
-  - Output: JSON object `AttackCommand` chứa loại tấn công, target, parameters
-  - Giới hạn: Token budget per request (max 500 tokens), request limit (max 10 calls/minute)
-- [ ] **T3.12** Implement **Attack Scheduler**:
-  - Cho phép lên lịch tấn công: ngay lập tức, delay, hoặc theo cron expression
-  - Gửi `AttackCommand` vào Kafka topic `attack.commands`
-- [ ] **T3.13** Cấu hình Kafka Consumer trong Nemesis:
-  - Subscribe topic `attack.results` để nhận kết quả từ Chaos Worker
-  - Log và phân tích kết quả: attack thành công hay thất bại
+  - Primary: Gemini API (**Gemini 3.1 Flash-Lite** hoặc model tương đương) cho production.
+  - Hỗ trợ cơ chế **Round-Robin API Keys & Auto-Failover**: Đọc danh sách key từ biến môi trường `GEMINI_API_KEYS` (phân tách bằng dấu phẩy). Khi gặp lỗi `429 Rate Limit` hoặc `Quota Exceeded`, tự động chuyển sang key dự phòng tiếp theo để đảm bảo luồng tấn công không bị gián đoạn.
+  - Fallback: Ollama (local LLM, model `llama3` hoặc `phi3`) cho local dev.
+  - Config qua environment variables: `NEMESIS_LLM_PROVIDER=gemini|ollama`.
+- [ ] **T3.11** Bảo mật khóa API trên Kubernetes (K8s Secrets):
+  - Khai báo biến môi trường chứa key thông qua K8s Secrets (`nemesis-secrets`).
+  - Tuyệt đối không lưu plain-text key trong YAML manifest đưa lên Git. Sử dụng manifest với placeholder trống `GEMINI_API_KEYS: ""` và áp dụng trực tiếp giá trị thật vào cụm K8s (`kubectl create secret generic`) ở môi trường chạy.
+- [ ] **T3.12** Implement **Attack Plan Generator** sử dụng Gemini API:
+  - Input: Trạng thái hiện tại của hệ thống (metrics summary từ Prometheus).
+  - Prompt Template: Yêu cầu LLM sinh kịch bản tấn công dựa trên thông tin hệ thống.
+  - Output: JSON object `AttackCommand` chứa loại tấn công, target, parameters.
+  - Giới hạn: Token budget per request (max 500 tokens), request limit (max 10 calls/minute).
+- [ ] **T3.13** Implement **Attack Scheduler**:
+  - Gửi `AttackCommand` vào Kafka topic `attack.commands`.
+  - Subscribe topic `attack.results` để nhận kết quả từ Chaos Worker, ghi nhận logs phân tích.
 
 ### 2.5. Containerization & Deployment
 

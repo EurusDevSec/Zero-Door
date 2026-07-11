@@ -121,6 +121,17 @@ Chạy các kịch bản tấn công có hệ thống (War Game Experiments), th
   - So sánh MTTD(Manual) vs MTTD(Auto): p-value < 0.05?
   - Kết luận: Sự khác biệt có ý nghĩa thống kê hay không?
 
+### 2.5. Unified Control Center Dashboard (Giao diện v2)
+
+- [ ] **T5.12** Nâng cấp giao diện lên ngôn ngữ thiết kế **AWS Cloudscape Light Theme**:
+  - Di chuyển hoàn toàn từ giao diện Dark Cyberpunk sang phong cách Light Theme tối giản của Amazon.
+  - Áp dụng bố cục **cố định không cuộn trang (Fixed Viewport Grid Layout)**, giúp tất cả 4 panel chính nằm trọn trong 1 màn hình.
+  - Tăng độ rộng cột bên trái lên **290px** và cấu hình danh sách Microservices Status hiển thị theo 1 cột thẳng đứng để không bị che khuất tên của các dịch vụ microservice dài (như `productcatalogservice`, `currencyservice`).
+  - Thiết kế lại sơ đồ kiến trúc luồng tấn công/phục hồi (**2-Layer Topology Flow**):
+    - Tầng trên (top row): Luồng chính `Nemesis ⚔️ → Kafka 🗳️ → Boutique App 🛍️ → Hephaestus 🛡️`.
+    - Tầng dưới (bottom row): Các thành phần con `Gemini ✨ | Chaos Worker ⚡ | Gaia Agent 👁️` nối dọc trực quan.
+  - Tăng thời gian hiệu ứng shimmer loading lên **2.8s** cho cảm giác tải tự nhiên và thiết lập Sidebar/Chat panel có khả năng thu gọn (collapsible).
+
 ---
 
 ## 3. Definition of Done (Tiêu chí hoàn thành Phase)

@@ -104,6 +104,9 @@ Phase này là **phase quan trọng nhất** vì nó đóng vòng lặp Attack �
   }
   ```
 - [ ] **T4.15** Implement **Healing Cooldown**: Sau khi heal một service, chờ N giây trước khi cho phép heal lại cùng service đó (tránh thrashing loop: heal → Gaia vẫn thấy anomaly → heal lại → lặp vô tận).
+- [ ] **T4.15_SRE** **SRE Optimizations & Bug-fixing**:
+  - **Sửa lỗi OOMKilled**: Tăng tài nguyên giới hạn (resources limit) cho Chaos Worker stress pods lên `1000m CPU` và `512Mi RAM` để tránh hiện tượng pod bị nhân hệ điều hành hủy (OOMKilled) dưới cường độ stress cao.
+  - **Tối ưu hóa Prometheus Query Rate**: Cải tiến các câu truy vấn CPU usage của Gaia bằng cách nâng range vector từ `[30s]` lên `[2m]` để đảm bảo Prometheus có đủ số điểm mẫu (scrape points) để tính toán chính xác, khắc phục triệt để lỗi trả về `0.000 (0%)` khi cào metrics.
 
 ### 2.6. Closed-Loop Integration Testing
 
