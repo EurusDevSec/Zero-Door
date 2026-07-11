@@ -40,7 +40,7 @@ Xây dựng và tích hợp một quy trình **CI/CD hoàn chỉnh (Zero Door CI
 - [x] **T6.5** Tích hợp quét tĩnh lỗ hổng mã nguồn (**SAST - Static Application Security Testing**):
   - Thêm bước quét bảo mật code Go bằng **`gosec`** và quét code Python bằng **`bandit`** trong CI pipeline để tự động cảnh báo các lỗ hổng như SQL Injection, Command Injection, hardcoded tokens, v.v.
 
-- [ ] **T6.6** Thẩm định cấu hình Kubernetes (**Infrastructure as Code Scanning**):
+- [x] **T6.6** Thẩm định cấu hình Kubernetes (**Infrastructure as Code Scanning**):
   - Thay thế vòng lặp YAML thô sơ bằng công cụ **`trivy config`** hoặc **`checkov`** để quét các file K8s manifests.
   - Mục tiêu: Tự động từ chối (Block) các pull requests chứa cấu hình sai về bảo mật (misconfigurations) như:
     - Pod chạy bằng quyền `root` (thiếu `runAsNonRoot: true`).

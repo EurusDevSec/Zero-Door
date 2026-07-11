@@ -113,3 +113,24 @@ jobs:
           # Run gosec to find vulnerabilities, excluding vendor dir, fail on medium/high severity issues
           gosec -severity medium -confidence medium ./...
           echo "✓ gosec security scan passed"
+
+  # ─────────────────────────────────────────────
+  # Job 4: IaC Security Scan (Kubernetes Manifests)
+  # ─────────────────────────────────────────────
+  iac-scan:
+    name: Kubernetes Manifests Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Vulnerability Scanner (IaC)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: 'infrastructure/manifests'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1' # Fail on critical vulnerabilities
+          severity: 'CRITICAL'
+
