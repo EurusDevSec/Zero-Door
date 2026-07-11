@@ -1,17 +1,20 @@
 # 💾 SESSION_MEMORY.md — Trạng Trạng Thái Hiện Tại
-> *Last updated: 2026-07-11 17:00 GMT+7 | Phase 6 COMPLETED — Automated CI/CD & DevOps Security Optimization | Next: Phase 7 Cloud*
+> *Last updated: 2026-07-11 19:20 GMT+7 | Phase 6 COMPLETED — DevOps & CI/CD Security Optimization DONE | Next: Phase 7 Cloud*
 
 ---
 
 ## 🎯 Trạng thái ngay lúc này
 
-**Phase đang làm**: Phase 6 hoàn thành xuất sắc. Chuẩn bị Phase 7 (Cloud Deployment & Final Scientific Report).
+**Phase đang làm**: Phase 6 hoàn thành 100% (cả thực thi mã nguồn và thiết kế kiến trúc nâng cao). Chuẩn bị chuyển giao sang Phase 7 (Cloud Deployment).
 
 **Phase vừa hoàn thành**:
-1.  **Hạ tầng Ingress**: Expose dịch vụ `frontend` (Target App) qua **Nginx Ingress** trên cổng `8080` của host. Loại bỏ hoàn toàn sự phụ thuộc vào lệnh `kubectl port-forward` dễ bị đứt kết nối vĩnh viễn khi POD_KILL. Trang web sập trả về `502/503` thực sự và tự phục hồi về `200 OK` mượt mà trong **`1.34 giây`** downtime.
-2.  **Sửa lỗi dịch vụ 'None'**: Cấu hình Nemesis query Prometheus cào CPU theo `by (pod)` thay vì `by (deployment)` không tồn tại, trích xuất chính xác tên dịch vụ microservice hiển thị trong bong bóng chat logic.
-3.  **Ổn định CI/CD**: Loại bỏ `cache` cấu hình trong `actions/setup-python` của file `ci.yml` do bước Post-run lưu cache liên tục bị lỗi tranh chấp key làm sập build, giúp toàn bộ pipeline GitHub Actions xanh lét 100%.
-4.  **Tái cấu trúc Phase**: Restructure Phase 6 thành `phase6_cicd_optimization.md` và tạo mới Phase 7 `phase7_cloud_report.md` trong thư mục `docs/phases/`.
+1.  **Hạ tầng Ingress**: Expose dịch vụ `frontend` (Target App) qua Nginx Ingress trên cổng 8080 của host.
+2.  **Hardening Container (T6.4)**: Cấu hình multi-stage build và gcr.io/distroless/python3-debian12:nonroot cho toàn bộ Python Agents (Nemesis, Gaia, Hephaestus), giảm dung lượng và triệt tiêu bash shell.
+3.  **Tích hợp SAST Scans (T6.5)**: Tích hợp thành công bandit cho Python và gosec cho Go vào GitHub Actions pipeline, tự động phát hiện và ngăn chặn lỗ hổng mã nguồn.
+4.  **Tích hợp IaC Scans (T6.6)**: Tích hợp Trivy config scanner tự động quét Kubernetes manifests, ngăn chặn các cấu hình sai mức độ Critical.
+5.  **Thiết kế SaaS WebSocket Agent (T6.7)**: Định hình kiến trúc kết nối outbound (wss://) an toàn từ cụm của khách hàng về SaaS Control Plane để vá lỗi mà không cần mở cổng inbound.
+6.  **Thiết kế APM SDK (T6.8)**: Thiết kế giải pháp nhúng OpenTelemetry SDK làm middleware đo lường chỉ số sâu (HTTP/gRPC latencies, DB queries duration).
+7.  **Tạo Phase 6 Runbook**: Viết tài liệu [phase6_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase6_runbook.md) lưu trữ toàn bộ bản thiết kế kiến trúc và code blueprints.
 
 **Git branch**: `main` (Sạch sẽ, đã commit và push thành công lên GitHub).
 
