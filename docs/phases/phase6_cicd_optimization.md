@@ -47,12 +47,12 @@ Xây dựng và tích hợp một quy trình **CI/CD hoàn chỉnh (Zero Door CI
     - Container có quyền ghi file hệ thống (thiếu `readOnlyRootFilesystem: true`).
     - ServiceAccount được gán quyền RBAC quá lớn.
 
-- [ ] **T6.7** Định hình kiến trúc **SaaS Control Plane & WebSocket Agent**:
+- [x] **T6.7** Định hình kiến trúc **SaaS Control Plane & WebSocket Agent**:
   - Giải quyết bài toán bảo mật: Trong thực tế, khách hàng không bao giờ chấp nhận mở cổng Kubernetes API (port 6443) ra ngoài Internet cho Hephaestus truy cập từ xa để vá lỗi.
   - Thiết kế giải pháp: Chuyển đổi Hephaestus thành một **WebSocket Agent** chạy ngầm bên trong cụm của khách hàng. Agent này sẽ tự chủ động tạo kết nối WebSocket hướng ra ngoài (Outbound connection) đến SaaS Control Plane của Zero Door để nhận lệnh vá lỗi.
   - Lợi ích: Không cần mở bất kỳ cổng inbound nào trên Firewall của khách hàng, đảm bảo an toàn tuyệt đối.
 
-- [ ] **T6.8** Tích hợp **Application APM SDK**:
+- [x] **T6.8** Tích hợp **Application APM SDK**:
   - Thay vì chỉ cào CPU/RAM gián tiếp từ cAdvisor của Prometheus (chỉ số phần cứng bên ngoài), định hướng thiết kế một bộ **APM SDK** cắm trực tiếp vào mã nguồn của Web App mục tiêu.
   - SDK này giúp thu thập trực tiếp các chỉ số sâu của code như: gRPC latency, Database query duration, HTTP Error rates trên từng function để Gaia phát hiện các bất thường logic tinh vi hơn.
 
