@@ -335,6 +335,15 @@ async function triggerManualAttack() {
     if (nodeNemesis) nodeNemesis.classList.add('node-active');
     if (nodeWorker) nodeWorker.classList.add('node-active');
 
+    let concurrency = 4;
+    if (intensity === "HIGH") {
+        concurrency = 80;
+    } else if (intensity === "MEDIUM") {
+        concurrency = 25;
+    } else {
+        concurrency = 5;
+    }
+
     try {
         const response = await fetch(`${API_BASE}/attack/trigger`, {
             method: "POST",
@@ -344,7 +353,7 @@ async function triggerManualAttack() {
                 targetService: service,
                 intensity: intensity,
                 durationSec: 90,
-                concurrency: 4
+                concurrency: concurrency
             })
         });
         

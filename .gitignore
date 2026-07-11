@@ -26,3 +26,5 @@ chaos-worker-bin
 .idea/
 .vscode/
 *.swp
+
+cv.md
