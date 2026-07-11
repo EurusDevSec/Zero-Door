@@ -1,5 +1,5 @@
 # 🧱 CONTEXT.md — Zero Door Project Architecture
-> *Last updated: 2026-06-25 | Phases 1–5 COMPLETE | Next: Phase 6 Cloud*
+> *Last updated: 2026-07-11 | Phases 1–6 COMPLETE | Next: Phase 7 Cloud*
 
 ---
 
@@ -54,8 +54,8 @@ zero_door/
 │   │   ├── raw_data/e{1-4}_*/       # Experiment CSVs
 │   │   └── analysis/                # Charts + summary_statistics.csv
 │   ├── runbooks/                    # Phase runbooks
-│   └── phases/                     # Phase specs
-└── .github/workflows/ci.yml         # Python CI (NOT Java)
+│   └── phases/                      # Phase specs (Phase 1 -> Phase 7)
+└── .github/workflows/ci.yml         # Python CI (No-cache pip setup)
 ```
 
 ---
@@ -76,6 +76,7 @@ zero_door/
 kubectl port-forward svc/hephaestus 9091:8000 -n zero-door
 kubectl port-forward svc/nemesis 9092:8000 -n zero-door
 kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring
+# Target App is exposed natively via K3d Nginx Ingress on host port 8080
 # Kafka port-forward KHÔNG hoạt động từ ngoài K3d (advertised listener issue)
 ```
 

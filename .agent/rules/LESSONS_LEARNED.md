@@ -252,3 +252,39 @@ kubectl port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
 
 **RULE**: Mọi thay đổi HTML/CSS/JS của dashboard cần `docker build --no-cache` mới có hiệu lực.
 
+---
+
+### 14. Sập Port-Forward Frontend khi chạy POD_KILL (Đfixed)
+**LỖI**: Chạy `kubectl port-forward svc/frontend 8080:80` kết nối trực tiếp đến Pod. Khi Pod bị giết (`POD_KILL`), client CLI mất kết nối và dừng hẳn port-forward, làm mất kết nối vĩnh viễn trên trình duyệt của người dùng.
+
+**FIX**: Tạo một Kubernetes Ingress resource [target-app-ingress.yaml](file:///r:/_Projects/Eurus_Workspace/zero_door/infrastructure/manifests/target-app-ingress.yaml) để map `/` vào frontend thông qua Nginx Ingress Controller có sẵn của cụm K3d. Truy cập thông qua cổng 8080 của Ingress. Khi Pod bị giết, Ingress trả về `502/503` tạm thời và tự động kết nối lại khi Pod mới READY.
+
+**RULE**: Không bao giờ port-forward frontend trên local dev. Sử dụng Ingress native để kiểm chứng downtime thực tế.
+
+---
+
+### 15. Tấn công HTTP_FLOOD sai cổng dịch vụ gRPC (Đã hiểu)
+**LỖI**: Chạy `HTTP_FLOOD` nhắm vào `productcatalogservice` hay `cartservice` bị treo luồng, chỉ gửi được 900 requests/90s và Gaia không phát cảnh báo.
+
+**NGUYÊN NHÂN**: Các backend services chạy bằng giao thức gRPC trên cổng riêng biệt (ví dụ: `3550`), không chạy HTTP trên cổng `80`. Chaos Worker gửi HTTP requests vào cổng `80` mặc định nên bị timeout làm nghẽn các goroutines.
+
+**RULE**: Chỉ dùng `HTTP_FLOOD` cho dịch vụ HTTP `frontend`. Các dịch vụ nội bộ (backend) bắt buộc phải dùng `CPU_STRESS` hoặc `POD_KILL`.
+
+---
+
+### 16. Kịch bản attack bị chặn do quá hạn ngạch (ResourceQuota Exceeded)
+**LỖI**: Chạy `CPU_STRESS` cường độ `HIGH` (yêu cầu 1 core) báo lỗi `exceeded quota: target-app-quota, requested: limits.cpu=1, used: limits.cpu=2225m, limited: limits.cpu=3`.
+
+**NGUYÊN NHÂN**: Do scale up pods trước đó chưa được thu hồi làm chiếm hết quota CPU limits của namespace `target-app` (tối đa 3 cores).
+
+**RULE**: Luôn gọi `RESET SYSTEM` để giải phóng các Pod dư thừa về mức Steady State (1 pod) trước khi kích hoạt cuộc tấn công mới.
+
+---
+
+### 17. GitHub Actions Setup Python Cache Post-run Failure
+**LỖI**: Job `Build Python Agent Orchestrator` liên tục bị đỏ/thất bại ở bước `Post Set up Python` khi lưu cache pip.
+
+**NGUYÊN NHÂN**: Matrix builds chạy song song cho 3 agents ghi trùng cache key hoặc gặp lỗi ghi từ phía GitHub actions cache storage.
+
+**RULE**: Tắt hoàn toàn cấu hình `cache: 'pip'` trong file `ci.yml` đối với các dự án dependencies dung lượng nhỏ để đảm bảo pipeline luôn chạy nhanh và xanh ổn định.
+

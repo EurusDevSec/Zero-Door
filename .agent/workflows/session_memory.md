@@ -1,57 +1,42 @@
-# 💾 SESSION_MEMORY.md — Trạng Thái Hiện Tại
-> *Last updated: 2026-07-10 21:47 GMT+7 | Phase 5 COMPLETED — UI Redesign (AWS Cloudscape) DONE | Next: Phase 6 Cloud*
+# 💾 SESSION_MEMORY.md — Trạng Trạng Thái Hiện Tại
+> *Last updated: 2026-07-11 17:00 GMT+7 | Phase 6 COMPLETED — Automated CI/CD & DevOps Security Optimization | Next: Phase 7 Cloud*
 
 ---
 
 ## 🎯 Trạng thái ngay lúc này
 
-**Phase đang làm**: Phase 5 UI/UX Redesign hoàn tất. Chuẩn bị Phase 6 (Cloud + Demo Video).
+**Phase đang làm**: Phase 6 hoàn thành xuất sắc. Chuẩn bị Phase 7 (Cloud Deployment & Final Scientific Report).
 
-**Phase vừa hoàn thành**: Redesign toàn bộ giao diện Dashboard từ Dark Cyberpunk → **AWS Cloudscape-inspired Light Theme**, layout cố định không scroll, sidebar collapsible, right chat panel collapsible, topology hiển thị đầy đủ, skeleton loading.
+**Phase vừa hoàn thành**:
+1.  **Hạ tầng Ingress**: Expose dịch vụ `frontend` (Target App) qua **Nginx Ingress** trên cổng `8080` của host. Loại bỏ hoàn toàn sự phụ thuộc vào lệnh `kubectl port-forward` dễ bị đứt kết nối vĩnh viễn khi POD_KILL. Trang web sập trả về `502/503` thực sự và tự phục hồi về `200 OK` mượt mà trong **`1.34 giây`** downtime.
+2.  **Sửa lỗi dịch vụ 'None'**: Cấu hình Nemesis query Prometheus cào CPU theo `by (pod)` thay vì `by (deployment)` không tồn tại, trích xuất chính xác tên dịch vụ microservice hiển thị trong bong bóng chat logic.
+3.  **Ổn định CI/CD**: Loại bỏ `cache` cấu hình trong `actions/setup-python` của file `ci.yml` do bước Post-run lưu cache liên tục bị lỗi tranh chấp key làm sập build, giúp toàn bộ pipeline GitHub Actions xanh lét 100%.
+4.  **Tái cấu trúc Phase**: Restructure Phase 6 thành `phase6_cicd_optimization.md` và tạo mới Phase 7 `phase7_cloud_report.md` trong thư mục `docs/phases/`.
 
-**Git branch**: `main`
+**Git branch**: `main` (Sạch sẽ, đã commit và push thành công lên GitHub).
 
 ---
 
-## ⚡ Những việc ĐÃ HOÀN THÀNH trong session này (2026-07-10)
+## ⚡ Những việc ĐÃ HOÀN THÀNH trong session này (2026-07-11)
 
-### 🎨 UI/UX Redesign — AWS Cloudscape Light Theme
-- **Viết lại hoàn toàn `style.css`** với Cloudscape color token system:
-  - White/light background (`#f2f3f3`, `#ffffff`)
-  - AWS blue accent (`#0073bb`), purple brand (`#6b46c1`)
-  - Fixed-height viewport layout — **KHÔNG scroll** cả trang
-  - 4-panel grid: `55%/45%` rows × `230px / 1fr` columns
-- **Viết lại hoàn toàn `index.html`**:
-  - `app-shell → top-nav → main-row → [sidebar | content | chat-panel] → footer`
-  - 4 panels: Control & Simulation | War Game Topology | Microservices Status | Log Console + Agent Insights
-  - Floating trigger button khi chat panel collapse
-- **Refactor `app.js`**:
-  - `toggleSidebar()` dùng class `.collapsed` mới
-  - `toggleRightChat()` với floating trigger visible/hidden
-  - `activateNavItem()` — highlight nav item active
-  - `renderAgentChat()` — update cả main chat panel + "Agent Insights" preview tile
-  - Topology node reset dùng semantic CSS classes thay Tailwind ad-hoc
-  - Log console dùng dark terminal với `badge-attacker/defender/observer/system` classes
-- **Skeleton loading**: shimmer animation cho cards khi chờ API
+### ⚙️ Hạ tầng & SRE
+- **Tạo Ingress manifest cho frontend**: [target-app-ingress.yaml](file:///r:/_Projects/Eurus_Workspace/zero_door/infrastructure/manifests/target-app-ingress.yaml) giúp định tuyến `/` vào Boutique App thông qua Nginx Ingress.
+- **Cải tiến start-demo.ps1**: Bỏ port-forward cho frontend trên cổng 8080, tận dụng Nginx Ingress, khởi động dashboard nhanh hơn và chống kẹt cổng.
+- **Sửa lỗi Prometheus query trong main.py**: Sửa query CPU theo pod name và filter regex trong Nemesis API để giải quyết triệt để lỗi tên service `'None'`.
+- **Tắt cache GitHub Actions**: Tối ưu hóa file [ci.yml](file:///r:/_Projects/Eurus_Workspace/zero_door/.github/workflows/ci.yml) để tránh lỗi post-run cache save.
+- **Chạy thực nghiệm & Báo cáo timeline**: Viết các python test script (`test_protected_kill.py`, `test_perfect_demo.py`) để đo lường downtime/latency và tự động phục hồi.
 
-### ✅ Trước đó (sessions cũ — đã ổn định)
-- Skeleton screen shimmer animation khi load dữ liệu
-- Polling rate 5s, Connection Lost Banner
-- Auto-failover API keys Gemini
-- OOMKilled fix: stress pod limits 1000m/512Mi
-- Reset System scale-down về 1 replica
-- Prometheus range vector [2m] fix
+### 📝 Tài liệu
+- **README.md** và **docs/demo_script.md**: Viết lại cấu trúc tài liệu, đồng bộ hóa kịch bản chạy demo Ingress và kết quả wargame KPIs.
+- **docs/phases/**: Tái cấu trúc Phase 6 và 7 để mô tả sâu sắc các tiêu chí DevOps nâng cao (Distroless, SAST scans, WebSocket Agent, APM SDK).
 
 ---
 
 ## 🧠 Semantic Context Essence
 
-- **UI Architecture**: `style.css` dùng CSS custom properties (`--clr-*`, `--sidebar-width`, `--chat-panel-width`) — không dùng Tailwind hardcode cho layout chính. Tailwind vẫn có trong HTML nhưng chỉ cho một số utility nhỏ.
-- **Grid Layout**: `grid-template-rows: 55% 45%` + `grid-template-columns: 230px 1fr` trong `.page-content`. Thay đổi ở đây sẽ ảnh hưởng toàn bộ bố cục.
-- **Sidebar collapse**: class `.collapsed` trên `#dashboard-sidebar` → `width: var(--sidebar-collapsed-width)` = 48px. Nav text ẩn bằng `opacity:0; width:0`.
-- **Chat panel collapse**: class `.collapsed` trên `#agent-chat-drawer` → `width: 0`. Floating button `#chat-drawer-trigger` hiện ra.
-- **Port-forward pattern**: Mỗi khi rollout restart pod nemesis, port-forward bị ngắt. Phải `kubectl port-forward svc/nemesis 9092:8000` lại sau mỗi lần rollout.
-- **Rebuild workflow**: `docker build --no-cache → k3d image import → kubectl rollout restart → kubectl rollout status`
+- **Port-forward pattern**: Dashboard Nemesis (9092), Hephaestus (9091), Prometheus (9090). Target App truy cập trực tiếp qua `http://localhost:8080/` (không cần port-forward nhờ Ingress).
+- **Hysteresis / Data Lag**: Metrics CPU trung bình `[2m]` của Prometheus mất từ 15-30 giây để decay về zero sau khi reset. Điều này khiến Gaia/Hephaestus có thể tự động scale up lại ngay sau khi reset nếu không tắt HPA/Hephaestus tạm thời trong lúc test.
+- **ResourceQuota Limits**: Namespace `target-app` bị giới hạn CPU limits ở mức `3 cores` (`target-app-quota`). Tấn công `CPU_STRESS` ở mức `HIGH` (yêu cầu 1 core) sẽ bị Kubernetes Admission Controller từ chối thẳng thừng (`exceeded quota`) nếu tổng CPU các pod đang dùng vượt quá 2 cores $\rightarrow$ Cần gọi `Reset System` trước khi chạy attack để giải phóng quota.
 
 ---
 
@@ -59,21 +44,17 @@
 
 | File | Mục đích | Ghi chú |
 |------|----------|---------| 
-| `agent-orchestrator/nemesis/static/style.css` | **REWRITTEN** — Cloudscape CSS system | CSS custom properties, no Tailwind for layout |
-| `agent-orchestrator/nemesis/static/index.html` | **REWRITTEN** — 4-panel layout | AWS Cloudscape structure |
-| `agent-orchestrator/nemesis/static/app.js` | **REFACTORED** — uses new CSS classes | `.collapsed` for sidebar/chat, new renderAgentChat |
-| `agent-orchestrator/nemesis/main.py` | Attack agent | API key auto-failover retry + static dashboard mount |
-| `agent-orchestrator/hephaestus/main.py` | Defender agent | Scale-down deployments về 1 khi reset |
-| `agent-orchestrator/gaia/main.py` | Observer agent | Rate query [2m] range vector |
-| `chaos-worker/internal/attack/cpu_stress.go` | Chaos Executor | Resource limits 1000m CPU / 512Mi RAM |
-| `start-demo.ps1` | 1-click demo launcher | Port-forwards + open browser |
+| `infrastructure/manifests/target-app-ingress.yaml` | **MỚI** — Ingress rule cho frontend | Expose cổng 8080 qua Nginx |
+| `agent-orchestrator/nemesis/main.py` | Attacker API | Sửa lỗi query cAdvisor `by (pod)` |
+| `.github/workflows/ci.yml` | GitHub Actions CI | Tắt pip cache để ổn định build |
+| `start-demo.ps1` | 1-click launcher | Bỏ port-forward 8080, dùng Ingress |
+| `docs/phases/phase6_cicd_optimization.md` | **MỚI** — DevOps & CI/CD Specs | Tích hợp các đề xuất bảo mật nâng cao |
+| `docs/phases/phase7_cloud_report.md` | **MỚI** — Cloud Deployment Specs | Di chuyển từ Phase 6 cũ sang |
 
 ---
 
 ## 🔜 Next Steps (ưu tiên tiếp theo)
 
-- [ ] **UI Polish**: Kiểm tra giao diện trên viewport 1920×1080, 1366×768. Fix nếu còn panels bị cắt.
-- [ ] **Git commit**: Commit toàn bộ UI changes (`feat(dashboard): AWS Cloudscape light theme redesign`)
-- [ ] **Demo video**: Quay theo kịch bản `docs/demo_script.md` — Attack → Detect → Heal → Reset
-- [ ] **Slide thuyết trình**: Tích hợp số liệu MTTD (20-30s), MTTR (35-45s)
-- [ ] **Phase 6**: `helm package` → Push images → GKE/EKS deploy
+- [ ] **DevSecOps Integration**: Tích hợp các bộ quét tĩnh SAST (`gosec`/`bandit`) và K8s manifest scanning (`trivy`/`checkov`) vào file `ci.yml`.
+- [ ] **SaaS Agent Architecture**: Thiết kế và triển khai WebSocket client cho Hephaestus để phục vụ kết nối Outbound bảo mật từ cụm của khách hàng.
+- [ ] **Phase 7 Cloud**: Deploy Helm charts lên cụm Kubernetes Cloud thực tế (AWS EKS hoặc DigitalOcean Kubernetes) và lập bảng so sánh hiệu năng.

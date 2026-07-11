@@ -258,7 +258,8 @@ Trước khi inject failure, bạn phải định nghĩa "bình thường" là g
 | **Phase 3** | Attack Surface — Nemesis (Red Team) + Go Chaos Worker | Week 9-12 (Sprint 5-6) | [phase3_nemesis_chaos.md](phases/phase3_nemesis_chaos.md) |
 | **Phase 4** | Defense Layer — Hephaestus (Blue Team) + Closed-Loop | Week 13-16 (Sprint 7-8) | [phase4_hephaestus_loop.md](phases/phase4_hephaestus_loop.md) |
 | **Phase 5** | Experiments — War Game, Data Collection, KPI Analysis | Week 17-20 (Sprint 9-10) | [phase5_experiments.md](phases/phase5_experiments.md) |
-| **Phase 6** | Cloud Transition + Scientific Report & Defense | Week 21-24 (Sprint 11-12) | [phase6_cloud_report.md](phases/phase6_cloud_report.md) |
+| **Phase 6** | Automated CI/CD & DevOps Security Optimization | Week 21-24 (Sprint 11-12) | [phase6_cicd_optimization.md](phases/phase6_cicd_optimization.md) |
+| **Phase 7** | Cloud Transition + Scientific Report & Defense | Week 25-28 (Sprint 13-14) | [phase7_cloud_report.md](phases/phase7_cloud_report.md) |
 
 ### 6.2. Key Milestones
 
@@ -269,10 +270,10 @@ Trước khi inject failure, bạn phải định nghĩa "bình thường" là g
 | **M3: Detect Loop** | Gaia alerts published to Kafka on anomaly | Kafka consumer group offset moves |
 | **M4: Attack Loop** | Nemesis generates and executes 3 attack types | `attack.results` topic has data |
 | **M5: Heal Loop** | Hephaestus triggers K8s action on alert | Pod count changes, IP blocked |
-| **M6: Full Loop** | End-to-end Attack→Detect→Heal < thresholds | MTTD < 60s, MTTR < 180s in 70% runs |
-| **M7: Defense Ready** | Demo + Report + Slides complete | Hội đồng có thể reproduce kết quả |
+| **M6: CI/CD Live** | Automatic syntax compile and manifests check passing | GitHub Actions status green |
+| **M7: Defense Ready** | Cloud Deployment + Report + Slides complete | Hội đồng có thể reproduce kết quả |
 
-### 6.3. Sprint Skeleton (12 sprints × 2 tuần)
+### 6.3. Sprint Skeleton (14 sprints × 2 tuần)
 
 > Bạn tự điền chi tiết. Mentor chỉ verify xem sprint goal có SMART không.
 
