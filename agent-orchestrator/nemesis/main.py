@@ -671,14 +671,26 @@ async def get_api_chat():
     try:
         async with httpx.AsyncClient(timeout=3.0) as client:
             r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
-                "query": 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[2m])) by (deployment)'
+                "query": 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[2m])) by (pod)'
             })
             if r.status_code == 200:
                 results = r.json().get("data", {}).get("result", [])
                 for res in results:
-                    svc = res.get("metric", {}).get("deployment")
+                    pod = res.get("metric", {}).get("pod")
                     cpu_val = float(res.get("value", [0, "0"])[1])
                     if cpu_val > 0.08:
+                        if not pod:
+                            continue
+                        # Extract service name from pod name (standardize with Gaia's logic)
+                        if "-stress" in pod:
+                            svc = pod.split("-stress")[0]
+                        else:
+                            parts = pod.split("-")
+                            if len(parts) > 2:
+                                svc = "-".join(parts[:-2])
+                            else:
+                                svc = parts[0]
+                                
                         current_minute = datetime.now(timezone.utc).strftime("%Y-%m-%d-%H-%M")
                         chat_key = f"gaia_stress_{svc}_{current_minute}"
                         if chat_key not in PROCESSED_CHAT_KEYS:
@@ -687,7 +699,7 @@ async def get_api_chat():
                                 "agent": "GAIA",
                                 "message": f"Phát hiện bất thường hiệu năng (Anomaly Detected) tại dịch vụ '{svc}'.",
                                 "reasoning": f"Chỉ số CPU usage thực tế đo được từ Prometheus tăng vọt lên {round(cpu_val, 3)} cores, vượt xa ngưỡng cảnh báo an toàn (0.05 cores). Gửi yêu cầu tự phục hồi tới Hephaestus."
-                            })
+                             })
                             PROCESSED_CHAT_KEYS.add(chat_key)
     except Exception as e:
         logger.warning(f"Could not check Prometheus CPU for Gaia alerts: {e}")
