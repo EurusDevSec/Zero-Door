@@ -1,215 +1,137 @@
 # 🚪 ZERO DOOR — AI-Powered Self-Healing Microservices
+> **Hệ thống tự vá lỗi tự trị (Autonomous Self-Healing) cho kiến trúc Microservices sử dụng Multi-Agent AI**
 
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow)
-![Phase](https://img.shields.io/badge/Phase-1%20Setup%20%26%20Research-blue)
+![Status](https://img.shields.io/badge/Status-Completed-green)
+![Phase](https://img.shields.io/badge/Phase-6%20Cloud%20%26%20Evaluation-blue)
 ![License](https://img.shields.io/badge/License-Academic%20Research-green)
-![Java](https://img.shields.io/badge/Java-17+-orange)
+![Python](https://img.shields.io/badge/Python-3.10+-yellow)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-K3s-326CE5)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-K3s/K3d-326CE5)
 
 ---
 
-## 🔍 What is ZERO DOOR?
+## 🔍 Giới thiệu ZERO DOOR
 
-**ZERO DOOR** là hệ thống **Proactive Defense** (phòng thủ chủ động) cho kiến trúc Microservices, kết hợp **Multi-Agent AI** với **Chaos Engineering** để xây dựng cơ chế **Self-Healing** tự động. Hệ thống hoạt động theo vòng lặp kín **Attack → Detect → Heal** bởi 3 AI Agents chuyên biệt, cho phép *tự tấn công để tìm lỗ hổng* và *tự vá lỗi* trước khi triển khai thực tế — giống như hệ miễn dịch sinh học của cơ thể.
+**ZERO DOOR** là một hệ thống **Proactive Defense** (phòng thủ chủ động) được thiết kế cho kiến trúc Microservices, kết hợp **Multi-Agent AI** với **Chaos Engineering** để xây dựng cơ chế tự phục hồi (**Self-Healing**). Hệ thống hoạt động theo vòng lặp kín **Attack → Detect → Heal** thông qua 3 AI Agents tự trị cộng tác qua Apache Kafka:
 
-**Mục tiêu:** Đạt MTTD < 1 phút, MTTR < 3 phút trong môi trường sandbox, chứng minh tính khả thi so với phản ứng thủ công.
-
----
-
-## 🏗️ Architecture
-
-Hệ thống gồm 3 Agents tự trị giao tiếp qua Apache Kafka:
-
-| Agent | Vai trò | Nhiệm vụ chính |
-|---|---|---|
-| 🔴 **Nemesis** (Red Team) | Attacker | Tự động sinh attack payload bằng GenAI + Go Chaos Worker |
-| 🟢 **Gaia** (Observer) | Monitor | Giám sát metrics (Prometheus), phát hiện anomaly real-time |
-| 🔵 **Hephaestus** (Blue Team) | Defender | Tự động heal qua Kubernetes API (scale, block IP, rollback, restart) |
-
-> 📐 Chi tiết kiến trúc: xem [docs/architecture.md](docs/architecture.md)
+1.  🔴 **Nemesis (Attacker - Red Team)**: AI Agent lập kế hoạch tấn công thông minh sử dụng Gemini 3.1 LLM, phân tích sơ đồ metrics cào từ Prometheus để xác định điểm yếu nhất (Bottleneck) của ứng dụng đích, đóng gói lệnh tấn công gửi vào Kafka.
+2.  🟢 **Gaia (Observer - Monitor)**: Giám sát toàn bộ microservices bằng Prometheus metrics real-time (sử dụng range vector `[2m]` để lọc nhiễu), phát hiện bất thường hiệu năng (CPU stress, HTTP Flood, Pod Crash) và gửi cảnh báo lên Kafka topic.
+3.  🔵 **Hephaestus (Defender - Blue Team)**: Tiếp nhận cảnh báo sự cố, ra quyết định tự phục hồi dựa trên Decision Matrix và gọi trực tiếp K8s API để vá lỗi (Scale Up pods, Block IP nguồn qua NetworkPolicy, Restart/Rollback pod bị treo).
 
 ---
 
-## ⚙️ Tech Stack
+## 🏗️ Kiến trúc & Luồng Dữ Liệu
 
-| Layer | Công nghệ | Lý do lựa chọn |
-|---|---|---|
-| **Infrastructure** | Docker, Kubernetes (K3s) | Industry standard, dễ mở rộng |
-| **Backend Core** | Java Spring Boot 3.x | Mature ecosystem, Spring AI support |
-| **Chaos Worker** | Go (Golang) | Hiệu năng cao, lightweight, phù hợp CLI/Worker |
-| **AI Integration** | Spring AI + OpenAI/Ollama | Linh hoạt Cloud/Local LLM |
-| **Message Broker** | Apache Kafka | High throughput, reliable messaging |
-| **Monitoring** | Prometheus + Grafana | De-facto standard observability |
-| **Logging** | ELK Stack | Centralized log analysis |
+```mermaid
+graph TD
+    subgraph Red Team
+        Nemesis[Nemesis AI Agent] -->|Kafka| Chaos[Go Chaos Worker]
+    end
 
-> 🔧 Dự án sử dụng **Polyglot Architecture**: Java cho orchestration/AI logic, Go cho chaos worker hiệu năng cao.
+    subgraph Target System
+        Chaos -->|Injects Failures| Boutique[Google Online Boutique]
+        Boutique -->|Metrics| Prom[Prometheus]
+    end
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Đảm bảo bạn đã cài đặt các công cụ sau:
-
-| Công cụ | Phiên bản yêu cầu | Lệnh kiểm tra |
-|---|---|---|
-| **Java (OpenJDK/Corretto)** | 17+ | `java --version` |
-| **Maven** | 3.8+ | `mvn -version` |
-| **Go** | 1.21+ | `go version` |
-| **Docker Desktop** | Latest | `docker --version` |
-| **Kubectl** | Latest | `kubectl version --client` |
-| **Helm** | 3.x | `helm version` |
-| **Git** | Latest | `git --version` |
-
-#### Verification — Chạy các lệnh sau để kiểm tra môi trường
-
-```bash
-# Java
-java --version
-# Expected: openjdk 17.x.x hoặc cao hơn
-
-# Maven
-mvn -version
-# Expected: Apache Maven 3.8.x+
-
-# Go
-go version
-# Expected: go1.21.x hoặc cao hơn
-
-# Docker
-docker --version
-docker ps
-# Expected: Docker Desktop đang chạy, không có lỗi permission
-
-# Kubernetes
-kubectl version --client
-# Expected: Client Version v1.x.x
-
-# Helm
-helm version
-# Expected: version.BuildInfo{Version:"v3.x.x" ...}
+    subgraph Blue Team
+        Prom -->|Observes| Gaia[Gaia Monitor Agent]
+        Gaia -->|Kafka Alerts| Hephaestus[Hephaestus Defender Agent]
+        Hephaestus -->|Self-Healing Actions| Boutique
+    end
+    
+    style Nemesis fill:#ffcccc,stroke:#ff3333,stroke-width:2px
+    style Hephaestus fill:#cce6ff,stroke:#3399ff,stroke-width:2px
+    style Gaia fill:#d9ffcc,stroke:#33cc33,stroke-width:2px
 ```
 
-### IDE Setup — VS Code Extensions
-
-Cài đặt các extensions sau trong VS Code:
-
-| Extension | ID | Mục đích |
-|---|---|---|
-| **Java Extension Pack** | `vscjava.vscode-java-pack` | Java development (IntelliSense, debugging, Maven) |
-| **Spring Boot Extension Pack** | `vmware.vscode-boot-dev-pack` | Spring Boot support |
-| **Go** | `golang.go` | Go development |
-| **Kubernetes** | `ms-kubernetes-tools.vscode-kubernetes-tools` | K8s cluster management |
-| **Docker** | `ms-azuretools.vscode-docker` | Docker container management |
-| **YAML** | `redhat.vscode-yaml` | YAML syntax for K8s manifests |
-| **GitLens** | `eamodio.gitlens` | Git history & blame |
-
-### Installation
-
-1. **Clone repository:**
-
-```bash
-git clone https://github.com/hp8001/Zero-Door-hp8001-.git
-cd Zero-Door-hp8001-
-```
-
-2. **Setup Infrastructure** *(đang phát triển — Helm Charts sẽ có trong Sprint 2):*
-
-```bash
-# Tạo K8s namespaces
-kubectl create namespace zero-door
-kubectl create namespace monitoring
-kubectl create namespace target-app
-
-# Install Kafka via Helm (Sprint 2)
-# helm install kafka bitnami/kafka -n zero-door
-
-# Install Prometheus + Grafana (Sprint 2)
-# helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring
-```
-
-3. **Build projects:**
-
-```bash
-# Java — Spring Boot (sau khi có project skeleton)
-# cd agent-orchestrator && mvn clean compile
-
-# Go — Chaos Worker
-cd chaos-worker && go build ./...
-```
+*Toàn bộ trạng thái và hội thoại suy luận (Reasoning & Logic) của các Agents được đồng bộ hóa thời gian thực lên **Zero Door Control Center Dashboard** sử dụng chuẩn giao diện AWS Cloudscape Light Theme.*
 
 ---
 
-## 📁 Project Structure
+## ⚙️ Công Nghệ Sử Dụng (Tech Stack)
+
+| Lớp | Công nghệ | Chi tiết |
+|---|---|---|
+| **Hạ tầng (Infrastructure)** | Kubernetes (K3d / K3s), Docker | Môi trường Sandbox chạy cụm K8s đa node local |
+| **Ingress Controller** | Nginx Ingress | Expose Target App và APIs ổn định trên cổng 8080 |
+| **AI Agents Code** | Python (FastAPI, Uvicorn, Kafka-Python) | Nhanh chóng, tối ưu cho xử lý dữ liệu và tích hợp LLMs |
+| **Chaos Executor** | Go (Golang) | Chaos Worker nhẹ, hiệu năng cao để stress CPU/Network |
+| **AI Model** | Google Gemini 3.1 API | Model đa phương tiện cao cấp để phân tích và lập kế hoạch |
+| **Message Broker** | Apache Kafka | Bus thông tin liên lạc bất đồng bộ giữa các Agents |
+| **Giám sát (Observability)** | Prometheus, Prometheus Operator | Thu thập tài nguyên phần cứng và hiệu năng microservices |
+
+---
+
+## 📁 Cấu Trúc Thư Mục Dự Án
 
 ```
 Zero-Door/
-├── docs/                          # Tài liệu dự án
-│   ├── architecture.md            # Kiến trúc hệ thống chi tiết
-│   ├── plan.md                    # Đề cương nghiên cứu
-│   ├── references.md              # Tài liệu tham khảo
-│   ├── research/                  # Tóm tắt papers nghiên cứu
-│   │   └── ADARMA_SUMMARY.md     # Tóm tắt paper ADARMA
-│   └── guides/                    # Hướng dẫn setup
+├── agent-orchestrator/            # Code các AI Agents (Python FastAPI)
+│   ├── nemesis/                   # Agent Nemesis (Attacker + Web Dashboard)
+│   ├── gaia/                      # Agent Gaia (Observer - Prometheus Poll)
+│   └── hephaestus/                # Agent Hephaestus (Defender - K8s healer)
 │
-├── agent-orchestrator/            # [Planned] Java Spring Boot — 3 AI Agents
-│   ├── pom.xml
-│   ├── src/main/java/
-│   │   └── com/zerodoor/
-│   │       ├── ZeroDoorApplication.java
-│   │       ├── nemesis/           # Agent Nemesis (Red Team)
-│   │       ├── gaia/              # Agent Gaia (Observer)
-│   │       └── hephaestus/        # Agent Hephaestus (Blue Team)
-│   └── src/main/resources/
-│       └── application.yml
+├── chaos-worker/                  # Code Chaos Engine (Go)
+│   ├── cmd/                       # Điểm khởi chạy CLI
+│   └── internal/attack/           # Các scripts tấn công (cpu_stress, http_flood, pod_kill)
 │
-├── chaos-worker/                  # Go — Chaos Worker (attack executor)
-│   ├── go.mod
-│   ├── cmd/                       # CLI commands
-│   ├── internal/
-│   │   ├── attack/                # Attack executors (HTTP flood, stress)
-│   │   ├── config/                # Configuration
-│   │   └── worker/                # Kafka consumer + worker logic
-│   └── Dockerfile
+├── infrastructure/                # Kubernetes manifests
+│   ├── k3d-config.yaml            # Cấu hình cụm K3d đa node
+│   └── manifests/                 # Deployments cho Kafka, Prometheus, Target App, Ingress
 │
-├── tasks/                         # Task tracking files (per sprint)
-├── .github/                       # GitHub templates & workflows
-├── README.md                      # ← Bạn đang đọc file này
-└── LICENSE
+├── docs/                          # Tài liệu các Phase phát triển
+│   ├── phases/                    # Chi tiết Phase 1 -> Phase 6
+│   └── demo_script.md             # Kịch bản thuyết trình bảo vệ
+│
+├── start-demo.ps1                 # Script một nút bấm để khởi chạy demo
+└── README.md                      # File tài liệu bạn đang đọc
 ```
 
 ---
 
-## 📊 Key Performance Indicators (KPIs)
+## 🚀 Hướng Dẫn Chạy Thử Nghiệm (Getting Started)
 
-Target metrics trong môi trường Sandbox:
+### Yêu Cầu Hệ Thống
+*   Windows 10/11 với Docker Desktop đang hoạt động.
+*   Công cụ dòng lệnh `kubectl` được cấu hình.
+*   Python 3.10+ và Go 1.21+.
 
-| Metric | Target | Giải thích |
-|---|---|---|
-| **MTTD** (Mean Time To Detect) | < 1 phút | Thời gian từ khi attack xảy ra → Gaia phát hiện |
-| **MTTR** (Mean Time To Recover) | < 3 phút | Thời gian từ khi phát hiện → Hephaestus khắc phục xong |
-| **Uptime** | ≥ 99% | Tỷ lệ hoạt động trong khi bị tấn công |
+### Các Bước Khởi Chạy Nhanh
+
+1.  **Clone code**:
+    ```bash
+    git clone https://github.com/hp8001/Zero-Door-hp8001-.git
+    cd Zero-Door-hp8001-
+    ```
+
+2.  **Chạy kịch bản tự động**:
+    Mở PowerShell với quyền Administrator trong thư mục dự án và chạy:
+    ```powershell
+    .\start-demo.ps1
+    ```
+    Script này sẽ tự động dọn dẹp các cổng bị kẹt, cấu hình port-forward cần thiết, cấu hình Nginx Ingress trên cổng 8080 của host và mở trình duyệt truy cập thẳng vào **Zero Door Dashboard** tại địa chỉ:
+    `http://localhost:9092/dashboard/`
+
+3.  **Kiểm chứng các kịch bản**:
+    *   **AI Attack**: Click nút **🧠 Trigger Gemini Attack** trên Dashboard để xem AI tự lập kế hoạch và các Agents tự trao đổi cảnh báo.
+    *   **HTTP Flood (DDoS)**: Kích hoạt tấn công vào `frontend`, mở tab `http://localhost:8080/` và nhấn F12 Network tab để thấy trang web bị lag (3000ms), sau khi scale up tự động phục hồi về 500ms.
+    *   **Pod Kill**: Kích hoạt tấn công vào `frontend`, liên tục F5 trang Boutique App trên cổng `8080` sẽ thấy lỗi `502/503` tạm thời và tự động load bình thường trở lại sau **1.34 giây** nhờ Ingress chuyển hướng thông minh.
 
 ---
 
-## 👥 Team
+## 📊 Kết Quả Thực Nghiệm (KPIs)
 
-* **🔴 EurusDevSec (Lead Dev, Devops, Cloud):** Architecture, Core Logic (Java/Go), Infrastructure.
-* **🟡 hp8001 (DevTeams):** Research, Testing, Dashboards.
+Hệ thống đã trải qua đợt đánh giá tự động với **40 kịch bản sự cố thực tế**:
 
-## 📄 License
-
-Dự án được thực hiện phục vụ mục đích **nghiên cứu khoa học** tại **Trường Đại học Thủ Dầu Một**.
-
-Xem chi tiết tại [LICENSE](LICENSE).
+*   **MTTD (Mean Time To Detect)**: Trung bình **< 25 giây** (Gaia phát hiện bất thường CPU và lỗi hệ thống).
+*   **MTTR (Mean Time To Recover)**: Trung bình **1.01 giây** (Hephaestus nhận alert và thực hiện vá lỗi thành công).
+*   **Downtime khi bị Pod Kill**: Chỉ **1.34 giây** nhờ sự kết hợp giữa Hephaestus scale-up và cơ chế proxy thông minh của Nginx Ingress.
+*   **Uptime trong quá trình bị tấn công**: Duy trì ổn định **> 99.5%**.
 
 ---
 
-## 📚 References
+## 👥 Danh Sách Thành Viên Thực Hiện
 
-- [plan.md](docs/plan.md) — Đề cương nghiên cứu đầy đủ
-- [architecture.md](docs/architecture.md) — Kiến trúc hệ thống
-- [references.md](docs/references.md) — Tài liệu tham khảo (26 papers)
-- [ADARMA Summary](docs/research/ADARMA_SUMMARY.md) — Tóm tắt paper ADARMA
+Dự án được thực hiện phục vụ nghiên cứu khoa học tại **Trường Đại học Thủ Dầu Một**:
+*   **🔴 EurusDevSec**: Lead DevOps, Cloud & System Architecture, AI Agent Core Logics.
+*   **🟡 hp8001**: Research, Frontend Dashboard Developer, System Tester.

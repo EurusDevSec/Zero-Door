@@ -1,51 +1,40 @@
 # 🎬 KỊCH BẢN DEMO BẢO VỆ ĐỀ TÀI: ZERO DOOR
-> **Tài liệu hướng dẫn thuyết trình & thực hành từng bước (Phiên bản mới nhất — có Web Dashboard)**
+> **Tài liệu hướng dẫn thuyết trình & thực hành từng bước (Phiên bản mới nhất — tích hợp Ingress & AWS Cloudscape Dashboard)**
 > *Dành cho EurusDevSec & hp8001 báo cáo trước Hội đồng nghiệm thu*
 
 ---
 
-## 🛠️ PHẦN 1: CHUẨN BỊ TRƯỚC DEMO (10 PHÚT TRƯỚC BÁO CÁO)
+## 🛠️ PHẦN 1: CHUẨN BỊ TRƯỚC DEMO (2 PHÚT)
+
+Nhờ việc tối ưu hóa hạ tầng qua **Nginx Ingress** và tự động hóa bằng PowerShell, bạn không cần gõ từng dòng lệnh port-forward thủ công nữa.
 
 ### 1. Khởi động Docker Desktop & Kiểm tra cụm K3d
-```bash
+Đảm bảo Docker Desktop đang chạy. Mở Terminal và chạy:
+```powershell
 # Kiểm tra trạng thái các node
 kubectl get nodes
 # Dự kiến: 3 nodes (1 server, 2 agents) trạng thái Ready
-
-# Kiểm tra tất cả pods đang chạy ổn định
-kubectl get pods -A
-# Đảm bảo pods ở zero-door, target-app, monitoring đều ở trạng thái "Running"
 ```
 
-### 2. Thiết lập Port-Forward kết nối các dịch vụ
-Mở **5 terminal riêng biệt**, mỗi terminal chạy một lệnh sau (giữ ngầm suốt buổi demo):
-```bash
-# Terminal 1: Prometheus (Cổng 9090)
-kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring
-
-# Terminal 2: Ứng dụng mục tiêu Online Boutique (Cổng 8080)
-kubectl port-forward svc/frontend 8080:80 -n target-app
-
-# Terminal 3: Agent Nemesis — Attacker + Dashboard (Cổng 9092)
-kubectl port-forward svc/nemesis 9092:8000 -n zero-door
-
-# Terminal 4: Agent Hephaestus — Defender (Cổng 9091)
-kubectl port-forward svc/hephaestus 9091:8000 -n zero-door
-
-# Terminal 5 (tuỳ chọn — để debug): Theo dõi logs Hephaestus
-kubectl logs -n zero-door -l app=hephaestus -f --tail=30
+### 2. Khởi động nhanh bằng Một Nút Bấm
+Chạy script tự động hóa trong thư mục gốc của dự án:
+```powershell
+.\start-demo.ps1
 ```
+**Script sẽ tự động thực hiện:**
+1. Quét và dọn sạch các tiến trình `kubectl port-forward` cũ bị kẹt.
+2. Khởi tạo port-forward cho các cổng dịch vụ:
+   - **`9092`**: Nemesis API & Dashboard.
+   - **`9091`**: Hephaestus Defender REST API.
+   - **`9090`**: Prometheus Observability.
+3. Không cần chạy port-forward cho `frontend` (Target App) vì nó đã được expose mặc định qua **Nginx Ingress** của cụm K3d trực tiếp trên cổng **`8080`** của host.
+4. Tự động mở trình duyệt vào trang **Zero Door Control Center Dashboard** (`http://localhost:9092/dashboard/`).
 
-### 3. Chuẩn bị các cửa sổ trình duyệt (Tabs)
-Mở trình duyệt với **3 tab**:
-
+### 3. Các Tabs Trình Duyệt Cần Thiết
 | Tab | URL | Mục đích |
 |---|---|---|
-| 1 | `http://localhost:8080` | Ứng dụng mục tiêu — Google Online Boutique |
-| 2 | `http://localhost:9092/dashboard/` | ⭐ **Zero Door Control Center** (tab chính) |
-| 3 | `http://localhost:9090` | Prometheus (nếu cần chứng minh nâng cao) |
-
-> **⭐ Lưu ý quan trọng:** Tab số 2 (`http://localhost:9092/dashboard/`) chính là **trung tâm chỉ huy duy nhất** cần trình chiếu trong toàn bộ buổi demo. Mọi thao tác bắt đầu từ đây!
+| 1 | `http://localhost:9092/dashboard/` | ⭐ **Zero Door Control Center** (Tab chính để trình chiếu) |
+| 2 | `http://localhost:8080/` | Ứng dụng mục tiêu — Google Online Boutique (qua Ingress) |
 
 ---
 
@@ -56,127 +45,106 @@ Mở trình duyệt với **3 tab**:
 ### BƯỚC 1: GIỚI THIỆU TRẠNG THÁI BÌNH THƯỜNG (STEADY STATE) — 1 PHÚT
 
 **Hành động trên màn hình:**
-1. Mở Tab 1 (`http://localhost:8080`), click thử mua vài sản phẩm để chứng minh web bình thường.
-2. Chuyển sang Tab 2 — **Zero Door Control Center Dashboard**.
-3. Chỉ vào **panel "Target-App Microservices Status"**: tất cả các service đang hiển thị CPU thấp và 1 Pod/replica.
-4. Chỉ vào **"Platform Status"** (góc dưới bên trái): chứng minh đã tích hợp Gemini 3.1 với Round Robin 2 API Keys và hệ thống Defender đang sẵn sàng.
+1. Mở Tab 2 (`http://localhost:8080/`), bấm F12 chọn tab **Network** để thấy trang web load cực nhanh (chỉ từ `40ms - 80ms`).
+2. Chuyển sang Tab 1 — **Zero Door Control Center Dashboard**.
+3. Giới thiệu bố cục 3 cột chuẩn **AWS Cloudscape Light Theme**:
+   - **Cột Trái (Sidebar)**: Cấu hình Cluster, Danh sách Microservices Status dọc 290px rõ nét.
+   - **Cột Giữa**: Sơ đồ Topology tương tác thời gian thực, Control Panel, Console Log ở dưới.
+   - **Cột Phải**: Agent Reasoning Chat Panel (có thể click thu gọn/mở rộng mượt mà).
+4. Chỉ vào **Platform Status** ở góc dưới bên trái: chứng minh Gemini 3.1 kết nối sẵn sàng.
 
 **Lời thoại (Talking Points):**
-> *"Kính thưa Hội đồng, đây là **Zero Door Control Center** — giao diện giám sát và điều phối tập trung của hệ thống. Ứng dụng mục tiêu là Google Online Boutique chạy trong namespace `target-app` với 9 microservice. Toàn bộ trạng thái CPU và Replicas của từng service được hiển thị trực tiếp, cập nhật mỗi 3 giây từ Prometheus.*
+> *"Kính thưa Hội đồng, đây là **Zero Door Control Center** — trung tâm chỉ huy và giám sát tự trị của dự án. Hệ thống được thiết kế theo chuẩn giao diện AWS Cloudscape Light Theme tối giản, chia làm 3 cột trực quan.*
 >
-> *Agent phòng thủ Hephaestus đang ở trạng thái Active. AI Model đã sẵn sàng — Gemini 3.1 kết nối qua cơ chế Round Robin 2 API Key để tránh Rate Limiting. Hệ thống đang ở Steady State hoàn toàn bình thường."*
+> *Ứng dụng mục tiêu là Google Online Boutique đang chạy ổn định trên cổng 8080 qua Nginx Ingress. Tại cột bên trái, chúng ta thấy trạng thái tài nguyên thực tế của toàn bộ microservices được cào trực tiếp từ Prometheus. Agent Hephaestus (Defender) đang ở trạng thái Active và AI Model Gemini 3.1 đã sẵn sàng để ứng phó sự cố."*
 
 ---
 
 ### BƯỚC 2: NEMESIS KÍCH HOẠT TẤN CÔNG BẰNG AI (ATTACK PHASE) — 1.5 PHÚT
 
 **Hành động trên màn hình:**
-1. Vẫn ở Tab 2 Dashboard.
-2. Nhấp nút **`🧠 Trigger Gemini-3.1 Attack`** (nút tím lớn góc trên bên trái).
-3. Quan sát:
-   - Node **Nemesis** và node **Gemini** trên sơ đồ Workflow Graph bắt đầu nhấp nháy tím.
-   - Cửa sổ **Integrated Agent Log Console** (cuối trang) bắt đầu xuất hiện log:
-     - `[NEMESIS] Round Robin: Using Gemini API key: AQ.Ab8...`
-     - `[NEMESIS] Gemini selected target: cartservice | Attack: CPU_STRESS`
-   - Node **Kafka** và **Chaos Worker** bắt đầu nhấp nháy đỏ.
+1. Vẫn ở Tab 1 Dashboard. Nhấp nút **`🧠 Trigger Gemini Attack`** (nút tím lớn).
+2. Quan sát:
+   - Sơ đồ Topology hiển thị luồng kết nối động: Nemesis và Gemini nhấp nháy tím.
+   - Panel **Agent Reasoning Chat** bên phải lập tức hiện bong bóng phân tích của **NEMESIS (ATTACKER)** bằng Tiếng Việt:
+     - *"Dịch vụ productcatalogservice thường là nút thắt cổ chai khi tải tăng cao, việc gây áp lực CPU sẽ kiểm tra khả năng phục hồi..."*
+   - Log Console hiện log Chaos Worker bắt đầu kích hoạt cuộc tấn công.
 
 **Lời thoại (Talking Points):**
-> *"Em vừa kích hoạt **Agent Nemesis** ở chế độ AI Planning. Ngay lập tức, Nemesis gọi API Gemini 3.1 (thế hệ model mới nhất của Google) và truyền vào toàn bộ dữ liệu metrics hệ thống từ Prometheus — bao gồm CPU, RAM, HTTP Error Rate của từng microservice.*
+> *"Em vừa kích hoạt **Agent Nemesis** ở chế độ tự động. Ngay lập tức, Nemesis gọi API Gemini 3.1, truyền vào các số liệu giám sát của cụm. Gemini phân tích và tự quyết định mục tiêu: nó phát hiện dịch vụ `productcatalogservice` (hoặc `cartservice`) là nút thắt cổ chai dễ sập nhất nếu bị quá tải.*
 >
-> *Gemini phân tích và **tự quyết định chiến lược tấn công**: nó xác định `cartservice` (dịch vụ giỏ hàng) đang có traffic cao nhất và giới hạn tài nguyên thấp nhất → đây là điểm yếu nhất của hệ thống. Gemini lập kế hoạch ép CPU_STRESS vào đây.*
->
-> *Lệnh tấn công được đóng gói JSON và gửi vào Kafka. Chaos Worker nhận lệnh, kiểm tra an toàn (Blast Radius Validation) và deploy một pod ép CPU vào `cartservice`."*
+> *Gemini lập kế hoạch tấn công và gửi thông điệp vào Kafka. Chaos Worker nhận lệnh và deploy một stress container để vắt kiệt CPU của dịch vụ mục tiêu."*
 
 ---
 
 ### BƯỚC 3: GAIA PHÁT HIỆN BẤT THƯỜNG (DETECTION PHASE) — 1 PHÚT
 
 **Hành động trên màn hình:**
-1. Quan sát **panel "Target-App Microservices Status"** trên Dashboard:
-   - Card của `cartservice` bắt đầu chuyển sang màu đỏ.
-   - Thanh Progress Bar CPU nhảy vọt lên > 100%.
-   - Số pod vẫn là 1 (chưa được scale).
-2. Quan sát node **Gaia** trên Workflow Graph bắt đầu nhấp nháy vàng (Warning state).
-3. Log Console hiện dòng:
-   - `[GAIA] ALERT: CPU utilization of 'cartservice' is at 233% (limit: 0.2 cores)`
+1. Quan sát **Microservices Status** ở cột trái:
+   - Dịch vụ mục tiêu chuyển sang màu đỏ rực, thanh CPU Usage vọt lên > 100%.
+2. Sơ đồ Topology: Node **Gaia Agent** chuyển sang màu vàng nhấp nháy.
+3. Panel **Agent Reasoning Chat** xuất hiện suy luận của **GAIA (OBSERVER)**:
+   - *"Phát hiện bất thường hiệu năng tại dịch vụ 'productcatalogservice'. Chỉ số CPU usage thực tế đo được từ Prometheus tăng vọt, vượt xa ngưỡng cảnh báo an toàn. Gửi yêu cầu tự phục hồi tới Hephaestus."*
 
 **Lời thoại (Talking Points):**
-> *"Ngay khi Chaos Worker ép CPU `cartservice`, hệ thống phản ứng tức thì. **Agent Gaia** — Observer liên tục quét Prometheus mỗi vài giây — phát hiện CPU của `cartservice` đã vọt lên 233%, vượt qua ngưỡng cảnh báo 80% của giới hạn tài nguyên.*
->
-> *Dashboard tự động cập nhật — Card `cartservice` chuyển sang màu đỏ và nhấp nháy cảnh báo. Đây là sự kiện anomaly được phát hiện thời gian thực (MTTD dưới 25 giây) mà không cần con người theo dõi."*
+> *"Ngay khi cuộc tấn công diễn ra, **Agent Gaia (Observer)** liên tục cào Prometheus với chu kỳ quét 15 giây và phân tích dữ liệu range vector `[2m]` để lọc nhiễu. Gaia phát hiện CPU của dịch vụ đã vượt ngưỡng an toàn và lập tức gửi cảnh báo sự cố lên Kafka topic `monitoring.alerts`."*
 
 ---
 
 ### BƯỚC 4: HEPHAESTUS TỰ ĐỘNG VÁ LỖI (HEALING PHASE) — 1.5 PHÚT
 
 **Hành động trên màn hình:**
-1. Quan sát node **Hephaestus** trên Workflow Graph bắt đầu nhấp nháy xanh lam (Active state).
-2. Panel `cartservice` trên Dashboard: số **Pods tăng từ 1 lên 2** — hiển thị badge xanh "2 Pods".
-3. Sau khoảng 60 giây, Chaos Worker dừng lại, CPU bắt đầu giảm xuống, card trở về xanh.
-4. Log Console hiện ra chuỗi sự kiện:
-   - `[HEPHAESTUS] Received Alert: HIGH_CPU on cartservice`
-   - `[HEPHAESTUS] Decision: SCALE_UP deployment cartservice`
-   - `[HEPHAESTUS] Action SCALE_UP on cartservice -> SUCCESS`
+1. Sơ đồ Topology: Node **Hephaestus** nhấp nháy xanh lam.
+2. Panel **Agent Reasoning Chat** hiển thị log của **HEPHAESTUS (DEFENDER)**:
+   - *"Phát hiện tài nguyên của dịch vụ quá tải nghiêm trọng. Thực hiện scale up tăng số lượng Pods để phân chia tải, tránh nghẽn luồng và duy trì hoạt động."*
+3. Cột bên trái: Số lượng Pods của dịch vụ tự động tăng từ **1 Pod lên 3 Pods** (badge xanh cập nhật thời gian thực).
 
 **Lời thoại (Talking Points):**
-> *"Khi cảnh báo xuất hiện trên Kafka topic `monitoring.alerts`, **Agent Hephaestus** lập tức kích hoạt. Không cần con người can thiệp.*
+> *"Nhận được cảnh báo từ Kafka, **Agent Hephaestus (Defender)** kích hoạt quy trình tự vá lỗi. Hephaestus gọi Kubernetes API thực hiện hành động **SCALE_UP**, nâng số lượng Pods từ 1 lên 3.*
 >
-> *Dựa trên Decision Matrix, với lỗi `HIGH_CPU`, Hephaestus tự động gọi Kubernetes API để **Scale Up** deployment `cartservice` từ 1 lên 2 replicas. Dashboard ngay lập tức hiển thị badge "2 Pods" trên card của `cartservice`.*
->
-> *Toàn bộ quy trình Phát hiện → Ra quyết định → Vá lỗi diễn ra hoàn toàn tự động, khép kín, không cần một dòng lệnh thủ công nào. MTTR chỉ mất **dưới 2 giây** kể từ khi Hephaestus nhận được cảnh báo."*
+> *Quy trình vá lỗi này diễn ra hoàn toàn tự động chỉ trong vòng **1.01 giây** kể từ khi nhận cảnh báo. Trong vòng chưa đầy 2 giây, số Pod đã được tăng lên 3 để chia tải."*
 
 ---
 
-### BƯỚC 5 (TÙY CHỌN NÂNG CAO): ĐẶT LẠI & THỬ TẤN CÔNG THỦ CÔNG
+### BƯỚC 5: KIỂM CHỨNG TRỰC QUAN TRÊN TRÌNH DUYỆT CỦA HỘI ĐỒNG — 1.5 PHÚT
 
-**Hành động trên màn hình:**
-1. Nhấn nút **`↺ Reset System (Steady State)`** (nút đỏ dưới cùng của Control Panel) để xóa cooldown của Hephaestus và buffer log.
-2. Chọn thủ công từ dropdown: Attack Type = `POD_KILL`, Service = `checkoutservice`.
-3. Nhấn **`⚡ Inject Failure Script`** để thấy Hephaestus xử lý Pod Restart.
+Đây là phần thuyết phục nhất để chứng minh hệ thống tự phục hồi thực sự chứ không phải chạy giả lập.
 
-**Lời thoại:**
-> *"Ngoài mode AI Planning tự động, hệ thống còn hỗ trợ chế độ Simulation thủ công. Ở đây em có thể chọn bất kỳ loại tấn công nào (CPU Stress, HTTP Flood, Pod Kill) vào bất kỳ service nào trong hệ thống. Đây mô phỏng tình huống Red Team kiểm thử có kiểm soát."*
+#### Kịch bản 1: Tấn công sập mạng POD_KILL qua Ingress
+1. Nhấn **`RESET SYSTEM (STEADY STATE)`** trên Dashboard để đưa hệ thống về 1 Pod.
+2. Chọn thủ công: Attack Type = **`Pod Kill`**, Service = **`frontend`**, Intensity = **`High`** và nhấn **`Inject Failure Script`**.
+3. **Sang Tab 2 (`http://localhost:8080/`) và nhấn F5 liên tục**:
+   - Trình duyệt lập tức hiển thị màn hình lỗi trắng **`502 Bad Gateway`** hoặc **`503 Service Unavailable`** từ Nginx Ingress.
+   - Chỉ trong vòng **1.34 giây (Downtime)**, Kubernetes phục hồi lại Pod mới. Ingress tự động chuyển hướng kết nối.
+   - Bạn nhấn F5 tiếp $\rightarrow$ Trang web **tự động hoạt động bình thường trở lại** mà không bị mất kết nối vĩnh viễn (như khi dùng port-forward cũ).
+
+#### Kịch bản 2: Tấn công quá tải HTTP_FLOOD gây nghẽn mạng
+1. Chọn thủ công: Attack Type = **`HTTP Flood`**, Service = **`frontend`**, Intensity = **`High`** và nhấn **`Inject Failure Script`**.
+2. **F5 liên tục trang Boutique App và quan sát Network Tab (F12)**:
+   - Bạn sẽ thấy tổng thời gian load trang (`Load Time` ở dưới cùng) nhảy vọt lên **`3000ms (3 giây)`**, trang web load xoay vòng rất lag do nghẽn CPU.
+   - Đợi 20 giây để Gaia báo động và Hephaestus scale up lên 3 Pods.
+   - F5 lại trang web $\rightarrow$ Load time lập tức **tụt sâu về mức `500ms`** mượt mà (hệ thống đã tự gánh tải thành công).
 
 ---
 
-### BƯỚC 6: TỔNG KẾT KẾT QUẢ THỰC NGHIỆM (WAR GAME STATS) — 1 PHÚT
-
-**Hành động trên màn hình:**
-- Mở slide hoặc thư mục `docs/experiments/analysis/` hiển thị kết quả đo lường:
-  - `mttd_comparison.png` — So sánh MTTD (Manual vs Auto)
-  - `mttr_comparison.png` — So sánh MTTR (Manual vs Auto)
+### BƯỚC 6: TỔNG KẾT KẾT QUẢ THỰC NGHIỆM — 1 PHÚT
 
 **Lời thoại (Talking Points):**
-> *"Để chứng minh tính thuyết phục khoa học, nhóm em đã xây dựng script thử nghiệm tự động chạy **40 kịch bản sự cố** khác nhau và so sánh giữa tự chữa trị với vận hành thủ công (Manual SRE).*
+> *"Nhóm chúng em đã tự động hóa chạy **40 kịch bản sự cố** khác nhau để thu thập dữ liệu so sánh giữa hệ thống tự trị với vận hành thủ công (Manual SRE).*
 >
-> *Kết quả đo lường:*
-> - *MTTD giảm từ vài phút xuống còn **dưới 25 giây**.*
-> - *MTTR của hệ thống Zero Door chỉ mất **1.01 giây** — nhanh gấp hàng trăm lần so với con người.*
-> - *Uptime duy trì **100%** trong suốt tất cả kịch bản tấn công.*
+> *Kết quả thực nghiệm cho thấy:*
+> - *MTTD (Thời gian phát hiện) giảm từ vài phút xuống còn **dưới 25 giây**.*
+> - *MTTR (Thời gian tự vá lỗi) của Hephaestus chỉ mất trung bình **1.01 giây**.*
+> - *Downtime thực tế khi bị Pod Kill được khống chế ở mức cực thấp **1.34 giây** nhờ Nginx Ingress điều phối.*
 >
-> *Đề tài chứng minh sự khả thi của mô hình Multi-Agent tự trị trong DevSecOps — hướng tới giảm thiểu chi phí vận hành SRE và loại bỏ rủi ro do yếu tố con người. Nhóm em xin chân thành cảm ơn Hội đồng, sẵn sàng nhận câu hỏi phản biện ạ!"*
+> *Đề tài đã chứng minh sự khả thi vượt trội của mô hình Multi-Agent tự trị trong việc tối ưu hóa vận hành hệ thống DevSecOps. Em xin chân thành cảm ơn Hội đồng!"*
 
 ---
 
 ## 🔧 XỬ LÝ TÌNH HUỐNG KHẨN CẤP TRONG DEMO
 
-| Tình huống | Cách xử lý nhanh |
-|---|---|
-| Dashboard không load (`9092`) | Kiểm tra terminal port-forward Nemesis còn sống không. Nếu chết thì chạy lại: `kubectl port-forward svc/nemesis 9092:8000 -n zero-door` |
-| Log Console trống | Bấm nút "Reset" rồi thử lại Trigger Attack |
-| Hephaestus không scale up | Kiểm tra cooldown: `curl http://localhost:9091/healthz` — nếu cần, nhấn Reset System |
-| CPU không tăng sau attack | Confirm pod stress đang chạy: `kubectl get pods -n zero-door` — phải có pod `cartservice-stress-*` |
-| Gemini API timeout | Round Robin tự chuyển sang key 2, thử lại 1 lần nữa sau 5 giây |
-
----
-
-## 📋 CHECKLIST CUỐI — TRƯỚC KHI BẮT ĐẦU TRÌNH BÀY
-
-- [ ] Docker Desktop đang chạy
-- [ ] K3d cluster `zero-door` đang online (`kubectl get nodes`)
-- [ ] Tất cả pods ở trạng thái `Running` (`kubectl get pods -A`)
-- [ ] 5 terminal port-forward đang chạy ngầm
-- [ ] Tab 1: `http://localhost:8080` (Boutique) tải được
-- [ ] Tab 2: `http://localhost:9092/dashboard/` (Dashboard) hiển thị đầy đủ metrics
-- [ ] Slide bài thuyết trình đã mở sẵn
-- [ ] Tất cả lời thoại đã được luyện tập trước ít nhất 1 lần
+| Tình huống | Nguyên nhân | Cách xử lý nhanh |
+|---|---|---|
+| Lỗi `exceeded quota: target-app-quota` khi chạy CPU stress | Quên chưa reset hệ thống, số Pod scale up chiếm hết hạn ngạch CPU của namespace (hạn ngạch là 3 cores). | Click ngay nút **`RESET SYSTEM (STEADY STATE)`**, đợi 10 giây cho các Pod cũ tắt đi rồi chạy lại attack. |
+| HTTP Flood vào backend service không tạo log | Backend service dùng gRPC cổng `3550` chứ không nhận cổng `80` (HTTP). | Chỉ dùng `HTTP_FLOOD` cho dịch vụ `frontend`. Đối với backend, hãy dùng `CPU_STRESS` hoặc `POD_KILL`. |
+| Port-forward bị sập | Tiến trình chạy ngầm bị Windows kill. | Chạy lại script một nút bấm: `.\start-demo.ps1` |
