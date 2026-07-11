@@ -14,7 +14,8 @@
 | **Phase 3** | [phase3_nemesis_chaos.md](phase3_nemesis_chaos.md) | Agent Nemesis (Red Team) + Go Chaos Worker | Week 9-12 (Sprint 5-6) |
 | **Phase 4** | [phase4_hephaestus_loop.md](phase4_hephaestus_loop.md) | Agent Hephaestus (Blue Team) + Closed-Loop Integration | Week 13-16 (Sprint 7-8) |
 | **Phase 5** | [phase5_experiments.md](phase5_experiments.md) | War Game Experiments, Data Collection & KPI Measurement | Week 17-20 (Sprint 9-10) |
-| **Phase 6** | [phase6_cloud_report.md](phase6_cloud_report.md) | Cloud Transition (AWS), Final Report & Defense Preparation | Week 21-24 (Sprint 11-12) |
+| **Phase 6** | [phase6_cicd_optimization.md](phase6_cicd_optimization.md) | Automated CI/CD Pipeline & DevOps Security Optimization | Week 21-24 (Sprint 11-12) |
+| **Phase 7** | [phase7_cloud_report.md](phase7_cloud_report.md) | Cloud Transition (AWS), Final Report & Defense Preparation | Week 25-28 (Sprint 13-14) |
 
 ---
 
