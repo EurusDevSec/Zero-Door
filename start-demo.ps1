@@ -46,8 +46,8 @@ Write-Host "  [9092] Nemesis Agent (Control Center Dashboard) - STARTED" -Foregr
 Start-Process -WindowStyle Hidden -FilePath "kubectl" -ArgumentList "port-forward svc/hephaestus 9091:8000 -n zero-door"
 Write-Host "  [9091] Hephaestus Agent (Defender)             - STARTED" -ForegroundColor Green
 
-Start-Process -WindowStyle Hidden -FilePath "kubectl" -ArgumentList "port-forward svc/frontend 8080:80 -n target-app"
-Write-Host "  [8080] Online Boutique Frontend (Target App)   - STARTED" -ForegroundColor Green
+# Online Boutique Frontend is exposed natively on host port 8080 via Nginx Ingress
+Write-Host "  [8080] Online Boutique Frontend (Target App Ingress) - READY" -ForegroundColor Green
 
 Start-Process -WindowStyle Hidden -FilePath "kubectl" -ArgumentList "port-forward svc/prometheus-operated 9090:9090 -n monitoring"
 Write-Host "  [9090] Prometheus (Monitoring)                 - STARTED" -ForegroundColor Green
