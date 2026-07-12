@@ -6,6 +6,8 @@
 Trong mô hình phát triển phần mềm truyền thống, kiến trúc nguyên khối (Monolith) tích hợp toàn bộ các thành phần chức năng (giao diện, logic xử lý, kết nối dữ liệu) vào một khối mã nguồn duy nhất và chạy chung trong một tiến trình hệ thống. Mô hình này ban đầu mang lại lợi thế về sự đơn giản trong triển khai và kiểm thử. 
 
 Tuy nhiên, khi quy mô ứng dụng phình to, Monolith bộc lộ các hạn chế nghiêm trọng: thời gian build kéo dài, khó khăn trong việc áp dụng công nghệ mới do ràng buộc mã nguồn cũ, và đặc biệt là tính chịu lỗi kém – một lỗi nhỏ ở module này có thể làm sập toàn bộ tiến trình hệ thống (Single Point of Failure).
+![monolith vs microservices](image-2.png)
+Hình 2.1: Kiến trúc Monolithic và Microservices
 
 Kiến trúc dịch vụ siêu nhỏ (Microservices) giải quyết các bài toán trên bằng cách chia nhỏ hệ thống thành các dịch vụ độc lập. Mỗi dịch vụ chạy trong một tiến trình riêng biệt và giao tiếp phi trạng thái (stateless) thông qua môi trường mạng (HTTP REST, gRPC hoặc Message Broker). Nguyên lý cốt lõi của Microservices bao gồm:
 *   **Decoupling (Phân rã liên kết):** Các dịch vụ có chu kỳ phát triển, kiểm thử và deploy hoàn toàn độc lập.

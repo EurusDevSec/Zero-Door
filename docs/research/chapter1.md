@@ -5,6 +5,9 @@
 ### 1.1.1. Bối cảnh chuyển đổi số và xu hướng dịch chuyển sang Microservices
 Trong bối cảnh cuộc Cách mạng Công nghiệp 4.0 đang diễn ra mạnh mẽ, các tổ chức và doanh nghiệp trên toàn cầu đang đẩy nhanh tiến trình chuyển đổi số nhằm tối ưu hóa quy trình vận hành và nâng cao trải nghiệm khách hàng. Sự thay đổi này đòi hỏi hạ tầng công nghệ thông tin phải có tính linh hoạt cao, khả năng co giãn tức thời và tốc độ phân phối tính năng nhanh chóng. Để đáp ứng các yêu cầu đó, kiến trúc dịch vụ siêu nhỏ (Microservices) đã dần thay thế kiến trúc nguyên khối (Monolith) truyền thống, trở thành tiêu chuẩn công nghiệp trong thiết kế hệ thống phần mềm hiện đại.
 
+![Hình 1.1. Ảnh Kiến trúc Microservices](image.png)
+Hình 1.1. Ảnh Kiến trúc Microservices
+
 Bằng cách phân rã một ứng dụng cồng kềnh thành các dịch vụ độc lập, chạy cô lập trong các container và giao tiếp qua các giao thức mạng nhẹ như HTTP REST hoặc gRPC, kiến trúc Microservices mang lại nhiều lợi ích to lớn:
 *   **Phát triển song song:** Các nhóm phát triển có thể làm việc độc lập trên từng dịch vụ mà không lo ngại ảnh hưởng chéo đến mã nguồn của nhau.
 *   **Co giãn độc lập:** Dịch vụ nào bị quá tải có thể được scale-up riêng biệt, giúp tối ưu hóa chi phí tài nguyên phần cứng.
@@ -39,7 +42,7 @@ Hơn thế nữa, việc con người can thiệp trực tiếp vào hệ thốn
 
 Bằng cách kết hợp giữa kỹ thuật **Chaos Engineering** (chủ động gây lỗi để kiểm thử độ bền hệ thống) và kiến trúc **Multi-Agent AI** (các tác tử thông minh đóng vai trò Red Team tự tấn công và Blue Team tự phòng thủ), hệ thống sẽ liên tục tự kiểm tra và tự vá lỗi ngay trong môi trường Staging/Sandbox trước khi mã nguồn được triển khai chính thức. Điều này giúp phát hiện sớm các lỗi logic sâu tầng ứng dụng và cấu hình sai lệch hạ tầng, triệt tiêu mọi nguy cơ cửa hậu trước khi chúng có cơ hội tiếp xúc với người dùng cuối.
 
----
+
 
 ## 1.2. Mục tiêu nghiên cứu
 
@@ -49,24 +52,8 @@ Mục tiêu tổng quát của đề tài là nghiên cứu, thiết kế và x�
 ### 1.2.2. Mục tiêu cụ thể (KPIs kỹ thuật) và định nghĩa các chỉ số đo lường
 Để đánh giá tính hiệu quả thực tế của giải pháp một cách khách quan và khoa học, đề tài đặt ra các chỉ số đo lường hiệu năng cốt lõi (SLA/SLO) bám sát các tiêu chuẩn công nghiệp về SRE:
 
-```
-                  MTTD (Thời gian phát hiện dị thường)
-    |<--------------------------------------------------->|
-    |                                                     |
-    ▼                                                     ▼
-┌──────────────┐                                    ┌──────────────┐
-│  SỰ CỐ XẢY RA│                                    │PHÁT HIỆN LỖI │
-└──────────────┘                                    └──────┬───────┘
-                                                           |
-                                                           | MTTR (Thời gian tự phục hồi)
-                                                           |<-------------------->|
-                                                           |                      |
-                                                           ▼                      ▼
-                                                    ┌──────────────┐       ┌──────────────┐
-                                                    │  BẮT ĐẦU HEAL│       │ HỆ THỐNG ỔN  │
-                                                    └──────────────┘       │   ĐỊNH LẠI   │
-                                                                           └──────────────┘
-```
+![mttd-mttr diagram](image-1.png)
+Hình 1.2. Sơ đồ MTTD-MTTR
 
 1.  **MTTD (Mean Time To Detect - Thời gian phát hiện lỗi trung bình):** 
     *   *Định nghĩa:* Khoảng thời gian tính từ lúc Chaos Worker kích hoạt lỗi hoặc cuộc tấn công bắt đầu tàn phá hệ thống mục tiêu cho đến khi tác tử Gaia phát hiện dị thường và gửi thành công bản tin Alert vào hàng đợi Kafka.
@@ -83,7 +70,7 @@ Mục tiêu tổng quát của đề tài là nghiên cứu, thiết kế và x�
 5.  **Mức độ tối ưu hóa tài nguyên hệ thống (FinOps Index):**
     *   *Định nghĩa:* Tỷ lệ phần trăm bộ nhớ RAM tiết kiệm được của hệ thống tác tử Zero Door so với kiến trúc tác tử truyền thống (Java Spring Boot), đảm bảo toàn bộ hệ thống có thể chạy ổn định trên cấu hình máy chủ đám mây giá rẻ.
 
----
+
 
 ## 1.3. Đối tượng và phạm vi nghiên cứu
 
@@ -100,7 +87,6 @@ Mục tiêu tổng quát của đề tài là nghiên cứu, thiết kế và x�
 *   **Ứng dụng mục tiêu chịu lỗi:** Sử dụng hệ thống mã nguồn mở **Google Online Boutique** làm môi trường giả lập. Đây là một ứng dụng thương mại điện tử microservices đa ngôn ngữ chuẩn công nghiệp được phát triển bởi Google nhằm mục đích demo cho Kubernetes. Chúng ta chỉ giữ lại **6 dịch vụ cốt lõi** (`frontend`, `cartservice`, `productcatalogservice`, `currencyservice`, `checkoutservice` và `redis-cart`) và giới hạn tải nghiêm ngặt ở mức `limits.memory: 256Mi` mỗi dịch vụ để thích ứng với phần cứng.
 *   **Các kịch bản tấn công và giới hạn an toàn:** Đề tài chỉ tập trung thử nghiệm 3 hình thức tấn công: HTTP Flood (tương thích DDoS ứng dụng), CPU Stress (tương thích cạn kiệt tài nguyên), và Pod Kill (tương thích lỗi đột tử container). Chaos Worker được tích hợp bộ lọc an toàn để chỉ được phép tác động trong phạm vi namespace `target-app`, ngăn chặn tuyệt đối việc phá hủy hạ tầng chung của cụm K8s.
 
----
 
 ## 1.4. Ý nghĩa khoa học và thực tiễn
 
@@ -114,7 +100,6 @@ Mục tiêu tổng quát của đề tài là nghiên cứu, thiết kế và x�
 *   **Giải pháp FinOps khả thi:** Chứng minh phương pháp luận tối ưu hóa bộ nhớ (giảm 88% RAM tiêu thụ của lớp quản trị) giúp doanh nghiệp có thể vận hành hệ thống giám sát và tự phục hồi trên hạ tầng đám mây giá rẻ mà không sợ treo đơ máy chủ.
 *   **Công cụ học tập trực quan:** Cung cấp bộ mã nguồn đầy đủ, các tài liệu hướng dẫn vận hành (Runbooks) và Dashboard mô phỏng trực quan "Chiến tranh AI" (Nemesis vs Hephaestus) thời gian thực phục vụ cho việc giảng dạy và thực hành an ninh mạng nâng cao trong các trường đại học.
 
----
 
 ## 1.5. Cấu trúc báo cáo nghiên cứu khoa học
 
