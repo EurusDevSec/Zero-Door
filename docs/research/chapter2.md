@@ -27,32 +27,8 @@ Công nghệ container hóa đóng vai trò là xương sống giúp hiện th�
 
 ### 2.1.3. Nền tảng điều phối Kubernetes (K8s) và Cơ chế định tuyến mạng
 Kubernetes là một nền tảng nguồn mở dùng để tự động hóa việc triển khai, mở rộng quy mô và quản lý các container. Kiến trúc Kubernetes bao gồm hai phần chính: Control Plane (quản lý cụm) và Worker Nodes (nơi chạy ứng dụng).
-
-```
-              ┌────────────────────────────────────────────────────────┐
-              │                     CONTROL PLANE                      │
-              │  ┌──────────────┐   ┌────────────┐   ┌──────────────┐  │
-              │  │kube-apiserver│◀──│  kube-sched│   │kube-control- │  │
-              │  └──────┬───────┘   └────────────┘   │ler-manager   │  │
-              │         │                            └──────────────┘  │
-              │         ▼                                              │
-              │    ┌─────────┐                                         │
-              │    │  etcd   │                                         │
-              │    └─────────┘                                         │
-              └─────────┬──────────────────────────────────────────────┘
-                        │
-                        │ kube-apiserver API calls
-                        ▼
-              ┌────────────────────────────────────────────────────────┐
-              │                      WORKER NODE                       │
-              │  ┌──────────────┐   ┌────────────┐   ┌──────────────┐  │
-              │  │   kubelet    │   │ kube-proxy │   │  Container   │  │
-              │  └──────┬───────┘   └────────────┘   │   Runtime    │  │
-              │         │                            └──────┬───────┘  │
-              │         ▼                                   ▼          │
-              │  [Pod Agent Run]                     [Container Pod]   │
-              └────────────────────────────────────────────────────────┘
-```
+![Kubernestes architech](image-3.png)
+Hình 2.2: Kubernetes architechture
 
 *   **Kube-apiserver:** Cổng giao tiếp trung tâm expose REST API của K8s, tiếp nhận mọi yêu cầu cấu hình hạ tầng.
 *   **Etcd:** Cơ sở dữ liệu key-value phân tán, lưu trữ toàn bộ trạng thái cấu hình của cụm.
@@ -62,7 +38,7 @@ Kubernetes là một nền tảng nguồn mở dùng để tự động hóa vi�
 *   **Kube-proxy:** Quản lý bảng định tuyến mạng nội bộ và thực thi cơ chế phân tải IPVS/IPTables để kết nối các Pods.
 *   **Nginx Ingress Controller:** Lắng nghe cấu hình Ingress của cụm, tự động biên dịch các quy tắc routing mạng thành cấu hình của máy chủ Nginx, thực hiện nạp lại cấu hình (reload) động để dẫn luồng HTTP/HTTPS từ IP public vào đúng cổng của Service bên trong cụm.
 
----
+
 
 ## 2.2. Kỹ thuật Hỗn mang (Chaos Engineering)
 
@@ -79,36 +55,14 @@ Kỹ thuật hỗn mang không phải là hành động phá hoại ngẫu nhiê
 *   **CPU/Memory Stress:** Sử dụng stresser để tiêu hao RAM và CPU bên trong container. Lỗi này mô phỏng lỗi rò rỉ bộ nhớ (memory leak) hoặc lỗi vòng lặp vô hạn (infinite loop) trong code backend, ép buộc Kubernetes phải đưa ra quyết định phục hồi.
 *   **Pod Kill:** Sử dụng K8s API để gửi tín hiệu `SIGKILL` (hoặc xóa đột ngột) pod đang xử lý request. Thử nghiệm này kiểm chứng xem Ingress có tự động gỡ bỏ pod chết ra khỏi danh sách upstream kịp thời hay không, hay người dùng sẽ nhận lỗi HTTP 502 Bad Gateway.
 
----
 
 ## 2.3. Kiến trúc Đa Tác tử (Multi-Agent Systems)
 
 ### 2.3.1. Mô hình kiến trúc Tác tử tự trị thông minh
 Một tác tử thông minh hoạt động dựa trên vòng lặp tương tác liên tục với môi trường:
 
-```
-               ┌────────────────────────────────────────┐
-               │              MÔI TRƯỜNG                │
-               │        (Kubernetes / Kafka)            │
-               └──────────┬──────────────────▲──────────┘
-                          │                  │
-               Số liệu    │                  │  Lệnh API
-               Telemetry  │                  │  Khắc phục
-                          ▼                  │
-               ┌─────────────────────────────┴──────────┐
-               │             TÁC TỬ AI                  │
-               │  ┌──────────┐            ┌──────────┐  │
-               │  │ CẢM BIẾN │            │ CƠ CẤU   │  │
-               │  │ (Sensors)│            │ THỰC THI │  │
-               │  └────┬─────┘            │(Actuator)│  │
-               │       │                  └────▲─────┘  │
-               │       ▼                       │        │
-               │  ┌────────────────────────────┴─────┐  │
-               │  │      BỘ NÃO QUYẾT ĐỊNH           │  │
-               │  │   (LLM / Decision Engine)        │  │
-               │  └──────────────────────────────────┘  │
-               └────────────────────────────────────────┘
-```
+![Mô hình agent](image-4.png)
+Hình 2.3: Mô hình Agent
 
 *   **Cảm biến (Sensors):** Nơi tiếp nhận dữ liệu telemetry từ môi trường. Ở Gaia, cảm biến chính là các HTTP Client truy vấn Prometheus và Elasticsearch.
 *   **Bộ não quyết định (Decision Engine):** Ở Nemesis, bộ não quyết định là các Prompt và LLM sinh kịch bản. Ở Hephaestus, đó là Ma trận quyết định bám sát các logic nghiệp vụ SRE.
@@ -117,25 +71,8 @@ Một tác tử thông minh hoạt động dựa trên vòng lặp tương tác 
 ### 2.3.2. Mô hình hàn lâm MAPE-K Loop trong hệ thống tự thích ứng
 Mô hình **MAPE-K** (Monitor - Analyze - Plan - Execute - Knowledge) là tiêu chuẩn học thuật của IBM dành cho các hệ thống tự trị và phần mềm tự thích ứng (Self-Adaptive Software):
 
-```
-       ┌────────────────────────────────────────────────────────┐
-       │                       KNOWLEDGE                        │
-       │                   (Apache Kafka)                       │
-       └─────▲───────────▲───────────────▲───────────────▲──────┘
-             │           │               │               │
-       ┌─────┴─────┐┌────┴──────┐┌───────┴───┐┌──────────┴───┐
-       │ MONITOR   ││ ANALYZE   ││ PLAN      ││ EXECUTE      │
-       │  (Gaia)   ││  (Gaia)   ││(Nemesis)  ││(Hephaestus / │
-       │           ││           ││           ││ ChaosWorker) │
-       └─────▲─────┘└───────────┘└───────────┘└───────┬───────┘
-             │                                        │
-             │ Telemetry                              │ Vá lỗi /
-             │                                        │ Tấn công
-       ┌─────┴────────────────────────────────────────▼────────┐
-       │                      MÔ MÔI TRƯỜNG                    │
-       │                  (K8s / target-app)                   │
-       └───────────────────────────────────────────────────────┘
-```
+![Mô hình MAPE-K](image-5.png)
+Hình 2.4: Mô hình MAPE-K
 
 *   **Monitor (Giám sát):** Thu thập telemetry từ target-app. Do Gaia đảm nhận thông qua việc cào dữ liệu metrics và logs.
 *   **Analyze (Phân tích):** Gaia đối chiếu metrics với ngưỡng cảnh báo và rà soát logs tìm signature lỗi để xác định hệ thống có bị dị thường hay không.
@@ -143,7 +80,7 @@ Mô hình **MAPE-K** (Monitor - Analyze - Plan - Execute - Knowledge) là tiêu 
 *   **Execute (Thực thi):** Thực hiện thay đổi trạng thái thông qua K8s API (do Hephaestus thực hiện) hoặc tiêm lỗi (do Chaos Worker thực hiện).
 *   **Knowledge (Tri thức):** Kafka đóng vai trò là kho lưu trữ trạng thái tri thức dùng chung phân tán, giúp các bước M-A-P-E chia sẻ thông tin phi trạng thái và phi đồng bộ một cách tức thời.
 
----
+
 
 ## 2.5. Quy trình DevSecOps và Tự động hóa hạ tầng (IaC)
 
@@ -154,5 +91,17 @@ Terraform quản lý tất cả các tài nguyên thông qua tệp tin trạng t
 
 ### 2.5.2. Công cụ quét tĩnh bảo mật (SAST) và Trivy Scan
 *   **Bandit (SAST cho Python):** Sử dụng thư viện phân tích cú pháp trừu tượng (Abstract Syntax Trees - AST) của Python để chuyển đổi file code thành một sơ đồ cây logic. Bandit duyệt cây này để phát hiện các lỗ hổng an ninh kinh điển mà không cần chạy code thực tế, giúp loại bỏ các lỗi cơ bản ngay từ máy developer.
+
+![Bandit SAST for Python](image-6.png)
+Hình 2.5: Bandit SAST cho Python
+
 *   **Gosec (SAST cho Go):** Tương tự như Bandit, Gosec phân tích AST của mã nguồn Go để phát hiện lỗi bảo mật bộ nhớ, lỗi ép kiểu không an toàn, hoặc xử lý concurrency không đồng bộ dẫn đến race condition trong Chaos Worker.
+
+![Gosec sast](image-9.png)
+Hình 2.6: Gosec SAST cho Golang
+
 *   **Trivy (IaC Security Scan):** Trivy sử dụng bộ engine quét cấu hình dựa trên chính sách viết bằng ngôn ngữ **Rego** (Open Policy Agent - OPA). Trivy phân tích các tệp tin cấu hình Kubernetes Manifests để đối chiếu với hàng trăm quy tắc bảo mật chuẩn CIS Benchmarks (như đảm bảo `readOnlyRootFilesystem: true`, cấm sử dụng tag image `:latest` ở production, bắt buộc phải có `resources.limits`). Việc này chặn đứng các lỗ hổng cấu hình sai (misconfigurations) trước khi deploy lên cụm.
+
+![trivy](image-8.png)
+
+Hình 2.7: trivy cho Docker
