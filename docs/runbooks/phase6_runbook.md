@@ -141,6 +141,7 @@ Dưới đây là thiết kế luồng xử lý chính chạy bằng `asyncio` v
 
 ```python
 import asyncio
+import os
 import websockets
 import json
 import logging
@@ -150,7 +151,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("WebSocketAgent")
 
 SAAS_WS_URL = "wss://saas.zerodoor.com/api/v1/agent-gateway"
-AGENT_TOKEN = "agent_sec_token_hash_abc123"
+AGENT_TOKEN = os.getenv("ZERO_DOOR_AGENT_TOKEN", "default_insecure_development_token")
 
 # Load cấu hình K8s nội bộ trong cụm
 try:
