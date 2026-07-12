@@ -52,6 +52,9 @@ Write-Host "  [8080] Online Boutique Frontend (Target App Ingress) - READY" -For
 Start-Process -WindowStyle Hidden -FilePath "kubectl" -ArgumentList "port-forward svc/prometheus-operated 9090:9090 -n monitoring"
 Write-Host "  [9090] Prometheus (Monitoring)                 - STARTED" -ForegroundColor Green
 
+Start-Process -WindowStyle Hidden -FilePath "kubectl" -ArgumentList "port-forward svc/prometheus-grafana 3000:80 -n monitoring"
+Write-Host "  [3000] Grafana Dashboard (Obs Visualization)    - STARTED" -ForegroundColor Green
+
 # [5] Cho ket noi on dinh
 Write-Host ""
 Write-Host "[5/6] Cho 6 giay de cac ket noi on dinh..." -ForegroundColor Yellow
@@ -87,6 +90,8 @@ Write-Host ""
 Write-Host "   Control Center:  http://localhost:9092/dashboard/       " -ForegroundColor White
 Write-Host "   Target App:      http://localhost:8080                  " -ForegroundColor White
 Write-Host "   Prometheus:      http://localhost:9090                  " -ForegroundColor White
+Write-Host "   Grafana (3000):  http://localhost:3000                  " -ForegroundColor White
+Write-Host "                    (User: admin / Pass: zerodoor123)       " -ForegroundColor Gray
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 
