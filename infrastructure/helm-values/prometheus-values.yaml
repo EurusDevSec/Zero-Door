@@ -31,11 +31,11 @@ prometheus:
     # Resources giảm mạnh
     resources:
       requests:
-        cpu: "100m"
-        memory: "256Mi"
-      limits:
         cpu: "500m"
-        memory: "512Mi"              # 512MB thay vì 1.5GB
+        memory: "512Mi"
+      limits:
+        cpu: "1500m"
+        memory: "1Gi"              # 1Gi thay vì 512MB
 
     # Tăng scrape interval lên 30s (giảm 50% số lần scrape)
     scrapeInterval: "30s"
@@ -52,11 +52,11 @@ grafana:
 
   resources:
     requests:
-      cpu: "50m"
-      memory: "64Mi"
+      cpu: "100m"
+      memory: "256Mi"
     limits:
-      cpu: "300m"
-      memory: "192Mi"              # 192MB thay vì 512MB
+      cpu: "1000m"
+      memory: "512Mi"              # 512MB thay vì 192MB
 
   # Tắt persistence cho Grafana (tiết kiệm PVC)
   # Dashboard import lại cũng nhanh, không cần lưu persistent

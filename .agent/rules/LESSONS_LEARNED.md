@@ -288,3 +288,16 @@ kubectl port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
 
 **RULE**: Tắt hoàn toàn cấu hình `cache: 'pip'` trong file `ci.yml` đối với các dự án dependencies dung lượng nhỏ để đảm bảo pipeline luôn chạy nhanh và xanh ổn định.
 
+---
+
+### 18. Lỗi CrashLoopBackOff của Prometheus/Grafana do thiếu tài nguyên khởi động và quá ResourceQuota
+**LỖI**: Prometheus và Grafana bị CrashLoopBackOff liên tục sau khi khởi chạy lại cụm K3d trên môi trường Windows local, hoặc pod mới không thể được tạo.
+
+**NGUYÊN NHÂN**: 
+1. Prometheus khi khởi động cần nhiều tài nguyên CPU/RAM để replay dữ liệu WAL (Write-Ahead Log), nếu để cấu hình limits quá thấp (512MB RAM / 500m CPU) sẽ bị nghẽn dẫn đến timeout và Kubelet kill pod liên tục.
+2. Khi nâng limits cho Prometheus/Grafana để hoạt động ổn định, tổng tài nguyên request/limit vượt quá ResourceQuota cho phép của namespace `monitoring` (mặc định chỉ giới hạn tối đa `6 CPU` và `6Gi RAM`), khiến Kubernetes Admission Controller chặn đứng không cho tạo pod.
+
+**RULE**: 
+1. Luôn nâng ResourceQuota của namespace `monitoring` lên tối thiểu `10 CPU` và `10Gi RAM` để dự phòng tài nguyên.
+2. Đặt giới hạn tài nguyên của Prometheus tối thiểu là `1.5 CPU / 1Gi RAM` và Grafana tối thiểu là `1 CPU / 512Mi RAM` để tránh lỗi nghẽn và timeout liveness/readiness probes khi khởi chạy trên local.
+

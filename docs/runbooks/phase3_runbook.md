@@ -152,16 +152,17 @@ for i := 0; i < concurrency; i++ { // max = cfg.DefaultConcurrency (50)
 - **Auto-cleanup**: Pod có `RestartPolicy: Never` + Chaos Worker delete sau timeout → không để lại garbage.
 - **Safety**: Pod chạy với non-root user `65534`, có resource limits rõ ràng.
 
-### 3.5. Nemesis LLM — Dual Provider (OpenAI + Ollama)
+### 3.5. Nemesis LLM — Triple Provider (Gemini + OpenAI + Ollama)
 
 Toggle qua env var `NEMESIS_LLM_PROVIDER`:
 
 | Provider | Env | Use case |
 |---|---|---|
-| `openai` | `OPENAI_API_KEY` | Production / demo thực tế |
-| `ollama` | `OLLAMA_BASE_URL` | Local dev / không cần API key |
+| `gemini` | `GEMINI_API_KEYS` | (Khuyên dùng) Hỗ trợ nhiều API keys (comma-separated) chạy Round-Robin tránh quota limit |
+| `openai` | `OPENAI_API_KEY` | Môi trường Cloud / Production |
+| `ollama` | `OLLAMA_BASE_URL` | Local development không tốn phí |
 
-OpenAI SDK hỗ trợ cả hai vì Ollama expose API tương thích OpenAI (`/v1/chat/completions`). Chỉ cần đổi `base_url`.
+OpenAI SDK hỗ trợ cả ba vì Ollama và Gemini (qua proxy/adapter tương thích) expose API tương thích OpenAI (`/v1/chat/completions`).
 
 ### 3.6. Unknown Attack Type Handling (Design Question Q2)
 

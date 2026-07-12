@@ -1,7 +1,7 @@
 # PROJECT ZERO DOOR — DevOps & Cloud Infrastructure Plan
 
 > **Version:** 4.0 — DevOps & Cloud Engineering Focus  
-> **Last Updated:** 2026-05-31  
+> **Last Updated:** 2026-07-12  
 > **Author:** EurusDevSec (Team Lead — DevOps, Cloud, Infrastructure)
 
 ---

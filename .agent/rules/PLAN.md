@@ -1,5 +1,5 @@
 # 🎯 PLAN.md — Zero Door Roadmap & Status
-> *Last updated: 2026-07-11 | Agent: Antigravity | Phases 1-6 DONE*
+> *Last updated: 2026-07-12 | Agent: Antigravity | Phases 1-6 DONE*
 
 ---
 
@@ -37,11 +37,14 @@
 
 ### ✅ Phase 5: War Game Experiments & Dashboard Integration — DONE
 - 40 runs total: E1–E4 × AUTO+MANUAL × 5 runs/mode.
-- **Control Center Dashboard v2 (AWS Cloudscape UI)**:
+- **Control Center Dashboard v2 (AWS Cloudscape UI) & Visual Proofs**:
   - Redesigned from Cyberpunk $\rightarrow$ **AWS Cloudscape Light Theme** (white, #f2f3f3, AWS blue).
   - Fixed-height viewport layout — no vertical scroll.
   - Collapsible sidebar (290px to prevent layout squeeze) and collapsible chat drawer.
   - Auto-failover Gemini API keys retry, stress pod limit bump (1000m/512Mi), and dashboard polling (5s).
+  - **SRE SLOs Monitor Card**: Displays real-time MTTD, MTTR, Uptime, and Heal Success Rate parsed dynamically from Hephaestus API history.
+  - **Real-time Telemetry Line Chart (Chart.js)**: Displays rolling 60s CPU load of the selected service, changing to warning red during active stress/attacks and reverting to purple after healing.
+  - **rebuild-nemesis.ps1 script**: Automates no-cache rebuilding, importing to K3d, deployment rollouts, and automatic port-forward tunnel healing for smooth local runs.
 
 ### ✅ Phase 6: Automated CI/CD & DevOps Security Optimization — DONE (2026-07-11)
 - **CI/CD Pipeline Live**: Setup `.github/workflows/ci.yml` verifying Go Chaos Worker build, Python Agents compile syntax, and Helm manifests syntax.
