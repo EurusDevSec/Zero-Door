@@ -733,6 +733,19 @@ async def api_reset():
     return {"status": "SUCCESS", "message": "Dashboard state, chat history, and defender state cleared."}
 
 
+@app.get("/api/heal-history", summary="Proxy: Get Hephaestus heal history for SRE dashboard")
+async def get_heal_history_proxy():
+    """Proxy endpoint — fetches heal history from Hephaestus and forwards to frontend."""
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
+            if r.status_code == 200:
+                return r.json()
+    except Exception as e:
+        logger.warning(f"Could not proxy Hephaestus heal history: {e}")
+    return {"history": []}
+
+
 # ---- Mount Dashboard Static Files ----
 try:
     app.mount("/dashboard", StaticFiles(directory="static", html=True), name="dashboard")
