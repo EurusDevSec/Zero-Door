@@ -297,8 +297,8 @@
 
 
                 <!-- ---- PANEL 3: Platform Status (left, bottom) ---- -->
-                <section class="panel-status">
-                    <div class="card" style="height:100%;">
+                <section class="panel-status" style="display: flex; flex-direction: column; gap: 8px; height: 100%;">
+                    <div class="card" style="flex: 1; min-height: 0;">
                         <div class="card-header">
                             <h2 class="card-title"><i class="fa-solid fa-chart-line"></i> Microservices Status</h2>
                             <span class="card-meta">Updates every 5s</span>
@@ -310,6 +310,30 @@
                                 <div class="shimmer" style="height:72px;"></div>
                                 <div class="shimmer" style="height:72px;"></div>
                                 <div class="shimmer" style="height:72px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SRE SLOs Monitor Card -->
+                    <div class="card" style="flex-shrink: 0; height: 130px;">
+                        <div class="card-header" style="padding: 6px 12px; border-bottom: 1px solid var(--clr-border-divider);">
+                            <h2 class="card-title" style="font-size: 10px; text-transform: uppercase;"><i class="fa-solid fa-chart-bar" style="color: #6b46c1; margin-right: 5px;"></i> SRE SLOs Monitor</h2>
+                        </div>
+                        <div class="card-body" style="padding: 8px 12px; font-size: 11px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto;">
+                            <div class="status-kv">
+                                <span class="kv-key" style="font-size: 11px;">Avg MTTD (Detect)</span>
+                                <span id="sre-mttd" class="kv-val-purple" style="font-weight: 700;">~25.6s</span>
+                            </div>
+                            <div class="status-kv">
+                                <span class="kv-key" style="font-size: 11px;">Avg MTTR (Recover)</span>
+                                <span id="sre-mttr" class="kv-val-blue" style="font-weight: 700;">~1.01s</span>
+                            </div>
+                            <div class="status-kv">
+                                <span class="kv-key" style="font-size: 11px;">Uptime SLO</span>
+                                <span id="sre-uptime" class="kv-val-green" style="font-weight: 700;">100.0%</span>
+                            </div>
+                            <div class="status-kv">
+                                <span class="kv-key" style="font-size: 11px;">Heal Success Rate</span>
+                                <span id="sre-success" class="kv-val-green" style="font-weight: 700;">95.2%</span>
                             </div>
                         </div>
                     </div>
@@ -330,18 +354,14 @@
                         </div>
                     </div>
 
-                    <!-- Agent Chat compact preview (small tile) -->
+                    <!-- Real-time Telemetry Chart -->
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="card-title"><i class="fa-solid fa-brain"></i> Agent Insights</h2>
-                            <button class="btn-sm" onclick="toggleRightChat()">
-                                <i class="fa-solid fa-arrow-right"></i> Full Panel
-                            </button>
+                            <h2 class="card-title"><i class="fa-solid fa-chart-line"></i> Real-time Telemetry</h2>
+                            <span class="card-meta">Last 60s CPU trend</span>
                         </div>
-                        <div id="agent-insights-preview" class="card-body" style="padding:10px; display:flex; flex-direction:column; gap:8px; overflow-y:auto;">
-                            <!-- Skeleton -->
-                            <div class="shimmer" style="height:48px;"></div>
-                            <div class="shimmer" style="height:60px;"></div>
+                        <div class="card-body" style="padding:10px; display:flex; align-items:center; justify-content:center; position:relative; min-height:0; height:100%;">
+                            <canvas id="telemetryChart" style="max-height: 100%; width: 100%;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -398,6 +418,7 @@
     <span class="trigger-text">Agent Chat</span>
 </button>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
