@@ -18,28 +18,29 @@ Attack (Nemesis) → Chaos (Chaos Worker) → Detect (Gaia) → HEAL (Hephaestus
 
 ### Sơ đồ Closed-Loop đầy đủ
 
-```
-┌──────────────────────────────────────────────────────────────────────────────────────┐
-│                          K3D CLUSTER: "zero-door"                                    │
-│                                                                                      │
-│  ┌─────────────────────── Namespace: zero-door ───────────────────────────────────┐  │
-│  │                                                                                 │  │
-│  │  [Nemesis] ──attack.commands──▶ [Kafka] ──attack.commands──▶ [Chaos Worker]    │  │
-│  │      ▲                            │                                │            │  │
-│  │      │                     monitoring.alerts              K8s API (target-app) │  │
-│  │      │                            │                                │            │  │
-│  │  attack.results               [Gaia] ────────────────────────────▶│            │  │
-│  │      │                       (detect)                             ▼            │  │
-│  │      └──────────────── [Kafka] ◀── healing.actions ── [Hephaestus]            │  │
-│  │                                                          (heal K8s API)        │  │
-│  └─────────────────────────────────────────────────────────────────────────────────  │
-│                                                                                      │
-│  ┌─────────────────────── Namespace: target-app (MỤC TIÊU) ─────────────────────┐  │
-│  │  frontend  cartservice  productcatalogservice  checkoutservice  redis-cart     │  │
-│  │  ▲ (bị tấn công bởi Chaos Worker)                                             │  │
-│  │  └─────────────── (được heal bởi Hephaestus) ─────────────────────────────── │  │
-│  └───────────────────────────────────────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph NS_Zero_Door["Namespace: zero-door"]
+        Nemesis["[Nemesis]"]
+        Kafka["[Kafka]"]
+        ChaosWorker["[Chaos Worker]"]
+        Gaia["[Gaia]"]
+        Hephaestus["[Hephaestus]"]
+        
+        Nemesis -->|"attack.commands"| Kafka
+        Kafka -->|"attack.commands"| ChaosWorker
+        Gaia -.->|"monitoring.alerts"| Kafka
+        Kafka -.->|"monitoring.alerts"| Hephaestus
+        Hephaestus -->|"healing.actions"| Kafka
+        Kafka -->|"healing.actions"| Nemesis
+    end
+    
+    subgraph NS_Target_App["Namespace: target-app (MỤC TIÊU)"]
+        Boutique["frontend, cartservice, productcatalog,<br/>checkoutservice, redis-cart"]
+        
+        ChaosWorker -->|"Tấn công"| Boutique
+        Hephaestus -->|"Tự động vá lỗi (K8s API)"| Boutique
+    end
 ```
 
 ### Luồng xử lý chi tiết của một Healing Cycle

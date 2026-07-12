@@ -15,42 +15,23 @@ Phase 3 bổ sung **năng lực tấn công chủ động (Red Team)** vào hệ
 
 ### Sơ đồ Attack Loop
 
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                        K3D CLUSTER: "zero-door"                          │
-│                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────┐ │
-│  │ Namespace: zero-door                                                │ │
-│  │                                                                     │ │
-│  │   ┌──────────────────────┐    attack.commands    ┌───────────────┐  │ │
-│  │   │   Nemesis Agent      │ ─────────────────────▶│ Apache Kafka  │  │ │
-│  │   │  (Python / FastAPI)  │                        │               │  │ │
-│  │   │                      │◀─────────────────────  │  Topics:      │  │ │
-│  │   │  1. Query Prometheus │    attack.results       │  attack.*     │  │ │
-│  │   │  2. Call LLM (GPT/   │                        └───────┬───────┘  │ │
-│  │   │     Ollama)          │                                │           │ │
-│  │   │  3. Send AttackCmd   │                         attack.commands   │ │
-│  │   └──────────────────────┘                                │           │ │
-│  │                                                           ▼           │ │
-│  │   ┌──────────────────────────────────────────────────────────────┐   │ │
-│  │   │   Chaos Worker (Go)                                          │   │ │
-│  │   │                                                              │   │ │
-│  │   │   • Blast Radius Validator (REJECT nếu không phải target-app)│   │ │
-│  │   │   • HTTP Flood Executor  → goroutines gửi HTTP đến frontend  │   │ │
-│  │   │   • CPU Stress Executor  → inject stress pod vào target-app  │   │ │
-│  │   │   • Pod Kill Executor    → xóa pod bằng K8s API              │   │ │
-│  │   │                                                              │   │ │
-│  │   └──────────────────────────────────────────────────────────────┘   │ │
-│  └─────────────────────────────────────────────────────────────────────┘ │
-│                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────┐ │
-│  │ Namespace: target-app (MỤC TIÊU — Google Online Boutique)          │ │
-│  │                                                                     │ │
-│  │  frontend ──── cartservice ──── productcatalogservice               │ │
-│  │     │               │               (bị tấn công bởi Chaos Worker) │ │
-│  │  checkoutservice   redis-cart                                       │ │
-│  └─────────────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph NS_Zero_Door["Namespace: zero-door"]
+        Nemesis["Nemesis Agent (Python/FastAPI)<br/>1. Query Prometheus<br/>2. Call LLM (GPT/Ollama)<br/>3. Send AttackCmd"]
+        Kafka["Apache Kafka<br/>Topics: attack.*"]
+        ChaosWorker["Chaos Worker (Go)<br/>• Blast Radius Validator<br/>• HTTP Flood Executor<br/>• CPU Stress Executor<br/>• Pod Kill Executor"]
+        
+        Nemesis -->|"attack.commands"| Kafka
+        Kafka -->|"attack.commands"| ChaosWorker
+        ChaosWorker -->|"attack.results"| Nemesis
+    end
+    
+    subgraph NS_Target_App["Namespace: target-app (Google Boutique)"]
+        Boutique["frontend ── cartservice ── productcatalog<br/>checkoutservice ── redis-cart"]
+        
+        ChaosWorker -->|"Tấn công phá hoại"| Boutique
+    end
 ```
 
 ### Luồng dữ liệu đầy đủ (Full Attack Loop)

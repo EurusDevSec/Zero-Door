@@ -10,87 +10,58 @@
 
 ### Sơ đồ Infrastructure — Sau khi Phase 1 hoàn thành
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        LOCAL DEV MACHINE (Windows)                       │
-│                                                                          │
-│  ┌──────────────────────────────────────────────────────────────────┐    │
-│  │                     DOCKER ENGINE (Docker Desktop)                │    │
-│  │                                                                    │    │
-│  │  ┌──────────────────────────────────────────────────────────┐     │    │
-│  │  │            K3D CLUSTER: "zero-door"                       │     │    │
-│  │  │            (1 Server + 1 Agent Node)                      │     │    │
-│  │  │                                                            │     │    │
-│  │  │  ┌──────────────────────────────────────────────────┐     │     │    │
-│  │  │  │  Namespace: zero-door            [Quota: 3Gi]    │     │     │    │
-│  │  │  │                                                   │     │     │    │
-│  │  │  │  ┌─────────────────┐                              │     │     │    │
-│  │  │  │  │  Apache Kafka   │  ← KRaft mode (no Zookeeper) │     │     │    │
-│  │  │  │  │  (1 Controller  │  ← 5 Topics auto-created     │     │     │    │
-│  │  │  │  │  as Broker pod) │  ← PV: 2Gi message storage   │     │     │    │
-│  │  │  │  └─────────────────┘                              │     │     │    │
-│  │  │  │                                                   │     │     │    │
-│  │  │  │  (Agents sẽ deploy ở Phase 2-4)                   │     │     │    │
-│  │  │  └───────────────────────────────────────────────────┘     │     │    │
-│  │  │                                                            │     │    │
-│  │  │  ┌──────────────────────────────────────────────────┐     │     │    │
-│  │  │  │  Namespace: target-app           [Quota: 4Gi]    │     │     │    │
-│  │  │  │                                                   │     │     │    │
-│  │  │  │  (Google Online Boutique sẽ deploy ở Phase 2)     │     │     │    │
-│  │  │  └───────────────────────────────────────────────────┘     │     │    │
-│  │  │                                                            │     │    │
-│  │  │  ┌──────────────────────────────────────────────────┐     │     │    │
-│  │  │  │  Namespace: monitoring           [Quota: 3Gi]    │     │     │    │
-│  │  │  │                                                   │     │     │    │
-│  │  │  │  ┌──────────┐  ┌─────────┐  ┌──────────────────┐  │     │     │    │
-│  │  │  │  │Prometheus│  │ Grafana │  │   AlertManager   │  │     │     │    │
-│  │  │  │  │ (scrape  │  │ (UI)    │  │   (DISABLED)     │  │     │     │    │
-│  │  │  │  │  30s)    │  │ :3000   │  │                  │  │     │     │    │
-│  │  │  │  └──────────┘  └─────────┘  └──────────────────┘  │     │     │    │
-│  │  │  │                                                   │     │     │    │
-│  │  │  │  ┌───────────────┐  ┌────────────┐               │     │     │    │
-│  │  │  │  │ Elasticsearch │  │ Fluent Bit │               │     │     │    │
-│  │  │  │  │ (single-node) │  │ (DaemonSet)│               │     │     │    │
-│  │  │  │  │ :9200         │←─│ pushes logs│               │     │     │    │
-│  │  │  │  └───────────────┘  └────────────┘               │     │     │    │
-│  │  │  └───────────────────────────────────────────────────┘     │     │    │
-│  │  │                                                            │     │    │
-│  │  │  Port Mapping:  Host:8080 → LB:80 | Host:8443 → LB:443   │     │    │
-│  │  └────────────────────────────────────────────────────────────┘     │    │
-│  └────────────────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Local_Dev_Machine["LOCAL DEV MACHINE (Windows)"]
+        subgraph Docker_Engine["DOCKER ENGINE (Docker Desktop)"]
+            subgraph K3D_Cluster["K3D CLUSTER: 'zero-door' (1 Server + 1 Agent Node)"]
+                subgraph NS_Zero_Door["Namespace: zero-door [Quota: 3Gi]"]
+                    Kafka["Apache Kafka (1 Controller/Broker pod)<br/>• KRaft mode (no Zookeeper)<br/>• 5 Topics auto-created<br/>• PV: 2Gi message storage"]
+                    Agents["AI Agents (Nemesis, Gaia, Hephaestus)<br/>(Deployed in Phase 2-4)"]
+                end
+                
+                subgraph NS_Target_App["Namespace: target-app [Quota: 4Gi]"]
+                    Boutique["Google Online Boutique<br/>(Deployed in Phase 2)"]
+                end
+                
+                subgraph NS_Monitoring["Namespace: monitoring [Quota: 3Gi]"]
+                    Prometheus["Prometheus<br/>(scrape 30s)"]
+                    Grafana["Grafana (UI)<br/>Port: 3000"]
+                    AlertManager["AlertManager<br/>(DISABLED)"]
+                    Elasticsearch["Elasticsearch (single-node)<br/>Port: 9200"]
+                    FluentBit["Fluent Bit<br/>(DaemonSet)"]
+                    
+                    FluentBit -->|"pushes logs"| Elasticsearch
+                end
+            end
+        end
+    end
+
+    PortMap80["Host: 8080"] -.->|"Port Mapping"| K3D_Cluster
+    PortMap443["Host: 8443"] -.->|"Port Mapping"| K3D_Cluster
 ```
 
 ### Sơ đồ Luồng Dữ Liệu — Observability Pipeline
 
-```
-┌──────────────┐     scrape /metrics (mỗi 15s)     ┌─────────────┐
-│  Target App  │ ─────────────────────────────────→ │ Prometheus  │
-│  (Phase 2)   │                                     │ (TSDB 5Gi)  │
-└──────────────┘                                     └──────┬──────┘
-                                                            │ PromQL queries
-┌──────────────┐     scrape JMX metrics              ┌──────▼──────┐
-│    Kafka     │ ─────────────────────────────────→ │   Grafana   │
-│  (zero-door) │                                     │  Dashboard  │
-└──────────────┘                                     │  :3000      │
-                                                     └─────────────┘
+```mermaid
+flowchart TD
+    TargetApp["Target App (Phase 2)"]
+    Kafka["Kafka (zero-door)"]
+    AllPods["ALL Pods (all ns)"]
+    
+    Prometheus["Prometheus (TSDB 5Gi)"]
+    Grafana["Grafana Dashboard (Port 3000)"]
+    FluentBit["Fluent Bit (DaemonSet)"]
+    Elasticsearch["Elasticsearch (Port 9200)"]
+    Gaia["Gaia Agent (Phase 2)"]
 
-┌──────────────┐     stdout/stderr container logs    ┌─────────────┐
-│  ALL Pods    │ ─────────────────────────────────→ │ Fluent Bit  │
-│  (all ns)    │     (đọc từ /var/log/containers/)   │ (DaemonSet) │
-└──────────────┘                                     └──────┬──────┘
-                                                            │ push logs
-                                                     ┌──────▼──────┐
-                                                     │Elasticsearch│
-                                                     │ (REST API)  │
-                                                     │ :9200       │
-                                                     └─────────────┘
-                                                            ▲
-                                                            │ query logs (Phase 2)
-                                                     ┌──────┴──────┐
-                                                     │ Gaia Agent  │
-                                                     │ (Phase 2)   │
-                                                     └─────────────┘
+    TargetApp -->|"scrape /metrics (mỗi 15s)"| Prometheus
+    Kafka -->|"scrape JMX metrics"| Prometheus
+    Prometheus -->|"PromQL queries"| Grafana
+    
+    AllPods -->|"stdout/stderr container logs<br/>(đọc từ /var/log/containers/)"| FluentBit
+    FluentBit -->|"push logs"| Elasticsearch
+    Gaia -->|"query logs (Phase 2)"| Elasticsearch
 ```
 
 ---
@@ -162,25 +133,28 @@ options:
 
 **Nguyên lý: Blast Radius Isolation (Cô lập vùng ảnh hưởng)**
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   K8s Cluster                        │
-│                                                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
-│  │ zero-door   │  │ target-app  │  │ monitoring  │ │
-│  │             │  │             │  │             │ │
-│  │ Agents      │  │ Boutique    │  │ Prometheus  │ │
-│  │ Kafka       │  │ (BỊ TẤN    │  │ Grafana     │ │
-│  │             │  │  CÔNG!)     │  │ ES + FB     │ │
-│  │ TẤN CÔNG →  │  │  ← ←  ←    │  │             │ │
-│  │ PHỤC HỒI → │  │  ← ←  ←    │  │ KHÔNG BAO   │ │
-│  │             │  │             │  │ GIỜ BỊ TẤN  │ │
-│  │             │  │             │  │ CÔNG!        │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘ │
-│                                                      │
-│  RBAC: Agents chỉ có quyền tác động vào target-app  │
-│  NetworkPolicy: monitoring được bảo vệ tuyệt đối    │
-└─────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph K8s_Cluster["K8s Cluster"]
+        subgraph NS_Zero_Door["Namespace: zero-door"]
+            Agents["AI Agents"]
+            Kafka["Kafka"]
+            Agents -->|"Tấn công"| target-app
+            Agents -->|"Phục hồi"| target-app
+        end
+        
+        subgraph NS_Target_App["Namespace: target-app"]
+            Boutique["Google Boutique<br/>(BỊ TẤN CÔNG!)"]
+        end
+        
+        subgraph NS_Monitoring["Namespace: monitoring"]
+            Prometheus["Prometheus"]
+            Grafana["Grafana"]
+            ES_FB["Elasticsearch + Fluent Bit"]
+            
+            style NS_Monitoring fill:#d4edda,stroke:#28a745,stroke-width:2px
+        end
+    end
 ```
 
 **Labels quan trọng:**
@@ -223,22 +197,23 @@ KRaft loại bỏ dependency vào Zookeeper → ít pods hơn, ít RAM hơn, ít
 
 **5 Kafka Topics tự động tạo khi startup:**
 
-```
-┌─────────────┐     attack.commands      ┌──────────────┐
-│   Nemesis   │ ────────────────────────→ │ Chaos Worker │
-│  (Phase 3)  │                           │  (Phase 3)   │
-└─────────────┘                           └──────┬───────┘
-                                                  │ attack.results
-                   monitoring.alerts        ┌─────▼──────┐
-              ┌──────────────────────────── │    Gaia    │
-              │                             │  (Phase 2) │
-              │                             └────────────┘
-        ┌─────▼──────┐     healing.actions
-        │ Hephaestus │ ────────────────────→ (audit log)
-        │  (Phase 4) │
-        └────────────┘
+```mermaid
+flowchart TD
+    Nemesis["Nemesis (Phase 3)"]
+    ChaosWorker["Chaos Worker (Phase 3)"]
+    Gaia["Gaia (Phase 2)"]
+    Hephaestus["Hephaestus (Phase 4)"]
+    AuditLog["Audit Log"]
 
-        system.logs ← Tất cả agents ghi log chung
+    Nemesis -->|"attack.commands"| ChaosWorker
+    ChaosWorker -->|"attack.results"| Gaia
+    Gaia -.->|"monitoring.alerts"| Hephaestus
+    Hephaestus -->|"healing.actions"| AuditLog
+
+    subgraph Log_Aggregation["Log Consolidation"]
+        Logs["system.logs"]
+    end
+    classDef topic fill:#f9f,stroke:#333,stroke-width:2px;
 ```
 
 ---
@@ -261,22 +236,14 @@ serviceMonitorSelectorNilUsesHelmValues: false
 
 ### 3.6. Elasticsearch + Fluent Bit — Luồng Log Collection
 
-```
-Pod (bất kỳ NS) → stdout/stderr
-       ↓
-Container Runtime (containerd) ghi vào /var/log/containers/*.log
-       ↓
-Fluent Bit (DaemonSet, chạy trên mỗi node) đọc file log
-       ↓
-Fluent Bit FILTER: gắn metadata K8s (pod name, namespace, labels)
-       ↓
-Fluent Bit OUTPUT: push đến Elasticsearch (elasticsearch:9200)
-       ↓
-Elasticsearch lưu vào index: zero-door-logs-YYYY.MM.DD
-       ↓
-Gaia Agent (Phase 2) query Elasticsearch API tìm patterns:
-  - "ERROR", "Exception", "OOMKilled", "CrashLoopBackOff"
-  - SQL injection signatures trong access logs
+```mermaid
+flowchart TD
+    Pod["Pod (bất kỳ Namespace)"] -->|"stdout/stderr"| Runtime["Container Runtime (containerd)"]
+    Runtime -->|"/var/log/containers/*.log"| FB_Read["Fluent Bit (DaemonSet)"]
+    FB_Read -->|"FILTER: Gắn K8s Metadata"| FB_Filter["Fluent Bit Metadata Filter"]
+    FB_Filter -->|"OUTPUT: HTTP POST"| Elasticsearch["Elasticsearch (:9200)"]
+    Elasticsearch -->|"Lưu trữ index"| Index["zero-door-logs-YYYY.MM.DD"]
+    Gaia["Gaia Agent (Phase 2)"] -->|"Query REST API"| Elasticsearch
 ```
 
 **Tại sao Fluent Bit chứ không phải Logstash hoặc Fluentd?**

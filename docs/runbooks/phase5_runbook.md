@@ -21,26 +21,14 @@ Thực hiện "War Game" — mô phỏng tấn công có kiểm soát vào hệ 
 
 ## Kiến trúc Thực Nghiệm
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Experiment Runner (Local)                               │
-│  infrastructure/scripts/experiment_runner_direct.py      │
-└──────────────────┬──────────────────────────────────────┘
-                   │  POST /heal/trigger  (inject alert)
-                   │  POST /experiment/reset  (clear cooldown)
-                   │  GET  /heal/history  (measure MTTD/MTTR)
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│  Hephaestus Agent  :9091                                 │
-│  - Nhận alert → quyết định action → thực thi K8s        │
-│  - Ghi audit log vào heal_history (in-memory)            │
-└──────────────────┬──────────────────────────────────────┘
-                   │  kubectl patch/delete/scale
-                   ▼
-┌─────────────────────────────────────────────────────────┐
-│  Target App (namespace: target-app)                      │
-│  frontend | cartservice | productcatalogservice | ...    │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Runner["Experiment Runner (Local)<br/>(experiment_runner_direct.py)"]
+    Hephaestus["Hephaestus Agent :9091<br/>• Nhận alert → quyết định action<br/>• Ghi audit log vào heal_history"]
+    TargetApp["Target App (namespace: target-app)<br/>(frontend | cartservice | productcatalog)"]
+
+    Runner -->|"POST /heal/trigger (inject alert)<br/>POST /experiment/reset (clear cooldown)<br/>GET /heal/history (measure MTTD/MTTR)"| Hephaestus
+    Hephaestus -->|"kubectl patch/delete/scale"| TargetApp
 ```
 
 **Ghi chú về methodology**: Trên local K3d cluster, Gaia agent không thể detect CPU stress (workload pods chia sẻ node, không vượt 80% limit). Do đó, experiment runner inject alerts trực tiếp qua `/heal/trigger` API của Hephaestus — đây là cách tiêu chuẩn cho local/resource-constrained environments, mô phỏng đúng luồng xử lý Hephaestus sau khi Gaia đã detect.

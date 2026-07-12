@@ -12,87 +12,59 @@ Trong Phase 2, chúng ta đưa ứng dụng mục tiêu (Google Online Boutique)
 
 ### Sơ đồ Kiến trúc Thành phần (Namespaces & Pods)
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           K3D CLUSTER: "zero-door"                              │
-│                                                                                 │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │ Namespace: target-app                      [Resource Quota: 4Gi Limit]    │  │
-│  │                                                                           │  │
-│  │  ┌──────────────┐   ┌─────────────┐   ┌────────────────┐   ┌────────────┐ │  │
-│  │  │   frontend   │   │ cartservice │   │ productcatalog │   │  currency  │ │  │
-│  │  │  (Go Web UI)  │   │   (.NET)    │   │     (Go)       │   │  (Node.js) │ │  │
-│  │  └──────┬───────┘   └──────┬──────┘   └────────────────┘   └────────────┘ │  │
-│  │         │                  │                                              │  │
-│  │  ┌──────▼───────┐   ┌──────▼──────┐                                       │  │
-│  │  │  checkout    │   │  redis-cart │                                       │  │
-│  │  │  (Go Order)  │   │   (Redis)   │                                       │  │
-│  │  └──────────────┘   └─────────────┘                                       │  │
-│  │                                                                           │  │
-│  │  (Đã cấu hình HPA tối đa 3 replicas cho frontend và cartservice)          │  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-│                                                                                 │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │ Namespace: zero-door                       [Resource Quota: 3Gi Limit]    │  │
-│  │                                                                           │  │
-│  │  ┌─────────────────────────┐               ┌─────────────────────────┐    │  │
-│  │  │      Apache Kafka       │               │       Gaia Agent        │    │  │
-│  │  │  (combined KRaft Broker)│               │  (FastAPI - Python)     │    │  │
-│  │  └──────────┬──────────────┘               └────────────┬────────────┘    │  │
-│  │             │                                           │                 │  │
-│  │             │   monitoring.alerts / system.logs         │                 │  │
-│  │             └───────────────────────────────────────────┘                 │  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-│                                                                                 │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │ Namespace: monitoring                      [Resource Quota: 6Gi Limit]    │  │
-│  │                                                                           │  │
-│  │  ┌───────────────┐        ┌──────────────┐         ┌───────────────────┐  │
-│  │  │  Prometheus   │        │Elasticsearch │         │    Fluent Bit     │  │
-│  │  │ (Scrapes app) │        │ (Log Store)  │         │    (DaemonSet)    │  │
-│  │  └───────────────┘        └──────────────┘         └───────────────────┘  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph K3D_Cluster["K3D CLUSTER: 'zero-door'"]
+        subgraph NS_Target_App["Namespace: target-app (Resource Quota: 4Gi Limit)"]
+            frontend["frontend<br/>(Go Web UI)"]
+            cartservice["cartservice<br/>(.NET)"]
+            productcatalog["productcatalog<br/>(Go)"]
+            currency["currency<br/>(Node.js)"]
+            checkout["checkout<br/>(Go Order)"]
+            redis-cart["redis-cart<br/>(Redis)"]
+
+            frontend -.-> checkout
+            cartservice -.-> redis-cart
+        end
+        
+        subgraph NS_Zero_Door["Namespace: zero-door (Resource Quota: 3Gi Limit)"]
+            Kafka["Apache Kafka<br/>(combined KRaft Broker)"]
+            Gaia["Gaia Agent<br/>(FastAPI - Python)"]
+            
+            Gaia -.->|"monitoring.alerts / system.logs"| Kafka
+        end
+        
+        subgraph NS_Monitoring["Namespace: monitoring (Resource Quota: 6Gi Limit)"]
+            Prometheus["Prometheus<br/>(Scrapes app)"]
+            Elasticsearch["Elasticsearch<br/>(Log Store)"]
+            FluentBit["Fluent Bit<br/>(DaemonSet)"]
+        end
+    end
 ```
 
 ### Sơ đồ Luồng xử lý Anomaly Detection (Gaia Loop)
 
-```
-                       ┌─────────────────────────────────────┐
-                       │  Google Online Boutique (target)    │
-                       └──────────┬───────────────────┬──────┘
-                                  │                   │
-                     stdout logs  │                   │ app metrics
-                                  ▼                   ▼
-                           ┌─────────────┐     ┌─────────────┐
-                           │ Fluent Bit  │     │ Prometheus  │
-                           └──────┬──────┘     └──────┬──────┘
-                                  │ push logs         │ scrape (15s)
-                                  ▼                   ▼
-                           ┌─────────────┐     ┌─────────────┐
-                           │Elasticsearch│     │ Prometheus  │
-                           │  :9200      │     │   Server    │
-                           └──────┬──────┘     └──────┬──────┘
-                                  │                   │
-               ES _search (15s)   │                   │ PromQL query (15s)
-               - OOMKilled        │                   │ - High CPU (>80%)
-               - UNION SELECT     │                   │ - High Memory (>80%)
-               - ERROR/Exception  │                   │ - Latency / 5xx error
-                                  ▼                   ▼
-                           ┌─────────────────────────────────┐
-                           │           Gaia Agent            │
-                           │  - Nhận diện / Phân tích log    │
-                           │  - Đối chiếu ngưỡng (Threshold) │
-                           │  - Khử trùng lặp (Deduplicate)  │
-                           └──────────────────┬──────────────┘
-                                              │ 
-                                 Alert JSON   │ (Kafka topic: monitoring.alerts)
-                                 Logs activity│ (Kafka topic: system.logs)
-                                              ▼
-                                       ┌─────────────┐
-                                       │    Kafka    │
-                                       │  Controller │
-                                       └─────────────┘
+```mermaid
+flowchart TD
+    App["Google Online Boutique (target)"]
+    FluentBit["Fluent Bit"]
+    Prometheus["Prometheus"]
+    Elasticsearch["Elasticsearch :9200"]
+    PromServer["Prometheus Server"]
+    Gaia["Gaia Agent<br/>• Nhận diện / Phân tích log<br/>• Đối chiếu ngưỡng (Threshold)<br/>• Khử trùng lặp (Deduplicate)"]
+    Kafka["Kafka Controller"]
+
+    App -->|"stdout logs"| FluentBit
+    App -->|"app metrics"| Prometheus
+    
+    FluentBit -->|"push logs"| Elasticsearch
+    Prometheus -->|"scrape (15s)"| PromServer
+    
+    Elasticsearch -->|"ES _search (15s)<br/>• OOMKilled<br/>• UNION SELECT<br/>• ERROR/Exception"| Gaia
+    PromServer -->|"PromQL query (15s)<br/>• High CPU (>80%)<br/>• High Memory (>80%)<br/>• Latency / 5xx error"| Gaia
+    
+    Gaia -->|"Alert JSON (monitoring.alerts)"| Kafka
+    Gaia -->|"Logs activity (system.logs)"| Kafka
 ```
 
 ---

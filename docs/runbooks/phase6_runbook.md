@@ -241,25 +241,16 @@ Hiện tại, Gaia thu thập CPU/RAM thông qua Prometheus cào từ `cAdvisor`
 
 Chúng ta nhúng trực tiếp bộ thư viện **OpenTelemetry SDK** làm Middleware/Interceptor trực tiếp vào bên trong code của Web App (ở đây là Google Online Boutique microservices).
 
-```
-                     ┌──────────────────────────────────────────────┐
-                     │          TARGET APPLICATION POD              │
-                     │                                              │
-                     │  ┌──────────────┐     ┌───────────────────┐  │
-HTTP/gRPC Traffic ──>│  │ App logic    │────>│ OpenTelemetry SDK │  │
-                     │  │ (main.go/py) │     │   (Middleware)    │  │
-                     │  └──────────────┘     └─────────┬─────────┘  │
-                     └─────────────────────────────────┼────────────┘
-                                                       │ Expose Metrics (/metrics)
-                                                       ▼
-                                             ┌───────────────────┐
-                                             │ Prometheus Server │
-                                             └─────────┬─────────┘
-                                                       │ API Pull
-                                                       ▼
-                                             ┌───────────────────┐
-                                             │    Gaia Agent     │
-                                             └───────────────────┘
+```mermaid
+flowchart TD
+    Traffic["HTTP/gRPC Traffic"] --> App["App Logic (main.go/py)"]
+    
+    subgraph Pod["Target Application Pod"]
+        App <-->|"Middleware"| OTEL["OpenTelemetry SDK"]
+    end
+    
+    OTEL -->|"Expose Metrics (/metrics)"| Prometheus["Prometheus Server"]
+    Prometheus -->|"API Pull"| Gaia["Gaia Agent"]
 ```
 
 #### Mã phác thảo tích hợp OpenTelemetry SDK cho một dịch vụ Python (ví dụ: ProductCatalogService):
