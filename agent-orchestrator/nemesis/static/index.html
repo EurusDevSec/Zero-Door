@@ -321,19 +321,19 @@
                         <div class="card-body" style="padding: 8px 12px; font-size: 11px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto;">
                             <div class="status-kv">
                                 <span class="kv-key" style="font-size: 11px;">Avg MTTD (Detect)</span>
-                                <span id="sre-mttd" class="kv-val-purple" style="font-weight: 700;">~25.6s</span>
+                                <span id="sre-mttd" class="kv-val-purple" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
                             </div>
                             <div class="status-kv">
                                 <span class="kv-key" style="font-size: 11px;">Avg MTTR (Recover)</span>
-                                <span id="sre-mttr" class="kv-val-blue" style="font-weight: 700;">~1.01s</span>
+                                <span id="sre-mttr" class="kv-val-blue" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
                             </div>
                             <div class="status-kv">
                                 <span class="kv-key" style="font-size: 11px;">Uptime SLO</span>
-                                <span id="sre-uptime" class="kv-val-green" style="font-weight: 700;">100.0%</span>
+                                <span id="sre-uptime" class="kv-val-green" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
                             </div>
                             <div class="status-kv">
                                 <span class="kv-key" style="font-size: 11px;">Heal Success Rate</span>
-                                <span id="sre-success" class="kv-val-green" style="font-weight: 700;">95.2%</span>
+                                <span id="sre-success" class="kv-val-green" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
                             </div>
                         </div>
                     </div>
@@ -360,8 +360,8 @@
                             <h2 class="card-title"><i class="fa-solid fa-chart-line"></i> Real-time Telemetry</h2>
                             <span class="card-meta">Last 60s CPU trend</span>
                         </div>
-                        <div class="card-body" style="padding:10px; display:flex; align-items:center; justify-content:center; position:relative; min-height:0; height:100%;">
-                            <canvas id="telemetryChart" style="max-height: 100%; width: 100%;"></canvas>
+                        <div class="card-body" style="padding:10px; position:relative; height:140px; min-height:140px; max-height:140px;">
+                            <canvas id="telemetryChart"></canvas>
                         </div>
                     </div>
                 </div>
