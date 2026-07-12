@@ -259,7 +259,7 @@ function renderLogs(logs) {
 // Update Visual Topology Nodes
 function updateWorkflowGraph(services) {
     const nodeNemesis = document.getElementById("node-nemesis");
-    const nodeGemini = document.getElementById("node-gemini");
+    const nodeLLM = document.getElementById("node-llm");
     const nodeKafka = document.getElementById("node-kafka");
     const nodeWorker = document.getElementById("node-worker");
     const nodeTarget = document.getElementById("node-target");
@@ -269,7 +269,7 @@ function updateWorkflowGraph(services) {
     if (!nodeNemesis) return;
 
     // Reset all node classes
-    [nodeNemesis, nodeGemini, nodeKafka, nodeWorker, nodeGaia, nodeHephaestus].forEach(n => {
+    [nodeNemesis, nodeLLM, nodeKafka, nodeWorker, nodeGaia, nodeHephaestus].forEach(n => {
         if (n) n.className = n.classList.contains('topo-node-sub') ? 'topo-node-sub' : 'topo-node';
     });
     if (nodeTarget) nodeTarget.className = 'topo-node node-healthy';
@@ -296,9 +296,9 @@ async function triggerAIAttack() {
     const oldText = btn.innerHTML;
     
     const nodeNemesis = document.getElementById("node-nemesis");
-    const nodeGemini = document.getElementById("node-gemini");
+    const nodeLLM = document.getElementById("node-llm");
     if (nodeNemesis) nodeNemesis.classList.add('node-active');
-    if (nodeGemini) nodeGemini.classList.add('node-active');
+    if (nodeLLM) nodeLLM.classList.add('node-active');
 
     btn.disabled = true;
     btn.innerHTML = `<i class="fa-solid fa-spinner" style="animation:spin 1s linear infinite;"></i> Planning Strategy...`;
@@ -311,7 +311,7 @@ async function triggerAIAttack() {
         updateAgentChat();
     } catch (error) {
         console.error("AI Attack failed:", error);
-        alert("Failure triggering AI Attack. Check server configurations and Gemini API limits.");
+        alert("Failure triggering AI Attack. Check server configurations and LLM API limits.");
     } finally {
         btn.disabled = false;
         btn.innerHTML = oldText;
