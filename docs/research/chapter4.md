@@ -29,28 +29,191 @@ Worker được biên dịch thành một file nhị phân duy nhất (single bi
 
 ### 4.2.1. Đóng gói bảo mật bằng Multi-stage và Distroless
 Để triệt tiêu các nguy cơ an ninh liên quan đến lỗ hổng CVE trong các container image của các tác tử, hệ thống áp dụng kỹ thuật đóng gói đa phân đoạn (**Multi-stage Build**) kết hợp với image gốc siêu nhỏ **Google Distroless** (`gcr.io/distroless/python3-debian12:nonroot`).
-*   **Phân đoạn 1 (Builder stage):** Sử dụng image `python:3.11-slim` đầy đủ để tải và biên dịch các thư viện dependency vào thư mục `/install`. Phân đoạn này chứa các công cụ dịch và compiler cần thiết nhưng sẽ bị loại bỏ hoàn toàn ở sản phẩm cuối.
-*   **Phân đoạn 2 (Runtime stage):** Sử dụng distroless image chỉ chứa bộ dịch Python tối thiểu, không chứa shell (`/bin/sh`, `/bin/bash`), không chứa package manager (`apt`, `pip`), không chứa các coreutils cơ bản. Chỉ sao chép thư mục `/install` sạch và mã nguồn ứng dụng từ Phân đoạn 1. Container chạy dưới quyền người dùng không có đặc quyền root (`nonroot`). Điều này làm giảm kích thước image từ ~400MB xuống chỉ còn **~78MB**, ngăn chặn kẻ tấn công thực thi các lệnh shell hoặc leo thang đặc quyền kể cả khi mã nguồn ứng dụng bị xâm nhập.
+
+Dưới đây là mã nguồn Dockerfile chuẩn được áp dụng cho các tác tử Python (ví dụ: Gaia Agent):
+
+```dockerfile
+# Stage 1: Build stage (Lò nướng)
+FROM python:3.11-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+# Cài đặt dependencies vào thư mục cô lập /install để tránh mang theo compiler
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# Stage 2: Runtime stage (Tủ kính trưng bày)
+FROM gcr.io/distroless/python3-debian12:nonroot
+WORKDIR /app
+# Chỉ copy thư viện đã build sạch và mã nguồn
+COPY --from=builder /install /usr/local
+COPY main.py .
+
+# Thiết lập PYTHONPATH để python interpreter trong distroless nhận diện package
+ENV PYTHONPATH=/usr/local/lib/python3.11/site-packages
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8000
+# Chạy trực tiếp qua python uvicorn, tuyệt đối không đi qua shell wrapper
+ENTRYPOINT ["/usr/bin/python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+**Giải thích chi tiết cấu trúc Dockerfile:**
+1.  `FROM python:3.11-slim AS builder`: Khởi tạo môi trường build đầy đủ các công cụ biên dịch (pip, gcc) để tải các gói phụ thuộc từ `requirements.txt`.
+2.  `--prefix=/install`: Toàn bộ các module tải về được gom gọn vào thư mục `/install` độc lập, tránh pha tạp với các file hệ thống của builder stage.
+3.  `FROM gcr.io/distroless/python3-debian12:nonroot`: Chuyển sang sử dụng base image bảo mật cực hạn từ Google. Image này không có bash, sh, apt, chown hay bất kỳ binary nào khác ngoài môi trường chạy Python tối thiểu.
+4.  `COPY --from=builder /install /usr/local`: Chỉ copy thư viện Python đã biên dịch sạch ở Stage 1 sang Stage 2.
+5.  `ENV PYTHONPATH`: Chỉ đường dẫn cho Python tìm nạp thư viện tại `/usr/local/lib/python3.11/site-packages` do môi trường Distroless không tự động map các biến PATH như các bản phân phối Linux thông thường.
+6.  `ENTRYPOINT`: Gọi trực tiếp `/usr/bin/python3 -m uvicorn` thay vì dùng file shell script `start.sh` làm trung gian, triệt tiêu hoàn toàn bề mặt tấn công shell injection.
+
+Giải pháp này giúp giảm kích thước image từ ~400MB xuống chỉ còn **~78MB**, ngăn chặn kẻ tấn công thực thi các lệnh shell hoặc leo thang đặc quyền kể cả khi mã nguồn ứng dụng bị xâm nhập.
 
 ### 4.2.2. Quy trình kiểm tra tĩnh tự động (CI/CD Pipeline)
-Tệp cấu hình workflow GitHub Actions `.github/workflows/ci.yml` tự động kích hoạt khi có sự kiện đẩy mã nguồn lên nhánh `main`. Quy trình bao gồm 5 jobs kiểm tra độc lập:
-1.  **Helm Chart & Manifests Lint:** Quét cú pháp tất cả tệp cấu hình YAML sử dụng parser Python để đảm bảo không tồn tại lỗi định dạng trước khi apply.
-2.  **Python Build & Bandit Scan:** Chạy công cụ **Bandit** quét mã nguồn của Gaia, Nemesis, Hephaestus để tìm lỗi an ninh và hardcoded secrets.
-3.  **Go Build & Gosec Scan:** Thực hiện biên dịch mã nguồn Go và chạy công cụ **Gosec** quét các lỗi bộ nhớ không an toàn.
-4.  **Trivy IaC Scan:** Chạy công cụ **Trivy** quét toàn bộ thư mục `infrastructure/manifests` phát hiện các vi phạm cấu hình K8s. Pipeline sẽ tự động bị block (exit code 1) nếu phát hiện lỗi mức độ `CRITICAL`.
-5.  **Publish Images:** Sau khi tất cả các bước trên thành công, pipeline tiến hành đóng gói Docker image và đẩy lên GitHub Container Registry (GHCR).
+Tệp cấu hình workflow GitHub Actions `.github/workflows/ci.yml` tự động kích hoạt khi có sự kiện đẩy mã nguồn lên nhánh `main`. Quy trình bao gồm các cấu hình kiểm tra an ninh tự động quan trọng:
+
+```yaml
+# Trích xuất cấu hình quét bảo mật trong GitHub Actions
+jobs:
+  python-build:
+    name: Build Python Agent
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        agent: [gaia, nemesis, hephaestus]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          cd agent-orchestrator/${{ matrix.agent }}
+          pip install --no-cache-dir -r requirements.txt
+      - name: Run Bandit SAST Scan
+        run: |
+          pip install --no-cache-dir bandit
+          cd agent-orchestrator/${{ matrix.agent }}
+          bandit -r main.py -lll -iii
+
+  go-build:
+    name: Build Go Chaos Worker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Set up Go 1.21
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      - name: Run Gosec SAST Scan
+        run: |
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
+          cd chaos-worker
+          gosec -severity medium -confidence medium ./...
+
+  iac-scan:
+    name: Kubernetes Manifests Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: 'infrastructure/manifests'
+          exit-code: '1'
+          severity: 'CRITICAL'
+```
+
+**Chi tiết các chốt chặn an ninh:**
+*   **Bandit SAST (`bandit -r main.py -lll -iii`):** Chỉ hiển thị các cảnh báo mức độ nguy hiểm từ Trung bình trở lên với độ tin cậy cao, phát hiện sớm các lỗ hổng hardcode thông tin kết nối hoặc hàm thực thi hệ thống nguy hiểm.
+*   **Gosec SAST (`gosec -severity medium -confidence medium`):** Kiểm tra mã nguồn Go của Chaos Worker để phát hiện các lỗi tràn bộ nhớ hoặc xử lý bất đồng bộ không an toàn.
+*   **Trivy Config Scan (`scan-type: 'config'`):** Rà quét các tệp tin YAML trong thư mục manifests. Cấu hình `exit-code: '1'` và `severity: 'CRITICAL'` đảm bảo rằng nếu phát hiện bất kỳ cấu hình sai trái nguy hiểm nào (ví dụ: container chạy quyền root, pod mount ổ đĩa host), pipeline sẽ lập tức báo đỏ (Block Build) để kỹ sư sửa chữa trước khi cho phép deploy.
 
 ---
 
 ## 4.3. Quản trị hạ tầng Cloud tự động với Terraform (IaC)
 
-Triển khai thực tế trên đám mây DigitalOcean (DO) được tự động hóa hoàn toàn bằng Terraform để loại bỏ sai sót vận hành thủ công:
+Triển khai thực tế trên đám mây DigitalOcean (DO) được tự động hóa hoàn toàn bằng Terraform để loại bỏ sai sót vận hành thủ công.
 
 ### 4.3.1. Cấu hình Terraform (`main.tf`)
-Terraform khởi tạo các tài nguyên trên DigitalOcean vùng Singapore (`sgp1`):
-*   `digitalocean_ssh_key.zero_door`: Đăng ký khóa SSH công khai dùng để truy cập an toàn vào máy chủ.
-*   `digitalocean_droplet.zero_door`: Khởi tạo máy ảo Droplet chạy hệ điều hành Ubuntu 22.04 LTS, cấu hình tài nguyên phù hợp cho microservices chạy trong cụm K3s (4 vCPUs, 8GB RAM, 160GB SSD).
-*   `digitalocean_firewall.zero_door`: Thiết lập tường lửa đám mây bảo vệ máy ảo, chỉ mở cổng **22** (SSH), **80** (HTTP), và **443** (HTTPS) cho toàn thế giới. Cổng **6443** (Kubernetes API) được đóng hoàn toàn để bảo vệ API Server trước các cuộc tấn công từ bên ngoài.
+Dưới đây là mã nguồn cấu hình Terraform khởi tạo máy ảo và thiết lập tường lửa bảo vệ:
+
+```hcl
+# main.tf — DigitalOcean Provisioning
+terraform {
+  required_providers {
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "digitalocean" {
+  token = var.do_token
+}
+
+resource "digitalocean_ssh_key" "zero_door" {
+  name       = "zero-door-key"
+  public_key = file(var.public_key_path)
+}
+
+resource "digitalocean_droplet" "zero_door" {
+  name               = "zero-door-k3s"
+  region             = "sgp1"
+  size               = "s-4vcpu-8gb"
+  image              = "ubuntu-22-04-x64"
+  private_networking = true
+  ssh_keys           = [digitalocean_ssh_key.zero_door.id]
+  user_data          = file("cloud-init.yaml")
+}
+
+resource "digitalocean_firewall" "zero_door" {
+  name        = "zero-door-firewall"
+  droplet_ids = [digitalocean_droplet.zero_door.id]
+
+  # SSH Access
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "22"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  # Ingress Web Traffic HTTP
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "80"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  # Ingress Web Traffic HTTPS
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "443"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  # Allow all outbound traffic
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "all"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+  
+  outbound_rule {
+    protocol              = "udp"
+    port_range            = "all"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+}
+```
+
+**Giải thích an ninh trong cấu hình Firewall:**
+Quy trình Hardening đóng hoàn toàn cổng **6443** (Kubernetes API Server) đối với thế giới bên ngoài. Đây là thay đổi bảo mật tối quan trọng so với các hướng dẫn cài đặt Kubernetes cơ bản. 
+
+Bằng cách đóng cổng này, kẻ tấn công không thể dò quét hoặc bruteforce API Server của cụm. Kỹ sư SRE chỉ có thể quản trị cụm từ xa bằng cách tạo đường truyền SSH Tunnel mã hóa thông qua cổng 22 để truy cập an toàn vào API nội bộ.
 
 ### 4.3.2. Cấu hình tự động hóa qua `cloud-init` và `deploy.sh`
 *   **`cloud-init.yaml`:** Chuyển tệp tin cấu hình và script cài đặt hệ thống vào máy ảo, thiết lập ghi nhật ký tự động vào tệp `/var/log/zero-door-deploy.log`.
@@ -67,12 +230,49 @@ Terraform khởi tạo các tài nguyên trên DigitalOcean vùng Singapore (`sg
 ## 4.4. Cấu hình Nginx Ingress và Định tuyến Gateway
 
 Để đảm bảo hệ thống có thể truy cập được từ trình duyệt bên ngoài thông qua một IP duy nhất của Droplet điện toán đám mây, Nginx Ingress được cấu hình định tuyến thông minh:
-*   Đường dẫn gốc `/` được định tuyến trực tiếp vào service `frontend` của Google Online Boutique trong namespace `target-app`.
-*   Đường dẫn `/nemesis/` được định tuyến vào tác tử Nemesis trong namespace `zero-door` để truy cập dashboard điều khiển. Cấu hình rewrite path được áp dụng để loại bỏ tiền tố `/nemesis` trước khi truyền request vào container của tác tử:
-    ```yaml
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zero-door-ingress
+  namespace: zero-door
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-    ```
-*   Tương tự, đường dẫn `/hephaestus/` được định tuyến vào tác tử Hephaestus để phục vụ cho các REST API kiểm thử.
+spec:
+  rules:
+    - http:
+        paths:
+          # Định tuyến vào Frontend của Google Online Boutique
+          - path: /(|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+          # Định tuyến vào Dashboard quản trị Nemesis
+          - path: /nemesis(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nemesis
+                port:
+                  number: 8000
+          # Định tuyến vào REST API của Hephaestus
+          - path: /hephaestus(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: hephaestus
+                port:
+                  number: 8000
+```
+
+**Giải thích cơ chế hoạt động:**
+*   `nginx.ingress.kubernetes.io/rewrite-target: /$2`: Sử dụng regex để bóc tách đường dẫn con. Khi người dùng truy cập `http://<IP_DROPLET>/nemesis/api/logs`, Ingress Controller sẽ rewrite lại đường dẫn và truyền đến container của Nemesis dưới dạng `/api/logs`, giúp Nemesis xử lý các API tĩnh bình thường mà không cần tự map cấu hình tiền tố phức tạp.
+*   Cổng mặc định của `frontend` được ánh xạ về đường dẫn gốc `/`, tạo sự liền mạch cho người dùng trải nghiệm cửa hàng mua sắm giả lập.
 
 ---
 
@@ -81,3 +281,4 @@ Terraform khởi tạo các tài nguyên trên DigitalOcean vùng Singapore (`sg
 Giao diện quản trị tập trung (Zero-Door Control Dashboard) được hiện thực hóa bằng HTML5 và Vanilla CSS/JavaScript, được tích hợp trực tiếp trong thư mục `/static` của tác tử Nemesis và được phục vụ bởi uvicorn server.
 *   **In-memory Logging Buffer:** Để hiển thị log hoạt động thời gian thực của các Agent lên giao diện web mà không cần cài đặt các hệ thống log stream phức tạp (như WebSockets hay Loki) gây quá tải RAM, Nemesis thiết lập một mảng buffer ghi log trong bộ nhớ (`NEMESIS_LOG_BUFFER`), tự động lưu trữ và xoay vòng 50 dòng log mới nhất. Giao diện frontend định kỳ gửi request GET `/api/logs` sau mỗi 3 giây để lấy dữ liệu log về hiển thị.
 *   **AI Reasoning Chat Pane:** Hiển thị toàn bộ chuỗi hội thoại suy luận của AI (Nemesis phân tích tài nguyên và giải trình lý do đưa ra quyết định tấn công), giúp người vận hành theo dõi được tính minh bạch và logic của mô hình ra quyết định.
+*   **Nút Reset môi trường:** Kết nối trực tiếp đến endpoint POST `/api/reset` của Nemesis, tự động phát lệnh xóa lịch sử chat, làm sạch log buffer, và gửi REST call đến Hephaestus `/experiment/reset` để dọn dẹp các NetworkPolicy đang block và scale toàn bộ Deployments về 1 replica duy nhất phục vụ đợt War Game tiếp theo.
