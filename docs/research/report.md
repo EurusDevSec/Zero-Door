@@ -9,6 +9,57 @@
 
 ---
 
+## 📝 THÔNG TIN KẾT QUẢ NGHIÊN CỨU CỦA ĐỀ TÀI
+
+### 1. Thông tin chung
+*   **Tên đề tài:** Ứng dụng kiến trúc Multi-Agent AI và kỹ thuật Chaos Engineering xây dựng cơ chế Tự phục hồi cho hệ thống Microservices
+*   **Sinh viên/ nhóm sinh viên thực hiện:**
+
+| STT | Họ và tên | MSSV | Lớp | Khoa/Viện | Năm thứ / Số năm đào tạo |
+|:---:|:---|:---:|:---:|:---|:---:|
+| 1 | Nguyễn Ngọc Hòa | 2224802010935 | D22CNTT02 | Viện Công nghệ số | Năm thứ tư / 4 năm |
+| 2 | Lê Văn Hoàng | 2224802010279 | D22CNTT02 | Viện Công nghệ số | Năm thứ tư / 4 năm |
+
+*   **Người hướng dẫn:** Th.S Nguyễn Thành Phương
+
+---
+
+### 2. Mục tiêu đề tài
+*   **Mục tiêu lý thuyết:** Nghiên cứu cơ chế tự động hóa ứng cứu sự cố tầng ứng dụng (Self-Healing) dựa trên lý thuyết vòng lặp tự trị đóng kín MAPE-K (Monitor-Analyze-Plan-Execute-Knowledge) phối hợp giữa Chaos Engineering và kiến trúc Đa tác tử thông minh (Multi-Agent).
+*   **Mục tiêu thực tiễn:** Triển khai thành công cụm Kubernetes microservices mẫu, tích hợp 3 tác tử AI tự trị (Gaia, Nemesis, Hephaestus) và Chaos Worker để mô phỏng chiến tranh AI tự động phát hiện, cô lập và sửa chữa các lỗi quá tải CPU, DDoS HTTP Flood, Pod Crash và tấn công mạng (SQL Injection).
+*   **Mục tiêu hiệu năng SRE:** Rút ngắn thời gian phát hiện lỗi MTTD < 60 giây, thời gian tự khôi phục MTTR < 180 giây, duy trì tỷ lệ Uptime ứng dụng $\ge$ 99.9% dưới áp lực tấn công liên tục.
+
+---
+
+### 3. Tính mới và sáng tạo
+*   **Kết hợp Proactive Defense và Reactive Auto-Remediation:** Hệ thống không chỉ thụ động chờ lỗi xảy ra mà chủ động dùng AI Planner (Nemesis) và Go Chaos Worker để tiêm lỗi thử nghiệm (Chaos Engineering), từ đó kích hoạt hệ thống tự khắc phục lỗi ngay tại môi trường Sandbox trước khi deploy lên Production.
+*   **Cơ chế Xoay vòng khóa API (Round-Robin Keys) cho AI Agent:** Tích hợp bộ giải quyết Rate Limit tự động cho AI Agent (Gemini/OpenAI) bằng thuật toán Round-Robin xoay vòng danh sách key, giúp hệ thống chạy liên tục không mất phí dịch vụ cao cho học tập và nghiên cứu.
+*   **Tối ưu hóa tài nguyên phần cứng (FinOps):** Tái kiến trúc toàn bộ các Agent từ Java sang Python FastAPI và Go, giúp cắt giảm dung lượng RAM tiêu thụ từ **1300MB xuống còn 157MB** (tiết kiệm gần 88% bộ nhớ), đảm bảo chạy mượt trên Droplet đám mây giá rẻ và máy cá nhân 16GB RAM.
+*   **Vá lỗi động bằng Dynamic NetworkPolicy có thời gian tự hủy (TTL):** Hephaestus tự động tạo NetworkPolicy chặn IP của kẻ tấn công SQL Injection dựa trên phân tích logs từ Gaia, đồng thời tự động xóa bỏ policy sau 300 giây để giải phóng tài nguyên.
+
+---
+
+### 4. Kết quả nghiên cứu
+*   **Hạ tầng và Ứng dụng hoạt động ổn định:** Cài đặt thành công K3s cụm Microservices Google Online Boutique cùng hệ thống Message Broker Kafka KRaft, Prometheus Stack và Elasticsearch tập trung.
+*   **Đo lường KPIs thực nghiệm (Phase 5):** Thử nghiệm 40 lượt chạy thực tế chứng minh thời gian phát hiện lỗi MTTD đạt trung bình dưới **25.6 giây** (vượt chỉ tiêu < 60s), thời gian khôi phục lỗi MTTR đạt trung bình **1.01 giây** (vượt chỉ tiêu < 180s) và duy trì tỷ lệ **Uptime 100%**.
+*   **Nhận diện giới hạn hệ thống:** Chỉ rõ sự cố **Race Condition** tranh chấp tài nguyên giữa Agent cứu hộ và ReplicaSet controller của Kubernetes ở kịch bản E3 (Pod Kill), làm cơ sở khoa học để thiết kế các cơ chế kiểm tra chéo sau này.
+
+---
+
+### 5. Đóng góp về mặt kinh tế - xã hội, giáo dục và đào tạo, an ninh, quốc phòng và khả năng áp dụng của đề tài
+*   **Kinh tế - xã hội:** Giúp doanh nghiệp giảm thiểu thiệt hại tài chính khổng lồ do downtime gián đoạn dịch vụ, tối ưu hóa nguồn lực nhân sự SRE trực ca đêm.
+*   **Giáo dục và đào tạo:** Làm giáo cụ trực quan sinh động hỗ trợ thực hành thực tế cho sinh viên Công nghệ thông tin của Đại học Thủ Dầu Một về chủ đề Cloud Native, An toàn hệ thống và DevSecOps nâng cao.
+*   **An ninh thông tin:** Cung cấp mô hình tự động quét và kiểm thử an ninh ("Zero Door"), giúp doanh nghiệp chủ động rà quét và tự động vá các lỗ hổng tầng ứng dụng như SQL Injection và DDoS trước kẻ tấn công.
+*   **Khả năng áp dụng:** Hoàn toàn có khả năng đóng gói thành các Helm Charts và Terraform modules để triển khai nhanh chóng tại các doanh nghiệp vừa và nhỏ đang chuyển dịch hạ tầng lên Kubernetes.
+
+---
+
+### 6. Công bố khoa học và Đánh giá thực tế
+*   **Mã nguồn mở và CI/CD tự động:** Toàn bộ dự án được đẩy lên GitHub công khai với quy trình quét an ninh tự động tích hợp (GitHub Actions running Bandit, Gosec, Trivy).
+*   **Deploy Cloud thực tế:** Hạ tầng dạng mã IaC với Terraform đã được thử nghiệm deploy thành công trên hạ tầng DigitalOcean Droplet Singapore và vượt qua các bài test an toàn mạng Firewall.
+
+---
+
 ## 🗺️ Sơ đồ Kiến trúc Cấp cao (High-Level Architecture)
 
 ```mermaid
