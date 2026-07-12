@@ -57,6 +57,10 @@
                     <i class="fa-solid fa-chart-line nav-icon"></i>
                     <span class="nav-text">Overview &amp; War Game</span>
                 </button>
+                <a href="http://localhost:8080" target="_blank" class="sidebar-nav-item">
+                    <i class="fa-solid fa-globe nav-icon" style="color: #0972d3;"></i>
+                    <span class="nav-text">Boutique App (Target)</span>
+                </a>
                 <button class="sidebar-nav-item" onclick="activateNavItem(this)">
                     <i class="fa-solid fa-shield-halved nav-icon"></i>
                     <span class="nav-text">Security Events</span>
@@ -70,18 +74,18 @@
             <!-- Monitoring Section -->
             <div class="sidebar-section">
                 <span class="sidebar-label">Monitoring</span>
-                <button class="sidebar-nav-item" onclick="activateNavItem(this)">
-                    <i class="fa-solid fa-gauge-high nav-icon"></i>
-                    <span class="nav-text">Metrics</span>
-                </button>
+                <a href="http://localhost:3000" target="_blank" class="sidebar-nav-item">
+                    <i class="fa-solid fa-gauge-high nav-icon" style="color: #ec7211;"></i>
+                    <span class="nav-text">Grafana Dashboards</span>
+                </a>
                 <button class="sidebar-nav-item" onclick="activateNavItem(this)">
                     <i class="fa-solid fa-scroll nav-icon"></i>
                     <span class="nav-text">Logs &amp; Traces</span>
                 </button>
-                <button class="sidebar-nav-item" onclick="activateNavItem(this)">
-                    <i class="fa-brands fa-prometheus nav-icon"></i>
-                    <span class="nav-text">Prometheus</span>
-                </button>
+                <a href="http://localhost:9090/alerts" target="_blank" class="sidebar-nav-item">
+                    <i class="fa-brands fa-prometheus nav-icon" style="color: #e6522c;"></i>
+                    <span class="nav-text">Prometheus Alerts</span>
+                </a>
             </div>
 
             <!-- Footer: Cluster info + User -->
