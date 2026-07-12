@@ -2,84 +2,155 @@
 
 ## 2.1. Kiến trúc Microservices và Container Orchestration
 
-### 2.1.1. Khái niệm và nguyên lý hoạt động của Microservices
-Kiến trúc dịch vụ siêu nhỏ (Microservices) phân rã một ứng dụng lớn thành một tập hợp các dịch vụ nhỏ hơn, chạy độc lập và giao tiếp với nhau qua các giao thức mạng nhẹ như HTTP REST hoặc gRPC. Mỗi dịch vụ chịu trách nhiệm xử lý một nghiệp vụ cụ thể (single responsibility) và sở hữu một cơ sở dữ liệu riêng biệt. Mô hình này giúp tăng cường khả năng phát triển song song, nâng cao tính chịu lỗi (fault isolation) và cho phép áp dụng các công nghệ khác nhau trên từng thành phần.
+### 2.1.1. So sánh kiến trúc nguyên khối (Monolith) và dịch vụ siêu nhỏ (Microservices)
+Trong mô hình phát triển phần mềm truyền thống, kiến trúc nguyên khối (Monolith) tích hợp toàn bộ các thành phần chức năng (giao diện, logic xử lý, kết nối dữ liệu) vào một khối mã nguồn duy nhất và chạy chung trong một tiến trình hệ thống. Mô hình này ban đầu mang lại lợi thế về sự đơn giản trong triển khai và kiểm thử. 
 
-Tuy nhiên, tính phân tán cao của mô hình này cũng tạo ra thách thức lớn về quản trị kết nối, tính nhất quán dữ liệu và độ phức tạp trong việc giám sát trạng thái sức khỏe của các thành phần dịch vụ.
+Tuy nhiên, khi quy mô ứng dụng phình to, Monolith bộc lộ các hạn chế nghiêm trọng: thời gian build kéo dài, khó khăn trong việc áp dụng công nghệ mới do ràng buộc mã nguồn cũ, và đặc biệt là tính chịu lỗi kém – một lỗi nhỏ ở module này có thể làm sập toàn bộ tiến trình hệ thống (Single Point of Failure).
 
-### 2.1.2. Công nghệ Container hóa (Docker)
-Để giải quyết bài toán không đồng nhất về môi trường chạy giữa các nhà phát triển và môi trường Production, công nghệ Container hóa (Docker) được áp dụng. Docker đóng gói toàn bộ mã nguồn, thư viện phụ thuộc và tệp cấu hình vào một tệp Container Image duy nhất. 
+Kiến trúc dịch vụ siêu nhỏ (Microservices) giải quyết các bài toán trên bằng cách chia nhỏ hệ thống thành các dịch vụ độc lập. Mỗi dịch vụ chạy trong một tiến trình riêng biệt và giao tiếp phi trạng thái (stateless) thông qua môi trường mạng (HTTP REST, gRPC hoặc Message Broker). Nguyên lý cốt lõi của Microservices bao gồm:
+*   **Decoupling (Phân rã liên kết):** Các dịch vụ có chu kỳ phát triển, kiểm thử và deploy hoàn toàn độc lập.
+*   **Database per Service (Mỗi dịch vụ một cơ sở dữ liệu):** Ngăn chặn việc truy cập chéo dữ liệu trực tiếp, ép buộc các dịch vụ phải giao tiếp qua API sạch.
+*   **Polyglot Programming (Đa ngôn ngữ lập trình):** Cho phép lựa chọn công nghệ tối ưu cho từng nghiệp vụ (ví dụ: Go cho dịch vụ xử lý song song cao, Python cho dịch vụ xử lý dữ liệu và AI, C# cho nghiệp vụ doanh nghiệp phức tạp).
 
-Nhờ chia sẻ chung nhân hệ điều hành của máy vật lý (Host OS) thông qua cơ chế cô lập tiến trình (namespaces) và giới hạn tài nguyên (cgroups) của Linux, container có dung lượng nhẹ hơn đáng kể so với máy ảo (Virtual Machine), khởi động nhanh trong vài giây và tiêu hao rất ít tài nguyên phần cứng.
+### 2.1.2. Móng nền Containerization và Cơ chế cô lập của nhân Linux
+Công nghệ container hóa đóng vai trò là xương sống giúp hiện thực hóa kiến trúc Microservices. Trái ngược với công nghệ ảo hóa truyền thống (Hypervisor-based Virtualization) vốn phải ảo hóa toàn bộ phần cứng và chạy một hệ điều hành khách (Guest OS) cồng kềnh, container chia sẻ trực tiếp nhân của hệ điều hành máy chủ (Host OS kernel). Sự cô lập giữa các container được nhân Linux thực thi thông qua hai cơ chế cốt lõi:
+1.  **Namespaces (Không gian tên):** Cung cấp khả năng cô lập tài nguyên hệ thống ở cấp độ tiến trình. Các namespaces chính bao gồm:
+    *   `PID Namespace`: Cô lập cây tiến trình (tiến trình trong container không thấy tiến trình của host).
+    *   `NET Namespace`: Cô lập card mạng, bảng định tuyến và các cổng kết nối (ports).
+    *   `MNT Namespace`: Cô lập các điểm mount ổ đĩa hệ thống.
+    *   `IPC Namespace`: Cô lập các tài nguyên giao tiếp nội bộ giữa các tiến trình.
+    *   `UTS Namespace`: Cô lập hostname và domain name.
+    *   `USER Namespace`: Cô lập các định danh người dùng (UID/GID), cho phép một tiến trình có quyền root trong container nhưng chỉ là user thường ngoài host.
+2.  **Control Groups (cgroups):** Quản lý và giới hạn tài nguyên phần cứng vật lý cấp phát cho container. Kỹ sư có thể đặt giới hạn cứng về lượng CPU (tính bằng cores hoặc millicores), dung lượng RAM (bytes), và tốc độ đọc/ghi ổ đĩa (I/O throughput) cho từng container, ngăn ngừa hiện tượng một container bị lỗi chiếm dụng hết tài nguyên của host (noisy neighbor).
 
-### 2.1.3. Nền tảng điều phối Container Kubernetes
-Khi số lượng container trong hệ thống microservices tăng lên, việc quản lý vòng đời, phân tải và xử lý sự cố thủ công trở nên bất khả thi. Kubernetes (K8s) được phát triển như một hệ điều hành đám mây, tự động hóa các tác vụ triển khai, mở rộng quy mô và quản lý các containerized applications. Các thành phần K8s cốt lõi áp dụng trong đề tài bao gồm:
-*   **Pod:** Đơn vị triển khai nhỏ nhất, chứa một hoặc nhiều container chia sẻ chung không gian mạng (Network namespace) và ổ đĩa (Storage volumes).
-*   **Service:** Định nghĩa một nhóm logic các Pods và chính sách truy cập chúng, cung cấp một địa chỉ IP nội bộ ổn định và cơ chế cân bằng tải (load balancing).
-*   **Ingress & Ingress Controller (Nginx):** Quản lý luồng traffic đi vào cụm từ bên ngoài ứng dụng, ánh xạ các HTTP/HTTPS routes đến dịch vụ tương ứng bên trong.
-*   **NetworkPolicy:** Bộ lọc tường lửa tầng ứng dụng kiểm soát quyền truyền thông giữa các Pods dựa trên nhãn nhãn (labels) và namespaces.
-*   **ResourceQuota:** Giới hạn tổng dung lượng tài nguyên tính toán (CPU, Memory, số lượng Pod) mà một namespace được phép tiêu hao, ngăn ngừa cạn kiệt tài nguyên node.
+### 2.1.3. Nền tảng điều phối Kubernetes (K8s) và Cơ chế định tuyến mạng
+Kubernetes là một nền tảng nguồn mở dùng để tự động hóa việc triển khai, mở rộng quy mô và quản lý các container. Kiến trúc Kubernetes bao gồm hai phần chính: Control Plane (quản lý cụm) và Worker Nodes (nơi chạy ứng dụng).
+
+```
+              ┌────────────────────────────────────────────────────────┐
+              │                     CONTROL PLANE                      │
+              │  ┌──────────────┐   ┌────────────┐   ┌──────────────┐  │
+              │  │kube-apiserver│◀──│  kube-sched│   │kube-control- │  │
+              │  └──────┬───────┘   └────────────┘   │ler-manager   │  │
+              │         │                            └──────────────┘  │
+              │         ▼                                              │
+              │    ┌─────────┐                                         │
+              │    │  etcd   │                                         │
+              │    └─────────┘                                         │
+              └─────────┬──────────────────────────────────────────────┘
+                        │
+                        │ kube-apiserver API calls
+                        ▼
+              ┌────────────────────────────────────────────────────────┐
+              │                      WORKER NODE                       │
+              │  ┌──────────────┐   ┌────────────┐   ┌──────────────┐  │
+              │  │   kubelet    │   │ kube-proxy │   │  Container   │  │
+              │  └──────┬───────┘   └────────────┘   │   Runtime    │  │
+              │         │                            └──────┬───────┘  │
+              │         ▼                                   ▼          │
+              │  [Pod Agent Run]                     [Container Pod]   │
+              └────────────────────────────────────────────────────────┘
+```
+
+*   **Kube-apiserver:** Cổng giao tiếp trung tâm expose REST API của K8s, tiếp nhận mọi yêu cầu cấu hình hạ tầng.
+*   **Etcd:** Cơ sở dữ liệu key-value phân tán, lưu trữ toàn bộ trạng thái cấu hình của cụm.
+*   **Kube-scheduler:** Tìm kiếm và chọn lựa Worker Node phù hợp nhất để đặt Pod mới dựa trên yêu cầu tài nguyên.
+*   **Kube-controller-manager:** Chạy các tiến trình controller kiểm soát trạng thái cụm (như ReplicaSet Controller duy trì số lượng pod, Node Controller phát hiện node offline).
+*   **Kubelet:** Agent chạy trên từng Worker Node, lắng nghe chỉ thị từ API Server để quản lý vòng đời container thông qua Container Runtime (như containerd).
+*   **Kube-proxy:** Quản lý bảng định tuyến mạng nội bộ và thực thi cơ chế phân tải IPVS/IPTables để kết nối các Pods.
+*   **Nginx Ingress Controller:** Lắng nghe cấu hình Ingress của cụm, tự động biên dịch các quy tắc routing mạng thành cấu hình của máy chủ Nginx, thực hiện nạp lại cấu hình (reload) động để dẫn luồng HTTP/HTTPS từ IP public vào đúng cổng của Service bên trong cụm.
 
 ---
 
 ## 2.2. Kỹ thuật Hỗn mang (Chaos Engineering)
 
-### 2.2.1. Định nghĩa và 5 Nguyên tắc cốt lõi
-Chaos Engineering là kỹ thuật thực nghiệm gây lỗi chủ động lên hệ thống trong môi trường Production hoặc Staging nhằm tìm ra các điểm yếu tiềm ẩn trước khi chúng gây ra sự cố gián đoạn dịch vụ thực sự. Khác với hoạt động phá hoại thông thường, Chaos Engineering được dẫn dắt bởi phương pháp luận khoa học chặt chẽ qua 5 bước:
-1.  **Định nghĩa Trạng thái Ổn định (Steady State):** Xác định các chỉ số đo lường hiệu năng bình thường (như tỷ lệ HTTP 200, độ trễ P99, tải CPU).
-2.  **Đặt Giả thuyết (Hypothesis):** Giả định hệ thống sẽ tự phục hồi hoặc duy trì trạng thái ổn định khi có lỗi xảy ra (ví dụ: *"Khi pod frontend bị xóa, HPA và Kubernetes Controller sẽ khôi phục lại dịch vụ và người dùng không nhận thấy gián đoạn"*).
-3.  **Tiêm lỗi (Inject Failure):** Chủ động đưa vào các biến số lỗi (ngắt kết nối mạng, cạn kiệt CPU, xóa pod).
-4.  **Kiểm chứng Giả thuyết:** So sánh trạng thái hệ thống sau khi tiêm lỗi với trạng thái ổn định ban đầu.
-5.  **Thu hẹp Vùng ảnh hưởng (Minimize Blast Radius):** Thiết lập các chốt chặn an toàn để đảm bảo lỗi được kiểm soát và dễ dàng khôi phục ngay lập tức nếu thực nghiệm đi chệch hướng dự kiến.
+### 2.2.1. Phân tích sâu các Nguyên tắc Chaos Engineering
+Kỹ thuật hỗn mang không phải là hành động phá hoại ngẫu nhiên mà là một phương pháp khoa học có kiểm soát để kiểm thử độ bền hệ thống phân tán.
+1.  **Xây dựng giả thuyết xung quanh trạng thái ổn định (Steady State):** Hệ thống được định nghĩa ổn định thông qua các chỉ số đo lường hiệu năng cốt lõi (SLIs - Service Level Indicators). Ví dụ, trong điều kiện tải bình thường, tỷ lệ lỗi phản hồi (Error Rate) phải $< 0.1\%$ và độ trễ phản hồi P99 phải $< 500ms$. Giả thuyết Chaos là: *"Khi lỗi X xảy ra, hệ thống vẫn duy trì các SLIs này trong giới hạn an toàn nhờ cơ chế tự phục hồi."*
+2.  **Mô phỏng đa dạng sự cố thực tế:** Lỗi được tiêm phải tương ứng với các thảm họa có xác suất xảy ra cao trong vận hành thực tế như: cạn kiệt tài nguyên node, phân rã mạng nội bộ (network partition), mất kết nối cơ sở dữ liệu, hoặc ứng dụng bị tấn công quá tải.
+3.  **Thử nghiệm trực tiếp trên Staging/Production:** Để đảm bảo tính chân thực của môi trường (vì môi trường dev local thường không có tải thật hoặc thiếu cấu hình network chính xác). Tuy nhiên, đối với đề tài nghiên cứu này, việc thử nghiệm được thực hiện trên cụm cục bộ K3d và môi trường Sandbox Cloud để kiểm soát rủi ro an ninh.
+4.  **Tự động hóa chạy thử nghiệm liên tục:** Tích hợp Chaos Experiments vào quy trình CI/CD hoặc chạy định kỳ tự động giúp phát hiện lỗi cấu hình sai (configuration drift) ngay khi thay đổi mã nguồn được deploy.
+5.  **Giảm thiểu tối đa vùng ảnh hưởng (Blast Radius):** Đây là nguyên tắc sống còn. Mọi cuộc thử nghiệm đều phải được thiết kế có chốt chặn an toàn (như giới hạn timeout tấn công, chỉ tấn công một container riêng biệt, và có cơ chế khôi phục tức thời nếu chỉ số SLIs tụt giảm quá ngưỡng cho phép).
 
-### 2.2.2. Các dạng lỗi thường gặp ở tầng ứng dụng
-Thay vì chỉ tập trung vào các lỗi hạ tầng vật lý (tắt server, mất điện nguồn), nghiên cứu này hướng đến việc giả lập các lỗi tầng ứng dụng và dịch vụ mạng:
-*   **HTTP Flood (Application Layer DDoS):** Gửi lượng lớn request dồn dập đến các API endpoints nhạy cảm để kiểm tra khả năng chịu tải và cơ chế tự động co giãn.
-*   **Resource Exhaustion (Cạn kiệt tài nguyên):** Sử dụng các công cụ stresser để chiếm dụng CPU/RAM của pod, kiểm tra cơ chế cảnh báo ngưỡng và tự cô lập phần tử lỗi.
-*   **Pod Kill (Lỗi gián đoạn tức thời):** Xóa đột ngột pod đang phục vụ lưu lượng nhằm đánh giá độ trễ khởi động lại và khả năng duy trì session của hệ thống phân tán.
+### 2.2.2. Chi tiết các dạng tấn công ứng dụng trong đề tài
+*   **DDoS HTTP Flood:** Gửi liên tiếp lượng lớn HTTP requests phi trạng thái đến ứng dụng đích. Việc này kiểm tra khả năng của Ingress Controller trong việc cân bằng tải và đánh giá tốc độ của cơ chế co giãn tự động (Horizontal Pod Autoscaler - HPA) khi CPU của pod frontend tăng vọt.
+*   **CPU/Memory Stress:** Sử dụng stresser để tiêu hao RAM và CPU bên trong container. Lỗi này mô phỏng lỗi rò rỉ bộ nhớ (memory leak) hoặc lỗi vòng lặp vô hạn (infinite loop) trong code backend, ép buộc Kubernetes phải đưa ra quyết định phục hồi.
+*   **Pod Kill:** Sử dụng K8s API để gửi tín hiệu `SIGKILL` (hoặc xóa đột ngột) pod đang xử lý request. Thử nghiệm này kiểm chứng xem Ingress có tự động gỡ bỏ pod chết ra khỏi danh sách upstream kịp thời hay không, hay người dùng sẽ nhận lỗi HTTP 502 Bad Gateway.
 
 ---
 
 ## 2.3. Kiến trúc Đa Tác tử (Multi-Agent Systems)
 
-### 2.3.1. Định nghĩa Tác tử tự trị (Autonomous Agent)
-Một tác tử tự trị (Agent) là một thực thể phần mềm có khả năng nhận thức môi trường (Perception), tự đưa ra quyết định dựa trên các quy luật lập trình hoặc mô hình trí tuệ nhân tạo (Decision Making), và thực thi hành động (Action) tác động ngược trở lại môi trường đó nhằm hoàn thành mục tiêu thiết kế.
+### 2.3.1. Mô hình kiến trúc Tác tử tự trị thông minh
+Một tác tử thông minh hoạt động dựa trên vòng lặp tương tác liên tục với môi trường:
 
-### 2.3.2. Sự phối hợp hướng sự kiện trong Multi-Agent AI
-Hệ thống Đa tác tử (Multi-Agent System) bao gồm nhiều tác tử chuyên biệt hóa, phối hợp hoạt động với nhau. Trong các hệ thống microservices phức tạp, việc kết nối trực tiếp (point-to-point) giữa các tác tử dễ gây ra lỗi nghẽn cổ chai và mất tính đồng bộ. 
+```
+               ┌────────────────────────────────────────┐
+               │              MÔI TRƯỜNG                │
+               │        (Kubernetes / Kafka)            │
+               └──────────┬──────────────────▲──────────┘
+                          │                  │
+               Số liệu    │                  │  Lệnh API
+               Telemetry  │                  │  Khắc phục
+                          ▼                  │
+               ┌─────────────────────────────┴──────────┐
+               │             TÁC TỬ AI                  │
+               │  ┌──────────┐            ┌──────────┐  │
+               │  │ CẢM BIẾN │            │ CƠ CẤU   │  │
+               │  │ (Sensors)│            │ THỰC THI │  │
+               │  └────┬─────┘            │(Actuator)│  │
+               │       │                  └────▲─────┘  │
+               │       ▼                       │        │
+               │  ┌────────────────────────────┴─────┐  │
+               │  │      BỘ NÃO QUYẾT ĐỊNH           │  │
+               │  │   (LLM / Decision Engine)        │  │
+               │  └──────────────────────────────────┘  │
+               └────────────────────────────────────────┘
+```
 
-Do đó, đề tài áp dụng mô hình kiến trúc hướng sự kiện (Event-Driven Architecture). Các Agent giao tiếp phi đồng bộ thông qua một Message Broker trung tâm. Mỗi Agent lắng nghe một số luồng thông tin cụ thể, tự xử lý độc lập và đẩy kết quả lên một luồng dữ liệu dùng chung khác, giúp hệ thống có khả năng mở rộng tối đa và không bị ảnh hưởng chéo khi một Agent gặp sự cố.
+*   **Cảm biến (Sensors):** Nơi tiếp nhận dữ liệu telemetry từ môi trường. Ở Gaia, cảm biến chính là các HTTP Client truy vấn Prometheus và Elasticsearch.
+*   **Bộ não quyết định (Decision Engine):** Ở Nemesis, bộ não quyết định là các Prompt và LLM sinh kịch bản. Ở Hephaestus, đó là Ma trận quyết định bám sát các logic nghiệp vụ SRE.
+*   **Cơ cấu thực thi (Actuators):** Các thư viện kết nối hạ tầng (như K8s API python-client, Kafka producer) để trực tiếp thay đổi trạng thái môi trường.
 
----
+### 2.3.2. Mô hình hàn lâm MAPE-K Loop trong hệ thống tự thích ứng
+Mô hình **MAPE-K** (Monitor - Analyze - Plan - Execute - Knowledge) là tiêu chuẩn học thuật của IBM dành cho các hệ thống tự trị và phần mềm tự thích ứng (Self-Adaptive Software):
 
-## 2.4. Công nghệ Truyền tin và Giám sát (Observability)
+```
+       ┌────────────────────────────────────────────────────────┐
+       │                       KNOWLEDGE                        │
+       │                   (Apache Kafka)                       │
+       └─────▲───────────▲───────────────▲───────────────▲──────┘
+             │           │               │               │
+       ┌─────┴─────┐┌────┴──────┐┌───────┴───┐┌──────────┴───┐
+       │ MONITOR   ││ ANALYZE   ││ PLAN      ││ EXECUTE      │
+       │  (Gaia)   ││  (Gaia)   ││(Nemesis)  ││(Hephaestus / │
+       │           ││           ││           ││ ChaosWorker) │
+       └─────▲─────┘└───────────┘└───────────┘└───────┬───────┘
+             │                                        │
+             │ Telemetry                              │ Vá lỗi /
+             │                                        │ Tấn công
+       ┌─────┴────────────────────────────────────────▼────────┐
+       │                      MÔ MÔI TRƯỜNG                    │
+       │                  (K8s / target-app)                   │
+       └───────────────────────────────────────────────────────┘
+```
 
-### 2.4.1. Apache Kafka dưới mô hình KRaft
-Apache Kafka là nền tảng stream dữ liệu phân tán hiệu năng cao, hoạt động theo mô hình Publish-Subscribe. Từ phiên bản 3.4, Kafka chuyển đổi sang cơ chế KRaft (Kafka Raft Metadata Mode), tích hợp trực tiếp Controller vào Broker và loại bỏ hoàn toàn sự phụ thuộc vào Apache ZooKeeper. 
-
-Sự thay đổi này mang lại lợi ích thực tiễn rất lớn cho các dự án nghiên cứu quy mô nhỏ và local development:
-*   **Tối ưu bộ nhớ:** Giảm số lượng Pod cần khởi chạy từ 2 (1 Broker + 1 ZooKeeper) xuống còn 1 Pod duy nhất chạy chế độ kết hợp, tiết kiệm hơn 700MB RAM.
-*   **Độ tin cậy cao hơn:** Giảm độ phức tạp cấu hình mạng nội bộ và tăng tốc độ phục hồi cụm khi xảy ra sự cố mất điện hoặc reset máy chủ vật lý.
-
-### 2.4.2. Prometheus và Grafana (Metrics Stack)
-*   **Prometheus:** Cơ sở dữ liệu chuỗi thời gian (TSDB) hoạt động theo cơ chế kéo (Pull-based). Prometheus định kỳ kéo dữ liệu metrics từ cổng `/metrics` của các Pod theo cấu hình chỉ định trong `ServiceMonitor`. Các metric chính thu thập bao gồm tài nguyên container (`container_cpu_usage_seconds_total`) và trạng thái Pod.
-*   **Grafana:** Công cụ trực quan hóa dữ liệu kết nối trực tiếp với Prometheus bằng ngôn ngữ truy vấn PromQL, chuyển đổi dữ liệu thô thành các biểu đồ thời gian thực trực quan giúp người vận hành giám sát tức thời.
-
-### 2.4.3. Elasticsearch và Fluent Bit (Logging Stack)
-*   **Fluent Bit:** Bộ thu thập và xử lý log siêu nhẹ (chạy dưới dạng DaemonSet trên mỗi Node của Kubernetes, tiêu tốn chỉ khoảng 15MB RAM). Fluent Bit đọc trực tiếp tệp tin logs từ đường dẫn hệ thống `/var/log/containers/*`, gán thêm metadata của K8s (Pod name, Namespace, Labels) và đẩy về Elasticsearch.
-*   **Elasticsearch:** Cơ sở dữ liệu tài liệu (Document Store) hỗ trợ tìm kiếm toàn văn (full-text search) qua REST API, lưu trữ tập trung logs từ tất cả các microservices để Gaia quét tìm mã lỗi.
+*   **Monitor (Giám sát):** Thu thập telemetry từ target-app. Do Gaia đảm nhận thông qua việc cào dữ liệu metrics và logs.
+*   **Analyze (Phân tích):** Gaia đối chiếu metrics với ngưỡng cảnh báo và rà soát logs tìm signature lỗi để xác định hệ thống có bị dị thường hay không.
+*   **Plan (Lên kế hoạch):** Nemesis (khi tấn công) hoặc Hephaestus (khi phòng thủ) lập kế hoạch hành động tiếp theo.
+*   **Execute (Thực thi):** Thực hiện thay đổi trạng thái thông qua K8s API (do Hephaestus thực hiện) hoặc tiêm lỗi (do Chaos Worker thực hiện).
+*   **Knowledge (Tri thức):** Kafka đóng vai trò là kho lưu trữ trạng thái tri thức dùng chung phân tán, giúp các bước M-A-P-E chia sẻ thông tin phi trạng thái và phi đồng bộ một cách tức thời.
 
 ---
 
 ## 2.5. Quy trình DevSecOps và Tự động hóa hạ tầng (IaC)
 
-### 2.5.1. Hạ tầng dạng mã (Infrastructure as Code - Terraform)
-Terraform là công cụ IaC nguồn mở sử dụng ngôn ngữ khai báo HCL (HashiCorp Configuration Language) để tự động hóa quy trình cấp phát tài nguyên hạ tầng điện toán đám mây. Thay vì click chuột thủ công trên web console, kỹ sư viết cấu hình hạ tầng vào các tệp tin `.tf`. 
+### 2.5.1. Hạ tầng dạng mã (IaC - Terraform) và File State
+Terraform hoạt động theo mô hình khai báo (Declarative). Kỹ sư DevOps chỉ cần mô tả trạng thái cuối mong muốn của hạ tầng đám mây (ví dụ: *"Tôi muốn có 1 máy ảo Ubuntu 8GB RAM và 1 Firewall đóng cổng 6443"*). Terraform tự động tính toán đồ thị phụ thuộc (dependency graph) giữa các tài nguyên và tương tác với API của Cloud Provider để tạo lập tài nguyên theo đúng thứ tự tối ưu.
 
-Terraform quản lý trạng thái tài nguyên qua tệp tin `terraform.tfstate`, hỗ trợ việc tạo lập mới, cập nhật và hủy toàn bộ hạ tầng (Droplet, Cloud Firewall, SSH keys) chỉ bằng các câu lệnh tự động, đảm bảo tính nhất quán và loại bỏ cấu hình sai sót.
+Terraform quản lý tất cả các tài nguyên thông qua tệp tin trạng thái `terraform.tfstate`. Tệp tin này lưu trữ ánh xạ thực tế giữa các khai báo code HCL và ID tài nguyên thực tế trên Cloud. Khi có sự thay đổi code, Terraform thực hiện cơ chế so khớp (diff) giữa cấu hình mới, tệp state và trạng thái thực tế trên Cloud để chỉ cập nhật hoặc tạo mới những tài nguyên có sự thay đổi, giảm thiểu rủi ro gián đoạn hạ tầng sẵn có.
 
 ### 2.5.2. Công cụ quét tĩnh bảo mật (SAST) và Trivy Scan
-Nhằm bảo vệ hệ thống trước khi mã nguồn được đóng gói thành container image và đưa lên hạ tầng chạy, quy trình DevSecOps tích hợp các công cụ quét tự động trong GitHub Actions:
-*   **Bandit:** Phân tích cú pháp trừu tượng (AST) của mã nguồn Python để phát hiện các lỗi an ninh như hardcoded passwords, shell injection, hoặc thuật toán mã hóa yếu.
-*   **Gosec:** Quét mã nguồn Go của Chaos Worker để phát hiện lỗi kiểm soát con trỏ không an toàn hoặc lỗi tràn bộ đệm.
-*   **Trivy:** Quét cấu hình Kubernetes Manifests (IaC) để phát hiện các lỗi cấu hình nghiêm trọng (như chạy container dưới quyền root, thiếu cấu hình giới hạn tài nguyên) để ngăn ngừa các cuộc tấn công leo thang đặc quyền.
+*   **Bandit (SAST cho Python):** Sử dụng thư viện phân tích cú pháp trừu tượng (Abstract Syntax Trees - AST) của Python để chuyển đổi file code thành một sơ đồ cây logic. Bandit duyệt cây này để phát hiện các lỗ hổng an ninh kinh điển mà không cần chạy code thực tế, giúp loại bỏ các lỗi cơ bản ngay từ máy developer.
+*   **Gosec (SAST cho Go):** Tương tự như Bandit, Gosec phân tích AST của mã nguồn Go để phát hiện lỗi bảo mật bộ nhớ, lỗi ép kiểu không an toàn, hoặc xử lý concurrency không đồng bộ dẫn đến race condition trong Chaos Worker.
+*   **Trivy (IaC Security Scan):** Trivy sử dụng bộ engine quét cấu hình dựa trên chính sách viết bằng ngôn ngữ **Rego** (Open Policy Agent - OPA). Trivy phân tích các tệp tin cấu hình Kubernetes Manifests để đối chiếu với hàng trăm quy tắc bảo mật chuẩn CIS Benchmarks (như đảm bảo `readOnlyRootFilesystem: true`, cấm sử dụng tag image `:latest` ở production, bắt buộc phải có `resources.limits`). Việc này chặn đứng các lỗ hổng cấu hình sai (misconfigurations) trước khi deploy lên cụm.
