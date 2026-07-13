@@ -294,15 +294,15 @@ Mỗi thay đổi mã nguồn trên kho lưu trữ GitHub được tự động 
 *   **Kết quả chạy CI Pipeline:** Khi nhà phát triển thực hiện lệnh push, hệ thống kích hoạt workflow tích hợp liên tục. Pipeline thực hiện quét tĩnh mã nguồn Python (bằng Bandit) và Go (bằng Gosec) để phát hiện lỗ hổng sớm, đồng thời quét lỗi bảo mật cấu hình K8s Manifests (bằng Trivy). Khi tất cả các kiểm thử vượt qua thành công, GitHub Actions sẽ hiển thị trạng thái hoàn thành màu xanh lá cây (`Success`).
 
     ![ci/cd pass](image-12.png)
-    *(Hình 4.1: Minh chứng kết quả chạy thành công và vượt qua các chốt chặn kiểm tra an toàn trên GitHub Actions)*
+    Hình 4.1: Minh chứng kết quả chạy thành công và vượt qua các chốt chặn kiểm tra an toàn trên GitHub Actions
 
 *   **Lưu trữ Container Image trên GHCR:** Sau khi build thành công, các Docker image tối ưu (sử dụng base image Distroless bảo mật) được tự động đẩy (push) trực tiếp lên kho chứa private **GitHub Container Registry (GHCR)** dưới dạng các gói Package tương ứng với từng Agent: `gaia-agent`, `nemesis-agent`, `hephaestus-agent`, và `chaos-worker`.
 
     ![ghcr](image-13.png)
-    *(Hình 4.2: Danh sách các gói Container Image được lưu trữ và lập phiên bản trên GitHub Container Registry - GHCR)*
+    Hình 4.2: Danh sách các gói Container Image được lưu trữ và lập phiên bản trên GitHub Container Registry - GHCR
 
     ![detail container image](image-14.png)
-    *(Hình 4.3: Chi tiết Container Image zero-door/chaos-worker trên hệ thống GHCR)*
+    Hình 4.3: Chi tiết Container Image zero-door/chaos-worker trên hệ thống GHCR
 
 ### 4.6.2. Trạng thái Container chạy thực tế trên Kubernetes
 Sau khi được tự động deploy hoặc chạy lệnh triển khai bằng Terraform/Cloud-init, toàn bộ các thành phần của hệ thống được lập lịch và chạy ổn định trên cụm Kubernetes cục bộ (K3d) hoặc cloud. Trạng thái các container hoạt động bình thường (Healthy) trong 3 namespaces cốt lõi được biểu diễn dưới dạng:
@@ -312,7 +312,7 @@ Sau khi được tự động deploy hoặc chạy lệnh triển khai bằng Te
 *   **Namespace `monitoring` (Hệ thống quan sát):** Pod `prometheus`, `grafana`, `elasticsearch`, và `fluent-bit` hoạt động ổn định nhờ cấu hình mở rộng ResourceQuota.
 
     ![Danh sách pod trong cụm Kubernetes](image-15.png)
-    *(Hình 4.4: Danh sách các Pods chạy thực tế trong cụm Kubernetes hiển thị trạng thái Running)*
+    Hình 4.4: Danh sách các Pods chạy thực tế trong cụm Kubernetes hiển thị trạng thái Running
 
 ### 4.6.3. Giao diện các thành phần vận hành thực tế
 Quy trình thử nghiệm hệ thống yêu cầu sự phối hợp nhịp nhàng giữa các giao diện điều khiển chính:
@@ -321,16 +321,16 @@ Quy trình thử nghiệm hệ thống yêu cầu sự phối hợp nhịp nhàn
     Đây là ứng dụng thương mại điện tử microservices giả lập của Google. Người dùng và các công cụ stress test truy cập trực tiếp qua cổng 8080 thông qua Ingress Gateway. Khi cuộc tấn công HTTP Flood hoặc Pod Kill xảy ra, trang web này sẽ ghi nhận độ trễ tăng cao hoặc lỗi tạm thời (502/503), làm căn cứ đo lường thời gian gián đoạn dịch vụ thực tế.
 
     ![Giao diện trang Botique](image-16.png)
-    *(Hình 4.5: Giao diện trang chủ cửa hàng giả lập Google Online Boutique phục vụ kiểm thử)*
+    Hình 4.5: Giao diện trang chủ cửa hàng giả lập Google Online Boutique phục vụ kiểm thử
 
     ![Giao diện trang chi tiết sản phẩm](image-17.png)
-    *(Hình 4.6: Giao diện trang chi tiết sản phẩm trên hệ thống Online Boutique)*
+    Hình 4.6: Giao diện trang chi tiết sản phẩm trên hệ thống Online Boutique
 
     ![Giao diện trang thanh toán](image-18.png)
-    *(Hình 4.7: Giao diện trang điền thông tin thanh toán)*
+    Hình 4.7: Giao diện trang điền thông tin thanh toán
 
     ![Giao diện thanh toán thành công](image-19.png)
-    *(Hình 4.8: Giao diện thông báo giao dịch thanh toán và đặt hàng thành công)*
+    Hình 4.8: Giao diện thông báo giao dịch thanh toán và đặt hàng thành công
 
 2.  **Giao diện Dashboard Điều khiển Zero-Door (`http://localhost:9092/dashboard/`):**
     Giao diện AWS Cloudscape Light Theme tối giản giúp người vận hành thực hiện wargame:
@@ -340,26 +340,26 @@ Quy trình thử nghiệm hệ thống yêu cầu sự phối hợp nhịp nhàn
     *   **Khung tương tác Red/Blue Team:** Cho phép chọn microservice mục tiêu và kích hoạt tấn công thủ công hoặc tự động qua mô hình AI suy luận.
 
     ![Giao dienej Zero-door Control Dashboard](image-20.png)
-    *(Hình 4.9: Giao diện Zero-Door Control Dashboard hiển thị các biểu đồ Telemetry và SRE SLOs)*
+    Hình 4.9: Giao diện Zero-Door Control Dashboard hiển thị các biểu đồ Telemetry và SRE SLOs
 
 3.  **Giao diện Prometheus (`http://localhost:9090`):**
     Hệ thống lưu trữ cơ sở dữ liệu chuỗi thời gian (TSDB). Người vận hành sử dụng trang này để kiểm tra trực quan các Alert Rules đang hoạt động và truy vấn trực tiếp các biểu đồ tài nguyên thô bằng ngôn ngữ PromQL (ví dụ: truy vấn CPU limits, rate request).
 
     ![Giao diện prometheus target app alerts rules](image-21.png)
-    *(Hình 4.10: Giao diện Prometheus Alerting hiển thị các luật giám sát trạng thái tài nguyên hệ thống)*
+    Hình 4.10: Giao diện Prometheus Alerting hiển thị các luật giám sát trạng thái tài nguyên hệ thống
 
 4.  **Giao diện Grafana (`http://localhost:3000`):**
     Trực quan hóa các bảng điều khiển (Dashboards) quản trị tài nguyên nâng cao của Kubernetes Cluster và theo dõi chi tiết hoạt động của các pod.
 
     ![Giao diện grafana cho target-app](image-22.png)
-    *(Hình 4.11: Bảng điều khiển Grafana hiển thị thông số chi tiết của cụm Kubernetes)*
+    Hình 4.11: Bảng điều khiển Grafana hiển thị thông số chi tiết của cụm Kubernetes
 
 ### 4.6.4. Các bước khởi động và phối hợp kiểm thử (How to Run & Test)
 Để chạy thử nghiệm khép kín trên môi trường cục bộ, người vận hành thực hiện quy trình sau:
 1.  **Khởi động các cổng kết nối ngầm (Port-Forward):** Thực thi script `start-demo.ps1` để tự động dọn dẹp các tiến trình cũ và mở luồng kết nối cho Dashboard (9092), Hephaestus (9091), Prometheus (9090) và Grafana (3000).
 
     ![Hình Khởi động start-demo.ps1](image-23.png)
-    *(Hình 4.12: Quy trình khởi động và tự động cấu hình port-forward qua script start-demo.ps1)*
+    Hình 4.12: Quy trình khởi động và tự động cấu hình port-forward qua script start-demo.ps1
 
 2.  **Kích hoạt War Game:** Trên Dashboard Zero-Door, người vận hành nhấn **Reset System** để đưa cụm về Steady-State (1 pod, xóa mọi IP block). Sau đó, chọn một dịch vụ (ví dụ: `cartservice`) và loại tấn công (ví dụ: `CPU_STRESS` mức `HIGH`), rồi bấm **Execute Attack**.
 3.  **Vòng lặp Closed-Loop tự động:**
