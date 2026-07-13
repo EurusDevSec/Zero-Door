@@ -308,9 +308,8 @@ Mỗi thay đổi mã nguồn trên kho lưu trữ GitHub được tự động 
 Sau khi được tự động deploy hoặc chạy lệnh triển khai bằng Terraform/Cloud-init, toàn bộ các thành phần của hệ thống được lập lịch và chạy ổn định trên cụm Kubernetes cục bộ (K3d) hoặc cloud. 
 
 Ở mức máy chủ vật lý, cụm K3d hoạt động dưới dạng các container Docker riêng biệt quản lý bởi công cụ Docker Desktop, bao gồm container load balancer proxy (`serverlb`), container agent (`agent-0`), và container control plane (`server-0`):
-
-    ![Trạng thái các container ảo hóa cụm K3d trên Docker Desktop](image-24.png)
-    Hình 4.4: Trạng thái các container ảo hóa cụm K3d trên Docker Desktop
+![Trạng thái các container ảo hóa cụm K3d trên Docker Desktop](image-24.png)
+Hình 4.4: Trạng thái các container ảo hóa cụm K3d trên Docker Desktop
 
 Bên trong cụm K3d, trạng thái các container (dưới dạng các Pods) hoạt động bình thường (Healthy) trong 3 namespaces cốt lõi được biểu diễn dưới dạng:
 
