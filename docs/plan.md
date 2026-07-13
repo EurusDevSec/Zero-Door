@@ -1,7 +1,7 @@
 # PROJECT ZERO DOOR — DevOps & Cloud Infrastructure Plan
 
-> **Version:** 4.0 — DevOps & Cloud Engineering Focus  
-> **Last Updated:** 2026-07-12  
+> **Version:** 4.1 — DevOps & Cloud Engineering Focus  
+> **Last Updated:** 2026-07-13  
 > **Author:** EurusDevSec (Team Lead — DevOps, Cloud, Infrastructure)
 
 ---
@@ -425,4 +425,4 @@ Khi bạn submit bất kỳ thứ gì (config, diagram, code snippet), mentor s�
 
 ---
 
-*Cập nhật lần cuối: 2026-05-31 | Version: 4.0 — DevOps & Cloud Engineering Focus*
+*Cập nhật lần cuối: 2026-07-13 | Version: 4.1 — DevOps & Cloud Engineering Focus*

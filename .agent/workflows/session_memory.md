@@ -1,42 +1,37 @@
 # 💾 SESSION_MEMORY.md — Trạng Thái Hiện Tại
-> *Last updated: 2026-07-12 17:45 GMT+7 | Phase 6 COMPLETED — Visual Proofs & Automations Added | Next: Phase 7 Cloud*
+> *Last updated: 2026-07-13 13:25 GMT+7 | Phase 6 COMPLETED — Visual Proofs, Chapter 4 & 5 Integrated | Next: Phase 7 Cloud*
 
 ---
 
 ## 🎯 Trạng thái ngay lúc này
 
-**Phase đang làm**: Phase 6 hoàn thành 100%. Đã bổ sung các minh chứng đồ thị trực quan và các kịch bản thực nghiệm tự phục hồi. Chuẩn bị chuyển giao sang Phase 7 (Cloud Deployment).
+**Phase đang làm**: Phase 6 hoàn thành 100%. Đã chèn đầy đủ tất cả các hình ảnh thực tế, biểu đồ phân tích thực nghiệm và sửa đổi các chương báo cáo khoa học (Chương 1 đến Chương 6) khớp hoàn toàn với số liệu của dự án. Chuẩn bị chuyển giao sang Phase 7 (Cloud Deployment).
 
 **Phase vừa hoàn thành**:
-1.  **Hạ tầng Ingress**: Expose dịch vụ `frontend` (Target App) qua Nginx Ingress trên cổng 8080 của host.
-2.  **Hardening Container (T6.4)**: Cấu hình multi-stage build và gcr.io/distroless/python3-debian12:nonroot cho toàn bộ Python Agents.
-3.  **Tích hợp SAST Scans & IaC Scans (T6.5–T6.6)**: Tích hợp bandit, gosec và Trivy scanner vào CI/CD pipeline.
-4.  **Minh chứng Đồ thị Trực quan (Mới)**:
-    - Bổ sung **SRE SLOs Monitor Card** tự động tính toán MTTD, MTTR, Uptime và Success Rate từ Hephaestus API history.
-    - Tích hợp **Real-time Telemetry Line Chart (Chart.js)** vẽ biểu đồ tải CPU động đổi màu cảnh báo đỏ khi bị stress.
-5.  **Kịch bản Tự động hóa**: Viết script [rebuild-nemesis.ps1](file:///r:/_Projects/Eurus_Workspace/zero_door/rebuild-nemesis.ps1) giúp tự động hoá no-cache build và khôi phục cổng port-forward 9092.
+1.  **Chèn hình ảnh Docker Desktop (Hình 4.4)**: Thêm minh chứng trực quan ảo hóa cụm K3d từ các container vật lý trên Docker Desktop và tịnh tiến số thứ tự hình tiếp theo.
+2.  **Chèn 4 biểu đồ thực nghiệm Chương 5 (Hình 5.1 - 5.4)**: Tích hợp các đồ thị phân phối MTTD (Boxplot), so sánh MTTR trung bình, tỷ lệ Uptime E4 và Heal Success Rate.
+3.  **Lọc dữ liệu thô thực nghiệm**: Loại bỏ tệp test chạy thử đơn lẻ `results_20260712T100633.csv` trong namespace `e2_http_flood` (lưu trữ vào `scratch/`).
+4.  **Chạy lại và Tái sinh Phân tích**: Thực thi thành công `analysis.py` trên tập dữ liệu chuẩn 40 lượt chạy (5 lượt chạy cho mỗi kịch bản/chế độ). Giúp khôi phục Uptime kịch bản E2 AUTO về đúng **100%** và số lượt chạy về đúng **5 lượt**, đồng bộ hoàn hảo với báo cáo.
+5.  **Rà soát định dạng chú thích**: Loại bỏ toàn bộ dấu ngoặc đơn/ngoặc vuông và ký tự in nghiêng ở toàn bộ các hình ảnh từ Chương 1 đến Chương 5.
 
 **Git branch**: `main` (Sạch sẽ, đã commit và push thành công lên GitHub).
 
 ---
 
-## ⚡ Những việc ĐÃ HOÀN THÀNH trong session này (2026-07-12)
+## ⚡ Những việc ĐÃ HOÀN THÀNH trong session này (2026-07-13)
 
-### ⚙️ Hạ tầng, SRE & Dashboard
-- **Tích hợp Chart.js Telemetry Chart**: Thay thế panel Insights trùng lặp bằng biểu đồ đường biểu diễn CPU usage của service đang được chọn trong 60 giây gần nhất, tự động đổi màu khi bị tấn công.
-- **Tích hợp SRE SLOs Card**: Thêm card hiển thị động các KPIs đo đạc từ Hephaestus API (MTTD, MTTR, Success Rate, Uptime SLO) giúp hội đồng dễ theo dõi.
-- **Viết API Proxy `/api/heal-history`**: Thêm endpoint vào Nemesis API để giải quyết triệt để lỗi kết nối chéo origin (CORS) từ frontend.
-- **Tạo script rebuild-nemesis.ps1**: Tự động hoá các bước build --no-cache, import image, rollout restart và vá tự động port-forward 9092 bị đứt.
-- **Chạy thực nghiệm E2**: Xác thực kịch bản HTTP Flood chạy thành công với MTTD 1.0s và MTTR 1.0s.
-- **Sửa lỗi CrashLoopBackOff của Prometheus & Grafana**: Phát hiện và vá thành công lỗi sập do quá hạn ngạch ResourceQuota ở namespace `monitoring`. Tăng quota của namespace từ `6 CPU / 6Gi RAM` lên `10 CPU / 10Gi RAM` và nâng cấp giới hạn tài nguyên của Prometheus (`1.5 CPU / 1Gi RAM`) và Grafana (`1 CPU / 512Mi RAM`) chạy siêu mượt.
-
-### 📝 Tài liệu
-- **PLAN.md & LESSONS_LEARNED.md**: Cập nhật bài học về lỗi cache static file của Docker build và lỗi đứt port-forward sau rollout restart.
+### 📝 Báo cáo khoa học & Thực nghiệm
+- **Đồng bộ hóa Báo cáo**: Sửa đổi [chapter4.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/research/chapter4.md) để thêm Hình 4.4 và sửa số thứ tự toàn bộ hình phía sau.
+- **Tích hợp Biểu đồ Chương 5**: Sửa đổi [chapter5.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/research/chapter5.md) để thêm 4 biểu đồ thực nghiệm sinh bởi matplotlib.
+- **Sửa lỗi Lệch số liệu**: Di chuyển tệp test lỗi `results_20260712T100633.csv` sang `scratch/` và tái tạo biểu đồ sạch bằng script `analysis.py` chạy qua môi trường UTF-8.
+- **Rà soát chú thích hình**: Đồng bộ hóa toàn bộ caption hình ảnh theo quy chuẩn không để dấu ngoặc.
+- **Kiểm tra Chương 6**: Đánh giá và duy trì Chương 6 ở dạng văn bản thuần để bảo đảm chuẩn mực viết luận văn khoa học.
 
 ---
 
 ## 🧠 Semantic Context Essence
 
+- **Clean Dataset Rule**: Tránh đưa các lượt test đơn lẻ vào thư mục `docs/experiments/raw_data/` vì `analysis.py` sẽ tự động gộp tất cả tệp CSV và làm sai lệch thống kê 5 lần chạy chính thức.
 - **Port-forward pattern**: Dashboard Nemesis (9092), Hephaestus (9091), Prometheus (9090). Target App truy cập trực tiếp qua `http://localhost:8080/` (không cần port-forward nhờ Ingress).
 - **Docker Build Cache**: Luôn chạy `.\rebuild-nemesis.ps1` khi sửa code HTML/CSS/JS của dashboard để tránh việc Docker dùng cache cũ làm mất thay đổi static files.
 - **ResourceQuota Limits**: Namespace `target-app` bị giới hạn CPU limits ở mức `3 cores` (`target-app-quota`). Cần gọi `Reset System` trước khi chạy attack để giải phóng quota.
@@ -48,13 +43,11 @@
 
 | File | Mục đích | Ghi chú |
 |------|----------|---------| 
-| `rebuild-nemesis.ps1` | **MỚI** — Script 1-click rebuild & PF | Build no-cache, restart deployment & PF |
-| `agent-orchestrator/nemesis/static/index.html` | Dashboard UI | Thêm SRE SLOs card và canvas Chart.js |
-| `agent-orchestrator/nemesis/static/app.js` | Dashboard logic | Thêm logic vẽ chart và parser SLOs |
-| `agent-orchestrator/nemesis/main.py` | Attacker API | Thêm proxy API `/api/heal-history` |
-| `infrastructure/helm-values/prometheus-values.yaml` | Cấu hình Helm Prometheus/Grafana | Nâng giới hạn tài nguyên CPU/RAM |
-| `infrastructure/resource-quotas/monitoring-quota.yaml` | Hạn ngạch tài nguyên namespace monitoring | Nâng giới hạn CPU/RAM quota lên 10 |
-| `.agent/rules/LESSONS_LEARNED.md` | Tài liệu bài học | Cập nhật lỗi cache và port-forward |
+| `docs/research/chapter4.md` | Chương 4 của báo cáo | Bổ sung Hình 4.4, chuẩn hóa số thứ tự và định dạng chú thích |
+| `docs/research/chapter5.md` | Chương 5 của báo cáo | Bổ sung Hình 5.1 đến Hình 5.4, chuẩn hóa chú thích hình |
+| `docs/experiments/analysis/` | Các biểu đồ thực nghiệm | Biểu đồ MTTD, MTTR, Uptime, Success Rate chuẩn |
+| `infrastructure/scripts/analysis.py` | Script sinh biểu đồ | Chạy qua UTF-8 để tránh lỗi unicode trên Windows |
+| `scratch/results_20260712T100633.csv` | Tệp test cũ | Đã được di chuyển khỏi thư mục dữ liệu thô |
 
 ---
 

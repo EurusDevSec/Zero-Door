@@ -1,12 +1,12 @@
 # 🎯 PLAN.md — Zero Door Roadmap & Status
-> *Last updated: 2026-07-12 | Agent: Antigravity | Phases 1-6 DONE*
+> *Last updated: 2026-07-13 | Agent: Antigravity | Phases 1-6 DONE | Thesis Integration DONE*
 
 ---
 
 ## 👥 Team Roles
 
-- **EurusDevSec (Lead Dev)**: Kubernetes, Helm, CI/CD, agent dev, security (RBAC), cloud deployment.
-- **hp8001 (Research)**: Academic paper, data collection, dashboards, testing, slides.
+- EurusDevSec (Lead Dev): Kubernetes, Helm, CI/CD, agent dev, security (RBAC), cloud deployment.
+- hp8001 (Research): Academic paper, data collection, dashboards, testing, slides.
 
 ---
 
@@ -54,10 +54,11 @@
 - **Nemesis Anomaly Fix**: Corrected Prometheus query from `by (deployment)` to `by (pod)` and parsed the output regex to eliminate the service name `'None'` bug.
 - **DevOps Design Specifications**: Created [phase6_cicd_optimization.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase6_cicd_optimization.md) documenting security scans (gosec, bandit, trivy), container hardening (Distroless), APM SDK, and WebSocket agent architecture.
 
-### 🔲 Phase 7: Cloud Transition & Final Report — TODO
+### 🔲 Phase 7: Cloud Transition & Final Report — IN PROGRESS
 - Deploy stack on AWS EKS or DigitalOcean Kubernetes (DOKS).
 - Verify NetworkPolicies, Ingress, and RBAC on cloud.
-- Finish scientific thesis, demo video, defense slides.
+- [x] Complete scientific thesis chapters (Chapters 1-6) in `docs/research/`.
+- Finish demo video and defense slides.
 - Final report comparing local K3d vs cloud metrics.
 
 ---

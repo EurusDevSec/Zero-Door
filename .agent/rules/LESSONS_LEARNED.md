@@ -301,3 +301,19 @@ kubectl port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
 1. Luôn nâng ResourceQuota của namespace `monitoring` lên tối thiểu `10 CPU` và `10Gi RAM` để dự phòng tài nguyên.
 2. Đặt giới hạn tài nguyên của Prometheus tối thiểu là `1.5 CPU / 1Gi RAM` và Grafana tối thiểu là `1 CPU / 512Mi RAM` để tránh lỗi nghẽn và timeout liveness/readiness probes khi khởi chạy trên local.
 
+---
+
+### 19. Lỗi UnicodeEncodeError khi chạy Python Script xuất dữ liệu Unicode trên Windows Terminal
+**LỖI**: Khi chạy script phân tích dữ liệu thực nghiệm `analysis.py` bằng Python trên Windows PowerShell, chương trình bị crash giữa chừng với thông báo: `UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f4ca'`.
+
+**NGUYÊN NHÂN**: 
+Mặc định, PowerShell trên môi trường Windows sử dụng bảng mã ký tự không phải UTF-8 (ví dụ: CP1258 hoặc CP1252 tùy vùng). Khi script in ra các ký tự unicode đặc biệt (như các emoji biểu đồ 📊 hoặc ký tự checkmark ✓) thông qua thư viện `rich` hoặc `print`, Python runtime cố gắng mã hóa sang codec mặc định của terminal và gây crash do ký tự không được hỗ trợ.
+
+**RULE**: 
+Luôn bật cấu hình định dạng UTF-8 cho luồng I/O của Python trên môi trường Windows bằng cách thiết lập các biến môi trường trước khi thực thi:
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONUTF8 = "1"
+```
+Hoặc chạy lệnh gộp: `$env:PYTHONIOENCODING = "utf-8"; $env:PYTHONUTF8 = "1"; python <script.py>` để đảm bảo script luôn biên dịch ký tự Unicode chuẩn xác trên mọi phiên terminal.
+
