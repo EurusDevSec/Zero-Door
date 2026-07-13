@@ -1,2 +1,0 @@
-run_id,scenario,mode,attack_type,attack_start,attack_end,detect_time,heal_start,heal_end,mttd_seconds,mttr_seconds,uptime_percent,heal_status,false_positives,notes
-1,E2,AUTO,HTTP_FLOOD,2026-07-12T10:06:30.140157+00:00,2026-07-12T10:06:33.093928+00:00,2026-07-12T10:06:31.114075+00:00,2026-07-12T10:06:31.114075+00:00,2026-07-12T10:06:33.093928+00:00,1.03,1.01,0.0,SUCCESS,0,
