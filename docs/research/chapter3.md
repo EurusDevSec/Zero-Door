@@ -22,44 +22,12 @@ Do đó, kiến trúc hệ thống Zero Door được thiết kế tối giản 
 *   Ứng dụng mục tiêu Google Online Boutique được rút gọn từ 11 xuống còn **6 dịch vụ cốt lõi** (`frontend`, `cartservice`, `productcatalogservice`, `currencyservice`, `checkoutservice`, `redis-cart`). Thiết lập resource limits chặt chẽ cho các pod ứng dụng ở mức `limits.memory: 256Mi`.
 *   Chuyển đổi tech stack của 3 AI Agents tự trị từ Java Spring Boot (trung bình tiêu hao 300MB RAM mỗi agent khi chạy) sang **Python FastAPI** (chỉ tiêu hao từ **40MB - 50MB RAM** mỗi agent), giúp tiết kiệm hơn 1GB RAM tổng thể.
 
----
 
 ## 3.2. Thiết kế Kiến trúc tổng thể và các Phân vùng (Namespaces)
 
 Hệ thống được thiết kế theo vòng lặp tự trị đóng kín (**MAPE-K Loop**: Monitor - Analyze - Plan - Execute - Knowledge) phân chia trên 3 phân vùng độc lập:
-
-```mermaid
-flowchart TD
-    subgraph NS_ZeroDoor["Namespace: zero-door (Bộ não AI)"]
-        Nemesis["🧠 Nemesis Agent (Python)<br/>[Plan]"]
-        Kafka["📨 Apache Kafka (KRaft)<br/>[Knowledge]"]
-        ChaosWorker["⚡ Chaos Worker (Go)<br/>[Execute - Attack]"]
-        Gaia["👁️ Gaia Agent (Python)<br/>[Monitor / Analyze]"]
-        Hephaestus["🛡️ Hephaestus Agent (Python)<br/>[Execute - Heal]"]
-        
-        Nemesis -->|"attack.commands"| Kafka
-        Kafka -->|"attack.commands"| ChaosWorker
-        Gaia -.->|"monitoring.alerts"| Kafka
-        Kafka -.->|"monitoring.alerts"| Hephaestus
-        Hephaestus -->|"healing.actions"| Kafka
-        Kafka -->|"healing.actions"| Nemesis
-    end
-    
-    subgraph NS_Target["Namespace: target-app (Môi trường vận hành)"]
-        Boutique["Google Online Boutique<br/>(frontend, cartservice, productcatalog...)"]
-        
-        ChaosWorker -->|"1. Tấn công phá hoại"| Boutique
-        Hephaestus -->|"4. Vá lỗi tự động (K8s API)"| Boutique
-    end
-    
-    subgraph NS_Monitoring["Namespace: monitoring (Giám sát)"]
-        Prometheus["📊 Prometheus Stack"]
-        ES["🗄️ Elasticsearch Store"]
-    end
-    
-    Boutique -.->|"2. Thu thập telemetry"| NS_Monitoring
-    Gaia -->|"3. Quét dị thường (API Pull)"| NS_Monitoring
-```
+![Sơ đồ kiến trúc tổng thể](image-10.png)
+Hình 3.1: Sơ đồ kiến trúc tổng thể và phân vùng
 
 1.  **Namespace `zero-door`:** Nơi vận hành toàn bộ logic điều phối AI và bưu điện truyền tin Kafka.
 2.  **Namespace `target-app`:** Môi trường cô lập chạy ứng dụng thương mại điện tử mục tiêu chịu sự tác động chéo của tác tử tấn công và tác tử phòng thủ.
@@ -127,7 +95,7 @@ Các Agent giao tiếp phi đồng bộ thông qua 5 Kafka topics cốt lõi v�
     ```
 5.  **Topic `system.logs`:** Ghi nhận logs hoạt động tập trung của cả 3 agents để đẩy lên Dashboard điều khiển.
 
----
+
 
 ## 3.3. Thiết kế Tác tử Nemesis (Red Team)
 
@@ -161,7 +129,7 @@ Dưới đây là thông số hiệu năng hiện tại của cụm Kubernetes t
 Hãy đưa ra quyết định tấn công tiếp theo.
 ```
 
----
+
 
 ## 3.4. Thiết kế Chaos Worker (Go Executor)
 
@@ -170,21 +138,9 @@ Chaos Worker là thành phần thực thi lỗi trực tiếp, được viết b
 ### 3.4.1. Thiết kế luồng xử lý của bộ lọc Blast Radius Validator
 Mọi cuộc tấn công đều phải được kiểm duyệt thông qua biểu đồ logic sau:
 
-```
-[Nhận bản tin AttackCommand từ Kafka]
-                │
-                ▼
-      {targetNamespace == "target-app"?} ────▶ [NO] ───▶ [Từ chối & Gửi REJECTED]
-                │ [YES]
-                ▼
-      {Label "attack-target" == "true"?} ────▶ [NO] ───▶ [Từ chối & Gửi REJECTED]
-                │ [YES]
-                ▼
-     {Kiểm tra DNS URL đích hợp lệ?} ──────▶ [NO] ───▶ [Từ chối & Gửi REJECTED]
-                │ [YES]
-                ▼
-    [Khởi tạo goroutines / K8s API để Tấn công]
-```
+![Luồng xử lý của bộ lọc Blast Radius Validator](image-11.png)
+
+Hình 3.2: Thiết kế luồng xử lý bộ lọc Blast Radius Validator
 
 Bộ lọc này đảm bảo rằng ngay cả khi mô hình LLM bị lỗi và trả về tham số phá hủy các namespace quan trọng (như `kube-system` hay `monitoring`), Chaos Worker vẫn sẽ ngăn chặn cuộc tấn công ở mức mã nguồn của Go client trước khi gửi yêu cầu lên K8s API Server.
 
@@ -196,7 +152,7 @@ Thay vì chạy các luồng tiêu hao CPU trực tiếp trên máy chủ vật 
 4.  Khi hết thời gian timeout, Chaos Worker tự động phát lệnh gọi API xóa bỏ stress-pod để dọn dẹp môi trường.
 5.  Giải pháp này đảm bảo việc stress CPU chỉ ăn vào hạn mức Quota của namespace `target-app` mà không gây ảnh hưởng chéo (no collateral damage) sang các namespace khác của hệ thống.
 
----
+
 
 ## 3.5. Thiết kế Tác tử Gaia (Quan sát & Phát hiện)
 
@@ -236,7 +192,7 @@ Gaia định kỳ gửi yêu cầu POST tìm kiếm đến Elasticsearch sử d�
 ```
 *Giải thích:* Việc thiết lập `@timestamp: now-30s` (gấp đôi chu kỳ quét 15 giây của Gaia) giúp ngăn chặn việc mất log do độ trễ truyền dữ liệu (latency) của Fluent Bit khi đẩy logs về Elasticsearch.
 
----
+
 
 ## 3.6. Thiết kế Tác tử Hephaestus (Blue Team)
 
