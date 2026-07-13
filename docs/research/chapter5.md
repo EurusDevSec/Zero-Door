@@ -84,6 +84,12 @@ Dưới đây là bảng tổng hợp so sánh thời gian phản ứng giữa c
 | **E4** (Combined) | AUTO | 5.60 | 6.04 | 1.01 | 100.0 | 100.0 |
 | | MANUAL | 5.61 | 6.17 | N/A | 100.0 | N/A |
 
+![Biểu đồ phân bố MTTD của các kịch bản](image-25.png)
+Hình 5.1: Biểu đồ hộp (Boxplot) phân bố thời gian phát hiện sự cố MTTD của các kịch bản thực nghiệm
+
+![Biểu đồ so sánh thời gian tự phục hồi trung bình MTTR](image-26.png)
+Hình 5.2: Biểu đồ so sánh thời gian tự phục hồi trung bình MTTR giữa các kịch bản
+
 ### 5.2.4. Trích xuất vết Log hoạt động thực tế của một chu kỳ cứu hộ thành công
 Dưới đây là dữ liệu log hệ thống trích xuất trực tiếp từ topic `system.logs` hiển thị sự phối hợp nhịp nhàng giữa 3 AI Agents trong một chu kỳ cứu hộ kịch bản HTTP Flood:
 
@@ -108,6 +114,9 @@ Dưới đây là dữ liệu log hệ thống trích xuất trực tiếp từ 
 *   **Kết quả đo đạc:** Tỷ lệ Uptime đạt **100%** tuyệt đối trên tất cả 4 kịch bản thực nghiệm.
 *   **Giải thích thực tế:** Mặc dù Chaos Worker thực hiện các hành động phá hoại nghiêm trọng, nhưng nhờ cơ chế tự điều phối sẵn có của Kubernetes (như Kubelet tự khởi động lại container bị lỗi, ReplicaSet tự động duy trì số lượng pod) kết hợp với các hành động vá lỗi kịp thời của Hephaestus (Scale Up để chia tải khi bị DDoS, Rollback khi bản cập nhật lỗi), các dịch vụ microservices phía sau luôn duy trì ít nhất 1 pod ở trạng thái hoạt động. Do đó, người dùng cuối khi truy cập vào trang chủ E-commerce vẫn không gặp phải tình trạng mất kết nối hoàn toàn.
 
+![Biểu đồ Uptime của dịch vụ mục tiêu trong kịch bản E4](image-27.png)
+Hình 5.3: Biểu đồ đo lường tỷ lệ Uptime của dịch vụ mục tiêu dưới kịch bản tấn công tổng hợp E4
+
 ---
 
 ## 5.4. Đánh giá tính ổn định và Hạn chế thực tế phát hiện được
@@ -120,6 +129,9 @@ Thực nghiệm đã chỉ ra một hạn chế kỹ thuật vô cùng quan tr�
     *   Trong logic của hành động `RESTART`, Hephaestus gọi hàm `list_namespaced_pod` để tìm các pod đang chạy nhằm tiêu diệt. 
     *   Tuy nhiên, do pod cũ đã bị Chaos Worker xóa hoàn toàn, còn pod mới do ReplicaSet tạo đang ở trạng thái `Pending` hoặc `ContainerCreating` (chưa đạt trạng thái `Running`). Hàm `list_namespaced_pod` trả về danh sách rỗng $\rightarrow$ Hephaestus báo lỗi **`FAILED: No running pods found`**.
 *   **Kết luận khoa học:** Đây là hiện tượng **Race Condition** (Tranh chấp tài nguyên) tự nhiên giữa bộ điều phối nội tại của Kubernetes và tác tử cứu hộ bên ngoài. Sự tranh chấp này chứng minh rằng trong một số kịch bản lỗi vật lý đơn giản, việc để Kubernetes tự phục hồi (Self-Healing tầng hạ tầng) sẽ tối ưu hơn là cấu hình cho Agent AI can thiệp chồng chéo.
+
+![Biểu đồ tỷ lệ tự phục hồi thành công của các kịch bản](image-28.png)
+Hình 5.4: Biểu đồ tỷ lệ tự cứu hộ thành công giữa chế độ AUTO và MANUAL của các kịch bản
 
 ---
 
