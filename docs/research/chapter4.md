@@ -23,7 +23,7 @@ Chaos Worker được viết bằng ngôn ngữ Go (phiên bản 1.21), sử d�
 
 Worker được biên dịch thành một file nhị phân duy nhất (single binary), chạy vòng lặp nhận tin nhắn từ topic `attack.commands`. Khi có lệnh tấn công, worker khởi tạo một `context.WithTimeout` tương ứng với thời gian quy định của đợt tấn công để tự động hủy bỏ tiến trình (Circuit Breaker) nếu hết thời gian mà chưa hoàn thành.
 
----
+
 
 ## 4.2. Bảo mật Container và Quy trình CI/CD Pipeline
 
@@ -131,7 +131,7 @@ jobs:
 *   **Gosec SAST (`gosec -severity medium -confidence medium`):** Kiểm tra mã nguồn Go của Chaos Worker để phát hiện các lỗi tràn bộ nhớ hoặc xử lý bất đồng bộ không an toàn.
 *   **Trivy Config Scan (`scan-type: 'config'`):** Rà quét các tệp tin YAML trong thư mục manifests. Cấu hình `exit-code: '1'` và `severity: 'CRITICAL'` đảm bảo rằng nếu phát hiện bất kỳ cấu hình sai trái nguy hiểm nào (ví dụ: container chạy quyền root, pod mount ổ đĩa host), pipeline sẽ lập tức báo đỏ (Block Build) để kỹ sư sửa chữa trước khi cho phép deploy.
 
----
+
 
 ## 4.3. Quản trị hạ tầng Cloud tự động với Terraform (IaC)
 
@@ -282,3 +282,65 @@ Giao diện quản trị tập trung (Zero-Door Control Dashboard) được hi�
 *   **In-memory Logging Buffer:** Để hiển thị log hoạt động thời gian thực của các Agent lên giao diện web mà không cần cài đặt các hệ thống log stream phức tạp (như WebSockets hay Loki) gây quá tải RAM, Nemesis thiết lập một mảng buffer ghi log trong bộ nhớ (`NEMESIS_LOG_BUFFER`), tự động lưu trữ và xoay vòng 50 dòng log mới nhất. Giao diện frontend định kỳ gửi request GET `/api/logs` sau mỗi 3 giây để lấy dữ liệu log về hiển thị.
 *   **AI Reasoning Chat Pane:** Hiển thị toàn bộ chuỗi hội thoại suy luận của AI (Nemesis phân tích tài nguyên và giải trình lý do đưa ra quyết định tấn công), giúp người vận hành theo dõi được tính minh bạch và logic của mô hình ra quyết định.
 *   **Nút Reset môi trường:** Kết nối trực tiếp đến endpoint POST `/api/reset` của Nemesis, tự động phát lệnh xóa lịch sử chat, làm sạch log buffer, và gửi REST call đến Hephaestus `/experiment/reset` để dọn dẹp các NetworkPolicy đang block và scale toàn bộ Deployments về 1 replica duy nhất phục vụ đợt War Game tiếp theo.
+
+---
+
+## 4.6. Quy trình vận hành và Giao diện minh chứng thực tế
+
+Để chứng minh tính thực tiễn và khả năng vận hành khép kín của hệ thống, phần này mô tả chi tiết quy trình chạy thử nghiệm, các chốt chặn tự động hóa và giao diện tương tác thực tế của các thành phần trong dự án.
+
+### 4.6.1. Quy trình Tích hợp và Đóng gói thực tế (CI/CD & GHCR)
+Mỗi thay đổi mã nguồn trên kho lưu trữ GitHub được tự động hóa kiểm thử tĩnh và đóng gói qua pipeline GitHub Actions:
+*   **Kết quả chạy CI Pipeline:** Khi nhà phát triển thực hiện lệnh push, hệ thống kích hoạt workflow tích hợp liên tục. Pipeline thực hiện quét tĩnh mã nguồn Python (bằng Bandit) và Go (bằng Gosec) để phát hiện lỗ hổng sớm, đồng thời quét lỗi bảo mật cấu hình K8s Manifests (bằng Trivy). Khi tất cả các kiểm thử vượt qua thành công, GitHub Actions sẽ hiển thị trạng thái hoàn thành màu xanh lá cây (`Success`).
+    
+    *(Hình 4.2: Minh chứng kết quả chạy thành công và vượt qua các chốt chặn kiểm tra an toàn trên GitHub Actions)*
+
+*   **Lưu trữ Container Image trên GHCR:** Sau khi build thành công, các Docker image tối ưu (sử dụng base image Distroless bảo mật) được tự động đẩy (push) trực tiếp lên kho chứa private **GitHub Container Registry (GHCR)** dưới dạng các gói Package tương ứng với từng Agent: `gaia-agent`, `nemesis-agent`, `hephaestus-agent`, và `chaos-worker`.
+    
+    *(Hình 4.3: Danh sách các gói Container Image được lưu trữ và lập phiên bản trên GitHub Container Registry - GHCR)*
+
+### 4.6.2. Trạng thái Container chạy thực tế trên Kubernetes
+Sau khi được tự động deploy hoặc chạy lệnh triển khai bằng Terraform/Cloud-init, toàn bộ các thành phần của hệ thống được lập lịch và chạy ổn định trên cụm Kubernetes cục bộ (K3d) hoặc cloud. Trạng thái các container hoạt động bình thường (Healthy) trong 3 namespaces cốt lõi được biểu diễn dưới dạng:
+
+*   **Namespace `zero-door` (Các Agent điều phối):** Các pod `gaia`, `nemesis`, `hephaestus`, `chaos-worker`, và cụm `kafka-controller-0` đều ở trạng thái `Running` và sẵn sàng nhận kết nối.
+*   **Namespace `target-app` (Ứng dụng mục tiêu):** Các microservices của Online Boutique (như `frontend`, `cartservice`, `checkoutservice`, `redis-cart`, v.v.) hoạt động bình thường ở trạng thái ổn định (steady-state) với 1 bản sao (replica).
+*   **Namespace `monitoring` (Hệ thống quan sát):** Pod `prometheus`, `grafana`, `elasticsearch`, và `fluent-bit` hoạt động ổn định nhờ cấu hình mở rộng ResourceQuota.
+
+*(Hình 4.4: Danh sách các Pods chạy thực tế trong cụm Kubernetes hiển thị trạng thái Running)*
+
+### 4.6.3. Giao diện các thành phần vận hành thực tế
+Quy trình thử nghiệm hệ thống yêu cầu sự phối hợp nhịp nhàng giữa 4 giao diện điều khiển chính:
+
+1.  **Giao diện Ứng dụng mục tiêu Online Boutique (`http://localhost:8080`):** 
+    Đây là ứng dụng thương mại điện tử microservices giả lập của Google. Người dùng và các công cụ stress test truy cập trực tiếp qua cổng 8080 thông qua Ingress Gateway. Khi cuộc tấn công HTTP Flood hoặc Pod Kill xảy ra, trang web này sẽ ghi nhận độ trễ tăng cao hoặc lỗi tạm thời (502/503), làm căn cứ đo lường thời gian gián đoạn dịch vụ thực tế.
+    
+    *(Hình 4.5: Giao diện trang chủ cửa hàng giả lập Google Online Boutique phục vụ kiểm thử)*
+
+2.  **Giao diện Dashboard Điều khiển Zero-Door (`http://localhost:9092/dashboard/`):**
+    Giao diện AWS Cloudscape Light Theme tối giản giúp người vận hành thực hiện wargame:
+    *   **Bản đồ Topology:** Thể hiện luồng kết nối giữa các microservices của Online Boutique.
+    *   **Đồ thị CPU Telemetry (Chart.js):** Vẽ biểu đồ tải CPU theo thời gian thực (rolling 60s), tự động đổi màu đỏ khi có tải cao bất thường (stress-test) và chuyển tím/xanh sau khi Hephaestus kích hoạt tự phục hồi.
+    *   **SRE SLOs Monitor Card:** Hiển thị trực tiếp các chỉ số đo đạc hiệu năng tự phục hồi trung bình gồm MTTD, MTTR, tỷ lệ tự vá thành công (Heal Success Rate), và tỷ lệ Uptime.
+    *   **Khung tương tác Red/Blue Team:** Cho phép chọn microservice mục tiêu và kích hoạt tấn công thủ công hoặc tự động qua mô hình AI suy luận.
+    
+    *(Hình 4.6: Giao diện Zero-Door Control Dashboard hiển thị các biểu đồ Telemetry và SRE SLOs)*
+
+3.  **Giao diện Prometheus (`http://localhost:9090`):**
+    Hệ thống lưu trữ cơ sở dữ liệu chuỗi thời gian (TSDB). Người vận hành sử dụng trang này để kiểm tra trực quan các Alert Rules đang hoạt động và truy vấn trực tiếp các biểu đồ tài nguyên thô bằng ngôn ngữ PromQL (ví dụ: truy vấn CPU limits, rate request).
+    
+    *(Hình 4.7: Giao diện Prometheus Alerting hiển thị các luật giám sát trạng thái tài nguyên hệ thống)*
+
+4.  **Giao diện Grafana (`http://localhost:3000`):**
+    Trực quan hóa các bảng điều khiển (Dashboards) quản trị tài nguyên nâng cao của Kubernetes Cluster và theo dõi chi tiết hoạt động của các pod.
+    
+    *(Hình 4.8: Bảng điều khiển Grafana hiển thị thông số chi tiết của cụm Kubernetes)*
+
+### 4.6.4. Các bước khởi động và phối hợp kiểm thử (How to Run & Test)
+Để chạy thử nghiệm khép kín trên môi trường cục bộ, người vận hành thực hiện quy trình sau:
+1.  **Khởi động các cổng kết nối ngầm (Port-Forward):** Thực thi script `start-demo.ps1` để tự động dọn dẹp các tiến trình cũ và mở luồng kết nối cho Dashboard (9092), Hephaestus (9091), Prometheus (9090) và Grafana (3000).
+2.  **Kích hoạt War Game:** Trên Dashboard Zero-Door, người vận hành nhấn **Reset System** để đưa cụm về Steady-State (1 pod, xóa mọi IP block). Sau đó, chọn một dịch vụ (ví dụ: `cartservice`) và loại tấn công (ví dụ: `CPU_STRESS` mức `HIGH`), rồi bấm **Execute Attack**.
+3.  **Vòng lặp Closed-Loop tự động:**
+    *   **Tấn công:** Chaos Worker nhận lệnh qua Kafka và tạo stress pod gây quá tải CPU của `cartservice`.
+    *   **Phát hiện:** Biểu đồ Telemetry trên Dashboard đổi màu đỏ cảnh báo. Prometheus phát hiện CPU vượt ngưỡng, Gaia cào metric và gửi alert sự cố lên Kafka.
+    *   **Tự động vá lỗi:** Hephaestus nhận alert từ Kafka, tra cứu Decision Matrix đưa ra quyết định phục hồi `SCALE_UP` (hoặc `RESTART` nếu quá nặng). Hephaestus gọi Kubernetes API nhân đôi số replica của `cartservice` lên 2 để chia tải.
+    *   **Ổn định:** Sau khi scale up thành công, tải CPU giảm xuống, biểu đồ Telemetry trên Dashboard chuyển xanh trở lại, hoàn thành chu kỳ tự phục hồi khép kín. Các chỉ số MTTD và MTTR của đợt vá lỗi được cập nhật trực tiếp lên card SRE SLOs.
