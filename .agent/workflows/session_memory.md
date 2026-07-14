@@ -1,5 +1,5 @@
 # 💾 SESSION_MEMORY.md — Trạng Thái Hiện Tại
-> *Last updated: 2026-07-13 13:25 GMT+7 | Phase 6 COMPLETED — Visual Proofs, Chapter 4 & 5 Integrated | Next: Phase 7 Cloud*
+> *Last updated: 2026-07-14 21:58 GMT+7 | Phase 6 COMPLETED — Visual Proofs, Chapter 4 & 5 Integrated | Next: Phase 7 Cloud*
 
 ---
 
@@ -18,14 +18,11 @@
 
 ---
 
-## ⚡ Những việc ĐÃ HOÀN THÀNH trong session này (2026-07-13)
+## ⚡ Những việc ĐÃ HOÀN THÀNH trong session này (2026-07-14)
 
-### 📝 Báo cáo khoa học & Thực nghiệm
-- **Đồng bộ hóa Báo cáo**: Sửa đổi [chapter4.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/research/chapter4.md) để thêm Hình 4.4 và sửa số thứ tự toàn bộ hình phía sau.
-- **Tích hợp Biểu đồ Chương 5**: Sửa đổi [chapter5.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/research/chapter5.md) để thêm 4 biểu đồ thực nghiệm sinh bởi matplotlib.
-- **Sửa lỗi Lệch số liệu**: Di chuyển tệp test lỗi `results_20260712T100633.csv` sang `scratch/` và tái tạo biểu đồ sạch bằng script `analysis.py` chạy qua môi trường UTF-8.
-- **Rà soát chú thích hình**: Đồng bộ hóa toàn bộ caption hình ảnh theo quy chuẩn không để dấu ngoặc.
-- **Kiểm tra Chương 6**: Đánh giá và duy trì Chương 6 ở dạng văn bản thuần để bảo đảm chuẩn mực viết luận văn khoa học.
+### 📝 Đánh giá Kiến trúc & Thiết kế
+- **Đánh giá Đề xuất LAB của Thầy (AIOps)**: So sánh hệ thống Zero-Door (Closed-Loop, LLM Multi-Agent, FinOps 157MB RAM) với đề xuất AIOps truyền thống của Thầy (Open-Loop, Log NLP, BERT, yêu cầu 32-64GB RAM). Khẳng định Zero-Door đáp ứng trọn vẹn và tối ưu hơn về mặt tài nguyên và tự động hóa khắc phục.
+- **Thiết kế Tích hợp Ansible**: Tư vấn kiến trúc tích hợp Ansible kết hợp cùng Terraform cho Phase 7. Cấu trúc thư mục playbook (`inventory`, `group_vars`, các roles `common`, `docker`, `k3s`, `zero-door`) thay thế Bash scripts/Cloud-init để đảm bảo tính lũy đẳng (idempotency) và tự động hóa chuẩn DevOps.
 
 ---
 
