@@ -42,3 +42,6 @@ infrastructure/terraform/terraform.tfstate.backup
 # Scratch / temp
 scratch/
 config-do
+
+# Local GitNexus knowledge graph
+.gitnexus/
