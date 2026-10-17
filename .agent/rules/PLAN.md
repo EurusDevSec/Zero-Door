@@ -1,4 +1,6 @@
 # 🎯 PLAN.md — Zero Door Roadmap & Status
+> **Roadmap lịch sử của Antigravity.** Kế hoạch R0–R7 hiện hành: [Delivery](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/README.md), việc tiếp theo: [NOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/NOW.md). Giữ nội dung cũ để truy vết; không cập nhật tiến độ hiện hành hoặc suy danh tính/phân công mới từ ghi chú bên dưới.
+
 > *Last updated: 2026-07-13 | Agent: Antigravity | Phases 1-6 DONE | Thesis Integration DONE*
 
 ---
@@ -52,7 +54,7 @@
 - **Ingress-based Target Exposure**: Implemented Ingress manifest [target-app-ingress.yaml](file:///r:/_Projects/Eurus_Workspace/zero_door/infrastructure/manifests/target-app-ingress.yaml) exposing Boutique App natively on host port 8080.
 - **Self-Healing Downtime Validation**: Verified HTTP 502/503 responses and automatic recovery during POD_KILL with a downtime of only **1.34s** without losing the port-forward connection.
 - **Nemesis Anomaly Fix**: Corrected Prometheus query from `by (deployment)` to `by (pod)` and parsed the output regex to eliminate the service name `'None'` bug.
-- **DevOps Design Specifications**: Created [phase6_cicd_optimization.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase6_cicd_optimization.md) documenting security scans (gosec, bandit, trivy), container hardening (Distroless), APM SDK, and WebSocket agent architecture.
+- **DevOps Design Specifications**: Created [phase6_cicd_optimization.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase6_cicd_optimization.md) documenting security scans (gosec, bandit, trivy), container hardening (Distroless), APM SDK, and WebSocket agent architecture.
 
 ### 🔲 Phase 7: Cloud Transition & Final Report — IN PROGRESS
 - Deploy stack on AWS EKS or DigitalOcean Kubernetes (DOKS).

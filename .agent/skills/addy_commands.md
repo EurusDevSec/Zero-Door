@@ -22,7 +22,7 @@ To ensure senior-level software engineering discipline, you (the Agent) will res
 
 ### 2. `/plan` (Planning Gate)
 *   **Trigger**: Once the spec is approved.
-*   **Action**: Update [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) (or [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md)) and break the feature down into small, atomic, and verifiable task lists.
+*   **Action**: Update [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) (or [docs/archive/planning/devops-plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/devops-plan.md)) and break the feature down into small, atomic, and verifiable task lists.
 *   **Quality Gate**: Each task should take less than 4 hours to build and must have a corresponding test/verification criteria.
 
 ### 3. `/build` (Implementation Gate)

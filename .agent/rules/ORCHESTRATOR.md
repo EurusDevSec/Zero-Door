@@ -1,4 +1,5 @@
 # 🗺️ Zero Door Agent Orchestrator & Session Lifecycle Guide
+> Quy trình lịch sử của Antigravity. Cách làm việc hiện hành theo [Delivery WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); không vận hành hai workflow hoặc cập nhật trạng thái delivery trong tài liệu này.
 > *Last updated: 2026-06-18 | Path: `.agent/rules/ORCHESTRATOR.md`*
 
 Tài liệu này là **Động Cơ Điều Phối Trung Tâm (Orchestrator)** cho AI Agent (Antigravity). File này giúp tự động hóa và đồng bộ hóa toàn bộ vòng đời của các phiên làm việc (Session), tránh lặp đi lặp lại chỉ dẫn và tối ưu hóa context token.
@@ -28,7 +29,7 @@ graph TD
 ### 1. Khi chạy `/init` (Khởi tạo phiên mới)
 *   **Hành động của Agent**:
     1.  Đọc file [CONTEXT.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/CONTEXT.md) để hiểu cấu trúc thư mục và Tech Stack của Zero Door.
-    2.  Đọc file [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) (hoặc [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md)) để nắm lộ trình.
+    2.  Đọc file [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) (hoặc [docs/archive/planning/devops-plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/devops-plan.md)) để nắm lộ trình.
     3.  Đọc file [session_memory.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/workflows/session_memory.md) để biết trạng thái checkpoint gần nhất.
     4.  **Phản hồi lại**: Tóm tắt ngắn gọn 3 câu (Trạng thái hạ tầng, Tính năng đã xong, và danh sách 3 bước tiếp theo cần làm).
 
@@ -41,7 +42,7 @@ graph TD
 ### 3. Khi chạy `/checkpoint` (Cuối buổi / Kết thúc ngày)
 *   **Hành động của Agent**:
     1.  **Chạy verify**: Đảm bảo dự án build thành công ở local (K3d/K3s, Go build, Maven compile).
-    2.  **Cập nhật PLAN.md**: Đánh dấu `[x]` cho các task đã hoàn thành và `[/]` cho task đang làm dở trong [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) và [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md).
+    2.  **Cập nhật PLAN.md**: Đánh dấu `[x]` cho các task đã hoàn thành và `[/]` cho task đang làm dở trong [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) và [docs/archive/planning/devops-plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/devops-plan.md).
     3.  **Ghi session_memory.md**: Ghi đè file [session_memory.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/workflows/session_memory.md) tóm tắt các task đã xong, các quyết định thiết kế quan trọng và cập nhật 3 bước kỹ thuật kế tiếp (Next Steps).
     4.  **Commit Git**: Gợi ý cho bạn lệnh git commit để lưu trữ context.
     5.  **Xuất Handover Prompt**: In ra đoạn text Handover Prompt mẫu để bạn lưu lại cho buổi sau.

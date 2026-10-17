@@ -1,8 +1,10 @@
 # 🚪 ZERO DOOR — AI-Powered Self-Healing Microservices
 > **Hệ thống tự vá lỗi tự trị (Autonomous Self-Healing) cho kiến trúc Microservices sử dụng Multi-Agent AI**
 
-![Status](https://img.shields.io/badge/Status-Completed-green)
-![Phase](https://img.shields.io/badge/Phase-6%20Cloud%20%26%20Evaluation-blue)
+**Công việc hiện hành:** [Delivery — milestone và issue](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/README.md) · [Checkpoint](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/NOW.md) · [Kết nối Linear Zero Door](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/linear/README.md). [Danh mục tài liệu](R:/_Projects/Eurus_Workspace/zero_door/docs/README.md) phân biệt nghiên cứu, vận hành và lịch sử. Mô tả/claim lịch sử bên dưới cần đối chiếu audit và bằng chứng mới; chưa xác nhận dự án hoàn tất.
+
+![Status](https://img.shields.io/badge/Status-Research%20Recovery-orange)
+![Phase](https://img.shields.io/badge/Plan-R0%E2%80%93R7-blue)
 ![License](https://img.shields.io/badge/License-Academic%20Research-green)
 ![Python](https://img.shields.io/badge/Python-3.10+-yellow)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8)

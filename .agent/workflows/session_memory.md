@@ -1,4 +1,6 @@
 # 💾 SESSION_MEMORY.md — Trạng Thái Hiện Tại
+> **Ghi chú phiên tháng 7, giữ để truy vết.** Live issue/state thuộc [Linear Zero Door](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/linear/README.md); repo [Delivery](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/README.md) giữ scope/checkpoint; mở [NOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/NOW.md) để tiếp tục. Không kế thừa “hoàn thành 100%” hoặc các KPI/claim bên dưới làm bằng chứng mới.
+
 > *Last updated: 2026-07-14 21:58 GMT+7 | Phase 6 COMPLETED — Visual Proofs, Chapter 4 & 5 Integrated | Next: Phase 7 Cloud*
 
 ---

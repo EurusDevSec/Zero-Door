@@ -1,4 +1,6 @@
 # 🧱 CONTEXT.md — Zero Door Project Architecture
+> **Nguồn bối cảnh lịch sử.** Công việc hiện hành: [Delivery](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/README.md) → [NOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/NOW.md) → ghi chú issue. Các claim Complete/LLM bên dưới cần kiểm chứng; không dùng làm trạng thái hiện tại.
+
 > *Last updated: 2026-07-11 | Phases 1–6 COMPLETE | Next: Phase 7 Cloud*
 
 ---

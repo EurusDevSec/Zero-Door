@@ -1,0 +1,1805 @@
+{
+  "schemaVersion": 1,
+  "mode": "APPLIED_VERIFIED",
+  "sourceDate": "2026-10-17",
+  "targetWorkspaceUrl": "https://linear.app/zero-door/projects/all",
+  "targetProjectId": "f6343559-080f-465f-aa7a-eda6074de51f",
+  "targetTeamId": "865d41a7-ef26-474c-a9f8-36e781569fc8",
+  "liveState": "PROJECT_AND_IMPORT_VERIFIED",
+  "assignees": "READ_LIVE_LINEAR_USER_AUTHORIZED_ASSIGNMENT",
+  "dates": "SOURCE_SCHEDULE_SNAPSHOT_NOT_PUBLISHED_METADATA",
+  "milestones": [
+    {
+      "legacyId": "R0",
+      "title": "Nền tảng và phạm vi",
+      "source": "docs/delivery/milestones/R0-foundations/README.md",
+      "linearId": "0e25f2d6-92d8-4212-937d-8c2c7ee9aea8",
+      "gate": "**Gate G0:** Lab có giao dịch kiểm chứng được, một backend LLM trả kết quả thật; phạm vi, RQ, đối chứng và ranh giới nhãn/evidence được khóa.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R1",
+      "title": "Sự kiện và phép đo",
+      "source": "docs/delivery/milestones/R1-measurement/README.md",
+      "linearId": "6d06ae3c-f27b-4ce9-bee9-3596221aaed7",
+      "gate": "**Gate G1:** Một sự cố có ID xuyên suốt, metric hồi phục/quyết định tái tính được; evidence không lộ đáp án, B0/MANUAL không auto-heal và guard hoạt động.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R2",
+      "title": "Ba kịch bản Chaos",
+      "source": "docs/delivery/milestones/R2-chaos-scenarios/README.md",
+      "linearId": "a8e4d95a-2ee4-4bc2-9698-f067a44620e4",
+      "gate": "**Gate G2:** SQLi, DDoS L7 và resource exhaustion gây được tác động đúng mục tiêu, có dấu vết và cleanup; chạy phối hợp vẫn giữ giới hạn.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R3",
+      "title": "Phục hồi và block IP",
+      "source": "docs/delivery/milestones/R3-recovery/README.md",
+      "linearId": "a18fdda5-205d-4a29-9511-c726044650da",
+      "gate": "**Gate G3:** Scale up/down, block IP và rollback có tác động thật; phân biệt API chấp nhận với hồi phục; có kiểm tra restart, HPA và trạng thái thất bại.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R4",
+      "title": "Tác tử và LLM",
+      "source": "docs/delivery/milestones/R4-ai-agents/README.md",
+      "linearId": "002350c4-9c8d-4513-95cd-6724ff05fdf5",
+      "gate": "**Gate G4:** Ba agent có trace thật, guard/fallback hoạt động; pilot B0/B1/B2 hợp lệ và quyết định B3 có bằng chứng hoặc giới hạn claim; không yêu cầu AI thắng.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R5",
+      "title": "Tích hợp và pilot",
+      "source": "docs/delivery/milestones/R5-integration/README.md",
+      "linearId": "fb3948c4-bccd-41d5-a863-146f2dc2f917",
+      "gate": "**Gate G5:** Core/phép đo qua kiểm chứng; có dataset pilot/runbook và protocol đối chứng đã khóa. KPI chưa đạt phải giữ kết quả và mở issue sửa; chưa coi nghiên cứu hoàn tất.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R6",
+      "title": "Thực nghiệm và bài báo",
+      "source": "docs/delivery/milestones/R6-paper/README.md",
+      "linearId": "2816af79-6823-4e71-bddc-4ae6dfe68b7d",
+      "gate": "**Gate G6:** Có dataset đủ protocol, paper trả lời RQ và claim khớp đối chứng đã đo, cùng biên nhận nộp đúng nơi. Biên nhận chưa phải chấp nhận đăng.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    },
+    {
+      "legacyId": "R7",
+      "title": "Phản biện và nghiệm thu",
+      "source": "docs/delivery/milestones/R7-acceptance/README.md",
+      "linearId": "46c4379c-d013-4d2e-a0dc-40a85c457b63",
+      "gate": "**Gate G7:** Có bằng chứng chấp nhận đăng, đủ sản phẩm cam kết và hồ sơ/kết quả nghiệm thu theo lịch trường trước 31/12; các mốc bên ngoài cần xác nhận.",
+      "projectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039"
+    }
+  ],
+  "issues": [
+    {
+      "legacyId": "R0-T01",
+      "title": "Khóa phạm vi và tiêu chí đánh giá",
+      "source": "docs/delivery/milestones/R0-foundations/scope-and-criteria.md",
+      "milestoneLegacyId": "R0",
+      "linearId": "8ec4dc90-62ab-4909-9815-067273e0739e",
+      "subissues": [
+        {
+          "legacyKey": "R0-T01-S02",
+          "sourceSubtasks": [
+            "R0-T01-S02"
+          ],
+          "title": "Lập ma trận yêu cầu → phép thử; định nghĩa MTTD, MTTR, downtime, uptime và mẫu số.",
+          "condition": "always",
+          "linearId": "8a26f18d-a087-47a7-9dd2-635a01908f93",
+          "identifier": "ZER-32",
+          "url": "https://linear.app/zero-door/issue/ZER-32/lap-ma-tran-yeu-cau-va-djinh-nghia-kpi"
+        },
+        {
+          "legacyKey": "R0-T01-S03",
+          "sourceSubtasks": [
+            "R0-T01-S03"
+          ],
+          "title": "Chụp baseline Git/cấu hình; lập inventory legacy và source ledger từ review H01–H08.",
+          "condition": "always",
+          "linearId": "269a067c-d805-4bd8-8aa8-09ed04b59bea",
+          "identifier": "ZER-33",
+          "url": "https://linear.app/zero-door/issue/ZER-33/chup-baseline-va-lap-source-ledger"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R0-T01-S01",
+          "title": "Ghi nhận phạm vi đã chốt: Python/Go, Online Boutique, ba vector, KPI và bài được chấp nhận đăng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T01"
+        },
+        {
+          "sourceId": "R0-T01-S02",
+          "title": "Lập ma trận yêu cầu → phép thử; định nghĩa MTTD, MTTR, downtime, uptime và mẫu số.",
+          "representation": "subissue",
+          "targetLegacyKey": "R0-T01-S02"
+        },
+        {
+          "sourceId": "R0-T01-S03",
+          "title": "Chụp baseline Git/cấu hình; lập inventory legacy và source ledger từ review H01–H08.",
+          "representation": "subissue",
+          "targetLegacyKey": "R0-T01-S03"
+        }
+      ],
+      "dependencyCandidates": [],
+      "identifier": "ZER-5",
+      "url": "https://linear.app/zero-door/issue/ZER-5/khoa-pham-vi-va-tieu-chi-djanh-gia"
+    },
+    {
+      "legacyId": "R0-T02",
+      "title": "Khôi phục môi trường local",
+      "source": "docs/delivery/milestones/R0-foundations/local-lab.md",
+      "milestoneLegacyId": "R0",
+      "linearId": "fe5e6ab5-6622-4ff2-abe3-7184e2200a78",
+      "subissues": [
+        {
+          "legacyKey": "R0-T02-S01",
+          "sourceSubtasks": [
+            "R0-T02-S01"
+          ],
+          "title": "Kiểm tra context, container, volume, cổng và tài nguyên Docker/Kubernetes bằng truy vấn mới.",
+          "condition": "always",
+          "linearId": "991ad57c-2be6-4201-830e-1d090fa05b7e",
+          "identifier": "ZER-34",
+          "url": "https://linear.app/zero-door/issue/ZER-34/kiem-ke-lab-local-bang-truy-van-chi-djoc"
+        },
+        {
+          "legacyKey": "R0-T02-S02",
+          "sourceSubtasks": [
+            "R0-T02-S02"
+          ],
+          "title": "Chọn start hay recreate theo inventory và khôi phục một đường triển khai có thể lặp lại.",
+          "condition": "always",
+          "linearId": "c6da4a7c-194a-4b54-bd63-770d0ef41c9f",
+          "identifier": "ZER-35",
+          "url": "https://linear.app/zero-door/issue/ZER-35/khoi-phuc-lab-tu-inventory-dja-kiem-chung"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R0-T02-S01",
+          "title": "Kiểm tra context, container, volume, cổng và tài nguyên Docker/Kubernetes bằng truy vấn mới.",
+          "representation": "subissue",
+          "targetLegacyKey": "R0-T02-S01"
+        },
+        {
+          "sourceId": "R0-T02-S02",
+          "title": "Chọn start hay recreate theo inventory và khôi phục một đường triển khai có thể lặp lại.",
+          "representation": "subissue",
+          "targetLegacyKey": "R0-T02-S02"
+        },
+        {
+          "sourceId": "R0-T02-S03",
+          "title": "Kiểm tra Kafka, Prometheus, Elasticsearch/log và luồng mua hàng Online Boutique.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T02"
+        }
+      ],
+      "dependencyCandidates": [],
+      "identifier": "ZER-6",
+      "url": "https://linear.app/zero-door/issue/ZER-6/khoi-phuc-moi-truong-local"
+    },
+    {
+      "legacyId": "R0-T03",
+      "title": "Xác nhận một backend LLM thật",
+      "source": "docs/delivery/milestones/R0-foundations/llm-backend.md",
+      "milestoneLegacyId": "R0",
+      "linearId": "babd4cc3-4b50-43e2-96d0-13810eb1850f",
+      "subissues": [
+        {
+          "legacyKey": "R0-T03-S01",
+          "sourceSubtasks": [
+            "R0-T03-S01"
+          ],
+          "title": "Chọn provider/model; xác minh quyền truy cập, quota, giới hạn token và chi phí mỗi lần chạy.",
+          "condition": "always",
+          "linearId": "e86b51fc-5874-4f89-bb23-7cb1b66efcab",
+          "identifier": "ZER-36",
+          "url": "https://linear.app/zero-door/issue/ZER-36/chon-backend-llm-va-gioi-han-su-dung"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R0-T03-S01",
+          "title": "Chọn provider/model; xác minh quyền truy cập, quota, giới hạn token và chi phí mỗi lần chạy.",
+          "representation": "subissue",
+          "targetLegacyKey": "R0-T03-S01"
+        },
+        {
+          "sourceId": "R0-T03-S02",
+          "title": "Gọi LLM bằng đầu vào nghiên cứu và kiểm tra đầu ra theo schema.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T03"
+        },
+        {
+          "sourceId": "R0-T03-S03",
+          "title": "Thử timeout, retry có giới hạn và fallback; ghi rõ khi dùng RULES thay AI.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T01",
+          "targetLegacyKey": "R0-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-7",
+      "url": "https://linear.app/zero-door/issue/ZER-7/xac-nhan-mot-backend-llm-that"
+    },
+    {
+      "legacyId": "R0-T04",
+      "title": "Khóa câu hỏi nghiên cứu và thiết kế đối chứng",
+      "source": "docs/delivery/milestones/R0-foundations/research-questions.md",
+      "milestoneLegacyId": "R0",
+      "linearId": "4513b9d5-b223-49c1-afca-a2e6d637a4b8",
+      "subissues": [],
+      "sourceCoverage": [
+        {
+          "sourceId": "R0-T04-S01",
+          "title": "Chốt RQ1–RQ3, đóng góp dự kiến và giới hạn claim.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T04"
+        },
+        {
+          "sourceId": "R0-T04-S02",
+          "title": "Khóa B0/B1/B2, giữ BM; quyết định phạm vi B3 và budget.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T04"
+        },
+        {
+          "sourceId": "R0-T04-S03",
+          "title": "Chốt ground truth, tập action đúng và ranh giới dữ liệu không lộ đáp án.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R0-T04"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T01",
+          "targetLegacyKey": "R0-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-8",
+      "url": "https://linear.app/zero-door/issue/ZER-8/khoa-cau-hoi-nghien-cuu-va-thiet-ke-djoi-chung"
+    },
+    {
+      "legacyId": "R1-T01",
+      "title": "Thống nhất hợp đồng sự kiện và lưu dấu vết",
+      "source": "docs/delivery/milestones/R1-measurement/event-contract.md",
+      "milestoneLegacyId": "R1",
+      "linearId": "4987a3c7-cd86-4fc3-bc55-b6068756c913",
+      "subissues": [
+        {
+          "legacyKey": "R1-T01-S01",
+          "sourceSubtasks": [
+            "R1-T01-S01"
+          ],
+          "title": "Chốt run_id, incident_id, action_id, timestamp và trạng thái của vòng phát hiện–phục hồi.",
+          "condition": "always",
+          "linearId": "4bc5a41c-f441-40ea-969a-7c59f84a3c05",
+          "identifier": "ZER-37",
+          "url": "https://linear.app/zero-door/issue/ZER-37/khoa-hop-djong-event-va-trang-thai-phuc-hoi"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R1-T01-S01",
+          "title": "Chốt run_id, incident_id, action_id, timestamp và trạng thái của vòng phát hiện–phục hồi.",
+          "representation": "subissue",
+          "targetLegacyKey": "R1-T01-S01"
+        },
+        {
+          "sourceId": "R1-T01-S02",
+          "title": "Truyền ID qua Kafka/HTTP và lưu sự kiện gốc phục vụ tái tính.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T01"
+        },
+        {
+          "sourceId": "R1-T01-S03",
+          "title": "Tách ground truth/log điều khiển khỏi evidence dành cho bên chữa lỗi.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T01",
+          "targetLegacyKey": "R0-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R0-T04-S03",
+          "targetLegacyKey": "R0-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-9",
+      "url": "https://linear.app/zero-door/issue/ZER-9/thong-nhat-hop-djong-su-kien-va-luu-dau-vet"
+    },
+    {
+      "legacyId": "R1-T02",
+      "title": "Đo sức khỏe và thời gian độc lập",
+      "source": "docs/delivery/milestones/R1-measurement/probes-and-metrics.md",
+      "milestoneLegacyId": "R1",
+      "linearId": "46470262-7d56-43a1-b5f1-d695e5bde9a4",
+      "subissues": [
+        {
+          "legacyKey": "R1-T02-S01",
+          "sourceSubtasks": [
+            "R1-T02-S01"
+          ],
+          "title": "Dựng probe bên ngoài luồng healer cho giao dịch Boutique và fixture.",
+          "condition": "always",
+          "linearId": "1b741d81-0aaa-4bfe-8762-68f4e1a58d2e",
+          "identifier": "ZER-38",
+          "url": "https://linear.app/zero-door/issue/ZER-38/dung-probe-nghiep-vu-djoc-lap"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R1-T02-S01",
+          "title": "Dựng probe bên ngoài luồng healer cho giao dịch Boutique và fixture.",
+          "representation": "subissue",
+          "targetLegacyKey": "R1-T02-S01"
+        },
+        {
+          "sourceId": "R1-T02-S02",
+          "title": "Tính MTTD/MTTR từ mốc sự kiện và xác nhận hồi phục bằng probe.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T02"
+        },
+        {
+          "sourceId": "R1-T02-S03",
+          "title": "Xử lý thiếu dữ liệu, timeout, FAILED/PARTIAL và FPR có mẫu số rõ ràng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T02"
+        },
+        {
+          "sourceId": "R1-T02-S04",
+          "title": "Bổ sung metric quyết định, phục hồi theo lượt và usage/cost theo run.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T02"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R1-T01",
+          "targetLegacyKey": "R1-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R0-T02",
+          "targetLegacyKey": "R0-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-10",
+      "url": "https://linear.app/zero-door/issue/ZER-10/djo-suc-khoe-va-thoi-gian-djoc-lap"
+    },
+    {
+      "legacyId": "R1-T03",
+      "title": "Sửa dashboard và các chế độ đối chứng",
+      "source": "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md",
+      "milestoneLegacyId": "R1",
+      "linearId": "ab27de18-f9ec-4276-b293-9b69e663f25a",
+      "subissues": [
+        {
+          "legacyKey": "R1-T03-S04",
+          "sourceSubtasks": [
+            "R1-T03-S04"
+          ],
+          "title": "Dựng profile B0 chỉ để controller Kubernetes/HPA tự phục hồi.",
+          "condition": "always",
+          "linearId": "624670f5-cec9-4bf3-9565-f99c338e031e",
+          "identifier": "ZER-39",
+          "url": "https://linear.app/zero-door/issue/ZER-39/dung-djoi-chung-b0-kubernetescontroller"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R1-T03-S01",
+          "title": "Bỏ số ngẫu nhiên và nội dung mô phỏng khỏi phần được trình bày là kết quả thực.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T03"
+        },
+        {
+          "sourceId": "R1-T03-S02",
+          "title": "Cho dashboard và bộ xuất dữ liệu dùng chung phép đo.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T03"
+        },
+        {
+          "sourceId": "R1-T03-S03",
+          "title": "Tách MANUAL, RULES và AI; MANUAL không tự kích hoạt healer.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T03"
+        },
+        {
+          "sourceId": "R1-T03-S04",
+          "title": "Dựng profile B0 chỉ để controller Kubernetes/HPA tự phục hồi.",
+          "representation": "subissue",
+          "targetLegacyKey": "R1-T03-S04"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R1-T02",
+          "targetLegacyKey": "R1-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-11",
+      "url": "https://linear.app/zero-door/issue/ZER-11/sua-dashboard-va-cac-che-djo-djoi-chung"
+    },
+    {
+      "legacyId": "R1-T04",
+      "title": "Giới hạn tác động, kiểm soát lệnh và CI",
+      "source": "docs/delivery/milestones/R1-measurement/guards-and-ci.md",
+      "milestoneLegacyId": "R1",
+      "linearId": "d7f94ffb-fadf-44cb-9a7a-efc4cd35bcd7",
+      "subissues": [
+        {
+          "legacyKey": "R1-T04-S03",
+          "sourceSubtasks": [
+            "R1-T04-S03"
+          ],
+          "title": "Khóa phiên bản và đưa kiểm tra hợp đồng, chế độ, guard quan trọng vào CI.",
+          "condition": "always",
+          "linearId": "b06743e2-c898-4463-9ea8-c42166ddd2c9",
+          "identifier": "ZER-40",
+          "url": "https://linear.app/zero-door/issue/ZER-40/khoa-dependency-va-djua-guardcontract-checks-vao-ci"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R1-T04-S01",
+          "title": "Chặn mục tiêu ngoài lab, redirect không hợp lệ và vượt giới hạn thời gian/tải.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T04"
+        },
+        {
+          "sourceId": "R1-T04-S02",
+          "title": "Kiểm soát truy cập lệnh, sự kiện trùng và payload sai.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R1-T04"
+        },
+        {
+          "sourceId": "R1-T04-S03",
+          "title": "Khóa phiên bản và đưa kiểm tra hợp đồng, chế độ, guard quan trọng vào CI.",
+          "representation": "subissue",
+          "targetLegacyKey": "R1-T04-S03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T01",
+          "targetLegacyKey": "R0-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-12",
+      "url": "https://linear.app/zero-door/issue/ZER-12/gioi-han-tac-djong-kiem-soat-lenh-va-ci"
+    },
+    {
+      "legacyId": "R2-T01",
+      "title": "Fixture và executor SQL injection",
+      "source": "docs/delivery/milestones/R2-chaos-scenarios/sqli-fixture.md",
+      "milestoneLegacyId": "R2",
+      "linearId": "b8e40ed0-e6ac-4b5d-a2c3-b46b1e9fab2a",
+      "subissues": [
+        {
+          "legacyKey": "R2-T01-S02",
+          "sourceSubtasks": [
+            "R2-T01-S02"
+          ],
+          "title": "Triển khai fixture/database nhẹ và đường ingress quan sát được.",
+          "condition": "always",
+          "linearId": "9111027b-6088-4218-8ce8-47fb0b55d198",
+          "identifier": "ZER-41",
+          "url": "https://linear.app/zero-door/issue/ZER-41/dung-sqli-fixture-va-route-quan-sat-trong-lab"
+        },
+        {
+          "legacyKey": "R2-T01-S03",
+          "sourceSubtasks": [
+            "R2-T01-S03"
+          ],
+          "title": "Bổ sung executor SQLi bằng template và giới hạn đã chốt.",
+          "condition": "always",
+          "linearId": "3bb4d8e5-b9c6-42cc-827c-d81f1d33c746",
+          "identifier": "ZER-42",
+          "url": "https://linear.app/zero-door/issue/ZER-42/bo-sung-executor-sqli-co-gioi-han"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R2-T01-S01",
+          "title": "Chốt fixture nghiệp vụ giả lập, dữ liệu giả, route vulnerable/safe và nguồn IP.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R2-T01"
+        },
+        {
+          "sourceId": "R2-T01-S02",
+          "title": "Triển khai fixture/database nhẹ và đường ingress quan sát được.",
+          "representation": "subissue",
+          "targetLegacyKey": "R2-T01-S02"
+        },
+        {
+          "sourceId": "R2-T01-S03",
+          "title": "Bổ sung executor SQLi bằng template và giới hạn đã chốt.",
+          "representation": "subissue",
+          "targetLegacyKey": "R2-T01-S03"
+        },
+        {
+          "sourceId": "R2-T01-S04",
+          "title": "Chứng minh tác động SQLi, log và phân biệt lưu lượng tấn công với benign.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R2-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T02",
+          "targetLegacyKey": "R0-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R1-T01",
+          "targetLegacyKey": "R1-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R1-T04-S01",
+          "targetLegacyKey": "R1-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-13",
+      "url": "https://linear.app/zero-door/issue/ZER-13/fixture-va-executor-sql-injection"
+    },
+    {
+      "legacyId": "R2-T02",
+      "title": "DDoS L7 và cạn tài nguyên đúng mục tiêu",
+      "source": "docs/delivery/milestones/R2-chaos-scenarios/ddos-and-resource-exhaustion.md",
+      "milestoneLegacyId": "R2",
+      "linearId": "8d0b9529-3f52-4256-a76e-1d06eb6d7947",
+      "subissues": [
+        {
+          "legacyKey": "R2-T02-S01",
+          "sourceSubtasks": [
+            "R2-T02-S01"
+          ],
+          "title": "Cho HTTP flood đi qua route/cổng được giám sát, có RPS và thời lượng giới hạn.",
+          "condition": "always",
+          "linearId": "560ebc78-024e-44d5-9aae-28c1d93b9aa9",
+          "identifier": "ZER-43",
+          "url": "https://linear.app/zero-door/issue/ZER-43/djua-http-flood-qua-djung-route-djuoc-giam-sat"
+        },
+        {
+          "legacyKey": "R2-T02-S02",
+          "sourceSubtasks": [
+            "R2-T02-S02"
+          ],
+          "title": "Tạo CPU exhaustion trên workload mục tiêu, giới hạn tài nguyên rõ ràng.",
+          "condition": "always",
+          "linearId": "00c37756-7e67-4836-897f-166d45debf4e",
+          "identifier": "ZER-44",
+          "url": "https://linear.app/zero-door/issue/ZER-44/gay-cpu-exhaustion-tren-djung-workload-muc-tieu"
+        },
+        {
+          "legacyKey": "R2-T02-S04",
+          "sourceSubtasks": [
+            "R2-T02-S04"
+          ],
+          "title": "Chuẩn bị tải C0/C1 cùng biến thể C2/C4 có triệu chứng chồng lấp.",
+          "condition": "always",
+          "linearId": "5433a5cc-ac29-4f09-b697-c1a3835d4f43",
+          "identifier": "ZER-45",
+          "url": "https://linear.app/zero-door/issue/ZER-45/dung-case-catalog-co-trieu-chung-chong-lap"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R2-T02-S01",
+          "title": "Cho HTTP flood đi qua route/cổng được giám sát, có RPS và thời lượng giới hạn.",
+          "representation": "subissue",
+          "targetLegacyKey": "R2-T02-S01"
+        },
+        {
+          "sourceId": "R2-T02-S02",
+          "title": "Tạo CPU exhaustion trên workload mục tiêu, giới hạn tài nguyên rõ ràng.",
+          "representation": "subissue",
+          "targetLegacyKey": "R2-T02-S02"
+        },
+        {
+          "sourceId": "R2-T02-S03",
+          "title": "Kiểm tra cleanup, traffic bình thường và memory variant nếu đưa vào protocol.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R2-T02"
+        },
+        {
+          "sourceId": "R2-T02-S04",
+          "title": "Chuẩn bị tải C0/C1 cùng biến thể C2/C4 có triệu chứng chồng lấp.",
+          "representation": "subissue",
+          "targetLegacyKey": "R2-T02-S04"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T02",
+          "targetLegacyKey": "R0-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R1-T01",
+          "targetLegacyKey": "R1-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R1-T04-S01",
+          "targetLegacyKey": "R1-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R0-T04",
+          "targetLegacyKey": "R0-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-14",
+      "url": "https://linear.app/zero-door/issue/ZER-14/ddos-l7-va-can-tai-nguyen-djung-muc-tieu"
+    },
+    {
+      "legacyId": "R2-T03",
+      "title": "Chạy phối hợp và dừng có kiểm soát",
+      "source": "docs/delivery/milestones/R2-chaos-scenarios/combined-run-and-cleanup.md",
+      "milestoneLegacyId": "R2",
+      "linearId": "eecb868f-f838-42bc-b773-f5b4ce089e0f",
+      "subissues": [],
+      "sourceCoverage": [
+        {
+          "sourceId": "R2-T03-S01",
+          "title": "Điều phối ba executor đồng thời theo budget chung.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R2-T03"
+        },
+        {
+          "sourceId": "R2-T03-S02",
+          "title": "Thử start, stop, cancel và cleanup khi một executor lỗi.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R2-T03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R2-T01",
+          "targetLegacyKey": "R2-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R2-T02",
+          "targetLegacyKey": "R2-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R1-T04",
+          "targetLegacyKey": "R1-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-15",
+      "url": "https://linear.app/zero-door/issue/ZER-15/chay-phoi-hop-va-dung-co-kiem-soat"
+    },
+    {
+      "legacyId": "R3-T01",
+      "title": "Trạng thái hồi phục và scale",
+      "source": "docs/delivery/milestones/R3-recovery/recovery-state-and-scaling.md",
+      "milestoneLegacyId": "R3",
+      "linearId": "2d7afff0-4f02-49e8-aacd-26d32950be2c",
+      "subissues": [],
+      "sourceCoverage": [
+        {
+          "sourceId": "R3-T01-S01",
+          "title": "Tách API_ACCEPTED, ACTION_COMPLETED và RECOVERY_VERIFIED.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R3-T01"
+        },
+        {
+          "sourceId": "R3-T01-S02",
+          "title": "Kiểm chứng scale up tăng capacity và sức khỏe dịch vụ.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R3-T01"
+        },
+        {
+          "sourceId": "R3-T01-S03",
+          "title": "Kiểm chứng scale down có hysteresis và quyền điều khiển rõ với HPA.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R3-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R1-T02",
+          "targetLegacyKey": "R1-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-16",
+      "url": "https://linear.app/zero-door/issue/ZER-16/trang-thai-hoi-phuc-va-scale"
+    },
+    {
+      "legacyId": "R3-T02",
+      "title": "Block IP thực thi được và rollback đúng phiên bản",
+      "source": "docs/delivery/milestones/R3-recovery/block-ip-and-rollback.md",
+      "milestoneLegacyId": "R3",
+      "linearId": "79eff782-29a3-42a8-aefb-257e0d1dc827",
+      "subissues": [
+        {
+          "legacyKey": "R3-T02-S02",
+          "sourceSubtasks": [
+            "R3-T02-S01",
+            "R3-T02-S02"
+          ],
+          "title": "Block IP có nguồn tin cậy, TTL và benign verification",
+          "condition": "always",
+          "linearId": "afdaaf72-9190-4800-8d55-22e20b726aa8",
+          "identifier": "ZER-46",
+          "url": "https://linear.app/zero-door/issue/ZER-46/kiem-chung-block-ip-ttl-va-benign-traffic"
+        },
+        {
+          "legacyKey": "R3-T02-S04",
+          "sourceSubtasks": [
+            "R3-T02-S03",
+            "R3-T02-S04"
+          ],
+          "title": "Rollback từ bản lỗi về known-good có probe",
+          "condition": "always",
+          "linearId": "ef737262-72f2-4f15-96c5-245a9ca83782",
+          "identifier": "ZER-47",
+          "url": "https://linear.app/zero-door/issue/ZER-47/rollback-ve-known-good-release-va-kiem-chung-nghiep-vu"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R3-T02-S01",
+          "title": "Chốt enforcement point và nguồn IP; xử lý NAT/header tin cậy.",
+          "representation": "subissue",
+          "targetLegacyKey": "R3-T02-S02"
+        },
+        {
+          "sourceId": "R3-T02-S02",
+          "title": "Chặn attacker, giữ traffic benign, có TTL và gỡ chặn.",
+          "representation": "subissue",
+          "targetLegacyKey": "R3-T02-S02"
+        },
+        {
+          "sourceId": "R3-T02-S03",
+          "title": "Tạo phiên bản lỗi/known-good và case C3 có kiểm soát, tách nhãn đáp án khỏi telemetry.",
+          "representation": "subissue",
+          "targetLegacyKey": "R3-T02-S04"
+        },
+        {
+          "sourceId": "R3-T02-S04",
+          "title": "Khôi phục image/config/revision thật và xác minh rollout lẫn probe.",
+          "representation": "subissue",
+          "targetLegacyKey": "R3-T02-S04"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R1-T02",
+          "targetLegacyKey": "R1-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R2-T01",
+          "targetLegacyKey": "R2-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-17",
+      "url": "https://linear.app/zero-door/issue/ZER-17/block-ip-thuc-thi-djuoc-va-rollback-djung-phien-ban"
+    },
+    {
+      "legacyId": "R3-T03",
+      "title": "Consumer, retry và tương tác controller",
+      "source": "docs/delivery/milestones/R3-recovery/consumer-and-controller.md",
+      "milestoneLegacyId": "R3",
+      "linearId": "804eb993-7c8f-4f8f-aa4f-f72c3b48a9ed",
+      "subissues": [],
+      "sourceCoverage": [
+        {
+          "sourceId": "R3-T03-S01",
+          "title": "Sửa blocking consumer, ack, dedup, cooldown và retry có giới hạn.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R3-T03"
+        },
+        {
+          "sourceId": "R3-T03-S02",
+          "title": "Thử restart, nhiều replica, PodKill và tương tác HPA.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R3-T03"
+        },
+        {
+          "sourceId": "R3-T03-S03",
+          "title": "Thử worker/healer restart và mất telemetry.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R3-T03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R1-T04",
+          "targetLegacyKey": "R1-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R3-T01",
+          "targetLegacyKey": "R3-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-18",
+      "url": "https://linear.app/zero-door/issue/ZER-18/consumer-retry-va-tuong-tac-controller"
+    },
+    {
+      "legacyId": "R4-T01",
+      "title": "LLM adapter chung và Nemesis",
+      "source": "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md",
+      "milestoneLegacyId": "R4",
+      "linearId": "33111fab-6132-4d82-8c86-1ee46a94a99f",
+      "subissues": [
+        {
+          "legacyKey": "R4-T01-S01",
+          "sourceSubtasks": [
+            "R4-T01-S01"
+          ],
+          "title": "Dựng adapter async dùng chung: schema, model/prompt version, usage, timeout.",
+          "condition": "always",
+          "linearId": "37ed3a05-a801-44dd-b2b9-38125e3ceb12",
+          "identifier": "ZER-48",
+          "url": "https://linear.app/zero-door/issue/ZER-48/dung-llm-adapter-va-trace-dung-chung"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R4-T01-S01",
+          "title": "Dựng adapter async dùng chung: schema, model/prompt version, usage, timeout.",
+          "representation": "subissue",
+          "targetLegacyKey": "R4-T01-S01"
+        },
+        {
+          "sourceId": "R4-T01-S02",
+          "title": "Nối observation → kế hoạch Nemesis → executor → kết quả.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R4-T01"
+        },
+        {
+          "sourceId": "R4-T01-S03",
+          "title": "Thêm start/stop, max rounds/calls và điều kiện dừng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R4-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T03",
+          "targetLegacyKey": "R0-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R2-T01",
+          "targetLegacyKey": "R2-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R2-T03",
+          "targetLegacyKey": "R2-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-19",
+      "url": "https://linear.app/zero-door/issue/ZER-19/llm-adapter-chung-va-nemesis"
+    },
+    {
+      "legacyId": "R4-T02",
+      "title": "Gaia và Hephaestus có quyết định LLM được giới hạn",
+      "source": "docs/delivery/milestones/R4-ai-agents/gaia-and-hephaestus.md",
+      "milestoneLegacyId": "R4",
+      "linearId": "df291dfe-cc06-4e8c-81ad-4debed8470b4",
+      "subissues": [
+        {
+          "legacyKey": "R4-T02-S01",
+          "sourceSubtasks": [
+            "R4-T02-S01"
+          ],
+          "title": "Nối evidence → chẩn đoán Gaia, giữ mốc phát hiện trước khi chờ LLM.",
+          "condition": "always",
+          "linearId": "cae6f288-653e-4726-8960-e87323c976e2",
+          "identifier": "ZER-49",
+          "url": "https://linear.app/zero-door/issue/ZER-49/noi-evidence-vao-chan-djoan-llm-cua-gaia"
+        },
+        {
+          "legacyKey": "R4-T02-S02",
+          "sourceSubtasks": [
+            "R4-T02-S02"
+          ],
+          "title": "Cho Hephaestus chọn trong action enum, gồm NO_ACTION/ABSTAIN khi phù hợp, rồi qua guard và xác minh hồi phục.",
+          "condition": "always",
+          "linearId": "265c41d5-6a38-4173-9acd-63eea0ad73ec",
+          "identifier": "ZER-50",
+          "url": "https://linear.app/zero-door/issue/ZER-50/noi-quyet-djinh-llm-cua-hephaestus-qua-policy-guard"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R4-T02-S01",
+          "title": "Nối evidence → chẩn đoán Gaia, giữ mốc phát hiện trước khi chờ LLM.",
+          "representation": "subissue",
+          "targetLegacyKey": "R4-T02-S01"
+        },
+        {
+          "sourceId": "R4-T02-S02",
+          "title": "Cho Hephaestus chọn trong action enum, gồm NO_ACTION/ABSTAIN khi phù hợp, rồi qua guard và xác minh hồi phục.",
+          "representation": "subissue",
+          "targetLegacyKey": "R4-T02-S02"
+        },
+        {
+          "sourceId": "R4-T02-S03",
+          "title": "Thử JSON sai, timeout, 429 và thiếu bằng chứng; fallback được đánh dấu.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R4-T02"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R4-T01-S01",
+          "targetLegacyKey": "R4-T01-S01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R3-T02",
+          "targetLegacyKey": "R3-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R3-T03",
+          "targetLegacyKey": "R3-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-20",
+      "url": "https://linear.app/zero-door/issue/ZER-20/gaia-va-hephaestus-co-quyet-djinh-llm-djuoc-gioi-han"
+    },
+    {
+      "legacyId": "R4-T03",
+      "title": "Chứng minh vòng multi-agent và đối chứng RULES",
+      "source": "docs/delivery/milestones/R4-ai-agents/multi-agent-evidence.md",
+      "milestoneLegacyId": "R4",
+      "linearId": "4bf41708-a033-47bb-9943-b83f5c00ba67",
+      "subissues": [
+        {
+          "legacyKey": "R4-T03-S02",
+          "sourceSubtasks": [
+            "R4-T03-S02"
+          ],
+          "title": "Pilot B0/B1/B2 với cùng workload/fault đã khóa, ghi action đúng/sai, recovery và usage.",
+          "condition": "always",
+          "linearId": "18412824-0bf0-4626-bcd0-b7cfbf6cbec0",
+          "identifier": "ZER-51",
+          "url": "https://linear.app/zero-door/issue/ZER-51/pilot-djoi-chung-b0-b1-va-b2-cung-djieu-kien"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R4-T03-S01",
+          "title": "Chạy một vòng có trace observation–decision–result cho cả ba agent.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R4-T03"
+        },
+        {
+          "sourceId": "R4-T03-S02",
+          "title": "Pilot B0/B1/B2 với cùng workload/fault đã khóa, ghi action đúng/sai, recovery và usage.",
+          "representation": "subissue",
+          "targetLegacyKey": "R4-T03-S02"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R4-T01",
+          "targetLegacyKey": "R4-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R4-T02",
+          "targetLegacyKey": "R4-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R3-T03",
+          "targetLegacyKey": "R3-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R0-T04",
+          "targetLegacyKey": "R0-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-21",
+      "url": "https://linear.app/zero-door/issue/ZER-21/chung-minh-vong-multi-agent-va-djoi-chung-rules"
+    },
+    {
+      "legacyId": "R4-T04",
+      "title": "Đối chứng single-agent cho claim chia vai trò",
+      "source": "docs/delivery/milestones/R4-ai-agents/single-agent-baseline.md",
+      "milestoneLegacyId": "R4",
+      "linearId": "a8d0839c-c023-457e-a6fd-1ce59fa43bf0",
+      "subissues": [
+        {
+          "legacyKey": "R4-T04-S03",
+          "sourceSubtasks": [
+            "R4-T04-S03"
+          ],
+          "title": "Nếu giữ RQ2, pilot B2/B3 sau khi R4-T02-S02 hoàn tất, trên cùng case và kiểm tra dữ liệu.",
+          "condition": "only_if_RQ2_claim_retained",
+          "linearId": null,
+          "importDisposition": "DEFERRED_UNTIL_CONDITION",
+          "reason": "only_if_RQ2_claim_retained"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R4-T04-S01",
+          "title": "Xác nhận giữ RQ2 hay giới hạn claim theo budget pilot.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R4-T04"
+        },
+        {
+          "sourceId": "R4-T04-S02",
+          "title": "Nếu giữ RQ2, cấu hình SINGLE_LLM gộp phân tích và chọn action.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R4-T04"
+        },
+        {
+          "sourceId": "R4-T04-S03",
+          "title": "Nếu giữ RQ2, pilot B2/B3 sau khi R4-T02-S02 hoàn tất, trên cùng case và kiểm tra dữ liệu.",
+          "representation": "subissue",
+          "targetLegacyKey": "R4-T04-S03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T04",
+          "targetLegacyKey": "R0-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R4-T01-S01",
+          "targetLegacyKey": "R4-T01-S01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R3-T03",
+          "targetLegacyKey": "R3-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-22",
+      "url": "https://linear.app/zero-door/issue/ZER-22/djoi-chung-single-agent-cho-claim-chia-vai-tro"
+    },
+    {
+      "legacyId": "R5-T01",
+      "title": "Chạy đầy đủ đường tấn công–phát hiện–hồi phục",
+      "source": "docs/delivery/milestones/R5-integration/end-to-end-pipeline.md",
+      "milestoneLegacyId": "R5",
+      "linearId": "f082a353-fa4f-4660-9ab7-4d46325ad804",
+      "subissues": [],
+      "sourceCoverage": [
+        {
+          "sourceId": "R5-T01-S01",
+          "title": "Chụp phiên bản image/config/model/prompt và workload của đợt tích hợp.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R5-T01"
+        },
+        {
+          "sourceId": "R5-T01-S02",
+          "title": "Chạy từng vector qua toàn pipeline và đo bằng probe độc lập.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R5-T01"
+        },
+        {
+          "sourceId": "R5-T01-S03",
+          "title": "Thử bad release, benign traffic, thất bại và cleanup.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R5-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R4-T03",
+          "targetLegacyKey": "R4-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R4-T04",
+          "targetLegacyKey": "R4-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-23",
+      "url": "https://linear.app/zero-door/issue/ZER-23/chay-djay-dju-djuong-tan-cong-phat-hien-hoi-phuc"
+    },
+    {
+      "legacyId": "R5-T02",
+      "title": "Pilot, khóa protocol và War Game",
+      "source": "docs/delivery/milestones/R5-integration/pilot-and-war-game.md",
+      "milestoneLegacyId": "R5",
+      "linearId": "ae5cb641-d9eb-44bd-805b-c39dc7cc03ba",
+      "subissues": [
+        {
+          "legacyKey": "R5-T02-S01",
+          "sourceSubtasks": [
+            "R5-T02-S01"
+          ],
+          "title": "Pilot lặp trên case đơn giản và dễ nhầm lẫn để đánh giá độ biến thiên, overhead và lỗi đo.",
+          "condition": "always",
+          "linearId": "b94eb252-fbd1-4b36-98b0-05a3eb40c28e",
+          "identifier": "ZER-52",
+          "url": "https://linear.app/zero-door/issue/ZER-52/pilot-lap-dje-xac-djinh-bien-thien-va-loi-djo"
+        },
+        {
+          "legacyKey": "R5-T02-S02",
+          "sourceSubtasks": [
+            "R5-T02-S02"
+          ],
+          "title": "Khóa RQ, ground truth/action set, số lặp, thứ tự, cấu hình đối chứng và cách tính metric/KPI.",
+          "condition": "always",
+          "linearId": "f7b93cfa-9c21-40ff-929a-42b1c0c55e1a",
+          "identifier": "ZER-53",
+          "url": "https://linear.app/zero-door/issue/ZER-53/khoa-protocol-truoc-thuc-nghiem-chinh-thuc"
+        },
+        {
+          "legacyKey": "R5-T02-S03",
+          "sourceSubtasks": [
+            "R5-T02-S03"
+          ],
+          "title": "Chạy War Game mục tiêu 4 giờ theo protocol và budget đã chốt.",
+          "condition": "always",
+          "linearId": "2faa60ea-04af-48c4-83ca-e1c3fae23cd4",
+          "identifier": "ZER-54",
+          "url": "https://linear.app/zero-door/issue/ZER-54/chay-war-game-co-probe-va-budget-dja-duyet"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R5-T02-S01",
+          "title": "Pilot lặp trên case đơn giản và dễ nhầm lẫn để đánh giá độ biến thiên, overhead và lỗi đo.",
+          "representation": "subissue",
+          "targetLegacyKey": "R5-T02-S01"
+        },
+        {
+          "sourceId": "R5-T02-S02",
+          "title": "Khóa RQ, ground truth/action set, số lặp, thứ tự, cấu hình đối chứng và cách tính metric/KPI.",
+          "representation": "subissue",
+          "targetLegacyKey": "R5-T02-S02"
+        },
+        {
+          "sourceId": "R5-T02-S03",
+          "title": "Chạy War Game mục tiêu 4 giờ theo protocol và budget đã chốt.",
+          "representation": "subissue",
+          "targetLegacyKey": "R5-T02-S03"
+        },
+        {
+          "sourceId": "R5-T02-S04",
+          "title": "Tái tính KPI; phân loại pass/fail, thiếu dữ liệu và nguyên nhân.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R5-T02"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R5-T01",
+          "targetLegacyKey": "R5-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-24",
+      "url": "https://linear.app/zero-door/issue/ZER-24/pilot-khoa-protocol-va-war-game"
+    },
+    {
+      "legacyId": "R5-T03",
+      "title": "Chốt kỹ thuật và bàn giao cho Hòa",
+      "source": "docs/delivery/milestones/R5-integration/technical-handoff.md",
+      "milestoneLegacyId": "R5",
+      "linearId": "388c6e6b-5834-4590-b6c0-e858cb8f8972",
+      "subissues": [
+        {
+          "legacyKey": "R5-T03-S02",
+          "sourceSubtasks": [
+            "R5-T03-S02"
+          ],
+          "title": "Lưu snapshot, runbook và dataset mới, bảo toàn dữ liệu cũ.",
+          "condition": "always",
+          "linearId": "17f6e60d-f095-479e-871a-dfec8fdea755",
+          "identifier": "ZER-55",
+          "url": "https://linear.app/zero-door/issue/ZER-55/djong-bang-ban-dung-runbook-va-dataset-manifest"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R5-T03-S01",
+          "title": "Sửa lỗi cốt lõi phát hiện trong pilot và chạy lại phép thử bị ảnh hưởng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R5-T03"
+        },
+        {
+          "sourceId": "R5-T03-S02",
+          "title": "Lưu snapshot, runbook và dataset mới, bảo toàn dữ liệu cũ.",
+          "representation": "subissue",
+          "targetLegacyKey": "R5-T03-S02"
+        },
+        {
+          "sourceId": "R5-T03-S03",
+          "title": "Bàn giao sơ đồ, protocol, câu hỏi/claim, bảng/plot và giới hạn kết quả cho Hòa.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R5-T03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R5-T02",
+          "targetLegacyKey": "R5-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-25",
+      "url": "https://linear.app/zero-door/issue/ZER-25/chot-ky-thuat-va-ban-giao-cho-hoa"
+    },
+    {
+      "legacyId": "R6-T01",
+      "title": "Chuẩn bị bài báo trong lúc hoàn thiện kỹ thuật",
+      "source": "docs/delivery/milestones/R6-paper/paper-preparation.md",
+      "milestoneLegacyId": "R6",
+      "linearId": "f850eabb-c302-49f7-8597-f183b4da0c0b",
+      "subissues": [
+        {
+          "legacyKey": "R6-T01-S02",
+          "sourceSubtasks": [
+            "R6-T01-S02"
+          ],
+          "title": "Đối chiếu tài liệu gốc, gồm AIOpsLab/ITBench; chốt đóng góp và giới hạn tính mới.",
+          "condition": "always",
+          "linearId": "03cd7e79-a331-42ba-b80b-fda2be3e76f3",
+          "identifier": "ZER-56",
+          "url": "https://linear.app/zero-door/issue/ZER-56/djoi-chieu-nghien-cuu-lien-quan-va-gioi-han-tinh-moi"
+        },
+        {
+          "legacyKey": "R6-T01-S03",
+          "sourceSubtasks": [
+            "R6-T01-S03"
+          ],
+          "title": "Chốt kỷ yếu/đợt nhận bài, template, hạn và điều kiện chấp nhận đăng với thầy.",
+          "condition": "always",
+          "linearId": "44d2eb87-14fa-4f25-be6c-dbe385182e67",
+          "identifier": "ZER-57",
+          "url": "https://linear.app/zero-door/issue/ZER-57/xac-nhan-ky-yeu-template-va-djot-nhan-bai"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R6-T01-S01",
+          "title": "Lập introduction/method quanh RQ1–RQ3 và bỏ khẳng định kết quả cũ chưa kiểm chứng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T01"
+        },
+        {
+          "sourceId": "R6-T01-S02",
+          "title": "Đối chiếu tài liệu gốc, gồm AIOpsLab/ITBench; chốt đóng góp và giới hạn tính mới.",
+          "representation": "subissue",
+          "targetLegacyKey": "R6-T01-S02"
+        },
+        {
+          "sourceId": "R6-T01-S03",
+          "title": "Chốt kỷ yếu/đợt nhận bài, template, hạn và điều kiện chấp nhận đăng với thầy.",
+          "representation": "subissue",
+          "targetLegacyKey": "R6-T01-S03"
+        },
+        {
+          "sourceId": "R6-T01-S04",
+          "title": "Hoàn thiện sơ đồ và mô tả phương pháp theo triển khai thực tế.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R0-T01-S01",
+          "targetLegacyKey": "R0-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R0-T04-S01",
+          "targetLegacyKey": "R0-T04",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-26",
+      "url": "https://linear.app/zero-door/issue/ZER-26/chuan-bi-bai-bao-trong-luc-hoan-thien-ky-thuat"
+    },
+    {
+      "legacyId": "R6-T02",
+      "title": "Thực nghiệm chính thức và khóa dữ liệu",
+      "source": "docs/delivery/milestones/R6-paper/formal-experiments.md",
+      "milestoneLegacyId": "R6",
+      "linearId": "8bf286f0-5fa8-419c-881e-26333bdeecc8",
+      "subissues": [
+        {
+          "legacyKey": "R6-T02-S02",
+          "sourceSubtasks": [
+            "R6-T02-S02"
+          ],
+          "title": "Chạy đủ số lặp B0/B1/B2/BM và B3 nếu giữ claim RQ2, kể cả manual có thao tác thật.",
+          "condition": "always",
+          "linearId": "249b7187-3beb-45c0-9b18-f687cec093d8",
+          "identifier": "ZER-58",
+          "url": "https://linear.app/zero-door/issue/ZER-58/chay-cac-nhom-thuc-nghiem-theo-protocol-dja-khoa"
+        },
+        {
+          "legacyKey": "R6-T02-S03",
+          "sourceSubtasks": [
+            "R6-T02-S03"
+          ],
+          "title": "Phân tích tỷ lệ phục hồi, action đúng/sai/thừa, KPI, độ bất định và overhead/cost theo RQ.",
+          "condition": "always",
+          "linearId": "a97fa245-975c-45b1-8f0c-dbd71e40da11",
+          "identifier": "ZER-59",
+          "url": "https://linear.app/zero-door/issue/ZER-59/phan-tich-kpi-chat-luong-quyet-djinh-va-chi-phi"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R6-T02-S01",
+          "title": "Kiểm tra gate, protocol, nhãn không lộ đáp án và các lỗi/KPI chưa đạt trước formal run.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T02"
+        },
+        {
+          "sourceId": "R6-T02-S02",
+          "title": "Chạy đủ số lặp B0/B1/B2/BM và B3 nếu giữ claim RQ2, kể cả manual có thao tác thật.",
+          "representation": "subissue",
+          "targetLegacyKey": "R6-T02-S02"
+        },
+        {
+          "sourceId": "R6-T02-S03",
+          "title": "Phân tích tỷ lệ phục hồi, action đúng/sai/thừa, KPI, độ bất định và overhead/cost theo RQ.",
+          "representation": "subissue",
+          "targetLegacyKey": "R6-T02-S03"
+        },
+        {
+          "sourceId": "R6-T02-S04",
+          "title": "Khóa dataset và đối chiếu từng claim với RQ, nhóm đo và phạm vi kết luận.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T02"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R5-T03",
+          "targetLegacyKey": "R5-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-27",
+      "url": "https://linear.app/zero-door/issue/ZER-27/thuc-nghiem-chinh-thuc-va-khoa-du-lieu"
+    },
+    {
+      "legacyId": "R6-T03",
+      "title": "Hoàn thiện và nộp bản paper đầu",
+      "source": "docs/delivery/milestones/R6-paper/paper-submission.md",
+      "milestoneLegacyId": "R6",
+      "linearId": "62fe26a4-a2e5-4afa-8de2-2cbcc9b89b27",
+      "subissues": [
+        {
+          "legacyKey": "R6-T03-S02",
+          "sourceSubtasks": [
+            "R6-T03-S02"
+          ],
+          "title": "Hai người rà số liệu, đối chứng, claim tính mới/giá trị AI và xin góp ý thầy.",
+          "condition": "always",
+          "linearId": "80edaa8c-9b0b-4ae3-acb7-06bc6d36edae",
+          "identifier": "ZER-60",
+          "url": "https://linear.app/zero-door/issue/ZER-60/ra-claim-evidence-va-lay-gop-y-truoc-nop-bai"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R6-T03-S01",
+          "title": "Viết results/discussion/limitations trả lời RQ từ dữ liệu đã khóa.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T03"
+        },
+        {
+          "sourceId": "R6-T03-S02",
+          "title": "Hai người rà số liệu, đối chứng, claim tính mới/giá trị AI và xin góp ý thầy.",
+          "representation": "subissue",
+          "targetLegacyKey": "R6-T03-S02"
+        },
+        {
+          "sourceId": "R6-T03-S03",
+          "title": "Soát template, hình/bảng, trích dẫn và hồ sơ nộp.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T03"
+        },
+        {
+          "sourceId": "R6-T03-S04",
+          "title": "Nộp khi có đợt nhận bài hợp lệ và lưu biên nhận.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R6-T03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R6-T01",
+          "targetLegacyKey": "R6-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R6-T02",
+          "targetLegacyKey": "R6-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-28",
+      "url": "https://linear.app/zero-door/issue/ZER-28/hoan-thien-va-nop-ban-paper-djau"
+    },
+    {
+      "legacyId": "R7-T01",
+      "title": "Theo dõi bài và xử lý phản biện",
+      "source": "docs/delivery/milestones/R7-acceptance/peer-review.md",
+      "milestoneLegacyId": "R7",
+      "linearId": "112c04ea-76a2-4c0f-bf66-87ed6b048db6",
+      "subissues": [
+        {
+          "legacyKey": "R7-T01-S02",
+          "sourceSubtasks": [
+            "R7-T01-S02"
+          ],
+          "title": "Xử lý vòng phản biện đầu nếu đã nhận; phản hồi trong 3 ngày làm việc.",
+          "condition": "only_after_review_received",
+          "linearId": null,
+          "importDisposition": "DEFERRED_UNTIL_CONDITION",
+          "reason": "only_after_review_received"
+        },
+        {
+          "legacyKey": "R7-T01-S03",
+          "sourceSubtasks": [
+            "R7-T01-S03"
+          ],
+          "title": "Xử lý vòng tiếp theo nếu có, bổ sung phép đo khi reviewer yêu cầu.",
+          "condition": "only_after_additional_review_received",
+          "linearId": null,
+          "importDisposition": "DEFERRED_UNTIL_CONDITION",
+          "reason": "only_after_additional_review_received"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R7-T01-S01",
+          "title": "Theo dõi tình trạng bài, lập bảng phản biện → việc sửa → bằng chứng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R7-T01"
+        },
+        {
+          "sourceId": "R7-T01-S02",
+          "title": "Xử lý vòng phản biện đầu nếu đã nhận; phản hồi trong 3 ngày làm việc.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T01-S02"
+        },
+        {
+          "sourceId": "R7-T01-S03",
+          "title": "Xử lý vòng tiếp theo nếu có, bổ sung phép đo khi reviewer yêu cầu.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T01-S03"
+        },
+        {
+          "sourceId": "R7-T01-S04",
+          "title": "Đạt mốc mục tiêu có xác nhận chấp nhận đăng.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R7-T01"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R6-T03",
+          "targetLegacyKey": "R6-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-29",
+      "url": "https://linear.app/zero-door/issue/ZER-29/theo-doi-bai-va-xu-ly-phan-bien"
+    },
+    {
+      "legacyId": "R7-T02",
+      "title": "Hoàn thiện Word và các sản phẩm nghiệm thu",
+      "source": "docs/delivery/milestones/R7-acceptance/report-and-deliverables.md",
+      "milestoneLegacyId": "R7",
+      "linearId": "c0136da8-0b83-4e0f-a680-bbb8b2360441",
+      "subissues": [
+        {
+          "legacyKey": "R7-T02-S01",
+          "sourceSubtasks": [
+            "R7-T02-S01"
+          ],
+          "title": "Viết báo cáo Word bằng phương pháp và dữ liệu mới đã kiểm chứng.",
+          "condition": "always",
+          "linearId": "d217008c-1808-41d8-a229-755af920f17a",
+          "identifier": "ZER-61",
+          "url": "https://linear.app/zero-door/issue/ZER-61/hoan-thien-bao-cao-word-tu-du-lieu-dja-kiem-chung"
+        },
+        {
+          "legacyKey": "R7-T02-S02",
+          "sourceSubtasks": [
+            "R7-T02-S02"
+          ],
+          "title": "Chuẩn bị video demo, slide/poster theo danh mục sản phẩm phải nộp.",
+          "condition": "always",
+          "linearId": "8e9febcd-e0e5-4845-a26e-a51db0a46058",
+          "identifier": "ZER-62",
+          "url": "https://linear.app/zero-door/issue/ZER-62/chuan-bi-video-demo-slide-va-poster"
+        },
+        {
+          "legacyKey": "R7-T02-S03",
+          "sourceSubtasks": [
+            "R7-T02-S03"
+          ],
+          "title": "Đóng gói source, manifest, runbook, dataset và Word/PDF.",
+          "condition": "always",
+          "linearId": "12f347e6-96bc-413a-8a66-65c94ef5c8b0",
+          "identifier": "ZER-63",
+          "url": "https://linear.app/zero-door/issue/ZER-63/djong-goi-djay-dju-san-pham-nghiem-thu"
+        },
+        {
+          "legacyKey": "R7-T02-S05",
+          "sourceSubtasks": [
+            "R7-T02-S05"
+          ],
+          "title": "Đối chiếu thời hạn hồ sơ với nguồn của trường/thầy trước khi nộp nghiệm thu.",
+          "condition": "always",
+          "linearId": "132a5440-54b8-4e3f-b2d9-a436e93e00cf",
+          "identifier": "ZER-64",
+          "url": "https://linear.app/zero-door/issue/ZER-64/djoi-chieu-thoi-han-va-djieu-kien-ho-so-co-tham-quyen"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R7-T02-S01",
+          "title": "Viết báo cáo Word bằng phương pháp và dữ liệu mới đã kiểm chứng.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T02-S01"
+        },
+        {
+          "sourceId": "R7-T02-S02",
+          "title": "Chuẩn bị video demo, slide/poster theo danh mục sản phẩm phải nộp.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T02-S02"
+        },
+        {
+          "sourceId": "R7-T02-S03",
+          "title": "Đóng gói source, manifest, runbook, dataset và Word/PDF.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T02-S03"
+        },
+        {
+          "sourceId": "R7-T02-S04",
+          "title": "Đối chiếu chéo số liệu và sản phẩm giữa paper, Word, demo và dữ liệu.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R7-T02"
+        },
+        {
+          "sourceId": "R7-T02-S05",
+          "title": "Đối chiếu thời hạn hồ sơ với nguồn của trường/thầy trước khi nộp nghiệm thu.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T02-S05"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R5-T03",
+          "targetLegacyKey": "R5-T03",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R6-T02",
+          "targetLegacyKey": "R6-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-30",
+      "url": "https://linear.app/zero-door/issue/ZER-30/hoan-thien-word-va-cac-san-pham-nghiem-thu"
+    },
+    {
+      "legacyId": "R7-T03",
+      "title": "Nộp hồ sơ và thực hiện nghiệm thu",
+      "source": "docs/delivery/milestones/R7-acceptance/acceptance-submission.md",
+      "milestoneLegacyId": "R7",
+      "linearId": "16cd05e3-cad6-4d59-856c-92a0a56ac381",
+      "subissues": [
+        {
+          "legacyKey": "R7-T03-S01",
+          "sourceSubtasks": [
+            "R7-T03-S01"
+          ],
+          "title": "Chạy thử demo và tập báo cáo nghiệm thu.",
+          "condition": "always",
+          "linearId": "0b64dc48-f29b-4ea6-b068-492e5d77a6a5",
+          "identifier": "ZER-65",
+          "url": "https://linear.app/zero-door/issue/ZER-65/chay-rehearsal-va-ra-loi-truoc-nghiem-thu"
+        }
+      ],
+      "sourceCoverage": [
+        {
+          "sourceId": "R7-T03-S01",
+          "title": "Chạy thử demo và tập báo cáo nghiệm thu.",
+          "representation": "subissue",
+          "targetLegacyKey": "R7-T03-S01"
+        },
+        {
+          "sourceId": "R7-T03-S02",
+          "title": "Xác minh bằng chứng chấp nhận đăng rồi nộp bộ hồ sơ nghiệm thu.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R7-T03"
+        },
+        {
+          "sourceId": "R7-T03-S03",
+          "title": "Báo cáo hội đồng và xử lý yêu cầu chỉnh sửa theo lịch được xác nhận.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R7-T03"
+        },
+        {
+          "sourceId": "R7-T03-S04",
+          "title": "Đối chiếu kết quả nghiệm thu, sản phẩm còn thiếu và lưu hồ sơ cuối.",
+          "representation": "parent_acceptance_checklist",
+          "targetLegacyKey": "R7-T03"
+        }
+      ],
+      "dependencyCandidates": [
+        {
+          "sourceRef": "R7-T01",
+          "targetLegacyKey": "R7-T01",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        },
+        {
+          "sourceRef": "R7-T02",
+          "targetLegacyKey": "R7-T02",
+          "reviewRequired": true,
+          "reason": "Source prerequisite candidate; resolve exact contract/evidence before creating blocked-by"
+        }
+      ],
+      "identifier": "ZER-31",
+      "url": "https://linear.app/zero-door/issue/ZER-31/nop-ho-so-va-thuc-hien-nghiem-thu"
+    }
+  ],
+  "connection": "linear_zero_door",
+  "targetWorkspaceSlug": "zero-door",
+  "targetTeamKey": "ZER",
+  "verificationDate": "2026-10-17",
+  "projectDiscovery": {
+    "count": 0,
+    "hasNextPage": false,
+    "includeArchived": true
+  },
+  "verifiedMembers": [
+    {
+      "id": "99fe281d-6b71-41a3-8c8e-76be59884dc7",
+      "name": "Lê Văn Hoàng"
+    },
+    {
+      "id": "95925f55-11a6-4a02-ae0c-70e823f50d5f",
+      "name": "Hoa8001"
+    }
+  ],
+  "observedStatusCatalog": {
+    "Backlog": "4f6bdf4b-5cb4-4778-8716-29d382681d7b",
+    "Todo": "58e883f0-b147-497f-b574-ecb03d00875d",
+    "In Progress": "b64c7b34-0852-4fa7-a738-9987a0c9e35b",
+    "In Review": "27ed5c1c-b357-4d45-ae5d-9ba89c5f240d",
+    "Done": "bc69a74e-64ee-484d-b83a-ac2a6bcee00d",
+    "Canceled": "fe1483c4-268b-4e76-927a-7c3bac2f9e2e",
+    "Duplicate": "d46889d6-ee6e-445c-99d9-1545b358d4a2"
+  },
+  "organization": {
+    "unit": "Linear milestone / issue / sub-issue",
+    "issueNotes": "Technical source, verification and handoff only; live delivery fields belong to Linear",
+    "legacyAliases": "R*-T*-S* are provenance, not a parallel delivery hierarchy",
+    "archive": "docs/archive/planning/README.md"
+  },
+  "targetProjectIdentifier": "P-ZER-1",
+  "targetProjectUrl": "https://linear.app/zero-door/project/zero-door-nghien-cuu-va-nghiem-thu-d14f8467a039",
+  "lastImportCheckpointAt": "2026-10-17T14:52:41.705129+00:00",
+  "authorization": "User explicitly requested project, milestones, issues and preparation of research delivery on Linear in this chat; no assignments/dates/Git/cloud/Slack authority inferred.",
+  "importVerification": {
+    "checkedAt": "2026-10-17 14:52:40 UTC",
+    "projectCount": 1,
+    "milestoneCount": 8,
+    "parentIssueCount": 27,
+    "subissueCount": 34,
+    "sourceAcceptanceItems": 92,
+    "descriptionChecks": 61,
+    "missingOrMismatchedDescriptions": 0,
+    "nativeDependencyCount": 80,
+    "relationsCheckedBothDirections": true,
+    "dagIncludesImplicitChildCompletion": true,
+    "conditionalDeferred": 3,
+    "initialStatePolicy": "Created in Backlog; query Linear for current live state",
+    "assigneesApplied": 0,
+    "datesApplied": 0,
+    "estimatesApplied": 0,
+    "workflowChanges": 0,
+    "duplicates": 0,
+    "onboardingModified": false,
+    "createdObjects": 70,
+    "reusedObjects": 0,
+    "relationSubjectsUpdated": 46,
+    "failedObjects": 0,
+    "recoveredTransportErrors": 1,
+    "gitPublication": false,
+    "runtimeExecution": false,
+    "evidenceSharing": "Not yet chosen; does not prevent backlog publication; resolve before Ready where required"
+  }
+}

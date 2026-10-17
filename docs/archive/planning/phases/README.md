@@ -1,5 +1,7 @@
 # 📋 Zero Door — Phase Documents Index
 
+> **Tài liệu phase cũ.** Kế hoạch hoàn thiện hiện hành nằm ở [docs/recovery/README.md](R:/_Projects/Eurus_Workspace/zero_door/docs/recovery/README.md), việc tiếp theo ở [NOW.md](R:/_Projects/Eurus_Workspace/zero_door/docs/recovery/NOW.md). Không cập nhật tiến độ R0–R7 hoặc kế thừa trạng thái Complete từ các phase dưới đây.
+
 > Thư mục này chứa tài liệu đặc tả chi tiết cho từng Phase phát triển của dự án Zero Door.
 > Mỗi Phase document mô tả mục tiêu, deliverables, tiêu chí hoàn thành, và các câu hỏi thiết kế cần trả lời.
 

@@ -1,5 +1,7 @@
 # ZERO DOOR — AI Assistant Instructions
 
+> Chỉ dẫn bên dưới là bối cảnh cũ, gồm stack/nhân sự/claim cần kiểm chứng. Công việc hiện hành theo [AGENTS.md](R:/_Projects/Eurus_Workspace/zero_door/AGENTS.md) và [Delivery](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/README.md): Linear milestone → issue → sub-issue; repo giữ scope/thiết kế/evidence, Linear giữ AC và metadata delivery. Không dùng kế hoạch cũ như board hiện hành.
+
 > **Mục đích:** File này giúp AI assistant nắm bắt context dự án NHANH NHẤT khi bắt đầu session mới.
 > **KHÔNG CẦN đọc toàn bộ source code.** Chỉ cần đọc đúng files được liệt kê bên dưới.
 
@@ -26,7 +28,7 @@
 | # | File | Mục đích | Khi nào đọc |
 |---|------|---------|-------------|
 | 1 | [`docs/context.md`](../docs/context.md) | **Session cache** — trạng thái hiện tại, task progress, vấn đề đã giải quyết | **LUÔN ĐỌC ĐẦU TIÊN** |
-| 2 | [`docs/plan.md`](../docs/plan.md) | Master plan — scope, KPIs, architecture, timeline, references | Khi cần hiểu WHY/WHAT |
+| 2 | [`docs/archive/planning/devops-plan.md`](../docs/archive/planning/devops-plan.md) | Master plan — scope, KPIs, architecture, timeline, references | Khi cần hiểu WHY/WHAT |
 | 3 | [`docs/workflow.md`](../docs/workflow.md) | Quy trình Scrumban — sprint structure, git flow, ceremonies | Khi cần hiểu HOW |
 | 4 | [`docs/architecture.md`](../docs/architecture.md) | Kiến trúc chi tiết — agents, Kafka topics, diagrams | Khi làm code/design |
 
@@ -81,7 +83,7 @@ Tất cả task files nằm trong thư mục [`tasks/`](../tasks/):
 5. Cập nhật context.md khi xong
 
 ### 6. Khi User Hỏi Về Kiến trúc / Design
-- Đọc `docs/architecture.md` + `docs/plan.md` Section 5
+- Đọc `docs/architecture.md` + `docs/archive/planning/devops-plan.md` Section 5
 - Tham khảo Kafka message schemas trong task files (S4, S8, S10, S11)
 - Luôn giữ consistent với design đã document
 
@@ -133,8 +135,8 @@ zero_door/
 | Cần biết | Đọc file |
 |---------|----------|
 | Project đang ở đâu? Task nào đang làm? | `docs/context.md` |
-| Mục tiêu, KPIs, scope? | `docs/plan.md` Section 2, 7 |
-| Kiến trúc 3 Agents? Kafka topics? | `docs/architecture.md` + `docs/plan.md` Section 5 |
+| Mục tiêu, KPIs, scope? | `docs/archive/planning/devops-plan.md` Section 2, 7 |
+| Kiến trúc 3 Agents? Kafka topics? | `docs/architecture.md` + `docs/archive/planning/devops-plan.md` Section 5 |
 | Sprint nào? Quy trình? | `docs/workflow.md` |
 | Task cụ thể cần làm? | `tasks/TASK_S[X]-[XXX]_[NAME].md` |
 | Git branch/commit convention? | File này Section 3 |

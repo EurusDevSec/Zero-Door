@@ -19,7 +19,7 @@ Cập nhật file [session_memory.md](file:///r:/_Projects/Eurus_Workspace/zero_
 - Đường dẫn cụ thể đến các file mới/file sửa đổi để agent sau đọc trực tiếp.
 
 ### Bước 2: Đồng bộ hóa Lộ trình & Bài học kinh nghiệm (PLAN.md & LESSONS_LEARNED.md)
-1. Cập nhật các ô tích chọn (`[x]`) cho các tác vụ đã hoàn thành và thêm các cập nhật kỹ thuật vào [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) và [docs/plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/plan.md).
+1. Cập nhật các ô tích chọn (`[x]`) cho các tác vụ đã hoàn thành và thêm các cập nhật kỹ thuật vào [PLAN.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/PLAN.md) và [docs/archive/planning/devops-plan.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/devops-plan.md).
 2. Nếu phát hiện lỗi hoặc kinh nghiệm kỹ thuật mới (như rate limits, resource constraints, port issues), cập nhật ngay vào [LESSONS_LEARNED.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/LESSONS_LEARNED.md).
 3. Nếu có thay đổi về hạ tầng hay thiết kế, cập nhật trực tiếp vào [CONTEXT.md](file:///r:/_Projects/Eurus_Workspace/zero_door/.agent/rules/CONTEXT.md).
 

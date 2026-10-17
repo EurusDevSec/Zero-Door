@@ -201,22 +201,22 @@ flowchart TB
 
 ### CHƯƠNG 3: THIẾT KẾ KIẾN TRÚC HỆ THỐNG ZERO DOOR *(Dự kiến: 22 trang)*
 *   **3.1. Phân tích yêu cầu và Ràng buộc** *(3 trang)*
-    *   *Tham chiếu:* [phase1_foundation.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase1_foundation.md), [phase1_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase1_runbook.md).
+    *   *Tham chiếu:* [phase1_foundation.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase1_foundation.md), [phase1_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase1_runbook.md).
     *   Giới hạn tài nguyên (FinOps) trên máy phát triển cục bộ (16GB RAM) và Cloud ($48/tháng).
 *   **3.2. Thiết kế Kiến trúc tổng thể và các Phân vùng (Namespaces)** *(5 trang)*
     *   *Sơ đồ luồng dữ liệu khép kín (MAPE-K loop).*
     *   Thiết kế cô lập 3 namespaces: `zero-door`, `target-app`, `monitoring`.
 *   **3.3. Thiết kế Tác tử Nemesis (Red Team)** *(3 trang)*
-    *   *Tham chiếu:* [phase3_nemesis_chaos.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase3_nemesis_chaos.md), [phase3_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase3_runbook.md).
+    *   *Tham chiếu:* [phase3_nemesis_chaos.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase3_nemesis_chaos.md), [phase3_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase3_runbook.md).
     *   Luồng sinh payload thông minh bằng Gemini/OpenAI API.
 *   **3.4. Thiết kế Chaos Worker (Go Executor)** *(3 trang)*
     *   Cơ chế validate bảo vệ hạ tầng (Blast Radius Validator).
     *   Thiết kế 3 dạng tiêm lỗi: HTTP Flood, CPU/Memory Stress, Pod Kill.
 *   **3.5. Thiết kế Tác tử Gaia (Quan sát)** *(3 trang)*
-    *   *Tham chiếu:* [phase2_target_gaia.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase2_target_gaia.md), [phase2_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase2_runbook.md).
+    *   *Tham chiếu:* [phase2_target_gaia.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase2_target_gaia.md), [phase2_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase2_runbook.md).
     *   Thuật toán lọc và khử trùng lặp cảnh báo (Alert Deduplication).
 *   **3.6. Thiết kế Tác tử Hephaestus (Blue Team)** *(5 trang)*
-    *   *Tham chiếu:* [phase4_hephaestus_loop.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase4_hephaestus_loop.md), [phase4_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase4_runbook.md).
+    *   *Tham chiếu:* [phase4_hephaestus_loop.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase4_hephaestus_loop.md), [phase4_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase4_runbook.md).
     *   Decision Matrix kết hợp Cooldown mechanism để tránh hiện tượng thrashing.
 
 ---
@@ -226,11 +226,11 @@ flowchart TB
     *   Mã nguồn Python FastAPI xử lý API, nạp config từ Env và xử lý logic kết nối Kafka.
     *   Mã nguồn Go đa luồng xử lý tấn công hiệu năng cao.
 *   **4.2. Bảo mật Container & Quy trình CI/CD Pipeline** *(4 trang)*
-    *   *Tham chiếu:* [phase6_cicd_optimization.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase6_cicd_optimization.md), [phase6_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase6_runbook.md).
+    *   *Tham chiếu:* [phase6_cicd_optimization.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase6_cicd_optimization.md), [phase6_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase6_runbook.md).
     *   Giải pháp đa phân đoạn (Multi-stage) và Distroless triệt tiêu shell/APT.
     *   Tự động hóa Bandit, Gosec, Trivy.
 *   **4.3. Quản trị hạ tầng Cloud tự động với Terraform** *(4 trang)*
-    *   *Tham chiếu:* [phase7_cloud_report.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase7_cloud_report.md), [phase7_cloud_deploy.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase7_cloud_deploy.md).
+    *   *Tham chiếu:* [phase7_cloud_report.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase7_cloud_report.md), [phase7_cloud_deploy.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase7_cloud_deploy.md).
     *   Cấu hình `main.tf`, `cloud-init.yaml` và `deploy.sh`.
 *   **4.4. Cấu hình Nginx Ingress & Định tuyến Gateway** *(3 trang)*
 *   **4.5. Thiết kế và hiển thị Dashboard điều khiển** *(3 trang)*
@@ -239,7 +239,7 @@ flowchart TB
 
 ### CHƯƠNG 5: THỰC NGHIỆM, ĐO ĐẾM VÀ ĐÁNH GIÁ KẾT QUẢ *(Dự kiến: 15 trang)*
 *   **5.1. Mô phỏng chiến tranh War Game tự trị** *(3 trang)*
-    *   *Tham chiếu:* [phase5_experiments.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/phases/phase5_experiments.md), [phase5_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase5_runbook.md).
+    *   *Tham chiếu:* [phase5_experiments.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/archive/planning/phases/phase5_experiments.md), [phase5_runbook.md](file:///r:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase5_runbook.md).
     *   Kịch bản E1, E2, E3, E4.
 *   **5.2. Kết quả đo đếm MTTD và MTTR** *(5 trang)*
     *   Bảng dữ liệu thô và biểu đồ trực quan (so sánh AUTO vs MANUAL).
