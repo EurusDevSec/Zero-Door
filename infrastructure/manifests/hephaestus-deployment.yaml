@@ -175,15 +175,15 @@ metadata:
     app: hephaestus
     phase: "4"
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    # /hephaestus/x -> /x, defined in traefik-values.yaml (file provider); replaces the nginx rewrite-target /$2.
+    traefik.ingress.kubernetes.io/router.middlewares: hephaestus-prefix@file
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   rules:
     - http:
         paths:
-          - path: /hephaestus(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /hephaestus
+            pathType: Prefix
             backend:
               service:
                 name: hephaestus

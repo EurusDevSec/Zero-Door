@@ -1,0 +1,11 @@
+# Chart versions used by infrastructure/scripts/setup-phase1.sh (single source; read by zd_chart_version).
+# Keep one "name: version" line per chart. Digests and render evidence: docs/evidence/ZER-35/lab-restoration.md.
+# An empty value blocks that component on purpose until a version is decided.
+
+# https://prometheus-community.github.io/helm-charts, chart tgz sha256 0d16c44e…0094; Kubernetes >=1.25
+kube-prometheus-stack: 92.10.1
+# oci://registry-1.docker.io/bitnamicharts/kafka, OCI digest sha256:68ebd3eb…17c0
+kafka: 29.3.2
+# https://traefik.github.io/charts, chart tgz sha256 a6ede324662ddcca0160a5ce639b7b5b9dd40a20a475e1101e9f95b5e5d83dd5; app v3.7.14; Kubernetes >=1.30
+# Replaces the retired ingress-nginx (03/2026); see docs/evidence/ZER-35/traefik-migration.md.
+traefik: 42.0.0

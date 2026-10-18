@@ -73,7 +73,7 @@ infrastructure/
 ## Prerequisites (Làm 1 lần)
 
 ### 1. Cài Terraform trên máy Windows
-```powershell
+```bash
 # Dùng Chocolatey (nếu đã cài choco):
 choco install terraform -y
 
@@ -83,7 +83,7 @@ terraform version  # verify: >= 1.0
 ```
 
 ### 2. Cài OpenSSH và tạo SSH key (nếu chưa có)
-```powershell
+```bash
 # Kiểm tra key đã tồn tại chưa
 ls ~/.ssh/id_rsa.pub
 
@@ -100,9 +100,9 @@ ssh-keygen -t rsa -b 4096 -C "zero-door-deploy"
 6. Click **Generate Token** → Copy ngay (chỉ hiện 1 lần!)
 
 ### 4. Tạo terraform.tfvars
-```powershell
-cd r:\_Projects\Eurus_Workspace\zero_door\infrastructure\terraform
-Copy-Item terraform.tfvars.example terraform.tfvars
+```bash
+cd /r/_Projects/Eurus_Workspace/zero_door/infrastructure/terraform
+cp -n terraform.tfvars.example terraform.tfvars
 # Mở terraform.tfvars và điền do_token + github_pat
 ```
 
@@ -111,28 +111,28 @@ Copy-Item terraform.tfvars.example terraform.tfvars
 ## Quy trình Deploy (Từ đầu → Xong)
 
 ### Bước 1: Init Terraform
-```powershell
-cd r:\_Projects\Eurus_Workspace\zero_door\infrastructure\terraform
+```bash
+cd /r/_Projects/Eurus_Workspace/zero_door/infrastructure/terraform
 terraform init
 ```
 
 ### Bước 2: Preview những gì sẽ tạo
-```powershell
+```bash
 terraform plan
 # Review: 1 Droplet + 1 Firewall + 1 SSH Key
 ```
 
 ### Bước 3: Deploy! (1 lệnh)
-```powershell
+```bash
 terraform apply
 # Xác nhận bằng cách gõ "yes"
 # Terraform sẽ in ra IP sau khi tạo xong
 ```
 
 ### Bước 4: Theo dõi quá trình deploy
-```powershell
+```bash
 # Lấy IP từ output
-$IP = terraform output -raw droplet_ip
+IP=$(terraform output -raw droplet_ip)
 
 # Theo dõi log deploy trên Droplet (cloud-init chạy deploy.sh)
 ssh root@$IP "tail -f /var/log/zero-door-deploy.log"
@@ -141,20 +141,20 @@ ssh root@$IP "tail -f /var/log/zero-door-deploy.log"
 ```
 
 ### Bước 5: Verify
-```powershell
-$IP = terraform output -raw droplet_ip
+```bash
+IP=$(terraform output -raw droplet_ip)
 
-curl.exe http://$IP/                              # Boutique → 200 OK
-curl.exe http://$IP/nemesis/healthz               # {"status":"UP"}
-curl.exe http://$IP/nemesis/dashboard/            # Dashboard HTML
-curl.exe http://$IP/hephaestus/healthz            # {"status":"UP"}
+curl http://$IP/                              # Boutique → 200 OK
+curl http://$IP/nemesis/healthz               # {"status":"UP"}
+curl http://$IP/nemesis/dashboard/            # Dashboard HTML
+curl http://$IP/hephaestus/healthz            # {"status":"UP"}
 ```
 
 ---
 
 ## Quy trình Destroy & Rebuild
 
-```powershell
+```bash
 # Xóa toàn bộ (Droplet + Firewall + SSH Key)
 terraform destroy
 

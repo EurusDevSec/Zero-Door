@@ -1,4 +1,6 @@
 # BẢN BÀN GIAO BỐI CẢNH DỰ ÁN ZERO DOOR
+
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
 ## Antigravity Gemini → Codex (Dành cho Lê Văn Hoàng & Nhóm Nghiên cứu)
 
 - **Ngày bàn giao:** 2026-10-09
@@ -373,10 +375,11 @@ Khi bảo vệ, Hội đồng chắc chắn sẽ đặt 3 câu hỏi sau mà Gem
 - **Cloud:** Cloud cũ đã tắt hoàn toàn. Tài khoản Azure Student (~100 USD credit) chưa được thiết lập endpoint hay subscription khả dụng [USER_CONFIRMED, S04].
 
 ### 3. Các lệnh kiểm tra "chỉ đọc" (Read-Only) để Codex xác minh trạng thái
-Codex có thể chạy chuỗi lệnh an toàn sau trên PowerShell để kiểm tra tình trạng máy mà không làm thay đổi hệ thống:
-```powershell
+Ví dụ kiểm tra chỉ đọc, đã chuyển cú pháp sang Bash ngày 18/10 (không làm mới kết quả lịch sử):
+```bash
 # 1. Kiểm tra Git status và commit HEAD
-git status -s; git log -n 1 --oneline
+git status -s
+git log -n 1 --oneline
 
 # 2. Kiểm tra Docker daemon và danh sách containers K3d
 docker info --format '{{json .MemTotal}}'
@@ -386,10 +389,10 @@ docker ps -a --filter "name=k3d-zero-door"
 k3d cluster list
 
 # 4. Kiểm tra kết nối Kubernetes API
-kubectl cluster-info --request-timeout='5s'
+kubectl --context k3d-zero-door cluster-info --request-timeout=5s
 
 # 5. Kiểm tra cổng Ollama local
-Test-NetConnection -ComputerName 127.0.0.1 -Port 11434 -InformationLevel Quiet
+curl --fail --show-error --max-time 3 http://127.0.0.1:11434/api/tags
 ```
 
 ---

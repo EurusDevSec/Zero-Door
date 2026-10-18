@@ -50,9 +50,9 @@ ENTRYPOINT ["/usr/bin/python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0"
 ### 2.2. Hướng dẫn Debug Container Distroless trên K8s
 Vì Distroless không có shell (`/bin/sh` hay `/bin/bash`), kỹ sư SRE không thể chạy lệnh `kubectl exec` thông thường. Để debug, ta sử dụng **Ephemeral Containers** (Container tạm thời) dùng chung namespace:
 
-```powershell
-# Sử dụng kubectl debug để đính một container busybox vào pod đang chạy
-kubectl debug -it <pod-name-agents> \
+```bash
+# Sử dụng kubectl --context k3d-zero-door debug để đính một container busybox vào pod đang chạy
+kubectl --context k3d-zero-door debug -it <pod-name-agents> \
   -n zero-door \
   --image=busybox \
   --target=<container-name>

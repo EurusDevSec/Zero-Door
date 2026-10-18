@@ -1,5 +1,7 @@
 # Kế hoạch hoàn thiện ZERO DOOR để nộp bài và nghiệm thu
 
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
+
 Ngày lập: 09/10/2026. Mốc mục tiêu kỹ thuật: 31/10/2026. Hạn hoàn thành đề tài do người dùng xác nhận: 31/12/2026, bao gồm thời gian phản biện và chỉnh sửa bài. Đây là kế hoạch nghiên cứu và các gói sửa, chưa phải báo cáo triển khai hoàn tất hoặc cam kết bài được chấp nhận vào một ngày cụ thể.
 
 Cập nhật ngày 09/10/2026: bổ sung câu hỏi nghiên cứu, đối chứng và giới hạn kết luận để đánh giá giá trị LLM/phối hợp tác tử; gắn vào task, subtask và gate hiện có. Các yêu cầu gốc và mốc mục tiêu được giữ nguyên.

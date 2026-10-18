@@ -1,0 +1,2 @@
+*.sh text eol=lf
+docs/evidence/ZER-35/*.patch -text -whitespace

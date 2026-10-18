@@ -24,7 +24,7 @@ Inventory có timestamp/kết quả hoặc lỗi rõ, context/Git/containers/vol
 
 ### R0-T02-S02
 
-Kubernetes API truy cập; dữ liệu cần giữ được bảo toàn; lệnh dựng và profile tài nguyên được ghi. Kiểm tra script đúng chức năng; start-demo.ps1 hiện dừng mọi kubectl và dùng context hiện hành nên không chạy mù; rebuild-nemesis.ps1 build/import/rollout, không tạo cluster. Giữ volume/dữ liệu và ghi phạm vi thao tác.
+Kubernetes API truy cập; dữ liệu cần giữ được bảo toàn; lệnh dựng và profile tài nguyên được ghi. Kiểm tra script đúng chức năng; `bash start-demo.sh` chỉ mở/giám sát tunnel cho lab đã có, còn `bash rebuild-nemesis.sh --no-forward` build/import/rollout Nemesis, không tạo cluster. Bản Bash đã thay script cũ ngày 18/10; xem evidence migration để đối chiếu AC lịch sử trên Linear. Giữ volume/dữ liệu và ghi phạm vi thao tác.
 
 ### R0-T02-S03
 
@@ -41,3 +41,135 @@ Không có.
 Chưa có bàn giao thực thi mới. Khi thực hiện, ghi issue Linear và thời điểm đọc AC, HEAD/dirty, phạm vi file/thao tác, kiểm tra/kết quả, evidence, giới hạn và bước tiếp theo. Theo [WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); trạng thái, lịch và phân công cập nhật trên Linear.
 
 Inventory đã có sáu AC đầy đủ tại [ZER-34](https://linear.app/zero-door/issue/ZER-34/kiem-ke-lab-local-bang-truy-van-chi-djoc); không tiếp tục duy trì checklist sống thứ hai ở ghi chú này. Đầu ra dự kiến vẫn là `docs/evidence/R0-T02-S01/inventory.md`.
+
+### Bàn giao 18/10/2026 — kiểm tra tài nguyên trước khôi phục
+
+Theo yêu cầu Hoàng, đã kiểm tra chỉ đọc host/Docker/WSL/context/API và đối chiếu manifest tại HEAD `1f43ff1461c2199bc99e9962483956c3df0fa975`, branch main, working tree sạch trước phiên. Phạm vi ghi chỉ gồm ghi chú này và [inventory một phần](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/R0-T02-S01/inventory.md). Engine không truy cập, WSL docker-desktop Stopped, API từ chối kết nối; không có số đo tài nguyên pod hoặc inventory volume thành công. Hoàng xác nhận đã reset Docker làm mất container cũ và đang tắt Docker. Chưa xác minh phần volume/image còn lại.
+
+Repo có cấu hình giảm tải nhưng chưa chứng minh tối ưu runtime. Host còn khoảng 4,55/15,78 GiB RAM khi Engine tắt; cấu hình WSL trên đĩa là 7GB/4 CPU/2GB swap. Chi tiết lệnh/kết quả/giới hạn và khoảng trống review ở artifact. Không start/stop/recreate/apply/build, gọi model/attack/heal, sửa cấu hình hoặc cập nhật Linear/Git publication. Tiếp theo: Hoàng mở Docker, kiểm kê lại Engine/container/volume/cluster; xác nhận nhánh start hay dựng mới, đo cluster nền trước khi khôi phục từng nhóm workload theo ZER-35. Không dùng hướng dẫn cũ hoặc báo cáo này như bằng chứng demo đã hoạt động.
+
+### Kiểm tra lại 18/10, 09:45–09:46 +07:00
+
+Hoàng đã mở Docker và yêu cầu kiểm tra. Engine desktop-linux trả lời thành công, thấy 4 CPU/~6,77 GiB RAM; không có container đang chạy và `k3d cluster list` rỗng. Inventory có 5 container S-cool đã dừng và 5 volume S-cool/n8n/buildx, giữ nguyên. Context k3d-zero-door còn trên đĩa nhưng không là cluster chạy được. Host còn ~1,5–1,7 GiB RAM, vmmemWSL ~4,3 GiB; trong Linux Cached ~3,25 GiB, MemAvailable ~6,12 GiB, swap chưa dùng. CPU host 11–17% ở ba mẫu ngắn, chưa có bằng chứng bão hòa hoặc rò rỉ RAM. Dung lượng build cache 13,5GB là đĩa, không phải RAM. Chi tiết lệnh/số đo/giới hạn đã nối vào inventory cùng file. Không thay môi trường, không dựng cluster hoặc đóng issue. Bước kế tiếp là chuẩn bị sizing và dựng cluster nền trong ZER-35 khi được thực hiện, đo lại rồi mới thêm workload từng nhóm. Cập nhật NOW chỉ để sửa con trỏ artifact cũ.
+
+### Bàn giao 18/10, 09:58–10:00 +07:00 — cluster nền
+
+Hoàng đã chạy lệnh tạo cluster bằng cấu hình repo và báo hai lệnh kiểm tra lỗi. Đã xác minh cluster `zero-door` tồn tại với server/agent `1/1`. `kubectl` trỏ `host.docker.internal:7356` bị connection refused; thử `127.0.0.1:7356` thành công. Codex sao lưu kubeconfig rồi sửa duy nhất server endpoint của entry `k3d-zero-door`; không recreate, deploy hoặc sửa manifest. Sau sửa, lệnh gốc truy cập được: hai node Ready, ba pod hệ thống Running/restart 0, top nodes/pods thành công. Docker stats thành công bên Codex, chưa tái hiện lỗi của Hoàng. Baseline container khoảng 526 MiB, không là tổng RAM host/WSL.
+
+Chi tiết revision, phạm vi, backup, lệnh, số đo và giới hạn tại [evidence ZER-35](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/cluster-baseline.md). Chưa khôi phục workload hoặc kiểm chứng luồng mua hàng, chưa đủ đóng ZER-35/ZER-6. Tiếp theo chốt profile tài nguyên, khôi phục từng nhóm dependency và đo chênh lệch. Tài liệu vẫn local/chưa review chia sẻ, không cập nhật live fields Linear hoặc commit/push.
+
+### Bàn giao 18/10 — chuyển công cụ vận hành sang Bash
+
+Hoàng yêu cầu đổi toàn repo sang Bash trước khi tiếp tục dựng lab. Đã thay 7 entry point bằng `.sh`, thêm helper context/path/process dùng chung, chuyển hướng dẫn/caller và thông báo dashboard, thêm CI/kiểm thử offline. Quyền sửa file và kiểm chứng đến từ yêu cầu trực tiếp này; chưa triển khai các component lab hoặc chạy thực nghiệm thật. Các AC Linear còn nhắc hành vi script cũ được đối chiếu qua [evidence migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/bash-migration.md), không tự sửa AC sống hoặc coi issue Done.
+
+Kiểm chứng: cú pháp shell/85 ví dụ Bash/JavaScript PASS, 21 nhóm CLI mock PASS; một tunnel CoreDNS tạm trên localhost mở rồi dọn thành công bằng native kubectl Windows. Đã thêm điều kiện xóa cluster riêng, không kill mọi kubectl, bảo toàn Secret cũ và mặc định không chạy attack trong setup thực nghiệm. Cách dùng và khác biệt: [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md). Full Helm/build/import/rollout/luồng mua hàng chưa kiểm chứng; tiếp theo review bản Bash và tiếp tục chốt profile tài nguyên, dựng từng nhóm của ZER-35. Chưa commit/push/merge hoặc cập nhật Linear.
+
+## Bàn giao 18/10/2026 — Claude review Bash và sizing
+
+Hoàng giao Claude thực hiện bước tiếp theo, Codex review đầu ra; Hoàng theo dõi/luyện. Phạm vi tại [handoff Claude](R:/_Projects/Eurus_Workspace/zero_door/docs/handoff/claude-lab-review-and-sizing.md): review độc lập migration Bash và đề xuất profile RAM/CPU + kế hoạch dựng từng nhóm cho ZER-35. Báo cáo dự kiến docs/evidence/ZER-35/claude-review-and-resource-profile.md; chưa thực thi hoặc xác nhận kết quả. Lượt này chỉ kiểm tra offline/truy vấn lab chỉ đọc và ghi báo cáo; chưa apply/đổi cấu hình lab, sửa source vận hành hay cập nhật Linear/Git publication. Codex nhường quyền ghi checkout sau bàn giao.
+
+### Kết quả 18/10, 10:42–11:13 +07:00 — Claude review và sizing
+
+Báo cáo: [claude-review-and-resource-profile.md](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/claude-review-and-resource-profile.md). HEAD `1f43ff1`, dirty có trước giữ nguyên.
+
+- **Bash:** `bash -n` và 21 test mock PASS, Claude tự chạy lại; không có finding Critical. Ba finding Medium: k3d tạo cluster sẽ đổi current-context; `kafka-python==2.0.2` không hợp Python 3.12 của host; chưa có script dựng Boutique/Gaia.
+- **Tài nguyên:** hai node cùng báo 4 CPU / 6,77 GiB nên scheduler thấy gấp đôi tài nguyên thật. Ước lượng full stack ổn định khoảng 3,2–4,9 GiB, chưa đo. Đề xuất giữ WSL 7GB/4 CPU, chế độ thí nghiệm giảm ứng dụng desktop, tăng `limits.cpu` của `target-app` lên 4, đặt heap Kafka tường minh.
+- **Kế hoạch:** dựng 11 bước theo nhóm, mỗi bước có bộ đo và tiêu chí dừng.
+- **Giới hạn:** chưa đọc Linear live, chưa dùng GitNexus. Network policy controller đang chạy nhưng chưa kiểm chứng hiệu lực từng policy.
+
+Chờ Codex review và Hoàng chốt D1–D5; chưa thực thi bước nào.
+
+### Codex review báo cáo Claude — 18/10/2026
+
+Đã đối chiếu báo cáo hoàn tất với source/config và upstream; [review riêng](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md) yêu cầu chỉnh hướng dẫn rollback có thể xóa PVC, ngân sách chart/default heap Kafka, HPA trong đường dựng và diễn giải KPI/MTTD. Chưa duyệt kế hoạch full stack để chạy nguyên văn. Claude tiếp tục sửa báo cáo theo review trước; chưa sửa source/config hoặc apply lab. Hoàng đã chọn Claude làm chính, Codex review; không cần hỏi lại vai trò. Không cập nhật Linear hoặc commit/push.
+
+### Retest báo cáo Claude — 18/10/2026, 11:49 +07:00
+
+Bản sửa 11:45 đã xử lý phần kế hoạch CR-01/03/04/05; CR-02 còn render/chart và đo trước nhóm tương ứng. [Retest Codex](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md) xác nhận đủ cơ sở đề xuất bước namespace/quota riêng, không cần thêm vòng sửa báo cáo để bắt đầu bước này. Chưa apply trong phiên retest; cần yêu cầu thực thi bước nhỏ từ Hoàng cho Claude. Không chấp nhận full stack hoặc tự đổi trạng thái Linear.
+
+### Bước namespace/quota — 18/10/2026, 11:55–11:57 +07:00
+
+Claude đã chạy riêng `bash infrastructure/scripts/setup-phase1.sh --component namespaces` (exit 0) sau khi kiểm Docker `desktop-linux`, context `k3d-zero-door` và hai node Ready. Đã tạo 3 namespace (`zero-door`, `target-app`, `monitoring`) cùng 3 ResourceQuota và 3 LimitRange; `kubectl diff` khớp cả 6 file. Giữ cấu hình hiện tại (quota `target-app` `limits.cpu` = 3). Không có workload hay PVC; RAM/CPU trước và sau gần như không đổi. [Bằng chứng](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/namespace-bootstrap.md). Dừng để Codex review; chưa chạy component khác, Helm, commit/push hay đổi Linear.
+
+### Codex review namespace — 18/10/2026, 12:10–12:12 +07:00
+
+Đã đọc evidence và kiểm tra trực tiếp: 3 Namespace Active/labels khớp, 3 quota và 3 LimitRange có spec bằng YAML, hai node Ready; chưa có workload/PVC và không Warning. PASS riêng bước namespace/quota, chưa hoàn tất ZER-35/ZER-6. [Review Codex](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md) ghi phạm vi chuẩn bị ingress tiếp theo: kiểm vòng đời/compatibility, chọn version, render và ngân sách thực trước cài. ingress-nginx đã có thông báo retirement tháng 03/2026, cần đưa vào lựa chọn; chưa tự đổi controller hoặc cài chart. Codex chỉ truy vấn và ghi review, không mutation lab/Linear/Git publication.
+
+### Giao trọn gói ZER-35 — 18/10/2026
+
+Hoàng đã đồng ý chuyển từ bàn giao từng component sang Claude làm xuyên suốt, Codex review một gói. [Handoff hiện hành](R:/_Projects/Eurus_Workspace/zero_door/docs/handoff/claude-lab-review-and-sizing.md) đã thay quyền chỉ đọc cũ: cho phép sửa công cụ/config theo allowlist, dựng các nhóm nền, tự kiểm/sửa và probe tích hợp; giữ checkpoint tài nguyên bên trong, không xin phép từng lệnh. Quyết định ingress/ngoài scope được gom riêng, phần độc lập vẫn tiếp tục. Không cấp quyền xóa dữ liệu/recreate, chaos/LLM/cloud hoặc Git/Linear publication. Đầu ra chính dự kiến docs/evidence/ZER-35/lab-restoration.md; chưa thực hiện trong lượt cập nhật handoff này. Claude là bên ghi tiếp theo.
+
+### Khôi phục lab trọn gói — 18/10/2026, 13:16–14:10 +07:00 (Claude)
+
+**PARTIAL, chờ Codex review.** [lab-restoration.md](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/lab-restoration.md).
+- Đã chạy trên `k3d-zero-door`: monitoring, Boutique 9 dịch vụ, ES/Fluent Bit, Kafka, Gaia/worker/Nemesis/Hephaestus và NetworkPolicy.
+- Đã kiểm thật: giao dịch mẫu tới checkout, metric, log sentinel, Kafka round-trip, `/healthz` của agent, policy chặn đúng luồng.
+- Còn mở: ingress chờ Hoàng chọn A/B ([ingress-preflight](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/ingress-preflight.md)); target frontend không có `/metrics`; guard host (RAM trống/pagefile) bị vượt trong lúc dựng.
+- 14:40: Hoàng chọn Traefik. Gói phạm vi (2 patch, kiểm offline/dry-run, kế hoạch triển khai) chờ Codex review, chưa triển khai: [traefik-migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/traefik-migration.md). Patch query Gaia/Nemesis nằm ngoài allowlist; Hoàng đã duyệt cùng gói. Triển khai cả hai patch sau khi Codex review đạt.
+- Chưa commit/push, chưa đổi Linear.
+
+### Codex review gói Traefik — 18/10/2026, 14:52 +07:00
+
+**NOT READY, chưa triển khai.** [Review Codex](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md): TFM-01 HIGH về xung đột nhãn service của ServiceMonitor; TFM-02 kiểm cuối sau rebuild và phân loại FAIL đã biết; TFM-03 sửa thứ tự rollback port 80. Claude sửa cả ba trong cùng gói rồi trả retest; không hỏi lại lựa chọn Traefik/patch agent đã duyệt. Codex chạy 27 test mock trên bản sao và render độc lập; chưa áp patch thật hay đổi cluster/Linear/Git publication.
+
+### Sửa TFM-01–03 gói Traefik — 18/10/2026, 15:15 +07:00 (Claude)
+
+**Chờ Codex retest, chưa triển khai.** Chi tiết ở [traefik-migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/traefik-migration.md), mục 12.
+- TFM-01: thêm `honorLabels: true`.
+- TFM-02: kế hoạch có cổng cho từng bước, kiểm cuối sau rebuild; `verify` exit 3 chỉ cho hai target frontend 404.
+- TFM-03: rollback giải phóng port 80 trước, bằng `helm upgrade` sang ClusterIP.
+- Patch hạ tầng mới SHA-256 `bd6624a7…a95c`. Patch agent giữ nguyên `b9e83cd9…a0`.
+- Đã kiểm: `run.sh` 29/29, `test-local-restore.sh` (render thật và promtool) đạt, mutation bắt được lỗi, dry-run phía server. Chưa commit/push, chưa đổi Linear.
+
+### Codex retest Traefik — 18/10/2026, 15:54 +07:00
+
+**NOT READY, chưa triển khai.** [Review hiện hữu](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md): honorLabels/render và 29/29 test sạch đã đạt; còn TFM-04 (traffic probe phải qua các scrape), TFM-05 (lỗi đọc log Gaia đang thành PASS), TFM-06 (context rollback), kèm TFM-07 LOW (đường dẫn Python khi tắt MSYS conversion). Claude sửa cùng gói rồi trả Codex; không hỏi lại patch agent. Codex chỉ kiểm trên bản sao và ghi review/con trỏ, không triển khai hay đổi Linear/Git publication.
+
+### Sửa TFM-04–07 gói Traefik — 18/10/2026, 16:35 +07:00 (Claude)
+
+**Chờ Codex retest, chưa triển khai.** Chi tiết ở [traefik-migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/traefik-migration.md), mục 13.
+- TFM-04: check mới `consumers` (chạy cuối `ingress`/`all`): mỗi vòng 3 request lành, chờ một lần scrape chứa chúng; query agent chạy ngay sau lần scrape đã xác nhận thứ hai. Tối đa 4 vòng, 12 request.
+- TFM-05: không đọc được log Gaia (và log Traefik) là FAIL.
+- TFM-06: R1 là `setup-phase1.sh --component ingress --ingress-cluster-ip`, có guard và `--kube-context`; mọi lệnh mẫu mục 9–10 ghi rõ context.
+- TFM-07: `run.sh` đổi đường dẫn cho Python bằng `cygpath -m`.
+- Patch hạ tầng mới SHA-256 `03ab4a6c…f53f`. Patch agent giữ nguyên `b9e83cd9…a0`.
+- Đã kiểm trên cây round-trip: `run.sh` 32/32 ở môi trường sạch và khi tắt path conversion; `test-local-restore.sh` exit 0 (5 nhóm promtool); mutation cho từng finding đều làm test FAIL. Chưa commit/push, chưa đổi Linear.
+
+### Codex retest Traefik — 18/10/2026, 16:38 +07:00
+
+**READY cho triển khai theo mục 9, chưa phải runtime PASS hoặc ZER-35 Done.** [Review](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md): TFM-01–07 đã xử lý ở mức gói; Codex chạy độc lập 32/32 ở cả hai chế độ Git Bash, chart/render và năm nhóm promtool đều đạt. Infra SHA 03ab4a6c…ff53f, agent b9e83cd9…ca99a0. Claude triển khai tiếp theo trong quyền đã duyệt, không hỏi lại lựa chọn; giữ guard tài nguyên và bằng chứng cuối sau build rồi trả Codex review. Source thật và cluster chưa bị Codex thay đổi; chưa commit/push/merge hay đổi Linear.
+
+### Triển khai Traefik dừng ở bước 0 — 18/10/2026, 16:45 +07:00 (Claude)
+
+**Chưa áp patch, chưa đổi cluster.** Chi tiết ở [traefik-migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/traefik-migration.md), mục 14.
+- Đầu vào khớp Codex retest 16:38: HEAD, hai hash, 15 file gốc, apply-check. Docker context và khối S đạt. WSL MemAvailable 2,30 GiB, PSI 0,18.
+- Cổng RAM trống của host (≥ 1 GiB) không đạt ở cả 5 lần đo: 609–897 MiB. Pagefile đang dùng 2983 MB.
+- Mốc restart cho bước 8: từ 14:03, cartservice và paymentservice restart 1 lần, jmx-exporter của Kafka bị OOMKilled 2 lần, khi lab đang để yên.
+- Bước tiếp: Hoàng giải phóng RAM Windows. Sau đó Claude chạy lại mục 9 từ bước 0; không cần Codex review lại.
+
+### Triển khai Traefik đạt mục 9 — 18/10/2026, 17:27 +07:00 (Claude)
+
+**Đã triển khai, chờ Codex review runtime.** Chi tiết và output nguyên văn ở [traefik-migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/traefik-migration.md), mục 15.
+- Chạy lại từ bước 0 sau khi Hoàng giải phóng RAM. Host còn trống 3,2 GiB; WSL 2,31 GiB; PSI 0.
+- Đã áp hai patch (infra `03ab4a6c…`, agent `b9e83cd9…`). `run.sh` 32/32; `test-local-restore.sh` exit 0.
+- `frontend-external` chuyển sang ClusterIP. Traefik 42.0.0 (v3.7.14) giữ port 80/443; không cài CRD. Ingress của frontend, Nemesis và Hephaestus dùng class `traefik`.
+- Kiểm trước build: `--check ingress` exit 0. Gaia và Nemesis được build lại; mã trong pod trùng SHA-256 với source đã vá.
+- Kiểm cuối 2 phút sau rollout: `--check all` exit 3, chỉ có hai FAIL đã biết (frontend `/metrics` 404).
+- Restart chỉ khác ở các pod mới của lượt này, tất cả 0 restart. `jmx-exporter` của Kafka đã OOMKilled 3 lần từ trước bước 0.
+- Chưa commit/push, chưa đổi Linear; ZER-35 chưa Done.
+
+### Codex review runtime — 18/10/2026, 18:03–18:07 +07:00
+
+PASS riêng migration Traefik: mã trong pod/nhãn metrics/route/log khớp, patch đúng bản đã duyệt. [Review runtime](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/codex-review.md) gom LAB-01 JMX OOM, LAB-02 scrape frontend 404 và OBS-01 paymentservice restart mới lúc 18:01 (sau migration, nguyên nhân chưa biết). Claude xử lý trong scope, cập nhật kết luận lab-restoration còn cũ và trả kiểm cuối sau rollout; ZER-35 chưa được chấp nhận. Codex không mutation lab/Linear hay Git publication.
+
+### Bàn giao Codex thực hiện gói cuối — 18/10/2026, 18:52 +07:00
+
+Theo yêu cầu Hoàng, Codex nhận quyền ghi và đã sửa/triển khai JMX heap, scrape frontend 404, profile probe/CPU và lỗi Kafka consumer chặn event loop Nemesis; bổ sung recreate guard và CI regression. [Mục 12 của lab-restoration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/lab-restoration.md) giữ scope, từng lỗi, revision/hash, test và giới hạn. Kiểm cuối sau mọi rollout exit 0; 34 nhóm mock, 3 test consumer và real render/PromQL/quota đạt. 31 mẫu trong 15 phút 17 giây: không restart/thay pod ngoài dự kiến, Ready và 17 target đều đạt; JMX peak 141Mi; dữ liệu/PVC/quota giữ nguyên phạm vi.
+
+Đây là gói đã tự kiểm của người thực hiện, chờ review độc lập bản cuối và publication/merge/Hoàng chấp nhận trước Done. HEAD 1f43ff1461c2199bc99e9962483956c3df0fa975, staged rỗng; không commit/push/merge hoặc cập nhật Linear. GitNexus refresh vẫn timeout, không nhận index current; không attack/LLM/cloud/KPI chính thức.
+
+### Bàn giao publication — 18/10/2026
+
+Hoàng đã cấp quyền commit/PR sau verdict PASS của Claude cho delta CL-01–04 (20:50). Codex chuẩn bị gói Bash/restore/Traefik và các tài liệu/evidence liên quan trên nhánh `codex/zer-35-local-lab`, base main `1f43ff1461c2199bc99e9962483956c3df0fa975`; allowlist từng file và hash ở scratch/zer35-publication. Bản đã review được đối chiếu hash trước staging; NOW và ghi chú này chỉ bổ sung quyền publication/con trỏ phiên. Không đổi mã sau review hoặc chạy thêm lab.
+
+Kiểm đã có: 37/37 mock ở cả hai chế độ Bash, 18 kiểm render/PromQL/quota, 3/3 consumer, bốn mutant đều bị bắt; runtime integration và giới hạn ở mục 12 lab-restoration. CI remote phải đọc trên PR GitHub của nhánh này, chưa lấy PASS local làm PASS CI. Quyền publication bao gồm push nhánh để mở PR; chưa gồm merge, đóng Linear hoặc nghiệm thu. Sau publication, kiểm commit/CI trên GitHub rồi xử lý gate merge và Hoàng chấp nhận.

@@ -1,5 +1,7 @@
 # ZERO DOOR — D8. Phản hồi review Codex (C01–C05)
 
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
+
 **Trạng thái: COMPLETE — đã điền đủ C01–C05; chờ Codex review.**
 
 File bổ sung có liên kết cho [hydration gốc](2026-10-17-claude-code-hydration-handoff.md). File này trả lời các yêu cầu E3 (C01–C05), theo cách làm Codex ghi ở E5 và ở phần Codex cuối [báo cáo blockers](2026-10-17-claude-code-session-blockers.md). Đây không phải một bản hydration độc lập.

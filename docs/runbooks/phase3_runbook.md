@@ -205,8 +205,8 @@ rules:
 
 ### Bước 1: Chạy setup script tự động
 
-```powershell
-pwsh -ExecutionPolicy Bypass -File r:\_Projects\Eurus_Workspace\zero_door\infrastructure\scripts\setup-phase3.ps1
+```bash
+bash /r/_Projects/Eurus_Workspace/zero_door/infrastructure/scripts/setup-phase3.sh
 ```
 
 Script sẽ tự động:
@@ -220,15 +220,10 @@ Script sẽ tự động:
 
 Nếu muốn dùng OpenAI GPT thay vì Ollama:
 
-```powershell
-# Encode key thành base64
-$key = "sk-your-openai-key"
-[Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($key))
+Cấu hình credential/provider thuộc issue backend LLM; không paste key vào manifest hoặc Git. Script setup giữ `nemesis-secrets` đã tồn tại. Có thể kiểm tra tên Secret mà không đọc giá trị:
 
-# Paste kết quả vào nemesis-deployment.yaml, trường OPENAI_API_KEY
-# Đổi NEMESIS_LLM_PROVIDER thành "openai"
-# Redeploy:
-kubectl apply -f r:\_Projects\Eurus_Workspace\zero_door\infrastructure\manifests\nemesis-deployment.yaml
+```bash
+kubectl --context k3d-zero-door get secret nemesis-secrets -n zero-door -o name
 ```
 
 ---
@@ -237,8 +232,8 @@ kubectl apply -f r:\_Projects\Eurus_Workspace\zero_door\infrastructure\manifests
 
 ### 6.1. Kiểm tra pods running
 
-```powershell
-kubectl get pods -n zero-door -l phase=3
+```bash
+kubectl --context k3d-zero-door get pods -n zero-door -l phase=3
 # Expected:
 # chaos-worker-xxx   1/1   Running   0   ...
 # nemesis-xxx        1/1   Running   0   ...
@@ -246,14 +241,14 @@ kubectl get pods -n zero-door -l phase=3
 
 ### 6.2. Test Manual Attack — HTTP Flood
 
-```powershell
+```bash
 # Gửi lệnh tấn công HTTP Flood thủ công
-curl -X POST http://localhost:8080/nemesis/attack/trigger `
-  -H "Content-Type: application/json" `
+curl -X POST http://localhost:8080/nemesis/attack/trigger \
+  -H "Content-Type: application/json" \
   -d '{"attackType":"HTTP_FLOOD","targetService":"frontend","targetURL":"http://frontend.target-app.svc.cluster.local","durationSec":20,"intensity":"LOW","concurrency":5}'
 
 # Xem kết quả trong Kafka (trong pod Kafka):
-kubectl exec -n zero-door -it $(kubectl get pod -n zero-door -l app.kubernetes.io/name=kafka -o name | Select-Object -First 1) `
+kubectl --context k3d-zero-door exec -n zero-door -it $(kubectl --context k3d-zero-door get pod -n zero-door -l app.kubernetes.io/name=kafka -o name | sed -n '1,1p') \
   -- kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic attack.results --from-beginning
 ```
 
@@ -261,35 +256,35 @@ kubectl exec -n zero-door -it $(kubectl get pod -n zero-door -l app.kubernetes.i
 
 ### 6.3. Test CPU Stress Attack
 
-```powershell
-curl -X POST http://localhost:8080/nemesis/attack/trigger `
-  -H "Content-Type: application/json" `
+```bash
+curl -X POST http://localhost:8080/nemesis/attack/trigger \
+  -H "Content-Type: application/json" \
   -d '{"attackType":"CPU_STRESS","targetService":"frontend","durationSec":30,"intensity":"LOW"}'
 
 # Kiểm tra stress pod xuất hiện trong target-app:
-kubectl get pods -n target-app -l chaos-worker=true
+kubectl --context k3d-zero-door get pods -n target-app -l chaos-worker=true
 ```
 
 **Expected**: Pod `stress-<uuid>` xuất hiện → sau 30s tự bị xóa.
 
 ### 6.4. Test Pod Kill Attack
 
-```powershell
-curl -X POST http://localhost:8080/nemesis/attack/trigger `
-  -H "Content-Type: application/json" `
+```bash
+curl -X POST http://localhost:8080/nemesis/attack/trigger \
+  -H "Content-Type: application/json" \
   -d '{"attackType":"POD_KILL","targetService":"frontend","durationSec":1,"intensity":"LOW"}'
 
 # Xem pod bị kill và K8s tự tạo lại:
-kubectl get pods -n target-app -l app=frontend -w
+kubectl --context k3d-zero-door get pods -n target-app -l app=frontend -w
 ```
 
 **Expected**: Pod frontend bị xóa → Deployment controller tự tạo pod mới trong < 30s.
 
 ### 6.5. Test Blast Radius — Rejected Attack
 
-```powershell
-curl -X POST http://localhost:8080/nemesis/attack/trigger `
-  -H "Content-Type: application/json" `
+```bash
+curl -X POST http://localhost:8080/nemesis/attack/trigger \
+  -H "Content-Type: application/json" \
   -d '{"attackType":"POD_KILL","targetService":"kafka","targetNamespace":"zero-door","durationSec":10}'
 
 # Expected: HTTP 400 từ Nemesis (validation trước khi gửi Kafka)
@@ -297,7 +292,7 @@ curl -X POST http://localhost:8080/nemesis/attack/trigger `
 
 ### 6.6. Test LLM Attack Plan (nếu có LLM)
 
-```powershell
+```bash
 curl -X POST http://localhost:8080/nemesis/attack/llm-plan
 # Expected: JSON với commandId + plan từ LLM + command đã gửi Kafka
 ```

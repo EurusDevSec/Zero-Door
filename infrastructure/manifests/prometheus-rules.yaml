@@ -29,9 +29,11 @@ spec:
             summary: "High Memory usage on pod {{ $labels.pod }}"
             description: "Memory usage for container {{ $labels.container }} in pod {{ $labels.pod }} is above 80% of resource limit."
 
-        # Alert when HTTP 5xx rate > 5% for 15s (from nginx ingress)
+        # Alert when HTTP 5xx rate > 5% for 15s (from the Traefik ingress).
+        # Traefik names the backend target-app-<service>-<port>@kubernetes; label_replace restores <service>
+        # so {{ $labels.service }} stays the Kubernetes Service name, as with ingress-nginx.
         - alert: HighErrorRate
-          expr: sum(rate(nginx_ingress_controller_requests{status=~"5..", namespace="target-app"}[1m])) by (service) / sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[1m])) by (service) > 0.05
+          expr: 'sum(label_replace(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes", code=~"5.."}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (service) / sum(label_replace(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes"}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (service) > 0.05'
           for: 15s
           labels:
             severity: critical
@@ -49,9 +51,9 @@ spec:
             summary: "Pod {{ $labels.pod }} container {{ $labels.container }} is looping or crashing"
             description: "Pod {{ $labels.pod }} container {{ $labels.container }} restarted more than 3 times in 5 minutes."
 
-        # Alert when HTTP P99 latency > 1000ms for 30s (from nginx ingress)
+        # Alert when HTTP P99 latency > 1000ms for 30s (from the Traefik ingress; same buckets as ingress-nginx)
         - alert: HighLatency
-          expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{namespace="target-app"}[1m])) by (le, service)) > 1.0
+          expr: 'histogram_quantile(0.99, sum(label_replace(rate(traefik_service_request_duration_seconds_bucket{service=~"target-app-.+@kubernetes"}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (le, service)) > 1.0'
           for: 30s
           labels:
             severity: warning

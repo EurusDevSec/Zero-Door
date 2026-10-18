@@ -24,6 +24,28 @@ Mỗi milestone có gate nghiệm thu tích hợp. Issue có outcome riêng; ch�
 
 Không truy cập được Linear thì dùng AC snapshot có ngày và handoff tự đủ bối cảnh, ghi live state chưa xác minh. Snapshot không cấp quyền đóng issue hoặc thay AC hiện hành.
 
+## Phối hợp Codex–Claude theo gói kết quả
+
+Thống nhất với Hoàng ngày 18/10/2026: giảm bàn giao nhỏ, gom sửa và đo tiến độ bằng đầu ra đáp ứng AC. Mặc định Claude thực hiện, Codex review độc lập; Hoàng giữ quyết định phạm vi, chi phí, hành động có hệ quả và chấp nhận kết quả. Một bên ghi trên checkout tại một thời điểm; bên review dùng nguồn chỉ đọc hoặc bản sao riêng.
+
+### Một lượt làm việc
+
+1. **Khóa gói trước khi làm:** dùng issue/sub-issue có đầu ra kiểm chứng được; ghi ngắn AC, file/action scope, quyền đã có, điều kiện dừng và cách kiểm. Dự tính sớm lỗi ở các ranh giới liên quan như contract/nhãn, cửa sổ đo, tài nguyên, context, rollback và lỗi của chính probe. Chỉ đọc phần cần cho gói; không mở lại toàn bộ audit.
+2. **Claude làm xuyên suốt trong quyền đã giao:** triển khai, tự review, kiểm và sửa các lỗi liên quan trước khi bàn giao. Giữ checkpoint nội bộ theo phụ thuộc/tài nguyên; không dừng xin phép sau từng component hoặc sửa nhỏ đã được phép. Phần độc lập tiếp tục nếu một phần bị chặn. Việc triển khai/lab chỉ thực hiện khi có quyền tương ứng và qua gate đã chốt.
+3. **Bàn giao một gói đủ review:** revision hoặc patch/hash trên baseline dirty rõ ràng; danh sách thay đổi; AC → kiểm → kết quả; failure/UNKNOWN; quyết định thật sự còn thiếu và bước tiếp theo. Chưa đủ bằng chứng thì ghi PARTIAL, không chuyển thành yêu cầu reviewer ráp lại từng mẩu.
+4. **Codex review tập trung:** kiểm toàn bộ phạm vi đã nhận và consumer trực tiếp liên quan trước khi kết luận; gom finding vào một báo cáo theo mức độ, có vị trí, tình huống lỗi/bằng chứng và yêu cầu sửa. Phân biệt lỗi chặn AC/quyền/bảo toàn dữ liệu/tính đúng của phép đo với cải tiến không chặn. Ghi phần chưa review; không nhận review toàn gói khi mới kiểm một delta.
+5. **Claude sửa gom, Codex retest có trọng tâm:** xử lý cả danh sách finding và các lỗi cùng nguyên nhân trong một lượt; cập nhật artifact/hash rồi tự chạy kiểm liên quan trước khi trả. Codex kiểm delta sửa, các case từng lỗi và regression cần thiết; không chạy lại mọi kiểm đã đạt nếu không có thay đổi hoặc lý do mới. Nếu có triển khai được phép, lấy bằng chứng tích hợp cuối sau thay đổi/rollout cuối cùng.
+
+Mục tiêu là một lượt review tổng hợp → một lượt sửa gom → một lượt retest. Đây là mục tiêu giảm vòng lặp, không phải hạn mức để tự duyệt khi còn lỗi chặn. Nếu qua hai lượt sửa vẫn lặp cùng nguyên nhân, hai bên đối chiếu lại contract và cách kiểm trong ghi chú hiện hữu trước khi viết tiếp; không tiếp tục vá từng triệu chứng. Chỉ báo Hoàng khi có quyết định hoặc quyền thực sự còn thiếu.
+
+### Điều kiện dừng và mức kiểm vừa đủ
+
+- Chỉ ngắt gói để xử lý prerequisite thật, phát hiện rủi ro/guard bị vượt, cần quyền chưa có hoặc đổi scope/kiến trúc có hệ quả. Gom các câu hỏi độc lập còn thiếu thành một lần; không hỏi lại quyết định người dùng đã chốt.
+- Kiểm tỷ lệ với hành vi và rủi ro của thay đổi. Ưu tiên test/probe bắt được lỗi thực tế; không thêm framework, ma trận hay tài liệu chỉ để tăng số kiểm. Tách rõ offline/render/mock với runtime; lỗi CLI, thiếu dữ liệu và không lấy được bằng chứng không được báo PASS.
+- Cải tiến ngoài AC và lỗi không chặn chỉ ghi đề xuất theo dõi, không tự mở rộng gói hay tự tạo issue Linear. Lỗi làm sai kết quả nghiên cứu, vi phạm AC, quyền hoặc bảo toàn dữ liệu vẫn phải xử lý.
+- Dùng lại ghi chú issue và evidence hiện có, bổ sung phần sửa/retest ngắn; NOW chỉ trỏ bước tiếp theo. Không tạo một file handoff mới cho từng bước, không chép nhật ký công cụ vào nhiều nơi. Kết luận bàn giao nêu rõ đã đạt gì, còn chặn gì và bên nhận cần làm gì.
+- Quy trình này không cấp thêm quyền triển khai, gửi tin cho agent/người khác, sửa Linear, commit/push/merge hay chi tiền; không gỡ gate review hiện hành. Done vẫn theo mục bên dưới. Cập nhật quy trình không phải bằng chứng issue sản phẩm đã hoàn thành.
+
 ## Ready và workflow
 
 Ready khi outcome, scope, AC, quyết định bắt buộc, prerequisite, metadata và verification đủ rõ để thực hiện trong quyền hiện có. Catalogue đã đọc ở team ZER: Backlog, Todo, In Progress, In Review, Done, Canceled, Duplicate. `Todo` chỉ được dùng cho việc đã qua Ready gate; tên trạng thái không tự chứng minh đủ điều kiện. Không tạo status READY hoặc đổi workflow.

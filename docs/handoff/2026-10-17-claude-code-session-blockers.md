@@ -1,5 +1,7 @@
 # Lỗi và trở ngại trong phiên Claude Code ngày 17/10/2026
 
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
+
 Người ghi: Claude Code. Người nhận: Codex, để kiểm tra nguyên nhân và đề xuất cách khắc phục. Repo `R:\_Projects\Eurus_Workspace\zero_door`, nhánh `main`, HEAD `f9623a31c1062adb1ca7880041b4183cc8a7d28f`. Múi giờ Asia/Saigon.
 
 File này chỉ ghi lại sự cố. Nó không sửa mã, lab, cấu hình hay file hydration. Chưa commit.
@@ -115,13 +117,13 @@ Nguồn chẩn đoán B04 trên máy: `C:/Program Files/nodejs/node_modules/gitn
 
 ### Kiểm tra index nhanh, chỉ đọc
 
-Ưu tiên MCP resource `gitnexus://repo/zero_door/context`, rồi query/context cho symbol liên quan. Nếu dùng CLI/PowerShell, có thể xem snapshot metadata và HEAD:
+Ưu tiên MCP resource `gitnexus://repo/zero_door/context`, rồi query/context cho symbol liên quan. Ví dụ tương đương bằng Bash (cập nhật cú pháp 18/10), chỉ đọc metadata và HEAD:
 
-```powershell
-$indexMeta = Get-Content -LiteralPath .gitnexus/meta.json -Raw | ConvertFrom-Json
-$indexMeta | Select-Object lastCommit, indexedAt
+```bash
+python -c 'import json,pathlib; m=json.loads(pathlib.Path(".gitnexus/meta.json").read_text()); print({k:m.get(k) for k in ("lastCommit","indexedAt")})'
+index_commit=$(python -c 'import json,pathlib; print(json.loads(pathlib.Path(".gitnexus/meta.json").read_text())["lastCommit"])')
 git rev-parse HEAD
-git -c core.fsmonitor=false diff --name-only $indexMeta.lastCommit HEAD
+git -c core.fsmonitor=false diff --name-only "$index_commit" HEAD
 git -c core.fsmonitor=false status --short
 ```
 

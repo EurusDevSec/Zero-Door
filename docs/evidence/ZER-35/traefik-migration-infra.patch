@@ -1,0 +1,1262 @@
+--- a/infrastructure/helm-values/chart-versions.yaml
++++ b/infrastructure/helm-values/chart-versions.yaml
+@@ -6,5 +6,6 @@
+ kube-prometheus-stack: 92.10.1
+ # oci://registry-1.docker.io/bitnamicharts/kafka, OCI digest sha256:68ebd3eb…17c0
+ kafka: 29.3.2
+-# Upstream ingress-nginx is retired (03/2026). Controller choice is pending; see docs/evidence/ZER-35/ingress-preflight.md.
+-ingress-nginx:
++# https://traefik.github.io/charts, chart tgz sha256 a6ede324662ddcca0160a5ce639b7b5b9dd40a20a475e1101e9f95b5e5d83dd5; app v3.7.14; Kubernetes >=1.30
++# Replaces the retired ingress-nginx (03/2026); see docs/evidence/ZER-35/traefik-migration.md.
++traefik: 42.0.0
+--- /dev/null
++++ b/infrastructure/helm-values/traefik-values.yaml
+@@ -0,0 +1,112 @@
++# Traefik v3 for the local lab (chart traefik/traefik, version pinned in chart-versions.yaml).
++# Replaces the retired ingress-nginx; decision and evidence: docs/evidence/ZER-35/traefik-migration.md.
++# Installed by setup-phase1.sh --component ingress into kube-system with --skip-crds:
++# the Kubernetes CRD provider is off, so no traefik.io or hub.traefik.io CRD is created.
++
++deployment:
++  replicas: 1
++
++resources:
++  requests:
++    cpu: "50m"
++    memory: "64Mi"
++  limits:
++    cpu: "300m"
++    memory: "160Mi"
++
++global:
++  # No outbound version check or usage report from the lab.
++  checkNewVersion: false
++  sendAnonymousUsage: false
++
++# Ingress objects opt in with ingressClassName: traefik; Ingresses without a class are ignored.
++ingressClass:
++  enabled: true
++  isDefaultClass: false
++  name: traefik
++
++providers:
++  kubernetesCRD:
++    enabled: false
++  kubernetesIngress:
++    enabled: true
++    # Prefix /nemesis matches /nemesis and /nemesis/..., not /nemesisx (Kubernetes path-element semantics),
++    # the same set the former regex /nemesis(/|$)(.*) matched.
++    strictPrefixMatching: true
++  kubernetesGateway:
++    enabled: false
++  # Path rewrites for the agent dashboards, referenced from Ingress annotations as <name>@file.
++  # Same rewrite as the former nginx.ingress.kubernetes.io/rewrite-target: /$2.
++  file:
++    enabled: true
++    watch: false
++    content:
++      http:
++        middlewares:
++          nemesis-prefix:
++            replacePathRegex:
++              regex: "^/nemesis(/|$)(.*)"
++              replacement: "/$2"
++          hephaestus-prefix:
++            replacePathRegex:
++              regex: "^/hephaestus(/|$)(.*)"
++              replacement: "/$2"
++
++# No dashboard route; the API stays on the unexposed traefik entry point.
++ingressRoute:
++  dashboard:
++    enabled: false
++
++ports:
++  web:
++    # Untrusted X-Forwarded-* headers are replaced, never trusted: ClientHost in the access log is the
++    # TCP peer Traefik sees (see the source IP section of the migration evidence).
++    forwardedHeaders:
++      trustedIPs: []
++      insecure: false
++
++service:
++  spec:
++    # externalTrafficPolicy stays at the Kubernetes default (Cluster): Local cannot recover the Windows client IP,
++    # which the k3d serverlb proxy already drops, and would leave svclb listening on one node only.
++    # Rollback frees node port 80 with --set service.spec.type=ClusterIP (traefik-migration.md, rollback).
++    type: LoadBalancer
++
++# Traefik's own log in JSON as well, so Fluent Bit stores one format from this pod.
++log:
++  format: json
++  level: INFO
++
++accessLog:
++  enabled: true
++  format: json
++  fields:
++    defaultMode: keep
++    headers:
++      # Cookies and Authorization stay dropped.
++      defaultMode: drop
++      names:
++        User-Agent: keep
++        X-Forwarded-For: keep
++    queryParameters:
++      defaultMode: keep
++
++metrics:
++  prometheus:
++    entryPoint: metrics
++    addEntryPointsLabels: true
++    addServicesLabels: true
++    addRoutersLabels: false
++    # ingress-nginx defaults (Prometheus DefBuckets), so the P99 > 1s rule keeps its resolution;
++    # Traefik's own default 0.1,0.3,1.2,5 would interpolate 1s between 0.3 and 1.2.
++    buckets: "0.005,0.01,0.025,0.05,0.1,0.25,0.5,1,2.5,5,10"
++    service:
++      enabled: true
++    serviceMonitor:
++      enabled: true
++      interval: 15s
++      # Keep Traefik's backend label service=<ns>-<svc>-<port>@kubernetes. Without it the Operator's target
++      # label service=traefik-metrics wins and the backend moves to exported_service, so the rules and the
++      # Gaia/Nemesis queries (service=~"target-app-.+@kubernetes") would match nothing. Traefik exposes no
++      # job/namespace/pod/instance labels, so no other target label is overridden.
++      honorLabels: true
+--- a/infrastructure/helm-values/ingress-nginx-values.yaml
++++ /dev/null
+@@ -1,28 +0,0 @@
+-# ingress-nginx-values.yaml — Lean Local (16GB RAM laptop)
+-# ========================================================
+-# Cấu hình tối giản cho Nginx Ingress Controller trên local
+-# Giảm thiểu RAM và CPU request/limit để tránh OOM.
+-
+-controller:
+-  replicaCount: 1
+-  image:
+-    registry: docker.io
+-    image: dyrnq/ingress-nginx-controller
+-    tag: v1.15.1
+-    digest: ""
+-  resources:
+-    requests:
+-      cpu: "50m"
+-      memory: "90Mi"
+-    limits:
+-      cpu: "300m"
+-      memory: "150Mi"
+-  # Tối ưu hóa log và admission webhooks để tiết kiệm tài nguyên
+-  admissionWebhooks:
+-    enabled: false # Tắt webhook validation trên local để khởi động nhanh hơn
+-  config:
+-    log-format-escape-json: "true"
+-    enable-real-ip: "false"
+-  # Service type là LoadBalancer để nhận traffic từ K3d LoadBalancer
+-  service:
+-    type: LoadBalancer
+--- a/infrastructure/scripts/lib/common.sh
++++ b/infrastructure/scripts/lib/common.sh
+@@ -140,6 +140,31 @@
+     zd_kubectl wait --for=condition=Ready nodes --all --timeout=120s
+ }
+ 
++# Prints, as JSON {"gaia.error_rate_query": ..., ...}, the ingress PromQL that Gaia and Nemesis send,
++# read from their source, so probes and tests evaluate exactly what the agents query.
++zd_agent_queries() {
++    zd_python
++    "$ZD_PYTHON" - "$(zd_path "$ZD_ROOT/agent-orchestrator/gaia/main.py")" \
++        "$(zd_path "$ZD_ROOT/agent-orchestrator/nemesis/main.py")" <<'PY'
++import ast, json, sys
++found = {}
++for agent, path in (("gaia", sys.argv[1]), ("nemesis", sys.argv[2])):
++    for node in ast.walk(ast.parse(open(path, encoding="utf-8").read())):
++        if (isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
++                and node.targets[0].id in ("error_rate_query", "latency_query")
++                and isinstance(node.value, ast.Constant)):
++            found[f"{agent}.{node.targets[0].id}"] = node.value.value
++        if isinstance(node, ast.Dict):
++            for key, value in zip(node.keys, node.values):
++                if (isinstance(key, ast.Constant) and key.value in ("http_rps", "error_rate")
++                        and isinstance(value, ast.Constant)):
++                    found[f"{agent}.{key.value}"] = value.value
++wanted = {"gaia.error_rate_query", "gaia.latency_query", "nemesis.http_rps", "nemesis.error_rate"}
++if wanted - found.keys():
++    sys.exit("Agent query not found in source: " + ", ".join(sorted(wanted - found.keys())))
++print(json.dumps({name: found[name] for name in sorted(wanted)}))
++PY
++}
+ zd_apply_nemesis() {
+     local existing filtered result
+     # --ignore-not-found distinguishes absence from API/authentication failures.
+--- a/infrastructure/scripts/setup-phase1.sh
++++ b/infrastructure/scripts/setup-phase1.sh
+@@ -1,33 +1,33 @@
+ #!/usr/bin/env bash
+ set -euo pipefail
+ component=all
++ingress_service=LoadBalancer
+ while (( $# )); do
+     case $1 in
+         --help|-h)
+-            printf '%s\n' 'Usage: bash infrastructure/scripts/setup-phase1.sh [--component NAME]' \
++            printf '%s\n' 'Usage: bash infrastructure/scripts/setup-phase1.sh [--component NAME] [--ingress-cluster-ip]' \
+                 'NAME: cluster, namespaces, monitoring, kafka, ingress, logging, policies, all (default).' \
+                 'Mutates the local lab. Use individual components to measure resource growth.' \
+                 'all installs the legacy infrastructure; it does not deploy Boutique or agents.' \
++                'ingress installs Traefik into kube-system after monitoring (its values create a ServiceMonitor).' \
++                '--ingress-cluster-ip (with --component ingress only): rollback step R1 of traefik-migration.md;' \
++                '  upgrades the existing traefik release with Service type ClusterIP, which frees node port 80.' \
++                '  Never installs, uninstalls or deletes anything.' \
+                 'Chart versions come from helm-values/chart-versions.yaml; an empty pin blocks that component.'
+             exit 0 ;;
+         --component) [[ $# -ge 2 ]] || { printf 'Missing component\n' >&2; exit 2; }; component=$2; shift 2 ;;
++        --ingress-cluster-ip) ingress_service=ClusterIP; shift ;;
+         *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
+     esac
+ done
+ case $component in cluster|namespaces|monitoring|kafka|ingress|logging|policies|all) ;; *) printf 'Invalid component\n' >&2; exit 2 ;; esac
++[[ $ingress_service == LoadBalancer || $component == ingress ]] || { printf -- '--ingress-cluster-ip needs --component ingress\n' >&2; exit 2; }
+ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
+ # Versions are resolved before any install, so a missing pin stops the run instead of
+ # reaching Helm with an empty --version (which would mean "latest").
+ if [[ $component == all || $component == monitoring ]]; then prometheus_chart=$(zd_chart_version kube-prometheus-stack); fi
+ if [[ $component == all || $component == kafka ]]; then kafka_chart=$(zd_chart_version kafka); fi
+-ingress_chart=
+-if [[ $component == ingress ]]; then
+-    ingress_chart=$(zd_chart_version ingress-nginx)
+-elif [[ $component == all ]] && ! ingress_chart=$(zd_chart_version ingress-nginx 2>/dev/null); then
+-    # recreate-cluster.sh runs `all` after deleting the cluster; do not fail late on the pending controller choice.
+-    ingress_chart=
+-    zd_log 'WARNING: ingress-nginx is not pinned; all skips ingress (see docs/evidence/ZER-35/ingress-preflight.md).'
+-fi
++if [[ $component == all || $component == ingress ]]; then ingress_chart=$(zd_chart_version traefik); fi
+ if [[ $component == all || $component == cluster ]]; then zd_ensure_cluster; else zd_preflight; fi
+ [[ $component != cluster ]] || exit 0
+ if [[ $component == all || $component == namespaces ]]; then
+@@ -48,11 +48,19 @@
+     zd_helm upgrade --install kafka oci://registry-1.docker.io/bitnamicharts/kafka --version "$kafka_chart" \
+         -n zero-door -f "$(zd_path "$ZD_INFRA/helm-values/kafka-values.yaml")" --wait --timeout 8m
+ fi
+-if [[ -n $ingress_chart ]]; then
++if [[ $component == all || $component == ingress ]]; then
+     zd_require helm
+-    zd_helm upgrade --install ingress-nginx ingress-nginx \
+-        --repo https://kubernetes.github.io/ingress-nginx --version "$ingress_chart" -n kube-system \
+-        -f "$(zd_path "$ZD_INFRA/helm-values/ingress-nginx-values.yaml")" --wait --timeout 5m
++    # The values create a ServiceMonitor, so the monitoring component must have installed its CRD.
++    zd_kubectl get crd servicemonitors.monitoring.coreos.com >/dev/null
++    # --skip-crds: the CRD provider is disabled, so none of the chart's traefik.io/hub.traefik.io CRDs is needed.
++    traefik_release=(traefik traefik --repo https://traefik.github.io/charts --version "$ingress_chart" -n kube-system
++        --skip-crds -f "$(zd_path "$ZD_INFRA/helm-values/traefik-values.yaml")" --wait --timeout 5m)
++    if [[ $ingress_service == ClusterIP ]]; then
++        # Rollback R1: only one LoadBalancer Service can hold node port 80. Plain upgrade (no --install), release kept.
++        zd_helm upgrade "${traefik_release[@]}" --set service.spec.type=ClusterIP
++    else
++        zd_helm upgrade --install "${traefik_release[@]}"
++    fi
+ fi
+ if [[ $component == all || $component == logging ]]; then
+     zd_apply "$ZD_INFRA/logging/elasticsearch.yaml"
+--- a/infrastructure/scripts/setup-local-apps.sh
++++ b/infrastructure/scripts/setup-local-apps.sh
+@@ -9,7 +9,8 @@
+                 'no HPA, no load generator) with its ServiceMonitor/PrometheusRule, then builds Gaia,' \
+                 'imports it, restarts it and checks that the running pod uses the image just built.' \
+                 'Requires setup-phase1 namespaces + monitoring (CRDs); gaia also needs logging and kafka.' \
+-                'Does not apply the Ingress (controller pending), HPA, attacks or healing actions.'
++                'target also applies the frontend Ingress (class traefik, inert until setup-phase1 --component ingress).' \
++                'Does not apply HPA, attacks or healing actions.'
+             exit 0 ;;
+         --component) [[ $# -ge 2 ]] || { printf 'Missing component\n' >&2; exit 2; }; component=$2; shift 2 ;;
+         *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
+@@ -21,7 +22,7 @@
+ if [[ $component == all || $component == target ]]; then
+     # ServiceMonitor/PrometheusRule need the CRDs installed by the monitoring component.
+     zd_kubectl get crd servicemonitors.monitoring.coreos.com prometheusrules.monitoring.coreos.com >/dev/null
+-    for manifest in target-app target-app-addons target-app-monitor prometheus-rules; do
++    for manifest in target-app target-app-addons target-app-monitor prometheus-rules target-app-ingress; do
+         zd_apply "$ZD_INFRA/manifests/$manifest.yaml"
+     done
+     for deployment in currencyservice productcatalogservice checkoutservice cartservice redis-cart frontend \
+--- a/infrastructure/scripts/verify-local-lab.sh
++++ b/infrastructure/scripts/verify-local-lab.sh
+@@ -6,37 +6,83 @@
+     case $1 in
+         --help|-h)
+             printf '%s\n' 'Usage: bash infrastructure/scripts/verify-local-lab.sh [--check NAME] [--expect-open]' \
+-                'NAME: purchase, telemetry, logs, kafka, agents, policies, all (default).' \
++                'NAME: purchase, telemetry, logs, kafka, agents, policies, ingress, consumers, all (default).' \
+                 'Non-chaos probes of the local lab in k3d-zero-door:' \
+                 '  purchase  : home, product, add to cart, cart, checkout with demo data through a loopback tunnel' \
+                 '  telemetry : Prometheus ready, no down targets, cAdvisor CPU series for target-app' \
++                '              (frontend/frontend-external answering 404 are reported as known failures)' \
+                 '  logs      : a unique frontend request path reaches Elasticsearch via Fluent Bit' \
+                 '  kafka     : produce/consume a correlation ID on the separate topic zd.verify.restore' \
+-                '  agents    : GET /healthz of gaia, nemesis, hephaestus and chaos-worker rollout' \
++                '  agents    : GET /healthz of gaia, nemesis, hephaestus, chaos-worker rollout, and no Prometheus' \
++                '              query error in the Gaia log of the last 10 minutes (a log that cannot be read fails)' \
+                 '  policies  : a short-lived busybox pod in target-app must reach frontend but not Elasticsearch' \
+                 '              (--expect-open checks the same flow before network-policies.yaml is applied)' \
+-                'Never calls attack, heal, reset or LLM endpoints and never generates load.'
++                '  ingress   : host :8080 through Traefik (frontend, /nemesis and /hephaestus rewrites), the request' \
++                '              in the Traefik access log and Elasticsearch, a Traefik service counter in Prometheus,' \
++                '              and the client address Traefik records for the host and for an in-cluster pod;' \
++                '              the ServiceMonitor keeps the backend label (honorLabels); then the consumers check' \
++                '  consumers : rounds of 3 healthy GET /_healthz through host :8080, each followed by a Prometheus' \
++                '              scrape that holds them (at most 4 rounds, 12 requests); right after the second such' \
++                '              scrape the Gaia/Nemesis queries read from source must return frontend data above 0' \
++                '              (an empty 5xx numerator means "no 5xx yet"); no exported_* label on traefik_service_*' \
++                'Never calls attack, heal, reset or LLM endpoints and never generates load.' \
++                'Exit 0: every probe passed. Exit 3: the only failures are the known frontend /metrics 404 targets.' \
++                'Exit 1: any other failure (also when known failures are present).'
+             exit 0 ;;
+         --check) [[ $# -ge 2 ]] || { printf 'Missing check\n' >&2; exit 2; }; checks=$2; shift 2 ;;
+         --expect-open) expect_es=open; shift ;;
+         *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
+     esac
+ done
+-case $checks in purchase|telemetry|logs|kafka|agents|policies|all) ;; *) printf 'Invalid check\n' >&2; exit 2 ;; esac
++case $checks in purchase|telemetry|logs|kafka|agents|policies|ingress|consumers|all) ;; *) printf 'Invalid check\n' >&2; exit 2 ;; esac
+ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
+ zd_require curl
+ zd_preflight >/dev/null
+ run_id="zd$(date +%Y%m%d%H%M%S)$$"
+ failures=0
++known_failures=0
+ ok() { zd_log "PASS $1"; }
+ bad() { zd_log "FAIL $1"; failures=$((failures + 1)); }
++# A failure already recorded in the restoration evidence: it still counts, but is reported apart (exit 3).
++known() { zd_log "FAIL (known) $1"; failures=$((failures + 1)); known_failures=$((known_failures + 1)); }
+ want() { [[ $checks == all || $checks == "$1" ]]; }
+ # Read-only GET through the API server service proxy; no local tunnel needed.
+ proxy_get() { zd_kubectl get --raw "/api/v1/namespaces/$1/services/$2/proxy$3" --request-timeout=20s; }
+ python_json() { zd_python; "$ZD_PYTHON" -c "$1"; }
++urlencode() { zd_python; "$ZD_PYTHON" -c 'import sys,urllib.parse; print(urllib.parse.quote(sys.argv[1], safe=""))' "$1"; }
++# Instant query; prints the result vector as JSON lines {"labels": {...}, "value": "..."}.
++prom_query() {
++    proxy_get monitoring prometheus-operated:9090 "/api/v1/query?query=$(urlencode "$1")" |
++        python_json 'import json,sys
++for r in json.load(sys.stdin)["data"]["result"]:
++    m = r["metric"]; m.pop("__name__", None); print(json.dumps({"labels": m, "value": r["value"][1]}))'
++}
++es_ready=0
++es_tunnel() {
++    (( es_ready )) || { zd_forward monitoring elasticsearch 19200:9200; zd_wait_http http://127.0.0.1:19200/_cluster/health; es_ready=1; }
++}
++# Documents in zero-door-logs-* whose message contains the phrase, optionally limited to one container.
++es_count() {
++    local q="message:\"$1\""
++    [[ -z ${2:-} ]] || q="$q AND kubernetes.container_name:$2"
++    curl --silent --show-error --max-time 10 -G 'http://127.0.0.1:19200/zero-door-logs-*/_count' --data-urlencode "q=$q" |
++        python_json 'import json,sys; print(json.load(sys.stdin).get("count",0))' || printf 0
++}
++# Host path: 127.0.0.1:8080 -> k3d serverlb -> K3s servicelb -> Service kube-system/traefik:80 -> Ingress.
++lb=http://127.0.0.1:8080
++lbget() { curl --silent --show-error --max-time 10 -o "$(zd_path "$ZD_FORWARD_DIR/ingress.out")" -w '%{http_code}' "$@" || printf 000; }
++frontend_backend='service="target-app-frontend-80@kubernetes"'
++# First value of an instant query, or "absent".
++scalar() { prom_query "$1" | python_json 'import json,sys; v=[json.loads(l)["value"] for l in sys.stdin if l.strip()]; print(v[0] if v else "absent")'; }
++# True when $1 is a finite number above $2 ("absent" counts as below any value; NaN is never above).
++above() {
++    zd_python
++    "$ZD_PYTHON" -c 'import math,sys; a,b=sys.argv[1:3]; sys.exit(0 if a not in ("absent","") and math.isfinite(float(a)) and float(a) > (float(b) if b!="absent" else -1) else 1)' "$1" "$2"
++}
++want_consumers() { want consumers || want ingress; }
+ 
++if want purchase || want logs || want ingress || want consumers; then zd_forwards_init; fi
+ if want purchase || want logs; then
+-    zd_forwards_init
+     zd_forward target-app frontend 18080:80
+     zd_wait_http http://127.0.0.1:18080/_healthz
+     # curl is a native Windows binary under Git Bash and MSYS path conversion is off: convert host paths.
+@@ -77,9 +123,24 @@
+ 
+ if want telemetry; then
+     if [[ $(proxy_get monitoring prometheus-operated:9090 /-/ready) == *Ready* ]]; then ok 'Prometheus ready'; else bad 'Prometheus not ready'; fi
+-    down=$(proxy_get monitoring prometheus-operated:9090 '/api/v1/query?query=up==0' |
+-        python_json 'import json,sys; print(" ".join(sorted(r["metric"].get("job","?") for r in json.load(sys.stdin)["data"]["result"])))')
+-    [[ -z $down ]] && ok 'no scrape target is down' || bad "scrape targets down: $down"
++    # One "job<TAB>namespace<TAB>lastError" line per target whose last scrape failed.
++    down=$(proxy_get monitoring prometheus-operated:9090 '/api/v1/targets?state=active' |
++        python_json 'import json,sys
++for t in json.load(sys.stdin)["data"]["activeTargets"]:
++    if t.get("health") == "down":
++        l = t.get("labels", {})
++        print(l.get("job", "?"), l.get("namespace", "?"), " ".join((t.get("lastError") or "no error").split()), sep="\t")')
++    [[ -n $down ]] || ok 'no scrape target is down'
++    while IFS=$'\t' read -r job namespace error; do
++        [[ -n $job ]] || continue
++        # Frontend v0.10.5 serves no /metrics, so target-app-monitor.yaml's two targets answer 404 (evidence
++        # lab-restoration.md). Any other down target, or these two failing differently, is a new failure.
++        if [[ $namespace == target-app && ( $job == frontend || $job == frontend-external ) && $error == *'404'* ]]; then
++            known "scrape target $namespace/$job down: $error (frontend has no /metrics)"
++        else
++            bad "scrape target $namespace/$job down: $error"
++        fi
++    done <<<"$down"
+     kafka_up=$(proxy_get monitoring prometheus-operated:9090 '/api/v1/query?query=up%7Bjob%3D%22kafka-jmx-metrics%22%7D' |
+         python_json 'import json,sys; r=json.load(sys.stdin)["data"]["result"]; print(r[0]["value"][1] if r else "absent")')
+     [[ $kafka_up == 1 ]] && ok 'Kafka JMX metrics scraped' || bad "Kafka JMX target: $kafka_up"
+@@ -92,15 +153,13 @@
+ if want logs; then
+     # Elasticsearch queries go through a loopback tunnel: the API-server service proxy rejected
+     # every Elasticsearch URL with a query string during restoration (raw error in evidence).
+-    zd_forward monitoring elasticsearch 19200:9200
+-    zd_wait_http http://127.0.0.1:19200/_cluster/health
++    es_tunnel
+     sentinel="zd-log-sentinel-$run_id"
+     status "http://127.0.0.1:18080/$sentinel" >/dev/null || true
+     found=0
+     for (( attempt=1; attempt<=12; attempt++ )); do
+         sleep 5
+-        found=$(curl --silent --show-error --max-time 10 -G 'http://127.0.0.1:19200/zero-door-logs-*/_count'             --data-urlencode "q=message:\"$sentinel\"" |
+-            python_json 'import json,sys; print(json.load(sys.stdin).get("count",0))' || printf 0)
++        found=$(es_count "$sentinel")
+         (( found > 0 )) && break
+     done
+     (( found > 0 )) && ok "log sentinel $sentinel found in Elasticsearch ($found docs)" || bad "log sentinel $sentinel not found within 60s"
+@@ -138,6 +197,19 @@
+     else
+         bad 'chaos-worker rollout incomplete'
+     fi
++    # /healthz does not run any query; the polling loop logs these lines when Prometheus rejects or fails one.
++    # The log is read first and its exit checked: a log that cannot be read is a failure, not "no error".
++    if gaia_log=$(zd_kubectl logs deployment/gaia -n zero-door --since=10m 2>&1); then
++        gaia_errors=$({ grep -E 'Error querying Prometheus|Prometheus query returned status' <<<"$gaia_log" || [[ $? == 1 ]]; } | tail -3)
++        if [[ -z $gaia_errors ]]; then
++            ok 'Gaia log read; no Prometheus query error in the last 10 minutes'
++        else
++            bad "Gaia Prometheus query errors: ${gaia_errors//$'\n'/ | }"
++        fi
++    else
++        gaia_log=$(tail -2 <<<"$gaia_log")
++        bad "cannot read the Gaia log, query errors unknown: ${gaia_log//$'\n'/ | }"
++    fi
+ fi
+ 
+ if want policies; then
+@@ -158,5 +230,170 @@
+     fi
+ fi
+ 
+-zd_log "Run $run_id finished with $failures failure(s). PASS here is a probe result, not research acceptance."
+-(( failures == 0 ))
++if want ingress; then
++    if zd_kubectl rollout status deployment/traefik -n kube-system --timeout=30s >/dev/null; then
++        ok 'Traefik rollout complete'
++    else
++        bad 'Traefik rollout incomplete'
++    fi
++    # One access-log entry of the Traefik pod whose RequestPath contains $1, as "ClientHost ClientAddr RequestPath ServiceName status".
++    # A log that cannot be read is reported as such instead of "entry missing".
++    traefik_entry() {
++        local logs line= attempt
++        for (( attempt=1; attempt<=6; attempt++ )); do
++            logs=$(zd_kubectl logs deployment/traefik -n kube-system --since=3m 2>&1) ||
++                { printf 'cannot read the Traefik log: %s' "$(tail -1 <<<"$logs")"; return 1; }
++            line=$({ grep -F "$1" <<<"$logs" || [[ $? == 1 ]]; } | tail -1)
++            [[ -z $line ]] || break
++            sleep 2
++        done
++        [[ -n $line ]] || return 1
++        python_json 'import json,sys; d=json.loads(sys.stdin.read()); print(d.get("ClientHost"), d.get("ClientAddr"), d.get("RequestPath"), d.get("ServiceName"), d.get("DownstreamStatus"))' <<<"$line"
++    }
++    code=$(lbget "$lb/_healthz")
++    [[ $code == 200 ]] && ok "host :8080 frontend /_healthz HTTP $code" || bad "host :8080 frontend /_healthz HTTP $code"
++    for agent in nemesis hephaestus; do
++        code=$(lbget "$lb/$agent/healthz")
++        if [[ $code == 200 ]] && grep -q '"kafka_connected"' "$ZD_FORWARD_DIR/ingress.out"; then
++            ok "/$agent/healthz is rewritten to $agent /healthz"
++        else
++            bad "/$agent/healthz HTTP $code"
++        fi
++    done
++    # The encoded space shows whether RequestPath is logged raw or decoded; frontend answers 404, which is expected.
++    # 192.0.2.10 (TEST-NET-1) is a forged client header: untrusted X-Forwarded-For must not become ClientHost.
++    sentinel="zd-ingress-sentinel-$run_id"
++    lbget -H 'X-Forwarded-For: 192.0.2.10' "$lb/$sentinel%20probe?run=$run_id" >/dev/null
++    if entry=$(traefik_entry "$sentinel"); then
++        ok "Traefik access log (ClientHost ClientAddr RequestPath ServiceName status): $entry"
++        [[ $entry == *'@kubernetes'* ]] && ok 'host request was routed by the Kubernetes Ingress provider' ||
++            bad "host request was not served by an Ingress route: $entry"
++        [[ ${entry%% *} != *192.0.2.10* ]] && ok 'forged X-Forwarded-For is not recorded as ClientHost' ||
++            bad "forged X-Forwarded-For became ClientHost: ${entry%% *}"
++    else
++        bad "host request $sentinel is not in the Traefik access log${entry:+ ($entry)}"
++    fi
++    es_tunnel
++    found=0
++    for (( attempt=1; attempt<=12; attempt++ )); do
++        sleep 5
++        found=$(es_count "$sentinel" traefik)
++        (( found > 0 )) && break
++    done
++    (( found > 0 )) && ok "Traefik access log reached Elasticsearch ($found docs)" || bad "Traefik access log for $sentinel not in Elasticsearch within 60s"
++    # In-cluster client: Traefik should record the pod's own address (no SNAT on pod-to-Service traffic).
++    pod_sentinel="zd-ingress-pod-$run_id"
++    probe=$(zd_kubectl run "zd-ingress-probe-$$" -n target-app --rm -i --restart=Never --quiet \
++        --image=busybox:1.36 --pod-running-timeout=120s --command -- sh -c \
++        "sleep 3; wget -T 5 -qO /dev/null http://traefik.kube-system.svc.cluster.local/$pod_sentinel 2>/dev/null; echo \"PODIP \$(hostname -i)\"" \
++        2>&1 </dev/null || true)
++    pod_ip=$(grep -o -E 'PODIP [0-9.]+' <<<"$probe" | cut -d' ' -f2 || true)
++    if entry=$(traefik_entry "$pod_sentinel") && [[ -n $pod_ip && ${entry%% *} == "$pod_ip" ]]; then
++        ok "in-cluster client address preserved: pod $pod_ip, Traefik ClientHost ${entry%% *}"
++    else
++        bad "in-cluster client address: pod ${pod_ip:-unknown}, Traefik entry ${entry:-missing}"
++    fi
++    # Label contract: Traefik's backend must stay in service. Without honorLabels the Operator's target label
++    # service=traefik-metrics wins and the backend moves to exported_service, which every rule and agent query misses.
++    honor=$(zd_kubectl get servicemonitor traefik -n kube-system -o 'jsonpath={.spec.endpoints[*].honorLabels}' || true)
++    [[ $honor == true ]] && ok 'ServiceMonitor kube-system/traefik keeps backend labels (honorLabels: true)' ||
++        bad "ServiceMonitor kube-system/traefik honorLabels: '${honor:-unset}'"
++fi
++
++if want_consumers; then
++    # rate() and histogram_quantile() need two different samples inside the query window. Requests that all end
++    # before the first scrape of a new series, or traffic older than the window (e.g. after the Elasticsearch and
++    # pod waits above), leave rate 0 and P99 NaN although routing and scraping work. So this runs last, and each
++    # round sends 3 healthy requests and waits for a scrape that holds them; the agents' queries run right after
++    # the second such scrape, while both samples are inside Gaia's 1m window. Bounded: 4 rounds, 12 requests.
++    poll=${ZD_VERIFY_POLL:-5}
++    zd_python
++    # "requests histogram_count" of the frontend backend at the latest scrape ("absent" before its first request).
++    counts() {
++        printf '%s %s' "$(scalar "sum(traefik_service_requests_total{$frontend_backend})" || printf absent)" \
++            "$(scalar "sum(traefik_service_request_duration_seconds_count{$frontend_backend})" || printf absent)"
++    }
++    # 3 requests; prints the first non-200 status and fails.
++    batch() {
++        local i code
++        for (( i=1; i<=3; i++ )); do
++            code=$(lbget "$lb/_healthz")
++            [[ $code == 200 ]] || { printf '%s' "$code"; return 1; }
++        done
++    }
++    # Polls (at most 9 times, every $poll seconds) for a scrape with both counters above the sample in $1.
++    next_sample() {
++        local attempt
++        for (( attempt=1; attempt<=9; attempt++ )); do
++            sample=$(counts)
++            above "${sample% *}" "${1% *}" && above "${sample#* }" "${1#* }" && return 0
++            sleep "$poll"
++        done
++        return 1
++    }
++    frontend_value() { tr ' ' '\n' <<<"$1" | sed -n 's/^frontend=//p' | head -1; }
++    services() { prom_query "$1" | python_json 'import json,sys; print(" ".join(sorted(json.loads(l)["labels"].get("service","?")+"="+json.loads(l)["value"] for l in sys.stdin if l.strip())))'; }
++    # The agents' own PromQL, read from source; the build scripts already tied the running images to that source.
++    queries=$(zd_agent_queries)
++    agent_query() { "$ZD_PYTHON" -c 'import json,sys; print(json.loads(sys.argv[1])[sys.argv[2]])' "$queries" "$1"; }
++    # Gaia's error rate is "5xx by service / all by service": the denominator proves the backend metric exists,
++    # an empty numerator only means no 5xx in the window (healthy traffic is not expected to produce one).
++    error_query=$(agent_query gaia.error_rate_query)
++    latency_query=$(agent_query gaia.latency_query)
++    rps_query=$(agent_query nemesis.http_rps)
++    [[ $error_query == *' / '* ]] || bad 'Gaia error-rate query is not a ratio'
++    numerator=${error_query%% / *}
++    denominator=${error_query#* / }
++    previous=$(counts)
++    history=$previous
++    samples=0 sent=0 consumers=0 refused= backends= latency= rps=
++    for (( round=1; round<=4; round++ )); do
++        if ! refused=$(batch); then break; fi
++        sent=$((sent + 3))
++        next_sample "$previous" || break
++        previous=$sample
++        history="$history -> $sample"
++        samples=$((samples + 1))
++        (( samples >= 2 )) || continue
++        backends=$(services "$denominator" || true)
++        latency=$(services "$latency_query" || true)
++        rps=$(scalar "$rps_query" || printf absent)
++        if above "$(frontend_value "$backends")" 0 && above "$(frontend_value "$latency")" 0 && above "$rps" 0; then
++            consumers=1
++            break
++        fi
++    done
++    [[ -z $refused ]] || bad "healthy request GET $lb/_healthz answered HTTP $refused"
++    if (( samples >= 2 )); then
++        ok "frontend requests/histogram count across $samples confirmed scrapes ($sent requests): $history"
++    else
++        bad "frontend counters did not grow across two confirmed scrapes ($sent requests): $history"
++    fi
++    labels=$(proxy_get monitoring prometheus-operated:9090 \
++        "/api/v1/labels?match%5B%5D=$(urlencode '{__name__=~"traefik_service_.+"}')" |
++        python_json 'import json,sys; print(" ".join(sorted(json.load(sys.stdin)["data"])))' || true)
++    if [[ " $labels " == *' service '* && $labels != *exported_* ]]; then
++        ok "traefik_service_* label names: $labels"
++    else
++        bad "traefik_service_* label names: ${labels:-none} (backend must be in service, no exported_* label)"
++    fi
++    if (( consumers )); then
++        ok "Gaia error-rate denominator (1m) by service: $backends"
++        ok "Gaia P99 latency (1m) by service: $latency"
++        ok "Nemesis http_rps (2m): $rps"
++    elif (( samples >= 2 )); then
++        bad "agent queries lack frontend data after the confirmed scrapes: denominator '${backends:-}', latency '${latency:-}', Nemesis http_rps '${rps:-absent}'"
++    else
++        bad 'agent queries not evaluated: no two confirmed scrapes with fresh requests (rate would be 0, P99 NaN)'
++    fi
++    fives=$(services "$numerator" || true)
++    ratio=$(services "$error_query" || true)
++    nemesis_errors=$(scalar "$(agent_query nemesis.error_rate)" || printf absent)
++    ok "5xx in window: Gaia numerator '${fives:-none}', ratio '${ratio:-none}', Nemesis error_rate '$nemesis_errors' (empty = no 5xx)"
++fi
++
++zd_log "Run $run_id finished with $failures failure(s), $known_failures of them known (frontend /metrics 404)."
++zd_log 'PASS here is a probe result, not research acceptance.'
++(( failures > 0 )) || exit 0
++(( failures > known_failures )) || exit 3
++exit 1
+--- a/infrastructure/manifests/target-app.yaml
++++ b/infrastructure/manifests/target-app.yaml
+@@ -519,7 +519,9 @@
+   labels:
+     app: frontend
+ spec:
+-  type: LoadBalancer
++  # ClusterIP since the Traefik migration: as a K3s servicelb LoadBalancer it held node port 80,
++  # so host :8080 bypassed the ingress and Traefik's own LoadBalancer could not bind.
++  type: ClusterIP
+   selector:
+     app: frontend
+   ports:
+--- a/infrastructure/manifests/target-app-ingress.yaml
++++ b/infrastructure/manifests/target-app-ingress.yaml
+@@ -6,7 +6,8 @@
+   labels:
+     app: frontend
+ spec:
+-  ingressClassName: nginx
++  # Served by Traefik (helm-values/traefik-values.yaml); host port 8080 -> k3d LB -> Traefik :80.
++  ingressClassName: traefik
+   rules:
+     - http:
+         paths:
+--- a/infrastructure/manifests/nemesis-deployment.yaml
++++ b/infrastructure/manifests/nemesis-deployment.yaml
+@@ -132,15 +132,15 @@
+     app: nemesis
+     phase: "3"
+   annotations:
+-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+-    nginx.ingress.kubernetes.io/use-regex: "true"
++    # /nemesis/x -> /x, defined in traefik-values.yaml (file provider); replaces the nginx rewrite-target /$2.
++    traefik.ingress.kubernetes.io/router.middlewares: nemesis-prefix@file
+ spec:
+-  ingressClassName: nginx
++  ingressClassName: traefik
+   rules:
+     - http:
+         paths:
+-          - path: /nemesis(/|$)(.*)
+-            pathType: ImplementationSpecific
++          - path: /nemesis
++            pathType: Prefix
+             backend:
+               service:
+                 name: nemesis
+--- a/infrastructure/manifests/hephaestus-deployment.yaml
++++ b/infrastructure/manifests/hephaestus-deployment.yaml
+@@ -175,15 +175,15 @@
+     app: hephaestus
+     phase: "4"
+   annotations:
+-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+-    nginx.ingress.kubernetes.io/use-regex: "true"
++    # /hephaestus/x -> /x, defined in traefik-values.yaml (file provider); replaces the nginx rewrite-target /$2.
++    traefik.ingress.kubernetes.io/router.middlewares: hephaestus-prefix@file
+ spec:
+-  ingressClassName: nginx
++  ingressClassName: traefik
+   rules:
+     - http:
+         paths:
+-          - path: /hephaestus(/|$)(.*)
+-            pathType: ImplementationSpecific
++          - path: /hephaestus
++            pathType: Prefix
+             backend:
+               service:
+                 name: hephaestus
+--- a/infrastructure/manifests/prometheus-rules.yaml
++++ b/infrastructure/manifests/prometheus-rules.yaml
+@@ -29,9 +29,11 @@
+             summary: "High Memory usage on pod {{ $labels.pod }}"
+             description: "Memory usage for container {{ $labels.container }} in pod {{ $labels.pod }} is above 80% of resource limit."
+ 
+-        # Alert when HTTP 5xx rate > 5% for 15s (from nginx ingress)
++        # Alert when HTTP 5xx rate > 5% for 15s (from the Traefik ingress).
++        # Traefik names the backend target-app-<service>-<port>@kubernetes; label_replace restores <service>
++        # so {{ $labels.service }} stays the Kubernetes Service name, as with ingress-nginx.
+         - alert: HighErrorRate
+-          expr: sum(rate(nginx_ingress_controller_requests{status=~"5..", namespace="target-app"}[1m])) by (service) / sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[1m])) by (service) > 0.05
++          expr: 'sum(label_replace(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes", code=~"5.."}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (service) / sum(label_replace(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes"}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (service) > 0.05'
+           for: 15s
+           labels:
+             severity: critical
+@@ -49,9 +51,9 @@
+             summary: "Pod {{ $labels.pod }} container {{ $labels.container }} is looping or crashing"
+             description: "Pod {{ $labels.pod }} container {{ $labels.container }} restarted more than 3 times in 5 minutes."
+ 
+-        # Alert when HTTP P99 latency > 1000ms for 30s (from nginx ingress)
++        # Alert when HTTP P99 latency > 1000ms for 30s (from the Traefik ingress; same buckets as ingress-nginx)
+         - alert: HighLatency
+-          expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{namespace="target-app"}[1m])) by (le, service)) > 1.0
++          expr: 'histogram_quantile(0.99, sum(label_replace(rate(traefik_service_request_duration_seconds_bucket{service=~"target-app-.+@kubernetes"}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (le, service)) > 1.0'
+           for: 30s
+           labels:
+             severity: warning
+--- a/tests/shell/run.sh
++++ b/tests/shell/run.sh
+@@ -19,16 +19,22 @@
+ mkdir -p "$task_fixture/infrastructure/scripts/lib" "$task_fixture/infrastructure/manifests" \
+     "$task_fixture/infrastructure/helm-values" "$task_temp/bin" "$task_temp/home/.kube"
+ for script in start-demo rebuild-nemesis; do cp "$TASK_ROOT/$script.sh" "$task_fixture/"; done
+-for script in setup-phase1 setup-phase3 setup-phase4 setup-phase5 setup-local-apps recreate-cluster; do
++for script in setup-phase1 setup-phase3 setup-phase4 setup-phase5 setup-local-apps recreate-cluster verify-local-lab; do
+     cp "$TASK_ROOT/infrastructure/scripts/$script.sh" "$task_fixture/infrastructure/scripts/"
+ done
+ cp "$TASK_ROOT/infrastructure/scripts/lib/common.sh" "$task_fixture/infrastructure/scripts/lib/"
+ cp "$TASK_ROOT/infrastructure/manifests/nemesis-deployment.yaml" "$task_fixture/infrastructure/manifests/"
++# verify-local-lab.sh --check consumers reads the agents' PromQL from source (zd_agent_queries).
++for agent in gaia nemesis; do
++    mkdir -p "$task_fixture/agent-orchestrator/$agent"
++    cp "$TASK_ROOT/agent-orchestrator/$agent/main.py" "$task_fixture/agent-orchestrator/$agent/"
++done
+ task_versions="$task_fixture/infrastructure/helm-values/chart-versions.yaml"
+ cp "$TASK_ROOT/infrastructure/helm-values/chart-versions.yaml" "$task_temp/chart-versions.orig"
+ printf 'ORIGINAL KUBECONFIG\n' >"$task_temp/home/.kube/config"
+ export HOME="$task_temp/home"
+ export MOCK_LOG="$task_temp/commands.log" MOCK_PIDS="$task_temp/pids" MOCK_APPLIED="$task_temp/applied.yaml"
++export MOCK_SCRAPES="$task_temp/scrapes"
+ export PATH="$task_temp/bin:$PATH"
+ export MOCK_SECRET=present
+ unset KUBECONFIG
+@@ -50,9 +56,40 @@
+             *config\ view*cluster.server*) printf '%s' "${MOCK_SERVER:-https://127.0.0.1:7356}" ;;
+             *config\ view*clusters*) printf k3d-zero-door ;;
+             *config\ view*) printf 'apiVersion: v1\ncurrent-context: k3d-zero-door\n' ;;
++            # Prometheus through the API-server service proxy (verify-local-lab.sh --check telemetry).
++            *get\ --raw*/-/ready*) printf 'Prometheus Server is Ready.\n' ;;
++            *get\ --raw*/api/v1/targets*) printf '{"status":"success","data":{"activeTargets":[%s]}}' "${MOCK_TARGETS:-}" ;;
++            *get\ --raw*/api/v1/query*kafka*) printf '{"status":"success","data":{"result":[{"metric":{},"value":[0,"1"]}]}}' ;;
++            *get\ --raw*/api/v1/labels*) printf '{"status":"success","data":["__name__","code","method","protocol","service"]}' ;;
++            *get\ --raw*/proxy/healthz*) printf '{"status":"ok","kafka_connected":true}' ;;
++            # Agent queries: rate() has frontend data only once two scrapes differ (MOCK_CONSUMERS=stale: never).
++            *get\ --raw*/api/v1/query*rate%28*)
++                value=0.02
++                [[ ${MOCK_CONSUMERS:-} != stale && $(sort -u "$MOCK_SCRAPES" | wc -l) -ge 2 ]] || value=0
++                [[ $flat != *histogram_quantile* || $value != 0 ]] || value=NaN
++                printf '{"status":"success","data":{"result":[{"metric":{"service":"frontend"},"value":[0,"%s"]}]}}' "$value" ;;
++            # Frontend counters. scrape: a query sees the last scrape, then a scrape takes every request sent to
++            # host :8080 so far (no series before the first request). idle: a constant 3, as after an early burst.
++            *get\ --raw*/api/v1/query*traefik_service_request*)
++                if [[ ${MOCK_COUNTER:-} == idle ]]; then
++                    value=3
++                else
++                    value=$(tail -1 "$MOCK_SCRAPES")
++                    if [[ $flat == *requests_total* ]]; then
++                        sent=$(grep -c '^curl.*127\.0\.0\.1:8080' "$MOCK_LOG" || true)
++                        (( sent == 0 )) || printf '%s\n' "$sent" >>"$MOCK_SCRAPES"
++                    fi
++                fi
++                if [[ -n $value ]]; then
++                    printf '{"status":"success","data":{"result":[{"metric":{},"value":[0,"%s"]}]}}' "$value"
++                else
++                    printf '{"status":"success","data":{"result":[]}}'
++                fi ;;
++            *get\ --raw*/api/v1/query*) printf '{"status":"success","data":{"result":[{"metric":{},"value":[0,"9"]}]}}' ;;
+             *get\ deployment*go-template*) printf 'app=mock,' ;;
+             *get\ pods*go-template*) printf 'docker.io/library/mock@%s\n' "${MOCK_RUNNING_ID:-sha256:built}" ;;
+             *get\ secret*) [[ ${MOCK_SECRET:-} != present ]] || printf 'secret/nemesis-secrets\n' ;;
++            *logs\ deployment/gaia*) printf '%s\n' "${MOCK_GAIA_LOG:-INFO Gaia polling cycle complete}" ;;
+             *apply\ -f*)
+                 file=${@: -1}
+                 if command -v cygpath >/dev/null; then file=$(cygpath -u "$file"); fi
+@@ -87,7 +124,7 @@
+     helm)
+         printf 'helm-env cache=%s\n' "${HELM_CACHE_HOME:-unset}" >>"$MOCK_LOG"
+         [[ $flat == repo* || ${1:-} == --kube-context=k3d-zero-door ]] || exit 91 ;;
+-    curl) : ;;
++    curl) printf '%s' "${MOCK_HTTP_CODE:-}" ;;
+     *) exit 92 ;;
+ esac
+ MOCK
+@@ -96,8 +133,9 @@
+ pass() { printf 'PASS: %s\n' "$1"; }
+ fail() { printf 'FAIL: %s\n' "$1" >&2; cat "$task_temp/output" >&2 2>/dev/null || true; exit 1; }
+ reset_case() {
+-    : >"$MOCK_LOG"; : >"$MOCK_PIDS"; : >"$MOCK_APPLIED"
+-    unset MOCK_FAIL MOCK_SERVER MOCK_PORT_BUSY MOCK_BAD_JSON MOCK_CLUSTER_PRESENT MOCK_ALLOW_SYSTEM
++    : >"$MOCK_LOG"; : >"$MOCK_PIDS"; : >"$MOCK_APPLIED"; : >"$MOCK_SCRAPES"
++    unset MOCK_FAIL MOCK_SERVER MOCK_PORT_BUSY MOCK_BAD_JSON MOCK_CLUSTER_PRESENT MOCK_ALLOW_SYSTEM MOCK_TARGETS
++    unset MOCK_GAIA_LOG MOCK_HTTP_CODE MOCK_COUNTER MOCK_CONSUMERS ZD_VERIFY_POLL
+     unset MOCK_DOCKER_CONTEXT MOCK_RUNNING_ID MOCK_CONFIG_ID DOCKER_HOST ZD_DOCKER_CONTEXT
+     cp "$task_temp/chart-versions.orig" "$task_versions"
+     export MOCK_SECRET=present
+@@ -126,11 +164,11 @@
+ }
+ 
+ reset_case
+-for script in start-demo.sh rebuild-nemesis.sh infrastructure/scripts/{setup-phase1,setup-phase3,setup-phase4,setup-phase5,setup-local-apps,recreate-cluster}.sh; do
++for script in start-demo.sh rebuild-nemesis.sh infrastructure/scripts/{setup-phase1,setup-phase3,setup-phase4,setup-phase5,setup-local-apps,recreate-cluster,verify-local-lab}.sh; do
+     run_ok "$script" --help
+ done
+ [[ ! -s $MOCK_LOG ]] || fail '--help called an external CLI'
+-pass 'All eight --help paths have no CLI side effects, including a checkout path with spaces'
++pass 'All nine --help paths have no CLI side effects, including a checkout path with spaces'
+ 
+ reset_case
+ run_fail infrastructure/scripts/recreate-cluster.sh
+@@ -193,13 +231,12 @@
+ reset_case
+ run_ok infrastructure/scripts/recreate-cluster.sh --confirm-delete-zero-door
+ contains 'k3d <cluster> <delete> <zero-door>' "$MOCK_LOG"
+-contains 'all skips ingress' "$task_temp/output"
+-absent '<ingress-nginx>' "$MOCK_LOG"
++contains '<traefik> <traefik>' "$MOCK_LOG"
++absent 'ingress-nginx' "$MOCK_LOG"
+ absent '<delete> <other' "$MOCK_LOG"
+ pass 'Confirmed recreation targets only the named local cluster in the mock environment'
+ 
+ reset_case
+-printf 'ingress-nginx: 0.0.0-test\n' >>"$task_versions"
+ export MOCK_FAIL='helm --kube-context=k3d-zero-door upgrade'
+ run_fail infrastructure/scripts/setup-phase1.sh
+ contains '<kube-prometheus-stack>' "$MOCK_LOG"
+@@ -247,9 +284,43 @@
+ pass 'Charts install from pinned versions with checkout-local Helm state and no global repo edits'
+ 
+ reset_case
++run_ok infrastructure/scripts/setup-phase1.sh --component ingress
++contains '<upgrade> <--install> <traefik> <traefik> <--repo> <https://traefik.github.io/charts> <--version> <42.0.0> <-n> <kube-system> <--skip-crds>' "$MOCK_LOG"
++contains 'traefik-values.yaml>' "$MOCK_LOG"
++contains '<crd> <servicemonitors.monitoring.coreos.com>' "$MOCK_LOG"
++absent 'ingress-nginx' "$MOCK_LOG"
++absent '<kube-prometheus-stack>' "$MOCK_LOG"
++absent '<--set>' "$MOCK_LOG"
++pass 'Ingress installs the pinned Traefik chart into kube-system without CRDs or ingress-nginx'
++
++reset_case
++# Rollback R1 (traefik-migration.md): free node port 80 through the guarded wrapper, never through the user's
++# current kube-context or the global Helm cache, and never install or uninstall.
++run_ok infrastructure/scripts/setup-phase1.sh --component ingress --ingress-cluster-ip
++contains 'docker <context> <show>' "$MOCK_LOG"
++contains 'helm <--kube-context=k3d-zero-door> <upgrade> <traefik> <traefik> <--repo> <https://traefik.github.io/charts> <--version> <42.0.0> <-n> <kube-system> <--skip-crds>' "$MOCK_LOG"
++contains 'traefik-values.yaml> <--wait> <--timeout> <5m> <--set> <service.spec.type=ClusterIP>' "$MOCK_LOG"
++absent '<--install>' "$MOCK_LOG"
++absent '<uninstall>' "$MOCK_LOG"
++grep -F 'helm-env cache=' "$MOCK_LOG" | grep -Fq 'scratch/helm/cache' || fail 'Rollback Helm cache is not session-local'
++reset_case
++export MOCK_DOCKER_CONTEXT=remote-builder
++run_fail infrastructure/scripts/setup-phase1.sh --component ingress --ingress-cluster-ip
++absent 'helm' "$MOCK_LOG"
++reset_case
++run_fail infrastructure/scripts/setup-phase1.sh --component kafka --ingress-cluster-ip
++run_fail infrastructure/scripts/setup-phase1.sh --ingress-cluster-ip
++[[ ! -s $MOCK_LOG ]] || fail '--ingress-cluster-ip without --component ingress reached a CLI'
++pass 'Rollback R1 upgrades only release traefik to ClusterIP with the lab context, guard and local Helm cache'
++
++reset_case
++sed -i 's/^traefik:.*/traefik:/' "$task_versions"
+ run_fail infrastructure/scripts/setup-phase1.sh --component ingress
+-contains 'No pinned chart version for ingress-nginx' "$task_temp/output"
++contains 'No pinned chart version for traefik' "$task_temp/output"
+ [[ ! -s $MOCK_LOG ]] || fail 'Empty ingress pin reached a CLI'
++run_fail infrastructure/scripts/setup-phase1.sh
++absent 'k3d' "$MOCK_LOG"
++reset_case
+ sed -i 's/^kube-prometheus-stack:.*/kube-prometheus-stack:/' "$task_versions"
+ run_fail infrastructure/scripts/setup-phase1.sh --component monitoring
+ absent 'helm' "$MOCK_LOG"
+@@ -257,11 +328,10 @@
+ 
+ reset_case
+ run_ok infrastructure/scripts/setup-local-apps.sh --component target
+-for manifest in target-app target-app-addons target-app-monitor prometheus-rules; do contains "$manifest.yaml>" "$MOCK_LOG"; done
+-absent 'target-app-ingress' "$MOCK_LOG"
++for manifest in target-app target-app-addons target-app-monitor prometheus-rules target-app-ingress; do contains "$manifest.yaml>" "$MOCK_LOG"; done
+ absent 'target-app-hpa' "$MOCK_LOG"
+ contains '<deployment/paymentservice>' "$MOCK_LOG"
+-pass 'Baseline apps apply nine services and monitoring objects, without Ingress or HPA'
++pass 'Baseline apps apply nine services, monitoring objects and the Traefik Ingress, without HPA'
+ 
+ reset_case
+ run_ok infrastructure/scripts/setup-local-apps.sh --component gaia
+@@ -341,4 +411,91 @@
+     if kill -0 "$pid" 2>/dev/null; then fail 'Smoke left a forward running'; fi
+ done <"$MOCK_PIDS"
+ pass 'Explicit smoke passes the selected context, isolates CSV output and cleans up its forwards'
++
++# Exit code of a fixture script, without letting set -e stop the suite. case_timeout: slower cases (default 15s).
++run_code() { /usr/bin/timeout "${case_timeout:-15s}" bash "$task_fixture/$1" "${@:2}" >"$task_temp/output" 2>&1 && code=0 || code=$?; }
++target() { printf '{"health":"%s","labels":{"job":"%s","namespace":"%s"},"lastError":"%s"}' "$@"; }
++frontend_404="$(target down frontend target-app 'server returned HTTP status 404 Not Found'),$(target down frontend-external target-app 'server returned HTTP status 404 Not Found')"
++reset_case
++export MOCK_TARGETS="$(target up kafka-jmx-metrics zero-door ''),$frontend_404"
++run_code infrastructure/scripts/verify-local-lab.sh --check telemetry
++[[ $code == 3 ]] || fail "known frontend 404 targets should exit 3, got $code"
++contains 'FAIL (known) scrape target target-app/frontend down' "$task_temp/output"
++contains '2 failure(s), 2 of them known' "$task_temp/output"
++export MOCK_TARGETS="$frontend_404,$(target down cartservice target-app 'connection refused')"
++run_code infrastructure/scripts/verify-local-lab.sh --check telemetry
++[[ $code == 1 ]] || fail "a new down target next to the known ones should exit 1, got $code"
++contains 'FAIL scrape target target-app/cartservice down: connection refused' "$task_temp/output"
++export MOCK_TARGETS="$(target down frontend target-app 'context deadline exceeded')"
++run_code infrastructure/scripts/verify-local-lab.sh --check telemetry
++[[ $code == 1 ]] || fail "frontend failing with another error should exit 1, got $code"
++export MOCK_TARGETS="$(target up frontend target-app '')"
++run_code infrastructure/scripts/verify-local-lab.sh --check telemetry
++[[ $code == 0 ]] || fail "no down target should exit 0, got $code"
++pass 'Telemetry reports only the two frontend /metrics 404 targets as known (exit 3); any other failure exits 1'
++
++reset_case
++run_code infrastructure/scripts/verify-local-lab.sh --check agents
++[[ $code == 0 ]] || fail "a readable Gaia log without query errors should exit 0, got $code"
++contains 'PASS Gaia log read; no Prometheus query error' "$task_temp/output"
++export MOCK_GAIA_LOG='ERROR Error querying Prometheus: 400 bad_data'
++run_code infrastructure/scripts/verify-local-lab.sh --check agents
++[[ $code == 1 ]] || fail "a Gaia query error should exit 1, got $code"
++contains 'FAIL Gaia Prometheus query errors: ERROR Error querying Prometheus: 400 bad_data' "$task_temp/output"
++unset MOCK_GAIA_LOG
++export MOCK_FAIL='logs deployment/gaia'
++run_code infrastructure/scripts/verify-local-lab.sh --check agents
++[[ $code == 1 ]] || fail "a Gaia log that cannot be read should exit 1, got $code"
++contains 'FAIL cannot read the Gaia log, query errors unknown: Simulated failure' "$task_temp/output"
++absent 'PASS Gaia log' "$task_temp/output"
++pass 'Gaia log check: clean log passes, query errors fail, and a log that cannot be read fails instead of passing'
++
++# Order of host :8080 requests (C) and frontend counter reads (Q) in the mock log.
++sequence() { awk '/^curl.*127\.0\.0\.1:8080/ { printf "C" } /^kubectl.*traefik_service_requests_total/ && !/rate%28/ { printf "Q" }' "$MOCK_LOG"; }
++reset_case
++# Cold start: the series appears only with the first scrape after the first requests, so a single burst gives one
++# sample (rate 0, P99 NaN). The check must send more requests after that scrape and wait for the next one.
++# These cases get 90s: up to 4 rounds of mocked Prometheus polls, each parsed by a new Python process.
++export MOCK_HTTP_CODE=200 MOCK_COUNTER=scrape ZD_VERIFY_POLL=0
++case_timeout=90s run_code infrastructure/scripts/verify-local-lab.sh --check consumers
++[[ $code == 0 ]] || fail "two confirmed scrapes with fresh requests should exit 0, got $code"
++contains 'PASS frontend requests/histogram count across 2 confirmed scrapes (6 requests): absent absent -> 3 3 -> 6 6' "$task_temp/output"
++contains 'PASS Gaia P99 latency (1m) by service: frontend=0.02' "$task_temp/output"
++contains 'PASS Nemesis http_rps (2m): 0.02' "$task_temp/output"
++[[ $(sequence) == QCCCQQCCCQQ ]] || fail "requests must follow a confirmed scrape: $(sequence)"
++reset_case
++# Idle: the counter never moves after the requests (e.g. the burst ended before the series' first scrape).
++export MOCK_HTTP_CODE=200 MOCK_COUNTER=idle ZD_VERIFY_POLL=0
++case_timeout=90s run_code infrastructure/scripts/verify-local-lab.sh --check consumers
++[[ $code == 1 ]] || fail "counters that never grow should exit 1, got $code"
++contains 'FAIL frontend counters did not grow across two confirmed scrapes (3 requests): 3 3' "$task_temp/output"
++contains 'FAIL agent queries not evaluated' "$task_temp/output"
++absent 'PASS Nemesis http_rps' "$task_temp/output"
++reset_case
++# Counters grow but the queries never see frontend data: bounded at 4 rounds of 3 requests, then FAIL.
++export MOCK_HTTP_CODE=200 MOCK_COUNTER=scrape MOCK_CONSUMERS=stale ZD_VERIFY_POLL=0
++case_timeout=90s run_code infrastructure/scripts/verify-local-lab.sh --check consumers
++[[ $code == 1 ]] || fail "stale agent queries should exit 1, got $code"
++contains 'across 4 confirmed scrapes (12 requests)' "$task_temp/output"
++contains "FAIL agent queries lack frontend data after the confirmed scrapes: denominator 'frontend=0', latency 'frontend=NaN', Nemesis http_rps '0'" "$task_temp/output"
++[[ $(grep -c '^curl.*127\.0\.0\.1:8080' "$MOCK_LOG") == 12 ]] || fail 'consumer traffic exceeded 12 requests'
++reset_case
++export MOCK_HTTP_CODE=502 MOCK_COUNTER=scrape ZD_VERIFY_POLL=0
++case_timeout=90s run_code infrastructure/scripts/verify-local-lab.sh --check consumers
++[[ $code == 1 ]] || fail "a non-200 healthy request should exit 1, got $code"
++contains 'FAIL healthy request GET http://127.0.0.1:8080/_healthz answered HTTP 502' "$task_temp/output"
++pass 'Consumer gate: fresh requests across two confirmed scrapes; idle, stale or refused traffic never passes; at most 12 requests'
++
++reset_case
++# Label contract (TFM-01): without honorLabels the Operator's target label service=traefik-metrics replaces the
++# backend label every rule and agent query selects on. tests/shell/test-local-restore.sh checks the rendered chart.
++traefik_values="$TASK_ROOT/infrastructure/helm-values/traefik-values.yaml"
++# Python is a native Windows program under Git Bash: pass a host path whatever MSYS path conversion is set to.
++if command -v cygpath >/dev/null; then traefik_values=$(cygpath -m "$traefik_values"); fi
++"${PYTHON:-python}" - "$traefik_values" <<'PY' || fail 'traefik-values.yaml must set metrics.prometheus.serviceMonitor.honorLabels: true'
++import sys, yaml
++monitor = yaml.safe_load(open(sys.argv[1], encoding="utf-8"))["metrics"]["prometheus"]["serviceMonitor"]
++sys.exit(0 if monitor.get("enabled") is True and monitor.get("honorLabels") is True else 1)
++PY
++pass 'Traefik ServiceMonitor values keep the backend service label (honorLabels: true)'
+ printf 'All offline Bash behavioral checks passed. No real lab commands were used.\n'
+--- /dev/null
++++ b/tests/shell/test-local-restore.sh
+@@ -0,0 +1,203 @@
++#!/usr/bin/env bash
++# Real (non-mocked) regression for the Traefik ingress contract. Reads no cluster state and changes nothing:
++#   1. pinned chart: pull, SHA-256, render with the repo values; ServiceMonitor keeps backend labels
++#      (honorLabels), no CRD, file-provider rewrites, IngressClass, args; the port-80 rollback render.
++#   2. PromQL consumers: promtool evaluates the PrometheusRule alerts and the Gaia/Nemesis queries, read from
++#      source, on synthetic Traefik series (frontend, a hyphenated service, another namespace, 5xx, latency,
++#      healthy traffic without 5xx, and the exported_service shape a scrape without honorLabels would store),
++#      plus the consumer gate on a cold-start burst (one sample: never passes) and on two confirmed scrapes.
++set -euo pipefail
++case ${1:-} in
++    --help|-h)
++        printf '%s\n' 'Usage: bash tests/shell/test-local-restore.sh' \
++            'Needs helm, Python 3 with PyYAML, network access to https://traefik.github.io/charts, and promtool' \
++            '(on PATH or ZD_PROMTOOL; the Prometheus release the lab runs, 3.15.0). No kubectl, Docker or lab access.'
++        exit 0 ;;
++    '') ;;
++    *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
++esac
++source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)/infrastructure/scripts/lib/common.sh"
++zd_require helm
++zd_python
++promtool=${ZD_PROMTOOL:-$(command -v promtool || true)}
++[[ -n $promtool && -x $promtool ]] || zd_die 'promtool not found: put it on PATH or set ZD_PROMTOOL.'
++work=$(mktemp -d "$ZD_ROOT/scratch/restore-tests.XXXXXX")
++cleanup() { case $work in "$ZD_ROOT"/scratch/restore-tests.?*) rm -rf -- "$work" ;; esac; }
++trap cleanup EXIT
++failures=0
++pass() { printf 'PASS: %s\n' "$1"; }
++fail() { printf 'FAIL: %s\n' "$1" >&2; failures=$((failures + 1)); }
++
++# 1. Chart render contract.
++version=$(zd_chart_version traefik)
++expected=$(grep -B3 '^traefik:' "$ZD_INFRA/helm-values/chart-versions.yaml" | grep -o -E 'sha256 [0-9a-f]{64}' | cut -d' ' -f2 || true)
++[[ -n $expected ]] || zd_die 'chart-versions.yaml has no full sha256 comment above traefik.'
++zd_helm pull traefik --repo https://traefik.github.io/charts --version "$version" --destination "$(zd_path "$work")" >/dev/null
++tgz="$work/traefik-$version.tgz"
++actual=$(sha256sum "$tgz" | cut -d' ' -f1)
++if [[ $actual == "$expected" ]]; then pass "traefik $version chart SHA-256 matches chart-versions.yaml"; else fail "traefik chart SHA-256 $actual"; fi
++# Same flags as setup-phase1.sh; kube-version is the lab's K3s.
++render() {
++    zd_helm template traefik "$(zd_path "$tgz")" -n kube-system --kube-version 1.31.5 \
++        --api-versions monitoring.coreos.com/v1 --skip-crds \
++        -f "$(zd_path "$ZD_INFRA/helm-values/traefik-values.yaml")" "$@"
++}
++render >"$work/render.yaml"
++# Rollback step that frees node port 80 without removing the release (traefik-migration.md, rollback).
++render --set service.spec.type=ClusterIP >"$work/render-rollback.yaml"
++if ! "$ZD_PYTHON" - "$(zd_path "$work/render.yaml")" "$(zd_path "$work/render-rollback.yaml")" <<'PY'; then
++import sys, yaml
++failed = False
++def check(condition, message):
++    global failed
++    print(("PASS: " if condition else "FAIL: ") + message)
++    failed = failed or not condition
++def load(path):
++    docs = {}
++    for doc in yaml.safe_load_all(open(path, encoding="utf-8")):
++        if doc:
++            docs.setdefault(doc["kind"], []).append(doc)
++    return docs
++docs, rollback = load(sys.argv[1]), load(sys.argv[2])
++monitors = docs.get("ServiceMonitor", [])
++endpoints = monitors[0]["spec"]["endpoints"] if len(monitors) == 1 else []
++check(bool(endpoints) and all(e.get("honorLabels") is True for e in endpoints),
++      "ServiceMonitor keeps the Traefik backend label (honorLabels: true on every endpoint)")
++check("CustomResourceDefinition" not in docs, "render creates no CRD")
++classes = docs.get("IngressClass", [])
++check([c["metadata"]["name"] for c in classes] == ["traefik"]
++      and classes[0]["metadata"].get("annotations", {}).get("ingressclass.kubernetes.io/is-default-class") != "true",
++      "one IngressClass traefik, not the default class")
++files = [c for c in docs.get("ConfigMap", []) if c["metadata"]["name"] == "traefik-file-provider"]
++middlewares = yaml.safe_load(files[0]["data"]["config.yml"])["http"]["middlewares"] if files else {}
++check(all(middlewares.get(f"{n}-prefix", {}).get("replacePathRegex") == {"regex": f"^/{n}(/|$)(.*)", "replacement": "/$2"}
++          for n in ("nemesis", "hephaestus")), "file provider rewrites /nemesis and /hephaestus like rewrite-target /$2")
++args = docs["Deployment"][0]["spec"]["template"]["spec"]["containers"][0]["args"]
++for arg in ("--providers.kubernetesingress.strictPrefixMatching=true", "--accesslog.format=json",
++            "--metrics.prometheus.buckets=0.005,0.01,0.025,0.05,0.1,0.25,0.5,1,2.5,5,10",
++            "--metrics.prometheus.addServicesLabels=true", "--global.checkNewVersion=false"):
++    check(arg in args, f"Traefik arg {arg}")
++check(not any(a.startswith("--providers.kubernetescrd") for a in args), "Kubernetes CRD provider is off")
++service = [s for s in docs["Service"] if s["metadata"]["name"] == "traefik"][0]["spec"]
++check(service["type"] == "LoadBalancer" and [p["port"] for p in service["ports"]] == [80, 443],
++      "Service traefik is a LoadBalancer on ports 80/443 (k3d maps host 8080/8443)")
++back = [s for s in rollback["Service"] if s["metadata"]["name"] == "traefik"][0]["spec"]
++check(back["type"] == "ClusterIP" and "externalTrafficPolicy" not in back,
++      "rollback render: Service traefik becomes ClusterIP (frees node port 80), release kept")
++check(sorted(rollback) == sorted(docs), "rollback render keeps the same object kinds")
++sys.exit(1 if failed else 0)
++PY
++    fail 'chart render contract'
++fi
++
++# 2. PromQL consumers on synthetic series.
++queries=$(zd_agent_queries)
++"$ZD_PYTHON" - "$(zd_path "$ZD_INFRA/manifests/prometheus-rules.yaml")" "$queries" "$(zd_path "$work")" <<'PY'
++import json, pathlib, sys, yaml
++rule_crd, queries, out = sys.argv[1], json.loads(sys.argv[2]), pathlib.Path(sys.argv[3])
++groups = yaml.safe_load(open(rule_crd, encoding="utf-8"))["spec"]["groups"]
++(out / "rules.yaml").write_text(yaml.safe_dump({"groups": groups}, sort_keys=False), encoding="utf-8")
++numerator, denominator = queries["gaia.error_rate_query"].split(" / ")
++F, R = "target-app-frontend-80@kubernetes", "target-app-redis-cart-6379@kubernetes"
++N, X = "zero-door-nemesis-8000@kubernetes", "target-app-cartservice-7070@kubernetes"
++def requests(service, code, per_scrape, extra=""):
++    return {"series": f'traefik_service_requests_total{{service="{service}",code="{code}",method="GET",protocol="http"{extra}}}',
++            "values": f"1000+{per_scrape}x40"}
++def buckets(service, per_scrape_by_le, extra=""):
++    return [{"series": f'traefik_service_request_duration_seconds_bucket{{service="{service}",code="200",method="GET",protocol="http",le="{le}"{extra}}}',
++             "values": f"1000+{n}x40"} for le, n in per_scrape_by_le]
++exported = ',exported_service="%s"' % X
++# Scrape interval 15s, so per-scrape increments of 60/15/30 are 4, 1 and 2 requests per second.
++traffic = ([requests(F, "200", 60), requests(F, "503", 15), requests(R, "200", 30), requests(N, "500", 60),
++            requests("traefik-metrics", "500", 60, exported)]
++           + buckets(F, [("0.005", 0), ("0.1", 0), ("1", 0), ("2.5", 75), ("+Inf", 75)])
++           + buckets(R, [("0.005", 30), ("0.1", 30), ("1", 30), ("2.5", 30), ("+Inf", 30)])
++           + buckets("traefik-metrics", [("0.005", 0), ("+Inf", 60)], exported))
++def sample(value, **labels):
++    rendered = ",".join(f'{k}="{v}"' for k, v in labels.items())
++    return {"labels": "{" + rendered + "}", "value": value}
++# The consumer gate of verify-local-lab.sh: frontend value above 0 (NaN > bool 0 is 0, no sample stays no sample).
++def gate(expr):
++    return f"({expr}) > bool 0"
++def gate_exprs(expected):
++    return [(denominator, sample(expected, service="frontend")), (queries["gaia.latency_query"], sample(expected, service="frontend")),
++            (queries["nemesis.http_rps"], sample(expected))]
++annotations = {
++    "HighErrorRate": ("High HTTP 5xx error rate for service frontend", "HTTP 5xx error rate is above 5% on service frontend."),
++    "HighLatency": ("High latency on service frontend", "99th percentile of HTTP request duration for service frontend is above 1000ms."),
++}
++tests = [
++    {   # frontend 20% 5xx and P99 between 1s and 2.5s; redis-cart healthy; zero-door and exported_service ignored
++        "interval": "15s", "input_series": traffic,
++        "promql_expr_test": [
++            {"expr": queries["gaia.error_rate_query"], "eval_time": "5m", "exp_samples": [sample(0.2, service="frontend")]},
++            {"expr": denominator, "eval_time": "5m",
++             "exp_samples": [sample(5, service="frontend"), sample(2, service="redis-cart")]},
++            {"expr": queries["gaia.latency_query"], "eval_time": "5m",
++             "exp_samples": [sample(2.485, service="frontend"), sample(0.00495, service="redis-cart")]},
++            {"expr": queries["nemesis.http_rps"], "eval_time": "5m", "exp_samples": [sample(7)]},
++            {"expr": queries["nemesis.error_rate"], "eval_time": "5m", "exp_samples": [sample(1 / 7)]},
++        ],
++        "alert_rule_test": [
++            {"alertname": name, "eval_time": "5m", "exp_alerts": [
++                {"exp_labels": {"severity": severity, "service": "frontend"},
++                 "exp_annotations": {"summary": summary, "description": description}}]}
++            for name, severity, (summary, description) in
++            (("HighErrorRate", "critical", annotations["HighErrorRate"]), ("HighLatency", "warning", annotations["HighLatency"]))
++        ],
++    },
++    {   # healthy traffic: backend metric present, no 5xx series, so the ratio is empty, not zero
++        "interval": "15s", "input_series": [requests(F, "200", 60)] + buckets(F, [("0.005", 60), ("+Inf", 60)]),
++        "promql_expr_test": [
++            {"expr": denominator, "eval_time": "5m", "exp_samples": [sample(4, service="frontend")]},
++            {"expr": numerator, "eval_time": "5m", "exp_samples": []},
++            {"expr": queries["gaia.error_rate_query"], "eval_time": "5m", "exp_samples": []},
++            {"expr": queries["nemesis.http_rps"], "eval_time": "5m", "exp_samples": [sample(4)]},
++        ],
++        "alert_rule_test": [{"alertname": "HighErrorRate", "eval_time": "5m", "exp_alerts": []}],
++    },
++    {   # what a scrape without honorLabels stores: every consumer is blind (the TFM-01 failure mode)
++        "interval": "15s",
++        "input_series": [requests("traefik-metrics", "503", 60, ',exported_service="%s"' % F)]
++                        + buckets("traefik-metrics", [("0.005", 0), ("+Inf", 60)], ',exported_service="%s"' % F),
++        "promql_expr_test": [{"expr": queries[q], "eval_time": "5m", "exp_samples": []} for q in sorted(queries)]
++                            + [{"expr": denominator, "eval_time": "5m", "exp_samples": []}],
++        "alert_rule_test": [{"alertname": "HighErrorRate", "eval_time": "5m", "exp_alerts": []}],
++    },
++    {   # cold start: every request ended before the new series' first scrape, then idle. The counter is positive
++        # but never moves, so rate is 0 and P99 NaN at any time: the consumer gate must not pass on one sample.
++        "interval": "15s",
++        "input_series": [requests(F, "200", 0)] + buckets(F, [("0.005", 0), ("1", 0), ("+Inf", 0)]),
++        "promql_expr_test": [{"expr": gate(expr), "eval_time": t, "exp_samples": [exp]}
++                             for t in ("30s", "1m", "2m") for expr, exp in gate_exprs(0)],
++    },
++    {   # what verify-local-lab.sh --check consumers produces: 3 requests before the first scrape of the series (30s),
++        # 3 more after it, a second scrape (45s) and the queries right after (50s). 65s later, without new requests,
++        # Gaia's 1m window holds no increase again; Nemesis' 2m window still does.
++        "interval": "15s",
++        "input_series": [{"series": f'traefik_service_requests_total{{service="{F}",code="200",method="GET",protocol="http"}}',
++                          "values": "_ _ 3 6 6 6 6 6 6 6 6"}]
++                        + [{"series": f'traefik_service_request_duration_seconds_bucket{{service="{F}",code="200",method="GET",protocol="http",le="{le}"}}',
++                            "values": values} for le, values in (("0.005", "_ _ 0 0 0 0 0 0 0 0 0"),
++                                                                 ("1", "_ _ 3 6 6 6 6 6 6 6 6"), ("+Inf", "_ _ 3 6 6 6 6 6 6 6 6"))],
++        "promql_expr_test": [{"expr": gate(expr), "eval_time": "50s", "exp_samples": [exp]} for expr, exp in gate_exprs(1)]
++                            + [{"expr": gate(expr), "eval_time": "1m50s", "exp_samples": [exp]}
++                               for expr, exp in zip((denominator, queries["gaia.latency_query"], queries["nemesis.http_rps"]),
++                                                    (sample(0, service="frontend"), sample(0, service="frontend"), sample(1)))],
++    },
++]
++# fuzzy_compare: rate() of these exact counters returns e.g. 4.999999999999999 for 5.
++# evaluation_interval = scrape interval: promtool loads samples only up to its last evaluation step (default 1m),
++# so a query at 1m50s would otherwise not see the samples after 60s.
++(out / "traefik.test.yaml").write_text(
++    yaml.safe_dump({"rule_files": ["rules.yaml"], "evaluation_interval": "15s", "fuzzy_compare": True, "tests": tests},
++                   sort_keys=False),
++    encoding="utf-8")
++PY
++if (cd "$work" && "$promtool" test rules traefik.test.yaml); then
++    pass 'promtool: PrometheusRule alerts, Gaia/Nemesis queries and the consumer gate on synthetic Traefik series'
++else
++    fail 'promtool rule/query tests'
++fi
++(( failures == 0 )) || { printf '%d check group(s) failed.\n' "$failures" >&2; exit 1; }
++printf 'All real render and PromQL regression checks passed. No cluster command was used.\n'
+--- a/docs/runbooks/bash-tooling.md
++++ b/docs/runbooks/bash-tooling.md
+@@ -20,8 +20,8 @@
+ | `bash infrastructure/scripts/setup-phase3.sh` | Build/import/deploy worker và Nemesis | Giữ Secret đã có, không chạy `go mod tidy` hoặc attack |
+ | `bash infrastructure/scripts/setup-phase4.sh` | Build/import/deploy Hephaestus, kiểm tra rollout/RBAC | Không gọi healer để kiểm tra sức khỏe |
+ | `bash infrastructure/scripts/setup-phase5.sh` | HTTP health check và port-forward trong terminal | Mặc định không attack, không cài dependency |
+-| `bash infrastructure/scripts/setup-local-apps.sh` | Online Boutique nền (9 dịch vụ, 1 replica, không HPA/loadgenerator) cùng ServiceMonitor/PrometheusRule; build/import/restart Gaia và kiểm image ID | Cần namespaces + monitoring (CRD); Gaia cần thêm logging và Kafka. Không apply Ingress khi controller chưa chốt |
+-| `bash infrastructure/scripts/verify-local-lab.sh` | Probe không gây chaos: mua hàng mẫu, Prometheus/cAdvisor/Kafka JMX, log sentinel qua Elasticsearch, Kafka round-trip, `/healthz` agent, hiệu lực NetworkPolicy | Không gọi attack/heal/reset/LLM, không tạo tải. Tạo một pod busybox tạm (`--rm`) trong `target-app` cho check `policies` |
++| `bash infrastructure/scripts/setup-local-apps.sh` | Online Boutique nền (9 dịch vụ, 1 replica, không HPA/loadgenerator) cùng ServiceMonitor/PrometheusRule; build/import/restart Gaia và kiểm image ID | Cần namespaces + monitoring (CRD); Gaia cần thêm logging và Kafka. `target` apply cả Ingress frontend (class `traefik`); Ingress chỉ có hiệu lực sau `setup-phase1.sh --component ingress` |
++| `bash infrastructure/scripts/verify-local-lab.sh` | Probe không gây chaos: mua hàng mẫu, Prometheus/cAdvisor/Kafka JMX, log sentinel qua Elasticsearch, Kafka round-trip, `/healthz` agent, hiệu lực NetworkPolicy, đường host `:8080` qua Traefik (route, rewrite, access log, metric, IP nguồn), query consumer của agent | Không gọi attack/heal/reset/LLM, không tạo tải (check `consumers` gửi tối đa 12 request lành). Tạo một pod busybox tạm (`--rm`) trong `target-app` cho check `policies` |
+ | `bash infrastructure/scripts/recreate-cluster.sh --help` | Giải thích nhánh xóa cluster rồi cài lại hạ tầng | Chỉ xóa khi có cờ xác nhận riêng; mất dữ liệu cluster, không khôi phục app/agent/dữ liệu cũ |
+ 
+ `infrastructure/scripts/deploy.sh` đã là Bash cho máy cloud Linux; không thuộc luồng local. Chuyển đổi này không kiểm chứng hoặc cho phép triển khai cloud.
+@@ -68,7 +68,8 @@
+ 
+ - Version chart lấy từ một nguồn duy nhất: `infrastructure/helm-values/chart-versions.yaml` (kube-prometheus-stack 92.10.1, Kafka 29.3.2). Script cài chart bằng `--repo`/OCI kèm `--version`, không gọi `helm repo add/update`.
+ - Trạng thái Helm (cache, repo, registry) nằm trong `scratch/helm/` của checkout (đã gitignore), không sửa Helm của user. Đặt `ZD_HELM_HOME` nếu muốn thư mục khác.
+-- Thiếu pin thì component đó dừng trước preflight, không cài bản mới nhất. `ingress-nginx` đang để trống có chủ ý, chờ quyết định ở [ingress-preflight](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/ingress-preflight.md). `--component ingress` sẽ dừng; `all` bỏ qua ingress kèm cảnh báo.
++- Thiếu pin thì component đó dừng trước preflight, không cài bản mới nhất.
++- Ingress là Traefik (chart `traefik` 42.0.0, app v3.7.14), thay ingress-nginx đã dừng bảo trì; lý do và bằng chứng ở [traefik-migration](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/traefik-migration.md). `--component ingress` cài release `traefik` vào `kube-system` với `--skip-crds`, nên phải chạy sau `monitoring` (values tạo ServiceMonitor). Không tạo CRD `traefik.io`; rewrite `/nemesis` và `/hephaestus` nằm trong file provider của values.
+ 
+ ### Dựng lại lab nền từ cluster có sẵn (đã kiểm 18/10/2026)
+ 
+@@ -83,6 +84,8 @@
+ bash infrastructure/scripts/setup-local-apps.sh --component gaia
+ bash infrastructure/scripts/setup-phase3.sh
+ bash infrastructure/scripts/setup-phase4.sh
++# Bước ingress được thêm khi chuyển sang Traefik; kết quả chạy thật ghi trong traefik-migration.md
++bash infrastructure/scripts/setup-phase1.sh --component ingress
+ bash infrastructure/scripts/setup-phase1.sh --component policies
+ bash infrastructure/scripts/verify-local-lab.sh --check all
+ ```
+@@ -91,8 +94,24 @@
+ - **Build image (Gaia, phase3, phase4) khi không đo và tốt nhất trước khi Boutique chạy.** Lần dựng 18/10, build/import Gaia đẩy CPU PSI avg300 lên khoảng 9. emailservice trượt probe gRPC (timeout 1s) và bị kubelet restart một lần.
+ - Image tag `latest` được restart sau import; script so image ID của pod với image vừa build. Với Docker containerd image store, ID so khớp là config digest.
+ - Các entry point trên chạy lại an toàn: namespace/target báo `unchanged`; `--component kafka` chạy lại Job provisioning trong quota khi đã đủ agent. Kết quả `verify` là probe kỹ thuật, không phải kết quả nghiên cứu.
+-- Profile nền: không HPA, không loadgenerator, không recommendation/ad (frontend chỉ ghi warning, luồng mua hàng vẫn qua), chưa có Ingress. Boutique được kiểm qua port-forward loopback; đường Ingress chưa được kiểm.
++- Profile nền: không HPA, không loadgenerator, không recommendation/ad (frontend chỉ ghi warning, luồng mua hàng vẫn qua). Boutique được kiểm qua port-forward loopback; đường host `:8080` qua Traefik được kiểm riêng bằng `verify-local-lab.sh --check ingress`.
++- Sau migration, `frontend-external` là ClusterIP: nó không còn giữ port 80 của node, nên mọi request từ host `:8080` đi qua Traefik. Check `ingress` in ra `ClientHost` mà Traefik ghi cho request từ host và từ một pod; giới hạn IP nguồn được ghi trong evidence migration.
++- Check `consumers` (cũng chạy ở cuối `ingress` và `all`) kiểm metric Traefik và query của Gaia/Nemesis:
++  - Mỗi vòng gửi 3 request `GET /_healthz` lành qua `:8080`, rồi chờ một lần scrape có chứa chúng.
++  - Ngay sau lần scrape đã xác nhận thứ hai, query đọc từ source phải có giá trị `frontend` lớn hơn 0.
++  - Giới hạn: tối đa 4 vòng (12 request), mỗi vòng chờ tối đa 9 lần poll 5s.
++  - Lý do: `rate()` và P99 cần hai mẫu khác nhau trong cửa sổ 1m. Một loạt request kết thúc trước lần scrape đầu, hoặc đã cũ hơn cửa sổ, cho rate 0 và P99 NaN dù hệ khỏe.
++  - Chạy lại riêng (`--check consumers`) ngay trước khi đọc kết quả, nếu lượt trước đã để cửa sổ trôi qua.
++- Không đọc được log (Gaia ở `agents`, Traefik ở `ingress`) là FAIL, không bị coi là "không có lỗi".
++- Rollback port 80 (bước R1 của evidence migration) dùng `bash infrastructure/scripts/setup-phase1.sh --component ingress --ingress-cluster-ip`. Lệnh đi qua cùng guard Docker/context, `--kube-context k3d-zero-door` và Helm cache trong `scratch/`. Nó chỉ `helm upgrade` release `traefik` với Service ClusterIP, không install/uninstall.
+ - Frontend v0.10.5 không có `/metrics`, nên hai target `frontend` và `frontend-external` của `target-app-monitor.yaml` luôn down. Check telemetry báo FAIL có chủ ý, chờ quyết định giữ hay bỏ ServiceMonitor đó.
++- Exit code của `verify-local-lab.sh`:
++  - `0`: mọi probe đạt.
++  - `3`: chỉ còn đúng hai FAIL đã biết ở trên (dòng `FAIL (known)`: job `frontend`/`frontend-external`, namespace `target-app`, lỗi 404).
++  - `1`: có bất kỳ FAIL nào khác, kể cả khi đi kèm FAIL đã biết.
++
++  Đừng bỏ qua exit khác 0 một cách chung chung: chỉ chấp nhận `3`.
++- Kết quả cuối phải lấy từ lần `verify` chạy **sau** mọi build/rollout agent. Kết quả trước build chỉ dùng để chẩn đoán.
+ 
+ Hướng dẫn legacy cũ cho target/Gaia ([2026-10-09](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/2026-10-09-legacy-demo-restart.md)) chỉ còn giá trị lịch sử; dùng `setup-local-apps.sh`.
+ 
+@@ -129,4 +148,17 @@
+ bash tests/shell/run.sh
+ ```
+ 
+-Kiểm thử dùng CLI giả lập, không deploy hoặc gọi Docker thật. Xem [evidence chuyển đổi](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/bash-migration.md) để phân biệt kiểm tra cú pháp/mock với runtime rollout đầy đủ.
++Kiểm thử dùng CLI giả lập, không deploy hoặc gọi Docker thật.
++
++```bash
++ZD_PROMTOOL=/path/to/promtool bash tests/shell/test-local-restore.sh
++```
++
++`test-local-restore.sh` là regression thật cho hợp đồng ingress, không mock và không gọi cluster. Script:
++1. Tải chart Traefik đã pin, so SHA-256 với `chart-versions.yaml`.
++2. Render với values repo và kiểm: `honorLabels`, không CRD, rewrite, args, và bản render rollback Service ClusterIP.
++3. Dùng `promtool` (Prometheus 3.15.0, cùng bản lab) đánh giá PrometheusRule cùng query Gaia/Nemesis đọc từ source, trên series Traefik giả lập. Có cả cổng consumer: một loạt request trước lần scrape đầu không bao giờ đạt; hai lần scrape đã xác nhận thì đạt.
++
++`run.sh` và `test-local-restore.sh` phải đạt cả khi môi trường đặt sẵn `MSYS_NO_PATHCONV=1` và `MSYS2_ARG_CONV_EXCL=*`. Đường dẫn đưa cho chương trình native (Python, Helm) phải đổi qua `cygpath -m` / `zd_path`.
++
++Script cần mạng tới `traefik.github.io`, `helm` và PyYAML. Xem [evidence chuyển đổi](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-35/bash-migration.md) để phân biệt kiểm tra cú pháp/mock với runtime rollout đầy đủ.

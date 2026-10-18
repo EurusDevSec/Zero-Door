@@ -191,8 +191,9 @@ async def get_system_summary() -> str:
     queries = {
         "cpu_total": 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[2m]))',
         "mem_total_mb": 'sum(container_memory_working_set_bytes{namespace="target-app", container!=""})/1024/1024',
-        "http_rps": 'sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[2m]))',
-        "error_rate": 'sum(rate(nginx_ingress_controller_requests{status=~"5..", namespace="target-app"}[2m])) / sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[2m]))',
+        # Requests through the Traefik ingress to target-app backends (target-app-<service>-<port>@kubernetes)
+        "http_rps": 'sum(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes"}[2m]))',
+        "error_rate": 'sum(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes", code=~"5.."}[2m])) / sum(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes"}[2m]))',
     }
 
     try:
@@ -362,32 +363,57 @@ Remember to only target the 'target-app' namespace. Respond ONLY with valid JSON
 # ---- Attack result consumer loop ----
 
 async def consume_results_loop():
-    """Background task: consume attack results from Kafka and log them."""
+    """Keep blocking Kafka I/O off FastAPI's event loop, with one consumer owner."""
     logger.info("Starting Kafka results consumer loop...")
-    consumer = KafkaConsumer(
-        KAFKA_RESULTS_TOPIC,
-        bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS.split(","),
-        group_id=KAFKA_GROUP_ID,
-        auto_offset_reset="latest",
-        value_deserializer=lambda m: json.loads(m.decode("utf-8")),
-        consumer_timeout_ms=1000,
-    )
-    while True:
-        try:
-            for msg in consumer:
-                result = msg.value
-                status  = result.get("status", "UNKNOWN")
-                cmd_id  = result.get("commandId", "?")
-                atype   = result.get("attackType", "?")
-                dur_ms  = result.get("duration", 0)
-                details = result.get("details", {})
+    stop = threading.Event()
 
-                log_fn = logger.info if status == "SUCCESS" else logger.warning
-                log_fn(f"[RESULT] commandId={cmd_id} type={atype} status={status} "
-                       f"durationMs={dur_ms} details={details}")
-        except Exception as e:
-            logger.error(f"Error in results consumer: {e}")
-        await asyncio.sleep(1)
+    def run_consumer():
+        # KafkaConsumer is not thread-safe: construct, poll and close on this worker.
+        while not stop.is_set():
+            consumer = None
+            try:
+                consumer = KafkaConsumer(
+                    KAFKA_RESULTS_TOPIC,
+                    bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS.split(","),
+                    group_id=KAFKA_GROUP_ID,
+                    auto_offset_reset="latest",
+                    value_deserializer=lambda m: json.loads(m.decode("utf-8")),
+                    consumer_timeout_ms=1000,
+                )
+                while not stop.is_set():
+                    try:
+                        records = consumer.poll(timeout_ms=1000)
+                        for batch in records.values():
+                            for msg in batch:
+                                result = msg.value
+                                status = result.get("status", "UNKNOWN")
+                                cmd_id = result.get("commandId", "?")
+                                atype = result.get("attackType", "?")
+                                dur_ms = result.get("duration", 0)
+                                details = result.get("details", {})
+                                log_fn = logger.info if status == "SUCCESS" else logger.warning
+                                log_fn(f"[RESULT] commandId={cmd_id} type={atype} status={status} "
+                                       f"durationMs={dur_ms} details={details}")
+                    except Exception as e:
+                        logger.error(f"Error in results consumer: {e}")
+                        stop.wait(1)
+            except Exception as e:
+                logger.error(f"Failed to initialize results consumer: {e}")
+                stop.wait(1)
+            finally:
+                if consumer is not None:
+                    try:
+                        consumer.close()
+                    except Exception as e:
+                        logger.error(f"Error closing results consumer: {e}")
+
+    worker = asyncio.create_task(asyncio.to_thread(run_consumer))
+    try:
+        await asyncio.shield(worker)
+    finally:
+        stop.set()
+        # Do not close the consumer concurrently with an outstanding poll.
+        await worker
 
 
 # ---- FastAPI startup ----

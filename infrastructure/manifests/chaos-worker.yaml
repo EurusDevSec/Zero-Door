@@ -109,11 +109,9 @@ spec:
             limits:
               cpu: "200m"
               memory: "128Mi"
-          livenessProbe:
-            exec:
-              command: ["sh", "-c", "ps aux | grep chaos-worker | grep -v grep"]
-            initialDelaySeconds: 10
-            periodSeconds: 30
+          # No livenessProbe: the image is distroless (no sh/ps), so the former exec probe only
+          # errored every 30s and never detected anything. The worker exposes no HTTP endpoint;
+          # a crashed process is restarted by restartPolicy.
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

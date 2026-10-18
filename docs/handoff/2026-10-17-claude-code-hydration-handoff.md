@@ -1,5 +1,7 @@
 # ZERO DOOR — Bàn giao và kiểm tra hydration cho Claude Code
 
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
+
 Ngày giao: **17/10/2026**, múi giờ Asia/Saigon. Người giao: Hoàng qua Codex. Người tiếp nhận: Claude Code.
 
 **Trạng thái: HYDRATION ĐẠT sau review D8 — Codex: 19/20, 17/10/2026, HEAD f9623a3. Đủ tiếp nhận task hẹp; xem E6. Điểm D ban đầu 15/20 được giữ trong lịch sử.**

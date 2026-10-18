@@ -40,10 +40,18 @@ spec:
           value: "7000"
         - name: DISABLE_PROFILER
           value: "1"
+        startupProbe:
+          grpc:
+            port: 7000
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 24
         readinessProbe:
+          timeoutSeconds: 3
           grpc:
             port: 7000
         livenessProbe:
+          timeoutSeconds: 3
           grpc:
             port: 7000
         resources:
@@ -51,10 +59,9 @@ spec:
             cpu: 50m
             memory: 64Mi
           limits:
-            cpu: 200m
+            cpu: 400m
             memory: 256Mi
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -71,14 +78,12 @@ spec:
     port: 7000
     targetPort: 7000
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: target-app
   name: currencyservice
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -133,7 +138,6 @@ spec:
             cpu: 200m
             memory: 256Mi
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -150,14 +154,12 @@ spec:
     port: 3550
     targetPort: 3550
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: target-app
   name: productcatalogservice
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -221,7 +223,6 @@ spec:
               cpu: 200m
               memory: 256Mi
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -238,14 +239,12 @@ spec:
     port: 5050
     targetPort: 5050
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: target-app
   name: checkoutservice
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -301,7 +300,6 @@ spec:
           grpc:
             port: 7070
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -318,14 +316,12 @@ spec:
     port: 7070
     targetPort: 7070
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   namespace: target-app
   name: cartservice
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -381,7 +377,6 @@ spec:
       - name: redis-data
         emptyDir: {}
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -398,7 +393,6 @@ spec:
     port: 6379
     targetPort: 6379
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -493,7 +487,6 @@ spec:
               cpu: 200m
               memory: 256Mi
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -510,7 +503,6 @@ spec:
     port: 80
     targetPort: 8080
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -519,7 +511,9 @@ metadata:
   labels:
     app: frontend
 spec:
-  type: LoadBalancer
+  # ClusterIP since the Traefik migration: as a K3s servicelb LoadBalancer it held node port 80,
+  # so host :8080 bypassed the ingress and Traefik's own LoadBalancer could not bind.
+  type: ClusterIP
   selector:
     app: frontend
   ports:
@@ -527,7 +521,6 @@ spec:
     port: 80
     targetPort: 8080
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:

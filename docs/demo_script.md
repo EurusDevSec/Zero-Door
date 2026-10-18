@@ -6,29 +6,29 @@
 
 ## 🛠️ PHẦN 1: CHUẨN BỊ TRƯỚC DEMO (2 PHÚT)
 
-Nhờ việc tối ưu hóa hạ tầng qua **Nginx Ingress** và tự động hóa bằng PowerShell, bạn không cần gõ từng dòng lệnh port-forward thủ công nữa.
+Các port-forward của lab đã triển khai được quản lý trong một terminal Bash. Xem [hướng dẫn Bash](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md). Các lời thoại/KPI phía sau là nội dung demo lịch sử, cần thay bằng bằng chứng thực tế trước khi trình bày.
 
 ### 1. Khởi động Docker Desktop & Kiểm tra cụm K3d
 Đảm bảo Docker Desktop đang chạy. Mở Terminal và chạy:
-```powershell
+```bash
 # Kiểm tra trạng thái các node
-kubectl get nodes
-# Dự kiến: 3 nodes (1 server, 2 agents) trạng thái Ready
+kubectl --context k3d-zero-door get nodes
+# Cấu hình local hiện tại: 2 nodes (1 server, 1 agent) trạng thái Ready
 ```
 
 ### 2. Khởi động nhanh bằng Một Nút Bấm
 Chạy script tự động hóa trong thư mục gốc của dự án:
-```powershell
-.\start-demo.ps1
+```bash
+bash ./start-demo.sh
 ```
 **Script sẽ tự động thực hiện:**
-1. Quét và dọn sạch các tiến trình `kubectl port-forward` cũ bị kẹt.
+1. Kiểm tra đúng context `k3d-zero-door` và các service cần dùng; không dừng tiến trình cũ của project khác.
 2. Khởi tạo port-forward cho các cổng dịch vụ:
    - **`9092`**: Nemesis API & Dashboard.
    - **`9091`**: Hephaestus Defender REST API.
    - **`9090`**: Prometheus Observability.
 3. Không cần chạy port-forward cho `frontend` (Target App) vì nó đã được expose mặc định qua **Nginx Ingress** của cụm K3d trực tiếp trên cổng **`8080`** của host.
-4. Tự động mở trình duyệt vào trang **Zero Door Control Center Dashboard** (`http://localhost:9092/dashboard/`).
+4. Kiểm tra HTTP, in URL **Zero Door Control Center Dashboard** (`http://localhost:9092/dashboard/`). Giữ terminal mở; Ctrl+C dừng đúng các tunnel do script tạo. HTTP 200 chưa chứng minh LLM/Kafka hoặc vòng phục hồi hoạt động.
 
 ### 3. Các Tabs Trình Duyệt Cần Thiết
 | Tab | URL | Mục đích |
@@ -147,4 +147,4 @@ Chạy script tự động hóa trong thư mục gốc của dự án:
 |---|---|---|
 | Lỗi `exceeded quota: target-app-quota` khi chạy CPU stress | Quên chưa reset hệ thống, số Pod scale up chiếm hết hạn ngạch CPU của namespace (hạn ngạch là 3 cores). | Click ngay nút **`RESET SYSTEM (STEADY STATE)`**, đợi 10 giây cho các Pod cũ tắt đi rồi chạy lại attack. |
 | HTTP Flood vào backend service không tạo log | Backend service dùng gRPC cổng `3550` chứ không nhận cổng `80` (HTTP). | Chỉ dùng `HTTP_FLOOD` cho dịch vụ `frontend`. Đối với backend, hãy dùng `CPU_STRESS` hoặc `POD_KILL`. |
-| Port-forward bị sập | Tiến trình chạy ngầm bị Windows kill. | Chạy lại script một nút bấm: `.\start-demo.ps1` |
+| Port-forward bị sập | Tiến trình chạy ngầm bị Windows kill. | Chạy lại script một nút bấm: `bash ./start-demo.sh` |

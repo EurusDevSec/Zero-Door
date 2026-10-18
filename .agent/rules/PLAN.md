@@ -46,7 +46,7 @@
   - Auto-failover Gemini API keys retry, stress pod limit bump (1000m/512Mi), and dashboard polling (5s).
   - **SRE SLOs Monitor Card**: Displays real-time MTTD, MTTR, Uptime, and Heal Success Rate parsed dynamically from Hephaestus API history.
   - **Real-time Telemetry Line Chart (Chart.js)**: Displays rolling 60s CPU load of the selected service, changing to warning red during active stress/attacks and reverting to purple after healing.
-  - **rebuild-nemesis.ps1 script**: Automates no-cache rebuilding, importing to K3d, deployment rollouts, and automatic port-forward tunnel healing for smooth local runs.
+  - **rebuild-nemesis.sh script**: Automates no-cache rebuilding, importing to K3d, deployment rollouts, and an optional foreground port-forward after rollout (Ctrl+C stops its own tunnel).
 
 ### ✅ Phase 6: Automated CI/CD & DevOps Security Optimization — DONE (2026-07-11)
 - **CI/CD Pipeline Live**: Setup `.github/workflows/ci.yml` verifying Go Chaos Worker build, Python Agents compile syntax, and Helm manifests syntax.

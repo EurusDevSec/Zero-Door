@@ -362,10 +362,10 @@ Quy trình thử nghiệm hệ thống yêu cầu sự phối hợp nhịp nhàn
 
 ### 4.6.4. Các bước khởi động và phối hợp kiểm thử (How to Run & Test)
 Để chạy thử nghiệm khép kín trên môi trường cục bộ, người vận hành thực hiện quy trình sau:
-1.  **Khởi động các cổng kết nối ngầm (Port-Forward):** Thực thi script `start-demo.ps1` để tự động dọn dẹp các tiến trình cũ và mở luồng kết nối cho Dashboard (9092), Hephaestus (9091), Prometheus (9090) và Grafana (3000).
+1.  **Khởi động các cổng kết nối (Port-Forward):** Với lab đã triển khai, chạy `bash start-demo.sh` từ thư mục gốc. Bản Bash từ 18/10/2026 kiểm tra context `k3d-zero-door`, mở và giám sát kết nối cho Dashboard (9092), Hephaestus (9091), Prometheus (9090) và Grafana (3000) trong một terminal. Ctrl+C chỉ dừng các tunnel do lần chạy đó tạo. Các kiểm tra HTTP không thay thế kiểm chứng nghiệp vụ hoặc vòng phục hồi.
 
-    ![Hình Khởi động start-demo.ps1](image-23.png)
-    Hình 4.13: Quy trình khởi động và tự động cấu hình port-forward qua script start-demo.ps1
+    ![Hình khởi động script demo ở phiên bản cũ](image-23.png)
+    Hình 4.13: Ảnh phiên bản cũ dùng start-demo.ps1, trước chuyển đổi Bash. Cần chụp lại với start-demo.sh trong lượt kiểm chứng runtime mới; ảnh này không chứng minh script Bash đã được chạy trên lab đầy đủ.
 
 2.  **Kích hoạt War Game:** Trên Dashboard Zero-Door, người vận hành nhấn **Reset System** để đưa cụm về Steady-State (1 pod, xóa mọi IP block). Sau đó, chọn một dịch vụ (ví dụ: `cartservice`) và loại tấn công (ví dụ: `CPU_STRESS` mức `HIGH`), rồi bấm **Execute Attack**.
 3.  **Vòng lặp Closed-Loop tự động:**

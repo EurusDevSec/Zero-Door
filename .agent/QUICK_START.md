@@ -1,110 +1,50 @@
-# 🚀 QUICK_START.md — Agent Mới Đọc Đầu Tiên
-> *Đọc file này TRƯỚC, sau đó đọc CONTEXT.md, PLAN.md, LESSONS_LEARNED.md*
+# ZERO DOOR — Bắt đầu một phiên
 
----
+Điểm vào hiện hành: `docs/delivery/README.md` → `docs/delivery/NOW.md` → issue Linear và ghi chú kỹ thuật tương ứng. SCOPE giữ cam kết nghiên cứu; WORKFLOW giữ quy tắc phối hợp/QA. Các ghi chú tháng 7 chỉ là lịch sử, không chứng minh lab hay KPI hiện tại.
 
-## Bước 1 — Hiểu project trong 60 giây
+Dùng Bash (Git Bash trên Windows). Hướng dẫn đầy đủ: [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md).
 
-**Zero Door** = Hệ thống AI tự phòng thủ Kubernetes.
-- 3 agents Python: **Gaia** (detect) → **Hephaestus** (heal) ← **Nemesis** (attack)
-- Target: Google Online Boutique trên K3d local cluster
-- Phases 1–5 **XONG**. Phase 6 (Cloud) chưa bắt đầu.
+## Kiểm tra chỉ đọc
 
----
-
-## Bước 2 — Kiểm tra môi trường
-
-```powershell
-# 1. Docker Desktop phải đang chạy
-docker ps | Select-Object -First 3
-
-# 2. K3d cluster
-kubectl cluster-info
-kubectl get nodes
-
-# 3. Tất cả pods
-kubectl get pods -A --no-headers | Where-Object { $_ -notmatch "Running|Completed" }
-# Không có output = tất cả đang chạy tốt
-```
-
----
-
-## Bước 3 — Start Port Forwards (nếu cần làm experiments)
-
-```powershell
-# Chạy trong 3 terminal riêng hoặc background:
-kubectl port-forward svc/hephaestus 9091:8000 -n zero-door
-kubectl port-forward svc/nemesis 9092:8000 -n zero-door
-kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring
-
-# Verify:
-Invoke-RestMethod "http://localhost:9091/healthz"  # Hephaestus
-Invoke-RestMethod "http://localhost:9092/healthz"  # Nemesis
-```
-
----
-
-## Bước 4 — Git status
-
-```powershell
+```bash
+git status --short
 git log --oneline -5
-git status
+docker context show
+docker ps
+k3d cluster list
+kubectl --context k3d-zero-door get nodes --request-timeout=10s
+kubectl --context k3d-zero-door get pods -A
+docker stats --no-stream
 ```
 
----
+Xem READY, restart, Events và luồng nghiệp vụ; Running riêng lẻ chưa chứng minh hệ thống hoạt động. Lệnh lỗi không được coi là inventory rỗng.
 
-## Bước 5 — Đọc theo thứ tự
+## Mở dashboard của lab đã có
 
-1. `.agent/rules/PLAN.md` — Phase status & roadmap
-2. `.agent/rules/LESSONS_LEARNED.md` — Lỗi cần tránh (ĐỌC KỸ)
-3. `.agent/workflows/SESSION_MEMORY.md` — State hiện tại & Phase 6 checklist
-4. `docs/runbooks/phase5_runbook.md` — Kết quả experiments đầy đủ
-
----
-
-## Bước 6 — Nếu làm Phase 6
-
-Xem checklist tại `.agent/workflows/SESSION_MEMORY.md` → Section "Phase 6 Checklist"
-
-Tạo `docs/runbooks/phase6_runbook.md` tương tự format của phase5_runbook.md sau khi hoàn thành.
-
----
-
-## ⚡ Commands Hay Dùng
-
-```powershell
-# Rebuild agent sau khi sửa code
-docker build -t hephaestus:latest agent-orchestrator/hephaestus/
-k3d image import hephaestus:latest -c zero-door
-kubectl rollout restart deployment/hephaestus -n zero-door
-kubectl rollout status deployment/hephaestus -n zero-door --timeout=90s
-
-# Kill port-forwards cũ
-Get-Process kubectl | Stop-Process -Force; Start-Sleep 3
-
-# Reset experiment state
-Invoke-RestMethod "http://localhost:9091/experiment/reset" -Method POST
-
-# Run experiments
-$env:PYTHONIOENCODING="utf-8"; $env:PYTHONUTF8="1"
-python infrastructure/scripts/experiment_runner_direct.py --scenario ALL --mode BOTH --runs 5
-
-# Generate charts
-python infrastructure/scripts/analysis.py
-
-# Check Hephaestus heal history
-Invoke-RestMethod "http://localhost:9091/heal/history" | ConvertTo-Json -Depth 3
+```bash
+bash start-demo.sh
 ```
 
----
+Giữ terminal mở. Ctrl+C chỉ dừng tunnel do lần chạy này tạo. Cổng bận: dừng đúng terminal cũ hoặc tự kiểm tra tiến trình, không kill toàn bộ kubectl. Script không tạo cluster/deploy dịch vụ.
 
-## 🔴 JANGAN DILAKUKAN (Không được làm)
+## Các thao tác có thay đổi môi trường
 
-| ❌ Sai | ✅ Đúng |
-|--------|--------|
-| Thêm Java/Maven vào agents | Tất cả agents là Python FastAPI |
-| `go build -o chaos-worker` | `go build -o chaos-worker-bin` |
-| Port-forward Kafka | Dùng `/heal/trigger` REST API |
-| `requests.post(timeout=8)` cho `/heal/trigger` | Dùng background thread, timeout=180 |
-| `Path(__file__).parent.parent / "docs"` trong analysis.py | `.parent.parent.parent / "docs"` |
-| Quên gọi `/experiment/reset` trước run | Luôn reset trước mỗi run |
+Chỉ chạy khi issue/scope và người dùng đã cho phép tương ứng; các ví dụ không tự cấp quyền.
+
+```bash
+# Rebuild Nemesis, import image và rollout; không mở tunnel mới
+bash rebuild-nemesis.sh --no-forward
+
+# Health/HTTP port-forward phục vụ công cụ thực nghiệm; không tự chạy attack
+bash infrastructure/scripts/setup-phase5.sh
+```
+
+`--run-smoke` là lựa chọn riêng cho legacy E1; dữ liệu tách trong scratch, không phải dataset chính thức. Không tự chạy runner/reset/analysis để kiểm tra sức khỏe. LLM credential/provider/chi phí vẫn cần quyết định ở issue tương ứng.
+
+## Nguyên tắc
+
+- Python FastAPI cho các agent, Go cho worker; không thêm lại Java/Maven.
+- Mọi lệnh Kubernetes/Helm local phải chỉ rõ context ZERO DOOR.
+- Build lỗi hoặc rollout timeout là lỗi; không suy thành thành công từ dòng log DONE.
+- Direct runner/inject alert bỏ qua một phần vòng thật; không dùng làm bằng chứng Gaia phát hiện.
+- GitNexus hỗ trợ định vị; nguồn trực tiếp và runtime evidence mới quyết định kết luận.
