@@ -1,0 +1,112 @@
+# Traefik v3 for the local lab (chart traefik/traefik, version pinned in chart-versions.yaml).
+# Replaces the retired ingress-nginx; decision and evidence: docs/evidence/ZER-35/traefik-migration.md.
+# Installed by setup-phase1.sh --component ingress into kube-system with --skip-crds:
+# the Kubernetes CRD provider is off, so no traefik.io or hub.traefik.io CRD is created.
+
+deployment:
+  replicas: 1
+
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "300m"
+    memory: "160Mi"
+
+global:
+  # No outbound version check or usage report from the lab.
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+# Ingress objects opt in with ingressClassName: traefik; Ingresses without a class are ignored.
+ingressClass:
+  enabled: true
+  isDefaultClass: false
+  name: traefik
+
+providers:
+  kubernetesCRD:
+    enabled: false
+  kubernetesIngress:
+    enabled: true
+    # Prefix /nemesis matches /nemesis and /nemesis/..., not /nemesisx (Kubernetes path-element semantics),
+    # the same set the former regex /nemesis(/|$)(.*) matched.
+    strictPrefixMatching: true
+  kubernetesGateway:
+    enabled: false
+  # Path rewrites for the agent dashboards, referenced from Ingress annotations as <name>@file.
+  # Same rewrite as the former nginx.ingress.kubernetes.io/rewrite-target: /$2.
+  file:
+    enabled: true
+    watch: false
+    content:
+      http:
+        middlewares:
+          nemesis-prefix:
+            replacePathRegex:
+              regex: "^/nemesis(/|$)(.*)"
+              replacement: "/$2"
+          hephaestus-prefix:
+            replacePathRegex:
+              regex: "^/hephaestus(/|$)(.*)"
+              replacement: "/$2"
+
+# No dashboard route; the API stays on the unexposed traefik entry point.
+ingressRoute:
+  dashboard:
+    enabled: false
+
+ports:
+  web:
+    # Untrusted X-Forwarded-* headers are replaced, never trusted: ClientHost in the access log is the
+    # TCP peer Traefik sees (see the source IP section of the migration evidence).
+    forwardedHeaders:
+      trustedIPs: []
+      insecure: false
+
+service:
+  spec:
+    # externalTrafficPolicy stays at the Kubernetes default (Cluster): Local cannot recover the Windows client IP,
+    # which the k3d serverlb proxy already drops, and would leave svclb listening on one node only.
+    # Rollback frees node port 80 with --set service.spec.type=ClusterIP (traefik-migration.md, rollback).
+    type: LoadBalancer
+
+# Traefik's own log in JSON as well, so Fluent Bit stores one format from this pod.
+log:
+  format: json
+  level: INFO
+
+accessLog:
+  enabled: true
+  format: json
+  fields:
+    defaultMode: keep
+    headers:
+      # Cookies and Authorization stay dropped.
+      defaultMode: drop
+      names:
+        User-Agent: keep
+        X-Forwarded-For: keep
+    queryParameters:
+      defaultMode: keep
+
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    addRoutersLabels: false
+    # ingress-nginx defaults (Prometheus DefBuckets), so the P99 > 1s rule keeps its resolution;
+    # Traefik's own default 0.1,0.3,1.2,5 would interpolate 1s between 0.3 and 1.2.
+    buckets: "0.005,0.01,0.025,0.05,0.1,0.25,0.5,1,2.5,5,10"
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 15s
+      # Keep Traefik's backend label service=<ns>-<svc>-<port>@kubernetes. Without it the Operator's target
+      # label service=traefik-metrics wins and the backend moves to exported_service, so the rules and the
+      # Gaia/Nemesis queries (service=~"target-app-.+@kubernetes") would match nothing. Traefik exposes no
+      # job/namespace/pod/instance labels, so no other target label is overridden.
+      honorLabels: true

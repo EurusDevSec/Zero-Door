@@ -1,5 +1,7 @@
 # Tài liệu trước khi thống nhất cấu trúc
 
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
+
 Snapshot 17/10/2026, chỉ để truy vết. Nội dung từng file bên dưới được giữ nguyên văn; đường dẫn cũ tra organization.json. Không cập nhật tiến độ tại đây.
 
 

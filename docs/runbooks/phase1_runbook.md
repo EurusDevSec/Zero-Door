@@ -95,7 +95,7 @@ infrastructure/
 │   └── network-policies.yaml          # Network Policies bảo vệ monitoring
 │
 └── scripts/
-    └── setup-phase1.ps1               # Script tự động chạy toàn bộ Phase 1
+    └── setup-phase1.sh               # Script tự động chạy toàn bộ Phase 1
 ```
 
 ---
@@ -261,44 +261,44 @@ flowchart TD
 
 ### Bước 1: Kiểm tra Prerequisites
 
-```powershell
+```bash
 docker --version          # Cần Docker Desktop đang chạy
 k3d version               # Cần k3d CLI
-kubectl version --client   # Cần kubectl
+kubectl --context k3d-zero-door version --client   # Cần kubectl
 helm version              # Cần Helm 3.x
 ```
 
 ### Bước 2: Chạy Script Tự Động
 
-```powershell
-cd r:\_Projects\Eurus_Workspace\zero_door
-.\infrastructure\scripts\setup-phase1.ps1
+```bash
+cd /r/_Projects/Eurus_Workspace/zero_door
+bash ./infrastructure/scripts/setup-phase1.sh
 ```
 
 Script sẽ tự động thực hiện 12 bước (mất khoảng 5-10 phút lần đầu do pull Docker images).
 
 ### Bước 3: Verify Kết Quả
 
-```powershell
+```bash
 # Kiểm tra tất cả pods
-kubectl get pods -A
+kubectl --context k3d-zero-door get pods -A
 
 # Kiểm tra Ingress Controller
-kubectl get pods -n kube-system -l app.kubernetes.io/name=ingress-nginx
+kubectl --context k3d-zero-door get pods -n kube-system -l app.kubernetes.io/name=ingress-nginx
 
 # Kiểm tra Kafka topics
-kubectl exec -n zero-door kafka-controller-0 -- kafka-topics.sh --list --bootstrap-server localhost:9092
+kubectl --context k3d-zero-door exec -n zero-door kafka-controller-0 -- kafka-topics.sh --list --bootstrap-server localhost:9092
 
 # Truy cập Grafana
-kubectl port-forward svc/prometheus-grafana 3000:80 -n monitoring
+kubectl --context k3d-zero-door port-forward svc/prometheus-grafana 3000:80 -n monitoring
 # → Mở http://localhost:3000 (admin / zerodoor123)
 
 # Truy cập Prometheus
-kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090 -n monitoring
+kubectl --context k3d-zero-door port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090 -n monitoring
 # → Mở http://localhost:9090/targets
 
 # Kiểm tra Elasticsearch
-kubectl port-forward svc/elasticsearch 9200:9200 -n monitoring
+kubectl --context k3d-zero-door port-forward svc/elasticsearch 9200:9200 -n monitoring
 # → curl http://localhost:9200/_cat/health
 # → curl http://localhost:9200/_cat/indices
 ```
@@ -308,28 +308,28 @@ kubectl port-forward svc/elasticsearch 9200:9200 -n monitoring
 ## 5. Troubleshooting
 
 ### Pod bị Pending (không đủ resources)
-```powershell
-kubectl describe pod <pod-name> -n <namespace>
+```bash
+kubectl --context k3d-zero-door describe pod <pod-name> -n <namespace>
 # Tìm Events: "Insufficient memory" hoặc "Insufficient cpu"
 # → Giảm resource requests trong helm-values hoặc tăng ResourceQuota
 ```
 
 ### Kafka pod CrashLoopBackOff
-```powershell
-kubectl logs kafka-controller-0 -n zero-door
+```bash
+kubectl --context k3d-zero-door logs kafka-controller-0 -n zero-door
 # Thường do: PersistentVolume chưa sẵn sàng hoặc hết disk
-# → kubectl get pvc -n zero-door (kiểm tra PVC status = Bound)
+# → kubectl --context k3d-zero-door get pvc -n zero-door (kiểm tra PVC status = Bound)
 ```
 
 ### Elasticsearch OOMKilled
-```powershell
-kubectl describe pod elasticsearch-xxx -n monitoring
+```bash
+kubectl --context k3d-zero-door describe pod elasticsearch-xxx -n monitoring
 # → Tăng memory limit hoặc giảm ES_JAVA_OPTS heap
 ```
 
 ### Fluent Bit không gửi logs về Elasticsearch
-```powershell
-kubectl logs -l app=fluent-bit -n monitoring
+```bash
+kubectl --context k3d-zero-door logs -l app=fluent-bit -n monitoring
 # Kiểm tra: Elasticsearch service DNS có đúng không
 # → elasticsearch.monitoring.svc.cluster.local:9200
 ```
@@ -338,23 +338,22 @@ kubectl logs -l app=fluent-bit -n monitoring
 Khi máy tính Sleep hoặc Docker Engine khởi động lại, Docker có thể cấp phát lại dải IP khác cho các node K3d (ví dụ: IP server đổi từ `172.18.0.3` thành `172.18.0.4`). Tuy nhiên, chứng chỉ TLS của Kubelet được cache trên node cũ sẽ không trùng khớp, dẫn đến việc chạy các lệnh `kubectl exec` hoặc gọi API nội bộ cluster bị từ chối với lỗi:
 `tls: failed to verify certificate: x509: certificate is valid for ...`
 
-**👉 Giải pháp khắc phục triệt để:**
-Nhóm đã chuẩn bị sẵn một script tự động xóa sạch cluster cũ và dựng lại nhanh từ đầu (do Docker đã cache sẵn image nên chạy mất chưa đầy 3 phút):
-```powershell
-.\infrastructure\scripts\recreate-cluster.ps1
+Kiểm tra endpoint, cổng API và trạng thái cluster trước; lỗi TLS/kết nối không tự là lý do xóa dữ liệu. Nhánh dựng lại có thể làm mất dữ liệu cluster và chỉ cài lại hạ tầng, chưa khôi phục ứng dụng/agent. Đọc điều kiện và cờ xác nhận riêng trước khi cân nhắc:
+```bash
+bash ./infrastructure/scripts/recreate-cluster.sh --help
 ```
 
 ---
 
 ## 6. Cleanup (Khi cần xóa sạch)
 
-```powershell
+```bash
 # Xóa toàn bộ cluster (MẤT HẾT DỮ LIỆU)
 k3d cluster delete zero-door
 
 # Hoặc chỉ xóa workload, giữ cluster
-helm uninstall kafka -n zero-door
-helm uninstall prometheus -n monitoring
-kubectl delete -f infrastructure/logging/ -n monitoring
+helm --kube-context k3d-zero-door uninstall kafka -n zero-door
+helm --kube-context k3d-zero-door uninstall prometheus -n monitoring
+kubectl --context k3d-zero-door delete -f infrastructure/logging/ -n monitoring
 ```
 

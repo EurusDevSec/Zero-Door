@@ -3,9 +3,8 @@
 # Tối ưu tối đa: KRaft combined mode (1 pod duy nhất thay vì 2)
 # Tổng RAM Kafka: ~600-800MB thay vì 1.5GB
 #
-# Lệnh install:
-#   helm install kafka oci://registry-1.docker.io/bitnamicharts/kafka \
-#     -n zero-door -f kafka-values.yaml
+# Cài/cập nhật từ gốc repo qua renderer JMX bắt buộc:
+#   bash infrastructure/scripts/setup-phase1.sh --component kafka
 
 # ---- Global Image Overrides ----
 # Sử dụng repository legacy do chính sách phân phối mới của Bitnami (từ tháng 6/2026)
@@ -22,6 +21,9 @@ kraft:
 
 controller:
   replicaCount: 1
+  # Template 29.3.2 dùng coalesce(controller.heapOpts, heapOpts); default chart là 1024m > limit.
+  # Chừa ~384Mi cho metaspace, thread stack, direct buffer và page cache trong limit 768Mi.
+  heapOpts: "-Xmx384m -Xms384m"
   resources:
     requests:
       cpu: "100m"
@@ -48,8 +50,17 @@ listeners:
     protocol: PLAINTEXT
 
 # ---- 5 Topics tự động tạo ----
+# Job chạy theo hook post-install/post-upgrade; preset micro (256Mi request) cộng đủ agent
+# vượt requests.memory 1Gi của namespace, nên khai báo resource tường minh cho init và Job.
 provisioning:
   enabled: true
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      cpu: "300m"
+      memory: "384Mi"
   topics:
     - name: attack.commands
       partitions: 1
@@ -89,9 +100,44 @@ metrics:
       registry: docker.io
       repository: bitnamilegacy/jmx-exporter
       tag: 1.0.1-debian-12-r2
+    # Kafka 29.3.2 hard-codes MaxRAMPercentage=100. The repository postrenderer
+    # sets -Xms32m -Xmx128m inside this unchanged 256Mi limit.
+    # Use setup-phase1.sh (zd_kafka_renderer), not a bare Helm upgrade.
+    # Preset micro (250m/256Mi) không cần cho một exporter local; khai báo để admission có căn cứ.
+    resources:
+      requests:
+        cpu: "25m"
+        memory: "128Mi"
+      limits:
+        cpu: "200m"
+        memory: "256Mi"
+  # Chart 29.3.2 hardcodes path "/" in its ServiceMonitor; jmx-exporter 1.x serves an HTML page there
+  # and Prometheus 3 rejects text/html. The equivalent ServiceMonitor below scrapes /metrics instead.
   serviceMonitor:
-    enabled: true
-    namespace: monitoring
+    enabled: false
+
+extraDeploy:
+  - apiVersion: monitoring.coreos.com/v1
+    kind: ServiceMonitor
+    metadata:
+      name: kafka-jmx-metrics
+      namespace: monitoring
+      labels:
+        app.kubernetes.io/instance: kafka
+        app.kubernetes.io/name: kafka
+        app.kubernetes.io/component: metrics
+    spec:
+      selector:
+        matchLabels:
+          app.kubernetes.io/instance: kafka
+          app.kubernetes.io/name: kafka
+          app.kubernetes.io/component: metrics
+      namespaceSelector:
+        matchNames:
+          - zero-door
+      endpoints:
+        - port: http-metrics
+          path: /metrics
 
 # ---- Zookeeper tắt ----
 zookeeper:

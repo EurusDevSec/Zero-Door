@@ -1,5 +1,7 @@
 # Working in ZERO DOOR
 
+- Use Bash for all terminal commands and user instructions (Git Bash on Windows). Do not recommend PowerShell. Local entry points are `.sh`; read `docs/runbooks/bash-tooling.md` for usage, explicit context, Windows path handling and process ownership. Historical `.ps1` references describe old revisions, not runnable instructions.
+
 - Read `.agent/rules/CONTEXT.md` and `.agent/workflows/session_memory.md` for project context; verify their claims against current source and Git state.
 - Start current work with `docs/delivery/README.md`, then `docs/delivery/NOW.md`, the assigned Linear issue and its technical note under `docs/delivery/milestones/`. Read `docs/delivery/SCOPE.md` for user-confirmed commitments and `docs/delivery/WORKFLOW.md` for collaboration and QA/Done. Current units are Linear milestone / issue / sub-issue. Old plans and metadata live only in `docs/archive/planning/`; there are no parallel recovery/plans folders or redirect roadmap files.
 - Python/Go and Google Online Boutique are accepted; keep the original attack/healing/KPI commitments. `docs/archive/planning/research-plan.md` is the internal research plan, `docs/archive/planning/devops-plan.md` the later DevOps plan, and `docs/research/` the report. Read the linked user-supplied registration document or its attributed excerpt for original commitments; do not treat lower internal KPI targets or old completion notes as approval.
@@ -11,6 +13,7 @@
 - Issue notes hold technical requirements, file plans, verification and handoffs. Old status/owner/date tables are archived, not a live board. `NOW.md` is a session pointer. Preserve R*-T*-S* aliases only as provenance; verified Linear IDs are delivery identifiers after publication. Selective sub-issues live in Linear; do not create a Markdown mirror for each.
 - Read only the assigned issue and relevant references. Before implementation record actual HEAD/dirty state and an exact file/action scope, including new tests/probes; use one writer per checkout. Close work with verification/evidence, not merely a code change or elapsed due date.
 - End each work session with a technical handoff in the issue note; update live issue fields in Linear only within granted authority, and `NOW.md` only for checkpoint/next action. Code-changing issues require review, verification, merge and Hoang acceptance for Done; this does not authorize commit/push/merge. Do not mark legacy completion as runtime proof or operate lab/model/cloud merely because an item exists in tracking.
+- Follow the **Phối hợp Codex–Claude theo gói kết quả** section in `docs/delivery/WORKFLOW.md`: complete an authorized outcome-sized package, consolidate review findings and fixes, then retest affected behavior. Keep component checkpoints internal; do not hand off or ask permission after each small step already authorized. Preserve existing approval gates, one-writer ownership and the Definition of Done.
 
 ## Linear workspace routing
 

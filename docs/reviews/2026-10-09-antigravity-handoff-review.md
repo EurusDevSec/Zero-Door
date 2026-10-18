@@ -1,5 +1,7 @@
 # Đánh giá bản bàn giao Antigravity Gemini cho ZERO DOOR
 
+> Cập nhật công cụ 18/10/2026: tên script `.ps1`, số dòng và hành vi được ghi dưới đây thuộc revision cũ, trước chuyển đổi Bash. Không quy các nhận xét đó cho script `.sh` mới. Vận hành hiện tại theo [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md); mã cũ tra Git revision `1f43ff1461c2199bc99e9962483956c3df0fa975`.
+
 Ngày đánh giá: 2026-10-09. Reviewer: Codex. Baseline Git: 6337b319b075bf389d484a6be13a4bc094f94a82.
 
 Bản được đánh giá: [Gemini context handoff](R:/_Projects/Eurus_Workspace/zero_door/docs/handoff/2026-10-09-antigravity-gemini-context-handoff.md). Tiêu chí: [yêu cầu bàn giao](R:/_Projects/Eurus_Workspace/zero_door/docs/handoff/2026-10-09-antigravity-gemini-handoff-request.md). Đã đọc cả file bàn giao 466 dòng và phần trả lời Gemini do Hoàng dán.
@@ -71,7 +73,7 @@ Không kiểm tra tài khoản cloud và không chạy LLM/benchmark trong lư�
 
 Vị trí: handoff dòng 64, 371, 406.
 
-Roadmap trước đó ghi truy vấn tên container K3d không trả container; handoff đổi thành “container dừng/exited hoặc chưa start”. Đây là suy luận cần kiểm tra, không phải dữ kiện tương đương. [rebuild-nemesis.ps1](R:/_Projects/Eurus_Workspace/zero_door/rebuild-nemesis.ps1:14) build/import image và rollout Nemesis; script không tạo lại cluster.
+Roadmap trước đó ghi truy vấn tên container K3d không trả container; handoff đổi thành “container dừng/exited hoặc chưa start”. Đây là suy luận cần kiểm tra, không phải dữ kiện tương đương. [rebuild-nemesis.ps1 (revision cũ)](https://github.com/EurusDevSec/Zero-Door/blob/1f43ff1461c2199bc99e9962483956c3df0fa975/rebuild-nemesis.ps1#L14) build/import image và rollout Nemesis; script không tạo lại cluster.
 
 **Cần sửa:** kiểm tra inventory/context/container/volume trước, chọn start hay recreate theo dữ kiện. Không dùng rebuild-nemesis.ps1 như script tạo cluster. Pod Running cũng chưa thay việc kiểm chứng Kafka/telemetry/giao dịch. Đây là nhận xét về hướng dẫn; chưa khởi động, tái tạo cluster hoặc sửa hạ tầng.
 

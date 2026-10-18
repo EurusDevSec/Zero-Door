@@ -96,7 +96,7 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 ```
-Hoặc set env: `$env:PYTHONIOENCODING = "utf-8"; $env:PYTHONUTF8 = "1"`
+Hoặc set env: `export PYTHONIOENCODING="utf-8" PYTHONUTF8="1"`
 
 ---
 
@@ -119,46 +119,44 @@ def inject_alert_via_hephaestus(...):
 **LỖI**: Sau `kubectl rollout restart`, port-forward cũ vẫn còn process nhưng connection bị broken → port 9091 bị occupied.
 
 **FIX**:
-```powershell
-Get-Process | Where-Object { $_.ProcessName -eq "kubectl" } | Stop-Process -Force
-Start-Sleep 3
-# Sau đó restart tất cả port-forwards
+```bash
+# Ctrl+C trong đúng terminal tunnel cũ; không dừng tất cả kubectl.
+bash start-demo.sh
 ```
 
 ---
 
-### 10. Docker Build "Exit Code 1" Nhưng Thực Ra SUCCESS
-**LỖI**: `docker build` trả về exit code 1 trong PowerShell nhưng output "DONE" → build thực sự thành công, chỉ là exit code reporting issue.
+### 10. Exit code Docker build
 
-**RULE**: Kiểm tra output `naming to docker.io/library/...:latest done` — nếu có dòng này thì build OK dù exit code.
+Nhận xét cũ về exit code không đủ chứng minh build thành công. Trong Bash, exit khác 0 phải dừng build/import/rollout; không bỏ qua lỗi chỉ vì log có chữ DONE. Kiểm tra image/rollout sau khi lệnh thành công.
 
 ---
 
 ## ✅ BEST PRACTICES — Quy trình đúng
 
 ### Port Forwards Startup Order
-```powershell
+```bash
 # Luôn theo thứ tự này:
-kubectl port-forward svc/hephaestus 9091:8000 -n zero-door &
-kubectl port-forward svc/nemesis 9092:8000 -n zero-door &
-kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring &
+kubectl --context k3d-zero-door port-forward svc/hephaestus 9091:8000 -n zero-door &
+kubectl --context k3d-zero-door port-forward svc/nemesis 9092:8000 -n zero-door &
+kubectl --context k3d-zero-door port-forward svc/prometheus-operated 9090:9090 -n monitoring &
 # Kafka: KHÔNG port-forward — không cần thiết
-Start-Sleep 5
+sleep 5
 # Verify
-Invoke-RestMethod "http://localhost:9091/healthz"
-Invoke-RestMethod "http://localhost:9092/healthz"
+curl --fail --show-error --max-time 10 "http://localhost:9091/healthz"
+curl --fail --show-error --max-time 10 "http://localhost:9092/healthz"
 ```
 
 ### Experiment Runner Workflow
-```powershell
+```bash
 # 1. Reset steady state
-kubectl scale deployment/frontend deployment/cartservice -n target-app --replicas=1
+kubectl --context k3d-zero-door scale deployment/frontend deployment/cartservice -n target-app --replicas=1
 
 # 2. Reset Hephaestus state
-Invoke-RestMethod "http://localhost:9091/experiment/reset" -Method POST
+curl -X POST --fail --show-error --max-time 10 "http://localhost:9091/experiment/reset"
 
 # 3. Chạy experiments
-$env:PYTHONIOENCODING = "utf-8"; $env:PYTHONUTF8 = "1"
+export PYTHONIOENCODING="utf-8"; export PYTHONUTF8="1"
 python infrastructure/scripts/experiment_runner_direct.py --scenario ALL --mode BOTH --runs 5
 
 # 4. Generate analysis
@@ -166,7 +164,7 @@ python infrastructure/scripts/analysis.py
 ```
 
 ### Rebuild + Redeploy Agent
-```powershell
+```bash
 # 1. Build Docker image
 docker build -t hephaestus:latest agent-orchestrator/hephaestus/
 
@@ -174,13 +172,11 @@ docker build -t hephaestus:latest agent-orchestrator/hephaestus/
 k3d image import hephaestus:latest -c zero-door
 
 # 3. Rollout
-kubectl rollout restart deployment/hephaestus -n zero-door
-kubectl rollout status deployment/hephaestus -n zero-door --timeout=90s
+kubectl --context k3d-zero-door rollout restart deployment/hephaestus -n zero-door
+kubectl --context k3d-zero-door rollout status deployment/hephaestus -n zero-door --timeout=90s
 
-# 4. Kill port-forwards cũ và restart
-Get-Process kubectl | Stop-Process -Force
-Start-Sleep 3
-kubectl port-forward svc/hephaestus 9091:8000 -n zero-door
+# 4. Ctrl+C trong terminal tunnel cũ, rồi mở lại đúng tunnel
+kubectl --context k3d-zero-door port-forward svc/hephaestus 9091:8000 -n zero-door --address=127.0.0.1
 ```
 
 ### Git Commit Convention
@@ -207,17 +203,17 @@ refactor(ci): description         # CI/CD changes
 
 ## 🏃 Quick Cluster Health Check
 
-```powershell
-# One-liner check toàn bộ cluster
-kubectl get pods -n zero-door --no-headers | ForEach-Object { Write-Host $_ }
-kubectl get pods -n target-app --no-headers
-kubectl get pods -n monitoring --no-headers
-
-# Agent APIs
-@("http://localhost:9091/healthz","http://localhost:9092/healthz") | ForEach-Object {
-    try { $r = Invoke-RestMethod $_ -TimeoutSec 3; Write-Host "$_`: UP" -ForegroundColor Green }
-    catch { Write-Host "$_`: DOWN" -ForegroundColor Red }
-}
+```bash
+kubectl --context k3d-zero-door get pods -n zero-door
+kubectl --context k3d-zero-door get pods -n target-app
+kubectl --context k3d-zero-door get pods -n monitoring
+for url in http://127.0.0.1:9091/healthz http://127.0.0.1:9092/healthz; do
+  if curl --fail --silent --max-time 3 "$url" >/dev/null; then
+    printf "%s: HTTP OK\n" "$url"
+  else
+    printf "%s: HTTP FAILED\n" "$url"
+  fi
+done
 ```
 
 ---
@@ -237,11 +233,11 @@ kubectl get pods -n monitoring --no-headers
 **HÀNH VI**: Sau khi `kubectl rollout restart deployment/nemesis`, port-forward process tự chết do pod cũ terminate → namespace closed error.
 
 **PATTERN ĐÃ BIẾT**: Đây là hành vi bình thường — KHÔNG phải lỗi. Sau mỗi rollout, phải re-run:
-```powershell
-kubectl port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
+```bash
+kubectl --context k3d-zero-door port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
 ```
 
-**RULE**: Luôn restart port-forward sau mỗi `kubectl rollout restart`. Có thể dùng `start-demo.ps1` thay vì chạy tay.
+**RULE**: Luôn restart port-forward sau mỗi `kubectl rollout restart`. Có thể dùng `start-demo.sh` thay vì chạy tay.
 
 ---
 
@@ -307,13 +303,13 @@ kubectl port-forward -n zero-door svc/nemesis 9092:8000 --address 127.0.0.1
 **LỖI**: Khi chạy script phân tích dữ liệu thực nghiệm `analysis.py` bằng Python trên Windows PowerShell, chương trình bị crash giữa chừng với thông báo: `UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f4ca'`.
 
 **NGUYÊN NHÂN**: 
-Mặc định, PowerShell trên môi trường Windows sử dụng bảng mã ký tự không phải UTF-8 (ví dụ: CP1258 hoặc CP1252 tùy vùng). Khi script in ra các ký tự unicode đặc biệt (như các emoji biểu đồ 📊 hoặc ký tự checkmark ✓) thông qua thư viện `rich` hoặc `print`, Python runtime cố gắng mã hóa sang codec mặc định của terminal và gây crash do ký tự không được hỗ trợ.
+Mặc định, PowerShell trên môi trường Windows sử dụng bảng mã ký tự không phải UTF-8 có thể làm Python lỗi khi in Unicode. Đây là ghi nhận từ terminal cũ; hướng dẫn bên dưới dùng biến môi trường Bash.
 
 **RULE**: 
 Luôn bật cấu hình định dạng UTF-8 cho luồng I/O của Python trên môi trường Windows bằng cách thiết lập các biến môi trường trước khi thực thi:
-```powershell
-$env:PYTHONIOENCODING = "utf-8"
-$env:PYTHONUTF8 = "1"
+```bash
+export PYTHONIOENCODING="utf-8"
+export PYTHONUTF8="1"
 ```
-Hoặc chạy lệnh gộp: `$env:PYTHONIOENCODING = "utf-8"; $env:PYTHONUTF8 = "1"; python <script.py>` để đảm bảo script luôn biên dịch ký tự Unicode chuẩn xác trên mọi phiên terminal.
+Hoặc chạy lệnh gộp: `export PYTHONIOENCODING="utf-8" PYTHONUTF8="1"; python <script.py>` để đảm bảo script luôn biên dịch ký tự Unicode chuẩn xác trên mọi phiên terminal.
 

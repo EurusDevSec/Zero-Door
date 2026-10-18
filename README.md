@@ -85,7 +85,7 @@ Zero-Door/
 │   ├── phases/                    # Chi tiết Phase 1 -> Phase 6
 │   └── demo_script.md             # Kịch bản thuyết trình bảo vệ
 │
-├── start-demo.ps1                 # Script một nút bấm để khởi chạy demo
+├── start-demo.sh                  # Port-forward demo trong một terminal Bash
 └── README.md                      # File tài liệu bạn đang đọc
 ```
 
@@ -94,7 +94,7 @@ Zero-Door/
 ## 🚀 Hướng Dẫn Chạy Thử Nghiệm (Getting Started)
 
 ### Yêu Cầu Hệ Thống
-*   Windows 10/11 với Docker Desktop đang hoạt động.
+*   Git Bash trên Windows 10/11 với Docker Desktop đang hoạt động, hoặc Bash trên Linux với Docker.
 *   Công cụ dòng lệnh `kubectl` được cấu hình.
 *   Python 3.10+ và Go 1.21+.
 
@@ -106,13 +106,12 @@ Zero-Door/
     cd Zero-Door-hp8001-
     ```
 
-2.  **Chạy kịch bản tự động**:
-    Mở PowerShell với quyền Administrator trong thư mục dự án và chạy:
-    ```powershell
-    .\start-demo.ps1
+2.  **Mở dashboard của lab đã triển khai**:
+    Mở Bash trong thư mục dự án và chạy:
+    ```bash
+    bash ./start-demo.sh
     ```
-    Script này sẽ tự động dọn dẹp các cổng bị kẹt, cấu hình port-forward cần thiết, cấu hình Nginx Ingress trên cổng 8080 của host và mở trình duyệt truy cập thẳng vào **Zero Door Dashboard** tại địa chỉ:
-    `http://localhost:9092/dashboard/`
+    Script kiểm tra cluster/dịch vụ, mở các port-forward trên localhost và giữ terminal chạy. Mở **Zero Door Dashboard** tại `http://localhost:9092/dashboard/`. Ctrl+C chỉ dừng các tunnel do lần chạy này tạo; cổng bận sẽ báo lỗi thay vì dừng tiến trình của project khác. Script không dựng cluster, triển khai dịch vụ hoặc cài ingress. Lab mới: làm từng nhóm theo [hướng dẫn Bash](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md) trước; các chart/image legacy vẫn cần kiểm chứng khi triển khai thật.
 
 3.  **Kiểm chứng các kịch bản**:
     *   **AI Attack**: Click nút **🧠 Trigger Gemini Attack** trên Dashboard để xem AI tự lập kế hoạch và các Agents tự trao đổi cảnh báo.

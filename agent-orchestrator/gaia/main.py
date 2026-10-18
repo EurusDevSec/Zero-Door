@@ -197,10 +197,10 @@ async def poll_prometheus_metrics():
                         suggested_action="RESTART"
                     )
 
-        # 3. Check HTTP Error Rates (from nginx ingress controller if available, otherwise frontend metrics)
-        # Let's query Prometheus for HTTP 5xx error rate from frontend if available
-        # Expr: sum(rate(nginx_ingress_controller_requests{status=~"5..", namespace="target-app"}[1m])) by (service) / sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[1m])) by (service)
-        error_rate_query = 'sum(rate(nginx_ingress_controller_requests{status=~"5..", namespace="target-app"}[1m])) by (service) / sum(rate(nginx_ingress_controller_requests{namespace="target-app"}[1m])) by (service)'
+        # 3. Check HTTP Error Rates (from the Traefik ingress controller)
+        # Traefik labels the backend target-app-<service>-<port>@kubernetes; label_replace restores <service>
+        # so alerts keep naming the Kubernetes Service, as with the former ingress-nginx metric.
+        error_rate_query = 'sum(label_replace(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes", code=~"5.."}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (service) / sum(label_replace(rate(traefik_service_requests_total{service=~"target-app-.+@kubernetes"}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (service)'
         error_data = await query_prometheus(client, error_rate_query)
         if error_data and error_data.get("status") == "success":
             results = error_data.get("data", {}).get("result", [])
@@ -220,8 +220,8 @@ async def poll_prometheus_metrics():
                     )
 
         # 4. Check Latency Spikes (P99 latency > 1000ms)
-        # Expr: histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{namespace="target-app"}[1m])) by (le, service))
-        latency_query = 'histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{namespace="target-app"}[1m])) by (le, service))'
+        # Traefik histogram with the ingress-nginx buckets (traefik-values.yaml), same service relabelling as above
+        latency_query = 'histogram_quantile(0.99, sum(label_replace(rate(traefik_service_request_duration_seconds_bucket{service=~"target-app-.+@kubernetes"}[1m]), "service", "$1", "service", "target-app-(.+)-[^-]+@kubernetes")) by (le, service))'
         latency_data = await query_prometheus(client, latency_query)
         if latency_data and latency_data.get("status") == "success":
             results = latency_data.get("data", {}).get("result", [])

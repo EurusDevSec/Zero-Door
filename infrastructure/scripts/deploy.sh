@@ -122,7 +122,7 @@ echo "[9/12] Deploying Google Boutique (target-app)..."
 kubectl apply -f "$INFRA_DIR/manifests/target-app.yaml"
 kubectl apply -f "$INFRA_DIR/manifests/target-app-ingress.yaml"
 kubectl apply -f "$INFRA_DIR/manifests/target-app-addons.yaml"
-kubectl apply -f "$INFRA_DIR/manifests/target-app-monitor.yaml"
+# Frontend has no /metrics; HTTP telemetry belongs to the configured ingress controller.
 
 # ── Patch & Deploy Zero-Door Agents ──────────────────────────────
 echo "[10/12] Patching agent manifests for GHCR..."

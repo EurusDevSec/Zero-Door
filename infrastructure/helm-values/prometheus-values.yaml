@@ -80,13 +80,10 @@ nodeExporter:
 kubeStateMetrics:
   enabled: true
 
-# ---- Subchart kube-state-metrics image override ----
-# Sử dụng mirror trên Docker Hub thay cho registry.k8s.io bị chậm/chặn ở VN
-kube-state-metrics:
-  image:
-    registry: docker.io
-    repository: dyrnq/kube-state-metrics
-    tag: v2.19.1
+# ---- Subchart kube-state-metrics image ----
+# Dùng image upstream mặc định của chart (registry.k8s.io, tag theo appVersion của subchart).
+# Mirror Docker Hub cũ (dyrnq) không rõ nguồn và lệch version subchart; registry.k8s.io truy cập
+# được từ máy này ngày 18/10/2026. Version chart khóa tại chart-versions.yaml.
 
 # ---- Tắt các components K3d không hỗ trợ ----
 kubeEtcd:

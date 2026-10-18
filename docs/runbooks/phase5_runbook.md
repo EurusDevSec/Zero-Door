@@ -102,29 +102,29 @@ Tất cả charts được lưu tại `docs/experiments/analysis/`:
 
 ### Yêu cầu
 
-```powershell
+```bash
 # Python packages
 pip install requests rich pandas matplotlib numpy scipy
 
 # Cluster phải đang chạy
-kubectl get pods -n zero-door
-kubectl get pods -n target-app
+kubectl --context k3d-zero-door get pods -n zero-door
+kubectl --context k3d-zero-door get pods -n target-app
 ```
 
 ### Port Forwards
 
-```powershell
+```bash
 # Terminal 1
-kubectl port-forward svc/hephaestus 9091:8000 -n zero-door
+kubectl --context k3d-zero-door port-forward svc/hephaestus 9091:8000 -n zero-door
 # Terminal 2
-kubectl port-forward svc/nemesis 9092:8000 -n zero-door
+kubectl --context k3d-zero-door port-forward svc/nemesis 9092:8000 -n zero-door
 # Terminal 3
-kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring
+kubectl --context k3d-zero-door port-forward svc/prometheus-operated 9090:9090 -n monitoring
 ```
 
 ### Chạy Experiments
 
-```powershell
+```bash
 # Tất cả scenarios, cả AUTO và MANUAL, 5 runs mỗi
 python infrastructure/scripts/experiment_runner_direct.py --scenario ALL --mode BOTH --runs 5
 

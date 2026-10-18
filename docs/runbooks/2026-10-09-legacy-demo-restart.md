@@ -1,5 +1,7 @@
 # Chạy lại demo ZERO DOOR bản cũ trên Windows
 
+Hướng dẫn lệnh đã chuyển sang Bash ngày 18/10/2026. Phần quan sát/ngày/revision 09/10 bên dưới vẫn là lịch sử. Chức năng entry point mới, mặc định thực nghiệm và quản lý tunnel xem [Bash tooling](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/bash-tooling.md).
+
 Ngày hướng dẫn: 09/10/2026. Mục tiêu: mở lại bản trước recovery roadmap để quan sát chức năng hiện có. Hướng dẫn đã đối chiếu script/mã tại HEAD 6337b319b075bf389d484a6be13a4bc094f94a82; chưa chạy demo thành công trong lượt soạn này, chưa sửa mã hoặc khởi động cluster.
 
 Snapshot chỉ đọc lúc khoảng 13:21 Asia/Saigon: context hiện tại là k3d-zero-door; API https://127.0.0.1:58117 từ chối kết nối. Truy vấn Docker có giới hạn 8 giây bị timeout, nên chưa kết luận cluster/container còn hay mất. Bắt đầu bằng kiểm tra bên dưới.
@@ -7,15 +9,15 @@ Snapshot chỉ đọc lúc khoảng 13:21 Asia/Saigon: context hiện tại là 
 ## Tài liệu cũ và cách sử dụng
 
 - [demo_script.md](R:/_Projects/Eurus_Workspace/zero_door/docs/demo_script.md): bố cục trình diễn và thao tác dashboard. Các lời thoại về model sẵn sàng, MTTR 1,01s, downtime 1,34s và ưu thế nghiên cứu chưa đủ bằng chứng; dùng quan sát thực tế trong lần chạy mới.
-- [start-demo.ps1](R:/_Projects/Eurus_Workspace/zero_door/start-demo.ps1): kiểm tra cluster và mở port-forward; không tạo cluster, không deploy dịch vụ, không cấu hình ingress. Script dừng mọi tiến trình kubectl trên máy và vẫn in sẵn sàng sau một số lỗi; phần B dùng terminal riêng để nhìn thấy lỗi.
+- [start-demo.sh](R:/_Projects/Eurus_Workspace/zero_door/start-demo.sh): bản Bash từ 18/10 kiểm tra đúng context, quản lý các tunnel của chính nó trong một terminal và thoát lỗi khi kiểm tra thất bại. Không tạo cluster, deploy dịch vụ hay cấu hình ingress. Phần B cho phép chạy từng tunnel thủ công trong terminal riêng.
 - [phase2_runbook.md](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase2_runbook.md), [phase3_runbook.md](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase3_runbook.md), [phase4_runbook.md](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/phase4_runbook.md): tra thành phần. Một số URL có prefix /nemesis hoặc /hephaestus qua ingress; hướng dẫn này dùng port-forward trực tiếp với URL tương ứng.
 
 ## A. Kiểm tra và khởi động cluster cũ
 
-Mở Docker Desktop, đợi engine hoạt động. Mở PowerShell trong project:
+Mở Docker Desktop, đợi engine hoạt động. Mở Git Bash trong project:
 
-```powershell
-Set-Location 'R:\_Projects\Eurus_Workspace\zero_door'
+```bash
+cd '/r/_Projects/Eurus_Workspace/zero_door'
 docker context show
 docker ps
 k3d cluster list
@@ -26,60 +28,60 @@ Nếu docker ps lỗi hoặc treo, xử lý Docker Desktop trước; chưa chạ
 
 Nếu cluster zero-door tồn tại nhưng node chưa chạy, khởi động:
 
-```powershell
+```bash
 k3d cluster start zero-door
 ```
 
 Nếu cluster đang chạy, bỏ qua lệnh start. Sau đó:
 
-```powershell
-kubectl config use-context k3d-zero-door
-kubectl get nodes --request-timeout=10s
-kubectl get pods -n zero-door
-kubectl get pods -n target-app
-kubectl get pods -n monitoring
-kubectl get svc -n zero-door
-kubectl get svc -n monitoring
-kubectl get ingress -n target-app
-kubectl get pods -n kube-system -l app.kubernetes.io/name=ingress-nginx
+```bash
+kubectl --context k3d-zero-door config use-context k3d-zero-door
+kubectl --context k3d-zero-door get nodes --request-timeout=10s
+kubectl --context k3d-zero-door get pods -n zero-door
+kubectl --context k3d-zero-door get pods -n target-app
+kubectl --context k3d-zero-door get pods -n monitoring
+kubectl --context k3d-zero-door get svc -n zero-door
+kubectl --context k3d-zero-door get svc -n monitoring
+kubectl --context k3d-zero-door get ingress -n target-app
+kubectl --context k3d-zero-door get pods -n kube-system -l app.kubernetes.io/name=ingress-nginx
 ```
 
 Node phải Ready; pod phục vụ demo phải có đủ READY. Config repo hiện là 1 server + 1 agent, không bắt buộc 3 node như tài liệu cũ. zero-door cần Nemesis, Gaia, Hephaestus, Chaos Worker và Kafka; monitoring cần Prometheus và các dependency Gaia sử dụng. Running riêng lẻ không chứng minh pipeline hoạt động.
 
 Nếu cluster list có zero-door nhưng context không tồn tại/endpoint đã cũ, lấy lại kubeconfig của chính cluster đó:
 
-```powershell
+```bash
 k3d kubeconfig merge zero-door --kubeconfig-switch-context
-kubectl get nodes --request-timeout=10s
+kubectl --context k3d-zero-door get nodes --request-timeout=10s
 ```
 
-Nếu vẫn lỗi, giữ nguyên cluster/volume và lấy log lỗi để chẩn đoán. Không chạy recreate-cluster.ps1: script đó xóa cluster hiện có, rồi chỉ dựng Phase 1.
+Nếu vẫn lỗi, giữ nguyên cluster/volume và lấy log lỗi để chẩn đoán. Không chạy recreate-cluster.sh: script đó xóa cluster hiện có, rồi chỉ dựng Phase 1.
 
 ## B. Mở dashboard và dịch vụ
 
-Mỗi lệnh dưới đây chạy trong một tab PowerShell riêng, giữ tab mở. Ctrl+C chỉ dừng port-forward ở tab đó. Dùng context tường minh để không trỏ nhầm cluster.
+Mỗi lệnh dưới đây chạy trong một tab Bash riêng, giữ tab mở. Ctrl+C chỉ dừng port-forward ở tab đó. Dùng context tường minh để không trỏ nhầm cluster.
 
 Tab 1 — Nemesis/dashboard:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n zero-door port-forward svc/nemesis 9092:8000
 ```
 
 Tab 2 — Hephaestus:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n zero-door port-forward svc/hephaestus 9091:8000
 ```
 
 Tab 3 — Prometheus, nếu service này có trong inventory phần A:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n monitoring port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090
 ```
 
 Nếu deployment cũ chỉ có prometheus-operated, dùng service đó với cùng 9090:9090. Grafana là tab bổ sung khi cần, dùng service có thật trong inventory:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n monitoring port-forward svc/prometheus-grafana 3000:80
 ```
 
@@ -94,7 +96,7 @@ Nếu cổng bận, xem ứng dụng đang giữ cổng rồi chọn cổng khá
 
 Nếu Boutique trên 8080 không mở, kiểm tra ingress/controller/service trước. Có thể mở tab bổ sung qua cổng 8088 để kiểm tra frontend:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n target-app port-forward svc/frontend 8088:80
 ```
 
@@ -102,9 +104,9 @@ Mở http://localhost:8088/. Đây là đường đi trực tiếp tới pod fro
 
 Tab kiểm tra API:
 
-```powershell
-Invoke-RestMethod -Uri 'http://localhost:9092/healthz' -TimeoutSec 10
-Invoke-RestMethod -Uri 'http://localhost:9091/healthz' -TimeoutSec 10
+```bash
+curl --fail --show-error --max-time 10 "http://localhost:9092/healthz"
+curl --fail --show-error --max-time 10 "http://localhost:9091/healthz"
 ```
 
 Nemesis cần kafka_connected=true; Hephaestus cần Kafka/K8s kết nối đúng. HTTP 200 hoặc llm_provider=gemini chỉ là status/cấu hình, không chứng minh model gọi được. Mở Boutique, thử xem sản phẩm và giỏ hàng; ghi thao tác nào thành công thật. Nếu định demo checkout, phải thử checkout trước, không suy từ trang chủ mở được.
@@ -116,32 +118,26 @@ Nemesis cần kafka_connected=true; Hephaestus cần Kafka/K8s kết nối đún
 1. Chờ lab ổn định, không còn attack đang chạy. Ghi trạng thái pod/replica trước khi reset. Nút RESET SYSTEM xóa history/cooldown và đưa danh sách deployment về 1 replica; lưu log cần giữ trước khi bấm. Nó không phải nút stop attack, không bảo đảm cleanup stress pod, và HPA có thể đổi replicas tiếp.
 2. Mở Boutique 8080 và dashboard. Giữ một tab theo dõi frontend:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n target-app get pods -l app=frontend -w
 ```
 
 3. Trên dashboard chọn Attack Type=Pod Kill, Service=frontend, Intensity=Low; bấm Inject Failure Script một lần. Hoặc dùng API tương đương trong tab khác:
 
-```powershell
-$demoPodKill = @{
-    attackType = 'POD_KILL'
-    targetService = 'frontend'
-    targetNamespace = 'target-app'
-    durationSec = 90
-    intensity = 'LOW'
-    concurrency = 1
-} | ConvertTo-Json
-Invoke-RestMethod -Method Post -Uri 'http://localhost:9092/attack/trigger' -ContentType 'application/json' -Body $demoPodKill -TimeoutSec 15
+```bash
+curl --fail --show-error --max-time 15 -X POST 'http://localhost:9092/attack/trigger' \
+  -H 'Content-Type: application/json' \
+  --data '{"attackType":"POD_KILL","targetService":"frontend","targetNamespace":"target-app","durationSec":90,"intensity":"LOW","concurrency":1}'
 ```
 
 4. Quan sát pod cũ bị xóa, pod thay thế Ready và refresh Boutique. Có thể thấy lỗi tạm thời hoặc không thấy lỗi nếu vẫn có replica phục vụ. PodKill xóa pod rồi kết thúc, không liên tục kill trong 90s. Pod được tạo lại trước hết là hành vi Deployment controller Kubernetes; chỉ quy cho Hephaestus nếu có log action tương ứng.
 5. Kiểm tra log và lịch sử, không dùng animation/chat làm bằng chứng thay thế:
 
-```powershell
+```bash
 kubectl --context k3d-zero-door -n zero-door logs deployment/chaos-worker --tail=60
 kubectl --context k3d-zero-door -n zero-door logs deployment/gaia --tail=60
 kubectl --context k3d-zero-door -n zero-door logs deployment/hephaestus --tail=60
-Invoke-RestMethod -Uri 'http://localhost:9091/heal/history' -TimeoutSec 10
+curl --fail --show-error --max-time 10 "http://localhost:9091/heal/history"
 kubectl --context k3d-zero-door -n target-app get deployments
 ```
 
@@ -155,13 +151,10 @@ CPU Stress là lượt bổ sung sau khi lab ổn định: chọn service có th
 
 Chỉ thực hiện khi muốn demo chức năng scale của Hephaestus, phân biệt rõ với phát hiện tự động. Chờ attack kết thúc, lưu log, reset nếu cần và xem replicas frontend trước:
 
-```powershell
-$demoScaleAlert = @{
-    alertType = 'HIGH_CPU'
-    severity = 'WARNING'
-    affectedService = 'frontend'
-} | ConvertTo-Json
-Invoke-RestMethod -Method Post -Uri 'http://localhost:9091/heal/trigger' -ContentType 'application/json' -Body $demoScaleAlert -TimeoutSec 15
+```bash
+curl --fail --show-error --max-time 15 -X POST 'http://localhost:9091/heal/trigger' \
+  -H 'Content-Type: application/json' \
+  --data '{"alertType":"HIGH_CPU","severity":"WARNING","affectedService":"frontend"}'
 kubectl --context k3d-zero-door -n target-app get deployment frontend
 kubectl --context k3d-zero-door -n target-app get pods -l app=frontend
 ```
@@ -176,43 +169,43 @@ Từ thư mục gốc project, chạy từng nhóm và dừng nếu có lỗi; k
 
 1. Hạ tầng Phase 1:
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\infrastructure\scripts\setup-phase1.ps1
-kubectl config use-context k3d-zero-door
-kubectl get nodes --request-timeout=10s
-kubectl get pods -n zero-door
-kubectl get pods -n monitoring
+```bash
+bash ./infrastructure/scripts/setup-phase1.sh
+kubectl --context k3d-zero-door config use-context k3d-zero-door
+kubectl --context k3d-zero-door get nodes --request-timeout=10s
+kubectl --context k3d-zero-door get pods -n zero-door
+kubectl --context k3d-zero-door get pods -n monitoring
 ```
 
 Nếu setup thất bại, giữ lỗi đầu tiên để xử lý. Các script cũ không khóa mọi chart version; image/chart có thể không còn tải được. Chưa kiểm chứng một lượt dựng mới tại ngày hướng dẫn.
 
-2. Target và Gaia: repo không có setup-phase2.ps1; dùng các file đang tồn tại. Tag Gaia phải khớp image zero-door/gaia:latest trong manifest:
+2. Target và Gaia: repo không có setup-phase2.sh; dùng các file đang tồn tại. Tag Gaia phải khớp image zero-door/gaia:latest trong manifest:
 
-```powershell
-kubectl apply -f .\infrastructure\manifests\target-app.yaml
-kubectl apply -f .\infrastructure\manifests\target-app-addons.yaml
-kubectl apply -f .\infrastructure\manifests\target-app-ingress.yaml
-kubectl apply -f .\infrastructure\manifests\target-app-monitor.yaml
-kubectl apply -f .\infrastructure\manifests\prometheus-rules.yaml
-docker build -t zero-door/gaia:latest .\agent-orchestrator\gaia
+```bash
+kubectl --context k3d-zero-door apply -f ./infrastructure/manifests/target-app.yaml
+kubectl --context k3d-zero-door apply -f ./infrastructure/manifests/target-app-addons.yaml
+kubectl --context k3d-zero-door apply -f ./infrastructure/manifests/target-app-ingress.yaml
+# Frontend không có /metrics; dùng ServiceMonitor của Traefik theo bash-tooling.md.
+kubectl --context k3d-zero-door apply -f ./infrastructure/manifests/prometheus-rules.yaml
+docker build -t zero-door/gaia:latest ./agent-orchestrator/gaia
 k3d image import zero-door/gaia:latest -c zero-door
-kubectl apply -f .\infrastructure\manifests\gaia-deployment.yaml
-kubectl rollout status deployment/gaia -n zero-door --timeout=120s
-kubectl get pods -n target-app
+kubectl --context k3d-zero-door apply -f ./infrastructure/manifests/gaia-deployment.yaml
+kubectl --context k3d-zero-door rollout status deployment/gaia -n zero-door --timeout=120s
+kubectl --context k3d-zero-door get pods -n target-app
 ```
 
 Chỉ tiếp tục khi các lệnh thành công và pod mục tiêu Ready. ServiceMonitor /metrics tồn tại không chứng minh endpoint trả metric hợp lệ. Addons bổ sung dependency Boutique trong repo, vẫn cần thử từng luồng nghiệp vụ.
 
 3. Nemesis/Chaos Worker, rồi Hephaestus:
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\infrastructure\scripts\setup-phase3.ps1
-kubectl get pods -n zero-door
-powershell -NoProfile -ExecutionPolicy Bypass -File .\infrastructure\scripts\setup-phase4.ps1
-kubectl get pods -n zero-door
+```bash
+bash ./infrastructure/scripts/setup-phase3.sh
+kubectl --context k3d-zero-door get pods -n zero-door
+bash ./infrastructure/scripts/setup-phase4.sh
+kubectl --context k3d-zero-door get pods -n zero-door
 ```
 
-Áp dụng nemesis-deployment.yaml có Secret mẫu rỗng; nhánh này dành cho lab mới. Không apply đè vào lab có key cũ chỉ để mở dashboard; không in Secret ra màn hình. Demo manual không cần LLM. Không chạy setup-phase5.ps1/experiment runner để mở demo: chúng có thể tạo/gộp thêm dữ liệu và lượt attack ngoài mục tiêu trình diễn.
+Script setup-phase3.sh tạo Secret mẫu rỗng trên lab mới và giữ Secret đã tồn tại. Không apply nguyên manifest Nemesis thủ công đè key cũ chỉ để mở dashboard; không in Secret ra màn hình. Demo manual không cần LLM. setup-phase5.sh mặc định chỉ kiểm tra HTTP/mở tunnel; cờ `--run-smoke` và các runner vẫn gây lỗi/thay đổi dữ liệu, không dùng như health check.
 
 4. Quay lại B và kiểm tra health/website/log trước khi làm C. Nếu thiếu tài nguyên, ErrImagePull, CrashLoop hoặc API lỗi, xử lý lỗi đó trước; chưa thể gọi demo sẵn sàng.
 

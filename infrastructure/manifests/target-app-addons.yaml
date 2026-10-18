@@ -114,11 +114,19 @@ spec:
           value: "8080"
         - name: DISABLE_PROFILER
           value: "1"
+        startupProbe:
+          grpc:
+            port: 8080
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 24
         readinessProbe:
+          timeoutSeconds: 3
           periodSeconds: 5
           grpc:
             port: 8080
         livenessProbe:
+          timeoutSeconds: 3
           periodSeconds: 5
           grpc:
             port: 8080
@@ -127,7 +135,7 @@ spec:
             cpu: 30m
             memory: 64Mi
           limits:
-            cpu: 100m
+            cpu: 300m
             memory: 128Mi
 ---
 apiVersion: v1
@@ -192,10 +200,18 @@ spec:
           value: "50051"
         - name: DISABLE_PROFILER
           value: "1"
+        startupProbe:
+          grpc:
+            port: 50051
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 24
         readinessProbe:
+          timeoutSeconds: 3
           grpc:
             port: 50051
         livenessProbe:
+          timeoutSeconds: 3
           grpc:
             port: 50051
         resources:
@@ -203,7 +219,7 @@ spec:
             cpu: 30m
             memory: 64Mi
           limits:
-            cpu: 100m
+            cpu: 300m
             memory: 128Mi
 ---
 apiVersion: v1

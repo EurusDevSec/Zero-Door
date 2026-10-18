@@ -77,7 +77,7 @@ zero-door/
 │   └── manifests/
 │       ├── target-app.yaml            # Deploy 6 core boutique services tối ưu RAM
 │       ├── target-app-hpa.yaml        # Autoscaling cho frontend & cartservice
-│       ├── target-app-monitor.yaml    # ServiceMonitor cho frontend http endpoint
+│       ├── target-app-ingress.yaml    # HTTP metrics qua Traefik; CPU từ cAdvisor
 │       ├── prometheus-rules.yaml      # Bộ 5 rules cảnh báo mặc định của Prometheus
 │       └── gaia-deployment.yaml       # ServiceAccount, Deployment, Service cho Gaia
 │
@@ -117,32 +117,32 @@ zero-door/
 
 ### 4.1. Lệnh Kiểm tra Trạng thái Triển khai
 Kiểm tra xem tất cả các Pods của Phase 2 đã chạy ổn định chưa:
-```powershell
+```bash
 # Xem pods của target app
-kubectl get pods -n target-app
+kubectl --context k3d-zero-door get pods -n target-app
 
 # Xem pods gaia
-kubectl get pods -n zero-door -l app=gaia
+kubectl --context k3d-zero-door get pods -n zero-door -l app=gaia
 ```
 *Tất cả phải hiển thị trạng thái `Running` và `1/1` Ready.*
 
 ### 4.2. Truy cập Giao diện Web (Frontend)
 Để truy cập cửa hàng Google Online Boutique từ trình duyệt máy chủ (host):
-```powershell
-kubectl port-forward svc/frontend 8080:80 -n target-app
+```bash
+kubectl --context k3d-zero-door port-forward svc/frontend 8080:80 -n target-app
 ```
 👉 Mở trình duyệt truy cập: `http://localhost:8080`
 
 ### 4.3. Kiểm thử Phát hiện Log Anomaly (Ví dụ: Lỗi Hết Bộ Nhớ - OOMKilled)
 Tạo một pod tạm thời trong namespace `target-app` để in ra thông điệp log giả lập sự cố OOM:
-```powershell
-kubectl run test-logger-oom -n target-app --image=busybox --restart=Never -- sh -c "echo 'CRITICAL ERROR: OOMKilled detected in process' && sleep 10"
+```bash
+kubectl --context k3d-zero-door run test-logger-oom -n target-app --image=busybox --restart=Never -- sh -c "echo 'CRITICAL ERROR: OOMKilled detected in process' && sleep 10"
 ```
 
 ### 4.4. Xem Nhật ký Giám sát của Gaia Agent
 Xem cách Gaia phát hiện log lỗi từ Elasticsearch và publish alert vào Kafka:
-```powershell
-kubectl logs -n zero-door -l app=gaia --tail=50 -f
+```bash
+kubectl --context k3d-zero-door logs -n zero-door -l app=gaia --tail=50 -f
 ```
 Bạn sẽ thấy dòng log xác nhận phát hiện log sự cố:
 ```
@@ -152,8 +152,8 @@ Bạn sẽ thấy dòng log xác nhận phát hiện log sự cố:
 
 ### 4.5. Kiểm tra Cảnh báo trong Hàng đợi Kafka
 Để chắc chắn thông tin cảnh báo đã được gửi thành công vào hàng đợi Kafka để Hephaestus (ở Phase 4) xử lý, chạy lệnh consume thử 1 message:
-```powershell
-kubectl exec -n zero-door kafka-controller-0 -- bash -c "unset JMX_PORT && kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic monitoring.alerts --from-beginning --max-messages 1"
+```bash
+kubectl --context k3d-zero-door exec -n zero-door kafka-controller-0 -- bash -c "unset JMX_PORT && kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic monitoring.alerts --from-beginning --max-messages 1"
 ```
 Đầu ra sẽ trả về JSON định dạng chuẩn:
 ```json

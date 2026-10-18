@@ -32,7 +32,7 @@
 
 - **Clean Dataset Rule**: Tránh đưa các lượt test đơn lẻ vào thư mục `docs/experiments/raw_data/` vì `analysis.py` sẽ tự động gộp tất cả tệp CSV và làm sai lệch thống kê 5 lần chạy chính thức.
 - **Port-forward pattern**: Dashboard Nemesis (9092), Hephaestus (9091), Prometheus (9090). Target App truy cập trực tiếp qua `http://localhost:8080/` (không cần port-forward nhờ Ingress).
-- **Docker Build Cache**: Luôn chạy `.\rebuild-nemesis.ps1` khi sửa code HTML/CSS/JS của dashboard để tránh việc Docker dùng cache cũ làm mất thay đổi static files.
+- **Docker Build Cache**: Luôn chạy `bash ./rebuild-nemesis.sh --no-forward` khi sửa code HTML/CSS/JS của dashboard để tránh việc Docker dùng cache cũ làm mất thay đổi static files.
 - **ResourceQuota Limits**: Namespace `target-app` bị giới hạn CPU limits ở mức `3 cores` (`target-app-quota`). Cần gọi `Reset System` trước khi chạy attack để giải phóng quota.
 - **Monitoring Namespace Quota**: Namespace `monitoring` có ResourceQuota giới hạn `10 CPU / 10Gi RAM` để đủ dung lượng cho Prometheus/Grafana chạy mượt mà.
 

@@ -74,10 +74,10 @@ zero_door/
 
 ## 🔌 Port Forwards (Local Dev)
 
-```powershell
-kubectl port-forward svc/hephaestus 9091:8000 -n zero-door
-kubectl port-forward svc/nemesis 9092:8000 -n zero-door
-kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring
+```bash
+kubectl --context k3d-zero-door port-forward svc/hephaestus 9091:8000 -n zero-door
+kubectl --context k3d-zero-door port-forward svc/nemesis 9092:8000 -n zero-door
+kubectl --context k3d-zero-door port-forward svc/prometheus-operated 9090:9090 -n monitoring
 # Target App is exposed natively via K3d Nginx Ingress on host port 8080
 # Kafka port-forward KHÔNG hoạt động từ ngoài K3d (advertised listener issue)
 ```

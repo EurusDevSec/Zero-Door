@@ -66,7 +66,7 @@ function showConnectionWarning() {
         warningEl = document.createElement("div");
         warningEl.id = "connection-lost-banner";
         warningEl.className = "bg-red-50 border-b border-red-200 text-red-700 font-bold font-mono text-center py-2 px-4 text-xs tracking-wider animate-pulse transition-all duration-300 z-50 relative flex items-center justify-center gap-2";
-        warningEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-red-500"></i> PORT-FORWARD CONNECTION LOST! Please run Start-Demo.ps1 in your terminal to restore dashboard communication.`;
+        warningEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-red-500"></i> PORT-FORWARD CONNECTION LOST! Check your tunnel terminal, stop the old session with Ctrl+C, then run bash start-demo.sh from the repository root.`;
         document.body.insertBefore(warningEl, document.body.firstChild);
     }
 }

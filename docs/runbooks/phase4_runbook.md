@@ -83,7 +83,7 @@ infrastructure/manifests/
 └── hephaestus-deployment.yaml   # ServiceAccount, Role (target-app), RoleBinding (cross-ns), ConfigMap, Deployment, Service, Ingress
 
 infrastructure/scripts/
-└── setup-phase4.ps1     # Build → Import K3d → Deploy → RBAC verify
+└── setup-phase4.sh     # Build → Import K3d → Deploy → RBAC verify
 ```
 
 ---
@@ -174,12 +174,12 @@ roleRef:
 **Tại sao không dùng ClusterRole?** ClusterRole sẽ cấp quyền trên **tất cả namespaces** — vi phạm nguyên tắc least-privilege. Hephaestus chỉ cần quyền trong `target-app`, không cần `monitoring` hay `kube-system`.
 
 **Verify** sau khi deploy:
-```powershell
+```bash
 # Phải trả về "yes"
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n target-app
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n target-app
 
 # Phải trả về "no"  
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n kube-system
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n kube-system
 ```
 
 ### 5.2. HPA + Hephaestus Coexistence (Answer to Q2)
@@ -236,22 +236,22 @@ kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pod
 
 ### Bước 1: Chạy setup script tự động
 
-```powershell
-pwsh -ExecutionPolicy Bypass -File r:\_Projects\Eurus_Workspace\zero_door\infrastructure\scripts\setup-phase4.ps1
+```bash
+bash /r/_Projects/Eurus_Workspace/zero_door/infrastructure/scripts/setup-phase4.sh
 ```
 
 ### Bước 2: Verify RBAC
 
-```powershell
+```bash
 # Phải trả về "yes"
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n target-app
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa patch deployments -n target-app
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa create networkpolicies -n target-app
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n target-app
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa patch deployments -n target-app
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa create networkpolicies -n target-app
 
 # Phải trả về "no"
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n kube-system
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n monitoring
-kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n zero-door
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n kube-system
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n monitoring
+kubectl --context k3d-zero-door auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pods -n zero-door
 ```
 
 ---
@@ -260,48 +260,48 @@ kubectl auth can-i --as=system:serviceaccount:zero-door:hephaestus-sa delete pod
 
 ### 8.1. Test SCALE_UP — Manual trigger
 
-```powershell
+```bash
 # Trigger manual SCALE_UP cho frontend
-curl -X POST http://localhost:8080/hephaestus/heal/trigger `
-  -H "Content-Type: application/json" `
+curl -X POST http://localhost:8080/hephaestus/heal/trigger \
+  -H "Content-Type: application/json" \
   -d '{"alertType":"HIGH_CPU","severity":"WARNING","affectedService":"frontend"}'
 
 # Quan sát replica tăng:
-kubectl get deployment frontend -n target-app -w
+kubectl --context k3d-zero-door get deployment frontend -n target-app -w
 ```
 
 **Expected**: `frontend` replicas tăng từ 1 (hoặc 2) lên tối đa 3.
 
 ### 8.2. Test RESTART — Manual trigger
 
-```powershell
+```bash
 # Ghi lại pod name hiện tại
-kubectl get pods -n target-app -l app=cartservice
+kubectl --context k3d-zero-door get pods -n target-app -l app=cartservice
 
 # Trigger RESTART
-curl -X POST http://localhost:8080/hephaestus/heal/trigger `
-  -H "Content-Type: application/json" `
+curl -X POST http://localhost:8080/hephaestus/heal/trigger \
+  -H "Content-Type: application/json" \
   -d '{"alertType":"POD_CRASH","severity":"CRITICAL","affectedService":"cartservice"}'
 
 # Xem pod bị xóa và pod mới xuất hiện
-kubectl get pods -n target-app -l app=cartservice -w
+kubectl --context k3d-zero-door get pods -n target-app -l app=cartservice -w
 ```
 
 **Expected**: Pod cũ bị xóa → pod mới `Running` trong < 60s.
 
 ### 8.3. Test BLOCK_IP — Manual trigger
 
-```powershell
+```bash
 # Trigger BLOCK_IP với một IP giả
-curl -X POST http://localhost:8080/hephaestus/heal/trigger `
-  -H "Content-Type: application/json" `
+curl -X POST http://localhost:8080/hephaestus/heal/trigger \
+  -H "Content-Type: application/json" \
   -d '{"alertType":"SUSPICIOUS_LOG","severity":"CRITICAL","affectedService":"frontend","sourceIP":"192.168.1.100"}'
 
 # Kiểm tra NetworkPolicy được tạo:
-kubectl get networkpolicies -n target-app -l hephaestus.io/managed=true
+kubectl --context k3d-zero-door get networkpolicies -n target-app -l hephaestus.io/managed=true
 
 # Xem NetworkPolicy YAML
-kubectl get networkpolicy -n target-app -l hephaestus.io/managed=true -o yaml
+kubectl --context k3d-zero-door get networkpolicy -n target-app -l hephaestus.io/managed=true -o yaml
 
 # Xem list qua API:
 curl http://localhost:8080/hephaestus/network-policies
@@ -311,18 +311,18 @@ curl http://localhost:8080/hephaestus/network-policies
 
 ### 8.4. Test Closed-Loop — Full Attack → Detect → Heal
 
-```powershell
+```bash
 # Terminal 1: Watch healing.actions topic
-kubectl exec -n zero-door -it $(kubectl get pod -n zero-door -l app.kubernetes.io/name=kafka -o name | Select-Object -First 1) `
+kubectl --context k3d-zero-door exec -n zero-door -it $(kubectl --context k3d-zero-door get pod -n zero-door -l app.kubernetes.io/name=kafka -o name | sed -n '1,1p') \
   -- kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic healing.actions
 
 # Terminal 2: Trigger CPU stress qua Nemesis
-curl -X POST http://localhost:8080/nemesis/attack/trigger `
-  -H "Content-Type: application/json" `
+curl -X POST http://localhost:8080/nemesis/attack/trigger \
+  -H "Content-Type: application/json" \
   -d '{"attackType":"CPU_STRESS","targetService":"cartservice","durationSec":60,"intensity":"HIGH"}'
 
 # Terminal 3: Watch pods
-kubectl get pods -n target-app -w
+kubectl --context k3d-zero-door get pods -n target-app -w
 ```
 
 **Expected full loop**:
@@ -335,12 +335,12 @@ kubectl get pods -n target-app -w
 
 ### 8.5. Test Healing Cooldown
 
-```powershell
+```bash
 # Trigger heal 2 lần liên tiếp cùng service + action
-curl -X POST http://localhost:8080/hephaestus/heal/trigger `
+curl -X POST http://localhost:8080/hephaestus/heal/trigger \
   -d '{"alertType":"HIGH_CPU","severity":"WARNING","affectedService":"frontend"}'
 
-curl -X POST http://localhost:8080/hephaestus/heal/trigger `
+curl -X POST http://localhost:8080/hephaestus/heal/trigger \
   -d '{"alertType":"HIGH_CPU","severity":"WARNING","affectedService":"frontend"}'
 
 # Kiểm tra cooldown:

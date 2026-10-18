@@ -6,7 +6,8 @@ metadata:
   labels:
     app: frontend
 spec:
-  ingressClassName: nginx
+  # Served by Traefik (helm-values/traefik-values.yaml); host port 8080 -> k3d LB -> Traefik :80.
+  ingressClassName: traefik
   rules:
     - http:
         paths:
