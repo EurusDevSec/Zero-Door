@@ -839,3 +839,10 @@ Hoàng trực tiếp yêu cầu hoàn tất đúng AC ZER-9, đồng ý gói run
 ## Codex runtime actor cuối ZER-9 — 19/10/2026,20:03 +07:00
 
 [Evidence](../../../evidence/ZER-9/actor-runtime/README.md): PASS10/10 runtime; đối chiếu raw/image độc lập68/68, source khớp hash fix-03. Hai pod actor production có gate riêng trước context, khóa server node; O-only role keys/query, healer/reset409; chuỗi ID Kafka/PVC, poison offset5/good-next6/commit7, restart, seal, late/export và cleanup đạt. Không product source change sau fix-03; chỉ thêm verifier/overlay/test, runbook/CI. Verifier mới4/4. Giới hạn hội tụ policy, host harness/evaluator, synthetic alert, chưa fault/KPI/LLM/PVC hỏng giữ rõ trong evidence. Đang chuẩn bị commit/PR/CI/merge trong quyền Hoàng vừa cấp; Linear vẫn In Review cho tới khi merge đạt.
+
+
+## Publication gói ZER-9 — 19/10/2026
+
+Implementation b47e77deb1cd1a707a9ddf0dbae1f744c779ff38 đã push trên zer-9-event-pipeline; [PR24](https://github.com/EurusDevSec/Zero-Door/pull/24). [Release source manifest](../../../evidence/ZER-9/release-source-manifest.json) chốt28 file mã/CI/test; 138 blob evidence trong index khớp byte local, không token tạm. .gitattributes giữ nguyên CRLF/bytes evidence; chỉ log/diff thô được miễn whitespace, source/doc vẫn kiểm. [Runtime](../../../evidence/ZER-9/actor-runtime/README.md)10/10 và đối chiếu68/68 bao gồm chuỗi OCI index→manifest→config digest đúng với CRI.
+
+Phần sửa sản phẩm đã được Claude review, sửa gom fix-01..03 và Codex retest độc lập; runtime actor và verifier bổ sung do Codex thực hiện trong quyền trực tiếp Hoàng. CI/merge/receipt commit cuối ở PR; trạng thái nghiệm thu sống ở Linear. Quyền Hoàng cấp có điều kiện hoàn tất đúng AC, không bỏ qua CI/finding chặn. Trước merge phải kiểm latest head, mọi job bắt buộc đạt và cây mã/evidence không đổi; không suy Done/G1 từ commit hay số lượng test. Không gửi Claude/thông báo bên ngoài.

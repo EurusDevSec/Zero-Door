@@ -1,8 +1,8 @@
 # Checkpoint phiên
 
-## Con trỏ mới — ZER-9 runtime actor PASS, đang publication — 19/10/2026
+## Con trỏ mới — ZER-9: gói cuối và publication — 19/10/2026
 
-[Evidence](../evidence/ZER-9/actor-runtime/README.md): runtime10/10, đối chiếu độc lập68/68, verifier4/4. Nguồn cuối fix-03 đã chạy bằng pod actor production; cleanup nonce hoàn tất. Codex writer, Hoàng đã cho phép commit/PR/hoàn thành Linear sau đủ kiểm. Đang chờ CI/merge; chưa Done/G1. Dirty quy ước ngoài ZER-9 giữ nguyên.
+[Evidence](../evidence/ZER-9/actor-runtime/README.md): runtime10/10, đối chiếu độc lập68/68, verifier4/4. Nguồn cuối fix-03 đã chạy bằng pod actor production; cleanup nonce hoàn tất. Commit implementation b47e77d và [PR24](https://github.com/EurusDevSec/Zero-Door/pull/24) giữ package; trạng thái CI/merge xem trực tiếp tại PR, nghiệm thu/Done xem [ZER-9](https://linear.app/zero-door/issue/ZER-9/thong-nhat-hop-djong-su-kien-va-luu-dau-vet). Hoàng yêu cầu hoàn tất và cho phép publication/cập nhật Done sau đủ kiểm. Gói này không đóng G1. Dirty quy ước ngoài ZER-9 giữ nguyên.
 
 ## Con trỏ mới — Codex retest fix-03 ZER-9: READY_OFFLINE — 19/10/2026
 
