@@ -172,3 +172,7 @@ HEAD df5d542aaf726e62ea8ccb17a94490cd88322ee0 trên zer-5-scope-acceptance, stag
 ### RV8-06 sửa và retest sau Claude — 19/10/2026, 11:49 +07:00
 
 Mục5.1 làm rõ Hoàng/Hòa chỉ rà nhãn/A theo variant; harness sinh và niêm phong thứ tự/seed/onset sau đó. Hoàng BM không xem lịch trước/trongtrial; có thểrà sau trial, Hòa rà mức trial nếu cần. Mục5.7 trỏ13 và thêm cờ người vận hành đã thấy lịch/auditUNKNOWN choZER9. AC01/bối cảnhngânsách cậpnhậtcon trỏ P3; quyết địnhB3/M1/B2/pilotgiữnguyên. SHA-256thiếtkế cfaec5227972e85a62df205782e71ba915931aadb437073a4c09b40386305db8. Không harnessruntime,mãproduction hoặc quyềnpilotmới. Gói đủ kỹ thuật sau sửa,chờ nghiệmthu/publication,gateđối chiếu tại docs/evidence/R0/g0-acceptance.md.
+
+## Receipt nghiệm thu ZER-8 và G0 — 19/10/2026
+
+Hoàng đã chấp nhận bản thiết kế sau RV8-06 và cho phép publication. PR #21 merge250d385, artifact hash cfaec5227972e85a62df205782e71ba915931aadb437073a4c09b40386305db8 đã đọc lại trên main; CI thành công. Linear read-back ZER-8 Done, ba AC checked, completedAt2026-10-19T05:02:01.802Z. [Receipt G0](../../../evidence/R0/g0-acceptance.md) giữ đối chiếu tích hợp và giới hạn; chưa có quyền chạy pilot hoặc nâng hardlimit.
