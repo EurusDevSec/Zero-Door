@@ -1,0 +1,1910 @@
+{
+ "meta": {
+  "note": "SYNTHETIC/OFFLINE fixtures for docs/design/r1-event-contract.md section 10 (revision 2, after Codex review RV37-01..05). Not lab data. Times are seconds from t0 on the reference clock; OFF_HOST readings are derived from probe_offset. Expected values were computed by hand before the run. v1 cases keep their expectations; additions are listed in the handoff.",
+  "t0": "2026-10-19T06:00:00.000Z",
+  "params": {
+   "delta": 1,
+   "k": 3,
+   "s": 30,
+   "gap": 2,
+   "eps": 1,
+   "cap_det": 300,
+   "cap_rec": 600,
+   "w_eff": 300,
+   "l_ms": 2000
+  }
+ },
+ "base": {
+  "group": "B2",
+  "trial_start": 10,
+  "target": "frontend",
+  "flow": "checkout",
+  "t_req": 100,
+  "t_stop": 240,
+  "probe_clock": "OFF_HOST_SYNCED",
+  "probe": [
+   [
+    20,
+    100,
+    true
+   ],
+   [
+    101,
+    188,
+    false
+   ],
+   [
+    189,
+    260,
+    true
+   ]
+  ],
+  "effect": {
+   "status": "CONFIRMED",
+   "t_eff": 101,
+   "t": 160
+  },
+  "detects": [
+   {
+    "t": 131
+   }
+  ],
+  "decision": {
+   "t": 133,
+   "received_at": 131.4,
+   "source": "decision_llm",
+   "decision_source": "LLM",
+   "response_kind": "ACTION",
+   "action_type": "SCALE_UP",
+   "input_detect": 0,
+   "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+  },
+  "guard": {
+   "t": 133.1,
+   "verdict": "ACCEPT"
+  },
+  "actions": [
+   {
+    "start": 133.5,
+    "api": 134,
+    "complete": 150,
+    "status": "SUCCESS",
+    "initiator": "AUTO"
+   }
+  ],
+  "recovery_event": {
+   "t": 222,
+   "ingest": 290,
+   "t_rec": 191
+  },
+  "labels": {
+   "case_class": "C4_RESOURCE",
+   "variant_id": "v_c4_cpu_01",
+   "attack_type": "CPU_STRESS"
+  },
+  "extra": [],
+  "manifest": {
+   "reveal_terms": [
+    "stress"
+   ],
+   "entries": [
+    {
+     "kind": "pod",
+     "value": "wrk-5d2c9e71",
+     "class": "NEUTRAL",
+     "o_visible": true,
+     "allowed_o": []
+    }
+   ]
+  },
+  "probe_offset": {
+   "a": 0,
+   "b": 0
+  },
+  "syncs": null,
+  "context_extra": {},
+  "probe_pass_patch": null,
+  "action_id_only": false,
+  "heal_causation_detect": null
+ },
+ "cases": [
+  {
+   "id": "E01",
+   "over": {},
+   "expected": {
+    "effect": "CONFIRMED",
+    "t_det": 131,
+    "mttd": 30,
+    "t_rec": 191,
+    "mttr": 60,
+    "total": 90,
+    "reaction": 19,
+    "label": "RECOVERED",
+    "flags": [],
+    "evaluator_mismatch": false,
+    "leak": "CLEAN",
+    "mode_violation": false,
+    "u_ms": {
+     "mttd": 37,
+     "mttr": 37,
+     "total": 32,
+     "reaction": 2
+    },
+    "rejected_types": [],
+    "unscoped": 0,
+    "foreign": 0
+   }
+  },
+  {
+   "id": "E02",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      760,
+      false
+     ]
+    ],
+    "t_stop": 740,
+    "recovery_event": null
+   },
+   "expected": {
+    "t_rec": null,
+    "reaction": 19,
+    "label": "TIMEOUT"
+   }
+  },
+  {
+   "id": "E03F",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 138,
+      "status": "FAILED",
+      "initiator": "AUTO"
+     }
+    ],
+    "recovery_event": {
+     "t": 174,
+     "t_rec": 143
+    }
+   },
+   "expected": {
+    "t_rec": 143,
+    "mttr": 12,
+    "reaction": "NO_SUCCESS",
+    "label": "RECOVERED",
+    "flags": [
+     "NO_ACTION_BEFORE_RECOVERY"
+    ]
+   }
+  },
+  {
+   "id": "E03P",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 138,
+      "status": "PARTIAL",
+      "initiator": "AUTO"
+     }
+    ],
+    "recovery_event": {
+     "t": 174,
+     "t_rec": 143
+    }
+   },
+   "expected": {
+    "t_rec": 143,
+    "mttr": 12,
+    "reaction": "NO_SUCCESS",
+    "label": "RECOVERED",
+    "flags": [
+     "NO_ACTION_BEFORE_RECOVERY"
+    ]
+   }
+  },
+  {
+   "id": "E03T",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 138,
+      "status": "TIMEOUT",
+      "initiator": "AUTO"
+     }
+    ],
+    "recovery_event": {
+     "t": 174,
+     "t_rec": 143
+    }
+   },
+   "expected": {
+    "t_rec": 143,
+    "mttr": 12,
+    "reaction": "NO_SUCCESS",
+    "label": "RECOVERED",
+    "flags": [
+     "NO_ACTION_BEFORE_RECOVERY"
+    ]
+   }
+  },
+  {
+   "id": "E03N",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "NO_ACTION",
+     "action_type": null,
+     "input_detect": 0,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    },
+    "guard": null,
+    "actions": [],
+    "recovery_event": {
+     "t": 174,
+     "t_rec": 143
+    }
+   },
+   "expected": {
+    "t_rec": 143,
+    "mttr": 12,
+    "reaction": "NO_SUCCESS",
+    "label": "RECOVERED",
+    "flags": [
+     "NO_ACTION_BEFORE_RECOVERY"
+    ]
+   }
+  },
+  {
+   "id": "E03M",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": null,
+      "initiator": "AUTO"
+     }
+    ],
+    "recovery_event": {
+     "t": 174,
+     "t_rec": 143
+    }
+   },
+   "expected": {
+    "t_rec": 143,
+    "reaction": "NO_SUCCESS",
+    "label": "RECOVERED",
+    "flags": [
+     "ACTION_TERMINAL_MISSING",
+     "NO_ACTION_BEFORE_RECOVERY"
+    ]
+   }
+  },
+  {
+   "id": "E05",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      150,
+      true
+     ],
+     [
+      151,
+      160,
+      false
+     ],
+     [
+      161,
+      260,
+      true
+     ]
+    ],
+    "recovery_event": {
+     "t": 194,
+     "t_rec": 163
+    },
+    "extra": [
+     {
+      "type": "RELAPSE",
+      "t": 151.5,
+      "candidate_t_rec": 143,
+      "failing_sample_t": 151
+     }
+    ]
+   },
+   "expected": {
+    "t_rec": 163,
+    "mttr": 32,
+    "relapses": 1,
+    "label": "RECOVERED",
+    "flags": []
+   }
+  },
+  {
+   "id": "E06",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      150,
+      true
+     ]
+    ],
+    "recovery_event": null
+   },
+   "expected": {
+    "t_rec": null,
+    "label": "MISSING_PROBE"
+   }
+  },
+  {
+   "id": "E07",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      698,
+      false
+     ],
+     [
+      699,
+      800,
+      true
+     ]
+    ],
+    "t_stop": 800,
+    "recovery_event": null
+   },
+   "expected": {
+    "t_rec": 701,
+    "mttr": 570,
+    "total": 600,
+    "label": "RECOVERED"
+   }
+  },
+  {
+   "id": "E08",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      699,
+      false
+     ],
+     [
+      700,
+      800,
+      true
+     ]
+    ],
+    "t_stop": 800,
+    "recovery_event": null
+   },
+   "expected": {
+    "t_rec": null,
+    "label": "TIMEOUT"
+   }
+  },
+  {
+   "id": "E09",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "t_stop": 160,
+    "recovery_event": null
+   },
+   "expected": {
+    "t_rec": 143,
+    "mttr": 12,
+    "label": "RECOVERED_AFTER_STOP"
+   }
+  },
+  {
+   "id": "E10",
+   "over": {
+    "effect": null,
+    "recovery_event": null
+   },
+   "expected": {
+    "effect": "UNKNOWN_EFFECT",
+    "mttd": "MISSING",
+    "mttr": "MISSING",
+    "label": "UNKNOWN_EFFECT"
+   }
+  },
+  {
+   "id": "E11",
+   "over": {
+    "probe": [
+     [
+      20,
+      420,
+      true
+     ]
+    ],
+    "t_stop": 410,
+    "effect": {
+     "status": "CONFIRMED_NO_EFFECT",
+     "t_eff": null,
+     "t": 420
+    },
+    "detects": [],
+    "decision": null,
+    "guard": null,
+    "actions": [],
+    "recovery_event": null
+   },
+   "expected": {
+    "effect": "CONFIRMED_NO_EFFECT",
+    "label": "OUT_NO_EFFECT"
+   }
+  },
+  {
+   "id": "E12",
+   "over": {
+    "probe": [
+     [
+      20,
+      200,
+      true
+     ]
+    ],
+    "t_stop": 410,
+    "effect": {
+     "status": "CONFIRMED_NO_EFFECT",
+     "t_eff": null,
+     "t": 420
+    },
+    "detects": [],
+    "decision": null,
+    "guard": null,
+    "actions": [],
+    "recovery_event": null
+   },
+   "expected": {
+    "effect": "UNKNOWN_EFFECT",
+    "label": "UNKNOWN_EFFECT"
+   }
+  },
+  {
+   "id": "E13",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "dup": 1
+     }
+    ],
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 140,
+      "status": "FAILED",
+      "initiator": "AUTO",
+      "dup_complete": 1
+     },
+     {
+      "start": 141,
+      "api": 141.5,
+      "complete": 155,
+      "status": "SUCCESS",
+      "initiator": "AUTO",
+      "retry_of": 0
+     }
+    ]
+   },
+   "expected": {
+    "duplicates_dropped": 2,
+    "action_attempts": 2,
+    "terminal_events": 2,
+    "reaction": 24,
+    "label": "RECOVERED",
+    "flags": []
+   }
+  },
+  {
+   "id": "E14",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "ingest": 200
+     },
+     {
+      "t": 140,
+      "ingest": 141
+     }
+    ]
+   },
+   "expected": {
+    "t_det": 131,
+    "mttd": 30,
+    "mttr": 60,
+    "label": "RECOVERED"
+   }
+  },
+  {
+   "id": "E15",
+   "over": {
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "AUTO",
+      "conflict": "FAILED"
+     }
+    ]
+   },
+   "expected": {
+    "integrity_errors": 1,
+    "label": "MISSING"
+   }
+  },
+  {
+   "id": "E16",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "no_ids": true
+     }
+    ],
+    "decision": null,
+    "guard": null,
+    "actions": []
+   },
+   "expected": {
+    "orphans": 1,
+    "label": "MISSING"
+   }
+  },
+  {
+   "id": "E17",
+   "over": {
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      760,
+      false
+     ]
+    ],
+    "t_stop": 740,
+    "detects": [
+     {
+      "t": 125,
+      "src": "executor"
+     },
+     {
+      "t": 131
+     }
+    ],
+    "recovery_event": null,
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 1,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    },
+    "extra": [
+     {
+      "type": "RECOVERY_VERIFIED",
+      "src": "executor",
+      "t": 152,
+      "t_rec": 150
+     }
+    ]
+   },
+   "expected": {
+    "source_violations": 2,
+    "t_det": 131,
+    "reaction": 19,
+    "label": "TIMEOUT"
+   }
+  },
+  {
+   "id": "E18",
+   "over": {
+    "probe_clock": "OFF_HOST_UNSYNCED"
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "CLOCK_UNVERIFIED"
+    ],
+    "mttd": "MISSING",
+    "mttr": "MISSING",
+    "total": 90,
+    "reaction": 19
+   }
+  },
+  {
+   "id": "E19",
+   "over": {
+    "decision": {
+     "t": 133,
+     "received_at": 128,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    }
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "INVALID_CLOCK"
+    ]
+   }
+  },
+  {
+   "id": "E20",
+   "over": {
+    "detects": [
+     {
+      "t": 100.5
+     }
+    ]
+   },
+   "expected": {
+    "t_det": 100.5,
+    "mttd": 0,
+    "mttr": 90.5,
+    "label": "RECOVERED",
+    "flags": [
+     "EARLY_DETECT"
+    ]
+   }
+  },
+  {
+   "id": "L1",
+   "over": {
+    "incident_id": "inc_c4_resource-0003"
+   },
+   "expected": {
+    "leak": "LEAK_DETECTED",
+    "rejected_types": [
+     "ACTION_COMPLETED",
+     "API_ACCEPTED",
+     "ATTACK_REQUESTED",
+     "ATTACK_STOPPED",
+     "DECISION",
+     "DETECTED",
+     "EFFECT_EVALUATED",
+     "FAULT_EXECUTOR_RESULT",
+     "GUARD_VERDICT",
+     "HEAL_STARTED",
+     "LLM_CALL",
+     "RECOVERY_VERIFIED",
+     "TRIAL_CONTEXT"
+    ]
+   }
+  },
+  {
+   "id": "L2",
+   "over": {
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Context ref CANARY. Choose one action from the fixed menu."
+    }
+   },
+   "expected": {
+    "leak": "LEAK_DETECTED"
+   }
+  },
+  {
+   "id": "L3",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "payload_extra": {
+       "onset_offset_ms": 4200
+      }
+     }
+    ]
+   },
+   "expected": {
+    "leak": "LEAK_DETECTED"
+   }
+  },
+  {
+   "id": "L4",
+   "over": {
+    "group": "BM",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "operator_console",
+     "decision_source": "MANUAL",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null
+    },
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "OPERATOR"
+     }
+    ],
+    "extra": [
+     {
+      "type": "AUDIT_COVERAGE",
+      "t": 0,
+      "from": 0,
+      "to": 900,
+      "complete": true
+     },
+     {
+      "type": "SCHEDULE_ACCESS",
+      "t": 50,
+      "actor_role": "OPERATOR"
+     }
+    ]
+   },
+   "expected": {
+    "leak": "LEAK_DETECTED",
+    "operator_saw_schedule_before_trial": true,
+    "mode_violation": false
+   }
+  },
+  {
+   "id": "L5",
+   "over": {
+    "group": "BM",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "operator_console",
+     "decision_source": "MANUAL",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null
+    },
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "OPERATOR"
+     }
+    ]
+   },
+   "expected": {
+    "leak": "UNKNOWN",
+    "mode_violation": false
+   }
+  },
+  {
+   "id": "B0V",
+   "over": {
+    "group": "B0"
+   },
+   "expected": {
+    "mode_violation": true
+   }
+  },
+  {
+   "id": "B0C",
+   "over": {
+    "group": "B0",
+    "probe": [
+     [
+      20,
+      100,
+      true
+     ],
+     [
+      101,
+      140,
+      false
+     ],
+     [
+      141,
+      260,
+      true
+     ]
+    ],
+    "detects": [],
+    "decision": null,
+    "guard": null,
+    "actions": [],
+    "recovery_event": null
+   },
+   "expected": {
+    "t_rec": 143,
+    "label": "RECOVERED_UNDETECTED",
+    "mttd": "N/A",
+    "mttr": "N/A",
+    "reaction": "N/A",
+    "leak": "CLEAN",
+    "mode_violation": false
+   }
+  },
+  {
+   "id": "BMV",
+   "over": {
+    "group": "BM",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_rules",
+     "decision_source": "RULES",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null
+    },
+    "extra": [
+     {
+      "type": "AUDIT_COVERAGE",
+      "t": 0,
+      "from": 0,
+      "to": 900,
+      "complete": true
+     }
+    ]
+   },
+   "expected": {
+    "mode_violation": true,
+    "leak": "CLEAN"
+   }
+  },
+  {
+   "id": "BMC",
+   "over": {
+    "group": "BM",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "operator_console",
+     "decision_source": "MANUAL",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null
+    },
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "OPERATOR"
+     }
+    ],
+    "extra": [
+     {
+      "type": "AUDIT_COVERAGE",
+      "t": 0,
+      "from": 0,
+      "to": 900,
+      "complete": true
+     },
+     {
+      "type": "SCHEDULE_ACCESS",
+      "t": 400,
+      "actor_role": "OPERATOR"
+     }
+    ]
+   },
+   "expected": {
+    "label": "RECOVERED",
+    "leak": "CLEAN",
+    "operator_saw_schedule_before_trial": false,
+    "mode_violation": false
+   }
+  },
+  {
+   "id": "W1",
+   "over": {
+    "incidents": [
+     {
+      "t_req": 100,
+      "t_stop": 240,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 101,
+       "t": 160
+      }
+     },
+     {
+      "t_req": 1000,
+      "t_stop": 1140,
+      "target": "cartservice",
+      "flow": "cart",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 1001,
+       "t": 1060
+      }
+     }
+    ],
+    "probe": [],
+    "detects": [
+     {
+      "t": 131,
+      "target": "frontend"
+     },
+     {
+      "t": 1031,
+      "target": "cartservice"
+     }
+    ],
+    "decision": null,
+    "guard": null,
+    "actions": [],
+    "recovery_event": null
+   },
+   "expected": {
+    "links": {
+     "d0": 0,
+     "d1": 1
+    },
+    "ambiguous": false
+   }
+  },
+  {
+   "id": "W2",
+   "over": {
+    "incidents": [
+     {
+      "t_req": 100,
+      "t_stop": 240,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 101,
+       "t": 160
+      }
+     },
+     {
+      "t_req": 150,
+      "t_stop": 290,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 151,
+       "t": 200
+      }
+     }
+    ],
+    "probe": [],
+    "detects": [
+     {
+      "t": 160,
+      "target": "frontend"
+     }
+    ],
+    "decision": null,
+    "guard": null,
+    "actions": [],
+    "recovery_event": null
+   },
+   "expected": {
+    "ambiguous": true,
+    "labels": [
+     "MISSING",
+     "MISSING"
+    ]
+   }
+  },
+  {
+   "id": "R1",
+   "over": {
+    "recovery_event": {
+     "t": 221,
+     "ingest": 290,
+     "t_rec": 191
+    }
+   },
+   "expected": {
+    "rejected_types": [
+     "RECOVERY_VERIFIED"
+    ],
+    "evaluator_mismatch": true,
+    "label": "RECOVERED",
+    "t_rec": 191,
+    "mttr": 60,
+    "flags": []
+   }
+  },
+  {
+   "id": "R2",
+   "over": {
+    "recovery_event": {
+     "t": 222,
+     "ingest": 290,
+     "t_rec": 191,
+     "seq_range": [
+      150,
+      182
+     ]
+    }
+   },
+   "expected": {
+    "rejected_types": [],
+    "evaluator_mismatch": true,
+    "evaluator_issues": [
+     "sample_seq_range"
+    ],
+    "label": "RECOVERED",
+    "t_rec": 191
+   }
+  },
+  {
+   "id": "R3",
+   "over": {
+    "recovery_event": {
+     "t": 222,
+     "ingest": 290,
+     "t_rec": 191,
+     "probe_id": "prb-9"
+    }
+   },
+   "expected": {
+    "rejected_types": [],
+    "evaluator_mismatch": true,
+    "evaluator_issues": [
+     "provenance"
+    ],
+    "label": "RECOVERED"
+   }
+  },
+  {
+   "id": "R4",
+   "over": {
+    "recovery_event": {
+     "t": 222,
+     "ingest": 290,
+     "t_rec": 191,
+     "samples_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+    }
+   },
+   "expected": {
+    "rejected_types": [],
+    "evaluator_mismatch": true,
+    "evaluator_issues": [
+     "samples_sha256"
+    ],
+    "label": "RECOVERED"
+   }
+  },
+  {
+   "id": "L6",
+   "over": {
+    "manifest": {
+     "reveal_terms": [
+      "stress"
+     ],
+     "entries": [
+      {
+       "kind": "pod",
+       "value": "wrk-5d2c9e71",
+       "class": "NEUTRAL",
+       "o_visible": true,
+       "allowed_o": []
+      },
+      {
+       "kind": "observed_ip",
+       "value": "10.42.0.77",
+       "class": "OBSERVABLE",
+       "o_visible": true,
+       "allowed_o": [
+        {
+         "source_component": "detector",
+         "field": "payload.description"
+        },
+        {
+         "source_component": "decision_llm",
+         "field": "prompt"
+        }
+       ]
+      }
+     ]
+    },
+    "detects": [
+     {
+      "t": 131,
+      "description": "Request rate from 10.42.0.77 is 40x baseline."
+     }
+    ],
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": "Alert: request rate from 10.42.0.77 is 40x baseline. Pods in target-app: frontend-6f7d9c, wrk-5d2c9e71. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    }
+   },
+   "expected": {
+    "leak": "CLEAN",
+    "label": "RECOVERED",
+    "mode_violation": false
+   }
+  },
+  {
+   "id": "L7",
+   "over": {
+    "manifest": {
+     "reveal_terms": [
+      "stress"
+     ],
+     "entries": [
+      {
+       "kind": "pod",
+       "value": "frontend-cpu-stress-5d2c",
+       "class": "NEUTRAL",
+       "o_visible": true,
+       "allowed_o": []
+      }
+     ]
+    },
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Pods in target-app: frontend-6f7d9c, frontend-cpu-stress-5d2c. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    }
+   },
+   "expected": {
+    "leak": "LEAK_DETECTED"
+   }
+  },
+  {
+   "id": "L8",
+   "over": {
+    "manifest": {
+     "reveal_terms": [
+      "stress"
+     ],
+     "entries": [
+      {
+       "kind": "pod",
+       "value": "wrk-5d2c9e71",
+       "class": "NEUTRAL",
+       "o_visible": true,
+       "allowed_o": []
+      },
+      {
+       "kind": "observed_ip",
+       "value": "10.42.0.77",
+       "class": "OBSERVABLE",
+       "o_visible": true,
+       "allowed_o": [
+        {
+         "source_component": "detector",
+         "field": "payload.description"
+        },
+        {
+         "source_component": "decision_llm",
+         "field": "prompt"
+        }
+       ]
+      }
+     ]
+    },
+    "detects": [
+     {
+      "t": 131,
+      "description": "Request rate from 10.42.0.77 is 40x baseline."
+     }
+    ],
+    "context_extra": {
+     "client_hint": "10.42.0.77"
+    }
+   },
+   "expected": {
+    "leak": "LEAK_DETECTED"
+   }
+  },
+  {
+   "id": "L9",
+   "over": {
+    "manifest": null
+   },
+   "expected": {
+    "leak": "UNKNOWN",
+    "label": "RECOVERED"
+   }
+  },
+  {
+   "id": "C1",
+   "over": {
+    "probe_offset": {
+     "a": 10,
+     "b": 0
+    }
+   },
+   "expected": {
+    "t_det": 131,
+    "mttd": 30,
+    "t_rec": 191,
+    "mttr": 60,
+    "total": 90,
+    "reaction": 19,
+    "label": "RECOVERED",
+    "flags": [],
+    "evaluator_mismatch": false
+   }
+  },
+  {
+   "id": "C2",
+   "over": {
+    "syncs": [
+     [
+      10,
+      0,
+      20
+     ],
+     [
+      101,
+      0,
+      20
+     ]
+    ]
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "CLOCK_UNVERIFIED"
+    ],
+    "mttd": "MISSING",
+    "mttr": "MISSING",
+    "total": 90,
+    "reaction": 19
+   }
+  },
+  {
+   "id": "C3",
+   "over": {
+    "probe_offset": {
+     "a": 0,
+     "b": 0.01
+    }
+   },
+   "expected": {
+    "mttd": 30,
+    "t_rec": 191,
+    "mttr": 60,
+    "total": 90,
+    "label": "RECOVERED",
+    "flags": [],
+    "evaluator_mismatch": false
+   }
+  },
+  {
+   "id": "C5",
+   "over": {
+    "syncs": [
+     [
+      10,
+      0,
+      null
+     ],
+     [
+      300,
+      0,
+      null
+     ]
+    ]
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "CLOCK_UNVERIFIED"
+    ],
+    "total": 90
+   }
+  },
+  {
+   "id": "C6",
+   "over": {
+    "probe_resolution_ms": null
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "CLOCK_UNVERIFIED"
+    ],
+    "total": 90,
+    "reaction": 19
+   }
+  },
+  {
+   "id": "R5",
+   "over": {
+    "dup_sample": 190
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "INTEGRITY_ERROR"
+    ],
+    "mttr": "MISSING"
+   }
+  },
+  {
+   "id": "V1",
+   "over": {
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "AUTO",
+      "satisfied": false
+     }
+    ]
+   },
+   "expected": {
+    "rejected_types": [
+     "ACTION_COMPLETED"
+    ],
+    "label": "MISSING",
+    "flags": [
+     "ACTION_TERMINAL_MISSING",
+     "INVALID_EVENT"
+    ],
+    "reaction": "MISSING"
+   }
+  },
+  {
+   "id": "V2",
+   "over": {
+    "probe_pass_patch": {
+     "latency_ms": 5000,
+     "t_end_plus": 5,
+     "error_class": "SLOW"
+    },
+    "recovery_event": null
+   },
+   "expected": {
+    "rejected_types": [
+     "PROBE_SAMPLE"
+    ],
+    "label": "MISSING",
+    "flags": [
+     "INVALID_EVENT"
+    ]
+   }
+  },
+  {
+   "id": "V3",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "payload_replace": null
+     }
+    ]
+   },
+   "expected": {
+    "rejected_types": [
+     "DETECTED"
+    ],
+    "label": "MISSING",
+    "flags": [
+     "INVALID_EVENT"
+    ]
+   }
+  },
+  {
+   "id": "BMD",
+   "over": {
+    "group": "BM",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "operator_console",
+     "decision_source": "MANUAL",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null,
+     "omit": true
+    },
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "OPERATOR"
+     }
+    ],
+    "extra": [
+     {
+      "type": "AUDIT_COVERAGE",
+      "t": 0,
+      "from": 0,
+      "to": 900,
+      "complete": true
+     }
+    ]
+   },
+   "expected": {
+    "mode_violation": true,
+    "leak": "CLEAN"
+   }
+  },
+  {
+   "id": "B1C",
+   "over": {
+    "group": "B1",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_rules",
+     "decision_source": "RULES",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null
+    }
+   },
+   "expected": {
+    "mode_violation": false,
+    "label": "RECOVERED",
+    "leak": "CLEAN"
+   }
+  },
+  {
+   "id": "B1V",
+   "over": {
+    "group": "B1",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "operator_console",
+     "decision_source": "MANUAL",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": null
+    },
+    "actions": [
+     {
+      "start": 133.5,
+      "api": 134,
+      "complete": 150,
+      "status": "SUCCESS",
+      "initiator": "OPERATOR"
+     }
+    ]
+   },
+   "expected": {
+    "mode_violation": true
+   }
+  },
+  {
+   "id": "B3C",
+   "over": {
+    "group": "B3",
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_single_llm",
+     "decision_source": "SINGLE_LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 0,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    }
+   },
+   "expected": {
+    "mode_violation": false,
+    "label": "RECOVERED",
+    "leak": "CLEAN"
+   }
+  },
+  {
+   "id": "B3V",
+   "over": {
+    "group": "B3"
+   },
+   "expected": {
+    "mode_violation": true
+   }
+  },
+  {
+   "id": "X1",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "run_other": true
+     }
+    ]
+   },
+   "expected": {
+    "foreign": 1,
+    "label": "MISSING",
+    "flags": [
+     "LINK_CONFLICT"
+    ],
+    "mttd": "MISSING"
+   }
+  },
+  {
+   "id": "X2",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "trial_other": true
+     }
+    ]
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "LINK_CONFLICT"
+    ],
+    "mttd": "MISSING"
+   }
+  },
+  {
+   "id": "X3",
+   "over": {
+    "detects": [
+     {
+      "t": 131,
+      "target": "cartservice"
+     }
+    ]
+   },
+   "expected": {
+    "label": "MISSING",
+    "flags": [
+     "TARGET_MISMATCH"
+    ],
+    "mttd": "MISSING"
+   }
+  },
+  {
+   "id": "U1",
+   "over": {
+    "detects": [
+     {
+      "t": 125,
+      "no_run": true
+     },
+     {
+      "t": 131
+     }
+    ],
+    "decision": {
+     "t": 133,
+     "received_at": 131.4,
+     "source": "decision_llm",
+     "decision_source": "LLM",
+     "response_kind": "ACTION",
+     "action_type": "SCALE_UP",
+     "input_detect": 1,
+     "prompt_text": "Alert: CPU usage of frontend is 93% of its limit. Choose one action from the fixed menu: SCALE_UP, RESTART, ROLLBACK, BLOCK_IP, NO_ACTION, ABSTAIN."
+    }
+   },
+   "expected": {
+    "unscoped": 1,
+    "orphans": 0,
+    "t_det": 131,
+    "mttd": 30,
+    "label": "RECOVERED",
+    "flags": []
+   }
+  },
+  {
+   "id": "W3",
+   "over": {
+    "incidents": [
+     {
+      "t_req": 100,
+      "t_stop": 240,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 101,
+       "t": 160
+      }
+     },
+     {
+      "t_req": 1000,
+      "t_stop": 1140,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 1001,
+       "t": 1060
+      }
+     }
+    ],
+    "action_id_only": true
+   },
+   "expected": {
+    "orphans": 0,
+    "reaction": 19,
+    "labels": [
+     "RECOVERED",
+     "MISSING_PROBE"
+    ],
+    "links": {
+     "d0": 0
+    }
+   }
+  },
+  {
+   "id": "W4",
+   "over": {
+    "incidents": [
+     {
+      "t_req": 100,
+      "t_stop": 240,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 101,
+       "t": 160
+      }
+     },
+     {
+      "t_req": 1000,
+      "t_stop": 1140,
+      "target": "frontend",
+      "flow": "checkout",
+      "effect": {
+       "status": "CONFIRMED",
+       "t_eff": 1001,
+       "t": 1060
+      }
+     }
+    ],
+    "detects": [
+     {
+      "t": 131,
+      "target": "frontend"
+     },
+     {
+      "t": 1031,
+      "target": "frontend"
+     }
+    ],
+    "heal_causation_detect": 1
+   },
+   "expected": {
+    "labels": [
+     "MISSING",
+     "MISSING"
+    ],
+    "flags": [
+     "LINK_CONFLICT"
+    ]
+   }
+  }
+ ],
+ "aggregates": [
+  {
+   "id": "A1",
+   "cases": [
+    "E10",
+    "E11"
+   ],
+   "expected": {
+    "requested": 2,
+    "confirmed": 0,
+    "no_effect": 1,
+    "unknown_effect": 1,
+    "n": 1,
+    "status": "NONEMPTY"
+   }
+  },
+  {
+   "id": "A2",
+   "cases": [],
+   "expected": {
+    "requested": 0,
+    "n": 0,
+    "status": "EMPTY"
+   }
+  },
+  {
+   "id": "A3",
+   "cases": [
+    "E11"
+   ],
+   "expected": {
+    "requested": 1,
+    "no_effect": 1,
+    "n": 0,
+    "status": "NO_ELIGIBLE"
+   }
+  }
+ ]
+}
