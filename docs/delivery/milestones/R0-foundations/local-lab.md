@@ -173,3 +173,59 @@ Theo yêu cầu Hoàng, Codex nhận quyền ghi và đã sửa/triển khai JMX
 Hoàng đã cấp quyền commit/PR sau verdict PASS của Claude cho delta CL-01–04 (20:50). Codex chuẩn bị gói Bash/restore/Traefik và các tài liệu/evidence liên quan trên nhánh `codex/zer-35-local-lab`, base main `1f43ff1461c2199bc99e9962483956c3df0fa975`; allowlist từng file và hash ở scratch/zer35-publication. Bản đã review được đối chiếu hash trước staging; NOW và ghi chú này chỉ bổ sung quyền publication/con trỏ phiên. Không đổi mã sau review hoặc chạy thêm lab.
 
 Kiểm đã có: 37/37 mock ở cả hai chế độ Bash, 18 kiểm render/PromQL/quota, 3/3 consumer, bốn mutant đều bị bắt; runtime integration và giới hạn ở mục 12 lab-restoration. CI remote phải đọc trên PR GitHub của nhánh này, chưa lấy PASS local làm PASS CI. Quyền publication bao gồm push nhánh để mở PR; chưa gồm merge, đóng Linear hoặc nghiệm thu. Sau publication, kiểm commit/CI trên GitHub rồi xử lý gate merge và Hoàng chấp nhận.
+
+
+## Gói Claude — ZER-34 và đối chiếu nghiệm thu ZER-6 — 19/10/2026, 00:06 +07:00
+
+### Kết quả cần bàn giao và lý do ưu tiên
+
+Hoàng yêu cầu ưu tiên hoàn tất R0 hôm nay; mặc định Claude thực hiện, Codex review. Gói này review độc lập inventory ZER-34 do Codex lập và đối chiếu bằng chứng đã có với toàn bộ AC ZER-6. Không khôi phục lại lab chỉ để đóng tracking. Đây là phần khép nhóm lab; không thay các phần phạm vi ZER-5, RQ/đối chứng ZER-8 và backend thật ZER-36/ZER-7 của G0.
+
+Codex đã đọc live ZER-34 và ZER-6 qua linear_zero_door, đúng URL linear.app/zero-door/, đầu ngày 19/10 +07. ZER-34 còn In Progress, sáu AC chưa checked; ZER-6 còn In Progress, ba AC chưa checked; ZER-35 Done. Đọc lại AC khi bắt đầu. Nếu Claude không truy cập đúng connection, dùng nội dung AC tóm tắt bên dưới và ghi snapshot/giới hạn, không dùng connector workspace khác.
+
+### Baseline, ownership và file/action scope
+
+- Baseline lúc chuẩn bị: branch zer-33-baseline-source-ledger, HEAD 10a26b0a0001046b23f57f667a3cb7be33e69090, upstream origin cùng nhánh. Dirty có sẵn: AGENTS.md, NOW.md, delivery README.md, WORKFLOW.md; WORKING-AGREEMENT.md untracked. Ghi chú local-lab.md được Codex nối chính gói này. Chụp lại HEAD/status và hash trước khi Claude viết; không coi snapshot hiện tại là bất biến.
+- Codex kết thúc ghi sau bàn giao; Claude là writer tiếp theo. Khi tạo nhánh làm việc mới, dùng zer-34-lab-acceptance từ đúng HEAD đã kiểm; không stash/reset/ghi đè dirty hoặc thêm tiền tố codex. Nếu nhánh tồn tại, kiểm trước, không reset.
+- Được tạo docs/evidence/ZER-34/claude-review.md làm báo cáo độc lập; nối kết luận vào ghi chú local-lab.md này; cập nhật con trỏ NOW.md. Inventory docs/evidence/R0-T02-S01/inventory.md chỉ được nối đính chính có nguồn nếu phát hiện lỗi, không sửa mất các snapshot lịch sử. Dữ liệu tạm/ledger/hash nếu cần nằm scratch/zer34/ (ignored).
+- Chỉ đọc các source/config/Git/evidence liên quan. Không sửa source, script, test, manifest, raw CSV, DOCX, evidence/review ZER-32/33/35 hoặc dirty ngoài scope. Không commit/push/PR/merge, thay Linear, gọi API LLM, chi tiền hoặc gửi tin.
+- Gói hiện tại không thao tác runtime: không start/stop/recreate, deploy/build/rollout, POST attack/heal/reset, chạy verify-local-lab.sh hay đọc secret. Probe này có mua hàng/sentinel/topic/pod tạm nên không gọi nó là truy vấn chỉ đọc. Nếu thật sự thiếu bằng chứng cần chạy lại, nêu chính xác AC/lệnh/tác động cần bổ sung và làm tiếp các phần độc lập; không tự mở rộng quyền.
+
+### Nguồn và công việc phải làm trọn gói
+
+1. Đọc delivery README → WORKING-AGREEMENT → NOW → WORKFLOW, issue/note này; không audit lại toàn repo. Review inventory lịch sử ở docs/evidence/R0-T02-S01/inventory.md, đối chiếu revision 1f43ff1461c2199bc99e9962483956c3df0fa975 và các manifest tại revision đó. Các lệnh PowerShell trong lịch sử là provenance, không phải lệnh phải chạy lại; thao tác mới dùng Bash.
+2. ZER-34: kiểm sáu AC. AC-01: branch/HEAD/dirty, thời điểm/timezone và lệnh thực tế. AC-02: context, container/volume/port/resource và exit/lỗi/timeout; phân biệt mẫu Engine tắt 09:37 và mẫu thành công 09:45–09:46 ngày 18/10. AC-03: context/endpoint/API, version/args hoặc UNKNOWN/N/A có căn cứ khi cluster không hiện diện; không suy NetworkPolicy từ Flannel. AC-04: kiểm nhật ký/phạm vi bằng chứng chỉ đọc, ghi giới hạn của việc xác minh lịch sử, không khẳng định từ báo cáo tự khai là audit hệ điều hành đầy đủ. AC-05: quan sát, người dùng xác nhận, giả thuyết, bước quyết định tách rõ; report có thể đạt dù lúc đó lab chưa chạy. AC-06: báo cáo review độc lập có AC→evidence→verdict và artifact reviewer truy cập được tại vị trí chia sẻ đã duyệt. Kiểm file tracked/commit/remote thực tế; link local không tự thành remote/share approval. Nếu chưa đủ căn cứ chốt AC-06, giữ pending cụ thể.
+3. ZER-6: lập bảng ba AC và verdict riêng dựa vào nguồn. AC-01 dùng inventory ZER-34. AC-02 đối chiếu đường start/create hiện tại, API, tài nguyên và bảo toàn dữ liệu từ ZER-35; script Bash theo docs/runbooks/bash-tooling.md, không bắt chạy lại script PowerShell cũ chỉ vì body AC còn nhắc tên cũ. AC-03 phải có tối thiểu 5 microservices, giao dịch Online Boutique, Kafka message/correlation, Prometheus query và ES/log. Running hoặc healthz riêng không thay các tiêu chí này.
+4. Nguồn trọng tâm: docs/evidence/ZER-35/lab-restoration.md mục 12, nhất là dòng 270–296; docs/evidence/ZER-35/codex-review.md phần review cuối và Claude delta CL-01–04; cluster-baseline.md, traefik-migration.md chỉ mở phần cần truy vết. Kiểm source cited ở đúng revision và mốc triển khai. Bằng chứng cuối 18/10 18:36:07–18:37:51 exit 0, có checkout/Kafka/ES/health/policy/ingress; quan sát 31 mẫu, 15 phút 17 giây. Đây là bằng chứng lịch sử hữu hạn, không phải lab hiện tại vừa đo hoặc uptime 99,9%. Checkout loopback và ingress GET được kiểm riêng; không đổi thành checkout xuyên ingress.
+5. Kiểm receipt publication ZER-35: PR https://github.com/EurusDevSec/Zero-Door/pull/19, merge được ghi 5471b587b57dec53c3847aba9ae898d0f9fca956, head a224ce54fc0e742bbb647c61e6e9201094a9de25. Xác minh bằng Git/GitHub/receipt khả dụng; phần không truy cập được ghi chưa kiểm lại. Không dùng câu chờ merge trong đoạn lịch sử để phủ nhận receipt sau đó; cũng không suy child Done là parent tự đạt.
+6. Bảo toàn failure/OOM/timeout trước sửa, kiểm mọi giới hạn còn mở có chặn AC thật hay chỉ chặn nghiên cứu sau. Đừng yêu cầu chạy lại toàn bộ lab vì evidence cũ hơn một ngày nếu không có thay đổi làm mất hiệu lực; nếu revision/config drift, giải thích tác động chính xác.
+
+### Tự kiểm và bàn giao một lần
+
+Báo cáo ghi baseline/hash đầu-cuối, nguồn/line/revision, AC→expected→actual→verdict của cả hai issue; findings có vị trí, bằng chứng, ảnh hưởng và cách xử lý; phân biệt PASS kỹ thuật, pending sharing/acceptance và UNKNOWN. Tự kiểm link, bảng, hash bảo toàn, diff --check; không thêm test sao chép nội dung tài liệu. Sửa gom lỗi trong phạm vi tài liệu được giao trước khi bàn giao. Nếu cần sửa mã/lab, mô tả phần chặn thay vì tự làm.
+
+Nối tóm tắt review/khoảng trống vào ghi chú này, cập nhật NOW và trả một gói cho Codex. Không tự đánh dấu Done. Codex review kết luận và delta theo AC, xử lý gom finding rồi trình Hoàng nghiệm thu/publication/tracking trong quyền thực tế. G0 chỉ được đánh giá sau khi có đủ lab + phạm vi + RQ/đối chứng/nhãn + LLM thật; không chốt R0 từ riêng gói này.
+
+### Bàn giao Claude — ZER-34 và đối chiếu ZER-6 — 19/10/2026, 00:22 +07:00
+
+**Đã review xong, chờ Codex review; chưa đặt Done.** [Báo cáo](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-34/claude-review.md) SHA-256 `4107dcdf8456f43debec8c32ceb43bd31842cae5b3511ab5d37e2ccb9c5cf0bf`, 161 dòng. Baseline HEAD `10a26b0`, staged rỗng, giữ nguyên dirty có sẵn; không tạo nhánh mới vì gói không commit. Linear chưa đọc live (không có `linear_zero_door`); verdict dựa trên snapshot AC trong gói.
+
+- **ZER-34:** AC-01–05 PASS. 13 nhóm khẳng định tĩnh khớp revision `1f43ff1`; không cần đính chính inventory. AC-06 **pending**: inventory đã ở `main` công khai (blob `a2dd9cc` khớp), báo cáo review mới ở local.
+- **ZER-6:**
+  - AC-01 PASS kỹ thuật, phụ thuộc ZER-34.
+  - AC-02 PASS kỹ thuật có giới hạn: RV6-01, nhánh create/start cluster bằng script chỉ có mock; RV6-02, chưa kiểm kê lại container và volume S-cool/n8n sau khôi phục.
+  - AC-03 PASS kỹ thuật từ raw `verify-final.out` exit 0 (checkout, Kafka correlation, PromQL, ES sentinel, 9 pod Boutique) và 31 mẫu trong 15 phút 17 giây.
+- **Receipt ZER-35:** PR #19 MERGED, merge `5471b58`, head `a224ce5`, 7 job CI đạt. 20/20 mục ledger của bản đã review khớp mã đã merge và HEAD; không có drift làm mất hiệu lực bằng chứng 18/10.
+- **Đã kiểm:** selftest bộ kiểm 5/5; kiểm chính 23 OK / 0 FAIL (44 nguồn được bảo vệ không đổi, 4 dirty ngoài phạm vi giữ hash, ghi chú chỉ nối thêm, link/bảng hợp lệ, `git status` = baseline cộng báo cáo, `git diff --check` sạch). Mọi số dòng trích dẫn đã được soát lại trên nguồn.
+- **Không làm:** không chạy Docker/kubectl/lab, không commit/push/merge, không đổi Linear.
+- **Tiếp theo:** Codex đối chiếu với AC sống và review RV6-01/02. Hoàng quyết định chấp nhận giới hạn hoặc giao bổ sung (RV6-02 chỉ cần hai lệnh Docker chỉ đọc), rồi nghiệm thu và cho publication. G0/R0 chưa được chốt từ gói này. Claude nhường quyền ghi cho Codex.
+
+### Codex review — ZER-34/ZER-6 — 19/10/2026, 00:43 +07:00
+
+PASS kỹ thuật, chưa nghiệm thu/publication/Done. [Báo cáo, mục 9](R:/_Projects/Eurus_Workspace/zero_door/docs/evidence/ZER-34/claude-review.md) SHA-256 d7e758476c7567ff5229f6c7a3d97751cda3c819ade2f979c65cb0ee68dd5a0c. Đã đối chiếu AC sống; selftest 5/5, checker 23 OK, tính lại raw 31 mẫu/41 guard/chín pod/ba PVC và kiểm source/Git 9/9. Docker chỉ đọc lúc 00:42 giữ đủ năm container và năm volume có sẵn; chỉ xác minh hiện diện, không nhận kiểm toàn vẹn nội dung. RV6-01 là giới hạn coverage không chặn AC hiện hành; sửa câu mọi phép kiểm create đều cần wipe lab. Không chạy wrapper start/create hoặc verify lab, không sửa mã/cấu hình/raw; không đổi Linear, không publication. Không cần thêm vòng Claude; chờ Hoàng nghiệm thu và quyền commit/push/tracking cho ZER-34/ZER-6. G0 chưa đạt từ riêng gói lab.
+
+### Hoàng nghiệm thu và cấp quyền publication — 19/10/2026, 00:47 +07:00
+
+Hoàng trả lời “được” cho đề nghị nghiệm thu gói ZER-34/ZER-6, commit/push nhánh zer-34-lab-acceptance và cập nhật hai issue thành Done. Kết quả review kỹ thuật và giới hạn trong báo cáo mục 9 được chấp nhận; không cần thử lại bootstrap hoặc kiểm nội dung dữ liệu ngoài lab. Phạm vi publication: docs/evidence/ZER-34/claude-review.md (SHA-256 d7e758476c7567ff5229f6c7a3d97751cda3c819ade2f979c65cb0ee68dd5a0c) và ghi chú local-lab.md này. NOW chỉ cập nhật checkpoint, không gộp dirty quy ước/README/AGENTS/WORKFLOW/WORKING-AGREEMENT.
+
+Báo cáo tài liệu được chia sẻ tại repository GitHub hiện có trong quyền vừa cấp; AC-06 chỉ được checked sau khi push và kiểm artifact remote. Gói này không sửa source/runtime, nên không có PR/CI/merge mới cần chạy; mã lab đã có review/verification/merge ZER-35 (PR #19), còn nghiệm thu ZER-6 dựa vào đối chiếu tích hợp trong báo cáo. Quyền này không chốt G0 hoặc các issue R0 khác, không cho phép gọi LLM/chi phí.
