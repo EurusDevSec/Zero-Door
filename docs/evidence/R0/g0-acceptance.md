@@ -1,4 +1,6 @@
-# R0 / G0 — đối chiếu tích hợp chờ nghiệm thu và publication
+# R0 / G0 — receipt nghiệm thu tích hợp
+
+**Kết luận delivery: G0 PASS, R0 đã nghiệm thu.** Receipt cuối file ghi publication và read-back thực; các mục bên dưới giữ snapshot chuẩn bị theo thời điểm.
 
 **Kết luận kỹ thuật ngày 19/10/2026, 11:49 +07:** bốn vế gate có bằng chứng phù hợp sau sửa RV36-01/RV8-06. **G0 delivery chưa đóng**: còn Hoàng chấp nhận gói ZER-36/ZER-7/ZER-8, commit/push/PR/CI/merge mã probe mới, chia sẻ tài liệu và read-back Linear. Không dùng số issue Done thay gate. Không có API/lab mới trong lượt retest.
 
@@ -67,3 +69,31 @@ docs/evidence/R0/g0-acceptance.md
 ## Nghiệm thu và quyền publication — 19/10/2026
 
 Hoàng đã chấp nhận gói ZER-36/ZER-7/ZER-8 sau sửa và retest, đồng thời yêu cầu: “commit push mở pr ci merge update linear và chốt receipt G0”. Quyền gồm publication, merge khi CI đạt ở head cuối và cập nhật Linear/G0. Không mở rộng thành quyền chạy lab/API/pilot hoặc nâng hard limit. Các đoạn PENDING phía trên là snapshot trước nghiệm thu; kết quả thực sẽ được nối sau khi GitHub/Linear đọc lại thành công.
+
+## Receipt G0 — nghiệm thu tích hợp 19/10/2026
+
+**Kết luận: G0 PASS, R0 đã nghiệm thu trong phạm vi gate nền tảng.** Hoàng đã chấp nhận ZER-36/ZER-7/ZER-8 sau sửa hai P2 và retest, đồng thời cho phép publication, merge, cập nhật Linear và hoàn tất G0. Kết luận dựa trên bốn vế bằng chứng trong bảng ở trên, không suy từ số issue Done. Đây không phải nghiệm thu KPI nghiên cứu, pilot hay toàn bộ đề tài.
+
+### Publication và kiểm chứng
+
+- Nhánh zer-36-r0-acceptance; commit 3ddb0aba3ca598602f76b21c41cce57545422904 và 753a82589c143ae72c4b5fbffeb47427e1bf1488. Commit thứ hai bảo toàn nguyên byte CRLF của JSON evidence; không đổi giá trị/raw.
+- [PR #21](https://github.com/EurusDevSec/Zero-Door/pull/21) đã MERGED lúc 2026-10-19T05:00:49Z (12:00:49 +07), merge 250d385c7361cc83e8f3b6364061455949a20899. Main fetch/read-back cùng SHA; diff toàn bộ 14 file với head đã kiểm rỗng.
+- [CI PR ở head cuối](https://github.com/EurusDevSec/Zero-Door/actions/runs/39202190680): 7/7 job success; publish GHCR skipped đúng điều kiện chỉ chạy trên main. Bước test bounded LLM offline thực sự success.
+- [CI main sau merge](https://github.com/EurusDevSec/Zero-Door/actions/runs/39202348062): 8/8 job success, gồm xuất bốn image GHCR; head250d385. Đây là kiểm build/publication, không phải runtime lab.
+- Hash blob trên main: probe37de4d63…18e9c52, live688efc5d…35e76, Claude8413a2ab…6fcfbe, thiết kếcfaec522…305db8; đối chiếu nguyên SHA ở bảng trên đều khớp. 10 nguồn protected giữ nguyên hash. Không thêm inference/lab hoặc chi phí.
+
+### Linear đọc lại
+
+| Issue | Kết quả | completedAt UTC |
+| --- | --- | --- |
+| ZER-36 | Done, AC-01 checked | 2026-10-19T05:01:51.169Z |
+| ZER-7 | Done, AC-01–03 checked | 2026-10-19T05:01:56.145Z |
+| ZER-8 | Done, AC-01–03 checked | 2026-10-19T05:02:01.802Z |
+
+Các issue có receipt nghiệm thu và link artifact immutable ở merge250d385. ZER-5/6/32/33/34/35 đã Done từ các nghiệm thu trước; không đổi assignment, lịch hoặc relations. Receipt delivery cuối nằm trên milestone R0 của Linear; tài liệu này giữ đối chiếu kỹ thuật. Các mô tả PENDING trước mục nghiệm thu là snapshot lịch sử đã được receipt này thay thế.
+
+### Giới hạn và phần sau R0
+
+Lab dựa trên checkpoint thật 18/10, backend là một inference fixture tổng hợp19/10, không phải cùng một thử nghiệm end-to-end. Model snapshot, dashboard hardlimit kiểm độc lập và lab hiện tại vẫn có các giới hạn đã ghi. GT/BM/harness là thiết kế đã chốt, chưa triển khai. Formal F01–09/budget khóa sau pilot; chưa có quyền chạy pilot hoặc tự nâng hardlimit1USD lên5USD. Ba P3 parser/model-prefix/evidence-ID giữ trong phần theo dõi adapter; không nhận probe R0 là adapter sản xuất.
+
+Đầu ra R0 đã đủ để đánh giá Ready của R1; chọn gói sau phải đọc AC cha/con và các prerequisite thực tế. Không tự chạy ZER-37 hoặc sửa event consumer từ receipt này.

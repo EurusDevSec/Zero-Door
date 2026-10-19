@@ -154,3 +154,7 @@ Hai P2 đã xử lý: RV36-01 bổ sung test + CIoffline;12/12 test và14/14 mut
 GitHub PR #20 merged được Codex xác minh: merge ab800056, head df5d542, tree cùng 3c835858;mainls-remotekhớp. Không sửa checkpointpublication lịch sử. Bản đối chiếu gate ở docs/evidence/R0/g0-acceptance.md: bốn vế đủ ở mức kỹ thuật, delivery còn chờ Hoàng nghiệm thu36/7/8 và quyền publication/merge/Linear. Không gọi đó là G0đãđóng; chưacommit/push/PR/CIremote/mergegóimới.
 
 Kiểm cuối 11:52 +07: 14 file publication không có link local hỏng hoặc khoảng trắng cuối dòng, git diff --check sạch. Nhánh dự kiến zer-36-r0-acceptance; staged vẫn rỗng. Nội dung PR đã soạn trong scratch/zer36/codex-fix/pr-body.md, chưa gửi. Gói sẵn sàng trình Hoàng nghiệm thu và cấp quyền commit/push/PR/merge/Linear; job publish-images trên main là hành vi hiện có cần lưu ý khi merge. GitNexus index-only session 95836 còn chạy; không khởi chạy trùng.
+
+## Receipt publication và nghiệm thu — 19/10/2026
+
+Hoàng đã nghiệm thu và cho phép hoàn tất G0. PR #21 merge250d385, CI PR7/7 và main8/8 success, hash probe/live/review giữ nguyên. Linear read-back ZER-36 Done AC1 và ZER-7 Done AC1–3. Chi tiết revision, timestamp, giới hạn và gate tích hợp ở [receipt G0](../../../evidence/R0/g0-acceptance.md). Không gọi thêm API/lab.
