@@ -60,14 +60,17 @@ metadata:
     app: chaos-worker
     phase: "3"
 data:
+  ZD_COMMAND_POLICY_FILE: "/command-policy/policy.json"
+  ZD_COMMAND_SIGNER_FILE: "/command-fault/key.json"
+  ZD_COMMAND_LEDGER_DIR: "/command-ledger"
   KAFKA_BOOTSTRAP_SERVERS: "kafka.zero-door.svc.cluster.local:9092"
   KAFKA_COMMANDS_TOPIC: "attack.commands"
   KAFKA_RESULTS_TOPIC: "attack.results"
   KAFKA_GROUP_ID: "chaos-worker-group"
   ALLOWED_NAMESPACES: "target-app"
-  MAX_ATTACK_DURATION_SEC: "120"
-  DEFAULT_CONCURRENCY: "50"
-  DEFAULT_RPS: "100"
+  MAX_ATTACK_DURATION_SEC: "60"
+  DEFAULT_CONCURRENCY: "2"
+  DEFAULT_RPS: "5"
 
 ---
 # Deployment — single replica (one chaos worker is enough)
@@ -81,6 +84,8 @@ metadata:
     phase: "3"
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: chaos-worker
@@ -102,6 +107,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: chaos-worker-config
+          volumeMounts:
+            - {name: command-policy, mountPath: /command-policy, readOnly: true}
+            - {name: command-fault, mountPath: /command-fault, readOnly: true}
+            - {name: command-ledger, mountPath: /command-ledger}
           resources:
             requests:
               cpu: "50m"
@@ -117,4 +126,11 @@ spec:
             readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
+      volumes:
+        - name: command-policy
+          configMap: {name: zd-command-policy}
+        - name: command-fault
+          secret: {secretName: zd-command-fault, optional: true, defaultMode: 0440}
+        - name: command-ledger
+          persistentVolumeClaim: {claimName: chaos-worker-command-ledger}
       restartPolicy: Always

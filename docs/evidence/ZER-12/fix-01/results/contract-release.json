@@ -1,0 +1,119 @@
+{
+  "schema": "zd-event/1.0.0",
+  "json_examples": 3,
+  "focused_cases": [
+    {
+      "case": "C1",
+      "expected": {
+        "mttd": 30,
+        "mttr": 60,
+        "total": 90,
+        "evaluator_mismatch": false
+      },
+      "actual": {
+        "mttd": 30.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "evaluator_mismatch": false
+      },
+      "passed": true
+    },
+    {
+      "case": "C3",
+      "expected": {
+        "mttd": 30,
+        "mttr": 60,
+        "total": 90,
+        "evaluator_mismatch": false
+      },
+      "actual": {
+        "mttd": 30.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "evaluator_mismatch": false
+      },
+      "passed": true
+    },
+    {
+      "case": "R1",
+      "expected": {
+        "t_rec": 191,
+        "mttr": 60,
+        "evaluator_mismatch": true
+      },
+      "actual": {
+        "t_rec": 191.0,
+        "mttr": 60.0,
+        "evaluator_mismatch": true
+      },
+      "passed": true
+    },
+    {
+      "case": "W3",
+      "expected": {
+        "reaction": 19,
+        "orphans": 0
+      },
+      "actual": {
+        "reaction": 19.0,
+        "orphans": 0
+      },
+      "passed": true
+    },
+    {
+      "case": "L6",
+      "expected": {
+        "leak": "CLEAN",
+        "mode_violation": false
+      },
+      "actual": {
+        "leak": "CLEAN",
+        "mode_violation": false
+      },
+      "passed": true
+    },
+    {
+      "case": "V1",
+      "expected": {
+        "label": "MISSING",
+        "reaction": "MISSING"
+      },
+      "actual": {
+        "label": "MISSING",
+        "reaction": "MISSING"
+      },
+      "passed": true
+    },
+    {
+      "case": "L7",
+      "expected": {
+        "leak": "LEAK_DETECTED"
+      },
+      "actual": {
+        "leak": "LEAK_DETECTED"
+      },
+      "passed": true
+    },
+    {
+      "case": "L8",
+      "expected": {
+        "leak": "LEAK_DETECTED"
+      },
+      "actual": {
+        "leak": "LEAK_DETECTED"
+      },
+      "passed": true
+    },
+    {
+      "case": "L9",
+      "expected": {
+        "leak": "UNKNOWN"
+      },
+      "actual": {
+        "leak": "UNKNOWN"
+      },
+      "passed": true
+    }
+  ],
+  "links": "PASS"
+}

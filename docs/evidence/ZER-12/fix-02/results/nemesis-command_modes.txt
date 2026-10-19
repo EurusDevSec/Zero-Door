@@ -1,0 +1,8 @@
+test_allowed_proposals_and_production_executor_disabled (__main__.ModeTests.test_allowed_proposals_and_production_executor_disabled) ... ok
+test_blocked_context_source_manual_fallback_and_no_action (__main__.ModeTests.test_blocked_context_source_manual_fallback_and_no_action) ... ok
+test_rules_wrapper_uses_trusted_context_before_locked_adapter (__main__.ModeTests.test_rules_wrapper_uses_trusted_context_before_locked_adapter) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+OK

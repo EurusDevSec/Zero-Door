@@ -2,9 +2,15 @@
 package attack
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
+	"reflect"
+	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 // ---- Kafka Message Schemas ----
@@ -31,26 +37,33 @@ type SafetyLimits struct {
 }
 
 // AttackCommand is the message schema consumed from topic `attack.commands`.
+type RunContext struct {
+	RunID   string `json:"run_id"`
+	TrialID string `json:"trial_id"`
+	Group   string `json:"group"`
+}
+
 type AttackCommand struct {
-	CommandID   string           `json:"commandId"`
-	Timestamp   string           `json:"timestamp"`
-	Source      string           `json:"source"`
-	AttackType  string           `json:"attackType"` // HTTP_FLOOD | CPU_STRESS | MEMORY_STRESS | POD_KILL
-	Target      AttackTarget     `json:"target"`
-	Parameters  AttackParameters `json:"parameters"`
-	SafetyLimits SafetyLimits   `json:"safetyLimits"`
+	Context      RunContext       `json:"context"`
+	CommandID    string           `json:"commandId"`
+	Timestamp    string           `json:"timestamp"`
+	Source       string           `json:"source"`
+	AttackType   string           `json:"attackType"` // HTTP_FLOOD | CPU_STRESS | MEMORY_STRESS | POD_KILL
+	Target       AttackTarget     `json:"target"`
+	Parameters   AttackParameters `json:"parameters"`
+	SafetyLimits SafetyLimits     `json:"safetyLimits"`
 }
 
 // AttackResult is the message schema produced to topic `attack.results`.
 type AttackResult struct {
-	ResultID    string        `json:"resultId"`
-	CommandID   string        `json:"commandId"`
-	Timestamp   string        `json:"timestamp"`
-	Source      string        `json:"source"`
-	Status      string        `json:"status"`      // SUCCESS | FAILED | REJECTED | TIMEOUT
-	AttackType  string        `json:"attackType"`
-	DurationMs  int64         `json:"duration"`    // actual execution time in ms
-	Details     ResultDetails `json:"details"`
+	ResultID   string        `json:"resultId"`
+	CommandID  string        `json:"commandId"`
+	Timestamp  string        `json:"timestamp"`
+	Source     string        `json:"source"`
+	Status     string        `json:"status"` // SUCCESS | FAILED | REJECTED | TIMEOUT
+	AttackType string        `json:"attackType"`
+	DurationMs int64         `json:"duration"` // actual execution time in ms
+	Details    ResultDetails `json:"details"`
 }
 
 // ResultDetails holds attack-specific outcome metadata.
@@ -70,9 +83,130 @@ type Executor interface {
 // ---- Helpers ----
 
 // ParseCommand deserialises a raw JSON byte slice into an AttackCommand.
+// StrictJSON rejects duplicate keys before decoding (encoding/json normally keeps the last).
+func StrictJSON(data []byte, out any) error {
+	if len(data) == 0 || len(data) > 32768 || !utf8.Valid(data) {
+		return fmt.Errorf("PAYLOAD_SIZE_OR_UTF8")
+	}
+	scanner := json.NewDecoder(bytes.NewReader(data))
+	var walk func(int) error
+	walk = func(depth int) error {
+		if depth > 16 {
+			return fmt.Errorf("PAYLOAD_DEPTH")
+		}
+		token, err := scanner.Token()
+		if err != nil {
+			return err
+		}
+		delimiter, ok := token.(json.Delim)
+		if !ok {
+			return nil
+		}
+		switch delimiter {
+		case '{':
+			seen := map[string]bool{}
+			for scanner.More() {
+				key, e := scanner.Token()
+				if e != nil {
+					return e
+				}
+				name, ok := key.(string)
+				if !ok || seen[name] {
+					return fmt.Errorf("DUPLICATE_KEY")
+				}
+				seen[name] = true
+				if e = walk(depth + 1); e != nil {
+					return e
+				}
+			}
+		case '[':
+			for scanner.More() {
+				if err := walk(depth + 1); err != nil {
+					return err
+				}
+			}
+		default:
+			return fmt.Errorf("INVALID_JSON")
+		}
+		_, err = scanner.Token()
+		return err
+	}
+	if err := walk(0); err != nil {
+		return err
+	}
+	if _, err := scanner.Token(); err != io.EOF {
+		return fmt.Errorf("TRAILING_JSON")
+	}
+	if err := exactFields(data, reflect.TypeOf(out)); err != nil {
+		return err
+	}
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	return decoder.Decode(out)
+}
+
+// encoding/json accepts case-insensitive field aliases. Match only exact tags
+// at every struct boundary, including nested policy, envelope and ledger data.
+func exactFields(data []byte, typ reflect.Type) error {
+	for typ.Kind() == reflect.Pointer {
+		typ = typ.Elem()
+	}
+	switch typ.Kind() {
+	case reflect.Struct:
+		var fields map[string]json.RawMessage
+		if err := json.Unmarshal(data, &fields); err != nil {
+			return err
+		}
+		allowed := map[string]reflect.Type{}
+		for i := 0; i < typ.NumField(); i++ {
+			field := typ.Field(i)
+			if field.PkgPath != "" {
+				continue
+			}
+			tag := strings.Split(field.Tag.Get("json"), ",")[0]
+			if tag == "" {
+				tag = field.Name
+			}
+			if tag != "-" {
+				allowed[tag] = field.Type
+			}
+		}
+		for key, raw := range fields {
+			child, ok := allowed[key]
+			if !ok {
+				return fmt.Errorf("SCHEMA_FIELD:%s", key)
+			}
+			if err := exactFields(raw, child); err != nil {
+				return err
+			}
+		}
+	case reflect.Slice, reflect.Array:
+		var values []json.RawMessage
+		if err := json.Unmarshal(data, &values); err != nil {
+			return err
+		}
+		for _, raw := range values {
+			if err := exactFields(raw, typ.Elem()); err != nil {
+				return err
+			}
+		}
+	case reflect.Map:
+		var values map[string]json.RawMessage
+		if err := json.Unmarshal(data, &values); err != nil {
+			return err
+		}
+		for _, raw := range values {
+			if err := exactFields(raw, typ.Elem()); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 func ParseCommand(data []byte) (AttackCommand, error) {
 	var cmd AttackCommand
-	err := json.Unmarshal(data, &cmd)
+	err := StrictJSON(data, &cmd)
 	return cmd, err
 }
 
@@ -84,13 +218,16 @@ func NowISO() string {
 // EffectiveDuration returns the lower of the command duration and the
 // global max-duration kill-switch, ensuring we never exceed safety limits.
 func EffectiveDuration(cmd AttackCommand, globalMaxSec int) time.Duration {
-	d := cmd.Parameters.DurationSec
-	maxD := cmd.SafetyLimits.MaxDurationSec
-	if maxD <= 0 {
-		maxD = globalMaxSec
+	d, cap := cmd.Parameters.DurationSec, cmd.SafetyLimits.MaxDurationSec
+	// Invalid/nonpositive/overflowing limits never become a permissive default.
+	if d <= 0 || cap <= 0 || globalMaxSec <= 0 || globalMaxSec > 600 {
+		return 0
 	}
-	if d <= 0 || d > maxD {
-		d = maxD
+	if cap < d {
+		d = cap
+	}
+	if globalMaxSec < d {
+		d = globalMaxSec
 	}
 	return time.Duration(d) * time.Second
 }

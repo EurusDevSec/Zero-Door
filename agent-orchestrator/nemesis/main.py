@@ -1,4 +1,6 @@
 import os
+import sys
+from pathlib import Path
 import json
 import time
 import asyncio
@@ -8,12 +10,16 @@ import threading
 from datetime import datetime, timezone
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from kafka import KafkaProducer, KafkaConsumer
 from openai import OpenAI
 import httpx
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from nemesis.command_guard import CommandGuard, Refused, strict_json, sign, fields, identifier
 
 # ---- Logging Buffer for Dashboard ----
 NEMESIS_LOG_BUFFER = []
@@ -107,7 +113,7 @@ def get_llm_client(api_key: Optional[str] = None) -> OpenAI:
     global llm_client
     if LLM_PROVIDER == "ollama":
         if llm_client is None:
-            llm_client = OpenAI(base_url=OLLAMA_BASE_URL, api_key="ollama")
+            llm_client = OpenAI(base_url=OLLAMA_BASE_URL, api_key="ollama", max_retries=0, timeout=10.0)
             logger.info(f"LLM client initialized (Ollama) — model: {OLLAMA_MODEL}")
         return llm_client
     elif LLM_PROVIDER == "gemini":
@@ -115,12 +121,12 @@ def get_llm_client(api_key: Optional[str] = None) -> OpenAI:
         if not key:
             raise RuntimeError("Gemini API key is not set. Set GEMINI_API_KEYS environment variable.")
         # Google Generative Language API supports OpenAI compatibility endpoint
-        return OpenAI(api_key=key, base_url="https://generativelanguage.googleapis.com/v1beta/openai/")
+        return OpenAI(api_key=key, base_url="https://generativelanguage.googleapis.com/v1beta/openai/", max_retries=0, timeout=10.0)
     else:
         if llm_client is None:
             if not OPENAI_API_KEY:
                 raise RuntimeError("OPENAI_API_KEY is not set. Set it or use NEMESIS_LLM_PROVIDER=ollama.")
-            llm_client = OpenAI(api_key=OPENAI_API_KEY)
+            llm_client = OpenAI(api_key=OPENAI_API_KEY, max_retries=0, timeout=10.0)
             logger.info(f"LLM client initialized (OpenAI) — model: {OPENAI_MODEL}")
         return llm_client
 
@@ -175,7 +181,7 @@ def build_attack_command(
             "customParams": {},
         },
         "safetyLimits": {
-            "maxDuration": max(MAX_ATTACK_DURATION_SEC, 120),
+            "maxDuration": MAX_ATTACK_DURATION_SEC,
             "allowedNamespaces": ALLOWED_NAMESPACES,
         },
     }
@@ -244,7 +250,7 @@ Rules:
 
 async def call_gemini_native(api_key: str, model: str, system_prompt: str, user_prompt: str) -> str:
     import httpx
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
     payload = {
         "systemInstruction": {
             "parts": [{"text": system_prompt}]
@@ -260,17 +266,17 @@ async def call_gemini_native(api_key: str, model: str, system_prompt: str, user_
             "maxOutputTokens": MAX_LLM_TOKENS
         }
     }
-    headers = {"Content-Type": "application/json"}
+    headers = {"Content-Type": "application/json", "x-goog-api-key": api_key}
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(url, json=payload, headers=headers)
         if response.status_code != 200:
-            logger.error(f"Gemini native API failed with status {response.status_code}: {response.text}")
+            logger.error("Model HTTP failure: %s", response.status_code)
             raise RuntimeError(f"Gemini API returned status {response.status_code}")
         res_json = response.json()
         try:
             return res_json["candidates"][0]["content"]["parts"][0]["text"]
         except (KeyError, IndexError) as e:
-            logger.error(f"Unexpected Gemini API response structure: {res_json}")
+            logger.error("Unexpected model response structure")
             raise RuntimeError("Failed to parse response from Gemini API")
 
 
@@ -305,11 +311,10 @@ Remember to only target the 'target-app' namespace. Respond ONLY with valid JSON
             ordered_keys = keys_to_try[start_idx:] + keys_to_try[:start_idx]
 
             last_err = None
-            for idx, key in enumerate(ordered_keys):
+            for idx, key in enumerate(ordered_keys[:1]):
                 if not key:
                     continue
-                masked_key = key[:6] + "..." + key[-4:] if len(key) > 10 else "hidden"
-                logger.info(f"Round Robin: Trying Gemini API key {idx+1}/{len(ordered_keys)}: {masked_key}")
+                logger.info("Starting one bounded model attempt.")
                 try:
                     raw_output = await call_gemini_native(
                         api_key=key,
@@ -320,7 +325,7 @@ Remember to only target the 'target-app' namespace. Respond ONLY with valid JSON
                     # If call succeeds, break out of retry loop
                     break
                 except Exception as e:
-                    logger.warning(f"Gemini API key {idx+1} failed: {e}. Attempting failover to next key...")
+                    logger.warning("Model attempt failed: %s", type(e).__name__)
                     last_err = e
                     continue
 
@@ -340,7 +345,7 @@ Remember to only target the 'target-app' namespace. Respond ONLY with valid JSON
             )
             raw_output = response.choices[0].message.content.strip()
 
-        logger.info(f"LLM raw output: {raw_output}")
+        logger.info("Model response received; raw plan is not written to the dashboard log.")
 
         # Strip markdown code fences if present
         if raw_output.startswith("```"):
@@ -348,15 +353,14 @@ Remember to only target the 'target-app' namespace. Respond ONLY with valid JSON
             if raw_output.startswith("json"):
                 raw_output = raw_output[4:]
 
-        plan = json.loads(raw_output)
-        logger.info(f"LLM attack plan parsed: {plan}")
+        plan = strict_json(raw_output.encode())
         return plan
 
     except json.JSONDecodeError as e:
         logger.error(f"LLM output was not valid JSON: {e}")
         return None
     except Exception as e:
-        logger.error(f"LLM call process failed: {e}")
+        logger.error("Model call failed: %s", type(e).__name__)
         return None
 
 
@@ -450,90 +454,130 @@ def healthz():
     }
 
 
-@app.post("/attack/trigger", summary="Manually trigger a specific attack command")
-def trigger_attack(req: TriggerAttackRequest):
-    """Manually send an attack command directly (bypasses LLM)."""
-    if req.targetNamespace not in ALLOWED_NAMESPACES:
-        raise HTTPException(status_code=400, detail=f"Namespace '{req.targetNamespace}' is not allowed.")
+@app.middleware("http")
+async def command_boundary(request: Request, call_next):
+    if request.method == "GET" and (request.url.path.startswith("/api/") or request.url.path == "/attack/status"):
+        try:
+            CommandGuard.from_env().authorize(request.headers.get("Authorization"))
+        except Refused as error:
+            return JSONResponse({"detail": error.reason}, status_code=error.status)
+    if request.method == "POST":
+        try:
+            guard = CommandGuard.from_env()
+            request.state.operator = guard.authorize(request.headers.get("Authorization"))
+            body = bytearray()
+            async for chunk in request.stream():
+                body.extend(chunk)
+                if len(body) > 16384:
+                    raise Refused("PAYLOAD_SIZE", 413)
+            request.state.command_body = strict_json(bytes(body) or b"{}")
+            request.state.command_guard = guard
+            # All legacy writes are covered, including reset/chat routes.
+            if request.url.path not in {"/attack/trigger", "/attack/llm-plan", "/api/chat/clear"}:
+                raise Refused("RESET_REQUIRES_HARNESS", 409)
+        except Refused as error:
+            logger.warning("Command refused: %s", error.reason)
+            return JSONResponse({"detail": error.reason}, status_code=error.status)
+    return await call_next(request)
 
-    # Enforce minimum duration of 90s for reliable Prometheus scraping
-    duration = max(int(req.durationSec), 90)
 
-    command = build_attack_command(
-        attack_type=req.attackType,
-        target_service=req.targetService,
-        target_namespace=req.targetNamespace,
-        target_url=req.targetURL,
-        duration_sec=duration,
-        intensity=req.intensity,
-        concurrency=req.concurrency,
-    )
-
+def publish_command(guard, command, key):
     producer = get_kafka_producer()
     if producer is None:
-        raise HTTPException(status_code=503, detail="Kafka producer not available.")
-
-    producer.send(KAFKA_COMMANDS_TOPIC, command)
-    producer.flush()
-    logger.info(f"Manual attack command sent: {command}")
-
-    # Push to reasoning chat
-    cmd_id = command["commandId"]
-    chat_key = f"nemesis_manual_{cmd_id}"
-    if chat_key not in PROCESSED_CHAT_KEYS:
-        REASONING_CHAT_BUFFER.append({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "agent": "NEMESIS",
-            "message": f"Kích hoạt thử nghiệm thủ công nhắm vào dịch vụ '{req.targetService}'.",
-            "reasoning": f"Yêu cầu từ Quản trị viên: Kích hoạt kịch bản sự cố {req.attackType} ở cường độ {req.intensity}."
-        })
-        PROCESSED_CHAT_KEYS.add(chat_key)
-
-    return {"message": "Attack command sent to Kafka.", "commandId": command["commandId"], "command": command}
+        raise Refused("PRODUCER_UNAVAILABLE", 503)
+    # Wait for broker acknowledgement. A failure leaves a durable unknown claim.
+    producer.send(KAFKA_COMMANDS_TOPIC, sign(command, key)).get(timeout=10)
+    return {"status": "PUBLISHED", "commandId": command["commandId"]}
 
 
-@app.post("/attack/llm-plan", summary="Use LLM to generate and send an intelligent attack plan")
-async def llm_attack_plan():
-    """Ask the LLM to generate an attack plan based on current system metrics."""
-    plan = await generate_attack_plan_from_llm()
-    if plan is None:
-        raise HTTPException(status_code=500, detail="LLM failed to generate a valid attack plan.")
+@app.post("/attack/trigger", summary="Submit an authenticated bounded command")
+def trigger_attack(request: Request):
+    ledger, claimed, sent = None, False, False
+    try:
+        guard = request.state.command_guard
+        guard.enabled()
+        request_id = identifier(request.headers.get("Idempotency-Key"))
+        command = guard.command(request.state.command_body, request_id)
+        key = guard.signer()  # Validate before taking a durable claim.
+        ledger = guard.ledger()
+        previous = ledger.claim(request_id, {"path": request.url.path, "body": request.state.command_body, "policy": guard.policy})
+        if previous is not None:
+            if previous.get("status") == "REFUSED":
+                raise Refused(previous["reason"], previous["http_status"])
+            return previous
+        claimed = True
+        producer = get_kafka_producer()
+        if producer is None:
+            raise Refused("PRODUCER_UNAVAILABLE", 503)
+        envelope = sign(command, key)
+        # A send invocation is the uncertainty boundary, even if it raises.
+        sent = True
+        producer.send(KAFKA_COMMANDS_TOPIC, envelope).get(timeout=10)
+        result = {"status": "PUBLISHED", "commandId": command["commandId"]}
+        ledger.complete(request_id, result)
+        return result
+    except Refused as error:
+        if sent:
+            logger.error("Command outcome unknown after send: %s", error.reason)
+            raise HTTPException(503, "OUTCOME_UNKNOWN")
+        if claimed and not sent:
+            try:
+                ledger.complete(request_id, {"status": "REFUSED", "reason": error.reason, "http_status": error.status, "commandId": request_id})
+            except Refused:
+                raise HTTPException(503, "OUTCOME_UNKNOWN")
+        logger.warning("Command refused: %s", error.reason)
+        raise HTTPException(error.status, error.reason)
+    except Exception as error:
+        if claimed and not sent:
+            try:
+                ledger.complete(request_id, {"status": "REFUSED", "reason": "PRE_PUBLISH_FAILED", "http_status": 503, "commandId": request_id})
+            except Refused:
+                raise HTTPException(503, "OUTCOME_UNKNOWN")
+            logger.error("Command refused before send: %s", type(error).__name__)
+            raise HTTPException(503, "PRE_PUBLISH_FAILED")
+        logger.error("Command outcome unknown: %s", type(error).__name__)
+        raise HTTPException(503, "OUTCOME_UNKNOWN")
 
-    # Enforce 90s - 120s duration for reliable Prometheus scraping
-    raw_duration = int(plan.get("durationSec", 90))
-    duration = min(max(raw_duration, 90), 120)
 
-    command = build_attack_command(
-        attack_type=plan.get("attackType", "HTTP_FLOOD"),
-        target_service=plan.get("targetService", "frontend"),
-        target_namespace=plan.get("targetNamespace", "target-app"),
-        target_url=plan.get("targetURL", ""),
-        duration_sec=duration,
-        intensity=plan.get("intensity", "LOW"),
-        concurrency=min(int(plan.get("concurrency", 10)), 100),
-    )
-
-    producer = get_kafka_producer()
-    if producer is None:
-        raise HTTPException(status_code=503, detail="Kafka producer not available.")
-
-    producer.send(KAFKA_COMMANDS_TOPIC, command)
-    producer.flush()
-    logger.info(f"LLM-generated attack command sent: {command}")
-
-    # Push to reasoning chat
-    cmd_id = command["commandId"]
-    chat_key = f"nemesis_ai_{cmd_id}"
-    if chat_key not in PROCESSED_CHAT_KEYS:
-        REASONING_CHAT_BUFFER.append({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "agent": "NEMESIS",
-            "message": f"Kích hoạt cuộc tấn công tự trị nhắm vào dịch vụ '{plan.get('targetService', 'frontend')}'.",
-            "reasoning": plan.get("reasoning", "AI quyết định thử nghiệm độ tin cậy của dịch vụ dựa trên chỉ số thu thập được.")
-        })
-        PROCESSED_CHAT_KEYS.add(chat_key)
-
-    return {"message": "LLM attack plan sent to Kafka.", "commandId": command["commandId"], "plan": plan, "command": command}
+@app.post("/attack/llm-plan", summary="Plan only after authenticated, bounded admission")
+async def llm_attack_plan(request: Request):
+    ledger, claimed, published = None, False, False
+    try:
+        guard = request.state.command_guard
+        guard.enabled()
+        guard.allow_model()
+        fields(request.state.command_body, set())
+        request_id = identifier(request.headers.get("Idempotency-Key"))
+        key = guard.signer()
+        ledger = guard.ledger()
+        previous = ledger.claim(request_id, {"path": request.url.path, "body": {}, "policy": guard.policy})
+        if previous is not None:
+            if previous.get("status") == "REFUSED":
+                raise Refused(previous["reason"], previous["http_status"])
+            return previous
+        claimed = True
+        plan = await generate_attack_plan_from_llm()
+        if type(plan) is not dict:
+            raise Refused("PLAN_INVALID", 503)
+        # The model has no power to expand target/budget/schema. Reasoning is not executed.
+        candidate = dict(plan)
+        candidate.pop("reasoning", None)
+        command = guard.command(candidate, request_id)
+        result = publish_command(guard, command, key)
+        published = True
+        ledger.complete(request_id, result)
+        return result
+    except Refused as error:
+        if claimed and not published:
+            try:
+                ledger.complete(request_id, {"status": "REFUSED", "reason": error.reason, "http_status": error.status, "commandId": request_id})
+            except Refused:
+                raise HTTPException(503, "OUTCOME_UNKNOWN")
+        logger.warning("Command refused: %s", error.reason)
+        raise HTTPException(error.status, error.reason)
+    except Exception as error:
+        logger.error("Plan outcome unknown: %s", type(error).__name__)
+        raise HTTPException(503, "OUTCOME_UNKNOWN")
 
 
 @app.get("/attack/status", summary="Check pending and recent attack results")
@@ -744,19 +788,8 @@ def clear_reasoning_chat():
 
 @app.post("/api/reset", summary="Reset experiment and clean log buffers")
 async def api_reset():
-    global gemini_key_index
-    NEMESIS_LOG_BUFFER.clear()
-    REASONING_CHAT_BUFFER.clear()
-    PROCESSED_CHAT_KEYS.clear()
-    gemini_key_index = 0
- 
-    try:
-        async with httpx.AsyncClient(timeout=3.0) as client:
-            await client.post(f"{HEPHAESTUS_URL}/experiment/reset")
-    except Exception as e:
-        logger.warning(f"Could not reset Hephaestus state: {e}")
- 
-    return {"status": "SUCCESS", "message": "Dashboard state, chat history, and defender state cleared."}
+    # No proxy using an operator's token as Hephaestus authority, and no false success.
+    raise HTTPException(409, "RESET_REQUIRES_HARNESS")
 
 
 @app.get("/api/heal-history", summary="Proxy: Get Hephaestus heal history for SRE dashboard")

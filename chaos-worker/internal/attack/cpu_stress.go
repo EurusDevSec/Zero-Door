@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/eurusdevsec/zero-door/chaos-worker/internal/validation"
 	"github.com/google/uuid"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -32,6 +33,11 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 
 	namespace := cmd.Target.Namespace
 	duration := EffectiveDuration(cmd, e.GlobalMaxSec)
+	if _, err := validation.New([]string{"target-app"}).Resolve(namespace, cmd.Target.Service, cmd.Target.URL, false); err != nil || duration <= 0 {
+		result.Status = "REJECTED"
+		result.Details.ErrorMessage = "STRESS_GUARD"
+		return result
+	}
 
 	// Determine CPU workers and memory from intensity
 	cpuWorkers := 1
@@ -65,11 +71,12 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 			Labels: map[string]string{
 				"app":              "chaos-stress",
 				"chaos-worker":     "true",
-				"chaos-command-id": cmd.CommandID[:8],
+				"chaos-command-id": cmd.CommandID,
 			},
 		},
 		Spec: corev1.PodSpec{
-			RestartPolicy: corev1.RestartPolicyNever,
+			RestartPolicy:         corev1.RestartPolicyNever,
+			ActiveDeadlineSeconds: int64Ptr(int64(duration.Seconds())),
 			// Run as non-root for security
 			SecurityContext: &corev1.PodSecurityContext{
 				RunAsNonRoot: boolPtr(true),
@@ -78,7 +85,7 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 			Containers: []corev1.Container{
 				{
 					Name:    "stress",
-					Image:   "progrium/stress",
+					Image:   "progrium/stress@sha256:e34d56d60f5caae79333cee395aae93b74791d50e3841986420d23c2ee4697bf",
 					Command: []string{"/usr/bin/stress"},
 					Args:    stressArgs,
 					Resources: corev1.ResourceRequirements{
@@ -105,7 +112,9 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 	)
 
 	start := time.Now()
-	_, err := e.KubeClient.CoreV1().Pods(namespace).Create(ctx, pod, metav1.CreateOptions{})
+	bounded, cancel := context.WithTimeout(ctx, duration)
+	defer cancel()
+	created, err := e.KubeClient.CoreV1().Pods(namespace).Create(bounded, pod, metav1.CreateOptions{})
 	if err != nil {
 		errMsg := fmt.Sprintf("Failed to create stress pod '%s': %v", podName, err)
 		slog.Error(errMsg, "commandId", cmd.CommandID)
@@ -117,12 +126,14 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 
 	// Wait for attack duration, then clean up
 	select {
-	case <-ctx.Done():
+	case <-bounded.Done():
 	case <-time.After(duration):
 	}
 
 	// Auto-cleanup: delete the stress pod
-	delErr := e.KubeClient.CoreV1().Pods(namespace).Delete(ctx, podName, metav1.DeleteOptions{})
+	cleanup, cleanupCancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cleanupCancel()
+	delErr := e.KubeClient.CoreV1().Pods(namespace).Delete(cleanup, podName, metav1.DeleteOptions{Preconditions: &metav1.Preconditions{UID: &created.UID}})
 	if delErr != nil {
 		slog.Warn("Failed to auto-cleanup stress pod", "podName", podName, "error", delErr)
 	} else {
@@ -132,10 +143,17 @@ func (e *CPUStressExecutor) Execute(ctx context.Context, cmd AttackCommand) Atta
 	elapsed := time.Since(start)
 
 	result.Status = "SUCCESS"
+	if delErr != nil {
+		result.Status = "FAILED"
+		result.Details.ErrorMessage = "CLEANUP_FAILED"
+	} else if ctx.Err() != nil {
+		result.Status = "TIMEOUT"
+		result.Details.ErrorMessage = "PARENT_CANCELLED"
+	}
 	result.DurationMs = elapsed.Milliseconds()
-	result.Details = ResultDetails{}
+	// Preserve cleanup/cancellation reason.
 	return result
 }
 
-func boolPtr(b bool) *bool { return &b }
+func boolPtr(b bool) *bool    { return &b }
 func int64Ptr(i int64) *int64 { return &i }

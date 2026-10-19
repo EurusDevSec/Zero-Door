@@ -1,0 +1,7 @@
+# Test the shipped agent's exact dependency graph; additional fake-test imports only.
+-c ../agent-orchestrator/hephaestus/requirements.lock
+-r ../agent-orchestrator/hephaestus/requirements.txt
+kubernetes==28.1.0
+openai==1.35.5
+elasticsearch==8.13.0
+PyYAML

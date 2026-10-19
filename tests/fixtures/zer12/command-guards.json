@@ -1,0 +1,64 @@
+{
+  "notice": "PUBLIC OFFLINE FIXTURE. Never deploy these keys or IDs.",
+  "policy": {
+    "version": "zd-guard/1",
+    "enabled": true,
+    "context": {
+      "run_id": "run_11111111111111111111111111111111",
+      "trial_id": "trl_22222222222222222222222222222222",
+      "group": "B1"
+    },
+    "targets": [
+      {
+        "namespace": "target-app",
+        "service": "frontend",
+        "url": "http://frontend.target-app.svc.cluster.local/"
+      }
+    ],
+    "maxDurationSec": 1,
+    "maxConcurrency": 2,
+    "rps": 5
+  },
+  "command": {
+    "commandId": "11111111-1111-4111-8111-111111111111",
+    "timestamp": "2023-11-14T22:13:20Z",
+    "source": "nemesis",
+    "context": {
+      "run_id": "run_11111111111111111111111111111111",
+      "trial_id": "trl_22222222222222222222222222222222",
+      "group": "B1"
+    },
+    "attackType": "HTTP_FLOOD",
+    "target": {
+      "namespace": "target-app",
+      "service": "frontend",
+      "url": "http://frontend.target-app.svc.cluster.local/"
+    },
+    "parameters": {
+      "duration": 3600,
+      "intensity": "LOW",
+      "concurrency": 100,
+      "customParams": {}
+    },
+    "safetyLimits": {
+      "maxDuration": 3600,
+      "allowedNamespaces": [
+        "target-app"
+      ]
+    }
+  },
+  "key": {
+    "id": "fixture-fault",
+    "purpose": "fault",
+    "secret": "offline-fixture-key-do-not-deploy-00000000"
+  },
+  "envelope": {
+    "version": "zd-command/1",
+    "keyId": "fixture-fault",
+    "purpose": "fault",
+    "issuedAt": 1700000000,
+    "expiresAt": 1700000060,
+    "payload": "eyJjb21tYW5kSWQiOiIxMTExMTExMS0xMTExLTQxMTEtODExMS0xMTExMTExMTExMTEiLCJ0aW1lc3RhbXAiOiIyMDIzLTExLTE0VDIyOjEzOjIwWiIsInNvdXJjZSI6Im5lbWVzaXMiLCJjb250ZXh0Ijp7InJ1bl9pZCI6InJ1bl8xMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMSIsInRyaWFsX2lkIjoidHJsXzIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyIiwiZ3JvdXAiOiJCMSJ9LCJhdHRhY2tUeXBlIjoiSFRUUF9GTE9PRCIsInRhcmdldCI6eyJuYW1lc3BhY2UiOiJ0YXJnZXQtYXBwIiwic2VydmljZSI6ImZyb250ZW5kIiwidXJsIjoiaHR0cDovL2Zyb250ZW5kLnRhcmdldC1hcHAuc3ZjLmNsdXN0ZXIubG9jYWwvIn0sInBhcmFtZXRlcnMiOnsiZHVyYXRpb24iOjM2MDAsImludGVuc2l0eSI6IkxPVyIsImNvbmN1cnJlbmN5IjoxMDAsImN1c3RvbVBhcmFtcyI6e319LCJzYWZldHlMaW1pdHMiOnsibWF4RHVyYXRpb24iOjM2MDAsImFsbG93ZWROYW1lc3BhY2VzIjpbInRhcmdldC1hcHAiXX19",
+    "signature": "b54b4e09255b1e5bf0b36c63b0af77fbce627fc58d28c3c3eb1439955c80e554"
+  }
+}

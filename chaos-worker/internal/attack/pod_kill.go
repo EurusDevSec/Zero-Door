@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/eurusdevsec/zero-door/chaos-worker/internal/validation"
 	"github.com/google/uuid"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -31,18 +32,16 @@ func (e *PodKillExecutor) Execute(ctx context.Context, cmd AttackCommand) Attack
 	namespace := cmd.Target.Namespace
 	service := cmd.Target.Service
 
-	// Build label selector from the target service name
-	// Assumes standard K8s convention: app=<service-name>
+	if _, err := validation.New([]string{"target-app"}).Resolve(namespace, service, cmd.Target.URL, false); err != nil || EffectiveDuration(cmd, e.GlobalMaxSec) <= 0 || len(cmd.Parameters.CustomParams) > 0 {
+		result.Status = "REJECTED"
+		result.Details.ErrorMessage = "POD_GUARD"
+		return result
+	}
+	bounded, cancel := context.WithTimeout(ctx, EffectiveDuration(cmd, e.GlobalMaxSec))
+	defer cancel()
+	ctx = bounded
 	labelSelector := fmt.Sprintf("app=%s", service)
-	if customSelector, ok := cmd.Parameters.CustomParams["labelSelector"].(string); ok && customSelector != "" {
-		labelSelector = customSelector
-	}
-
-	// Determine how many pods to kill (default 1)
 	killCount := 1
-	if v, ok := cmd.Parameters.CustomParams["killCount"].(float64); ok && v > 0 {
-		killCount = int(v)
-	}
 
 	slog.Info("Pod Kill attack starting",
 		"commandId", cmd.CommandID,
@@ -88,6 +87,7 @@ func (e *PodKillExecutor) Execute(ctx context.Context, cmd AttackCommand) Attack
 
 		err := e.KubeClient.CoreV1().Pods(namespace).Delete(ctx, pod.Name, metav1.DeleteOptions{
 			GracePeriodSeconds: &gracePeriod,
+			Preconditions:      &metav1.Preconditions{UID: &pod.UID},
 		})
 		if err != nil {
 			slog.Warn("Failed to delete pod", "pod", pod.Name, "error", err)

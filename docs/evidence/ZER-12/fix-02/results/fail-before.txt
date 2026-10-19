@@ -1,0 +1,6 @@
+2026-10-20 00:00:54,402 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-20 00:00:54,452 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<BeforeHTTP.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\codex-fix02\replay_before.py:28> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.047 seconds
+2026-10-20 00:00:54,516 - nemesis-agent - [WARNING] - Command refused: LEDGER_UNAVAILABLE
+2026-10-20 00:00:54,530 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+FIX01 manifest: 24/24 broken-wiring/rollout subcases missed as expected; 3 current valid controls pass
+FIX01 HTTP: post-send ledger-error regression fails on response LEDGER_UNAVAILABLE as expected

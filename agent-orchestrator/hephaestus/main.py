@@ -9,7 +9,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, Dict, Tuple
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from kafka import KafkaConsumer, KafkaProducer
 from kubernetes import client as k8s_client, config as k8s_config
 from kubernetes.client.rest import ApiException
@@ -17,6 +18,8 @@ from kubernetes.client.rest import ApiException
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from event_pipeline.client import Client
 from event_pipeline.adapters import RulesConsumer
+from hephaestus.command_guard import ModeGate, GuardedRules
+from nemesis.command_guard import CommandGuard, Refused, strict_json, fields
 
 # ---- Logging ----
 logging.basicConfig(
@@ -420,75 +423,8 @@ def _sync_expire_network_policy(policy_name: str):
 # ============================================================
 
 def process_alert(alert: dict):
-    """
-    Main entry point: receives a Gaia alert dict and decides + executes healing.
-    """
-    if r1_client:
-        raise ValueError("R1 accepts only authenticated O envelopes via the event gateway")
-    alert_id       = alert.get("alertId", str(uuid.uuid4()))
-    alert_type     = alert.get("type", "UNKNOWN")
-    severity       = alert.get("severity", "WARNING")
-    service        = alert.get("affectedService", "")
-    description    = alert.get("description", "")
-    suggested      = alert.get("suggestedAction", "")
-
-    logger.info(f"Processing alert [{alert_type}/{severity}] for service '{service}': {description}")
-
-    if not service:
-        logger.warning("Alert has no affectedService — skipping.")
-        return
-
-    # Decide action
-    action = decide_action(alert_type, severity)
-    if not action:
-        logger.warning(f"No healing action defined for ({alert_type}, {severity}) — skipping.")
-        return
-
-    # Cooldown check — prevent thrashing
-    if is_in_cooldown(service, action):
-        logger.info(f"Cooldown active for '{service}' + '{action}'. Skipping heal.")
-        return
-
-    logger.info(f"Decision: {action} on service '{service}'")
-    set_cooldown(service, action)
-
-    # Execute healing action
-    status = "UNKNOWN"
-    if action == "SCALE_UP":
-        status = action_scale_up(service, alert_id)
-
-    elif action == "RESTART":
-        status = action_restart_pod(service, alert_id)
-
-    elif action == "ROLLBACK":
-        status = action_rollback(service, alert_id)
-
-    elif action == "BLOCK_IP":
-        # Extract source IP from alert description if available
-        source_ip = alert.get("sourceIP", "")
-        if not source_ip:
-            # Parse from description as fallback
-            import re
-            match = re.search(r'(\d{1,3}(?:\.\d{1,3}){3})', description)
-            source_ip = match.group(1) if match else "0.0.0.0"
-        status = action_block_ip(service, source_ip, alert_id)
-
-    else:
-        logger.warning(f"Unknown action '{action}' — skipping.")
-        status = "SKIPPED"
-
-    # Append to in-memory audit log (capped at MAX_HISTORY)
-    heal_history.append({
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "alertId":   alert_id,
-        "alertType": alert_type,
-        "severity":  severity,
-        "service":   service,
-        "action":    action,
-        "status":    status,
-    })
-    if len(heal_history) > MAX_HISTORY:
-        heal_history.pop(0)
+    # Legacy alerts are not authenticated decisions. Cooldown is not authorization/dedup.
+    raise ValueError("R1 accepts only authenticated O envelopes via the event gateway; legacy heal is disabled")
 
 
 # ============================================================
@@ -501,35 +437,15 @@ def _kafka_consumer_thread():
     event loop — uvicorn can always serve /healthz while this runs.
     """
     if r1_client:
-        rules = RulesConsumer(r1_client, decide_action)
+        rules = GuardedRules(r1_client, RulesConsumer(r1_client, decide_action))
         while True:
             try:
                 rules.poll()
             except Exception as error:
                 logger.error("R1 O consumer unavailable: %s", type(error).__name__)
             time.sleep(1)
-    logger.info(f"Kafka consumer thread starting — topic '{KAFKA_ALERTS_TOPIC}'...")
-    while True:
-        try:
-            consumer = KafkaConsumer(
-                KAFKA_ALERTS_TOPIC,
-                bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS.split(","),
-                group_id=KAFKA_GROUP_ID,
-                auto_offset_reset="latest",
-                value_deserializer=lambda m: json.loads(m.decode("utf-8")),
-                enable_auto_commit=True,
-            )
-            logger.info("Kafka consumer connected. Listening for alerts...")
-
-            for msg in consumer:
-                try:
-                    process_alert(msg.value)
-                except Exception as e:
-                    logger.error(f"Error processing alert: {e}")
-
-        except Exception as e:
-            logger.error(f"Kafka consumer error — retrying in 5s: {e}")
-            time.sleep(5)
+    logger.warning("Legacy Kafka healing disabled; no authenticated R1 client configured.")
+    return
 
 
 async def alert_consumer_loop():
@@ -550,11 +466,7 @@ async def startup_event():
         asyncio.create_task(alert_consumer_loop())
         logger.info("R1 O decision transport started; guard/executor not enabled.")
         return
-    init_k8s()
-    get_kafka_producer()
-    asyncio.create_task(alert_consumer_loop())
-    publish_system_log("INFO", "Hephaestus Agent initialized — self-healing loop started.")
-    logger.info("Hephaestus Agent ready.")
+    logger.warning("Legacy startup disabled; no Kubernetes or Kafka client initialized.")
 
 
 @app.get("/")
@@ -596,24 +508,52 @@ def get_cooldowns():
     }
 
 
+@app.middleware("http")
+async def command_boundary(request: Request, call_next):
+    if request.method == "POST":
+        try:
+            guard = CommandGuard.from_env()
+            request.state.operator = guard.authorize(request.headers.get("Authorization"), purpose="heal-operator")
+            raw = bytearray()
+            async for chunk in request.stream():
+                raw.extend(chunk)
+                if len(raw) > 16384:
+                    raise Refused("PAYLOAD_SIZE", 413)
+            request.state.command_body = strict_json(bytes(raw) or b"{}")
+            request.state.command_guard = guard
+        except Refused as error:
+            logger.warning("Command refused: %s", error.reason)
+            return JSONResponse({"detail": error.reason}, status_code=error.status)
+    return await call_next(request)
+
+
 @app.post("/heal/trigger")
-async def manual_heal(body: dict):
-    """
-    Manually trigger a healing action for testing purposes.
-    Body: { "alertType": "HIGH_CPU", "severity": "WARNING", "affectedService": "frontend" }
-    """
-    if r1_client:
-        raise HTTPException(status_code=409, detail="R1 requires an operator decision and an approved guard/executor")
-    alert = {
-        "alertId":         str(uuid.uuid4()),
-        "type":            body.get("alertType", "HIGH_CPU"),
-        "severity":        body.get("severity", "WARNING"),
-        "affectedService": body.get("affectedService", "frontend"),
-        "description":     body.get("description", "Manual trigger via REST API"),
-        "sourceIP":        body.get("sourceIP", ""),
-    }
-    await asyncio.get_event_loop().run_in_executor(None, process_alert, alert)
-    return {"message": "Healing triggered.", "alert": alert}
+async def manual_heal(request: "Request" = None):
+    # Compatibility with direct offline callers: no Request is never an authorization.
+    if request is None or not hasattr(request, "state") or not r1_client:
+        raise HTTPException(status_code=409, detail="R1_EXECUTOR_DISABLED")
+    try:
+        body = request.state.command_body
+        fields(body, {"decision_id"})
+        context = r1_client.context()
+        context = {key: context.get(key) for key in ("run_id", "trial_id", "group")}
+        if context["run_id"] != r1_client.run or context["trial_id"] != r1_client.trial:
+            raise Refused("RUN_CONTEXT", 409)
+        if context != request.state.command_guard.policy["context"]:
+            raise Refused("RUN_CONTEXT", 409)
+        # Only authenticated gateway records can supply a proposal, never a request's source label.
+        found = [r["envelope"] for r in r1_client.records() if r["envelope"].get("decision_id") == body["decision_id"]
+                 and r["envelope"].get("event_type") == "DECISION"]
+        if len(found) != 1:
+            raise Refused("DECISION_MISSING_OR_AMBIGUOUS", 409)
+        decision = found[0]
+        if context["group"] != "BM":
+            raise Refused("MANUAL_GROUP_REQUIRED", 409)
+        # No executor argument: a valid proposal still cannot activate R1 healing.
+        return ModeGate.dispatch(context, decision, decision["source_component"], "OPERATOR")
+    except Refused as error:
+        logger.warning("Command refused: %s", error.reason)
+        raise HTTPException(error.status, error.reason)
 
 
 @app.get("/network-policies")
@@ -654,30 +594,5 @@ def get_heal_history():
 
 @app.post("/experiment/reset")
 def experiment_reset():
-    """
-    Reset all cooldowns, clear heal_history, and scale all target deployments back to 1 replica.
-    Called by experiment_runner_direct.py between runs or manually via Dashboard reset.
-    """
-    if r1_client:
-        # R1 has no executor: no cluster change, no cleared state and no fake success message.
-        raise HTTPException(status_code=409, detail="R1 reset belongs to the harness; no executor is enabled")
-    heal_cooldowns.clear()
-    heal_history.clear()
-
-    # Scale down all target deployments to 1 replica for a clean steady state
-    target_deployments = [
-        "frontend", "cartservice", "productcatalogservice", "currencyservice",
-        "checkoutservice", "redis-cart", "shippingservice", "paymentservice", "emailservice"
-    ]
-
-    for dep_name in target_deployments:
-        try:
-            patch = {"spec": {"replicas": 1}}
-            apps_v1.patch_namespaced_deployment_scale(name=dep_name, namespace=TARGET_NAMESPACE, body=patch)
-            logger.info(f"[RESET] Scaled down deployment '{dep_name}' back to 1 replica.")
-        except Exception as e:
-            logger.warning(f"[RESET] Failed to scale down deployment '{dep_name}': {e}")
-
-    logger.info("[EXPERIMENT] Cooldowns, history cleared, and replicas reset to 1.")
-    return {"message": "Cooldowns, heal history cleared, and replicas reset to 1.", "timestamp": datetime.now(timezone.utc).isoformat()}
-
+    # Both R1 and legacy callers must use a separately authorized harness operation.
+    raise HTTPException(status_code=409, detail="R1 reset belongs to the harness; no executor is enabled")

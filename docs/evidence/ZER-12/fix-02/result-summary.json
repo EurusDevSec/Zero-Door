@@ -1,0 +1,32 @@
+{
+  "verdict": "OFFLINE_PASS",
+  "baseline_head": "c09452ac975ec581bbc2ff1f0fb5ca94f58b5267",
+  "findings": {
+    "N1": "fixed; 20 independent mutants and 24 regression subcases",
+    "N2": "fixed; post-send ledger errors return OUTCOME_UNKNOWN",
+    "N3": "runbook requirement and provisioning check; no real secrets checked",
+    "N4": "Recreate in worker and Nemesis; no runtime rollout"
+  },
+  "python": {
+    "unique_methods": 36,
+    "method_runs": 69,
+    "per_production_graph": {
+      "guards": 7,
+      "modes": 3,
+      "integration": 13,
+      "ci": 6,
+      "event_agents": 4
+    },
+    "consumer_regression": 3
+  },
+  "inherited_unchanged": {
+    "go_top_level": 22,
+    "note": "Not rerun: no Go/pin/workflow change; prior independent retest retained"
+  },
+  "limits": [
+    "no remote CI",
+    "no Docker/lab/model/PVC/real secret check",
+    "F9 residual remains",
+    "not owner acceptance or Done"
+  ]
+}

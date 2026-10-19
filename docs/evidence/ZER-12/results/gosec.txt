@@ -1,0 +1,36 @@
+[gosec] 2026/10/19 22:25:28 Including rules: default
+[gosec] 2026/10/19 22:25:28 Excluding rules: default
+[gosec] 2026/10/19 22:25:28 Import directory: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\kafka
+[gosec] 2026/10/19 22:25:28 Import directory: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\validation
+[gosec] 2026/10/19 22:25:28 Import directory: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\cmd
+[gosec] 2026/10/19 22:25:28 Import directory: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\attack
+[gosec] 2026/10/19 22:25:28 Import directory: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\config
+[gosec] 2026/10/19 22:25:28 Import directory: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\guard
+[gosec] 2026/10/19 22:25:31 Checking package: validation
+[gosec] 2026/10/19 22:25:31 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\validation\target.go
+[gosec] 2026/10/19 22:25:33 Checking package: kafka
+[gosec] 2026/10/19 22:25:33 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\kafka\client.go
+[gosec] 2026/10/19 22:25:39 Checking package: main
+[gosec] 2026/10/19 22:25:39 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\cmd\main.go
+[gosec] 2026/10/19 22:25:41 Checking package: guard
+[gosec] 2026/10/19 22:25:41 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\guard\auth.go
+[gosec] 2026/10/19 22:25:41 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\guard\dispatch.go
+[gosec] 2026/10/19 22:25:41 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\guard\ledger.go
+[gosec] 2026/10/19 22:25:41 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\guard\policy.go
+[gosec] 2026/10/19 22:25:43 Checking package: attack
+[gosec] 2026/10/19 22:25:43 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\attack\cpu_stress.go
+[gosec] 2026/10/19 22:25:43 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\attack\executor.go
+[gosec] 2026/10/19 22:25:43 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\attack\http_flood.go
+[gosec] 2026/10/19 22:25:43 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\attack\pod_kill.go
+[gosec] 2026/10/19 22:25:44 Checking package: config
+[gosec] 2026/10/19 22:25:44 Checking file: R:\_Projects\Eurus_Workspace\zero_door\chaos-worker\internal\config\config.go
+Results:
+
+
+Summary:
+  Gosec  : dev
+  Files  : 12
+  Lines  : 1509
+  Nosec  : 4
+  Issues : 0
+

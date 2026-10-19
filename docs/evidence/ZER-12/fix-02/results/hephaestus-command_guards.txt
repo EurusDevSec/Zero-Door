@@ -1,0 +1,12 @@
+test_ledger_concurrency_restart_conflict_and_unknown (__main__.GuardTests.test_ledger_concurrency_restart_conflict_and_unknown) ... ok
+test_ledger_disk_error_is_visible_before_dispatch (__main__.GuardTests.test_ledger_disk_error_is_visible_before_dispatch) ... ok
+test_mac_matches_independent_public_fixture (__main__.GuardTests.test_mac_matches_independent_public_fixture) ... ok
+test_operator_caps_and_exact_target (__main__.GuardTests.test_operator_caps_and_exact_target) ... ok
+test_policy_invalid_and_unknown_context_fail_closed (__main__.GuardTests.test_policy_invalid_and_unknown_context_fail_closed) ... ok
+test_schema_duplicate_nonfinite_trailing_depth_and_size (__main__.GuardTests.test_schema_duplicate_nonfinite_trailing_depth_and_size) ... ok
+test_url_confusion_route_port_protocol_userinfo (__main__.GuardTests.test_url_confusion_route_port_protocol_userinfo) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.123s
+
+OK

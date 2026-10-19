@@ -9,16 +9,23 @@ import (
 	"time"
 
 	"github.com/eurusdevsec/zero-door/chaos-worker/internal/attack"
-	kafkaclient "github.com/eurusdevsec/zero-door/chaos-worker/internal/kafka"
 	"github.com/eurusdevsec/zero-door/chaos-worker/internal/config"
-	"github.com/eurusdevsec/zero-door/chaos-worker/internal/validation"
-	"github.com/google/uuid"
+	"github.com/eurusdevsec/zero-door/chaos-worker/internal/guard"
+	kafkaclient "github.com/eurusdevsec/zero-door/chaos-worker/internal/kafka"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-func main() {
+func main() { os.Exit(run()) }
+
+func run() int {
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+	return runWithContext(ctx)
+}
+
+func runWithContext(ctx context.Context) int {
 	// Structured JSON logging (production-ready)
 	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level: slog.LevelInfo,
@@ -27,29 +34,51 @@ func main() {
 	slog.Info("Zero Door Chaos Worker starting up...")
 
 	cfg := config.Load()
-	slog.Info("Configuration loaded",
-		"kafkaBrokers", cfg.KafkaBootstrapServers,
-		"commandsTopic", cfg.KafkaCommandsTopic,
-		"resultsTopic", cfg.KafkaResultsTopic,
-		"allowedNamespaces", cfg.AllowedNamespaces,
-		"maxDurationSec", cfg.MaxDurationSec,
-	)
-
-	// ---- Build Kubernetes client ----
+	if cfg.Error != nil {
+		slog.Error("Invalid operational limits", "error", cfg.Error)
+		return 1
+	}
+	policy, err := guard.LoadPolicy(cfg.PolicyFile)
+	if err != nil {
+		slog.Error("Guard policy unavailable", "error", err)
+		return 1
+	}
+	if cfg.MaxDurationSec < policy.MaxDurationSec {
+		policy.MaxDurationSec = cfg.MaxDurationSec
+	}
+	if cfg.DefaultConcurrency < policy.MaxConcurrency {
+		policy.MaxConcurrency = cfg.DefaultConcurrency
+	}
+	if cfg.DefaultRPS < policy.RPS {
+		policy.RPS = cfg.DefaultRPS
+	}
+	if !policy.Enabled {
+		slog.Info("EXECUTOR_DISABLED: waiting for shutdown without opening clients or ledger")
+		<-ctx.Done()
+		return 0
+	}
+	key, err := guard.LoadKey(cfg.SignerFile)
+	if err != nil {
+		slog.Error("Signer configuration unavailable")
+		return 1
+	}
+	ledger, err := guard.OpenLedger(cfg.LedgerDir)
+	if err != nil {
+		slog.Error("Durable ledger unavailable", "error", err)
+		return 1
+	}
+	defer ledger.Close()
 	kubeClient, err := buildKubeClient(cfg)
 	if err != nil {
-		slog.Error("Failed to build Kubernetes client", "error", err)
-		os.Exit(1)
+		slog.Error("Kubernetes client unavailable", "error", err)
+		return 1
 	}
-
-	// ---- Blast radius validator ----
-	validator := validation.New(cfg.AllowedNamespaces)
 
 	// ---- Kafka consumer ----
 	consumer, err := kafkaclient.NewConsumer(cfg.KafkaBootstrapServers, cfg.KafkaGroupID, cfg.KafkaCommandsTopic)
 	if err != nil {
 		slog.Error("Failed to create Kafka consumer", "error", err)
-		os.Exit(1)
+		return 1
 	}
 	defer consumer.Close()
 
@@ -57,151 +86,85 @@ func main() {
 	producer, err := kafkaclient.NewProducer(cfg.KafkaBootstrapServers, cfg.KafkaResultsTopic)
 	if err != nil {
 		slog.Error("Failed to create Kafka producer", "error", err)
-		os.Exit(1)
+		return 1
 	}
 	defer producer.Close()
 
 	// ---- Build executor registry ----
 	executors := map[string]attack.Executor{
 		"HTTP_FLOOD": &attack.HTTPFloodExecutor{
-			MaxConcurrency: cfg.DefaultConcurrency,
-			GlobalMaxSec:   cfg.MaxDurationSec,
+			MaxConcurrency: policy.MaxConcurrency,
+			MaxRPS:         policy.RPS,
+			MaxRequests:    policy.RPS * policy.MaxDurationSec,
+			GlobalMaxSec:   policy.MaxDurationSec,
 		},
 		"CPU_STRESS": &attack.CPUStressExecutor{
 			KubeClient:   kubeClient,
-			GlobalMaxSec: cfg.MaxDurationSec,
+			GlobalMaxSec: policy.MaxDurationSec,
 		},
 		"MEMORY_STRESS": &attack.CPUStressExecutor{ // reuses stress pod, just with more vm workers
 			KubeClient:   kubeClient,
-			GlobalMaxSec: cfg.MaxDurationSec,
+			GlobalMaxSec: policy.MaxDurationSec,
 		},
 		"POD_KILL": &attack.PodKillExecutor{
 			KubeClient:   kubeClient,
-			GlobalMaxSec: cfg.MaxDurationSec,
+			GlobalMaxSec: policy.MaxDurationSec,
 		},
 	}
-
-	// ---- Graceful shutdown ----
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
 
 	slog.Info("Chaos Worker is ready. Listening for attack commands on Kafka...",
 		"topic", cfg.KafkaCommandsTopic,
 	)
 
-	// ---- Main event loop ----
-	for {
-		select {
-		case <-ctx.Done():
-			slog.Info("Shutdown signal received. Stopping Chaos Worker gracefully...")
-			producer.Flush(10000)
-			return
+	dispatcher := &guard.Dispatcher{Policy: policy, Key: key, Ledger: ledger, Executors: executors}
+	return consumeCommands(ctx, consumer, producer, dispatcher, ledger.Failure)
+}
 
-		default:
-			raw, err := consumer.Poll(ctx, 1000) // 1s poll timeout
-			if err != nil {
-				if err == context.Canceled {
-					return
-				}
-				slog.Error("Kafka poll error", "error", err)
-				time.Sleep(2 * time.Second) // back-off before retry
-				continue
-			}
-			if raw == nil {
-				continue // no message available
-			}
+type commandConsumer interface {
+	Poll(context.Context, int) ([]byte, error)
+	Ack(context.Context) error
+}
+type resultProducer interface{ Send(any) error }
+type commandHandler interface {
+	Handle(context.Context, []byte) (attack.AttackResult, error)
+}
 
-			// Parse the command
-			cmd, err := attack.ParseCommand(raw)
-			if err != nil {
-				slog.Error("Failed to deserialise AttackCommand", "error", err, "raw", string(raw))
-				continue
-			}
-
-			slog.Info("Attack command received",
-				"commandId", cmd.CommandID,
-				"type", cmd.AttackType,
-				"target", cmd.Target.Namespace+"/"+cmd.Target.Service,
-			)
-
-			// Validate blast radius — BEFORE executing anything
-			if err := validator.ValidateNamespace(cmd.Target.Namespace); err != nil {
-				slog.Error("Attack REJECTED by blast radius validator", "commandId", cmd.CommandID, "reason", err)
-				result := attack.AttackResult{
-					ResultID:   uuid.New().String(),
-					CommandID:  cmd.CommandID,
-					Timestamp:  attack.NowISO(),
-					Source:     "chaos-worker",
-					Status:     "REJECTED",
-					AttackType: cmd.AttackType,
-					DurationMs: 0,
-					Details:    attack.ResultDetails{ErrorMessage: err.Error()},
-				}
-				if sendErr := producer.Send(result); sendErr != nil {
-					slog.Error("Failed to publish REJECTED result", "error", sendErr)
-				}
-				continue
-			}
-
-			if err := validator.ValidateURL(cmd.Target.URL); err != nil {
-				slog.Error("Attack REJECTED — URL validation failed", "commandId", cmd.CommandID, "reason", err)
-				result := attack.AttackResult{
-					ResultID:   uuid.New().String(),
-					CommandID:  cmd.CommandID,
-					Timestamp:  attack.NowISO(),
-					Source:     "chaos-worker",
-					Status:     "REJECTED",
-					AttackType: cmd.AttackType,
-					DurationMs: 0,
-					Details:    attack.ResultDetails{ErrorMessage: err.Error()},
-				}
-				if sendErr := producer.Send(result); sendErr != nil {
-					slog.Error("Failed to publish REJECTED result", "error", sendErr)
-				}
-				continue
-			}
-
-			// Look up executor
-			executor, ok := executors[cmd.AttackType]
-			if !ok {
-				slog.Warn("Unknown attack type — skipping", "attackType", cmd.AttackType, "commandId", cmd.CommandID)
-				result := attack.AttackResult{
-					ResultID:   uuid.New().String(),
-					CommandID:  cmd.CommandID,
-					Timestamp:  attack.NowISO(),
-					Source:     "chaos-worker",
-					Status:     "REJECTED",
-					AttackType: cmd.AttackType,
-					DurationMs: 0,
-					Details:    attack.ResultDetails{ErrorMessage: "Unsupported attack type: " + cmd.AttackType},
-				}
-				if sendErr := producer.Send(result); sendErr != nil {
-					slog.Error("Failed to publish REJECTED result", "error", sendErr)
-				}
-				continue
-			}
-
-			// Execute the attack in a goroutine so the event loop remains responsive
-			go func(c attack.AttackCommand, ex attack.Executor) {
-				attackCtx, cancel := context.WithTimeout(context.Background(),
-					time.Duration(cfg.MaxDurationSec+10)*time.Second,
-				)
-				defer cancel()
-
-				result := ex.Execute(attackCtx, c)
-
-				if sendErr := producer.Send(result); sendErr != nil {
-					slog.Error("Failed to publish attack result", "commandId", c.CommandID, "error", sendErr)
-				} else {
-					slog.Info("Attack result published",
-						"commandId", c.CommandID,
-						"status", result.Status,
-						"durationMs", result.DurationMs,
-					)
-				}
-			}(cmd, executor)
+// consumeCommands preserves Handle -> durable state -> Send -> Ack ordering.
+// Producer.Send owns a fresh 10s context. Ack must also outlive cancellation of
+// the executor, otherwise every graceful stop forces unnecessary redelivery.
+func consumeCommands(ctx context.Context, consumer commandConsumer, producer resultProducer, dispatcher commandHandler, failure func() error) int {
+	// Serial dispatch bounds aggregate commands and waits for owned cleanup before shutdown.
+	for ctx.Err() == nil {
+		raw, err := consumer.Poll(ctx, 1000)
+		if err != nil {
+			slog.Error("Kafka poll failed", "error", err)
+			return 1
+		}
+		if raw == nil {
+			continue
+		}
+		result, admissionErr := dispatcher.Handle(ctx, raw)
+		if err = failure(); err != nil {
+			slog.Error("Ledger failed; refusing further consumption", "error", err)
+			return 1
+		}
+		if admissionErr != nil {
+			slog.Warn("Command refused or failed", "reason", admissionErr.Error())
+		}
+		// On any unknown persistence/publish/commit outcome, stop. Redelivery never repeats a claimed effect.
+		if err = producer.Send(result); err != nil {
+			slog.Error("Result publication failed", "error", err)
+			return 1
+		}
+		ackCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		err = consumer.Ack(ackCtx)
+		cancel()
+		if err != nil {
+			slog.Error("Offset acknowledgement failed", "error", err)
+			return 1
 		}
 	}
+	return 0
 }
 
 // buildKubeClient creates a Kubernetes client, using in-cluster config if running inside a pod,

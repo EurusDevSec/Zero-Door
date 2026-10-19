@@ -1,0 +1,4 @@
+chaos-worker.yaml OpenAPI field/type PASS 5 resources
+nemesis-deployment.yaml OpenAPI field/type PASS 5 resources
+hephaestus-deployment.yaml OpenAPI field/type PASS 7 resources
+command-guard-config.yaml OpenAPI field/type PASS 1 resources

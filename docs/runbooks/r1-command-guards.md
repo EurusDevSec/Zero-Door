@@ -1,0 +1,81 @@
+# R1 command guards — ZER-12 / ZER-40
+
+Gói này triển khai và kiểm offline. Policy mẫu **disabled**; healer R1 không có executor. Chưa có rollout, fault, model call, kiểm PVC hay kiểm NetworkPolicy của revision này. Hợp đồng event vẫn là zd-event/1.0.0; zd-command/1 chỉ là envelope điều khiển riêng ở mặt H.
+
+## Luồng và trần vận hành
+
+Operator có token riêng → API kiểm schema/context/target → claim SQLite → ký đúng bytes payload → Kafka → worker xác thực → policy → claim JSONL + fsync → executor → lưu kết quả → publish → commit offset.
+
+- API không có token, sai role, payload lỗi hoặc thiếu policy/ledger: không gọi model, không publish command. Mọi POST Nemesis được xác thực; reset bị từ chối. GET chứa trạng thái/nhật ký fault cũng cần token; không nhúng token vào dashboard.
+- Chỉ namespace target-app và service được liệt kê trong policy. HTTP chỉ frontend, http, port 80, đường /; cấm query, fragment, userinfo, encoding mơ hồ và redirect. URL dựng từ service phải qua cùng phép kiểm. Request/message không mở rộng allowlist.
+- Duration hiệu dụng là min(duration yêu cầu, maxDuration trong command, maxDuration của policy, giới hạn env vận hành). Số không, âm, overflow hoặc cấu hình sai bị từ chối; không nâng tối thiểu thành 90 giây. Policy mặc định 60 giây, concurrency 2, RPS 5; giới hạn cứng của cấu hình là 600 giây/50/100.
+- Worker xử lý một command mỗi lần, không goroutine không giới hạn. HTTP dùng một ticker chung cho các worker, không burst, request lỗi cũng tốn budget; tổng attempts còn bị chặn bởi RPS × trần duration. Mọi loại command có admission cách nhau ít nhất 6 giây, giữ qua ledger/restart. API cũng giữ một request active/unknown và pacing 6 giây.
+- HTTP không theo redirect hoặc tái dùng connection để tránh retry ngầm. Không tự retry request lỗi. Shutdown truyền context xuống executor; request đang chạy bị hủy.
+- Pod kill chỉ selector app=<service đã cho phép>, tối đa một pod và delete có UID precondition. Không nhận custom selector/count. Stress pod có activeDeadlineSeconds; cleanup dùng context mới tối đa 5 giây và UID của pod đã tạo. Cleanup lỗi là FAILED/CLEANUP_FAILED, không SUCCESS. Parent cancellation là TIMEOUT.
+
+Cleanup có thể nằm sau trần hoạt động. duration trong result là elapsed của executor, không phải attack_effect hay KPI. SUCCESS của fault executor không chứng minh có effect; code tại đây không tạo RECOVERY_VERIFIED.
+
+## Quyền và envelope
+
+| Người giữ | File / purpose | Quyền |
+| --- | --- | --- |
+| Operator fault/Nemesis | ZD_OPERATOR_TOKEN_FILE, purpose operator, Secret zd-command-operator | Bearer token cho API fault |
+| Operator heal/Hephaestus | ZD_OPERATOR_TOKEN_FILE, purpose heal-operator, Secret zd-heal-operator | Bearer token riêng cho API heal; không nhận token fault |
+| Nemesis + worker | ZD_COMMAND_SIGNER_FILE, purpose fault | Ký/kiểm command fault; không có quyền heal hay phát event O |
+| Actor O | ZD_O_KEYS_FILE hiện hữu | Chỉ role event của chính actor + reader; không dùng làm token actuator |
+
+Key file có đúng id, secret, purpose. Secret dài ít nhất 32 byte. Sinh độc lập ba giá trị: fault-operator, heal-operator và fault signer; cả ba phải khác nhau. Tên Secret/purpose khác nhau không bù được việc tái sử dụng cùng bearer token. Khi provisioning, trước khi bật heal, so sánh digest SHA-256 của trường secret trong ba key file bằng công cụ cục bộ; chỉ in PASS/FAIL, không in giá trị hay digest, không đưa key vào command line/log. Nếu trùng hoặc chưa kiểm thì dừng provisioning và sinh lại credential tương ứng. Gate manifest chỉ kiểm tên/tham chiếu, không đọc Secret thật hoặc chứng minh ba giá trị khác nhau. Hephaestus/Gaia không được mount signer fault. Không có Secret thật trong gói. Vector public ở tests/fixtures/zer12 không được triển khai.
+
+Envelope có version, keyId, purpose, issuedAt, expiresAt, payload (base64), signature (HMAC-SHA256 hex). Chuỗi ký là sáu trường đầu theo thứ tự, nối bằng newline, không có newline cuối. MAC bao phủ nguyên bytes command và purpose/expiry. TTL tối đa 60 giây. Signer được đi trước đồng hồ worker tối đa 2 giây; không gia hạn expiresAt, ngay tại expiresAt lệnh mới đã hết hạn. Đồng bộ NTP/đồng hồ trước vận hành; lệch hơn 2 giây bị từ chối. Khi gửi lại command đã có ledger, MAC và schema vẫn phải hợp lệ; chỉ trả receipt/UNKNOWN đã lưu, không thực thi nên không cần envelope còn hạn.
+
+JSON giới hạn size/depth, cấm duplicate keys, unknown fields và nonfinite. Python producer và Go consumer dùng chung vector chữ ký, nhưng consumer xác thực/schema/policy độc lập. Command mang run_id/trial_id/group phải khớp policy tin cậy; source tự khai không thay chữ ký hay role.
+
+Gemini native dùng x-goog-api-key trong header, không đưa key vào URL hoặc log response/plan; [API chính thức](https://ai.google.dev/api). SDK không retry ngầm; native chỉ một attempt. Đây là giới hạn request, không phải hard limit tiền. Không có model call thật trong phép kiểm.
+
+## Duplicate, lỗi và phục hồi
+
+- API bắt buộc Idempotency-Key UUID v4. Hash gồm endpoint, body và policy/context tin cậy. Retry cùng ID trả receipt cũ; thay body/policy/context là ID_CONFLICT. Claim trước model/publish. Lỗi chắc chắn trước producer.send (producer None hoặc setup exception) có terminal REFUSED và cached refusal; retry giữ đúng lỗi, claim mới hợp lệ được nhận sau pacing. Từ thời điểm gọi send, kể cả send tự ném lỗi, kết quả mơ hồ giữ UNKNOWN. Mọi lỗi sau khi gọi send, kể cả lỗi ledger khi lưu PUBLISHED, trả OUTCOME_UNKNOWN (lý do gốc chỉ ghi log); không tự gọi lại model/publish.
+- Worker lưu hash bytes payload gốc trước dispatch. Cùng ID/hash không chạy lại; kết quả đã lưu có thể gửi lại. Claim chưa có terminal là DUPLICATE_OUTCOME_UNKNOWN. Cùng ID, payload khác bị từ chối. Trình tự worker là MAC/schema → lookup ID/hash (trả terminal hoặc UNKNOWN) → expiry/policy → claim mới; không để envelope hết hạn làm mất terminal khi redelivery.
+- Kafka offset chỉ commit sau khi xử lý và publish result. Publish/commit thất bại làm consumer dừng. Result Send có context mới 10s, offset Ack có context mới 10s, tách khỏi executor context bị hủy khi SIGTERM. Không có guarantee publish/commit khi broker mất kết nối. Worker disabled chờ signal trước khi mở signer/ledger/Kubernetes/Kafka, không exit/restart vòng lặp. Lỗi ghi/fsync ledger làm worker dừng, không xử lý tiếp. Không tuyên bố exactly-once hay khả năng chịu mất điện.
+- JSONL worker có owner.lock độc quyền; dừng sạch bỏ lock. Crash để lại lock: process mới từ chối mở cho tới khi operator đối chiếu. Không tự xóa lock, claim hoặc ledger để chạy lại. File bị cắt/hỏng/symlink bị từ chối. API dùng transaction SQLite synchronous=FULL, đóng connection sau mọi nhánh.
+- Cả hai ledger có trần 10.000 ID, không tự expire/prune. Đầy hoặc có request unknown thì fail closed. Cần đối chiếu transport/result và resource thuộc command trước quyết định phục hồi. Không có lệnh reset dữ liệu hay xóa resource trong runbook này.
+- Worker và Nemesis dùng strategy Recreate để Deployment thay pod tuần tự, tránh rollout mặc định tạo hai chủ ledger trên PVC RWO. Không tự xóa owner.lock khi pod mới báo LEDGER_OWNER; đối chiếu pod cũ và archive trước xử lý. Chưa kiểm rollout/storage runtime.
+- Một worker replica, một chủ ledger; không hỗ trợ nhiều ledger độc lập cho cùng consumer. Manifest tham chiếu PVC bền riêng của Nemesis và worker, không dùng emptyDir. Gói không tạo PVC/quota; thiếu PVC sẽ không thể rollout. Chưa kiểm storage failure thật, node failure hay power loss.
+
+## Mode và ranh giới R1
+
+ModeGate lấy context tin cậy và DECISION từ reader được xác thực ở gateway; request không tự khai proposal/source/group để được thực thi.
+
+| Nhóm | Nguồn proposal / initiator |
+| --- | --- |
+| B0 | Không heal/decision/model/guard event của ZERO DOOR. Harness fault vẫn được phép theo kế hoạch riêng |
+| BM | operator_console / MANUAL / OPERATOR, proposal ACTION cùng context |
+| B1 | decision_rules / RULES / AUTO; không LLM |
+| B2 | decision_llm / LLM / AUTO; RULES fallback phải tham chiếu quyết định LLM lỗi hợp lệ cùng context |
+| B3 | decision_single_llm / SINGLE_LLM / AUTO; fallback tương tự B2 |
+
+Nguồn fault theo kế hoạch khóa giống nhau giữa các treatment. /attack/llm-plan bị từ chối trong mọi context B0/BM/B1/B2/B3 trước model/ledger/publish, theo contract §2 và ZER-8 §4.1; không thêm chế độ thăm dò mới trong R1.
+
+Thiếu context, sai nguồn/run/trial, ANALYSIS hoặc NO_ACTION không được dispatch. Từ chối B0 chỉ ghi audit log, không phát GUARD_VERDICT. Wrapper consumer chỉ cho adapter rules hiện hữu chạy ở context B1; B0/BM không auto-decide, B2/B3 không dựng kết quả LLM giả.
+
+Legacy process_alert, heal và reset không đi vòng. Startup legacy Hephaestus không khởi tạo Kubernetes/Kafka; manifest Hephaestus tắt mount service-account token. Endpoint R1 có proposal BM hợp lệ vẫn trả R1_EXECUTOR_DISABLED; production không truyền executor vào ModeGate. Đối chứng dispatch dùng fake executor trong test. F9 residual: nhánh AUTO B1/B2/B3/fallback của ModeGate mới có kiểm offline với fake executor; đường production heal hiện chỉ BM và vẫn disabled. B0 chỉ audit log, chưa có kênh audit bền riêng (không được phát guard event vào O). Trước khi bật dispatcher/executor thật, mọi AUTO/fallback phải qua ModeGate.admit với DECISION/fallback evidence từ gateway và có entrypoint test chống bypass. ZER-11/39 vẫn phải chứng minh mode/controller/dashboard runtime; gói này không đóng G1.
+
+## Kiểm offline và publication
+
+Trong môi trường test có dependency phù hợp:
+
+    python -B tests/test_command_guards.py
+    python -B tests/test_command_modes.py
+    python -B tests/test_command_guard_integration.py
+    python -B tests/test_command_guard_ci.py
+    (cd chaos-worker && go test ./... && go vet ./...)
+
+Trên Linux có CGO, thêm go test -race ./... theo CI. Tests không chạy startup tự động, không gọi broker/Kubernetes/model thật; HTTP dùng ASGI/fake transport hoặc loopback của hồi quy event.
+
+CI có thêm matrix production Nemesis/Hephaestus: test locks bị constraint bởi toàn bộ image lock; check_agent_dependencies.py đối chiếu từng package thực nạp (Windows chỉ bỏ uvloop), rồi chạy ASGI/mode/guard/event paths. Môi trường Gaia cũ vẫn giữ riêng. check_guard_manifests.py dùng OpenAPI model của kubernetes==28.1.0 để kiểm trường/kiểu và gate effective env kiểm envFrom/mount/Secret; không thay thế server admission/rollout. Worker cũng được build-smoke trên PR, thiếu policy phải exit 1. Hai job YAML tooling cài bằng lock có hash.
+
+requirements.txt giữ input trực tiếp; requirements.lock khóa transitive + hashes cho Linux x86_64/Python 3.11. SAST có lock universal để kiểm Windows. Dockerfile dùng digest Linux amd64 từ registry chính thức; không thêm gói apk không khóa. CI actions dùng commit SHA; Go/Python/Helm/Gosec/Trivy/Bandit có phiên bản rõ. Publish bị chặn bởi guard/mode/contract/race/build gates và tag application bằng Git SHA.
+
+Manifest deployment legacy vẫn giữ tag local :latest để không giả vờ có image mới đã build/publish. Khi rollout được duyệt, phải thay bằng digest application của revision đã review/CI; digest đó chưa có trong gói offline. Không apply policy mẫu/PVC refs để thử, không lấy receipt ZER-9 cũ làm proof source mới.
+
+Review → sửa gom/retest → publication/CI/build → merge/nghiệm thu vẫn cần đúng quyền. Nguồn và kết quả tại [verification](../evidence/ZER-12/verification.md).
