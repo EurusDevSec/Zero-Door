@@ -29,6 +29,8 @@ jobs:
         run: bash tests/shell/run.sh
       - name: Test Nemesis consumer responsiveness and cleanup offline
         run: python tests/test_nemesis_consumer.py
+      - name: Test bounded LLM backend probe offline without API credentials
+        run: python -B docs/evidence/ZER-36/test_probe.py
 
   # ─────────────────────────────────────────────
   # Job 1: Lint Kubernetes manifests + Helm

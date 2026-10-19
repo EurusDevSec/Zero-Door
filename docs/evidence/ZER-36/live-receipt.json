@@ -1,0 +1,250 @@
+{
+  "run_id": "zer36-502a6f48-9bee-4a1a-89a9-a13481898cc9",
+  "started_at": "2026-10-19T04:20:38.965641+00:00",
+  "evidence_kind": "LIVE_OPENAI_SYNTHETIC_INPUT",
+  "fixture_origin": "SYNTHETIC_R0_NOT_LAB",
+  "model_requested": "gpt-6-luna",
+  "request": {
+    "model": "gpt-6-luna",
+    "store": false,
+    "service_tier": "default",
+    "reasoning": {
+      "effort": "none"
+    },
+    "max_output_tokens": 512,
+    "instructions": "Classify synthetic monitoring evidence for a research backend smoke test. HIGH_CPU means CPU strictly above 80 percent for at least 60 seconds. Use only supplied evidence IDs. Do not infer attack cause or recovery. No tools or actions are available. Return the required JSON.",
+    "input": "{\"alert\": {\"affectedNamespace\": \"target-app\", \"affectedService\": \"frontend\", \"currentValue\": 88.0, \"metric\": \"cpu_usage_over_limit_percent\", \"severity\": \"WARNING\", \"threshold\": 80.0, \"type\": \"HIGH_CPU\"}, \"coverage\": \"complete_for_synthetic_window\", \"data_origin\": \"SYNTHETIC_R0_NOT_LAB\", \"duration_seconds\": 75, \"evidence_ids\": [\"cpu-01\", \"duration-01\"]}",
+    "text": {
+      "format": {
+        "type": "json_schema",
+        "name": "r0_observation_v1",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "classification": {
+              "type": "string",
+              "enum": [
+                "HIGH_CPU",
+                "NORMAL",
+                "UNKNOWN"
+              ]
+            },
+            "affected_service": {
+              "type": "string",
+              "enum": [
+                "frontend"
+              ]
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "cpu-01",
+                  "duration-01"
+                ]
+              }
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "explanation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "classification",
+            "affected_service",
+            "evidence_ids",
+            "confidence",
+            "explanation"
+          ]
+        }
+      }
+    }
+  },
+  "request_sha256": "4699e6d493c6241056955d31ddee652f58c94f1e996355d55c8325ab6f143fbd",
+  "probe_sha256": "37de4d63ca72e4b690b5dbc256c3af6819ce16a3235967928e771188641e9c52",
+  "max_attempts": 2,
+  "attempts": [
+    {
+      "number": 1,
+      "timestamp": "2026-10-19T04:20:41.942088+00:00",
+      "latency_ms": 2969.0,
+      "http_status": 200,
+      "headers": {
+        "x-ratelimit-limit-requests": "30000",
+        "x-ratelimit-limit-tokens": "180000000",
+        "x-request-id": "req_5041abe670da4f36a9b0ff9b956d4a3b"
+      },
+      "transport_error": null,
+      "body": {
+        "id": "resp_0754202c3eeee663016ad59a970b4887d081d2dcf2ed965907",
+        "object": "response",
+        "created_at": 1792383639,
+        "status": "completed",
+        "access_programs": null,
+        "background": false,
+        "billing": {
+          "payer": "developer"
+        },
+        "completed_at": 1792383640,
+        "error": null,
+        "frequency_penalty": 0.0,
+        "incomplete_details": null,
+        "instructions": "Classify synthetic monitoring evidence for a research backend smoke test. HIGH_CPU means CPU strictly above 80 percent for at least 60 seconds. Use only supplied evidence IDs. Do not infer attack cause or recovery. No tools or actions are available. Return the required JSON.",
+        "max_output_tokens": 512,
+        "max_tool_calls": null,
+        "model": "gpt-6-luna",
+        "moderation": null,
+        "output": [
+          {
+            "id": "msg_0754202c3eeee663016ad59a98133887d0a763cf4cc488f04d",
+            "type": "message",
+            "status": "completed",
+            "content": [
+              {
+                "type": "output_text",
+                "annotations": [],
+                "logprobs": [],
+                "text": "{\"classification\":\"HIGH_CPU\",\"affected_service\":\"frontend\",\"evidence_ids\":[\"cpu-01\",\"duration-01\"],\"confidence\":1,\"explanation\":\"CPU is 88%, strictly above the 80% threshold, for 75 seconds, meeting the HIGH_CPU criteria.\"}"
+              }
+            ],
+            "phase": "final_answer",
+            "role": "assistant"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "presence_penalty": 0.0,
+        "previous_response_id": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "store": false,
+        "temperature": 1.0,
+        "text": {
+          "format": {
+            "type": "json_schema",
+            "description": null,
+            "name": "r0_observation_v1",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "classification": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH_CPU",
+                    "NORMAL",
+                    "UNKNOWN"
+                  ]
+                },
+                "affected_service": {
+                  "type": "string",
+                  "enum": [
+                    "frontend"
+                  ]
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "cpu-01",
+                      "duration-01"
+                    ]
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "explanation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "classification",
+                "affected_service",
+                "evidence_ids",
+                "confidence",
+                "explanation"
+              ]
+            },
+            "strict": true
+          },
+          "verbosity": "medium"
+        },
+        "tool_choice": "auto",
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        },
+        "tools": [],
+        "top_logprobs": 0,
+        "top_p": 0.98,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 259,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 68,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 327
+        },
+        "user": null,
+        "metadata": {}
+      }
+    }
+  ],
+  "decision_source": "LLM",
+  "degraded": false,
+  "verdict": "PASS",
+  "decision": {
+    "classification": "HIGH_CPU",
+    "affected_service": "frontend",
+    "evidence_ids": [
+      "cpu-01",
+      "duration-01"
+    ],
+    "confidence": 1,
+    "explanation": "CPU is 88%, strictly above the 80% threshold, for 75 seconds, meeting the HIGH_CPU criteria."
+  },
+  "elapsed_ms": 2969.0,
+  "finished_at": "2026-10-19T04:20:41.942088+00:00",
+  "unknown_usage_attempts": [],
+  "known_usage_cost_estimate_usd": 5.99e-05,
+  "cost_estimate_complete": true,
+  "model_revision_note": "Returned model is recorded per attempt; an alias is not an immutable snapshot.",
+  "request_id_missing_attempts": []
+}

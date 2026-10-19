@@ -1,0 +1,497 @@
+{
+  "evidence_kind": "OFFLINE_SIMULATED",
+  "scope": "Component fault injection; no real API calls or provider outage",
+  "cases": {
+    "timeout_exhausted": {
+      "run_id": "zer36-6a6aa107-26f9-4d27-af94-f029683c6e9f",
+      "started_at": "2026-10-19T04:22:53.709161+00:00",
+      "evidence_kind": "OFFLINE_SIMULATED",
+      "fixture_origin": "SYNTHETIC_R0_NOT_LAB",
+      "model_requested": "gpt-6-luna",
+      "request": {
+        "model": "gpt-6-luna",
+        "store": false,
+        "service_tier": "default",
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 512,
+        "instructions": "Classify synthetic monitoring evidence for a research backend smoke test. HIGH_CPU means CPU strictly above 80 percent for at least 60 seconds. Use only supplied evidence IDs. Do not infer attack cause or recovery. No tools or actions are available. Return the required JSON.",
+        "input": "{\"alert\": {\"affectedNamespace\": \"target-app\", \"affectedService\": \"frontend\", \"currentValue\": 88.0, \"metric\": \"cpu_usage_over_limit_percent\", \"severity\": \"WARNING\", \"threshold\": 80.0, \"type\": \"HIGH_CPU\"}, \"coverage\": \"complete_for_synthetic_window\", \"data_origin\": \"SYNTHETIC_R0_NOT_LAB\", \"duration_seconds\": 75, \"evidence_ids\": [\"cpu-01\", \"duration-01\"]}",
+        "text": {
+          "format": {
+            "type": "json_schema",
+            "name": "r0_observation_v1",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "classification": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH_CPU",
+                    "NORMAL",
+                    "UNKNOWN"
+                  ]
+                },
+                "affected_service": {
+                  "type": "string",
+                  "enum": [
+                    "frontend"
+                  ]
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "cpu-01",
+                      "duration-01"
+                    ]
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "explanation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "classification",
+                "affected_service",
+                "evidence_ids",
+                "confidence",
+                "explanation"
+              ]
+            }
+          }
+        }
+      },
+      "request_sha256": "4699e6d493c6241056955d31ddee652f58c94f1e996355d55c8325ab6f143fbd",
+      "probe_sha256": "37de4d63ca72e4b690b5dbc256c3af6819ce16a3235967928e771188641e9c52",
+      "max_attempts": 2,
+      "attempts": [
+        {
+          "number": 1,
+          "timestamp": "2026-10-19T04:22:53.709161+00:00",
+          "latency_ms": 0.0,
+          "http_status": 0,
+          "transport_error": "process_timeout",
+          "headers": {},
+          "body": {
+            "error": {
+              "code": null
+            }
+          }
+        },
+        {
+          "number": 2,
+          "timestamp": "2026-10-19T04:22:53.709161+00:00",
+          "latency_ms": 0.0,
+          "http_status": 0,
+          "transport_error": "process_timeout",
+          "headers": {},
+          "body": {
+            "error": {
+              "code": null
+            }
+          }
+        }
+      ],
+      "decision_source": "RULES",
+      "degraded": true,
+      "verdict": "FAIL",
+      "decision": {
+        "classification": "HIGH_CPU",
+        "affected_service": "frontend",
+        "evidence_ids": [
+          "cpu-01",
+          "duration-01"
+        ],
+        "policy": "synthetic_cpu_gt80_for_60s"
+      },
+      "elapsed_ms": 0.0,
+      "finished_at": "2026-10-19T04:22:53.709161+00:00",
+      "unknown_usage_attempts": [
+        1,
+        2
+      ],
+      "known_usage_cost_estimate_usd": 0,
+      "cost_estimate_complete": false,
+      "model_revision_note": "Returned model is recorded per attempt; an alias is not an immutable snapshot.",
+      "request_id_missing_attempts": [
+        1,
+        2
+      ]
+    },
+    "transient_429_then_success": {
+      "run_id": "zer36-79617909-5e1b-499e-a87f-ef4f1c59e27f",
+      "started_at": "2026-10-19T04:22:53.709161+00:00",
+      "evidence_kind": "OFFLINE_SIMULATED",
+      "fixture_origin": "SYNTHETIC_R0_NOT_LAB",
+      "model_requested": "gpt-6-luna",
+      "request": {
+        "model": "gpt-6-luna",
+        "store": false,
+        "service_tier": "default",
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 512,
+        "instructions": "Classify synthetic monitoring evidence for a research backend smoke test. HIGH_CPU means CPU strictly above 80 percent for at least 60 seconds. Use only supplied evidence IDs. Do not infer attack cause or recovery. No tools or actions are available. Return the required JSON.",
+        "input": "{\"alert\": {\"affectedNamespace\": \"target-app\", \"affectedService\": \"frontend\", \"currentValue\": 88.0, \"metric\": \"cpu_usage_over_limit_percent\", \"severity\": \"WARNING\", \"threshold\": 80.0, \"type\": \"HIGH_CPU\"}, \"coverage\": \"complete_for_synthetic_window\", \"data_origin\": \"SYNTHETIC_R0_NOT_LAB\", \"duration_seconds\": 75, \"evidence_ids\": [\"cpu-01\", \"duration-01\"]}",
+        "text": {
+          "format": {
+            "type": "json_schema",
+            "name": "r0_observation_v1",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "classification": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH_CPU",
+                    "NORMAL",
+                    "UNKNOWN"
+                  ]
+                },
+                "affected_service": {
+                  "type": "string",
+                  "enum": [
+                    "frontend"
+                  ]
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "cpu-01",
+                      "duration-01"
+                    ]
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "explanation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "classification",
+                "affected_service",
+                "evidence_ids",
+                "confidence",
+                "explanation"
+              ]
+            }
+          }
+        }
+      },
+      "request_sha256": "4699e6d493c6241056955d31ddee652f58c94f1e996355d55c8325ab6f143fbd",
+      "probe_sha256": "37de4d63ca72e4b690b5dbc256c3af6819ce16a3235967928e771188641e9c52",
+      "max_attempts": 2,
+      "attempts": [
+        {
+          "number": 1,
+          "timestamp": "2026-10-19T04:22:53.710163+00:00",
+          "latency_ms": 0.0,
+          "http_status": 429,
+          "transport_error": null,
+          "headers": {},
+          "body": {
+            "error": {
+              "code": "rate_limit_exceeded"
+            }
+          }
+        },
+        {
+          "number": 2,
+          "timestamp": "2026-10-19T04:22:53.710163+00:00",
+          "latency_ms": 0.0,
+          "http_status": 200,
+          "transport_error": null,
+          "headers": {
+            "x-request-id": "offline-request"
+          },
+          "body": {
+            "id": "offline-response",
+            "model": "gpt-6-luna",
+            "status": "completed",
+            "usage": {
+              "input_tokens": 400,
+              "output_tokens": 60,
+              "total_tokens": 460
+            },
+            "output": [
+              {
+                "type": "message",
+                "content": [
+                  {
+                    "type": "output_text",
+                    "text": "{\"classification\": \"HIGH_CPU\", \"affected_service\": \"frontend\", \"evidence_ids\": [\"cpu-01\", \"duration-01\"], \"confidence\": 0.9, \"explanation\": \"Synthetic CPU 88% above 80% for 75 seconds.\"}"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "decision_source": "LLM",
+      "degraded": false,
+      "verdict": "PASS",
+      "decision": {
+        "classification": "HIGH_CPU",
+        "affected_service": "frontend",
+        "evidence_ids": [
+          "cpu-01",
+          "duration-01"
+        ],
+        "confidence": 0.9,
+        "explanation": "Synthetic CPU 88% above 80% for 75 seconds."
+      },
+      "elapsed_ms": 0.0,
+      "finished_at": "2026-10-19T04:22:53.710163+00:00",
+      "unknown_usage_attempts": [
+        1
+      ],
+      "known_usage_cost_estimate_usd": 7e-05,
+      "cost_estimate_complete": false,
+      "model_revision_note": "Returned model is recorded per attempt; an alias is not an immutable snapshot.",
+      "request_id_missing_attempts": [
+        1
+      ]
+    },
+    "auth_no_retry": {
+      "run_id": "zer36-92686b33-3203-4ae2-9d6e-5a82736a363f",
+      "started_at": "2026-10-19T04:22:53.710163+00:00",
+      "evidence_kind": "OFFLINE_SIMULATED",
+      "fixture_origin": "SYNTHETIC_R0_NOT_LAB",
+      "model_requested": "gpt-6-luna",
+      "request": {
+        "model": "gpt-6-luna",
+        "store": false,
+        "service_tier": "default",
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 512,
+        "instructions": "Classify synthetic monitoring evidence for a research backend smoke test. HIGH_CPU means CPU strictly above 80 percent for at least 60 seconds. Use only supplied evidence IDs. Do not infer attack cause or recovery. No tools or actions are available. Return the required JSON.",
+        "input": "{\"alert\": {\"affectedNamespace\": \"target-app\", \"affectedService\": \"frontend\", \"currentValue\": 88.0, \"metric\": \"cpu_usage_over_limit_percent\", \"severity\": \"WARNING\", \"threshold\": 80.0, \"type\": \"HIGH_CPU\"}, \"coverage\": \"complete_for_synthetic_window\", \"data_origin\": \"SYNTHETIC_R0_NOT_LAB\", \"duration_seconds\": 75, \"evidence_ids\": [\"cpu-01\", \"duration-01\"]}",
+        "text": {
+          "format": {
+            "type": "json_schema",
+            "name": "r0_observation_v1",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "classification": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH_CPU",
+                    "NORMAL",
+                    "UNKNOWN"
+                  ]
+                },
+                "affected_service": {
+                  "type": "string",
+                  "enum": [
+                    "frontend"
+                  ]
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "cpu-01",
+                      "duration-01"
+                    ]
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "explanation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "classification",
+                "affected_service",
+                "evidence_ids",
+                "confidence",
+                "explanation"
+              ]
+            }
+          }
+        }
+      },
+      "request_sha256": "4699e6d493c6241056955d31ddee652f58c94f1e996355d55c8325ab6f143fbd",
+      "probe_sha256": "37de4d63ca72e4b690b5dbc256c3af6819ce16a3235967928e771188641e9c52",
+      "max_attempts": 2,
+      "attempts": [
+        {
+          "number": 1,
+          "timestamp": "2026-10-19T04:22:53.710163+00:00",
+          "latency_ms": 0.0,
+          "http_status": 401,
+          "transport_error": null,
+          "headers": {},
+          "body": {
+            "error": {
+              "code": "invalid_api_key"
+            }
+          }
+        }
+      ],
+      "decision_source": "RULES",
+      "degraded": true,
+      "verdict": "FAIL",
+      "decision": {
+        "classification": "HIGH_CPU",
+        "affected_service": "frontend",
+        "evidence_ids": [
+          "cpu-01",
+          "duration-01"
+        ],
+        "policy": "synthetic_cpu_gt80_for_60s"
+      },
+      "elapsed_ms": 0.0,
+      "finished_at": "2026-10-19T04:22:53.710163+00:00",
+      "unknown_usage_attempts": [
+        1
+      ],
+      "known_usage_cost_estimate_usd": 0,
+      "cost_estimate_complete": false,
+      "model_revision_note": "Returned model is recorded per attempt; an alias is not an immutable snapshot.",
+      "request_id_missing_attempts": [
+        1
+      ]
+    },
+    "budget_no_retry": {
+      "run_id": "zer36-a63847db-763e-4060-9364-3174355ed47f",
+      "started_at": "2026-10-19T04:22:53.710163+00:00",
+      "evidence_kind": "OFFLINE_SIMULATED",
+      "fixture_origin": "SYNTHETIC_R0_NOT_LAB",
+      "model_requested": "gpt-6-luna",
+      "request": {
+        "model": "gpt-6-luna",
+        "store": false,
+        "service_tier": "default",
+        "reasoning": {
+          "effort": "none"
+        },
+        "max_output_tokens": 512,
+        "instructions": "Classify synthetic monitoring evidence for a research backend smoke test. HIGH_CPU means CPU strictly above 80 percent for at least 60 seconds. Use only supplied evidence IDs. Do not infer attack cause or recovery. No tools or actions are available. Return the required JSON.",
+        "input": "{\"alert\": {\"affectedNamespace\": \"target-app\", \"affectedService\": \"frontend\", \"currentValue\": 88.0, \"metric\": \"cpu_usage_over_limit_percent\", \"severity\": \"WARNING\", \"threshold\": 80.0, \"type\": \"HIGH_CPU\"}, \"coverage\": \"complete_for_synthetic_window\", \"data_origin\": \"SYNTHETIC_R0_NOT_LAB\", \"duration_seconds\": 75, \"evidence_ids\": [\"cpu-01\", \"duration-01\"]}",
+        "text": {
+          "format": {
+            "type": "json_schema",
+            "name": "r0_observation_v1",
+            "strict": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "classification": {
+                  "type": "string",
+                  "enum": [
+                    "HIGH_CPU",
+                    "NORMAL",
+                    "UNKNOWN"
+                  ]
+                },
+                "affected_service": {
+                  "type": "string",
+                  "enum": [
+                    "frontend"
+                  ]
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "cpu-01",
+                      "duration-01"
+                    ]
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "explanation": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "classification",
+                "affected_service",
+                "evidence_ids",
+                "confidence",
+                "explanation"
+              ]
+            }
+          }
+        }
+      },
+      "request_sha256": "4699e6d493c6241056955d31ddee652f58c94f1e996355d55c8325ab6f143fbd",
+      "probe_sha256": "37de4d63ca72e4b690b5dbc256c3af6819ce16a3235967928e771188641e9c52",
+      "max_attempts": 2,
+      "attempts": [
+        {
+          "number": 1,
+          "timestamp": "2026-10-19T04:22:53.710163+00:00",
+          "latency_ms": 0.0,
+          "http_status": 429,
+          "transport_error": null,
+          "headers": {},
+          "body": {
+            "error": {
+              "code": "project_spend_limit_exceeded"
+            }
+          }
+        }
+      ],
+      "decision_source": "RULES",
+      "degraded": true,
+      "verdict": "FAIL",
+      "decision": {
+        "classification": "HIGH_CPU",
+        "affected_service": "frontend",
+        "evidence_ids": [
+          "cpu-01",
+          "duration-01"
+        ],
+        "policy": "synthetic_cpu_gt80_for_60s"
+      },
+      "elapsed_ms": 0.0,
+      "finished_at": "2026-10-19T04:22:53.710163+00:00",
+      "unknown_usage_attempts": [
+        1
+      ],
+      "known_usage_cost_estimate_usd": 0,
+      "cost_estimate_complete": false,
+      "model_revision_note": "Returned model is recorded per attempt; an alias is not an immutable snapshot.",
+      "request_id_missing_attempts": [
+        1
+      ]
+    }
+  }
+}
