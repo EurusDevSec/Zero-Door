@@ -1,0 +1,44 @@
+test_actual_gaia_http_and_healer_consumer_keep_ids (__main__.AgentHttpTests.test_actual_gaia_http_and_healer_consumer_keep_ids) ... R:\_Dev_tools\pythn\Lib\site-packages\starlette\formparsers.py:10: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Dev_tools\pythn\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_actual_r1_entrypoints_and_telemetry_use_boundary (__main__.AgentHttpTests.test_actual_r1_entrypoints_and_telemetry_use_boundary) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.792s
+
+OK

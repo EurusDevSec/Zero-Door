@@ -1,0 +1,412 @@
+{
+ "kind": "OFFLINE_REGRESSION_BEFORE_AFTER_FIX03",
+ "snapshot": "scratch/zer9/claude-fix03/baseline-src (fix-02 source, hashes in scratch/zer9/claude-fix03/baseline.json)",
+ "runner": "scratch/zer9/claude-fix03/run_before.py (same test file; only the event_pipeline import path differs)",
+ "tests": {
+  "test_1000_clean_traces_per_label_have_no_false_positive": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_actor_key_files_and_source_binding": {
+   "class": "BoundaryRegressionTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_actor_secrets_hold_one_producer_role_each": {
+   "class": "VerifierTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_binding_error_in_recorder_is_quarantined_and_next_message_recorded": {
+   "class": "RecorderTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_commit_error_stops_recorder_without_claiming_success": {
+   "class": "RecorderTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_concurrent_submits_and_seal_lose_nothing": {
+   "class": "SealFenceTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_data_errors_are_not_io_failures": {
+   "class": "StickyFailureTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_deep_http_bodies_are_rejected_with_bytes_on_both_transports": {
+   "class": "DepthLimitTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_deep_kafka_messages_are_quarantined_committed_and_not_replayed": {
+   "class": "DepthLimitTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path": {
+   "class": "DepthLimitTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_editing_rejection_or_late_line_is_detected": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_export_destination_errors_fail_the_export_only": {
+   "class": "SourceReadFailureTests",
+   "fix02_snapshot": "ERROR",
+   "final": "ok"
+  },
+  "test_fsync_and_quarantine_append_failures_are_sticky": {
+   "class": "StickyFailureTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not": {
+   "class": "LogQueryTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_h_and_direct_o_partial_append_is_sticky_and_reopen_refuses": {
+   "class": "StickyFailureTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_harness_manifest_declares_created_values_and_controls_use_label_path": {
+   "class": "VerifierTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_hex_ids_containing_label_characters_are_clean": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_http_binding_rejections_are_stored_per_run": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_io_failure_is_not_acknowledged_and_turns_readiness_off": {
+   "class": "RecorderTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_kafka_recorder_partial_append_is_sticky_for_http_and_recorder": {
+   "class": "StickyFailureTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_live11_o_is_clean_against_reconstructed_labels": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_live11_raw_and_manifest_still_open_and_reseal_unchanged": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_neutral_resource_rule_uses_whole_tokens": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_other_rules_keep_their_meaning": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it": {
+   "class": "RetryTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_poison_messages_are_quarantined_committed_and_not_attributed": {
+   "class": "RecorderTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_probes_and_server_key_scope": {
+   "class": "BoundaryRegressionTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_r1_reset_endpoint_refuses_without_touching_state": {
+   "class": "BoundaryRegressionTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_rejection_only_run_seals_and_exports_with_archive_scope": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_restart_not_ready_until_messages_acked_before_crash_are_durable": {
+   "class": "SealFenceTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_rules_consumer_does_not_regenerate_a_refused_decision": {
+   "class": "RetryTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_seal_409_is_retried_and_never_taken_as_success": {
+   "class": "VerifierTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_seal_tracks_only_the_runs_own_partition": {
+   "class": "SealFenceTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_seal_waits_for_acknowledged_event_then_includes_it": {
+   "class": "SealFenceTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_secret_entries_clean_leaked_and_missing_evidence": {
+   "class": "AuditTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  },
+  "test_source_read_errors_during_export_are_sticky": {
+   "class": "SourceReadFailureTests",
+   "fix02_snapshot": "ERROR",
+   "final": "ok"
+  },
+  "test_source_read_errors_in_records_and_seal_are_sticky": {
+   "class": "SourceReadFailureTests",
+   "fix02_snapshot": "ERROR",
+   "final": "ok"
+  },
+  "test_source_stat_errors_on_the_write_path_are_sticky": {
+   "class": "SourceReadFailureTests",
+   "fix02_snapshot": "FAIL",
+   "final": "ok"
+  },
+  "test_undecodable_bodies_keep_original_bytes": {
+   "class": "QuarantineTests",
+   "fix02_snapshot": "ok",
+   "final": "ok"
+  }
+ },
+ "summary": {
+  "fix02_snapshot": {
+   "ok": 38,
+   "FAIL": 1,
+   "ERROR": 3
+  },
+  "final": {
+   "ok": 42,
+   "FAIL": 0,
+   "ERROR": 0
+  }
+ },
+ "fix02_snapshot_failing_subtests": [
+  {
+   "test": "test_export_destination_errors_fail_the_export_only",
+   "subtest": "plane='H'",
+   "fix02_snapshot": "ERROR",
+   "reason": "event_pipeline.store.ArchiveFailure: ARCHIVE_FAILED:INTEGRITY"
+  },
+  {
+   "test": "test_export_destination_errors_fail_the_export_only",
+   "subtest": "plane='O'",
+   "fix02_snapshot": "ERROR",
+   "reason": "event_pipeline.store.ArchiveFailure: ARCHIVE_FAILED:INTEGRITY"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('late', 'stat')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('late', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('late', 'open', 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('late', 'open', 2, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('archive-scope', 'stat')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/rejections.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('archive-scope', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/rejections.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('archive-scope', 'open', 2, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/rejections.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='H', case=('raw', 'open', 4, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/H.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('late', 'stat')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('late', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('late', 'open', 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('late', 'open', 2, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/late.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('archive-scope', 'stat')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/rejections.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('archive-scope', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/rejections.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('archive-scope', 'open', 2, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/rejections.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_during_export_are_sticky",
+   "subtest": "plane='O', case=('raw', 'open', 4, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/O.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='H', case=('records', 'raw', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/H.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='H', case=('records', 'raw', 'open', 0, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/H.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='O', case=('records', 'raw', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/O.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='O', case=('records', 'raw', 'open', 0, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "OSError: [Errno 5] simulated EIO: '<tmp>/O.jsonl'"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='O', case=('GET /events', 'raw', 'open')",
+   "fix02_snapshot": "ERROR",
+   "reason": "http.client.RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='O', case=('GET /events', 'raw', 'open', 0, 1)",
+   "fix02_snapshot": "ERROR",
+   "reason": "http.client.RemoteDisconnected: Remote end closed connection without response"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='H', case=('POST /seal', 'run dir', 'stat')",
+   "fix02_snapshot": "FAIL",
+   "reason": "AssertionError: 'OSError' != None"
+  },
+  {
+   "test": "test_source_read_errors_in_records_and_seal_are_sticky",
+   "subtest": "plane='O', case=('POST /seal', 'run dir', 'stat')",
+   "fix02_snapshot": "FAIL",
+   "reason": "AssertionError: 'OSError' != None"
+  },
+  {
+   "test": "test_source_stat_errors_on_the_write_path_are_sticky",
+   "subtest": "plane='H', transport='direct'",
+   "fix02_snapshot": "FAIL",
+   "reason": "AssertionError: 'OSError' != None"
+  },
+  {
+   "test": "test_source_stat_errors_on_the_write_path_are_sticky",
+   "subtest": "plane='O', transport='direct'",
+   "fix02_snapshot": "FAIL",
+   "reason": "AssertionError: 'OSError' != None"
+  },
+  {
+   "test": "test_source_stat_errors_on_the_write_path_are_sticky",
+   "subtest": "plane='O', transport='kafka', path='HTTP submit'",
+   "fix02_snapshot": "FAIL",
+   "reason": "AssertionError: 'OSError' != None"
+  },
+  {
+   "test": "test_source_stat_errors_on_the_write_path_are_sticky",
+   "subtest": "plane='O', transport='kafka', path='recorder'",
+   "fix02_snapshot": "FAIL",
+   "reason": "AssertionError: 'OSError' != None"
+  }
+ ],
+ "note": "One row per test method (worst of its subtests). New fix-03 tests: SourceReadFailureTests (4). Every other method is unchanged and passes on both. Subtests that pass on the fix-02 snapshot are controls: seal with a raw open error (fix-02 already stopped the archive there) and, in the destination test, existing directory/no space/chmod/fsync; the destination test fails on the snapshot because a copy that reads back with a different hash stopped the healthy source (ARCHIVE_FAILED:INTEGRITY)."
+}

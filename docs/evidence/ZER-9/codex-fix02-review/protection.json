@@ -1,0 +1,488 @@
+{
+  "source": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "ok": true
+    },
+    {
+      "path": "AGENTS.md",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/Dockerfile",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/__init__.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/adapters.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/audit.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/client.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/contract.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/gateway.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/requirements.txt",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/store.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/event_pipeline/telemetry.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/gaia/Dockerfile",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/gaia/main.py",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/hephaestus/Dockerfile",
+      "ok": true
+    },
+    {
+      "path": "agent-orchestrator/hephaestus/main.py",
+      "ok": true
+    },
+    {
+      "path": "docs/delivery/README.md",
+      "ok": true
+    },
+    {
+      "path": "docs/delivery/WORKFLOW.md",
+      "ok": true
+    },
+    {
+      "path": "docs/delivery/WORKING-AGREEMENT.md",
+      "ok": true
+    },
+    {
+      "path": "docs/delivery/milestones/R1-measurement/README.md",
+      "ok": true
+    },
+    {
+      "path": "docs/design/r1-event-contract.md",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/claude-review.md",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/codex-fix01-review/README.md",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/evidence-checksums.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-01/README.md",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-01/delta-manifest.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/live-11/export/H/H.jsonl",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/live-11/export/O/O.jsonl",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/live-11/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/package-manifest.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/verification.md",
+      "ok": true
+    },
+    {
+      "path": "docs/runbooks/r1-event-pipeline.md",
+      "ok": true
+    },
+    {
+      "path": "infrastructure/manifests/r1-event-pipeline.yaml",
+      "ok": true
+    },
+    {
+      "path": "infrastructure/scripts/setup-local-apps.sh",
+      "ok": true
+    },
+    {
+      "path": "infrastructure/scripts/setup-phase4.sh",
+      "ok": true
+    },
+    {
+      "path": "infrastructure/scripts/verify-event-pipeline.py",
+      "ok": true
+    },
+    {
+      "path": "infrastructure/scripts/verify-event-pipeline.sh",
+      "ok": true
+    },
+    {
+      "path": "tests/shell/run.sh",
+      "ok": true
+    },
+    {
+      "path": "tests/test_event_agents.py",
+      "ok": true
+    },
+    {
+      "path": "tests/test_event_pipeline.py",
+      "ok": true
+    },
+    {
+      "path": "tests/test_event_pipeline_regressions.py",
+      "ok": true
+    }
+  ],
+  "fix02_evidence": [
+    {
+      "path": "docs/evidence/ZER-9/fix-02/before-after.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-02/offline-results.txt",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-02/probe-results.json",
+      "ok": true
+    }
+  ],
+  "codex_fix01": [
+    {
+      "path": "deep-http-result.json",
+      "ok": true
+    },
+    {
+      "path": "deep_http.py",
+      "ok": true
+    },
+    {
+      "path": "dependency-semantics.jsonl",
+      "ok": true
+    },
+    {
+      "path": "h-partial-result.json",
+      "ok": true
+    },
+    {
+      "path": "historical-check.json",
+      "ok": true
+    },
+    {
+      "path": "h_partial_http.py",
+      "ok": true
+    },
+    {
+      "path": "intake.json",
+      "ok": true
+    },
+    {
+      "path": "README.md",
+      "ok": true
+    },
+    {
+      "path": "retest.txt",
+      "ok": true
+    }
+  ],
+  "historical": [
+    {
+      "path": "cleanup-readback.json",
+      "ok": true
+    },
+    {
+      "path": "diagnostics/cleanup-failed.txt",
+      "ok": true
+    },
+    {
+      "path": "diagnostics/k3d-zero-door-agent-0-iptables.txt",
+      "ok": true
+    },
+    {
+      "path": "diagnostics/k3d-zero-door-server-0-iptables.txt",
+      "ok": true
+    },
+    {
+      "path": "diagnostics/network-diagnostic.txt",
+      "ok": true
+    },
+    {
+      "path": "history/live-01/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-02/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-02/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-02/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-02/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-03/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-03/failure-export/H/run_4c356bf86dde464aac9488624d3828db/H.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-03/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-03/failure-export/O/run_4c356bf86dde464aac9488624d3828db/O.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-03/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-03/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-04/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-04/failure-export/H/run_50b5da6deb6a4a018eb5de17831b7b0e/H.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-04/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-04/failure-export/O/run_50b5da6deb6a4a018eb5de17831b7b0e/O.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-04/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-04/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-05/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-05/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-05/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-05/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-06/export/H/H.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-06/export/H/manifest.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-06/export/O/manifest.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-06/export/O/O.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-06/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-06/topic-cleanup-confirmed.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-07/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-07/failure-export/H/run_2aa7b8db9b2a4daea7259d00714b580a/H.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-07/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-07/failure-export/O/run_2aa7b8db9b2a4daea7259d00714b580a/O.jsonl",
+      "ok": true
+    },
+    {
+      "path": "history/live-07/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-07/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-08/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-09/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-09/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-09/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-09/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-10/cleanup.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-10/failure-export/H/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-10/failure-export/O/snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "history/live-10/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "linear-ac-snapshot.json",
+      "ok": true
+    },
+    {
+      "path": "live-11/export/H/H.jsonl",
+      "ok": true
+    },
+    {
+      "path": "live-11/export/H/manifest.json",
+      "ok": true
+    },
+    {
+      "path": "live-11/export/O/manifest.json",
+      "ok": true
+    },
+    {
+      "path": "live-11/export/O/O.jsonl",
+      "ok": true
+    },
+    {
+      "path": "live-11/receipt.json",
+      "ok": true
+    },
+    {
+      "path": "offline/agent-http-results.txt",
+      "ok": true
+    },
+    {
+      "path": "offline/contract-regression.txt",
+      "ok": true
+    },
+    {
+      "path": "offline/nemesis-results.txt",
+      "ok": true
+    },
+    {
+      "path": "offline/shell-results.txt",
+      "ok": true
+    },
+    {
+      "path": "offline/test-results.txt",
+      "ok": true
+    },
+    {
+      "path": "package-manifest.json",
+      "ok": true
+    },
+    {
+      "path": "protected-check.json",
+      "ok": true
+    },
+    {
+      "path": "reconciliation.txt",
+      "ok": true
+    },
+    {
+      "path": "verification.md",
+      "ok": false
+    }
+  ],
+  "fix01": [
+    {
+      "path": "docs/evidence/ZER-9/fix-01/before-after.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-01/live11-offline-audit.json",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-01/offline-results.txt",
+      "ok": true
+    },
+    {
+      "path": "docs/evidence/ZER-9/fix-01/runtime-plan.md",
+      "ok": true
+    }
+  ]
+}

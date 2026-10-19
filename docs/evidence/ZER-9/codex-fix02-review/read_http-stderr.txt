@@ -1,0 +1,27 @@
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 31660)
+Traceback (most recent call last):
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 761, in __init__
+    self.handle()
+  File "R:\_Dev_tools\pythn\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "R:\_Dev_tools\pythn\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\event_pipeline\gateway.py", line 254, in do_GET
+    selected = gateway.archive.records(run, after, limit)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\codex-fix02\read_http.py", line 15, in broken_open
+    if Path(path)==badpath and args and args[0]=='rb':raise OSError(errno.EIO,'simulated source read EIO')
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 5] simulated source read EIO
+----------------------------------------

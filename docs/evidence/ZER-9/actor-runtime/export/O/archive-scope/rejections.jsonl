@@ -1,0 +1,1 @@
+{"classification":"INVALID","ingest_id":"ing_cba1915e6861431182d840ce11855f92","principal":null,"raw_hex":"6e6f742d6a736f6e2d7a6572392d7472616e73706f7274","raw_sha256":"94067c4a4d207c90a011f4dcd44489dd4349efbbf847c5de762231913e67907f","transport":{"kind":"kafka","offset":5,"partition":0,"topic":"zd.events.o.cd87da425168"},"ts_ingest":"2026-10-19T13:00:55.320Z"}

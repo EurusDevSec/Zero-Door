@@ -1,0 +1,1505 @@
+[
+  {
+    "key": "query",
+    "result": {
+      "processes": [
+        {
+          "id": "proc_101_copy",
+          "summary": "Copy → Canonical",
+          "priority": 0.104,
+          "symbol_count": 1,
+          "process_type": "intra_community",
+          "step_count": 4
+        },
+        {
+          "id": "proc_4_export",
+          "summary": "Export → Sha",
+          "priority": 0.104,
+          "symbol_count": 1,
+          "process_type": "intra_community",
+          "step_count": 6
+        }
+      ],
+      "process_symbols": [
+        {
+          "id": "Function:agent-orchestrator/event_pipeline/store.py:check_record",
+          "name": "check_record",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "startLine": 121,
+          "endLine": 132,
+          "module": "Event_pipeline",
+          "process_id": "proc_101_copy",
+          "step_index": 3
+        }
+      ],
+      "definitions": [
+        {
+          "id": "Class:agent-orchestrator/event_pipeline/gateway.py:Gateway",
+          "name": "Gateway",
+          "filePath": "agent-orchestrator/event_pipeline/gateway.py",
+          "startLine": 27,
+          "endLine": 148
+        },
+        {
+          "id": "Function:agent-orchestrator/event_pipeline/gateway.py:server",
+          "name": "server",
+          "filePath": "agent-orchestrator/event_pipeline/gateway.py",
+          "startLine": 151,
+          "endLine": 272,
+          "module": "Event_pipeline"
+        },
+        {
+          "id": "File:agent-orchestrator/event_pipeline/gateway.py",
+          "name": "gateway.py",
+          "filePath": "agent-orchestrator/event_pipeline/gateway.py"
+        },
+        {
+          "id": "Class:agent-orchestrator/event_pipeline/store.py:Archive",
+          "name": "Archive",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "startLine": 135,
+          "endLine": 476
+        },
+        {
+          "id": "File:agent-orchestrator/event_pipeline/store.py",
+          "name": "store.py",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "id": "Variable:tests/test_event_pipeline_regressions.py:Stack.start_bridge.bridge@190:12",
+          "name": "bridge",
+          "filePath": "tests/test_event_pipeline_regressions.py",
+          "startLine": 191,
+          "endLine": 192
+        },
+        {
+          "id": "Method:tests/test_event_pipeline_regressions.py:DepthLimitTests.test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path#0",
+          "name": "test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path",
+          "filePath": "tests/test_event_pipeline_regressions.py",
+          "startLine": 1013,
+          "endLine": 1032,
+          "module": "Tests"
+        },
+        {
+          "id": "File:tests/test_event_pipeline_regressions.py",
+          "name": "test_event_pipeline_regressions.py",
+          "filePath": "tests/test_event_pipeline_regressions.py"
+        },
+        {
+          "id": "Class:tests/test_event_pipeline.py:ArchiveTests",
+          "name": "ArchiveTests",
+          "filePath": "tests/test_event_pipeline.py",
+          "startLine": 123,
+          "endLine": 184
+        },
+        {
+          "id": "Variable:tests/test_event_pipeline.py:HttpTests.test_h_token_does_not_work_at_o_and_h_has_no_read.http@248:8",
+          "name": "http",
+          "filePath": "tests/test_event_pipeline.py",
+          "startLine": 249,
+          "endLine": 249
+        },
+        {
+          "id": "File:tests/test_event_pipeline.py",
+          "name": "test_event_pipeline.py",
+          "filePath": "tests/test_event_pipeline.py"
+        }
+      ],
+      "timing": {
+        "vector": 172.9,
+        "bm25": 1309.5,
+        "merge": 0,
+        "symbol_lookup": 29.2,
+        "ranking": 0,
+        "formatting": 0,
+        "wall": 1341.9
+      }
+    }
+  },
+  {
+    "key": "context",
+    "result": {
+      "status": "found",
+      "symbol": {
+        "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.write#2",
+        "name": "write",
+        "kind": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py",
+        "startLine": 205,
+        "endLine": 211
+      },
+      "epistemic": "lower-bound",
+      "boundaries": [
+        "4 call sites invoking `write` were dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+      ],
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 4,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "incoming": {
+        "has_method": [
+          {
+            "uid": "Class:agent-orchestrator/event_pipeline/store.py:Archive",
+            "name": "Archive",
+            "filePath": "agent-orchestrator/event_pipeline/store.py"
+          }
+        ],
+        "calls": [
+          {
+            "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.ingest#3",
+            "name": "ingest",
+            "filePath": "agent-orchestrator/event_pipeline/store.py"
+          },
+          {
+            "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.reject#6",
+            "name": "reject",
+            "filePath": "agent-orchestrator/event_pipeline/store.py"
+          }
+        ]
+      },
+      "outgoing": {
+        "calls": [
+          {
+            "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.append#2",
+            "name": "append",
+            "filePath": "agent-orchestrator/event_pipeline/store.py"
+          },
+          {
+            "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.fail#1",
+            "name": "fail",
+            "filePath": "agent-orchestrator/event_pipeline/store.py"
+          },
+          {
+            "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.usable#0",
+            "name": "usable",
+            "filePath": "agent-orchestrator/event_pipeline/store.py"
+          }
+        ]
+      },
+      "processes": [
+        {
+          "id": "proc_69_ingest",
+          "name": "Ingest → Fsync_dir",
+          "step_index": 3,
+          "step_count": 5
+        },
+        {
+          "id": "proc_74_ingest",
+          "name": "Ingest → Usable",
+          "step_index": 3,
+          "step_count": 4
+        },
+        {
+          "id": "proc_95_ingest",
+          "name": "Ingest → Canonical",
+          "step_index": 3,
+          "step_count": 5
+        }
+      ]
+    }
+  },
+  {
+    "key": "detect",
+    "result": {
+      "summary": {
+        "changed_count": 82,
+        "affected_count": 15,
+        "changed_files": 14,
+        "risk_level": "high"
+      }
+    }
+  },
+  {
+    "key": "impact:too_deep",
+    "result": {
+      "target": {
+        "id": "Function:agent-orchestrator/event_pipeline/store.py:too_deep",
+        "name": "too_deep",
+        "type": "Function",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 3,
+      "risk": "LOW",
+      "riskSharedAxes": "LOW",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "exact",
+      "summary": {
+        "direct": 3,
+        "processes_affected": 2,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 3
+      },
+      "affected_processes": [
+        {
+          "name": "ingest",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 6,
+          "total_hits": 12,
+          "earliest_broken_step": 1
+        },
+        {
+          "name": "submit",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/gateway.py",
+          "affected_process_count": 4,
+          "total_hits": 4,
+          "earliest_broken_step": 3
+        }
+      ],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 3,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/gateway.py:Gateway.check#4",
+            "name": "check",
+            "filePath": "agent-orchestrator/event_pipeline/gateway.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_2_submit",
+                "label": "Submit → Canonical",
+                "processType": "cross_community",
+                "step": 3
+              },
+              {
+                "id": "proc_61_submit",
+                "label": "Submit → Valid_id",
+                "processType": "cross_community",
+                "step": 3
+              },
+              {
+                "id": "proc_3_submit",
+                "label": "Submit → Forbidden_keys",
+                "processType": "cross_community",
+                "step": 3
+              },
+              {
+                "id": "proc_23_submit",
+                "label": "Submit → Too_deep",
+                "processType": "cross_community",
+                "step": 3
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.ingest#3",
+            "name": "ingest",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_86_ingest",
+                "label": "Ingest → New_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 1
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.reject#6",
+            "name": "reject",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_86_ingest",
+                "label": "Ingest → New_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 2
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "impact:write",
+    "result": {
+      "target": {
+        "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.write#2",
+        "name": "write",
+        "type": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 2,
+      "risk": "LOW",
+      "riskSharedAxes": "LOW",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "lower-bound",
+      "boundaries": [
+        "4 call sites invoking `write` were dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+      ],
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 4,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "summary": {
+        "direct": 2,
+        "processes_affected": 1,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 2
+      },
+      "affected_processes": [
+        {
+          "name": "ingest",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 6,
+          "total_hits": 12,
+          "earliest_broken_step": 1
+        }
+      ],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 2,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.ingest#3",
+            "name": "ingest",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_86_ingest",
+                "label": "Ingest → New_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 1
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.reject#6",
+            "name": "reject",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_86_ingest",
+                "label": "Ingest → New_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 2
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "impact:usable",
+    "result": {
+      "target": {
+        "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.usable#0",
+        "name": "usable",
+        "type": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 5,
+      "risk": "HIGH",
+      "riskSharedAxes": "MEDIUM",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "lower-bound",
+      "boundaries": [
+        "1 call site invoking `usable` was dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+      ],
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 1,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "summary": {
+        "direct": 5,
+        "processes_affected": 3,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 5
+      },
+      "affected_processes": [
+        {
+          "name": "ingest",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 6,
+          "total_hits": 15,
+          "earliest_broken_step": 1
+        },
+        {
+          "name": "export",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 7,
+          "total_hits": 7,
+          "earliest_broken_step": 3
+        },
+        {
+          "name": "records",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 1,
+          "total_hits": 1,
+          "earliest_broken_step": 1
+        }
+      ],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 5,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.ingest#3",
+            "name": "ingest",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_86_ingest",
+                "label": "Ingest → New_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 1
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.records#3",
+            "name": "records",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_100_records",
+                "label": "Records → Valid_id",
+                "processType": "intra_community",
+                "step": 1
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.reject#6",
+            "name": "reject",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_86_ingest",
+                "label": "Ingest → New_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 2
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.seal#1",
+            "name": "seal",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_6_export",
+                "label": "Export → Iter_file",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_0_export",
+                "label": "Export → Valid_id",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_90_export",
+                "label": "Export → Canonical",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_5_export",
+                "label": "Export → File_sha",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_25_export",
+                "label": "Export → Usable",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_24_export",
+                "label": "Export → Fail",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_12_export",
+                "label": "Export → Fsync_dir",
+                "processType": "intra_community",
+                "step": 3
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.write#2",
+            "name": "write",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "impact:fail",
+    "result": {
+      "target": {
+        "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.fail#1",
+        "name": "fail",
+        "type": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 5,
+      "risk": "HIGH",
+      "riskSharedAxes": "MEDIUM",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "exact",
+      "summary": {
+        "direct": 5,
+        "processes_affected": 3,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 5
+      },
+      "affected_processes": [
+        {
+          "name": "export",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 8,
+          "total_hits": 15,
+          "earliest_broken_step": 1
+        },
+        {
+          "name": "ingest",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 5,
+          "total_hits": 5,
+          "earliest_broken_step": 3
+        },
+        {
+          "name": "records",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 1,
+          "total_hits": 1,
+          "earliest_broken_step": 1
+        }
+      ],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 5,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.export#2",
+            "name": "export",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_4_export",
+                "label": "Export → Sha",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_12_export",
+                "label": "Export → Fsync_dir",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_24_export",
+                "label": "Export → Fail",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_25_export",
+                "label": "Export → Usable",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_90_export",
+                "label": "Export → Canonical",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_0_export",
+                "label": "Export → Valid_id",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_5_export",
+                "label": "Export → File_sha",
+                "processType": "intra_community",
+                "step": 1
+              },
+              {
+                "id": "proc_6_export",
+                "label": "Export → Iter_file",
+                "processType": "intra_community",
+                "step": 1
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.records#3",
+            "name": "records",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_100_records",
+                "label": "Records → Valid_id",
+                "processType": "intra_community",
+                "step": 1
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.run_dir#1",
+            "name": "run_dir",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_94_ingest",
+                "label": "Ingest → Valid_id",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_73_ingest",
+                "label": "Ingest → Fail",
+                "processType": "intra_community",
+                "step": 3
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.seal#1",
+            "name": "seal",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_12_export",
+                "label": "Export → Fsync_dir",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_6_export",
+                "label": "Export → Iter_file",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_0_export",
+                "label": "Export → Valid_id",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_90_export",
+                "label": "Export → Canonical",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_5_export",
+                "label": "Export → File_sha",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_25_export",
+                "label": "Export → Usable",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_24_export",
+                "label": "Export → Fail",
+                "processType": "intra_community",
+                "step": 3
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.write#2",
+            "name": "write",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_69_ingest",
+                "label": "Ingest → Fsync_dir",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_74_ingest",
+                "label": "Ingest → Usable",
+                "processType": "intra_community",
+                "step": 3
+              },
+              {
+                "id": "proc_95_ingest",
+                "label": "Ingest → Canonical",
+                "processType": "intra_community",
+                "step": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "impact:records",
+    "result": {
+      "target": {
+        "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.records#3",
+        "name": "records",
+        "type": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 3,
+      "risk": "LOW",
+      "riskSharedAxes": "LOW",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "lower-bound",
+      "boundaries": [
+        "8 call sites invoking `records` were dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+      ],
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 8,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "summary": {
+        "direct": 3,
+        "processes_affected": 0,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 3
+      },
+      "affected_processes": [],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 2,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "File:docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py",
+            "name": "h_partial_http.py",
+            "filePath": "docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": []
+          },
+          {
+            "depth": 1,
+            "id": "Method:tests/test_event_pipeline_regressions.py:QuarantineTests.test_live11_raw_and_manifest_still_open_and_reseal_unchanged#0",
+            "name": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged",
+            "filePath": "tests/test_event_pipeline_regressions.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": []
+          },
+          {
+            "depth": 1,
+            "id": "Method:tests/test_event_pipeline_regressions.py:Stack.raw#1",
+            "name": "raw",
+            "filePath": "tests/test_event_pipeline_regressions.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": []
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "impact:seal",
+    "result": {
+      "target": {
+        "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.seal#1",
+        "name": "seal",
+        "type": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 2,
+      "risk": "LOW",
+      "riskSharedAxes": "LOW",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "lower-bound",
+      "boundaries": [
+        "6 call sites invoking `seal` were dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+      ],
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 6,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "summary": {
+        "direct": 2,
+        "processes_affected": 1,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 2
+      },
+      "affected_processes": [
+        {
+          "name": "export",
+          "type": "Function",
+          "filePath": "agent-orchestrator/event_pipeline/store.py",
+          "affected_process_count": 8,
+          "total_hits": 8,
+          "earliest_broken_step": 2
+        }
+      ],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 2,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive._export#2",
+            "name": "_export",
+            "filePath": "agent-orchestrator/event_pipeline/store.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": [
+              {
+                "id": "proc_6_export",
+                "label": "Export → Iter_file",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_4_export",
+                "label": "Export → Sha",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_0_export",
+                "label": "Export → Valid_id",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_90_export",
+                "label": "Export → Canonical",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_5_export",
+                "label": "Export → File_sha",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_25_export",
+                "label": "Export → Usable",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_24_export",
+                "label": "Export → Fail",
+                "processType": "intra_community",
+                "step": 2
+              },
+              {
+                "id": "proc_12_export",
+                "label": "Export → Fsync_dir",
+                "processType": "intra_community",
+                "step": 2
+              }
+            ]
+          },
+          {
+            "depth": 1,
+            "id": "Method:tests/test_event_pipeline_regressions.py:QuarantineTests.test_live11_raw_and_manifest_still_open_and_reseal_unchanged#0",
+            "name": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged",
+            "filePath": "tests/test_event_pipeline_regressions.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": []
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "impact:export",
+    "result": {
+      "target": {
+        "id": "Method:agent-orchestrator/event_pipeline/store.py:Archive.export#2",
+        "name": "export",
+        "type": "Method",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 1,
+      "risk": "LOW",
+      "riskSharedAxes": "LOW",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "epistemic": "lower-bound",
+      "boundaries": [
+        "7 call sites invoking `export` were dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+      ],
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 7,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "summary": {
+        "direct": 1,
+        "processes_affected": 0,
+        "modules_affected": 1
+      },
+      "byDepthCounts": {
+        "1": 1
+      },
+      "affected_processes": [],
+      "affected_modules": [
+        {
+          "name": "Event_pipeline",
+          "hits": 1,
+          "impact": "direct"
+        }
+      ],
+      "byDepth": {
+        "1": [
+          {
+            "depth": 1,
+            "id": "Method:tests/test_event_pipeline_regressions.py:QuarantineTests.test_live11_raw_and_manifest_still_open_and_reseal_unchanged#0",
+            "name": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged",
+            "filePath": "tests/test_event_pipeline_regressions.py",
+            "relationType": "CALLS",
+            "confidence": 0.85,
+            "processes": []
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "auditimpact",
+    "result": {
+      "target": {
+        "id": "Function:agent-orchestrator/event_pipeline/audit.py:audit",
+        "name": "audit",
+        "type": "Function",
+        "filePath": "agent-orchestrator/event_pipeline/audit.py"
+      },
+      "direction": "upstream",
+      "impactedCount": 0,
+      "risk": "UNKNOWN",
+      "riskSharedAxes": "UNKNOWN",
+      "riskScale": {
+        "comparableAcrossKinds": true,
+        "unusedAxes": []
+      },
+      "riskNote": "No callers resolved. Absence of edges is not evidence the symbol is unused: a caller reaching it through a reference class this index does not record — plain-object property access, a bare-identifier read of a module-scope const — produces no edge to find. Confirm with a text search before treating the change as safe.",
+      "epistemic": "exact",
+      "summary": {
+        "direct": 0,
+        "processes_affected": 0,
+        "modules_affected": 0
+      },
+      "byDepthCounts": {},
+      "affected_processes": [],
+      "affected_modules": [],
+      "byDepth": {}
+    }
+  },
+  {
+    "key": "explain:store.py",
+    "result": {
+      "anchor": {
+        "file": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "findings": [],
+      "totalFindings": 0,
+      "note": "Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher."
+    }
+  },
+  {
+    "key": "explain:gateway.py",
+    "result": {
+      "anchor": {
+        "file": "agent-orchestrator/event_pipeline/gateway.py"
+      },
+      "findings": [],
+      "totalFindings": 0,
+      "note": "Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher."
+    }
+  },
+  {
+    "key": "explain:audit.py",
+    "result": {
+      "anchor": {
+        "file": "agent-orchestrator/event_pipeline/audit.py"
+      },
+      "findings": [],
+      "totalFindings": 0,
+      "note": "Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher."
+    }
+  },
+  {
+    "key": "pdg",
+    "result": {
+      "mode": "controls",
+      "anchor": {
+        "file": "agent-orchestrator/event_pipeline/store.py"
+      },
+      "results": [
+        {
+          "functionLine": 110,
+          "controller": {
+            "line": 113
+          },
+          "dependent": {
+            "line": 114,
+            "text": ""
+          },
+          "label": "F"
+        },
+        {
+          "functionLine": 110,
+          "controller": {
+            "line": 113
+          },
+          "dependent": {
+            "line": 115,
+            "text": "return None, \"INVALID\""
+          },
+          "label": "F",
+          "guard": true
+        },
+        {
+          "functionLine": 110,
+          "controller": {
+            "line": 113
+          },
+          "dependent": {
+            "line": 116,
+            "text": "not isinstance(value, dict)"
+          },
+          "label": "F"
+        },
+        {
+          "functionLine": 110,
+          "controller": {
+            "line": 116
+          },
+          "dependent": {
+            "line": 117,
+            "text": "return None, \"INVALID\""
+          },
+          "label": "T",
+          "guard": true
+        },
+        {
+          "functionLine": 110,
+          "controller": {
+            "line": 116
+          },
+          "dependent": {
+            "line": 118,
+            "text": "return value, None"
+          },
+          "label": "F",
+          "guard": true
+        },
+        {
+          "functionLine": 121,
+          "controller": {
+            "line": 126
+          },
+          "dependent": {
+            "line": 127,
+            "text": "record.get(\"envelope_sha256\") != sha(canonical(record[\"envelope\"]))"
+          },
+          "label": "T"
+        },
+        {
+          "functionLine": 121,
+          "controller": {
+            "line": 126
+          },
+          "dependent": {
+            "line": 129,
+            "text": "legacy and \"raw_sha256\" not in record and \"raw_hex\" in record"
+          },
+          "label": "F"
+        },
+        {
+          "functionLine": 121,
+          "controller": {
+            "line": 127
+          },
+          "dependent": {
+            "line": 128,
+            "text": "raise ArchiveFailure(\"archive hash mismatch\")"
+          },
+          "label": "T"
+        },
+        {
+          "functionLine": 121,
+          "controller": {
+            "line": 129
+          },
+          "dependent": {
+            "line": 130,
+            "text": "return"
+          },
+          "label": "T",
+          "guard": true
+        },
+        {
+          "functionLine": 121,
+          "controller": {
+            "line": 129
+          },
+          "dependent": {
+            "line": 131,
+            "text": "record.get(\"raw_sha256\") != sha(bytes.fromhex(record.get(\"raw_hex\", \"\")))"
+          },
+          "label": "F"
+        }
+      ],
+      "total": 335,
+      "truncated": true
+    }
+  }
+]

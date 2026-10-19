@@ -4,13 +4,19 @@ import time
 import uuid
 import asyncio
 import logging
+import sys
+from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, Dict, Tuple
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from kafka import KafkaConsumer, KafkaProducer
 from kubernetes import client as k8s_client, config as k8s_config
 from kubernetes.client.rest import ApiException
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from event_pipeline.client import Client
+from event_pipeline.adapters import RulesConsumer
 
 # ---- Logging ----
 logging.basicConfig(
@@ -31,6 +37,7 @@ MAX_REPLICAS             = int(os.getenv("MAX_REPLICAS", "3"))
 NETWORK_POLICY_TTL_SEC   = int(os.getenv("NETWORK_POLICY_TTL_SEC", "300"))  # 5 min auto-expire
 
 app = FastAPI(title="Hephaestus Agent — Self-Healing Executor")
+r1_client = Client.from_env("decision_rules")
 
 # ---- State ----
 # Key: (service, action), Value: last heal timestamp
@@ -416,6 +423,8 @@ def process_alert(alert: dict):
     """
     Main entry point: receives a Gaia alert dict and decides + executes healing.
     """
+    if r1_client:
+        raise ValueError("R1 accepts only authenticated O envelopes via the event gateway")
     alert_id       = alert.get("alertId", str(uuid.uuid4()))
     alert_type     = alert.get("type", "UNKNOWN")
     severity       = alert.get("severity", "WARNING")
@@ -491,6 +500,14 @@ def _kafka_consumer_thread():
     Kafka consumer runs in a daemon thread so it never blocks the asyncio
     event loop — uvicorn can always serve /healthz while this runs.
     """
+    if r1_client:
+        rules = RulesConsumer(r1_client, decide_action)
+        while True:
+            try:
+                rules.poll()
+            except Exception as error:
+                logger.error("R1 O consumer unavailable: %s", type(error).__name__)
+            time.sleep(1)
     logger.info(f"Kafka consumer thread starting — topic '{KAFKA_ALERTS_TOPIC}'...")
     while True:
         try:
@@ -529,6 +546,10 @@ async def alert_consumer_loop():
 
 @app.on_event("startup")
 async def startup_event():
+    if r1_client:
+        asyncio.create_task(alert_consumer_loop())
+        logger.info("R1 O decision transport started; guard/executor not enabled.")
+        return
     init_k8s()
     get_kafka_producer()
     asyncio.create_task(alert_consumer_loop())
@@ -547,6 +568,9 @@ def root():
 
 @app.get("/healthz")
 def healthz():
+    if r1_client:
+        return {"status": "UP", "transport": "r1-o-gateway", "kafka_connected": None,
+                "k8s_connected": False, "execution": "DISABLED_PENDING_GUARD"}
     k8s_ok = core_v1 is not None
     kafka_ok = get_kafka_producer() is not None
     return {
@@ -578,6 +602,8 @@ async def manual_heal(body: dict):
     Manually trigger a healing action for testing purposes.
     Body: { "alertType": "HIGH_CPU", "severity": "WARNING", "affectedService": "frontend" }
     """
+    if r1_client:
+        raise HTTPException(status_code=409, detail="R1 requires an operator decision and an approved guard/executor")
     alert = {
         "alertId":         str(uuid.uuid4()),
         "type":            body.get("alertType", "HIGH_CPU"),
@@ -632,6 +658,9 @@ def experiment_reset():
     Reset all cooldowns, clear heal_history, and scale all target deployments back to 1 replica.
     Called by experiment_runner_direct.py between runs or manually via Dashboard reset.
     """
+    if r1_client:
+        # R1 has no executor: no cluster change, no cleared state and no fake success message.
+        raise HTTPException(status_code=409, detail="R1 reset belongs to the harness; no executor is enabled")
     heal_cooldowns.clear()
     heal_history.clear()
 

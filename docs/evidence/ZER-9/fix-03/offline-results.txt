@@ -1,0 +1,1219 @@
+ZER-9 fix-03 offline retest (Claude, 19/10/2026), one pass on the final source. Runner: scratch/zer9/claude-fix03/retest.sh.
+No Docker/Kubernetes/Kafka broker/port-forward/verifier --live/model/API; temp archives, loopback HTTP and an in-memory
+kafka fake only. Expected non-zero exits: the fix-02 snapshot run (new tests fail there: fail-before); reconcile_raw.py
+57/58 (its one failed check compares live-11 receipt source hashes with CURRENT files; the next step shows they equal the
+pre-fix-01 copy); the link check in this pass ran before fix-03/ existed and is repeated at the end.
+
+== core test_event_pipeline
+test_conflict_durable_quarantine (__main__.ArchiveTests.test_conflict_durable_quarantine) ... ok
+test_duplicate_reopen_and_export_preserve_raw (__main__.ArchiveTests.test_duplicate_reopen_and_export_preserve_raw) ... ok
+test_partial_record_and_hash_tamper_fail_closed (__main__.ArchiveTests.test_partial_record_and_hash_tamper_fail_closed) ... ok
+test_second_writer_and_path_escape_rejected (__main__.ArchiveTests.test_second_writer_and_path_escape_rejected) ... ok
+test_actual_healer_r1_entrypoints_cannot_execute_legacy_actions (__main__.BoundaryTests.test_actual_healer_r1_entrypoints_cannot_execute_legacy_actions) ... ok
+test_detector_retry_preserves_envelope (__main__.BoundaryTests.test_detector_retry_preserves_envelope) ... ok
+test_metrics_allowlist_and_log_filter_cannot_be_removed (__main__.BoundaryTests.test_metrics_allowlist_and_log_filter_cannot_be_removed) ... ok
+test_rules_dedup_and_mode_boundary (__main__.BoundaryTests.test_rules_dedup_and_mode_boundary) ... ok
+test_action_does_not_imply_recovery (__main__.ContractTests.test_action_does_not_imply_recovery) ... ok
+test_b0_blocks_actions (__main__.ContractTests.test_b0_blocks_actions) ... ok
+test_b2_rules_requires_a_real_fallback_reference (__main__.ContractTests.test_b2_rules_requires_a_real_fallback_reference) ... ok
+test_malformed_input_never_crashes (__main__.ContractTests.test_malformed_input_never_crashes) ... ok
+test_missing_or_forged_id_not_repaired (__main__.ContractTests.test_missing_or_forged_id_not_repaired) ... ok
+test_nested_answer_rejected_but_observed_ip_preserved (__main__.ContractTests.test_nested_answer_rejected_but_observed_ip_preserved) ... ok
+test_neutral_ids_and_timestamp (__main__.ContractTests.test_neutral_ids_and_timestamp) ... ok
+test_source_plane_version (__main__.ContractTests.test_source_plane_version) ... ok
+test_context_before_detector_and_immutable (__main__.HttpTests.test_context_before_detector_and_immutable) ... ok
+test_h_token_does_not_work_at_o_and_h_has_no_read (__main__.HttpTests.test_h_token_does_not_work_at_o_and_h_has_no_read) ... ok
+test_http_id_chain_and_no_h_api (__main__.HttpTests.test_http_id_chain_and_no_h_api) ... ok
+test_canary_prompt_and_revealing_resource (__main__.LeakTests.test_canary_prompt_and_revealing_resource) ... ok
+test_clean_vs_unknown (__main__.LeakTests.test_clean_vs_unknown) ... ok
+test_natural_ip_allowlist (__main__.LeakTests.test_natural_ip_allowlist) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 2.288s
+
+OK
+exit=0
+== regressions test_event_pipeline_regressions (final source)
+test_1000_clean_traces_per_label_have_no_false_positive (__main__.AuditTests.test_1000_clean_traces_per_label_have_no_false_positive) ... ok
+test_hex_ids_containing_label_characters_are_clean (__main__.AuditTests.test_hex_ids_containing_label_characters_are_clean) ... ok
+test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path (__main__.AuditTests.test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path) ... ok
+test_live11_o_is_clean_against_reconstructed_labels (__main__.AuditTests.test_live11_o_is_clean_against_reconstructed_labels)
+OFFLINE_RECONSTRUCTION: live-11 raw is unchanged; labels/manifest entries are synthetic. ... ok
+test_neutral_resource_rule_uses_whole_tokens (__main__.AuditTests.test_neutral_resource_rule_uses_whole_tokens) ... ok
+test_other_rules_keep_their_meaning (__main__.AuditTests.test_other_rules_keep_their_meaning) ... ok
+test_secret_entries_clean_leaked_and_missing_evidence (__main__.AuditTests.test_secret_entries_clean_leaked_and_missing_evidence) ... ok
+test_actor_key_files_and_source_binding (__main__.BoundaryRegressionTests.test_actor_key_files_and_source_binding) ... ok
+test_probes_and_server_key_scope (__main__.BoundaryRegressionTests.test_probes_and_server_key_scope) ... ok
+test_r1_reset_endpoint_refuses_without_touching_state (__main__.BoundaryRegressionTests.test_r1_reset_endpoint_refuses_without_touching_state) ... ok
+test_deep_http_bodies_are_rejected_with_bytes_on_both_transports (__main__.DepthLimitTests.test_deep_http_bodies_are_rejected_with_bytes_on_both_transports) ... ok
+test_deep_kafka_messages_are_quarantined_committed_and_not_replayed (__main__.DepthLimitTests.test_deep_kafka_messages_are_quarantined_committed_and_not_replayed) ... ok
+test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path (__main__.DepthLimitTests.test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path) ... ok
+test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not (__main__.LogQueryTests.test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not) ... ok
+test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded (__main__.QuarantineTests.test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded) ... ok
+test_editing_rejection_or_late_line_is_detected (__main__.QuarantineTests.test_editing_rejection_or_late_line_is_detected) ... ok
+test_http_binding_rejections_are_stored_per_run (__main__.QuarantineTests.test_http_binding_rejections_are_stored_per_run) ... ok
+test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw (__main__.QuarantineTests.test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw) ... ok
+test_live11_raw_and_manifest_still_open_and_reseal_unchanged (__main__.QuarantineTests.test_live11_raw_and_manifest_still_open_and_reseal_unchanged) ... ok
+test_rejection_only_run_seals_and_exports_with_archive_scope (__main__.QuarantineTests.test_rejection_only_run_seals_and_exports_with_archive_scope) ... ok
+test_undecodable_bodies_keep_original_bytes (__main__.QuarantineTests.test_undecodable_bodies_keep_original_bytes) ... ok
+test_binding_error_in_recorder_is_quarantined_and_next_message_recorded (__main__.RecorderTests.test_binding_error_in_recorder_is_quarantined_and_next_message_recorded) ... ok
+test_commit_error_stops_recorder_without_claiming_success (__main__.RecorderTests.test_commit_error_stops_recorder_without_claiming_success) ... ok
+test_io_failure_is_not_acknowledged_and_turns_readiness_off (__main__.RecorderTests.test_io_failure_is_not_acknowledged_and_turns_readiness_off) ... ok
+test_poison_messages_are_quarantined_committed_and_not_attributed (__main__.RecorderTests.test_poison_messages_are_quarantined_committed_and_not_attributed) ... ok
+test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it (__main__.RetryTests.test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it) ... ok
+test_rules_consumer_does_not_regenerate_a_refused_decision (__main__.RetryTests.test_rules_consumer_does_not_regenerate_a_refused_decision) ... ok
+test_concurrent_submits_and_seal_lose_nothing (__main__.SealFenceTests.test_concurrent_submits_and_seal_lose_nothing) ... ok
+test_restart_not_ready_until_messages_acked_before_crash_are_durable (__main__.SealFenceTests.test_restart_not_ready_until_messages_acked_before_crash_are_durable) ... ok
+test_seal_tracks_only_the_runs_own_partition (__main__.SealFenceTests.test_seal_tracks_only_the_runs_own_partition) ... ok
+test_seal_waits_for_acknowledged_event_then_includes_it (__main__.SealFenceTests.test_seal_waits_for_acknowledged_event_then_includes_it) ... ok
+test_export_destination_errors_fail_the_export_only (__main__.SourceReadFailureTests.test_export_destination_errors_fail_the_export_only) ... ok
+test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) ... ok
+test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) ... ok
+test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) ... ok
+test_data_errors_are_not_io_failures (__main__.StickyFailureTests.test_data_errors_are_not_io_failures) ... ok
+test_fsync_and_quarantine_append_failures_are_sticky (__main__.StickyFailureTests.test_fsync_and_quarantine_append_failures_are_sticky) ... ok
+test_h_and_direct_o_partial_append_is_sticky_and_reopen_refuses (__main__.StickyFailureTests.test_h_and_direct_o_partial_append_is_sticky_and_reopen_refuses) ... ok
+test_kafka_recorder_partial_append_is_sticky_for_http_and_recorder (__main__.StickyFailureTests.test_kafka_recorder_partial_append_is_sticky_for_http_and_recorder) ... ok
+test_actor_secrets_hold_one_producer_role_each (__main__.VerifierTests.test_actor_secrets_hold_one_producer_role_each) ... ok
+test_harness_manifest_declares_created_values_and_controls_use_label_path (__main__.VerifierTests.test_harness_manifest_declares_created_values_and_controls_use_label_path) ... ok
+test_seal_409_is_retried_and_never_taken_as_success (__main__.VerifierTests.test_seal_409_is_retried_and_never_taken_as_success) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 40.839s
+
+OK
+exit=0
+== regressions on fix-02 snapshot (baseline-src; new SourceReadFailureTests expected to fail)
+test_1000_clean_traces_per_label_have_no_false_positive (__main__.AuditTests.test_1000_clean_traces_per_label_have_no_false_positive) ... ok
+test_hex_ids_containing_label_characters_are_clean (__main__.AuditTests.test_hex_ids_containing_label_characters_are_clean) ... ok
+test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path (__main__.AuditTests.test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path) ... ok
+test_live11_o_is_clean_against_reconstructed_labels (__main__.AuditTests.test_live11_o_is_clean_against_reconstructed_labels)
+OFFLINE_RECONSTRUCTION: live-11 raw is unchanged; labels/manifest entries are synthetic. ... ok
+test_neutral_resource_rule_uses_whole_tokens (__main__.AuditTests.test_neutral_resource_rule_uses_whole_tokens) ... ok
+test_other_rules_keep_their_meaning (__main__.AuditTests.test_other_rules_keep_their_meaning) ... ok
+test_secret_entries_clean_leaked_and_missing_evidence (__main__.AuditTests.test_secret_entries_clean_leaked_and_missing_evidence) ... ok
+test_actor_key_files_and_source_binding (__main__.BoundaryRegressionTests.test_actor_key_files_and_source_binding) ... ok
+test_probes_and_server_key_scope (__main__.BoundaryRegressionTests.test_probes_and_server_key_scope) ... ok
+test_r1_reset_endpoint_refuses_without_touching_state (__main__.BoundaryRegressionTests.test_r1_reset_endpoint_refuses_without_touching_state) ... ok
+test_deep_http_bodies_are_rejected_with_bytes_on_both_transports (__main__.DepthLimitTests.test_deep_http_bodies_are_rejected_with_bytes_on_both_transports) ... ok
+test_deep_kafka_messages_are_quarantined_committed_and_not_replayed (__main__.DepthLimitTests.test_deep_kafka_messages_are_quarantined_committed_and_not_replayed) ... ok
+test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path (__main__.DepthLimitTests.test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path) ... ok
+test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not (__main__.LogQueryTests.test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not) ... ok
+test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded (__main__.QuarantineTests.test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded) ... ok
+test_editing_rejection_or_late_line_is_detected (__main__.QuarantineTests.test_editing_rejection_or_late_line_is_detected) ... ok
+test_http_binding_rejections_are_stored_per_run (__main__.QuarantineTests.test_http_binding_rejections_are_stored_per_run) ... ok
+test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw (__main__.QuarantineTests.test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw) ... ok
+test_live11_raw_and_manifest_still_open_and_reseal_unchanged (__main__.QuarantineTests.test_live11_raw_and_manifest_still_open_and_reseal_unchanged) ... ok
+test_rejection_only_run_seals_and_exports_with_archive_scope (__main__.QuarantineTests.test_rejection_only_run_seals_and_exports_with_archive_scope) ... ok
+test_undecodable_bodies_keep_original_bytes (__main__.QuarantineTests.test_undecodable_bodies_keep_original_bytes) ... ok
+test_binding_error_in_recorder_is_quarantined_and_next_message_recorded (__main__.RecorderTests.test_binding_error_in_recorder_is_quarantined_and_next_message_recorded) ... ok
+test_commit_error_stops_recorder_without_claiming_success (__main__.RecorderTests.test_commit_error_stops_recorder_without_claiming_success) ... ok
+test_io_failure_is_not_acknowledged_and_turns_readiness_off (__main__.RecorderTests.test_io_failure_is_not_acknowledged_and_turns_readiness_off) ... ok
+test_poison_messages_are_quarantined_committed_and_not_attributed (__main__.RecorderTests.test_poison_messages_are_quarantined_committed_and_not_attributed) ... ok
+test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it (__main__.RetryTests.test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it) ... ok
+test_rules_consumer_does_not_regenerate_a_refused_decision (__main__.RetryTests.test_rules_consumer_does_not_regenerate_a_refused_decision) ... ok
+test_concurrent_submits_and_seal_lose_nothing (__main__.SealFenceTests.test_concurrent_submits_and_seal_lose_nothing) ... ok
+test_restart_not_ready_until_messages_acked_before_crash_are_durable (__main__.SealFenceTests.test_restart_not_ready_until_messages_acked_before_crash_are_durable) ... ok
+test_seal_tracks_only_the_runs_own_partition (__main__.SealFenceTests.test_seal_tracks_only_the_runs_own_partition) ... ok
+test_seal_waits_for_acknowledged_event_then_includes_it (__main__.SealFenceTests.test_seal_waits_for_acknowledged_event_then_includes_it) ... ok
+test_export_destination_errors_fail_the_export_only (__main__.SourceReadFailureTests.test_export_destination_errors_fail_the_export_only) ...
+  test_export_destination_errors_fail_the_export_only (__main__.SourceReadFailureTests.test_export_destination_errors_fail_the_export_only) (plane='H') ... ERROR
+  test_export_destination_errors_fail_the_export_only (__main__.SourceReadFailureTests.test_export_destination_errors_fail_the_export_only) (plane='O') ... ERROR
+test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) ...
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'stat')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'open')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'open', 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'open', 2, 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('archive-scope', 'stat')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('archive-scope', 'open')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('archive-scope', 'open', 2, 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('raw', 'open', 4, 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'stat')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'open')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'open', 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'open', 2, 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('archive-scope', 'stat')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('archive-scope', 'open')) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('archive-scope', 'open', 2, 1)) ... ERROR
+  test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('raw', 'open', 4, 1)) ... ERROR
+test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) ...
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='H', case=('records', 'raw', 'open')) ... ERROR
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='H', case=('records', 'raw', 'open', 0, 1)) ... ERROR
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='H', case=('POST /seal', 'run dir', 'stat')) ... FAIL
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('records', 'raw', 'open')) ... ERROR
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('records', 'raw', 'open', 0, 1)) ... ERROR
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('POST /seal', 'run dir', 'stat')) ... FAIL
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 41370)
+Traceback (most recent call last):
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 761, in __init__
+    self.handle()
+  File "R:\_Dev_tools\pythn\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "R:\_Dev_tools\pythn\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\gateway.py", line 254, in do_GET
+    selected = gateway.archive.records(run, after, limit)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpq8hi8b90\\O\\run_46c7aa29f30f4be19b406b3d74a0e22e\\O.jsonl'
+----------------------------------------
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('GET /events', 'raw', 'open')) ... ERROR
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 41377)
+Traceback (most recent call last):
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 692, in process_request_thread
+    self.finish_request(request, client_address)
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "R:\_Dev_tools\pythn\Lib\socketserver.py", line 761, in __init__
+    self.handle()
+  File "R:\_Dev_tools\pythn\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "R:\_Dev_tools\pythn\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\gateway.py", line 254, in do_GET
+    selected = gateway.archive.records(run, after, limit)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 254, in iter_file
+    for line in handle:
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1185, in __next__
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpq8hi8b90\\O\\run_01a1e8f0a7724a718b11327caa295f16\\O.jsonl'
+----------------------------------------
+  test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('GET /events', 'raw', 'open', 0, 1)) ... ERROR
+test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) ...
+  test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='H', transport='direct') ... FAIL
+  test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='O', transport='direct') ... FAIL
+  test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='O', transport='kafka', path='HTTP submit') ... FAIL
+  test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='O', transport='kafka', path='recorder') ... FAIL
+test_data_errors_are_not_io_failures (__main__.StickyFailureTests.test_data_errors_are_not_io_failures) ... ok
+test_fsync_and_quarantine_append_failures_are_sticky (__main__.StickyFailureTests.test_fsync_and_quarantine_append_failures_are_sticky) ... ok
+test_h_and_direct_o_partial_append_is_sticky_and_reopen_refuses (__main__.StickyFailureTests.test_h_and_direct_o_partial_append_is_sticky_and_reopen_refuses) ... ok
+test_kafka_recorder_partial_append_is_sticky_for_http_and_recorder (__main__.StickyFailureTests.test_kafka_recorder_partial_append_is_sticky_for_http_and_recorder) ... ok
+test_actor_secrets_hold_one_producer_role_each (__main__.VerifierTests.test_actor_secrets_hold_one_producer_role_each) ... ok
+test_harness_manifest_declares_created_values_and_controls_use_label_path (__main__.VerifierTests.test_harness_manifest_declares_created_values_and_controls_use_label_path) ... ok
+test_seal_409_is_retried_and_never_taken_as_success (__main__.VerifierTests.test_seal_409_is_retried_and_never_taken_as_success) ... ok
+
+======================================================================
+ERROR: test_export_destination_errors_fail_the_export_only (__main__.SourceReadFailureTests.test_export_destination_errors_fail_the_export_only) (plane='H')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 454, in _export
+    raw = copy(source / manifest["raw_file"], manifest["raw_file"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 450, in copy
+    raise ArchiveFailure("export hash mismatch")
+event_pipeline.store.ArchiveFailure: export hash mismatch
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1379, in test_export_destination_errors_fail_the_export_only
+    stack.archive.export(run, destination)
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 434, in export
+    raise self.fail(error) from error
+event_pipeline.store.ArchiveFailure: ARCHIVE_FAILED:INTEGRITY
+
+======================================================================
+ERROR: test_export_destination_errors_fail_the_export_only (__main__.SourceReadFailureTests.test_export_destination_errors_fail_the_export_only) (plane='O')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 454, in _export
+    raw = copy(source / manifest["raw_file"], manifest["raw_file"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 450, in copy
+    raise ArchiveFailure("export hash mismatch")
+event_pipeline.store.ArchiveFailure: export hash mismatch
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1379, in test_export_destination_errors_fail_the_export_only
+    stack.archive.export(run, destination)
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 434, in export
+    raise self.fail(error) from error
+event_pipeline.store.ArchiveFailure: ARCHIVE_FAILED:INTEGRITY
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'stat'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 860, in exists
+    self.stat(follow_symlinks=follow_symlinks)
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 840, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1230, in call
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\run_544845876bc7462b9b49f1a5d204d943\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 444, in copy
+    before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+             ^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 361, in summary
+    for record in Archive.iter_file(path):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\run_45bc9efbe7644c158ac40a9c98c9859b\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'open', 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 444, in copy
+    before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+             ^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 364, in summary
+    return {"file": path.name, "lines": lines, "bytes": path.stat().st_size, "sha256": file_sha(path)}
+                                                                                       ^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 54, in file_sha
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\run_3d14aa82c64c47ffbd67ae1e8ff090fd\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('late', 'open', 2, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 448, in copy
+    shutil.copyfile(path, target)
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 280, in copyfile
+    _copyfileobj_readinto(fsrc, fdst, min(file_size, COPY_BUFSIZE))
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 186, in _copyfileobj_readinto
+    n = fsrc_readinto(mv)
+        ^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1193, in readinto
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\run_93408f11f6534b60817a36c4b5ea9bfb\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('archive-scope', 'stat'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 463, in _export
+    for name in GLOBAL_FILES if (self.root / name).exists()}
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 860, in exists
+    self.stat(follow_symlinks=follow_symlinks)
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 840, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1230, in call
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\rejections.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('archive-scope', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 462, in _export
+    scoped = {name: copy(self.root / name, "archive-scope/" + name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 444, in copy
+    before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+             ^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 361, in summary
+    for record in Archive.iter_file(path):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\rejections.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('archive-scope', 'open', 2, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 462, in _export
+    scoped = {name: copy(self.root / name, "archive-scope/" + name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 448, in copy
+    shutil.copyfile(path, target)
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 280, in copyfile
+    _copyfileobj_readinto(fsrc, fdst, min(file_size, COPY_BUFSIZE))
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 186, in _copyfileobj_readinto
+    n = fsrc_readinto(mv)
+        ^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1193, in readinto
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\rejections.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='H', case=('raw', 'open', 4, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 454, in _export
+    raw = copy(source / manifest["raw_file"], manifest["raw_file"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 448, in copy
+    shutil.copyfile(path, target)
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 280, in copyfile
+    _copyfileobj_readinto(fsrc, fdst, min(file_size, COPY_BUFSIZE))
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 186, in _copyfileobj_readinto
+    n = fsrc_readinto(mv)
+        ^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1193, in readinto
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\H\\run_f35d74a45e584ed88c42f663a7700749\\H.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'stat'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 860, in exists
+    self.stat(follow_symlinks=follow_symlinks)
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 840, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1230, in call
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\run_d44aa4d4a5a545eda739b3928fb6cca6\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 444, in copy
+    before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+             ^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 361, in summary
+    for record in Archive.iter_file(path):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\run_d7cfe1d7ad484d8c902c29be920863da\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'open', 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 444, in copy
+    before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+             ^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 364, in summary
+    return {"file": path.name, "lines": lines, "bytes": path.stat().st_size, "sha256": file_sha(path)}
+                                                                                       ^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 54, in file_sha
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\run_f1fdfc5629e94324b1c1d084662c3f9a\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('late', 'open', 2, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 461, in _export
+    late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 448, in copy
+    shutil.copyfile(path, target)
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 280, in copyfile
+    _copyfileobj_readinto(fsrc, fdst, min(file_size, COPY_BUFSIZE))
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 186, in _copyfileobj_readinto
+    n = fsrc_readinto(mv)
+        ^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1193, in readinto
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\run_eef866cf82474e2cb4fd4b804c5dcf32\\late.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('archive-scope', 'stat'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 463, in _export
+    for name in GLOBAL_FILES if (self.root / name).exists()}
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 860, in exists
+    self.stat(follow_symlinks=follow_symlinks)
+  File "R:\_Dev_tools\pythn\Lib\pathlib.py", line 840, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1230, in call
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\rejections.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('archive-scope', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 462, in _export
+    scoped = {name: copy(self.root / name, "archive-scope/" + name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 444, in copy
+    before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+             ^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 361, in summary
+    for record in Archive.iter_file(path):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\rejections.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('archive-scope', 'open', 2, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 462, in _export
+    scoped = {name: copy(self.root / name, "archive-scope/" + name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 448, in copy
+    shutil.copyfile(path, target)
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 280, in copyfile
+    _copyfileobj_readinto(fsrc, fdst, min(file_size, COPY_BUFSIZE))
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 186, in _copyfileobj_readinto
+    n = fsrc_readinto(mv)
+        ^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1193, in readinto
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\rejections.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_during_export_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_during_export_are_sticky) (plane='O', case=('raw', 'open', 4, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1322, in test_source_read_errors_during_export_are_sticky
+    self.assert_stops(plane, "export", *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1296, in assert_stops
+    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 432, in export
+    return self._export(run, destination)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 454, in _export
+    raw = copy(source / manifest["raw_file"], manifest["raw_file"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 448, in copy
+    shutil.copyfile(path, target)
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 280, in copyfile
+    _copyfileobj_readinto(fsrc, fdst, min(file_size, COPY_BUFSIZE))
+  File "R:\_Dev_tools\pythn\Lib\shutil.py", line 186, in _copyfileobj_readinto
+    n = fsrc_readinto(mv)
+        ^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1193, in readinto
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp8v5i714k\\O\\run_772b01b2e75b43529e96f7902d93d5e0\\O.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='H', case=('records', 'raw', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1287, in assert_stops
+    stack.archive.records(run)
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpq8hi8b90\\H\\run_6f8234ee71e24dcabbf283c15a34c37e\\H.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='H', case=('records', 'raw', 'open', 0, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1287, in assert_stops
+    stack.archive.records(run)
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 254, in iter_file
+    for line in handle:
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1185, in __next__
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpq8hi8b90\\H\\run_a43a4a5745c14d68a6d12c2c759d7831\\H.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('records', 'raw', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1287, in assert_stops
+    stack.archive.records(run)
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 253, in iter_file
+    with open(path, "rb") as handle:
+         ^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1223, in fake_open
+    raise eio(path)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpq8hi8b90\\O\\run_c33504872e384dd6aa90d682a2fcd6f7\\O.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('records', 'raw', 'open', 0, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1287, in assert_stops
+    stack.archive.records(run)
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 354, in records
+    return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude-fix03\baseline-src\agent-orchestrator\event_pipeline\store.py", line 254, in iter_file
+    for line in handle:
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1185, in __next__
+    self.step()
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1181, in step
+    raise eio(self.handle.name)
+OSError: [Errno 5] simulated EIO: 'C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpq8hi8b90\\O\\run_e097669ed8994d3d89acc7679594b27c\\O.jsonl'
+
+======================================================================
+ERROR: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('GET /events', 'raw', 'open'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1289, in assert_stops
+    self.assertEqual((503, {"error": "NOT_DURABLE"}), stack.request("/events?run_id=" + run))
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 209, in request
+    with urlopen(request, timeout=20) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 515, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 1373, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 1348, in do_open
+    r = h.getresponse()
+        ^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\http\client.py", line 1428, in getresponse
+    response.begin()
+  File "R:\_Dev_tools\pythn\Lib\http\client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\http\client.py", line 300, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+======================================================================
+ERROR: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('GET /events', 'raw', 'open', 0, 1))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1289, in assert_stops
+    self.assertEqual((503, {"error": "NOT_DURABLE"}), stack.request("/events?run_id=" + run))
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 209, in request
+    with urlopen(request, timeout=20) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 515, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 1373, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\urllib\request.py", line 1348, in do_open
+    r = h.getresponse()
+        ^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\http\client.py", line 1428, in getresponse
+    response.begin()
+  File "R:\_Dev_tools\pythn\Lib\http\client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "R:\_Dev_tools\pythn\Lib\http\client.py", line 300, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+======================================================================
+FAIL: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='H', case=('POST /seal', 'run dir', 'stat'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1299, in assert_stops
+    self.assertEqual("OSError", getattr(stack.archive, "failure", None))
+AssertionError: 'OSError' != None
+
+======================================================================
+FAIL: test_source_read_errors_in_records_and_seal_are_sticky (__main__.SourceReadFailureTests.test_source_read_errors_in_records_and_seal_are_sticky) (plane='O', case=('POST /seal', 'run dir', 'stat'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1312, in test_source_read_errors_in_records_and_seal_are_sticky
+    self.assert_stops(plane, *case)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1299, in assert_stops
+    self.assertEqual("OSError", getattr(stack.archive, "failure", None))
+AssertionError: 'OSError' != None
+
+======================================================================
+FAIL: test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='H', transport='direct')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1327, in test_source_stat_errors_on_the_write_path_are_sticky
+    self.assert_stops(plane, "POST /events", "manifest", "stat")
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1299, in assert_stops
+    self.assertEqual("OSError", getattr(stack.archive, "failure", None))
+AssertionError: 'OSError' != None
+
+======================================================================
+FAIL: test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='O', transport='direct')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1327, in test_source_stat_errors_on_the_write_path_are_sticky
+    self.assert_stops(plane, "POST /events", "manifest", "stat")
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1299, in assert_stops
+    self.assertEqual("OSError", getattr(stack.archive, "failure", None))
+AssertionError: 'OSError' != None
+
+======================================================================
+FAIL: test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='O', transport='kafka', path='HTTP submit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1342, in test_source_stat_errors_on_the_write_path_are_sticky
+    self.assertEqual("OSError", getattr(stack.archive, "failure", None))
+AssertionError: 'OSError' != None
+
+======================================================================
+FAIL: test_source_stat_errors_on_the_write_path_are_sticky (__main__.SourceReadFailureTests.test_source_stat_errors_on_the_write_path_are_sticky) (plane='O', transport='kafka', path='recorder')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_event_pipeline_regressions.py", line 1342, in test_source_stat_errors_on_the_write_path_are_sticky
+    self.assertEqual("OSError", getattr(stack.archive, "failure", None))
+AssertionError: 'OSError' != None
+
+----------------------------------------------------------------------
+Ran 42 tests in 38.656s
+
+FAILED (failures=6, errors=24)
+exit=1
+== Codex probes unchanged, JSON asserted by value
+{
+ "codex-fix02-review/read_http.py": {
+  "exit": 0,
+  "pass": true,
+  "actual": {
+   "read_http": [
+    503,
+    {
+     "error": "NOT_DURABLE"
+    }
+   ],
+   "archive_failure": "OSError",
+   "ready_after_eio": [
+    503,
+    {
+     "reason": "ARCHIVE_FAILED:OSError",
+     "status": "NOT_READY"
+    }
+   ],
+   "post_after_eio": [
+    503,
+    {
+     "error": "NOT_DURABLE"
+    }
+   ]
+  },
+  "stderr_tail": []
+ },
+ "codex-fix02-review/read_matrix.py": {
+  "exit": 0,
+  "pass": true,
+  "actual": [
+   {
+    "plane": "H",
+    "operation": "records",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "H",
+    "operation": "seal",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "H",
+    "operation": "export_late",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "H",
+    "operation": "export_global",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "H",
+    "operation": "export_destination",
+    "error": "FileExistsError",
+    "failure": null,
+    "readiness": {
+     "ready": true,
+     "reason": null
+    }
+   },
+   {
+    "plane": "O",
+    "operation": "records",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "O",
+    "operation": "seal",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "O",
+    "operation": "export_late",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "O",
+    "operation": "export_global",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+     "ready": false,
+     "reason": "ARCHIVE_FAILED:OSError"
+    }
+   },
+   {
+    "plane": "O",
+    "operation": "export_destination",
+    "error": "FileExistsError",
+    "failure": null,
+    "readiness": {
+     "ready": true,
+     "reason": null
+    }
+   }
+  ],
+  "stderr_tail": []
+ },
+ "codex-fix01-review/deep_http.py": {
+  "exit": 0,
+  "pass": true,
+  "actual": {
+   "bytes": 2053,
+   "strict_decode_error": null,
+   "http_reply": [
+    422,
+    {
+     "classification": "INVALID",
+     "error": "REJECTED"
+    }
+   ],
+   "quarantine_after_http": 1,
+   "recorder_failure": null,
+   "committed": {
+    "0": 2
+   },
+   "ready_reply": [
+    200,
+    {
+     "reason": null,
+     "status": "READY"
+    }
+   ],
+   "good_recorded": true
+  },
+  "stderr_tail": []
+ },
+ "codex-fix01-review/h_partial_http.py": {
+  "exit": 0,
+  "pass": true,
+  "actual": {
+   "plane": "H",
+   "first": [
+    503,
+    {
+     "error": "NOT_DURABLE"
+    }
+   ],
+   "readiness_after_failure": [
+    503,
+    {
+     "reason": "ARCHIVE_FAILED:OSError",
+     "status": "NOT_READY"
+    }
+   ],
+   "next": [
+    503,
+    {
+     "error": "NOT_DURABLE"
+    }
+   ],
+   "raw_read": "ArchiveFailure"
+  },
+  "stderr_tail": []
+ }
+}
+ALL_PROBES_ASSERTED
+exit=0
+== agents test_event_agents (venv)
+test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy (__main__.AgentHttpTests.test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy) ... R:\_Dev_tools\pythn\Lib\site-packages\starlette\formparsers.py:10: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Dev_tools\pythn\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+2026-10-19 19:28:03,179 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-19 19:28:03,181 - elastic_transport.transport - [INFO] - HEAD http://127.0.0.1:57360/elasticsearch/ [status:200 duration:0.002s]
+2026-10-19 19:28:03,181 - gaia-agent - [INFO] - Elasticsearch Client connected successfully.
+2026-10-19 19:28:03,208 - elastic_transport.transport - [INFO] - POST http://127.0.0.1:57360/elasticsearch/zero-door-logs-*/_search [status:200 duration:0.026s]
+2026-10-19 19:28:03,209 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+ok
+test_actual_gaia_http_and_healer_consumer_keep_ids (__main__.AgentHttpTests.test_actual_gaia_http_and_healer_consumer_keep_ids) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+ok
+test_actual_r1_entrypoints_and_telemetry_use_boundary (__main__.AgentHttpTests.test_actual_r1_entrypoints_and_telemetry_use_boundary) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+ok
+test_agent_refuses_a_key_file_with_another_actors_role (__main__.AgentHttpTests.test_agent_refuses_a_key_file_with_another_actors_role) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 7.007s
+
+OK
+exit=0
+== reconcile_raw.py (Claude review, unchanged; 57/58 expected)
+{
+ "verdict": "FAIL",
+ "checks": 58,
+ "failed": [
+  {
+   "check": "receipt source hashes = current files",
+   "pass": false,
+   "detail": [
+    "agent-orchestrator\\event_pipeline\\adapters.py",
+    "agent-orchestrator\\event_pipeline\\audit.py",
+    "agent-orchestrator\\event_pipeline\\client.py",
+    "agent-orchestrator\\event_pipeline\\gateway.py",
+    "agent-orchestrator\\event_pipeline\\store.py",
+    "agent-orchestrator\\event_pipeline\\telemetry.py",
+    "agent-orchestrator\\hephaestus\\main.py"
+   ]
+  }
+ ],
+ "notes": {
+  "harness_manifest_entries": 0,
+  "clock_source": "UNKNOWN"
+ }
+}
+exit=1
+== live-11 receipt source hashes vs pre-fix-01 copy
+{
+ "verdict": "PASS",
+ "files": 10,
+ "changed_since_live11": [
+  "agent-orchestrator/event_pipeline/adapters.py",
+  "agent-orchestrator/event_pipeline/audit.py",
+  "agent-orchestrator/event_pipeline/client.py",
+  "agent-orchestrator/event_pipeline/gateway.py",
+  "agent-orchestrator/event_pipeline/store.py",
+  "agent-orchestrator/event_pipeline/telemetry.py",
+  "agent-orchestrator/hephaestus/main.py"
+ ]
+}
+exit=0
+== py_compile changed sources
+ok 2
+exit=0
+== git diff --check
+exit=0
+== untracked whitespace check
+{'files': 10, 'problems': []}
+exit=0
+== relative link check
+{'docs': 2, 'broken': [('docs/evidence/ZER-9/verification.md', 'fix-03/README.md'), ('docs/evidence/ZER-9/verification.md', 'fix-03/delta-manifest.json')]}
+exit=1
+
+== post-evidence relative link check (fix-03 README, verification, runbook)
+{'docs': 3, 'broken': []}
+exit=0
+== post-evidence whitespace check
+{'files': 16, 'problems': []}
+exit=0

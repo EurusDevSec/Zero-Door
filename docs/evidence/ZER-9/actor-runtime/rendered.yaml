@@ -1,0 +1,605 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    zero-door-profile: r1-events
+    zero-door-verification: cd87da425168
+  name: zd-zer9-cd87da425168
+---
+apiVersion: v1
+automountServiceAccountToken: false
+kind: ServiceAccount
+metadata:
+  name: event-observer
+  namespace: zd-zer9-cd87da425168
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: raw-o
+  namespace: zd-zer9-cd87da425168
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 64Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: raw-h
+  namespace: zd-zer9-cd87da425168
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 64Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-o
+  namespace: zd-zer9-cd87da425168
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-o
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: events-o
+        plane: O
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - args:
+        - --plane
+        - O
+        - --root
+        - /raw-o
+        - --keys
+        - /keys/keys.json
+        - --brokers
+        - kafka.zero-door.svc.cluster.local:9092
+        - --topic
+        - zd.events.o.cd87da425168
+        env:
+        - name: ZD_PROM_QUERIES_FILE
+          value: /config/queries.json
+        - name: ZD_PROMETHEUS_UPSTREAM
+          value: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+        - name: ZD_ES_UPSTREAM
+          value: http://elasticsearch.monitoring.svc.cluster.local:9200
+        image: zero-door/events:zer-9-cd87da425168
+        imagePullPolicy: Never
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /livez
+            port: 8000
+          periodSeconds: 10
+          timeoutSeconds: 2
+        name: recorder
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          failureThreshold: 60
+          httpGet:
+            path: /readyz
+            port: 8000
+          periodSeconds: 2
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 150m
+            memory: 128Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /raw-o
+          name: raw
+        - mountPath: /keys
+          name: keys
+          readOnly: true
+        - mountPath: /config
+          name: config
+          readOnly: true
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-server-0
+      securityContext:
+        fsGroup: 65532
+        runAsGroup: 65532
+        runAsNonRoot: true
+        runAsUser: 65532
+      serviceAccountName: event-observer
+      volumes:
+      - name: raw
+        persistentVolumeClaim:
+          claimName: raw-o
+      - name: keys
+        secret:
+          secretName: event-o-server
+      - configMap:
+          name: event-queries
+        name: config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-h
+  namespace: zd-zer9-cd87da425168
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-h
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: events-h
+        plane: H
+    spec:
+      automountServiceAccountToken: false
+      containers:
+      - args:
+        - --plane
+        - H
+        - --root
+        - /raw-h
+        - --keys
+        - /keys/keys.json
+        image: zero-door/events:zer-9-cd87da425168
+        imagePullPolicy: Never
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /livez
+            port: 8000
+          periodSeconds: 10
+          timeoutSeconds: 2
+        name: recorder
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          failureThreshold: 60
+          httpGet:
+            path: /readyz
+            port: 8000
+          periodSeconds: 2
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: 150m
+            memory: 96Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /raw-h
+          name: raw
+        - mountPath: /keys
+          name: keys
+          readOnly: true
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-server-0
+      securityContext:
+        fsGroup: 65533
+        runAsGroup: 65533
+        runAsNonRoot: true
+        runAsUser: 65533
+      serviceAccountName: event-observer
+      volumes:
+      - name: raw
+        persistentVolumeClaim:
+          claimName: raw-h
+      - name: keys
+        secret:
+          secretName: event-h-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-o
+  namespace: zd-zer9-cd87da425168
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: events-o
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-h
+  namespace: zd-zer9-cd87da425168
+spec:
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: events-h
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: zd-zer9-cd87da425168
+spec:
+  egress: []
+  ingress: []
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dns
+  namespace: zd-zer9-cd87da425168
+spec:
+  egress:
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+  podSelector: {}
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: observer-to-o-only
+  namespace: zd-zer9-cd87da425168
+spec:
+  egress:
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - podSelector:
+        matchLabels:
+          app: events-o
+  podSelector:
+    matchLabels:
+      role: observer
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: o-ingress
+  namespace: zd-zer9-cd87da425168
+spec:
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: observer
+    ports:
+    - port: 8000
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: events-o
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: o-upstreams
+  namespace: zd-zer9-cd87da425168
+spec:
+  egress:
+  - ports:
+    - port: 9092
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: zero-door
+  - ports:
+    - port: 9090
+      protocol: TCP
+    - port: 9200
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: monitoring
+  podSelector:
+    matchLabels:
+      app: events-o
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: actors-to-o
+  namespace: zd-zer9-cd87da425168
+spec:
+  egress:
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - podSelector:
+        matchLabels:
+          app: events-o
+  podSelector:
+    matchLabels:
+      role: actor
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: o-from-actors
+  namespace: zd-zer9-cd87da425168
+spec:
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: actor
+    ports:
+    - port: 8000
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: events-o
+  policyTypes:
+  - Ingress
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    actor: gaia
+    plane: O
+    role: actor
+  name: gaia
+  namespace: zd-zer9-cd87da425168
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - command:
+    - /usr/bin/python3
+    - -m
+    - uvicorn
+    - main:app
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8000'
+    - --lifespan
+    - 'off'
+    env:
+    - name: ZD_EVENT_URL
+      value: http://events-o:8000
+    - name: ZD_O_KEYS_FILE
+      value: /keys/keys.json
+    - name: ZD_RUN_ID
+      value: run_7600e6d260aa4ea68315cff754ec5718
+    - name: ZD_TRIAL_ID
+      value: trl_77a00c93261648229aac92744e846e7a
+    - name: ZD_PRODUCER_VERSION
+      value: aeae745d7d92b214
+    - name: ZD_CLOCK_ID
+      value: clk_actor_transport
+    - name: ZD_CLOCK_SOURCE
+      value: UNKNOWN
+    - name: PYTHONDONTWRITEBYTECODE
+      value: '1'
+    image: zero-door/gaia:zer-9-cd87da425168
+    imagePullPolicy: Never
+    name: actor
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8000
+      periodSeconds: 2
+    resources: &id001
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 25m
+        memory: 64Mi
+    securityContext: &id002
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+    volumeMounts: &id003
+    - mountPath: /keys
+      name: keys
+      readOnly: true
+    - mountPath: /verify
+      name: verifier
+      readOnly: true
+  initContainers:
+  - command:
+    - /usr/bin/python3
+    - /verify/gate.py
+    env:
+    - name: ZD_EVENT_URL
+      value: http://events-o:8000
+    - name: ZD_O_KEYS_FILE
+      value: /keys/keys.json
+    - name: ZD_RUN_ID
+      value: run_7600e6d260aa4ea68315cff754ec5718
+    - name: ZD_TRIAL_ID
+      value: trl_77a00c93261648229aac92744e846e7a
+    - name: ZD_PRODUCER_VERSION
+      value: aeae745d7d92b214
+    - name: ZD_CLOCK_ID
+      value: clk_actor_transport
+    - name: ZD_CLOCK_SOURCE
+      value: UNKNOWN
+    - name: PYTHONDONTWRITEBYTECODE
+      value: '1'
+    image: zero-door/gaia:zer-9-cd87da425168
+    imagePullPolicy: Never
+    name: access-gate
+    resources: *id001
+    securityContext: *id002
+    volumeMounts: *id003
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-server-0
+  restartPolicy: Never
+  securityContext:
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+  serviceAccountName: event-observer
+  volumes:
+  - name: keys
+    secret:
+      secretName: event-o-gaia
+  - configMap:
+      name: actor-verifier
+    name: verifier
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    actor: hephaestus
+    plane: O
+    role: actor
+  name: hephaestus
+  namespace: zd-zer9-cd87da425168
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - command:
+    - /usr/bin/python3
+    - -m
+    - uvicorn
+    - main:app
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8000'
+    - --workers
+    - '1'
+    env:
+    - name: ZD_EVENT_URL
+      value: http://events-o:8000
+    - name: ZD_O_KEYS_FILE
+      value: /keys/keys.json
+    - name: ZD_RUN_ID
+      value: run_7600e6d260aa4ea68315cff754ec5718
+    - name: ZD_TRIAL_ID
+      value: trl_77a00c93261648229aac92744e846e7a
+    - name: ZD_PRODUCER_VERSION
+      value: aeae745d7d92b214
+    - name: ZD_CLOCK_ID
+      value: clk_actor_transport
+    - name: ZD_CLOCK_SOURCE
+      value: UNKNOWN
+    - name: PYTHONDONTWRITEBYTECODE
+      value: '1'
+    image: zero-door/hephaestus:zer-9-cd87da425168
+    imagePullPolicy: Never
+    name: actor
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8000
+      periodSeconds: 2
+    resources: &id001
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 25m
+        memory: 64Mi
+    securityContext: &id002
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+    volumeMounts: &id003
+    - mountPath: /keys
+      name: keys
+      readOnly: true
+    - mountPath: /verify
+      name: verifier
+      readOnly: true
+  initContainers:
+  - command:
+    - /usr/bin/python3
+    - /verify/gate.py
+    env:
+    - name: ZD_EVENT_URL
+      value: http://events-o:8000
+    - name: ZD_O_KEYS_FILE
+      value: /keys/keys.json
+    - name: ZD_RUN_ID
+      value: run_7600e6d260aa4ea68315cff754ec5718
+    - name: ZD_TRIAL_ID
+      value: trl_77a00c93261648229aac92744e846e7a
+    - name: ZD_PRODUCER_VERSION
+      value: aeae745d7d92b214
+    - name: ZD_CLOCK_ID
+      value: clk_actor_transport
+    - name: ZD_CLOCK_SOURCE
+      value: UNKNOWN
+    - name: PYTHONDONTWRITEBYTECODE
+      value: '1'
+    image: zero-door/hephaestus:zer-9-cd87da425168
+    imagePullPolicy: Never
+    name: access-gate
+    resources: *id001
+    securityContext: *id002
+    volumeMounts: *id003
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-server-0
+  restartPolicy: Never
+  securityContext:
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+  serviceAccountName: event-observer
+  volumes:
+  - name: keys
+    secret:
+      secretName: event-o-hephaestus
+  - configMap:
+      name: actor-verifier
+    name: verifier

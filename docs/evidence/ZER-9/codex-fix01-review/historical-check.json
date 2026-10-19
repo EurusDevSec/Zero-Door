@@ -1,0 +1,250 @@
+[
+  {
+    "p": "cleanup-readback.json",
+    "match": true
+  },
+  {
+    "p": "diagnostics/cleanup-failed.txt",
+    "match": true
+  },
+  {
+    "p": "diagnostics/k3d-zero-door-agent-0-iptables.txt",
+    "match": true
+  },
+  {
+    "p": "diagnostics/k3d-zero-door-server-0-iptables.txt",
+    "match": true
+  },
+  {
+    "p": "diagnostics/network-diagnostic.txt",
+    "match": true
+  },
+  {
+    "p": "history/live-01/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-02/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-02/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-02/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-02/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-03/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-03/failure-export/H/run_4c356bf86dde464aac9488624d3828db/H.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-03/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-03/failure-export/O/run_4c356bf86dde464aac9488624d3828db/O.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-03/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-03/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-04/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-04/failure-export/H/run_50b5da6deb6a4a018eb5de17831b7b0e/H.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-04/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-04/failure-export/O/run_50b5da6deb6a4a018eb5de17831b7b0e/O.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-04/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-04/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-05/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-05/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-05/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-05/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-06/export/H/H.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-06/export/H/manifest.json",
+    "match": true
+  },
+  {
+    "p": "history/live-06/export/O/manifest.json",
+    "match": true
+  },
+  {
+    "p": "history/live-06/export/O/O.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-06/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-06/topic-cleanup-confirmed.json",
+    "match": true
+  },
+  {
+    "p": "history/live-07/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-07/failure-export/H/run_2aa7b8db9b2a4daea7259d00714b580a/H.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-07/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-07/failure-export/O/run_2aa7b8db9b2a4daea7259d00714b580a/O.jsonl",
+    "match": true
+  },
+  {
+    "p": "history/live-07/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-07/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-08/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-09/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-09/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-09/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-09/receipt.json",
+    "match": true
+  },
+  {
+    "p": "history/live-10/cleanup.json",
+    "match": true
+  },
+  {
+    "p": "history/live-10/failure-export/H/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-10/failure-export/O/snapshot.json",
+    "match": true
+  },
+  {
+    "p": "history/live-10/receipt.json",
+    "match": true
+  },
+  {
+    "p": "linear-ac-snapshot.json",
+    "match": true
+  },
+  {
+    "p": "live-11/export/H/H.jsonl",
+    "match": true
+  },
+  {
+    "p": "live-11/export/H/manifest.json",
+    "match": true
+  },
+  {
+    "p": "live-11/export/O/manifest.json",
+    "match": true
+  },
+  {
+    "p": "live-11/export/O/O.jsonl",
+    "match": true
+  },
+  {
+    "p": "live-11/receipt.json",
+    "match": true
+  },
+  {
+    "p": "offline/agent-http-results.txt",
+    "match": true
+  },
+  {
+    "p": "offline/contract-regression.txt",
+    "match": true
+  },
+  {
+    "p": "offline/nemesis-results.txt",
+    "match": true
+  },
+  {
+    "p": "offline/shell-results.txt",
+    "match": true
+  },
+  {
+    "p": "offline/test-results.txt",
+    "match": true
+  },
+  {
+    "p": "package-manifest.json",
+    "match": true
+  },
+  {
+    "p": "protected-check.json",
+    "match": true
+  },
+  {
+    "p": "reconciliation.txt",
+    "match": true
+  },
+  {
+    "p": "verification.md",
+    "match": false
+  }
+]

@@ -1,0 +1,424 @@
+ZER-9 fix-01 offline retest (Claude, 19/10/2026). Runner: scratch/zer9/claude-fix/retest.sh.
+No Docker/Kubernetes/Kafka broker/model/API; loopback HTTP and an in-memory kafka fake only.
+reconcile_raw.py exit=1 is expected: its single failed check compares the live-11 receipt source hashes with
+the CURRENT files, which fix-01 changed; the next step shows the receipt equals the pre-fix copy 10/10.
+'verifier refuses without --live' exit=2 is the intended refusal.
+
+== core test_event_pipeline
+test_conflict_durable_quarantine (__main__.ArchiveTests.test_conflict_durable_quarantine) ... ok
+test_duplicate_reopen_and_export_preserve_raw (__main__.ArchiveTests.test_duplicate_reopen_and_export_preserve_raw) ... ok
+test_partial_record_and_hash_tamper_fail_closed (__main__.ArchiveTests.test_partial_record_and_hash_tamper_fail_closed) ... ok
+test_second_writer_and_path_escape_rejected (__main__.ArchiveTests.test_second_writer_and_path_escape_rejected) ... ok
+test_actual_healer_r1_entrypoints_cannot_execute_legacy_actions (__main__.BoundaryTests.test_actual_healer_r1_entrypoints_cannot_execute_legacy_actions) ... ok
+test_detector_retry_preserves_envelope (__main__.BoundaryTests.test_detector_retry_preserves_envelope) ... ok
+test_metrics_allowlist_and_log_filter_cannot_be_removed (__main__.BoundaryTests.test_metrics_allowlist_and_log_filter_cannot_be_removed) ... ok
+test_rules_dedup_and_mode_boundary (__main__.BoundaryTests.test_rules_dedup_and_mode_boundary) ... ok
+test_action_does_not_imply_recovery (__main__.ContractTests.test_action_does_not_imply_recovery) ... ok
+test_b0_blocks_actions (__main__.ContractTests.test_b0_blocks_actions) ... ok
+test_b2_rules_requires_a_real_fallback_reference (__main__.ContractTests.test_b2_rules_requires_a_real_fallback_reference) ... ok
+test_malformed_input_never_crashes (__main__.ContractTests.test_malformed_input_never_crashes) ... ok
+test_missing_or_forged_id_not_repaired (__main__.ContractTests.test_missing_or_forged_id_not_repaired) ... ok
+test_nested_answer_rejected_but_observed_ip_preserved (__main__.ContractTests.test_nested_answer_rejected_but_observed_ip_preserved) ... ok
+test_neutral_ids_and_timestamp (__main__.ContractTests.test_neutral_ids_and_timestamp) ... ok
+test_source_plane_version (__main__.ContractTests.test_source_plane_version) ... ok
+test_context_before_detector_and_immutable (__main__.HttpTests.test_context_before_detector_and_immutable) ... ok
+test_h_token_does_not_work_at_o_and_h_has_no_read (__main__.HttpTests.test_h_token_does_not_work_at_o_and_h_has_no_read) ... ok
+test_http_id_chain_and_no_h_api (__main__.HttpTests.test_http_id_chain_and_no_h_api) ... ok
+test_canary_prompt_and_revealing_resource (__main__.LeakTests.test_canary_prompt_and_revealing_resource) ... ok
+test_clean_vs_unknown (__main__.LeakTests.test_clean_vs_unknown) ... ok
+test_natural_ip_allowlist (__main__.LeakTests.test_natural_ip_allowlist) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 2.317s
+
+OK
+exit=0
+== regressions test_event_pipeline_regressions
+test_1000_clean_traces_per_label_have_no_false_positive (__main__.AuditTests.test_1000_clean_traces_per_label_have_no_false_positive) ... ok
+test_hex_ids_containing_label_characters_are_clean (__main__.AuditTests.test_hex_ids_containing_label_characters_are_clean) ... ok
+test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path (__main__.AuditTests.test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path) ... ok
+test_live11_o_is_clean_against_reconstructed_labels (__main__.AuditTests.test_live11_o_is_clean_against_reconstructed_labels)
+OFFLINE_RECONSTRUCTION: live-11 raw is unchanged; labels/manifest entries are synthetic. ... ok
+test_neutral_resource_rule_uses_whole_tokens (__main__.AuditTests.test_neutral_resource_rule_uses_whole_tokens) ... ok
+test_other_rules_keep_their_meaning (__main__.AuditTests.test_other_rules_keep_their_meaning) ... ok
+test_actor_key_files_and_source_binding (__main__.BoundaryRegressionTests.test_actor_key_files_and_source_binding) ... ok
+test_probes_and_server_key_scope (__main__.BoundaryRegressionTests.test_probes_and_server_key_scope) ... ok
+test_r1_reset_endpoint_refuses_without_touching_state (__main__.BoundaryRegressionTests.test_r1_reset_endpoint_refuses_without_touching_state) ... ok
+test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not (__main__.LogQueryTests.test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not) ... ok
+test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded (__main__.QuarantineTests.test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded) ... ok
+test_editing_rejection_or_late_line_is_detected (__main__.QuarantineTests.test_editing_rejection_or_late_line_is_detected) ... ok
+test_http_binding_rejections_are_stored_per_run (__main__.QuarantineTests.test_http_binding_rejections_are_stored_per_run) ... ok
+test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw (__main__.QuarantineTests.test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw) ... ok
+test_live11_raw_and_manifest_still_open_and_reseal_unchanged (__main__.QuarantineTests.test_live11_raw_and_manifest_still_open_and_reseal_unchanged) ... ok
+test_rejection_only_run_seals_and_exports_with_archive_scope (__main__.QuarantineTests.test_rejection_only_run_seals_and_exports_with_archive_scope) ... ok
+test_undecodable_bodies_keep_original_bytes (__main__.QuarantineTests.test_undecodable_bodies_keep_original_bytes) ... ok
+test_binding_error_in_recorder_is_quarantined_and_next_message_recorded (__main__.RecorderTests.test_binding_error_in_recorder_is_quarantined_and_next_message_recorded) ... ok
+test_commit_error_stops_recorder_without_claiming_success (__main__.RecorderTests.test_commit_error_stops_recorder_without_claiming_success) ... ok
+test_io_failure_is_not_acknowledged_and_turns_readiness_off (__main__.RecorderTests.test_io_failure_is_not_acknowledged_and_turns_readiness_off) ... ok
+test_poison_messages_are_quarantined_committed_and_not_attributed (__main__.RecorderTests.test_poison_messages_are_quarantined_committed_and_not_attributed) ... ok
+test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it (__main__.RetryTests.test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it) ... ok
+test_rules_consumer_does_not_regenerate_a_refused_decision (__main__.RetryTests.test_rules_consumer_does_not_regenerate_a_refused_decision) ... ok
+test_concurrent_submits_and_seal_lose_nothing (__main__.SealFenceTests.test_concurrent_submits_and_seal_lose_nothing) ... ok
+test_restart_not_ready_until_messages_acked_before_crash_are_durable (__main__.SealFenceTests.test_restart_not_ready_until_messages_acked_before_crash_are_durable) ... ok
+test_seal_tracks_only_the_runs_own_partition (__main__.SealFenceTests.test_seal_tracks_only_the_runs_own_partition) ... ok
+test_seal_waits_for_acknowledged_event_then_includes_it (__main__.SealFenceTests.test_seal_waits_for_acknowledged_event_then_includes_it) ... ok
+test_actor_secrets_hold_one_producer_role_each (__main__.VerifierTests.test_actor_secrets_hold_one_producer_role_each) ... ok
+test_harness_manifest_declares_created_values_and_controls_use_label_path (__main__.VerifierTests.test_harness_manifest_declares_created_values_and_controls_use_label_path) ... ok
+test_seal_409_is_retried_and_never_taken_as_success (__main__.VerifierTests.test_seal_409_is_retried_and_never_taken_as_success) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 14.454s
+
+OK
+exit=0
+== agents test_event_agents (venv)
+test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy (__main__.AgentHttpTests.test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy) ... R:\_Dev_tools\pythn\Lib\site-packages\starlette\formparsers.py:10: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Dev_tools\pythn\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+2026-10-19 16:53:53,986 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-19 16:53:53,989 - elastic_transport.transport - [INFO] - HEAD http://127.0.0.1:47655/elasticsearch/ [status:200 duration:0.001s]
+2026-10-19 16:53:53,989 - gaia-agent - [INFO] - Elasticsearch Client connected successfully.
+2026-10-19 16:53:54,031 - elastic_transport.transport - [INFO] - POST http://127.0.0.1:47655/elasticsearch/zero-door-logs-*/_search [status:200 duration:0.042s]
+2026-10-19 16:53:54,031 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+ok
+test_actual_gaia_http_and_healer_consumer_keep_ids (__main__.AgentHttpTests.test_actual_gaia_http_and_healer_consumer_keep_ids) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+ok
+test_actual_r1_entrypoints_and_telemetry_use_boundary (__main__.AgentHttpTests.test_actual_r1_entrypoints_and_telemetry_use_boundary) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+ok
+test_agent_refuses_a_key_file_with_another_actors_role (__main__.AgentHttpTests.test_agent_refuses_a_key_file_with_another_actors_role) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:547: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.788s
+
+OK
+exit=0
+== bash tests/shell/run.sh
+PASS: All nine --help paths have no CLI side effects, including a checkout path with spaces
+PASS: Recreate refuses deletion without the exact explicit flag
+PASS: Build failure prevents import and rollout
+PASS: Rollout failure is not reported as success
+PASS: Rebuild uses matching image/cluster/context and supports headless operation
+PASS: Phase 3 preserves existing Nemesis Secret while applying workload manifests
+PASS: Phase 3 creates the empty Secret template only when absent
+PASS: Secret API errors do not become permission to overwrite a Secret
+PASS: RBAC expectation mismatch fails the deployment script
+PASS: Namespaces component does not install Helm releases or recreate the cluster
+PASS: Confirmed recreation targets only the named local cluster in the mock environment
+PASS: Helm failure aborts the all-components path before later dependencies
+PASS: Malformed inventory stops before cluster creation
+PASS: Missing cluster selects create from config, never delete, and keeps current-context
+PASS: Unexpected Docker context or DOCKER_HOST stops before kubectl, k3d or image builds
+PASS: Charts install from pinned versions with checkout-local Helm state and no global repo edits
+PASS: Ingress installs the pinned Traefik chart into kube-system without CRDs or ingress-nginx
+PASS: Rollback R1 upgrades only release traefik to ClusterIP with the lab context, guard and local Helm cache
+PASS: A missing chart pin stops before preflight instead of installing the latest chart
+PASS: Kafka installs always use the heap renderer for Helm 4 or Helm 3
+PASS: Recreate refuses a different Docker daemon before any destructive command
+PASS: Baseline apps apply nine services, monitoring objects and the Traefik Ingress, without HPA
+PASS: Target rerun applies unchanged source objects and completes each of nine rollouts before the next apply
+PASS: A failed target rollout stops before applying the next Deployment
+PASS: A terminating target pod that does not drain stops the next Deployment apply
+PASS: A restart that leaves a stale image ID is reported as a failure
+PASS: Localhost repair is tested with TLS and backs up the selected default kubeconfig
+PASS: Custom KUBECONFIG is not silently rewritten
+PASS: Supervisor cleans up its own tunnel on TERM and preserves an unrelated process
+PASS: Port conflict fails without killing the current port owner
+PASS: Phase 5 default only checks HTTP/forwards; no install or smoke run
+PASS: Invalid experiment arguments fail before touching the lab
+PASS: Explicit smoke passes the selected context, isolates CSV output and cleans up its forwards
+PASS: All down targets fail, including legacy frontend 404; healthy telemetry exits 0
+PASS: Gaia log check: clean log passes, query errors fail, and a log that cannot be read fails instead of passing
+PASS: Consumer gate: fresh requests across two confirmed scrapes; idle, stale or refused traffic never passes; at most 12 requests
+PASS: Traefik ServiceMonitor values keep the backend service label (honorLabels: true)
+All offline Bash behavioral checks passed. No real lab commands were used.
+exit=0
+== nemesis
+...
+----------------------------------------------------------------------
+Ran 3 tests in 5.365s
+
+OK
+exit=0
+== ZER-37 release
+{
+  "schema": "zd-event/1.0.0",
+  "json_examples": 3,
+  "focused_cases": [
+    {
+      "case": "C1",
+      "expected": {
+        "mttd": 30,
+        "mttr": 60,
+        "total": 90,
+        "evaluator_mismatch": false
+      },
+      "actual": {
+        "mttd": 30.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "evaluator_mismatch": false
+      },
+      "passed": true
+    },
+    {
+      "case": "C3",
+      "expected": {
+        "mttd": 30,
+        "mttr": 60,
+        "total": 90,
+        "evaluator_mismatch": false
+      },
+      "actual": {
+        "mttd": 30.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "evaluator_mismatch": false
+      },
+      "passed": true
+    },
+    {
+      "case": "R1",
+      "expected": {
+        "t_rec": 191,
+        "mttr": 60,
+        "evaluator_mismatch": true
+      },
+      "actual": {
+        "t_rec": 191.0,
+        "mttr": 60.0,
+        "evaluator_mismatch": true
+      },
+      "passed": true
+    },
+    {
+      "case": "W3",
+      "expected": {
+        "reaction": 19,
+        "orphans": 0
+      },
+      "actual": {
+        "reaction": 19.0,
+        "orphans": 0
+      },
+      "passed": true
+    },
+    {
+      "case": "L6",
+      "expected": {
+        "leak": "CLEAN",
+        "mode_violation": false
+      },
+      "actual": {
+        "leak": "CLEAN",
+        "mode_violation": false
+      },
+      "passed": true
+    },
+    {
+      "case": "V1",
+      "expected": {
+        "label": "MISSING",
+        "reaction": "MISSING"
+      },
+      "actual": {
+        "label": "MISSING",
+        "reaction": "MISSING"
+      },
+      "passed": true
+    },
+    {
+      "case": "L7",
+      "expected": {
+        "leak": "LEAK_DETECTED"
+      },
+      "actual": {
+        "leak": "LEAK_DETECTED"
+      },
+      "passed": true
+    },
+    {
+      "case": "L8",
+      "expected": {
+        "leak": "LEAK_DETECTED"
+      },
+      "actual": {
+        "leak": "LEAK_DETECTED"
+      },
+      "passed": true
+    },
+    {
+      "case": "L9",
+      "expected": {
+        "leak": "UNKNOWN"
+      },
+      "actual": {
+        "leak": "UNKNOWN"
+      },
+      "passed": true
+    }
+  ],
+  "links": "PASS"
+}
+exit=0
+== reconcile_raw.py (Claude review, unchanged)
+{
+ "verdict": "FAIL",
+ "checks": 58,
+ "failed": [
+  {
+   "check": "receipt source hashes = current files",
+   "pass": false,
+   "detail": [
+    "agent-orchestrator\\event_pipeline\\adapters.py",
+    "agent-orchestrator\\event_pipeline\\audit.py",
+    "agent-orchestrator\\event_pipeline\\client.py",
+    "agent-orchestrator\\event_pipeline\\gateway.py",
+    "agent-orchestrator\\event_pipeline\\store.py",
+    "agent-orchestrator\\event_pipeline\\telemetry.py",
+    "agent-orchestrator\\hephaestus\\main.py"
+   ]
+  }
+ ],
+ "notes": {
+  "harness_manifest_entries": 0,
+  "clock_source": "UNKNOWN"
+ }
+}
+exit=1
+== receipt source hashes vs pre-fix copy
+{
+ "verdict": "PASS",
+ "files": 10,
+ "changed_since_live11": [
+  "agent-orchestrator/event_pipeline/adapters.py",
+  "agent-orchestrator/event_pipeline/audit.py",
+  "agent-orchestrator/event_pipeline/client.py",
+  "agent-orchestrator/event_pipeline/gateway.py",
+  "agent-orchestrator/event_pipeline/store.py",
+  "agent-orchestrator/event_pipeline/telemetry.py",
+  "agent-orchestrator/hephaestus/main.py"
+ ]
+}
+exit=0
+== bash -n verifier wrapper
+exit=0
+== verifier --help (offline)
+usage: verify-event-pipeline.py [-h] [--live] [--allow-temporary-es-ingress]
+                                [--output OUTPUT]
+
+Bounded ZER-9 transport/access verification. No fault/heal/LLM is executed.
+
+options:
+  -h, --help            show this help message and exit
+  --live                create a NEW isolated namespace, two small recorders
+                        and an observer; export and remove only owned
+                        resources
+  --allow-temporary-es-ingress
+                        separately authorized: add/delete one namespace+pod-
+                        scoped Elasticsearch ingress rule in monitoring
+  --output OUTPUT       new receipt/export directory; must not exist
+exit=0
+== verifier refuses without --live
+usage: verify-event-pipeline.py [-h] [--live] [--allow-temporary-es-ingress]
+                                [--output OUTPUT]
+verify-event-pipeline.py: error: --live is required; offline checks: python -B tests/test_event_pipeline.py
+exit=2
+== manifest YAML parse
+13
+exit=0
+== git diff --check
+exit=0
+== untracked whitespace check
+{'files': 17, 'problems': []}
+exit=0
+
+== race outcome mix (concurrent submit/seal, 5 rounds)
+round 0 seal 200 {202: 2, 409: 38}
+round 1 seal 200 {202: 37, 409: 3}
+round 2 seal 200 {202: 35, 409: 5}
+round 3 seal 200 {202: 40}
+round 4 seal 200 {202: 40}
+
+== probe_label_hex.py replay on fix-01 (script unchanged)
+{
+ "clean_trace_C4_false_leak_per_200": 0,
+ "clean_trace_C0_false_leak_per_200": 0,
+ "clean_trace_Cx_false_leak_per_200": 0,
+ "attack_type_only_in_stream": {
+  "result": "LEAK_DETECTED",
+  "findings": [
+   "LABEL_IN_METADATA"
+  ],
+  "unknown": []
+ }
+}
+
+== probes.py replay on fix-01 (script unchanged)
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer9\claude\probes.py", line 105, in <module>
+    br.record()
+  File "R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\event_pipeline\gateway.py", line 354, in record
+    with self.progress:
+         ^^^^^^^^^^^^^
+... (cleanup traceback of the probe's own temp dir omitted)
+probes.py builds KafkaBridge with __new__ and sets pre-fix internals (.binding); it cannot run on the fixed bridge unchanged. Its K1-K3/H1/H2/E1/A1/T1/D1 behaviours are asserted by tests/test_event_pipeline_regressions.py instead.

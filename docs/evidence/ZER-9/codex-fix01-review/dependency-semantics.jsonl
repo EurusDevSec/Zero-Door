@@ -1,0 +1,9 @@
+{"depth": 100, "decode": null, "validate": null}
+{"depth": 200, "decode": null, "validate": null}
+{"depth": 300, "decode": null, "validate": null}
+{"depth": 400, "decode": null, "validate": null}
+{"depth": 450, "decode": null, "validate": null}
+{"depth": 500, "exception": "RecursionError"}
+{"depth": 700, "exception": "RecursionError"}
+{"depth": 900, "exception": "RecursionError"}
+{"kafka_iterator": "    def _message_generator_v2(self):\n        timeout_ms = 1000 * max(0, self._consumer_timeout - time.time())\n        record_map = self.poll(timeout_ms=timeout_ms, update_offsets=False)\n        for tp, records in six.iteritems(record_map):\n            # Generators are stateful, and it is possible that the tp / records\n            # here may become stale during iteration -- i.e., we seek to a\n            # different offset, pause consumption, or lose assignment.\n            for record in records:\n                # is_fetchable(tp) should handle assignment changes and offset\n                # resets; for all other changes (e.g., seeks) we'll rely on the\n                # outer function destroying the existing iterator/generator\n                # via self._iterator = None\n                if not self._subscription.is_fetchable(tp):\n                    log.debug(\"Not returning fetched records for partition %s\"\n                              \" since it is no longer fetchable\", tp)\n                    break\n                self._subscription.assignment[tp].position = OffsetAndMetadata(record.offset + 1, '', -1)\n                yield record\n"}

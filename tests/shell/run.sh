@@ -438,7 +438,8 @@ pass 'A terminating target pod that does not drain stops the next Deployment app
 
 reset_case
 run_ok infrastructure/scripts/setup-local-apps.sh --component gaia
-contains 'docker <build> <-t> <zero-door/gaia:latest>' "$MOCK_LOG"
+contains 'docker <build> <--file>' "$MOCK_LOG"
+contains '<-t> <zero-door/gaia:latest>' "$MOCK_LOG"
 contains '<rollout> <restart> <deployment/gaia>' "$MOCK_LOG"
 contains 'runs zero-door/gaia:latest (image sha256:built' "$task_temp/output"
 config_id=cac32c0796fea071563aab53d45ca5b7df1c1e0b6cab02c50f758ee177fc0f99

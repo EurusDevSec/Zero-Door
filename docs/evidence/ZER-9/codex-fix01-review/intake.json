@@ -1,0 +1,242 @@
+[
+  {
+    "p": ".github/workflows/ci.yml",
+    "sha256": "b7454b8935cfa7a3351dd150b557f612908221f88e9611426134b0caf678fead",
+    "expected": "b7454b8935cfa7a3351dd150b557f612908221f88e9611426134b0caf678fead",
+    "match": true
+  },
+  {
+    "p": "AGENTS.md",
+    "sha256": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+    "expected": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/Dockerfile",
+    "sha256": "19e3ec5cfc9408cc171c455d38d86ce73e871d9d217ad63d8cd43e9df021a0cf",
+    "expected": "19e3ec5cfc9408cc171c455d38d86ce73e871d9d217ad63d8cd43e9df021a0cf",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/__init__.py",
+    "sha256": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+    "expected": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/adapters.py",
+    "sha256": "10ca7c699091c390c6ac1fec524bc5fbdfb64031fe8ac021a13d631259fa4ef9",
+    "expected": "10ca7c699091c390c6ac1fec524bc5fbdfb64031fe8ac021a13d631259fa4ef9",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/audit.py",
+    "sha256": "313681f33e70fb42cb88c95d6e5b65c21789922287533074f9b582fc5a984774",
+    "expected": "313681f33e70fb42cb88c95d6e5b65c21789922287533074f9b582fc5a984774",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/client.py",
+    "sha256": "b2c3057dfe74efa60b53eaaf80147f5685d2b177c0a02d7a65a43b451ec59b28",
+    "expected": "b2c3057dfe74efa60b53eaaf80147f5685d2b177c0a02d7a65a43b451ec59b28",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/contract.py",
+    "sha256": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+    "expected": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/gateway.py",
+    "sha256": "bef7f517e40d9d5375f1258209536b4239a1745f78c116c467afb9e044599b4e",
+    "expected": "bef7f517e40d9d5375f1258209536b4239a1745f78c116c467afb9e044599b4e",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/requirements.txt",
+    "sha256": "f8bf3f588cde491ec1e92b5e6d045ad2a0b40fa045a89db9be3493f9afb88b2d",
+    "expected": "f8bf3f588cde491ec1e92b5e6d045ad2a0b40fa045a89db9be3493f9afb88b2d",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/store.py",
+    "sha256": "e1426d0da4a84d9670421c4d94462d8ebeed53a8a6cf390876094eefa7ba516b",
+    "expected": "e1426d0da4a84d9670421c4d94462d8ebeed53a8a6cf390876094eefa7ba516b",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/event_pipeline/telemetry.py",
+    "sha256": "d0cfcb9cf6d85c6109dabd86f396e76784443b1232db4510ac3bd7e247735fb3",
+    "expected": "d0cfcb9cf6d85c6109dabd86f396e76784443b1232db4510ac3bd7e247735fb3",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/gaia/Dockerfile",
+    "sha256": "908985985a99645b7469e8ef6fd4b36cf6fd1e5e44a132f8e0445fdf14f4fb14",
+    "expected": "908985985a99645b7469e8ef6fd4b36cf6fd1e5e44a132f8e0445fdf14f4fb14",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/gaia/main.py",
+    "sha256": "ca0df8b527a27087826dd82b72b2310961442684455835f02ea88b68bb56b025",
+    "expected": "ca0df8b527a27087826dd82b72b2310961442684455835f02ea88b68bb56b025",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/hephaestus/Dockerfile",
+    "sha256": "847a59607280a7ef7daf272cf7b644de229033b230006dfdd138813cf2617092",
+    "expected": "847a59607280a7ef7daf272cf7b644de229033b230006dfdd138813cf2617092",
+    "match": true
+  },
+  {
+    "p": "agent-orchestrator/hephaestus/main.py",
+    "sha256": "2db3b8aca4c9b47f4d135b089d8dbd74268c81097308b9793e699b38c9841fc5",
+    "expected": "2db3b8aca4c9b47f4d135b089d8dbd74268c81097308b9793e699b38c9841fc5",
+    "match": true
+  },
+  {
+    "p": "docs/delivery/NOW.md",
+    "sha256": "b6754119e718a0c45a247cb8cedc0f3dd68530cd71b40707f2b7ee62df7d9641",
+    "expected": "e1598bd36d9f8aded6073758e6d67a4fcd2cc4694a5dc64ba9240465adc72e31",
+    "match": false
+  },
+  {
+    "p": "docs/delivery/README.md",
+    "sha256": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+    "expected": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+    "match": true
+  },
+  {
+    "p": "docs/delivery/WORKFLOW.md",
+    "sha256": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+    "expected": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+    "match": true
+  },
+  {
+    "p": "docs/delivery/WORKING-AGREEMENT.md",
+    "sha256": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+    "expected": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+    "match": true
+  },
+  {
+    "p": "docs/delivery/milestones/R1-measurement/README.md",
+    "sha256": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+    "expected": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+    "match": true
+  },
+  {
+    "p": "docs/delivery/milestones/R1-measurement/event-contract.md",
+    "sha256": "a0d104b80fc30090f80967822c55825c6fceb5db56e9097b3277219c9803b125",
+    "expected": "e7c7c0cfc3215b2c01ba69f78477d5c327d0b78385b0f5e7b50ce45eaa38e0cc",
+    "match": false
+  },
+  {
+    "p": "docs/design/r1-event-contract.md",
+    "sha256": "fe09beb590ecc7fd82452e8108215565558e74886765da215954450415fe91fc",
+    "expected": "fe09beb590ecc7fd82452e8108215565558e74886765da215954450415fe91fc",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/claude-review.md",
+    "sha256": "86fc92388dbd4b4482dfe13e8b1fd744a403915cb551d7af50cbab06dd1403c4",
+    "expected": "86fc92388dbd4b4482dfe13e8b1fd744a403915cb551d7af50cbab06dd1403c4",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/evidence-checksums.json",
+    "sha256": "14c41dd5cd04ebfef237d4a62c044006b38a43050f11e54034deb416bf460b22",
+    "expected": "14c41dd5cd04ebfef237d4a62c044006b38a43050f11e54034deb416bf460b22",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/live-11/export/H/H.jsonl",
+    "sha256": "272d49f152d45e2f3817d69d9f10c024580287985ac64a39c09f3b0a810a777c",
+    "expected": "272d49f152d45e2f3817d69d9f10c024580287985ac64a39c09f3b0a810a777c",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/live-11/export/O/O.jsonl",
+    "sha256": "ec7d46f1a2809082cf76e029265340e1e7b4a22e06aea5ef9da54d215df54d06",
+    "expected": "ec7d46f1a2809082cf76e029265340e1e7b4a22e06aea5ef9da54d215df54d06",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/live-11/receipt.json",
+    "sha256": "76b757fedfb5b50cb2cbf970144294194333794de09a10f8341c97a0ae85304a",
+    "expected": "76b757fedfb5b50cb2cbf970144294194333794de09a10f8341c97a0ae85304a",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/package-manifest.json",
+    "sha256": "b940042cfc47052b85ccc047c0ab890b6a869859d572e23487881ee7d24b34e1",
+    "expected": "b940042cfc47052b85ccc047c0ab890b6a869859d572e23487881ee7d24b34e1",
+    "match": true
+  },
+  {
+    "p": "docs/evidence/ZER-9/verification.md",
+    "sha256": "b31ef06f343e2ccd668425c6f747be2459aa55468f19e3b5889a596831c646ab",
+    "expected": "b31ef06f343e2ccd668425c6f747be2459aa55468f19e3b5889a596831c646ab",
+    "match": true
+  },
+  {
+    "p": "docs/runbooks/r1-event-pipeline.md",
+    "sha256": "2fda69ee13d5c317f8bbd574dbd0155883c7a495b213ea9c0dd554b31f145402",
+    "expected": "2fda69ee13d5c317f8bbd574dbd0155883c7a495b213ea9c0dd554b31f145402",
+    "match": true
+  },
+  {
+    "p": "infrastructure/manifests/r1-event-pipeline.yaml",
+    "sha256": "9519d224199a45a7aa5cc36dd1fb4afb3c52dcd40ece3cc81a3a88fd9c26d09a",
+    "expected": "9519d224199a45a7aa5cc36dd1fb4afb3c52dcd40ece3cc81a3a88fd9c26d09a",
+    "match": true
+  },
+  {
+    "p": "infrastructure/scripts/setup-local-apps.sh",
+    "sha256": "cc5d89a497dc3d9c291cfe202682bdb186e9a61183dec22a6ad75f3b217ea256",
+    "expected": "cc5d89a497dc3d9c291cfe202682bdb186e9a61183dec22a6ad75f3b217ea256",
+    "match": true
+  },
+  {
+    "p": "infrastructure/scripts/setup-phase4.sh",
+    "sha256": "7e90192bc81d13c1c3fbf340e7018a98a4b1bd50765502b49a0310a20b01621c",
+    "expected": "7e90192bc81d13c1c3fbf340e7018a98a4b1bd50765502b49a0310a20b01621c",
+    "match": true
+  },
+  {
+    "p": "infrastructure/scripts/verify-event-pipeline.py",
+    "sha256": "4493ba942e55992bced87d3ada91f3faa39e8905dfdee6604008c2958fc860d1",
+    "expected": "4493ba942e55992bced87d3ada91f3faa39e8905dfdee6604008c2958fc860d1",
+    "match": true
+  },
+  {
+    "p": "infrastructure/scripts/verify-event-pipeline.sh",
+    "sha256": "6dd28cfa175e74e691107a9f8d6877006f80cb039e429349ddd785ff531413d5",
+    "expected": "6dd28cfa175e74e691107a9f8d6877006f80cb039e429349ddd785ff531413d5",
+    "match": true
+  },
+  {
+    "p": "tests/shell/run.sh",
+    "sha256": "1ca386106122de82d43230f33eb6e60f97e6e28659ea91003fe5ec3c9d3800a4",
+    "expected": "1ca386106122de82d43230f33eb6e60f97e6e28659ea91003fe5ec3c9d3800a4",
+    "match": true
+  },
+  {
+    "p": "tests/test_event_agents.py",
+    "sha256": "d600e6361c23d3d8fbb48000c6fc953553daa3df1ab6a1f552093883f2226189",
+    "expected": "d600e6361c23d3d8fbb48000c6fc953553daa3df1ab6a1f552093883f2226189",
+    "match": true
+  },
+  {
+    "p": "tests/test_event_pipeline.py",
+    "sha256": "a8a78bd58f55329dc184a8c922c51acf15e8b96ddcc270f98d50644e12eb5dff",
+    "expected": "a8a78bd58f55329dc184a8c922c51acf15e8b96ddcc270f98d50644e12eb5dff",
+    "match": true
+  },
+  {
+    "p": "tests/test_event_pipeline_regressions.py",
+    "sha256": "82c70cf7f41e25e3c858b2c644d00a49e3370ce89f1a17bb9d88229d1321178c",
+    "expected": "82c70cf7f41e25e3c858b2c644d00a49e3370ce89f1a17bb9d88229d1321178c",
+    "match": true
+  }
+]

@@ -1,0 +1,233 @@
+# Isolated R1 event profile. Create the role-scoped Secrets first; see runbook:
+#   event-o-server, event-h-server (gateways); event-o-gaia {detector, reader},
+#   event-o-hephaestus {decision_rules, reader}, event-o-observer {reader}. No shared actor file.
+# The verification script substitutes ONLY namespace/image in this reviewed template.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zd-r1-events
+  labels:
+    zero-door-profile: r1-events
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: event-observer
+  namespace: zd-r1-events
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: raw-o
+  namespace: zd-r1-events
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 64Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: raw-h
+  namespace: zd-r1-events
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 64Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-o
+  namespace: zd-r1-events
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {app: events-o}
+  template:
+    metadata:
+      labels: {app: events-o, plane: O}
+    spec:
+      nodeSelector: {kubernetes.io/hostname: k3d-zero-door-server-0}
+      automountServiceAccountToken: false
+      serviceAccountName: event-observer
+      securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532, fsGroup: 65532}
+      containers:
+      - name: recorder
+        image: zero-door/events:zer-9
+        imagePullPolicy: Never
+        args: [--plane, O, --root, /raw-o, --keys, /keys/keys.json, --brokers, kafka.zero-door.svc.cluster.local:9092]
+        ports: [{containerPort: 8000}]
+        # Ready only while the recorder has caught up and has not failed; liveness never restarts
+        # a pod to hide a failed or corrupt archive.
+        readinessProbe:
+          httpGet: {path: /readyz, port: 8000}
+          periodSeconds: 2
+          timeoutSeconds: 1
+          failureThreshold: 60
+        livenessProbe:
+          httpGet: {path: /livez, port: 8000}
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 6
+        env:
+        - {name: ZD_PROM_QUERIES_FILE, value: /config/queries.json}
+        - {name: ZD_PROMETHEUS_UPSTREAM, value: 'http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090'}
+        - {name: ZD_ES_UPSTREAM, value: 'http://elasticsearch.monitoring.svc.cluster.local:9200'}
+        resources:
+          requests: {cpu: 25m, memory: 32Mi}
+          limits: {cpu: 150m, memory: 128Mi}
+        securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+        volumeMounts:
+        - {name: raw, mountPath: /raw-o}
+        - {name: keys, mountPath: /keys, readOnly: true}
+        - {name: config, mountPath: /config, readOnly: true}
+      volumes:
+      - {name: raw, persistentVolumeClaim: {claimName: raw-o}}
+      - {name: keys, secret: {secretName: event-o-server}}
+      - {name: config, configMap: {name: event-queries}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-h
+  namespace: zd-r1-events
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {app: events-h}
+  template:
+    metadata:
+      labels: {app: events-h, plane: H}
+    spec:
+      nodeSelector: {kubernetes.io/hostname: k3d-zero-door-server-0}
+      automountServiceAccountToken: false
+      serviceAccountName: event-observer
+      securityContext: {runAsNonRoot: true, runAsUser: 65533, runAsGroup: 65533, fsGroup: 65533}
+      containers:
+      - name: recorder
+        image: zero-door/events:zer-9
+        imagePullPolicy: Never
+        args: [--plane, H, --root, /raw-h, --keys, /keys/keys.json]
+        ports: [{containerPort: 8000}]
+        # Ready only while the recorder has caught up and has not failed; liveness never restarts
+        # a pod to hide a failed or corrupt archive.
+        readinessProbe:
+          httpGet: {path: /readyz, port: 8000}
+          periodSeconds: 2
+          timeoutSeconds: 1
+          failureThreshold: 60
+        livenessProbe:
+          httpGet: {path: /livez, port: 8000}
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 6
+        resources:
+          requests: {cpu: 25m, memory: 32Mi}
+          limits: {cpu: 150m, memory: 96Mi}
+        securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+        volumeMounts:
+        - {name: raw, mountPath: /raw-h}
+        - {name: keys, mountPath: /keys, readOnly: true}
+      volumes:
+      - {name: raw, persistentVolumeClaim: {claimName: raw-h}}
+      - {name: keys, secret: {secretName: event-h-server}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-o
+  namespace: zd-r1-events
+spec:
+  selector: {app: events-o}
+  ports: [{port: 8000, targetPort: 8000}]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-h
+  namespace: zd-r1-events
+spec:
+  selector: {app: events-h}
+  ports: [{port: 8000, targetPort: 8000}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: zd-r1-events
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+  ingress: []
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dns
+  namespace: zd-r1-events
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels: {kubernetes.io/metadata.name: kube-system}
+    ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: observer-to-o-only
+  namespace: zd-r1-events
+spec:
+  podSelector:
+    matchLabels: {role: observer}
+  policyTypes: [Egress]
+  egress:
+  - to:
+    - podSelector:
+        matchLabels: {app: events-o}
+    ports: [{port: 8000, protocol: TCP}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: o-ingress
+  namespace: zd-r1-events
+spec:
+  podSelector:
+    matchLabels: {app: events-o}
+  policyTypes: [Ingress]
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels: {role: observer}
+    ports: [{port: 8000, protocol: TCP}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: o-upstreams
+  namespace: zd-r1-events
+spec:
+  podSelector:
+    matchLabels: {app: events-o}
+  policyTypes: [Egress]
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels: {kubernetes.io/metadata.name: zero-door}
+    ports: [{port: 9092, protocol: TCP}]
+  - to:
+    - namespaceSelector:
+        matchLabels: {kubernetes.io/metadata.name: monitoring}
+    ports: [{port: 9090, protocol: TCP}, {port: 9200, protocol: TCP}]

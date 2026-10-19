@@ -1,0 +1,234 @@
+{
+ "kind": "FIX01_DELTA_MANIFEST",
+ "head": "2af4d33bf02c59d7802901d523b1bb2eb39f05a3",
+ "baseline_snapshot": "scratch/zer9/claude-fix/baseline.json (taken at writer handover)",
+ "does_not_replace": [
+  "docs/evidence/ZER-9/package-manifest.json",
+  "docs/evidence/ZER-9/evidence-checksums.json"
+ ],
+ "files": {
+  ".github/workflows/ci.yml": {
+   "before": "198297d8414d928d6badeab48479ab4cd5847fab2c1da51367540b0eb7800581",
+   "after": "b7454b8935cfa7a3351dd150b557f612908221f88e9611426134b0caf678fead",
+   "changed": true
+  },
+  "AGENTS.md": {
+   "before": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+   "after": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/Dockerfile": {
+   "before": "19e3ec5cfc9408cc171c455d38d86ce73e871d9d217ad63d8cd43e9df021a0cf",
+   "after": "19e3ec5cfc9408cc171c455d38d86ce73e871d9d217ad63d8cd43e9df021a0cf",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/__init__.py": {
+   "before": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+   "after": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/adapters.py": {
+   "before": "3e6dd514acc5f2cc20fe1ffca2447ebc941ba748139cf9cabcb44f8c5a2d59da",
+   "after": "10ca7c699091c390c6ac1fec524bc5fbdfb64031fe8ac021a13d631259fa4ef9",
+   "changed": true
+  },
+  "agent-orchestrator/event_pipeline/audit.py": {
+   "before": "6ab1ecf3d4d00c3516a066f5b13385b9820bc87bb38e406b59d262287d0e2cc1",
+   "after": "313681f33e70fb42cb88c95d6e5b65c21789922287533074f9b582fc5a984774",
+   "changed": true
+  },
+  "agent-orchestrator/event_pipeline/client.py": {
+   "before": "ffd45301f352b92ccf93bca502c321004a683bdfa102967b545932b7126c6212",
+   "after": "b2c3057dfe74efa60b53eaaf80147f5685d2b177c0a02d7a65a43b451ec59b28",
+   "changed": true
+  },
+  "agent-orchestrator/event_pipeline/contract.py": {
+   "before": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+   "after": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/gateway.py": {
+   "before": "3f39bf4686c2e6ec86f63c70ac53fde538fbdd17a3bdf8f53f6467fdda02e599",
+   "after": "bef7f517e40d9d5375f1258209536b4239a1745f78c116c467afb9e044599b4e",
+   "changed": true
+  },
+  "agent-orchestrator/event_pipeline/requirements.txt": {
+   "before": "f8bf3f588cde491ec1e92b5e6d045ad2a0b40fa045a89db9be3493f9afb88b2d",
+   "after": "f8bf3f588cde491ec1e92b5e6d045ad2a0b40fa045a89db9be3493f9afb88b2d",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/store.py": {
+   "before": "10d9f3c0d42d3d600946d73f5a721563b523a376101cb8177f0e6e6986eb595e",
+   "after": "e1426d0da4a84d9670421c4d94462d8ebeed53a8a6cf390876094eefa7ba516b",
+   "changed": true
+  },
+  "agent-orchestrator/event_pipeline/telemetry.py": {
+   "before": "b832615a2545131b32cd106029a5bae54640dc6af7186fe6616a093192b16014",
+   "after": "d0cfcb9cf6d85c6109dabd86f396e76784443b1232db4510ac3bd7e247735fb3",
+   "changed": true
+  },
+  "agent-orchestrator/gaia/Dockerfile": {
+   "before": "908985985a99645b7469e8ef6fd4b36cf6fd1e5e44a132f8e0445fdf14f4fb14",
+   "after": "908985985a99645b7469e8ef6fd4b36cf6fd1e5e44a132f8e0445fdf14f4fb14",
+   "changed": false
+  },
+  "agent-orchestrator/gaia/main.py": {
+   "before": "ca0df8b527a27087826dd82b72b2310961442684455835f02ea88b68bb56b025",
+   "after": "ca0df8b527a27087826dd82b72b2310961442684455835f02ea88b68bb56b025",
+   "changed": false
+  },
+  "agent-orchestrator/hephaestus/Dockerfile": {
+   "before": "847a59607280a7ef7daf272cf7b644de229033b230006dfdd138813cf2617092",
+   "after": "847a59607280a7ef7daf272cf7b644de229033b230006dfdd138813cf2617092",
+   "changed": false
+  },
+  "agent-orchestrator/hephaestus/main.py": {
+   "before": "3a4a7669a8f1b27f55a7eaaf9d252c87ea79536047cff9dac65590b43aca1d06",
+   "after": "2db3b8aca4c9b47f4d135b089d8dbd74268c81097308b9793e699b38c9841fc5",
+   "changed": true
+  },
+  "docs/delivery/NOW.md": {
+   "before": "e1598bd36d9f8aded6073758e6d67a4fcd2cc4694a5dc64ba9240465adc72e31",
+   "after": "e1598bd36d9f8aded6073758e6d67a4fcd2cc4694a5dc64ba9240465adc72e31",
+   "changed": false
+  },
+  "docs/delivery/README.md": {
+   "before": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+   "after": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+   "changed": false
+  },
+  "docs/delivery/WORKFLOW.md": {
+   "before": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+   "after": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+   "changed": false
+  },
+  "docs/delivery/WORKING-AGREEMENT.md": {
+   "before": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+   "after": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+   "changed": false
+  },
+  "docs/delivery/milestones/R1-measurement/README.md": {
+   "before": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+   "after": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+   "changed": false
+  },
+  "docs/delivery/milestones/R1-measurement/event-contract.md": {
+   "before": "e7c7c0cfc3215b2c01ba69f78477d5c327d0b78385b0f5e7b50ce45eaa38e0cc",
+   "after": "e7c7c0cfc3215b2c01ba69f78477d5c327d0b78385b0f5e7b50ce45eaa38e0cc",
+   "changed": false
+  },
+  "docs/design/r1-event-contract.md": {
+   "before": "fe09beb590ecc7fd82452e8108215565558e74886765da215954450415fe91fc",
+   "after": "fe09beb590ecc7fd82452e8108215565558e74886765da215954450415fe91fc",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/claude-review.md": {
+   "before": "86fc92388dbd4b4482dfe13e8b1fd744a403915cb551d7af50cbab06dd1403c4",
+   "after": "86fc92388dbd4b4482dfe13e8b1fd744a403915cb551d7af50cbab06dd1403c4",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/evidence-checksums.json": {
+   "before": "14c41dd5cd04ebfef237d4a62c044006b38a43050f11e54034deb416bf460b22",
+   "after": "14c41dd5cd04ebfef237d4a62c044006b38a43050f11e54034deb416bf460b22",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/live-11/export/H/H.jsonl": {
+   "before": "272d49f152d45e2f3817d69d9f10c024580287985ac64a39c09f3b0a810a777c",
+   "after": "272d49f152d45e2f3817d69d9f10c024580287985ac64a39c09f3b0a810a777c",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/live-11/export/O/O.jsonl": {
+   "before": "ec7d46f1a2809082cf76e029265340e1e7b4a22e06aea5ef9da54d215df54d06",
+   "after": "ec7d46f1a2809082cf76e029265340e1e7b4a22e06aea5ef9da54d215df54d06",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/live-11/receipt.json": {
+   "before": "76b757fedfb5b50cb2cbf970144294194333794de09a10f8341c97a0ae85304a",
+   "after": "76b757fedfb5b50cb2cbf970144294194333794de09a10f8341c97a0ae85304a",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/package-manifest.json": {
+   "before": "b940042cfc47052b85ccc047c0ab890b6a869859d572e23487881ee7d24b34e1",
+   "after": "b940042cfc47052b85ccc047c0ab890b6a869859d572e23487881ee7d24b34e1",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/verification.md": {
+   "before": "8b889b17c01f4ae1609e1c6e78757cf9b3c81fa2166c90b4ff612e3ce16d7dae",
+   "after": "b31ef06f343e2ccd668425c6f747be2459aa55468f19e3b5889a596831c646ab",
+   "changed": true
+  },
+  "docs/runbooks/r1-event-pipeline.md": {
+   "before": "f272392fcf4d378e99445ffc2d08e20cea93de35e1fa8e2701ece79c5c61ca02",
+   "after": "2fda69ee13d5c317f8bbd574dbd0155883c7a495b213ea9c0dd554b31f145402",
+   "changed": true
+  },
+  "infrastructure/manifests/r1-event-pipeline.yaml": {
+   "before": "c90423a234765675a6dab15692ed6e4bae05aa08724153240e61f863d4b56ce7",
+   "after": "9519d224199a45a7aa5cc36dd1fb4afb3c52dcd40ece3cc81a3a88fd9c26d09a",
+   "changed": true
+  },
+  "infrastructure/scripts/setup-local-apps.sh": {
+   "before": "cc5d89a497dc3d9c291cfe202682bdb186e9a61183dec22a6ad75f3b217ea256",
+   "after": "cc5d89a497dc3d9c291cfe202682bdb186e9a61183dec22a6ad75f3b217ea256",
+   "changed": false
+  },
+  "infrastructure/scripts/setup-phase4.sh": {
+   "before": "7e90192bc81d13c1c3fbf340e7018a98a4b1bd50765502b49a0310a20b01621c",
+   "after": "7e90192bc81d13c1c3fbf340e7018a98a4b1bd50765502b49a0310a20b01621c",
+   "changed": false
+  },
+  "infrastructure/scripts/verify-event-pipeline.py": {
+   "before": "538451fd31e78c4c25e346a9fc7fb88e76db94a5380c46b7d5f24fc13e4d5926",
+   "after": "4493ba942e55992bced87d3ada91f3faa39e8905dfdee6604008c2958fc860d1",
+   "changed": true
+  },
+  "infrastructure/scripts/verify-event-pipeline.sh": {
+   "before": "6dd28cfa175e74e691107a9f8d6877006f80cb039e429349ddd785ff531413d5",
+   "after": "6dd28cfa175e74e691107a9f8d6877006f80cb039e429349ddd785ff531413d5",
+   "changed": false
+  },
+  "tests/shell/run.sh": {
+   "before": "1ca386106122de82d43230f33eb6e60f97e6e28659ea91003fe5ec3c9d3800a4",
+   "after": "1ca386106122de82d43230f33eb6e60f97e6e28659ea91003fe5ec3c9d3800a4",
+   "changed": false
+  },
+  "tests/test_event_agents.py": {
+   "before": "1e8ebb5c50c2fdd7801b099b334a1e1d16755829a2c8f38c53b21b6348e4accc",
+   "after": "d600e6361c23d3d8fbb48000c6fc953553daa3df1ab6a1f552093883f2226189",
+   "changed": true
+  },
+  "tests/test_event_pipeline.py": {
+   "before": "a8a78bd58f55329dc184a8c922c51acf15e8b96ddcc270f98d50644e12eb5dff",
+   "after": "a8a78bd58f55329dc184a8c922c51acf15e8b96ddcc270f98d50644e12eb5dff",
+   "changed": false
+  },
+  "tests/test_event_pipeline_regressions.py": {
+   "before": null,
+   "after": "82c70cf7f41e25e3c858b2c644d00a49e3370ce89f1a17bb9d88229d1321178c",
+   "changed": true
+  }
+ },
+ "changed": [
+  ".github/workflows/ci.yml",
+  "agent-orchestrator/event_pipeline/adapters.py",
+  "agent-orchestrator/event_pipeline/audit.py",
+  "agent-orchestrator/event_pipeline/client.py",
+  "agent-orchestrator/event_pipeline/gateway.py",
+  "agent-orchestrator/event_pipeline/store.py",
+  "agent-orchestrator/event_pipeline/telemetry.py",
+  "agent-orchestrator/hephaestus/main.py",
+  "docs/evidence/ZER-9/verification.md",
+  "docs/runbooks/r1-event-pipeline.md",
+  "infrastructure/manifests/r1-event-pipeline.yaml",
+  "infrastructure/scripts/verify-event-pipeline.py",
+  "tests/test_event_agents.py",
+  "tests/test_event_pipeline_regressions.py"
+ ],
+ "note": "issue note and NOW change again when the handoff is appended; their final hashes are in the handoff. contract.py, __init__.py, Dockerfiles, requirements, setup scripts, tests/shell/run.sh and protected docs must show changed=false.",
+ "fix01_evidence": {
+  "docs/evidence/ZER-9/fix-01/before-after.json": "d366f55d1f97189351e0fd0e557ef1a0ff0dda57f7523612780aeda7fd2280f8",
+  "docs/evidence/ZER-9/fix-01/live11-offline-audit.json": "fb4d0d5150b8a9ee7d1ad9daf2aac07789ba62d45b65ba1514580eeaf3a1f3a0",
+  "docs/evidence/ZER-9/fix-01/offline-results.txt": "93c4d48646711125ebecc871d9a0d7cc5803999768d8f3cee9e8a44c360b3edc",
+  "docs/evidence/ZER-9/fix-01/runtime-plan.md": "447fee3d49e2eb8d53cbeaea5a7aadc570c17d3a155845d67a148dcdbfab14ed"
+ }
+}

@@ -1,0 +1,109 @@
+# Overlay for the bounded ZER-9 actor verifier; placeholders rendered before create.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: actors-to-o
+spec:
+  podSelector:
+    matchLabels: {role: actor}
+  policyTypes: [Egress]
+  egress:
+  - to:
+    - podSelector:
+        matchLabels: {app: events-o}
+    ports: [{port: 8000, protocol: TCP}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: o-from-actors
+spec:
+  podSelector:
+    matchLabels: {app: events-o}
+  policyTypes: [Ingress]
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels: {role: actor}
+    ports: [{port: 8000, protocol: TCP}]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gaia
+  labels: {role: actor, actor: gaia, plane: O}
+spec:
+  restartPolicy: Never
+  nodeSelector: {kubernetes.io/hostname: k3d-zero-door-server-0}
+  automountServiceAccountToken: false
+  serviceAccountName: event-observer
+  securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532}
+  initContainers:
+  - name: access-gate
+    image: ACTOR_IMAGE
+    imagePullPolicy: Never
+    command: [/usr/bin/python3, /verify/gate.py]
+    resources: &resources
+      requests: {cpu: 25m, memory: 64Mi}
+      limits: {cpu: 200m, memory: 256Mi}
+    securityContext: &security
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities: {drop: [ALL]}
+    volumeMounts: &mounts
+    - {name: keys, mountPath: /keys, readOnly: true}
+    - {name: verifier, mountPath: /verify, readOnly: true}
+  containers:
+  - name: actor
+    image: ACTOR_IMAGE
+    imagePullPolicy: Never
+    # Bounded transport fixture: disable Gaia's autonomous detector loop.
+    # Real publish/query code is invoked inside this pod by the verifier.
+    command: [/usr/bin/python3, -m, uvicorn, 'main:app', --host, 0.0.0.0, --port, '8000', --lifespan, 'off']
+    resources: *resources
+    securityContext: *security
+    volumeMounts: *mounts
+    readinessProbe: {httpGet: {path: /healthz, port: 8000}, periodSeconds: 2}
+  volumes:
+  - {name: keys, secret: {secretName: event-o-gaia}}
+  - {name: verifier, configMap: {name: actor-verifier}}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hephaestus
+  labels: {role: actor, actor: hephaestus, plane: O}
+spec:
+  restartPolicy: Never
+  nodeSelector: {kubernetes.io/hostname: k3d-zero-door-server-0}
+  automountServiceAccountToken: false
+  serviceAccountName: event-observer
+  securityContext: {runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532}
+  initContainers:
+  - name: access-gate
+    image: ACTOR_IMAGE
+    imagePullPolicy: Never
+    command: [/usr/bin/python3, /verify/gate.py]
+    resources: &resources
+      requests: {cpu: 25m, memory: 64Mi}
+      limits: {cpu: 200m, memory: 256Mi}
+    securityContext: &security
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities: {drop: [ALL]}
+    volumeMounts: &mounts
+    - {name: keys, mountPath: /keys, readOnly: true}
+    - {name: verifier, mountPath: /verify, readOnly: true}
+  containers:
+  - name: actor
+    image: ACTOR_IMAGE
+    imagePullPolicy: Never
+    # Actual FastAPI startup launches the R1 RulesConsumer; no legacy executor.
+    command: [/usr/bin/python3, -m, uvicorn, 'main:app', --host, 0.0.0.0, --port, '8000', --workers, '1']
+    resources: *resources
+    securityContext: *security
+    volumeMounts: *mounts
+    readinessProbe: {httpGet: {path: /healthz, port: 8000}, periodSeconds: 2}
+  volumes:
+  - {name: keys, secret: {secretName: event-o-hephaestus}}
+  - {name: verifier, configMap: {name: actor-verifier}}

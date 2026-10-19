@@ -1,0 +1,28 @@
+{
+  "codex-fix01-review": {
+    "files": 9,
+    "bad": []
+  },
+  "codex-fix02-review": {
+    "files": 11,
+    "bad": []
+  },
+  "fix01_artifacts": {
+    "files": 4,
+    "mismatch": []
+  },
+  "fix02_artifacts": {
+    "files": 3,
+    "mismatch": []
+  },
+  "fix03_artifacts": {
+    "files": 3,
+    "mismatch": []
+  },
+  "historical": {
+    "files": 62,
+    "differs": [
+      "verification.md"
+    ]
+  }
+}

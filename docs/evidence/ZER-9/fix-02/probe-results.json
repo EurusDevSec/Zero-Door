@@ -1,0 +1,106 @@
+{
+ "kind": "CODEX_PROBES_REPLAYED_UNCHANGED",
+ "probes": {
+  "deep_http.py": {
+   "script_sha256": "7011d331ac85302fdecd66a93d00021bf821a8dc8d63e4ae5b42e85ef67de608",
+   "codex_fix01_result": {
+    "bytes": 2053,
+    "strict_decode_error": null,
+    "http_reply": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "quarantine_after_http": 0,
+    "recorder_failure": "RecursionError",
+    "committed": {
+     "0": 0
+    },
+    "ready_reply": [
+     503,
+     {
+      "reason": "RECORDER_FAILED:RecursionError",
+      "status": "NOT_READY"
+     }
+    ],
+    "good_recorded": false
+   },
+   "fix02_result": {
+    "bytes": 2053,
+    "strict_decode_error": null,
+    "http_reply": [
+     422,
+     {
+      "classification": "INVALID",
+      "error": "REJECTED"
+     }
+    ],
+    "quarantine_after_http": 1,
+    "recorder_failure": null,
+    "committed": {
+     "0": 2
+    },
+    "ready_reply": [
+     200,
+     {
+      "reason": null,
+      "status": "READY"
+     }
+    ],
+    "good_recorded": true
+   }
+  },
+  "h_partial_http.py": {
+   "script_sha256": "4221c0aae17d7ce6098750ec5b2eb7dbe16c4723e586bc73156f3b8243e9625d",
+   "codex_fix01_result": {
+    "plane": "H",
+    "first": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "readiness_after_failure": [
+     200,
+     {
+      "reason": null,
+      "status": "READY"
+     }
+    ],
+    "next": [
+     201,
+     {
+      "envelope_sha256": "62cc4ddcac98fd02354feafd4b2110e734d5d246282f22fb39428409f4ff048c",
+      "event_id": "evt_a63d755fe9a74cf38baaa9d81a798a81",
+      "status": "RECORDED"
+     }
+    ],
+    "raw_read": "JSONDecodeError"
+   },
+   "fix02_result": {
+    "plane": "H",
+    "first": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "readiness_after_failure": [
+     503,
+     {
+      "reason": "ARCHIVE_FAILED:OSError",
+      "status": "NOT_READY"
+     }
+    ],
+    "next": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "raw_read": "ArchiveFailure"
+   }
+  }
+ }
+}

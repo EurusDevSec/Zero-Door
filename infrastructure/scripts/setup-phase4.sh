@@ -8,7 +8,7 @@ fi
 [[ $# == 0 ]] || { printf 'Unknown argument\n' >&2; exit 2; }
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 zd_preflight
-zd_build_import hephaestus:latest "$ZD_ROOT/agent-orchestrator/hephaestus"
+zd_build_import hephaestus:latest "$ZD_ROOT/agent-orchestrator" --file "$(zd_path "$ZD_ROOT/agent-orchestrator/hephaestus/Dockerfile")"
 zd_apply "$ZD_INFRA/manifests/hephaestus-deployment.yaml"
 zd_kubectl rollout restart deployment/hephaestus -n zero-door
 zd_kubectl rollout status deployment/hephaestus -n zero-door --timeout=120s

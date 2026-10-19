@@ -1,0 +1,366 @@
+{
+ "kind": "CODEX_PROBES_REPLAYED_UNCHANGED_AND_ASSERTED",
+ "asserter": "scratch/zer9/claude-fix03/assert_probes.py (expected values in the script; exit 0 of a probe is not PASS)",
+ "earlier_source": {
+  "codex-fix02-review": "fix-02 source, run by Codex",
+  "codex-fix01-review": "fix-01 source, run by Codex"
+ },
+ "probes": {
+  "codex-fix02-review/read_http.py": {
+   "script_sha256": "c8d58938608449dafd8ea036a9bdc167ed41681f00079830d98055a2252f9cab",
+   "codex_result_on_earlier_source": {
+    "read_http_error": "RemoteDisconnected",
+    "archive_failure": null,
+    "ready_after_eio": [
+     200,
+     {
+      "reason": null,
+      "status": "READY"
+     }
+    ],
+    "post_after_eio": [
+     201,
+     {
+      "envelope_sha256": "84433af57344c2428b8843669c119c315721097db1d8a0069404c3db6904f8c1",
+      "event_id": "evt_6919165d4506494792bb6f6c4d48fdf0",
+      "status": "RECORDED"
+     }
+    ]
+   },
+   "fix03_result": {
+    "read_http": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "archive_failure": "OSError",
+    "ready_after_eio": [
+     503,
+     {
+      "reason": "ARCHIVE_FAILED:OSError",
+      "status": "NOT_READY"
+     }
+    ],
+    "post_after_eio": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ]
+   },
+   "fix03_asserted_by_value": true
+  },
+  "codex-fix02-review/read_matrix.py": {
+   "script_sha256": "72c942f68df397e21576fe69b119857e5cf4b2f03fe1c4333b9bf6e2071b32c3",
+   "codex_result_on_earlier_source": [
+    {
+     "plane": "H",
+     "operation": "records",
+     "error": "OSError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "seal",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "export_late",
+     "error": "OSError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "export_global",
+     "error": "OSError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "export_destination",
+     "error": "FileExistsError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "records",
+     "error": "OSError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "seal",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "export_late",
+     "error": "OSError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "export_global",
+     "error": "OSError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "export_destination",
+     "error": "FileExistsError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    }
+   ],
+   "fix03_result": [
+    {
+     "plane": "H",
+     "operation": "records",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "seal",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "export_late",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "export_global",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "H",
+     "operation": "export_destination",
+     "error": "FileExistsError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "records",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "seal",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "export_late",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "export_global",
+     "error": "ArchiveFailure",
+     "failure": "OSError",
+     "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+     }
+    },
+    {
+     "plane": "O",
+     "operation": "export_destination",
+     "error": "FileExistsError",
+     "failure": null,
+     "readiness": {
+      "ready": true,
+      "reason": null
+     }
+    }
+   ],
+   "fix03_asserted_by_value": true
+  },
+  "codex-fix01-review/deep_http.py": {
+   "script_sha256": "7011d331ac85302fdecd66a93d00021bf821a8dc8d63e4ae5b42e85ef67de608",
+   "codex_result_on_earlier_source": {
+    "bytes": 2053,
+    "strict_decode_error": null,
+    "http_reply": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "quarantine_after_http": 0,
+    "recorder_failure": "RecursionError",
+    "committed": {
+     "0": 0
+    },
+    "ready_reply": [
+     503,
+     {
+      "reason": "RECORDER_FAILED:RecursionError",
+      "status": "NOT_READY"
+     }
+    ],
+    "good_recorded": false
+   },
+   "fix03_result": {
+    "bytes": 2053,
+    "strict_decode_error": null,
+    "http_reply": [
+     422,
+     {
+      "classification": "INVALID",
+      "error": "REJECTED"
+     }
+    ],
+    "quarantine_after_http": 1,
+    "recorder_failure": null,
+    "committed": {
+     "0": 2
+    },
+    "ready_reply": [
+     200,
+     {
+      "reason": null,
+      "status": "READY"
+     }
+    ],
+    "good_recorded": true
+   },
+   "fix03_asserted_by_value": true
+  },
+  "codex-fix01-review/h_partial_http.py": {
+   "script_sha256": "4221c0aae17d7ce6098750ec5b2eb7dbe16c4723e586bc73156f3b8243e9625d",
+   "codex_result_on_earlier_source": {
+    "plane": "H",
+    "first": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "readiness_after_failure": [
+     200,
+     {
+      "reason": null,
+      "status": "READY"
+     }
+    ],
+    "next": [
+     201,
+     {
+      "envelope_sha256": "62cc4ddcac98fd02354feafd4b2110e734d5d246282f22fb39428409f4ff048c",
+      "event_id": "evt_a63d755fe9a74cf38baaa9d81a798a81",
+      "status": "RECORDED"
+     }
+    ],
+    "raw_read": "JSONDecodeError"
+   },
+   "fix03_result": {
+    "plane": "H",
+    "first": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "readiness_after_failure": [
+     503,
+     {
+      "reason": "ARCHIVE_FAILED:OSError",
+      "status": "NOT_READY"
+     }
+    ],
+    "next": [
+     503,
+     {
+      "error": "NOT_DURABLE"
+     }
+    ],
+    "raw_read": "ArchiveFailure"
+   },
+   "fix03_asserted_by_value": true
+  }
+ }
+}

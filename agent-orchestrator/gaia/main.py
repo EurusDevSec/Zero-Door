@@ -4,6 +4,8 @@ import time
 import asyncio
 import logging
 import uuid
+import sys
+from pathlib import Path
 from datetime import datetime, timezone
 from typing import Dict, Tuple
 
@@ -11,6 +13,10 @@ from fastapi import FastAPI
 import httpx
 from elasticsearch import Elasticsearch
 from kafka import KafkaProducer
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from event_pipeline.client import Client
+from event_pipeline.adapters import Detector
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
@@ -32,8 +38,15 @@ alert_cooldowns: Dict[Tuple[str, str], float] = {}
 # Clients
 kafka_producer = None
 es_client = None
+r1_client = Client.from_env("detector")
+r1_detector = Detector(r1_client) if r1_client else None
+if r1_client:
+    PROMETHEUS_URL = r1_client.url + "/prometheus"
+    ELASTICSEARCH_URL = r1_client.url + "/elasticsearch"
 
 def get_kafka_producer():
+    if r1_client:
+        return None  # R1 O agents have no direct path to the legacy H/O broker.
     global kafka_producer
     if kafka_producer is None:
         try:
@@ -53,7 +66,7 @@ def get_es_client():
     global es_client
     if es_client is None:
         try:
-            es_client = Elasticsearch(ELASTICSEARCH_URL)
+            es_client = Elasticsearch(ELASTICSEARCH_URL, headers={"Authorization": "Bearer " + r1_client.token} if r1_client else None)
             # Ping to verify
             if es_client.ping():
                 logger.info("Elasticsearch Client connected successfully.")
@@ -66,6 +79,9 @@ def get_es_client():
     return es_client
 
 def send_system_log(level: str, message: str):
+    if r1_client:
+        logger.log(getattr(logging, level, logging.INFO), message)
+        return
     producer = get_kafka_producer()
     log_payload = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -92,6 +108,11 @@ def publish_alert(alert_type: str, service: str, metric_name: str, current_value
         if now - last_sent < COOLDOWN_PERIOD:
             logger.info(f"Deduplicated alert '{alert_type}' for '{service}' (Cooldown active).")
             return
+
+    if r1_detector:
+        r1_detector.publish(alert_type, service, metric_name, current_value, threshold, description, severity)
+        alert_cooldowns[cooldown_key] = now
+        return
             
     alert_payload = {
         "alertId": str(uuid.uuid4()),
@@ -123,7 +144,7 @@ def publish_alert(alert_type: str, service: str, metric_name: str, current_value
 def get_service_name(pod: str, container: str) -> str:
     if not pod:
         return container
-    if "-stress" in pod:
+    if "-stress" in pod and not r1_client:
         return pod.split("-stress")[0]
     parts = pod.split("-")
     if len(parts) > 2:
@@ -133,7 +154,8 @@ def get_service_name(pod: str, container: str) -> str:
 async def query_prometheus(client: httpx.AsyncClient, query: str):
     try:
         url = f"{PROMETHEUS_URL}/api/v1/query"
-        response = await client.get(url, params={"query": query}, timeout=5.0)
+        response = await client.get(url, params={"query": query}, timeout=5.0,
+                                    headers={"Authorization": "Bearer " + r1_client.token} if r1_client else None)
         if response.status_code == 200:
             return response.json()
         else:
@@ -276,6 +298,7 @@ async def poll_elasticsearch_logs():
             "query": {
                 "bool": {
                     "must": [
+                        {"term": {"kubernetes.namespace_name.keyword": "target-app"}},
                         {
                             "range": {
                                 "@timestamp": {
@@ -381,6 +404,9 @@ def read_root():
 
 @app.get("/healthz")
 def healthz():
+    if r1_client:
+        return {"status": "UP", "transport": "r1-o-gateway", "kafka_connected": None,
+                "elasticsearch_connected": es_client is not None}
     kafka_ok = get_kafka_producer() is not None
     es_ok = get_es_client() is not None
     return {

@@ -1,0 +1,102 @@
+[
+  {
+    "plane": "H",
+    "operation": "records",
+    "error": "OSError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "H",
+    "operation": "seal",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+    }
+  },
+  {
+    "plane": "H",
+    "operation": "export_late",
+    "error": "OSError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "H",
+    "operation": "export_global",
+    "error": "OSError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "H",
+    "operation": "export_destination",
+    "error": "FileExistsError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "O",
+    "operation": "records",
+    "error": "OSError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "O",
+    "operation": "seal",
+    "error": "ArchiveFailure",
+    "failure": "OSError",
+    "readiness": {
+      "ready": false,
+      "reason": "ARCHIVE_FAILED:OSError"
+    }
+  },
+  {
+    "plane": "O",
+    "operation": "export_late",
+    "error": "OSError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "O",
+    "operation": "export_global",
+    "error": "OSError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  },
+  {
+    "plane": "O",
+    "operation": "export_destination",
+    "error": "FileExistsError",
+    "failure": null,
+    "readiness": {
+      "ready": true,
+      "reason": null
+    }
+  }
+]

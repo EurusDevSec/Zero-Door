@@ -1,0 +1,15 @@
+pod/o-access-diagnostic created
+O_API 200
+0 events-h DENIED ConnectionRefusedError
+0 kafka.zero-door.svc.cluster.local DENIED ConnectionRefusedError
+0 elasticsearch.monitoring.svc.cluster.local DENIED ConnectionRefusedError
+0 prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local DENIED ConnectionRefusedError
+1 events-h DENIED ConnectionRefusedError
+1 kafka.zero-door.svc.cluster.local DENIED ConnectionRefusedError
+1 elasticsearch.monitoring.svc.cluster.local DENIED ConnectionRefusedError
+1 prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local DENIED ConnectionRefusedError
+2 events-h DENIED ConnectionRefusedError
+2 kafka.zero-door.svc.cluster.local DENIED ConnectionRefusedError
+2 elasticsearch.monitoring.svc.cluster.local DENIED ConnectionRefusedError
+2 prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local DENIED ConnectionRefusedError
+

@@ -1,0 +1,309 @@
+diff --git a/scratch/zer9/claude-fix03/baseline-src/agent-orchestrator/event_pipeline/store.py b/agent-orchestrator/event_pipeline/store.py
+index 3c6e5e2..328c3be 100644
+--- a/scratch/zer9/claude-fix03/baseline-src/agent-orchestrator/event_pipeline/store.py
++++ b/agent-orchestrator/event_pipeline/store.py
+@@ -11,16 +11,20 @@ Layout under one plane's root:
+ Archives sealed before archive_format 2 (live-11) have no late file or stream counts and
+ are read and re-sealed unchanged.
+ 
+-Failure is sticky: after a write that raised (bytes may be partly on disk) or a failed integrity
+-read, this process acknowledges, appends, seals and exports nothing more. Only a restart clears
+-it, and opening the archive re-verifies every line and refuses an incomplete or edited one; that
+-case needs an operator, who keeps the bytes. Nothing here truncates or repairs evidence.
++Failure is sticky: after a write that raised (bytes may be partly on disk), or a source read that
++failed (unreadable, incomplete, edited or unsafe evidence: ArchiveFailure), this process
++acknowledges, appends, seals and exports nothing more. Only a restart clears it, and opening the
++archive re-verifies every line and refuses an incomplete or edited one; that case needs an
++operator, who keeps the bytes. Nothing here truncates or repairs evidence. An export destination
++error fails that export only.
+ """
++import contextlib
++import errno
+ import hashlib
+ import json
+ import math
+ import os
+-import shutil
++import stat
+ import threading
+ import itertools
+ from pathlib import Path
+@@ -68,6 +72,29 @@ def fsync_dir(path):
+         os.close(descriptor)
+ 
+ 
++@contextlib.contextmanager
++def reading():
++    """Archive (source) side reads: an OSError is unreadable evidence, never 'absent' or 'empty'.
++
++    Export destination errors are deliberately not wrapped: they fail that export only.
++    """
++    try:
++        yield
++    except OSError as error:
++        raise ArchiveFailure("archive unreadable: " + type(error).__name__) from error
++
++
++def entry(path):
++    """lstat of an archive path, or None when it does not exist. Path.exists() hides some errors
++    (all of them from Python 3.13), which would turn an unreadable sealed run into an open one."""
++    try:
++        return os.lstat(path)
++    except FileNotFoundError:
++        return None
++    except OSError as error:
++        raise ArchiveFailure("archive unreadable: " + type(error).__name__) from error
++
++
+ def _finite(text):
+     value = float(text)
+     if not math.isfinite(value):
+@@ -163,7 +190,7 @@ class Archive:
+                     continue
+                 path = directory / (plane + ".jsonl")
+                 sealed = directory / "manifest.json"
+-                if sealed.exists():
++                if entry(sealed) is not None:
+                     saved = json.loads(sealed.read_bytes())
+                     if file_sha(path) != saved["sha256"]:
+                         raise ArchiveFailure("sealed archive changed")
+@@ -199,9 +226,18 @@ class Archive:
+         """Make the failure sticky (see module doc) and return the error to raise."""
+         with self.lock:
+             if self.failure is None:
++                if isinstance(error, ArchiveFailure) and isinstance(error.__cause__, OSError):
++                    error = error.__cause__  # unreadable source: name the I/O error, as a failed write does
+                 self.failure = "INTEGRITY" if isinstance(error, ArchiveFailure) else type(error).__name__
+         return ArchiveFailure("ARCHIVE_FAILED:" + self.failure)
+ 
++    def lookup(self, path):
++        """entry() for checks made under the lock outside a guarded operation: unreadable stops the archive."""
++        try:
++            return entry(path)
++        except ArchiveFailure as error:
++            raise self.fail(error) from error
++
+     def write(self, path, record):
+         """Append; any exception may have left partial bytes, so it stops this archive."""
+         self.usable()
+@@ -214,24 +250,29 @@ class Archive:
+         if not valid_id(run, "run"):
+             raise ValueError("invalid run")
+         path = self.root / run
+-        # No caller-controlled paths or symlink escapes, including export source.
+-        if path.is_symlink() or path.resolve().parent != self.root:
+-            raise ArchiveFailure("unsafe archive path")
++        try:
++            with reading():
++                found = entry(path)
++                # No caller-controlled paths or symlink escapes, including export source.
++                if found and stat.S_ISLNK(found.st_mode) or path.resolve().parent != self.root:
++                    raise ArchiveFailure("unsafe archive path")
++        except ArchiveFailure as error:
++            raise self.fail(error) from error
+         return path
+ 
+     def run_dir(self, run):
+         directory = self.path(run)
+-        if not directory.exists():
+-            try:
++        try:
++            if entry(directory) is None:
+                 directory.mkdir(mode=0o700)
+                 fsync_dir(self.root)
+-            except OSError as error:
+-                raise self.fail(error) from error
++        except (ArchiveFailure, OSError) as error:
++            raise self.fail(error) from error
+         return directory
+ 
+     def sealed(self, run):
+         with self.lock:
+-            return (self.path(run) / "manifest.json").exists()
++            return self.lookup(self.path(run) / "manifest.json") is not None
+ 
+     def index(self, event):
+         # Binding reads the first stored context; later differing copies are rejected before storage.
+@@ -246,22 +287,25 @@ class Archive:
+ 
+     @staticmethod
+     def iter_file(path):
+-        if path.is_symlink():
+-            raise ArchiveFailure("unsafe archive file")
+-        if not path.exists():
+-            return
+-        with open(path, "rb") as handle:
+-            for line in handle:
+-                # Never silently truncate evidence after an interrupted append.
+-                if not line.endswith(b"\n"):
+-                    raise ArchiveFailure("incomplete raw record; operator recovery required")
+-                try:
+-                    record = json.loads(line)
+-                except (ValueError, RecursionError):
+-                    raise ArchiveFailure("corrupt raw record; operator recovery required") from None
+-                if not isinstance(record, dict):
+-                    raise ArchiveFailure("corrupt raw record; operator recovery required")
+-                yield record
++        """Every archive file read goes through here: absent is empty, unreadable is ArchiveFailure."""
++        with reading():
++            found = entry(path)
++            if found is None:
++                return
++            if stat.S_ISLNK(found.st_mode):
++                raise ArchiveFailure("unsafe archive file")
++            with open(path, "rb") as handle:
++                for line in handle:
++                    # Never silently truncate evidence after an interrupted append.
++                    if not line.endswith(b"\n"):
++                        raise ArchiveFailure("incomplete raw record; operator recovery required")
++                    try:
++                        record = json.loads(line)
++                    except (ValueError, RecursionError):
++                        raise ArchiveFailure("corrupt raw record; operator recovery required") from None
++                    if not isinstance(record, dict):
++                        raise ArchiveFailure("corrupt raw record; operator recovery required")
++                    yield record
+ 
+     @staticmethod
+     def read_file(path):
+@@ -269,9 +313,10 @@ class Archive:
+ 
+     @staticmethod
+     def append(path, record):
+-        if path.is_symlink():
++        found = entry(path)
++        if found and stat.S_ISLNK(found.st_mode):
+             raise ArchiveFailure("unsafe archive file")
+-        created = not path.exists()
++        created = found is None
+         with open(path, "ab") as handle:
+             handle.write(canonical(record) + b"\n")
+             handle.flush()
+@@ -306,7 +351,7 @@ class Archive:
+             sealed = False
+             if valid_id(run, "run"):
+                 directory = self.run_dir(run)
+-                sealed = (directory / "manifest.json").exists()
++                sealed = self.lookup(directory / "manifest.json") is not None
+                 path = directory / ("late.jsonl" if sealed else "rejections.jsonl")
+             else:
+                 path = self.root / "rejections.jsonl"
+@@ -326,7 +371,7 @@ class Archive:
+             event_id = event["event_id"]
+             directory = self.run_dir(event["run_id"])
+             known = self.ids.get(event_id)
+-            if (directory / "manifest.json").exists():
++            if self.lookup(directory / "manifest.json") is not None:
+                 # An exact copy of sealed raw (Kafka redelivery) or of a stored late record
+                 # changes nothing; anything else after seal is kept outside the sealed hash.
+                 if known == digest:
+@@ -351,6 +396,7 @@ class Archive:
+             self.usable()
+             path = self.path(run) / (self.plane + ".jsonl")
+             try:
++                # iter_file turns an open/read error into ArchiveFailure: GET /events answers 503.
+                 return list(itertools.islice(self.iter_file(path), after, after + limit if limit is not None else None))
+             except ArchiveFailure as error:
+                 raise self.fail(error) from error
+@@ -361,7 +407,8 @@ class Archive:
+         for record in Archive.iter_file(path):
+             check_record(record, legacy=path.name == "broker-rejections.jsonl")
+             lines += 1
+-        return {"file": path.name, "lines": lines, "bytes": path.stat().st_size, "sha256": file_sha(path)}
++        with reading():
++            return {"file": path.name, "lines": lines, "bytes": path.stat().st_size, "sha256": file_sha(path)}
+ 
+     def manifest(self, run):
+         path = self.path(run) / (self.plane + ".jsonl")
+@@ -380,7 +427,7 @@ class Archive:
+             counts.setdefault(key, set()).add(event["seq"])
+         rejected_path = path.parent / "rejections.jsonl"
+         rejected = {"file": rejected_path.name, "lines": sum(1 for _ in self.iter_file(rejected_path)),
+-                    "sha256": file_sha(rejected_path)} if rejected_path.exists() else None
++                    "sha256": file_sha(rejected_path)} if entry(rejected_path) is not None else None
+         # Distinct seq per stream lets SEQ_GAP be seen from the manifest: gap if count < last-first+1.
+         return {"run_id": run, "plane": self.plane, "raw_file": path.name, "lines": count, "rejections": rejected,
+                 "sha256": file_sha(path), "bytes": path.stat().st_size, "sequences": sequences,
+@@ -391,7 +438,8 @@ class Archive:
+         with self.lock:
+             self.usable()
+             directory = self.path(run)
+-            if not directory.is_dir():
++            found = self.lookup(directory)
++            if found is None or not stat.S_ISDIR(found.st_mode):
+                 raise ValueError("UNKNOWN_RUN")
+             try:
+                 return self._seal(run, directory)
+@@ -401,14 +449,14 @@ class Archive:
+ 
+     def _seal(self, run, directory):
+         raw = directory / (self.plane + ".jsonl")
+-        if not raw.exists():
++        if entry(raw) is None:
+             # A run holding only rejections still seals, with an explicit empty raw file.
+             with open(raw, "xb") as handle:
+                 os.fsync(handle.fileno())
+             fsync_dir(directory)
+         result = self.manifest(run)
+         path = directory / "manifest.json"
+-        if path.exists():
++        if entry(path) is not None:
+             saved = json.loads(path.read_bytes())
+             # Older seals lack newer fields; compare exactly the fields they recorded.
+             if {key: result.get(key) for key in saved} != saved:
+@@ -425,7 +473,9 @@ class Archive:
+         """Evaluator-only CLI operation, deliberately absent from the O HTTP API.
+ 
+         Holds the archive lock so the snapshot is consistent with concurrent appends, copies into a
+-        NEW directory, rechecks every copied file and describes it in export.json.
++        NEW directory, rechecks every copied file and describes it in export.json. An export is
++        complete only if this call returned. Source reads raise ArchiveFailure and stop the archive;
++        anything on the destination side raises OSError and fails this export only.
+         """
+         with self.lock:
+             try:
+@@ -441,13 +491,28 @@ class Archive:
+         files = {}
+ 
+         def copy(path, name):
+-            before = self.summary(path) if path.suffix == ".jsonl" else {"file": path.name, "bytes": path.stat().st_size,
+-                                                                        "sha256": file_sha(path)}
++            if path.suffix == ".jsonl":
++                before = self.summary(path)
++            else:
++                with reading():
++                    before = {"file": path.name, "bytes": path.stat().st_size, "sha256": file_sha(path)}
+             target = destination / name
+             target.parent.mkdir(parents=True, exist_ok=True)
+-            shutil.copyfile(path, target)
++            digest = hashlib.sha256()
++            with reading():
++                handle = open(path, "rb")
++            with handle, open(target, "xb") as out:
++                while True:
++                    with reading():
++                        chunk = handle.read(1024 * 1024)
++                    if not chunk:
++                        break
++                    digest.update(chunk)
++                    out.write(chunk)
++            if digest.hexdigest() != before["sha256"]:
++                raise ArchiveFailure("archive changed during export")
+             if file_sha(target) != before["sha256"]:
+-                raise ArchiveFailure("export hash mismatch")
++                raise OSError(errno.EIO, "export copy differs from the archive", str(target))
+             files[name] = dict(before, file=name)
+             return before
+ 
+@@ -458,9 +523,9 @@ class Archive:
+         if manifest["rejections"]:
+             if copy(source / "rejections.jsonl", "rejections.jsonl")["sha256"] != manifest["rejections"]["sha256"]:
+                 raise ArchiveFailure("export rejections hash mismatch")
+-        late = copy(source / "late.jsonl", "late.jsonl") if (source / "late.jsonl").exists() else None
++        late = copy(source / "late.jsonl", "late.jsonl") if entry(source / "late.jsonl") is not None else None
+         scoped = {name: copy(self.root / name, "archive-scope/" + name)
+-                  for name in GLOBAL_FILES if (self.root / name).exists()}
++                  for name in GLOBAL_FILES if entry(self.root / name) is not None}
+         described = {"export_format": "zd-export/2", "run_id": run, "plane": self.plane, "exported_at": now(),
+                      "seal": manifest, "files": files,
+                      "late": dict(late, note="arrived after seal; outside the sealed hash") if late else None,

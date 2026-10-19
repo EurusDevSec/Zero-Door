@@ -79,7 +79,7 @@ PY
     zd_kubectl delete servicemonitor frontend-monitor -n target-app --ignore-not-found
 fi
 if [[ $component == all || $component == gaia ]]; then
-    zd_build_import zero-door/gaia:latest "$ZD_ROOT/agent-orchestrator/gaia"
+    zd_build_import zero-door/gaia:latest "$ZD_ROOT/agent-orchestrator" --file "$(zd_path "$ZD_ROOT/agent-orchestrator/gaia/Dockerfile")"
     zd_apply "$ZD_INFRA/manifests/gaia-deployment.yaml"
     # The tag is mutable and the manifest may be unchanged: restart so the imported image is used.
     zd_kubectl rollout restart deployment/gaia -n zero-door

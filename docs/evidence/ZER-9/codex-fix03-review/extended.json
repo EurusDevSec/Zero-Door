@@ -1,0 +1,53 @@
+{
+  "cases": [
+    {
+      "plane": "H",
+      "case": "source_permission",
+      "error": "ArchiveFailure",
+      "failure": "PermissionError",
+      "ready": false,
+      "source_unchanged": true
+    },
+    {
+      "plane": "H",
+      "case": "source_stream_changes",
+      "error": "ArchiveFailure",
+      "failure": "INTEGRITY",
+      "ready": false,
+      "source_unchanged": true
+    },
+    {
+      "plane": "H",
+      "case": "destination_partial_write",
+      "error": "OSError",
+      "failure": null,
+      "ready": true,
+      "source_unchanged": true
+    },
+    {
+      "plane": "O",
+      "case": "source_permission",
+      "error": "ArchiveFailure",
+      "failure": "PermissionError",
+      "ready": false,
+      "source_unchanged": true
+    },
+    {
+      "plane": "O",
+      "case": "source_stream_changes",
+      "error": "ArchiveFailure",
+      "failure": "INTEGRITY",
+      "ready": false,
+      "source_unchanged": true
+    },
+    {
+      "plane": "O",
+      "case": "destination_partial_write",
+      "error": "OSError",
+      "failure": null,
+      "ready": true,
+      "source_unchanged": true
+    }
+  ],
+  "pass_count": 6
+}
