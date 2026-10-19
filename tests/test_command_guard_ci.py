@@ -21,6 +21,8 @@ def check_workflow(workflow):
                  "tests/test_command_guard_ci.py", "docs/evidence/ZER-37/verify_release.py", "tests/test_event_agents.py"):
         if "python -B " + test not in runs:
             raise ValueError("missing gate: " + test)
+    if "cp docs/evidence/ZER-37/fixtures.json scratch/zer37/fixtures.json" not in runs:
+        raise ValueError("missing committed contract fixture bootstrap")
     for job in jobs.values():
         for step in job.get("steps", []):
             if step.get("uses") and not re.fullmatch(r"[^@]+@[0-9a-f]{40}", step["uses"]):
@@ -128,6 +130,13 @@ class CIChecks(unittest.TestCase):
             missing["jobs"]["r1-agent-http"]["steps"] = [s for s in missing["jobs"]["r1-agent-http"]["steps"] if test not in s.get("run", "")]
             with self.assertRaises(ValueError):
                 check_workflow(missing)
+
+        missing = deepcopy(workflow)
+        for step in missing["jobs"]["r1-agent-http"]["steps"]:
+            if "verify_release.py" in step.get("run", ""):
+                step["run"] = "python -B docs/evidence/ZER-37/verify_release.py"
+        with self.assertRaises(ValueError):
+            check_workflow(missing)
 
     def test_docker_base_images_match_registry_receipts(self):
         pins = json.loads((ROOT / "docs/evidence/ZER-12/pin-metadata.json").read_text())

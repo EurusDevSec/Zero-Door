@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\ci-clean-c2edee8\docs\evidence\ZER-37\verify_release.py", line 5, in <module>
+    m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\ci-clean-c2edee8\docs\evidence\ZER-37\check_contract.py", line 27, in <module>
+    FIX = json.load(open("scratch/zer37/fixtures.json", encoding="utf-8"))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'scratch/zer37/fixtures.json'

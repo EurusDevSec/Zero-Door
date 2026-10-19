@@ -280,3 +280,13 @@ F9 residual vẫn giữ; no real Secret/PVC/rollout, không nhận offline là r
 ## Publication được Hoàng cho phép — 20/10/2026
 
 Hoàng trả lời trực tiếp: “Cho phép commit/push và mở PR”. Codex stage đúng gói ZER-12/40 + evidence/review/note; NOW chỉ stage con trỏ ZER-12, giữ hai checkpoint ZER-9 có sẵn ở working tree. Sáu file quy ước/R1/event-contract ngoài gói giữ nguyên, không stage. Quyền này không gồm merge, Linear write hay lab/model. CI remote được chạy trên PR, publication image lên main vẫn giữ gate workflow.
+
+
+## Codex sửa wiring contract gate sau CI PR25 — 20/10/2026
+
+Baseline HEAD c2edee8, PR25 run39291550352: job r1-agent-http fail tại verify_release vì checker ZER-37 sealed còn đọc scratch/zer37/fixtures.json. Scope trước sửa: .github/workflows/ci.yml materialize đúng fixture đã commit trước chạy checker; tests/test_command_guard_ci.py bảo vệ bước copy nguồn này. Không sửa contract/checker/fixture ZER-37 hoặc bỏ gate. Gói ci-01 lưu before/log/check và replay trên git archive sạch, không dùng scratch cũ. Quyền commit/push/PR/CI vừa được Hoàng cấp vẫn áp dụng sửa CI cùng outcome; không merge/Linear/lab/model.
+
+
+## Bàn giao delta CI contract bootstrap — 20/10/2026
+
+[ci-01](../../../evidence/ZER-12/ci-01/README.md) seal2 source delta và snapshot/log. Archive sạch c2edee8 fail đúng FileNotFoundError trước bootstrap, rồi9 focused cases+JSON/link PASS khi copy fixture đã commit;6 CI methods trên cả2 production pins đạt. Run đầu39291550352:14 job success,1 path failure; Go race/vet/Gosec,5 image smoke,production HTTP đã chạy thật trên GitHub. Không sửa khóa contract/historical source/evidence. Theo quyền commit/push/PR của Hoàng, đẩy CI fix cùng PR25 và chờ run mới. Không merge/Linear/Done. Raw evidence giữ whitespace gốc, product staged diff --check sạch; bytes index khớp hashes đã đối chiếu.

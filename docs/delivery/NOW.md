@@ -1,3 +1,7 @@
+## Con trỏ mới — PR25 ZER-12/40: sửa đường fixture CI — 20/10/2026
+
+[PR25](https://github.com/EurusDevSec/Zero-Door/pull/25), implementation c2edee8 đã push. Run đầu14 job đạt,1 contract gate thiếu scratch fixture; [ci-01](../evidence/ZER-12/ci-01/README.md) dùng fixture đã commit, clean archive replay+test đạt, chuẩn bị push delta CI và chờ run mới. Không đổi contract/history. Chưa merge/Linear/Done. Handoff cuối [note](milestones/R1-measurement/guards-and-ci.md).
+
 ## Con trỏ mới — Codex khép N1–N4 ZER-12/40 — 20/10/2026,00:05 +07
 
 [fix-02](../evidence/ZER-12/fix-02/README.md) khép bốn ghi chú P3 sau Claude RETEST_PASS_OFFLINE. 36 method/69 lượt trên hai production graphs + consumer đạt;24 fail-before subcase,20 mutant Claude,OpenAPI/Bandit đạt. Source seal79; evidence cũ giữ nguyên. F9 residual vẫn ghi rõ. Chờ quyền publication cho commit/push/PR/CI, rồi owner acceptance/merge; chưa Done, chưa lab/model/Docker/Linear write. Handoff cuối [note](milestones/R1-measurement/guards-and-ci.md).

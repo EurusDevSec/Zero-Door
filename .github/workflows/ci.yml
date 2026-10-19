@@ -60,7 +60,12 @@ jobs:
       - name: Check pinned dependencies, image digests, workflow and manifest boundaries
         run: python -B tests/test_command_guard_ci.py
       - name: Verify locked event contract release offline
-        run: python -B docs/evidence/ZER-37/verify_release.py
+        run: |
+          # The sealed historical checker still reads this scratch path.
+          # Materialize its exact committed fixture on a clean runner.
+          mkdir -p scratch/zer37
+          cp docs/evidence/ZER-37/fixtures.json scratch/zer37/fixtures.json
+          python -B docs/evidence/ZER-37/verify_release.py
       - name: Test actual Gaia/Hephaestus R1 paths, per-actor keys and the Elasticsearch proxy
         run: python -B tests/test_event_agents.py
 

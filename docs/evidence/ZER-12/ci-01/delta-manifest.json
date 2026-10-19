@@ -1,0 +1,23 @@
+{
+  "base_head": "c2edee8caff9095120bfc0e8ade78a5f7405593c",
+  "base_manifest_sha256": "e6bc8ac0b2af4700ddccd5e45efcdf4bcd3c30e2d2680767364c9b16e1f5a185",
+  "source_overrides": {
+    ".github/workflows/ci.yml": "c10e727fb611cc9dced9e4625190ac0eeaf3caa17b25f26241e1b405cf671e23",
+    "tests/test_command_guard_ci.py": "713d75c6a801c9032bfac5e440808ca1bd9d890b351d458f1de239ae9cd0738d"
+  },
+  "before_sources": {
+    "docs/evidence/ZER-12/ci-01/before/.github/workflows/ci.yml.txt": "9982ace5735cdfc3e8a7676060f481d4fc3eb728c9288befd0c589cea0e97310",
+    "docs/evidence/ZER-12/ci-01/before/tests/test_command_guard_ci.py.txt": "ad634835a07eb30453d09ca5fadc7a37f6b473a5bda43144bf84f3f1def4f505"
+  },
+  "evidence": {
+    "docs/evidence/ZER-12/ci-01/README.md": "8f26c4e897afada8d1de2426d6e78c50c7d4e7eb0c70897723634fa485cfb452",
+    "docs/evidence/ZER-12/ci-01/results/ci-first-run-failed-job.txt": "876aa13688786794951e34bce485851942aa471ad0ab01ad9b4a961309390f8d",
+    "docs/evidence/ZER-12/ci-01/results/ci-first-run.json": "a106993511e397b627c8e6f0d443d2be58606859f8ced7a22bceefe9c9eb17fb",
+    "docs/evidence/ZER-12/ci-01/results/clean-after.json": "bc9cb45e1eec6f5e6f16380aaeecd6797d7e0b23cc42e7b670db799f4bf5c0e9",
+    "docs/evidence/ZER-12/ci-01/results/clean-before.txt": "1a53dcdedfa61be68e0288006223d800cac409bf9bf43fd9c56acecf090ca478",
+    "docs/evidence/ZER-12/ci-01/results/diff-check.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/evidence/ZER-12/ci-01/results/test-ci-hephaestus.txt": "ccf0df7a44f95e71590580148f3ef39969da87e457b3537f5ac174b13ad34f72",
+    "docs/evidence/ZER-12/ci-01/results/test-ci-nemesis.txt": "a93c15d48414e0a7930fc2b05e5da0ab362f81a2534e5ababf24b64e1083b110",
+    "docs/evidence/ZER-12/ci-01/verify_ci.py": "0fe4119eef09e5c7cbe1c0f0f62b2fcdab5a24c1c38568507107a13a367db90c"
+  }
+}
