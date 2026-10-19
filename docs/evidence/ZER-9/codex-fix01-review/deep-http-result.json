@@ -1,0 +1,23 @@
+{
+  "bytes": 2053,
+  "strict_decode_error": null,
+  "http_reply": [
+    503,
+    {
+      "error": "NOT_DURABLE"
+    }
+  ],
+  "quarantine_after_http": 0,
+  "recorder_failure": "RecursionError",
+  "committed": {
+    "0": 0
+  },
+  "ready_reply": [
+    503,
+    {
+      "reason": "RECORDER_FAILED:RecursionError",
+      "status": "NOT_READY"
+    }
+  ],
+  "good_recorded": false
+}

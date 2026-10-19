@@ -1,0 +1,1 @@
+{"checks":{},"error":"RuntimeError: command failed: kubectl --context k3d-zero-door --request-timeout=15s top error: Metrics API not available\n","finished_at":"2026-10-19T08:42:22.395Z","kind":"LIVE_TRANSPORT_SYNTHETIC_PAYLOADS","namespace":"zd-zer9-9f22d3616ec8","started_at":"2026-10-19T08:42:22.158Z","topic":"zd.events.o.9f22d3616ec8","verdict":"FAIL"}

@@ -1,0 +1,50 @@
+{
+  "deep": {
+    "bytes": 2053,
+    "strict_decode_error": null,
+    "http_reply": [
+      422,
+      {
+        "classification": "INVALID",
+        "error": "REJECTED"
+      }
+    ],
+    "quarantine_after_http": 1,
+    "recorder_failure": null,
+    "committed": {
+      "0": 2
+    },
+    "ready_reply": [
+      200,
+      {
+        "reason": null,
+        "status": "READY"
+      }
+    ],
+    "good_recorded": true
+  },
+  "partial": {
+    "plane": "H",
+    "first": [
+      503,
+      {
+        "error": "NOT_DURABLE"
+      }
+    ],
+    "readiness_after_failure": [
+      503,
+      {
+        "reason": "ARCHIVE_FAILED:OSError",
+        "status": "NOT_READY"
+      }
+    ],
+    "next": [
+      503,
+      {
+        "error": "NOT_DURABLE"
+      }
+    ],
+    "raw_read": "ArchiveFailure"
+  },
+  "assertions": "PASS"
+}

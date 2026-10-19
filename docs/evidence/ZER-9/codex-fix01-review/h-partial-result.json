@@ -1,0 +1,25 @@
+{
+  "plane": "H",
+  "first": [
+    503,
+    {
+      "error": "NOT_DURABLE"
+    }
+  ],
+  "readiness_after_failure": [
+    200,
+    {
+      "reason": null,
+      "status": "READY"
+    }
+  ],
+  "next": [
+    201,
+    {
+      "envelope_sha256": "62cc4ddcac98fd02354feafd4b2110e734d5d246282f22fb39428409f4ff048c",
+      "event_id": "evt_a63d755fe9a74cf38baaa9d81a798a81",
+      "status": "RECORDED"
+    }
+  ],
+  "raw_read": "JSONDecodeError"
+}

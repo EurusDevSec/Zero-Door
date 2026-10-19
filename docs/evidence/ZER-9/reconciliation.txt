@@ -1,0 +1,2 @@
+Independent raw reconciliation: PASS; H2/O5, 18 checks, source hashes match, no action/recovery, canary absent
+Cleanup read-back: PASS; no owned namespace/PV/ES policy remains

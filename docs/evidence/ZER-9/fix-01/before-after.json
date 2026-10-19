@@ -1,0 +1,191 @@
+{
+ "kind": "OFFLINE_REGRESSION_BEFORE_AFTER",
+ "prefix_source": "scratch/zer9/claude-fix/baseline-src (hash-identical to Codex baseline.json source_files)",
+ "tests": {
+  "test_1000_clean_traces_per_label_have_no_false_positive": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 0 != 621 : C0"
+  },
+  "test_actor_key_files_and_source_binding": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: ValueError not raised"
+  },
+  "test_actor_secrets_hold_one_producer_role_each": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "AttributeError: module 'zer9_verifier' has no attribute 'actor_key_files'"
+  },
+  "test_binding_error_in_recorder_is_quarantined_and_next_message_recorded": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: False is not true : ValueError"
+  },
+  "test_commit_error_stops_recorder_without_claiming_success": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "KeyError: 'status'"
+  },
+  "test_concurrent_submits_and_seal_lose_nothing": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: False is not true"
+  },
+  "test_conflicting_contexts_sent_concurrently_cannot_both_be_recorded": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 1 != 2"
+  },
+  "test_editing_rejection_or_late_line_is_detected": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 409 != 422"
+  },
+  "test_gaia_query_passes_and_lookups_scripts_and_costly_clauses_do_not": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: ValueError not raised : {'terms': {'user': {'index': 'any-other-index', 'id': '1', 'path': 'secret'}}}"
+  },
+  "test_harness_manifest_declares_created_values_and_controls_use_label_path": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "AttributeError: module 'zer9_verifier' has no attribute 'harness_manifest'"
+  },
+  "test_hex_ids_containing_label_characters_are_clean": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": ": ('C4', {'result': 'LEAK_DETECTED', 'findings': ['LABEL_IN_METADATA'], 'unknown': []})"
+  },
+  "test_http_binding_rejections_are_stored_per_run": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "-  'LINK_CONFLICT']"
+  },
+  "test_io_failure_is_not_acknowledged_and_turns_readiness_off": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 503 != 404"
+  },
+  "test_labels_in_identifier_fields_with_valid_ids_are_detected_by_label_path": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "+ [] : stream attack_type"
+  },
+  "test_late_duplicate_and_conflict_after_seal_never_change_sealed_raw": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "+ (422, None)"
+  },
+  "test_live11_o_is_clean_against_reconstructed_labels": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "+ ('LEAK_DETECTED', ['LABEL_IN_METADATA']) : C0"
+  },
+  "test_live11_raw_and_manifest_still_open_and_reseal_unchanged": {
+   "before_prefix_source": "ok",
+   "after_fix01": "ok",
+   "before_reason": null
+  },
+  "test_neutral_resource_rule_uses_whole_tokens": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "+ LEAK_DETECTED"
+  },
+  "test_other_rules_keep_their_meaning": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "+ LEAK_DETECTED"
+  },
+  "test_permanent_refusal_drops_envelope_unknown_outcome_keeps_it": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: False != True : HTTP Error 422: test"
+  },
+  "test_poison_messages_are_quarantined_committed_and_not_attributed": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: False is not true : UnicodeDecodeError"
+  },
+  "test_probes_and_server_key_scope": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "+ (401, {'error': 'UNAUTHORIZED'})"
+  },
+  "test_r1_reset_endpoint_refuses_without_touching_state": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "NameError: name 'logger' is not defined"
+  },
+  "test_rejection_only_run_seals_and_exports_with_archive_scope": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\ACER\\\\AppData\\\\Local\\\\Temp\\\\tmpjw83otxl\\\\O\\\\run_70914a9ebebb4129af1d6f79cfbb5a2c\\\\O.jsonl'"
+  },
+  "test_restart_not_ready_until_messages_acked_before_crash_are_durable": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 503 != 404"
+  },
+  "test_rules_consumer_does_not_regenerate_a_refused_decision": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 1 != 3"
+  },
+  "test_seal_409_is_retried_and_never_taken_as_success": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "AttributeError: module 'zer9_verifier' has no attribute 'seal_with_retry'"
+  },
+  "test_seal_tracks_only_the_runs_own_partition": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: False is not true"
+  },
+  "test_seal_waits_for_acknowledged_event_then_includes_it": {
+   "before_prefix_source": "FAIL",
+   "after_fix01": "ok",
+   "before_reason": "AssertionError: 409 != 200 : {'bytes': 1823, 'first_ingest': '2026-10-19T09:56:24.446Z', 'last_ingest': '2026-10-19T09:56:24.448Z', 'lines': 2, 'plane': 'O', 'raw_file': 'O.jsonl', 'rejections': None,"
+  },
+  "test_undecodable_bodies_keep_original_bytes": {
+   "before_prefix_source": "ERROR",
+   "after_fix01": "ok",
+   "before_reason": "KeyError: 'raw_hex'"
+  }
+ },
+ "summary": {
+  "before": {
+   "ok": 1,
+   "FAIL": 22,
+   "ERROR": 7
+  },
+  "after": {
+   "ok": 30,
+   "FAIL": 0,
+   "ERROR": 0
+  }
+ },
+ "note": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged is a compatibility invariant and passes on both. test_other_rules_keep_their_meaning uses random UUIDs; on the prefix source its outcome varies with the ZR9-03 substring false positive, on fix-01 it passed in every run.",
+ "stability_after_fix01_5_runs": {
+  "stability-1.txt": [
+   "Ran 30 tests in 14.202s",
+   "OK"
+  ],
+  "stability-2.txt": [
+   "Ran 30 tests in 14.130s",
+   "OK"
+  ],
+  "stability-3.txt": [
+   "Ran 30 tests in 14.096s",
+   "OK"
+  ],
+  "stability-4.txt": [
+   "Ran 30 tests in 13.957s",
+   "OK"
+  ],
+  "stability-5.txt": [
+   "Ran 30 tests in 14.074s",
+   "OK"
+  ]
+ }
+}

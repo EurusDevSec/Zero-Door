@@ -1,0 +1,1123 @@
+{
+  "query": {
+    "processes": [
+      {
+        "id": "proc_78_main",
+        "summary": "Main → New_id",
+        "priority": 0.105,
+        "symbol_count": 1,
+        "process_type": "cross_community",
+        "step_count": 3
+      },
+      {
+        "id": "proc_79_main",
+        "summary": "Main → Now",
+        "priority": 0.105,
+        "symbol_count": 1,
+        "process_type": "cross_community",
+        "step_count": 3
+      },
+      {
+        "id": "proc_86_main",
+        "summary": "Main → Canonical",
+        "priority": 0.105,
+        "symbol_count": 1,
+        "process_type": "cross_community",
+        "step_count": 5
+      }
+    ],
+    "process_symbols": [
+      {
+        "id": "Function:infrastructure/scripts/verify-event-pipeline.py:main",
+        "name": "main",
+        "filePath": "infrastructure/scripts/verify-event-pipeline.py",
+        "startLine": 173,
+        "endLine": 480,
+        "module": "Scripts",
+        "process_id": "proc_78_main",
+        "step_index": 1
+      }
+    ],
+    "definitions": [
+      {
+        "id": "Class:agent-orchestrator/event_pipeline/store.py:Archive",
+        "name": "Archive",
+        "filePath": "agent-orchestrator/event_pipeline/store.py",
+        "startLine": 162,
+        "endLine": 541
+      },
+      {
+        "id": "File:agent-orchestrator/event_pipeline/store.py",
+        "name": "store.py",
+        "filePath": "agent-orchestrator/event_pipeline/store.py"
+      },
+      {
+        "id": "Class:tests/test_event_pipeline_regressions.py:SourceReadFailureTests",
+        "name": "SourceReadFailureTests",
+        "filePath": "tests/test_event_pipeline_regressions.py",
+        "startLine": 1243,
+        "endLine": 1389,
+        "module": "Tests"
+      },
+      {
+        "id": "Method:tests/test_event_pipeline_regressions.py:SourceReadFailureTests.test_source_read_errors_during_export_are_sticky#0",
+        "name": "test_source_read_errors_during_export_are_sticky",
+        "filePath": "tests/test_event_pipeline_regressions.py",
+        "startLine": 1314,
+        "endLine": 1322,
+        "module": "Tests"
+      },
+      {
+        "id": "File:tests/test_event_pipeline_regressions.py",
+        "name": "test_event_pipeline_regressions.py",
+        "filePath": "tests/test_event_pipeline_regressions.py"
+      },
+      {
+        "id": "Method:tests/test_event_pipeline.py:ArchiveTests.test_duplicate_reopen_and_export_preserve_raw#0",
+        "name": "test_duplicate_reopen_and_export_preserve_raw",
+        "filePath": "tests/test_event_pipeline.py",
+        "startLine": 136,
+        "endLine": 152,
+        "module": "Tests"
+      },
+      {
+        "id": "Method:tests/test_event_pipeline.py:ArchiveTests.test_conflict_durable_quarantine#0",
+        "name": "test_conflict_durable_quarantine",
+        "filePath": "tests/test_event_pipeline.py",
+        "startLine": 154,
+        "endLine": 166,
+        "module": "Tests"
+      },
+      {
+        "id": "File:tests/test_event_pipeline.py",
+        "name": "test_event_pipeline.py",
+        "filePath": "tests/test_event_pipeline.py"
+      },
+      {
+        "id": "Function:agent-orchestrator/event_pipeline/gateway.py:server",
+        "name": "server",
+        "filePath": "agent-orchestrator/event_pipeline/gateway.py",
+        "startLine": 151,
+        "endLine": 272,
+        "module": "Event_pipeline"
+      },
+      {
+        "id": "Function:agent-orchestrator/event_pipeline/gateway.py:main",
+        "name": "main",
+        "filePath": "agent-orchestrator/event_pipeline/gateway.py",
+        "startLine": 420,
+        "endLine": 451,
+        "module": "Event_pipeline"
+      },
+      {
+        "id": "File:agent-orchestrator/event_pipeline/gateway.py",
+        "name": "gateway.py",
+        "filePath": "agent-orchestrator/event_pipeline/gateway.py"
+      },
+      {
+        "id": "Function:infrastructure/scripts/verify-event-pipeline.py:harness_manifest",
+        "name": "harness_manifest",
+        "filePath": "infrastructure/scripts/verify-event-pipeline.py",
+        "startLine": 87,
+        "endLine": 98,
+        "module": "Scripts"
+      },
+      {
+        "id": "File:infrastructure/scripts/verify-event-pipeline.py",
+        "name": "verify-event-pipeline.py",
+        "filePath": "infrastructure/scripts/verify-event-pipeline.py"
+      },
+      {
+        "id": "Variable:docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py:rows",
+        "name": "rows",
+        "filePath": "docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py",
+        "startLine": 11,
+        "endLine": 11
+      },
+      {
+        "id": "File:docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py",
+        "name": "h_partial_http.py",
+        "filePath": "docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py"
+      },
+      {
+        "id": "File:docs/evidence/ZER-9/fix-03/offline-results.txt",
+        "name": "offline-results.txt",
+        "filePath": "docs/evidence/ZER-9/fix-03/offline-results.txt"
+      },
+      {
+        "id": "Function:docs/evidence/ZER-9/codex-fix02-review/read_matrix.py:broken",
+        "name": "broken",
+        "filePath": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py",
+        "startLine": 29,
+        "endLine": 31
+      },
+      {
+        "id": "File:docs/evidence/ZER-9/codex-fix02-review/read_matrix.py",
+        "name": "read_matrix.py",
+        "filePath": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py"
+      },
+      {
+        "id": "File:docs/evidence/ZER-9/fix-03/before-after.json",
+        "name": "before-after.json",
+        "filePath": "docs/evidence/ZER-9/fix-03/before-after.json"
+      },
+      {
+        "id": "File:docs/evidence/ZER-9/fix-03/README.md",
+        "name": "README.md",
+        "filePath": "docs/evidence/ZER-9/fix-03/README.md"
+      }
+    ],
+    "timing": {
+      "vector": 135.3,
+      "bm25": 778,
+      "merge": 0.1,
+      "symbol_lookup": 22.3,
+      "ranking": 0,
+      "formatting": 0,
+      "wall": 803
+    }
+  },
+  "context": {
+    "status": "found",
+    "symbol": {
+      "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.lookup#1",
+      "name": "lookup",
+      "kind": "Method",
+      "filePath": "agent-orchestrator/event_pipeline/store.py",
+      "startLine": 234,
+      "endLine": 239,
+      "content": "    def lookup(self, path):         \"\"\"entry() for checks made under the lock outside a guarded operation: unreadable stops the archive.\"\"\"         try:             return entry(path)         except ArchiveFailure as error:             raise self.fail(error) from error"
+    },
+    "epistemic": "exact",
+    "incoming": {
+      "has_method": [
+        {
+          "uid": "Class:agent-orchestrator/event_pipeline/store.py:Archive",
+          "name": "Archive",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ],
+      "calls": [
+        {
+          "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.ingest#3",
+          "name": "ingest",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.reject#6",
+          "name": "reject",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.seal#1",
+          "name": "seal",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.sealed#1",
+          "name": "sealed",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    "outgoing": {
+      "calls": [
+        {
+          "uid": "Function:agent-orchestrator/event_pipeline/store.py:entry",
+          "name": "entry",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "uid": "Method:agent-orchestrator/event_pipeline/store.py:Archive.fail#1",
+          "name": "fail",
+          "filePath": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    "processes": [
+      {
+        "id": "proc_117_sealed",
+        "name": "Sealed → Entry",
+        "step_index": 2,
+        "step_count": 3
+      },
+      {
+        "id": "proc_97_sealed",
+        "name": "Sealed → Fail",
+        "step_index": 2,
+        "step_count": 3
+      }
+    ]
+  },
+  "changes": {
+    "summary": {
+      "changed_count": 87,
+      "affected_count": 15,
+      "changed_files": 14,
+      "risk_level": "high"
+    },
+    "note": "Tracked diff includes unrelated dirty work; fix-03 exact file hashes/diff reviewed separately."
+  },
+  "explain": {
+    "anchor": {
+      "file": "agent-orchestrator/event_pipeline/store.py"
+    },
+    "findings": [],
+    "totalFindings": 0,
+    "note": "Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher."
+  },
+  "pdg_export": {
+    "mode": "controls",
+    "anchor": {
+      "file": "agent-orchestrator/event_pipeline/store.py",
+      "symbol": "_export",
+      "startLine": 486,
+      "endLine": 541
+    },
+    "results": [
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 538
+        },
+        "dependent": {
+          "line": 538,
+          "text": "for path in destination.rglob(\"*\")"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 538
+        },
+        "dependent": {
+          "line": 539,
+          "text": "path.is_file()"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 539
+        },
+        "dependent": {
+          "line": 540,
+          "text": "path.chmod(0o444)"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 521
+        },
+        "dependent": {
+          "line": 522,
+          "text": "raise ArchiveFailure(\"export hash mismatch\")"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 521
+        },
+        "dependent": {
+          "line": 523,
+          "text": "manifest[\"rejections\"]"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 523
+        },
+        "dependent": {
+          "line": 524,
+          "text": "copy(source / \"rejections.jsonl\", \"rejections.jsonl\")[\"sha256\"] != manifest[\"rejections\"][\"sha256\"]"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 523
+        },
+        "dependent": {
+          "line": 526,
+          "text": "late = copy(source / \"late.jsonl\", \"late.jsonl\") if entry(source / \"late.jsonl\") is not None else None\nscoped = {name: copy(self.root / name, \"archive-scope/\" + name)\n                  for name in GLOBAL_FILES if entry(self.root / name) is not None}\ndescribed = {\"export_format\": \"zd-export/2\", \"run_id\": run, \"plane\": self.plane, \"exported_at\": now(),\n                     \"seal\": manifest, \"files\": files,\n                     \"late\": dict(late, note=\"arrived after seal; outside the sealed hash\") if late else None,\n                     \"archive_scope_quarantine\": {\"scope\": \"ARCHIVE_GLOBAL_NOT_ATTRIBUTED_TO_RUN\",\n                                                  \"files\": scoped}}"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 523
+        },
+        "dependent": {
+          "line": 534,
+          "text": "with open(destination / \"export.json\", \"xb\") as handle"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 523
+        },
+        "dependent": {
+          "line": 535,
+          "text": "handle.write(canonical(described) + b\"\\n\")\nhandle.flush()\nos.fsync(handle.fileno())"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 524
+        },
+        "dependent": {
+          "line": 525,
+          "text": "raise ArchiveFailure(\"export rejections hash mismatch\")"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 524
+        },
+        "dependent": {
+          "line": 526,
+          "text": "late = copy(source / \"late.jsonl\", \"late.jsonl\") if entry(source / \"late.jsonl\") is not None else None\nscoped = {name: copy(self.root / name, \"archive-scope/\" + name)\n                  for name in GLOBAL_FILES if entry(self.root / name) is not None}\ndescribed = {\"export_format\": \"zd-export/2\", \"run_id\": run, \"plane\": self.plane, \"exported_at\": now(),\n                     \"seal\": manifest, \"files\": files,\n                     \"late\": dict(late, note=\"arrived after seal; outside the sealed hash\") if late else None,\n                     \"archive_scope_quarantine\": {\"scope\": \"ARCHIVE_GLOBAL_NOT_ATTRIBUTED_TO_RUN\",\n                                                  \"files\": scoped}}"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 524
+        },
+        "dependent": {
+          "line": 534,
+          "text": "with open(destination / \"export.json\", \"xb\") as handle"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 524
+        },
+        "dependent": {
+          "line": 535,
+          "text": "handle.write(canonical(described) + b\"\\n\")\nhandle.flush()\nos.fsync(handle.fileno())"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 534
+        },
+        "dependent": {
+          "line": 538,
+          "text": "for path in destination.rglob(\"*\")"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 534
+        },
+        "dependent": {
+          "line": 540,
+          "text": ""
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 486,
+        "controller": {
+          "line": 534
+        },
+        "dependent": {
+          "line": 541,
+          "text": "return manifest"
+        },
+        "label": "F",
+        "guard": true
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 505
+        },
+        "dependent": {
+          "line": 507,
+          "text": "chunk = handle.read(1024 * 1024)"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 505
+        },
+        "dependent": {
+          "line": 511,
+          "text": ""
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 506
+        },
+        "dependent": {
+          "line": 508,
+          "text": "not chunk"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 507
+        },
+        "dependent": {
+          "line": 506,
+          "text": "with reading()"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 508
+        },
+        "dependent": {
+          "line": 509,
+          "text": "break"
+        },
+        "label": "T",
+        "guard": true
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 508
+        },
+        "dependent": {
+          "line": 510,
+          "text": "digest.update(chunk)\nout.write(chunk)"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 509
+        },
+        "dependent": {
+          "line": 511,
+          "text": ""
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 510
+        },
+        "dependent": {
+          "line": 505,
+          "text": "True"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 512
+        },
+        "dependent": {
+          "line": 513,
+          "text": "raise ArchiveFailure(\"archive changed during export\")"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 512
+        },
+        "dependent": {
+          "line": 514,
+          "text": "file_sha(target) != before[\"sha256\"]"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 514
+        },
+        "dependent": {
+          "line": 515,
+          "text": "raise OSError(errno.EIO, \"export copy differs from the archive\", str(target))"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 514
+        },
+        "dependent": {
+          "line": 516,
+          "text": "files[name] = dict(before, file=name)"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 514
+        },
+        "dependent": {
+          "line": 517,
+          "text": "return before"
+        },
+        "label": "F",
+        "guard": true
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 494
+        },
+        "dependent": {
+          "line": 495,
+          "text": "before = self.summary(path)"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 494
+        },
+        "dependent": {
+          "line": 497,
+          "text": "with reading()"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 494
+        },
+        "dependent": {
+          "line": 498,
+          "text": "before = {\"file\": path.name, \"bytes\": path.stat().st_size, \"sha256\": file_sha(path)}"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 494
+        },
+        "dependent": {
+          "line": 499,
+          "text": "target = destination / name\ntarget.parent.mkdir(parents=True, exist_ok=True)\ndigest = hashlib.sha256()"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 494
+        },
+        "dependent": {
+          "line": 502,
+          "text": "with reading()"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 494
+        },
+        "dependent": {
+          "line": 503,
+          "text": "handle = open(path, \"rb\")"
+        },
+        "label": "T"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 497
+        },
+        "dependent": {
+          "line": 499,
+          "text": "target = destination / name\ntarget.parent.mkdir(parents=True, exist_ok=True)\ndigest = hashlib.sha256()"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 497
+        },
+        "dependent": {
+          "line": 502,
+          "text": "with reading()"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 497
+        },
+        "dependent": {
+          "line": 503,
+          "text": "handle = open(path, \"rb\")"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 502
+        },
+        "dependent": {
+          "line": 504,
+          "text": "with handle, open(target, \"xb\") as out"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 502
+        },
+        "dependent": {
+          "line": 505,
+          "text": "True"
+        },
+        "label": "F"
+      },
+      {
+        "functionLine": 493,
+        "controller": {
+          "line": 504
+        },
+        "dependent": {
+          "line": 512,
+          "text": "digest.hexdigest() != before[\"sha256\"]"
+        },
+        "label": "F"
+      }
+    ],
+    "total": 41
+  },
+  "impacts": [
+    {
+      "target": "reading",
+      "summary": {
+        "direct": 4,
+        "processes_affected": 8,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "copy",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "iter_file",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "path",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "summary",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "entry",
+      "summary": {
+        "direct": 9,
+        "processes_affected": 11,
+        "modules_affected": 1
+      },
+      "epistemic": "exact"
+    },
+    {
+      "target": "fail",
+      "summary": {
+        "direct": 7,
+        "processes_affected": 7,
+        "modules_affected": 1
+      },
+      "epistemic": "exact"
+    },
+    {
+      "target": "lookup",
+      "summary": {
+        "direct": 4,
+        "processes_affected": 5,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "ingest",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "reject",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "seal",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "sealed",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "path",
+      "summary": {
+        "direct": 8,
+        "processes_affected": 6,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 7,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      }
+    },
+    {
+      "target": "run_dir",
+      "summary": {
+        "direct": 2,
+        "processes_affected": 2,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "ingest",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "reject",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "sealed",
+      "summary": {
+        "direct": 0,
+        "processes_affected": 0,
+        "modules_affected": 0
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 1,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      }
+    },
+    {
+      "target": "iter_file",
+      "summary": {
+        "direct": 5,
+        "processes_affected": 7,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "__init__",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "manifest",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "read_file",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "records",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "summary",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "append",
+      "summary": {
+        "direct": 1,
+        "processes_affected": 3,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 31,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "directCallers": [
+        {
+          "name": "write",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "reject",
+      "summary": {
+        "direct": 2,
+        "processes_affected": 1,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 4,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "directCallers": [
+        {
+          "name": "read_matrix.py",
+          "file": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py"
+        },
+        {
+          "name": "ingest",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "ingest",
+      "summary": {
+        "direct": 4,
+        "processes_affected": 0,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 7,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "directCallers": [
+        {
+          "name": "deep_http.py",
+          "file": "docs/evidence/ZER-9/codex-fix01-review/deep_http.py"
+        },
+        {
+          "name": "read_http.py",
+          "file": "docs/evidence/ZER-9/codex-fix02-review/read_http.py"
+        },
+        {
+          "name": "read_matrix.py",
+          "file": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py"
+        },
+        {
+          "name": "test_direct_ingest_of_deep_objects_never_dies_on_the_reject_path",
+          "file": "tests/test_event_pipeline_regressions.py"
+        }
+      ]
+    },
+    {
+      "target": "records",
+      "summary": {
+        "direct": 4,
+        "processes_affected": 0,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 9,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "directCallers": [
+        {
+          "name": "h_partial_http.py",
+          "file": "docs/evidence/ZER-9/codex-fix01-review/h_partial_http.py"
+        },
+        {
+          "name": "read_matrix.py",
+          "file": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py"
+        },
+        {
+          "name": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged",
+          "file": "tests/test_event_pipeline_regressions.py"
+        },
+        {
+          "name": "raw",
+          "file": "tests/test_event_pipeline_regressions.py"
+        }
+      ]
+    },
+    {
+      "target": "summary",
+      "summary": {
+        "direct": 1,
+        "processes_affected": 1,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "copy",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "manifest",
+      "summary": {
+        "direct": 1,
+        "processes_affected": 3,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "_seal",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "seal",
+      "summary": {
+        "direct": 3,
+        "processes_affected": 1,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 6,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "directCallers": [
+        {
+          "name": "read_matrix.py",
+          "file": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py"
+        },
+        {
+          "name": "_export",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        },
+        {
+          "name": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged",
+          "file": "tests/test_event_pipeline_regressions.py"
+        }
+      ]
+    },
+    {
+      "target": "_seal",
+      "summary": {
+        "direct": 1,
+        "processes_affected": 2,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "seal",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    },
+    {
+      "target": "export",
+      "summary": {
+        "direct": 2,
+        "processes_affected": 0,
+        "modules_affected": 1
+      },
+      "epistemic": "lower-bound",
+      "causes": {
+        "scopeExtractionFiles": 0,
+        "receiverTyping": 11,
+        "dispatchBoundary": 0,
+        "externalBoundary": 0,
+        "undecidedSatisfaction": 0
+      },
+      "directCallers": [
+        {
+          "name": "read_matrix.py",
+          "file": "docs/evidence/ZER-9/codex-fix02-review/read_matrix.py"
+        },
+        {
+          "name": "test_live11_raw_and_manifest_still_open_and_reseal_unchanged",
+          "file": "tests/test_event_pipeline_regressions.py"
+        }
+      ]
+    },
+    {
+      "target": "_export",
+      "summary": {
+        "direct": 1,
+        "processes_affected": 1,
+        "modules_affected": 1
+      },
+      "epistemic": "exact",
+      "directCallers": [
+        {
+          "name": "export",
+          "file": "agent-orchestrator/event_pipeline/store.py"
+        }
+      ]
+    }
+  ]
+}

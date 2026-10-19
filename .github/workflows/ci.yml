@@ -31,6 +31,61 @@ jobs:
         run: python tests/test_nemesis_consumer.py
       - name: Test bounded LLM backend probe offline without API credentials
         run: python -B docs/evidence/ZER-36/test_probe.py
+      - name: Test R1 event transport and evidence isolation offline
+        run: python -B tests/test_event_pipeline.py
+      - name: Test R1 recorder failure paths, seal fence, quarantine, auth and leak audit offline
+        run: python -B tests/test_event_pipeline_regressions.py
+      - name: Test bounded actor verifier ownership, access gate and export integrity offline
+        run: python -B tests/test_event_actor_verifier.py
+
+  r1-agent-http:
+    name: R1 agents over loopback HTTP (no Kafka, Kubernetes or LLM)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      # Test environment only: Gaia's pins plus the Kubernetes client Hephaestus imports. The two
+      # agents pin different FastAPI/Kafka clients; the production images are built separately below.
+      - name: Install agent test dependencies
+        run: python -m pip install -r agent-orchestrator/gaia/requirements.txt kubernetes==28.1.0
+      - name: Test actual Gaia/Hephaestus R1 paths, per-actor keys and the Elasticsearch proxy
+        run: python -B tests/test_event_agents.py
+
+  r1-image-build:
+    name: Build R1 images without pushing
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        include:
+          - image: events
+            file: ./agent-orchestrator/event_pipeline/Dockerfile
+            smoke: '--help'
+            entrypoint: ''
+          - image: gaia
+            file: ./agent-orchestrator/gaia/Dockerfile
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            entrypoint: '--entrypoint /usr/bin/python3'
+          - image: hephaestus
+            file: ./agent-orchestrator/hephaestus/Dockerfile
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            entrypoint: '--entrypoint /usr/bin/python3'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build ${{ matrix.image }} (load locally, no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./agent-orchestrator
+          file: ${{ matrix.file }}
+          push: false
+          load: true
+          tags: zero-door-ci/${{ matrix.image }}:${{ github.sha }}
+      - name: Import smoke test — ${{ matrix.image }}
+        run: docker run --rm --network none ${{ matrix.entrypoint }} zero-door-ci/${{ matrix.image }}:${{ github.sha }} ${{ matrix.smoke }}
 
   # ─────────────────────────────────────────────
   # Job 1: Lint Kubernetes manifests + Helm
@@ -172,7 +227,7 @@ jobs:
   # ─────────────────────────────────────────────
   publish-images:
     name: Build & Push Docker Images to GHCR
-    needs: [python-build, go-build, iac-scan, helm-lint, bash-tooling]
+    needs: [python-build, go-build, iac-scan, helm-lint, bash-tooling, r1-agent-http, r1-image-build]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
@@ -206,7 +261,8 @@ jobs:
       - name: Build & Push Gaia Agent
         uses: docker/build-push-action@v5
         with:
-          context: ./agent-orchestrator/gaia
+          context: ./agent-orchestrator
+          file: ./agent-orchestrator/gaia/Dockerfile
           push: true
           tags: ghcr.io/eurusdevsec/zero-door/gaia:latest
           cache-from: type=gha
@@ -226,7 +282,8 @@ jobs:
       - name: Build & Push Hephaestus Agent
         uses: docker/build-push-action@v5
         with:
-          context: ./agent-orchestrator/hephaestus
+          context: ./agent-orchestrator
+          file: ./agent-orchestrator/hephaestus/Dockerfile
           push: true
           tags: ghcr.io/eurusdevsec/zero-door/hephaestus:latest
           cache-from: type=gha

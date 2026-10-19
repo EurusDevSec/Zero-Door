@@ -1,0 +1,287 @@
+{
+ "kind": "FIX03_DELTA_MANIFEST",
+ "head": "2af4d33bf02c59d7802901d523b1bb2eb39f05a3",
+ "staged": [],
+ "baseline_snapshot": "scratch/zer9/claude-fix03/baseline.json (taken at writer handover, before any edit)",
+ "does_not_replace": [
+  "docs/evidence/ZER-9/fix-02/delta-manifest.json",
+  "docs/evidence/ZER-9/fix-01/delta-manifest.json",
+  "docs/evidence/ZER-9/package-manifest.json",
+  "docs/evidence/ZER-9/evidence-checksums.json"
+ ],
+ "files": {
+  ".github/workflows/ci.yml": {
+   "fix02": "b7454b8935cfa7a3351dd150b557f612908221f88e9611426134b0caf678fead",
+   "fix03": "b7454b8935cfa7a3351dd150b557f612908221f88e9611426134b0caf678fead",
+   "changed": false
+  },
+  "AGENTS.md": {
+   "fix02": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+   "fix03": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/Dockerfile": {
+   "fix02": "19e3ec5cfc9408cc171c455d38d86ce73e871d9d217ad63d8cd43e9df021a0cf",
+   "fix03": "19e3ec5cfc9408cc171c455d38d86ce73e871d9d217ad63d8cd43e9df021a0cf",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/__init__.py": {
+   "fix02": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+   "fix03": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/adapters.py": {
+   "fix02": "10ca7c699091c390c6ac1fec524bc5fbdfb64031fe8ac021a13d631259fa4ef9",
+   "fix03": "10ca7c699091c390c6ac1fec524bc5fbdfb64031fe8ac021a13d631259fa4ef9",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/audit.py": {
+   "fix02": "b7ebc3195cd72c424e95f35f326fbab117dabc11ba319064305869720c5eb369",
+   "fix03": "b7ebc3195cd72c424e95f35f326fbab117dabc11ba319064305869720c5eb369",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/client.py": {
+   "fix02": "b2c3057dfe74efa60b53eaaf80147f5685d2b177c0a02d7a65a43b451ec59b28",
+   "fix03": "b2c3057dfe74efa60b53eaaf80147f5685d2b177c0a02d7a65a43b451ec59b28",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/contract.py": {
+   "fix02": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+   "fix03": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/gateway.py": {
+   "fix02": "74fef63be94c571b9f033bf9717931b1b2fe429b1c1e4bd8552c4e3eac93b4d9",
+   "fix03": "74fef63be94c571b9f033bf9717931b1b2fe429b1c1e4bd8552c4e3eac93b4d9",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/requirements.txt": {
+   "fix02": "f8bf3f588cde491ec1e92b5e6d045ad2a0b40fa045a89db9be3493f9afb88b2d",
+   "fix03": "f8bf3f588cde491ec1e92b5e6d045ad2a0b40fa045a89db9be3493f9afb88b2d",
+   "changed": false
+  },
+  "agent-orchestrator/event_pipeline/store.py": {
+   "fix02": "2b9a051a932e14c1b6218e6798e14f84c13b7e5fc6ca2ee8e584a5f2a70f5d7c",
+   "fix03": "de30c0acd10679da38b3864c562e184fa4cddb16ee3c3a3d2befd31d68f157c6",
+   "changed": true
+  },
+  "agent-orchestrator/event_pipeline/telemetry.py": {
+   "fix02": "d0cfcb9cf6d85c6109dabd86f396e76784443b1232db4510ac3bd7e247735fb3",
+   "fix03": "d0cfcb9cf6d85c6109dabd86f396e76784443b1232db4510ac3bd7e247735fb3",
+   "changed": false
+  },
+  "agent-orchestrator/gaia/Dockerfile": {
+   "fix02": "908985985a99645b7469e8ef6fd4b36cf6fd1e5e44a132f8e0445fdf14f4fb14",
+   "fix03": "908985985a99645b7469e8ef6fd4b36cf6fd1e5e44a132f8e0445fdf14f4fb14",
+   "changed": false
+  },
+  "agent-orchestrator/gaia/main.py": {
+   "fix02": "ca0df8b527a27087826dd82b72b2310961442684455835f02ea88b68bb56b025",
+   "fix03": "ca0df8b527a27087826dd82b72b2310961442684455835f02ea88b68bb56b025",
+   "changed": false
+  },
+  "agent-orchestrator/hephaestus/Dockerfile": {
+   "fix02": "847a59607280a7ef7daf272cf7b644de229033b230006dfdd138813cf2617092",
+   "fix03": "847a59607280a7ef7daf272cf7b644de229033b230006dfdd138813cf2617092",
+   "changed": false
+  },
+  "agent-orchestrator/hephaestus/main.py": {
+   "fix02": "2db3b8aca4c9b47f4d135b089d8dbd74268c81097308b9793e699b38c9841fc5",
+   "fix03": "2db3b8aca4c9b47f4d135b089d8dbd74268c81097308b9793e699b38c9841fc5",
+   "changed": false
+  },
+  "docs/delivery/NOW.md": {
+   "fix02": "9666c87dfbb7d2466481a9453e1850a1760de297ff88cfc468a6a09495ad7e46",
+   "fix03": "9666c87dfbb7d2466481a9453e1850a1760de297ff88cfc468a6a09495ad7e46",
+   "changed": false
+  },
+  "docs/delivery/README.md": {
+   "fix02": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+   "fix03": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+   "changed": false
+  },
+  "docs/delivery/WORKFLOW.md": {
+   "fix02": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+   "fix03": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+   "changed": false
+  },
+  "docs/delivery/WORKING-AGREEMENT.md": {
+   "fix02": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+   "fix03": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+   "changed": false
+  },
+  "docs/delivery/milestones/R1-measurement/README.md": {
+   "fix02": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+   "fix03": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+   "changed": false
+  },
+  "docs/delivery/milestones/R1-measurement/event-contract.md": {
+   "fix02": "54d955f077c616a7bfc1f5e928cf721ce4ad5d6289e48fc3654e742921649330",
+   "fix03": "54d955f077c616a7bfc1f5e928cf721ce4ad5d6289e48fc3654e742921649330",
+   "changed": false
+  },
+  "docs/design/r1-event-contract.md": {
+   "fix02": "fe09beb590ecc7fd82452e8108215565558e74886765da215954450415fe91fc",
+   "fix03": "fe09beb590ecc7fd82452e8108215565558e74886765da215954450415fe91fc",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/claude-review.md": {
+   "fix02": "86fc92388dbd4b4482dfe13e8b1fd744a403915cb551d7af50cbab06dd1403c4",
+   "fix03": "86fc92388dbd4b4482dfe13e8b1fd744a403915cb551d7af50cbab06dd1403c4",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/codex-fix01-review/README.md": {
+   "fix02": "be245e80b7d8e6614699432ce35d1ded80505c85f4168c6691f43ab44ec3f502",
+   "fix03": "be245e80b7d8e6614699432ce35d1ded80505c85f4168c6691f43ab44ec3f502",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/codex-fix02-review/README.md": {
+   "fix02": "a03be5240784317cfc306adf965c94bd50e9769b7842c4cf427b482654ed9c4a",
+   "fix03": "a03be5240784317cfc306adf965c94bd50e9769b7842c4cf427b482654ed9c4a",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/evidence-checksums.json": {
+   "fix02": "14c41dd5cd04ebfef237d4a62c044006b38a43050f11e54034deb416bf460b22",
+   "fix03": "14c41dd5cd04ebfef237d4a62c044006b38a43050f11e54034deb416bf460b22",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/fix-01/README.md": {
+   "fix02": "a01fd06f464102b7256ed04d031dcfad1bb51352cf3f36c8f9e2344e9c1d3547",
+   "fix03": "a01fd06f464102b7256ed04d031dcfad1bb51352cf3f36c8f9e2344e9c1d3547",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/fix-01/delta-manifest.json": {
+   "fix02": "e20e0660951f6da8f402e2f459bb1530739e853b71a1c171ccd63e7df39d18fc",
+   "fix03": "e20e0660951f6da8f402e2f459bb1530739e853b71a1c171ccd63e7df39d18fc",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/fix-02/README.md": {
+   "fix02": "70571292dacb84cb3c4043fdfdd0f05e2f3b238d91e40d991f252f6122e2c3e0",
+   "fix03": "70571292dacb84cb3c4043fdfdd0f05e2f3b238d91e40d991f252f6122e2c3e0",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/fix-02/delta-manifest.json": {
+   "fix02": "9949c2e60623ef5a51fb1d9c87544b8cbb9b40e8da1a9c3ea113455d8c64cffb",
+   "fix03": "9949c2e60623ef5a51fb1d9c87544b8cbb9b40e8da1a9c3ea113455d8c64cffb",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/live-11/export/H/H.jsonl": {
+   "fix02": "272d49f152d45e2f3817d69d9f10c024580287985ac64a39c09f3b0a810a777c",
+   "fix03": "272d49f152d45e2f3817d69d9f10c024580287985ac64a39c09f3b0a810a777c",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/live-11/export/O/O.jsonl": {
+   "fix02": "ec7d46f1a2809082cf76e029265340e1e7b4a22e06aea5ef9da54d215df54d06",
+   "fix03": "ec7d46f1a2809082cf76e029265340e1e7b4a22e06aea5ef9da54d215df54d06",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/live-11/receipt.json": {
+   "fix02": "76b757fedfb5b50cb2cbf970144294194333794de09a10f8341c97a0ae85304a",
+   "fix03": "76b757fedfb5b50cb2cbf970144294194333794de09a10f8341c97a0ae85304a",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/package-manifest.json": {
+   "fix02": "b940042cfc47052b85ccc047c0ab890b6a869859d572e23487881ee7d24b34e1",
+   "fix03": "b940042cfc47052b85ccc047c0ab890b6a869859d572e23487881ee7d24b34e1",
+   "changed": false
+  },
+  "docs/evidence/ZER-9/verification.md": {
+   "fix02": "65717a658bba9a6f459c0a84eb4fb12acc7d3b1146edf8028385f99d584699a1",
+   "fix03": "d879ed2d701222bd4d5e0c1cee0ab195d14235adfb10d1b86954edb1b9e76db6",
+   "changed": true
+  },
+  "docs/runbooks/r1-event-pipeline.md": {
+   "fix02": "302b0df713bbb141c53e8ed4c7e01127933396f64a70ac6986a2fbc8d46b7020",
+   "fix03": "946aa7f45849fc41fd27a30747d6a25e19894a8078492a28a7718316ae827379",
+   "changed": true
+  },
+  "infrastructure/manifests/r1-event-pipeline.yaml": {
+   "fix02": "9519d224199a45a7aa5cc36dd1fb4afb3c52dcd40ece3cc81a3a88fd9c26d09a",
+   "fix03": "9519d224199a45a7aa5cc36dd1fb4afb3c52dcd40ece3cc81a3a88fd9c26d09a",
+   "changed": false
+  },
+  "infrastructure/scripts/setup-local-apps.sh": {
+   "fix02": "cc5d89a497dc3d9c291cfe202682bdb186e9a61183dec22a6ad75f3b217ea256",
+   "fix03": "cc5d89a497dc3d9c291cfe202682bdb186e9a61183dec22a6ad75f3b217ea256",
+   "changed": false
+  },
+  "infrastructure/scripts/setup-phase4.sh": {
+   "fix02": "7e90192bc81d13c1c3fbf340e7018a98a4b1bd50765502b49a0310a20b01621c",
+   "fix03": "7e90192bc81d13c1c3fbf340e7018a98a4b1bd50765502b49a0310a20b01621c",
+   "changed": false
+  },
+  "infrastructure/scripts/verify-event-pipeline.py": {
+   "fix02": "4493ba942e55992bced87d3ada91f3faa39e8905dfdee6604008c2958fc860d1",
+   "fix03": "4493ba942e55992bced87d3ada91f3faa39e8905dfdee6604008c2958fc860d1",
+   "changed": false
+  },
+  "infrastructure/scripts/verify-event-pipeline.sh": {
+   "fix02": "6dd28cfa175e74e691107a9f8d6877006f80cb039e429349ddd785ff531413d5",
+   "fix03": "6dd28cfa175e74e691107a9f8d6877006f80cb039e429349ddd785ff531413d5",
+   "changed": false
+  },
+  "tests/shell/run.sh": {
+   "fix02": "1ca386106122de82d43230f33eb6e60f97e6e28659ea91003fe5ec3c9d3800a4",
+   "fix03": "1ca386106122de82d43230f33eb6e60f97e6e28659ea91003fe5ec3c9d3800a4",
+   "changed": false
+  },
+  "tests/test_event_agents.py": {
+   "fix02": "d600e6361c23d3d8fbb48000c6fc953553daa3df1ab6a1f552093883f2226189",
+   "fix03": "d600e6361c23d3d8fbb48000c6fc953553daa3df1ab6a1f552093883f2226189",
+   "changed": false
+  },
+  "tests/test_event_pipeline.py": {
+   "fix02": "a8a78bd58f55329dc184a8c922c51acf15e8b96ddcc270f98d50644e12eb5dff",
+   "fix03": "a8a78bd58f55329dc184a8c922c51acf15e8b96ddcc270f98d50644e12eb5dff",
+   "changed": false
+  },
+  "tests/test_event_pipeline_regressions.py": {
+   "fix02": "dd1dc89e6ab11365eb46b6431c8111c9a3a4e57fefc6ae7268bffa06d7f0d1be",
+   "fix03": "b2196133b6480cd1b2144d1a63c6785770f5958523da2dde66e93e942323adb1",
+   "changed": true
+  }
+ },
+ "changed": [
+  "agent-orchestrator/event_pipeline/store.py",
+  "docs/evidence/ZER-9/verification.md",
+  "docs/runbooks/r1-event-pipeline.md",
+  "tests/test_event_pipeline_regressions.py"
+ ],
+ "protection": {
+  "codex_fix02_review_vs_its_checksums": {
+   "files": 11,
+   "mismatch": [],
+   "extra_files": []
+  },
+  "codex_fix01_review_vs_its_checksums": {
+   "files": 9,
+   "mismatch": [],
+   "extra_files": []
+  },
+  "fix02_evidence_vs_handoff_hashes": {
+   "files": 5,
+   "mismatch": [],
+   "extra_files": []
+  },
+  "fix01_evidence_vs_handoff_hashes": {
+   "files": 6,
+   "mismatch": [],
+   "extra_files": []
+  },
+  "evidence_checksums_json": {
+   "files": 62,
+   "differs": [
+    "verification.md"
+   ],
+   "note": "verification.md is the one file the package allows to change; the snapshot itself is not edited"
+  },
+  "fix02_baseline_snapshot_vs_fix02_delta": {},
+  "unexpected_changes_outside_scope": []
+ },
+ "note": "Hashes are fix-02 (at handover) -> fix-03. Issue note and NOW change again when the handoff is appended; their final hashes are in the handoff. gateway.py, audit.py, contract.py, __init__.py, client/adapters/telemetry, hephaestus/main.py, verifier, manifest, CI, Dockerfiles, requirements and setup scripts must show changed=false.",
+ "fix03_evidence": {
+  "docs/evidence/ZER-9/fix-03/before-after.json": "c1e1b2801cb7d6b5eaa81aea2cd5d4168eac0812e69739e15221e533c10fd577",
+  "docs/evidence/ZER-9/fix-03/offline-results.txt": "0db4b2bfb9b032bf004f93c3534f6270657a48751607e4d980790bb908ae7071",
+  "docs/evidence/ZER-9/fix-03/probe-results.json": "bb72ab3bf95ab5b71635680f2fa2ef96f818fd15aa83aed0a0705f8a7cdcd879"
+ }
+}

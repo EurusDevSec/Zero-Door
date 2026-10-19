@@ -1,0 +1,19 @@
+{
+  "read_http_error": "RemoteDisconnected",
+  "archive_failure": null,
+  "ready_after_eio": [
+    200,
+    {
+      "reason": null,
+      "status": "READY"
+    }
+  ],
+  "post_after_eio": [
+    201,
+    {
+      "envelope_sha256": "84433af57344c2428b8843669c119c315721097db1d8a0069404c3db6904f8c1",
+      "event_id": "evt_6919165d4506494792bb6f6c4d48fdf0",
+      "status": "RECORDED"
+    }
+  ]
+}

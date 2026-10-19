@@ -1,0 +1,266 @@
+diff --git a/scratch/zer9/claude-fix03/baseline-src/tests/test_event_pipeline_regressions.py b/tests/test_event_pipeline_regressions.py
+index cc20455..779bee3 100644
+--- a/scratch/zer9/claude-fix03/baseline-src/tests/test_event_pipeline_regressions.py
++++ b/tests/test_event_pipeline_regressions.py
+@@ -1,12 +1,16 @@
+-"""ZER-9 fix-01/fix-02 regressions: recorder failure paths, quarantine/seal/export, auth, audit, DSL,
+-depth limit and sticky archive failure.
++"""ZER-9 fix-01/fix-02/fix-03 regressions: recorder failure paths, quarantine/seal/export, auth, audit,
++DSL, depth limit, sticky archive failure on writes and on source reads.
+ 
+ Offline only: temp archives, loopback HTTP, an in-memory fake of the kafka module (no broker).
+ Tests drive public behaviour (HTTP, Archive.ingest, audit, Client) so the same file also runs
+-against the pre-fix sources and shows which assertions failed there (docs/evidence/ZER-9/fix-01, fix-02).
++against the pre-fix sources and shows which assertions failed there (docs/evidence/ZER-9/fix-01,
++fix-02, fix-03).
+ """
+ import ast
++import builtins
++import contextlib
+ import copy
++import errno
+ import hashlib
+ import hmac
+ import importlib.util
+@@ -1149,5 +1153,241 @@ class StickyFailureTests(StackCase):
+         self.assertEqual((None, 200), (getattr(stack.archive, "failure", None), stack.request("/readyz")[0]))
+ 
+ 
++# ---------------------------------------------------------------- fix-03 FX02-R1 source read failures
++def eio(path):
++    return OSError(errno.EIO, "simulated EIO", str(path))
++
++
++class Flaky:
++    """A real file handle whose reads raise EIO after `ok` successful ones; `corrupt` flips one byte."""
++    def __init__(self, handle, ok=None, corrupt=False):
++        self.handle, self.ok, self.corrupt = handle, ok, corrupt
++
++    def __getattr__(self, name):
++        return getattr(self.handle, name)
++
++    def __enter__(self):
++        return self
++
++    def __exit__(self, *_exc):
++        self.handle.close()
++
++    def __iter__(self):
++        return self
++
++    def step(self):
++        if self.ok is not None:
++            if self.ok <= 0:
++                raise eio(self.handle.name)
++            self.ok -= 1
++
++    def __next__(self):
++        self.step()
++        return next(self.handle)
++
++    def readline(self, *args):
++        self.step()
++        return self.handle.readline(*args)
++
++    def readinto(self, buffer):
++        self.step()
++        return self.handle.readinto(buffer)
++
++    def read(self, *args):
++        self.step()
++        data = self.handle.read(*args)
++        if self.corrupt and data:
++            self.corrupt, data = False, bytes([data[0] ^ 1]) + data[1:]
++        return data
++
++
++@contextlib.contextmanager
++def source_fault(target, kind, skip=0, ok=None):
++    """OSError(EIO) at the OS boundary for one archive path, below every store function.
++
++    kind 'stat': os.stat/os.lstat of the path (existence, symlink, size checks) fail.
++    kind 'open': the read-mode open after `skip` earlier ones fails; with `ok`, that handle fails
++    after `ok` reads instead (mid-file / mid-copy).
++    """
++    target, real_open = Path(target), builtins.open
++    opened = [0]
++
++    def hit(path):
++        return isinstance(path, (str, os.PathLike)) and Path(path) == target
++
++    def fake_open(path, mode="r", *args, **kwargs):
++        if hit(path) and "r" in mode:
++            opened[0] += 1
++            if opened[0] == skip + 1:
++                if ok is None:
++                    raise eio(path)
++                return Flaky(real_open(path, mode, *args, **kwargs), ok)
++        return real_open(path, mode, *args, **kwargs)
++
++    def failing(real):
++        def call(path, *args, **kwargs):
++            if hit(path):
++                raise eio(path)
++            return real(path, *args, **kwargs)
++        return call
++
++    with contextlib.ExitStack() as patches:
++        if kind == "open":
++            patches.enter_context(patch("builtins.open", fake_open))
++        else:
++            patches.enter_context(patch("os.stat", failing(os.stat)))
++            patches.enter_context(patch("os.lstat", failing(os.lstat)))
++        yield opened
++
++
++class SourceReadFailureTests(StackCase):
++    """FX02-R1: archive evidence that cannot be read stops the archive like an uncertain write;
++    an export destination error fails only that export."""
++    kafka = False
++    sizes = StickyFailureTests.sizes
++    assert_refuses_everything = StickyFailureTests.assert_refuses_everything
++
++    def evidence(self, plane):
++        root = Path(self.temp.name) / plane
++        return {str(p.relative_to(root)): p.read_bytes() for p in sorted(root.rglob("*")) if p.is_file() and p.name != ".owner"}
++
++    def seeded(self, plane, sealed=False):
++        """Fresh H or O archive, one run: accepted events and a quarantined invalid input (archive scope).
++        With `sealed`, the run is sealed and one more event is kept as late input."""
++        self.fresh(plane)
++        self.stack = stack = Stack(self.temp.name, self.broker, self.keys, kafka=False, plane=plane)
++        ctx = context()
++        if plane == "O":
++            role, events = "detector", [detected(ctx) for _ in range(3)]
++            for event in contexts(ctx):
++                self.assertEqual(201, stack.request("/events", "harness", event)[0])
++        else:
++            role, events = "harness", [dict(manifest(), run_id=ctx["run_id"]) for _ in range(3)]
++        self.assertEqual(201, stack.request("/events", role, events[0])[0])
++        self.assertEqual(422, stack.request("/events", role, raw=b"[]")[0])  # invalid input: archive stays healthy
++        if sealed:
++            self.assertEqual(200, stack.request("/seal", "evaluator", {"run_id": ctx["run_id"]})[0])
++            self.assertEqual(409, stack.request("/events", role, events[1])[0])  # late.jsonl
++        self.assertEqual(200, stack.request("/readyz")[0])
++        return stack, ctx["run_id"], events[2]
++
++    def targets(self, stack, run, plane):
++        archive = stack.archive
++        return {"raw": archive.path(run) / (plane + ".jsonl"), "run dir": archive.path(run),
++                "manifest": archive.path(run) / "manifest.json", "late": archive.path(run) / "late.jsonl",
++                "archive-scope": archive.root / "rejections.jsonl"}
++
++    def assert_stops(self, plane, operation, name, kind, skip=0, ok=None):
++        stack, run, following = self.seeded(plane, sealed=operation == "export")
++        target = self.targets(stack, run, plane)[name]
++        before = self.evidence(plane)
++        with source_fault(target, kind, skip, ok) as opened:
++            if operation == "records":
++                with self.assertRaises(ArchiveFailure):
++                    stack.archive.records(run)
++            elif operation == "GET /events":
++                self.assertEqual((503, {"error": "NOT_DURABLE"}), stack.request("/events?run_id=" + run))
++            elif operation in {"POST /seal", "POST /events"}:
++                body = {"run_id": run} if operation == "POST /seal" else following
++                self.assertEqual(503, stack.request(operation[5:], "evaluator" if operation == "POST /seal"
++                                                    else "harness" if plane == "H" else "detector", body)[0])
++            else:
++                with self.assertRaises(ArchiveFailure):
++                    stack.archive.export(run, Path(tempfile.mkdtemp(dir=self.temp.name)) / "export")
++        if kind == "open":
++            self.assertEqual(skip + 1, opened[0])  # the fault was reached at the intended read
++        self.assertEqual("OSError", getattr(stack.archive, "failure", None))
++        self.assert_refuses_everything(stack, run, following, plane)
++        self.assertEqual(before, self.evidence(plane))  # nothing appended, truncated or repaired
++        stack.close()
++        self.stack = None
++        Archive(Path(self.temp.name) / plane, plane).close()  # the fault was transient: a restart reopens
++
++    def test_source_read_errors_in_records_and_seal_are_sticky(self):
++        cases = [("records", "raw", "open"), ("records", "raw", "open", 0, 1), ("POST /seal", "run dir", "stat"),
++                 ("POST /seal", "raw", "open")]  # the last one already stopped the archive in fix-02 (control)
++        for plane in ("H", "O"):
++            for case in cases + ([("GET /events", "raw", "open"), ("GET /events", "raw", "open", 0, 1)] if plane == "O" else []):
++                with self.subTest(plane=plane, case=case):
++                    self.assert_stops(plane, *case)
++
++    def test_source_read_errors_during_export_are_sticky(self):
++        # skip = earlier opens of that file in export: seal re-reads raw twice; summary reads, hashes, then copies.
++        cases = [("late", "stat"), ("late", "open"), ("late", "open", 1), ("late", "open", 2, 1),
++                 ("archive-scope", "stat"), ("archive-scope", "open"), ("archive-scope", "open", 2, 1),
++                 ("raw", "open", 4, 1)]
++        for plane in ("H", "O"):
++            for case in cases:
++                with self.subTest(plane=plane, case=case):
++                    self.assert_stops(plane, "export", *case)
++
++    def test_source_stat_errors_on_the_write_path_are_sticky(self):
++        for plane in ("H", "O"):
++            with self.subTest(plane=plane, transport="direct"):
++                self.assert_stops(plane, "POST /events", "manifest", "stat")
++        for path in ("HTTP submit", "recorder"):
++            with self.subTest(plane="O", transport="kafka", path=path):
++                self.fresh()
++                ctx = context()
++                stack = self.open(kafka=True, seed=contexts(ctx))
++                manifest_path = stack.archive.path(ctx["run_id"]) / "manifest.json"
++                published = len(self.broker.logs[0])
++                with source_fault(manifest_path, "stat"):
++                    if path == "HTTP submit":
++                        self.assertEqual(503, stack.request("/events", "detector", detected(ctx))[0])
++                    else:
++                        self.broker.append(0, *signed(detected(ctx), self.keys))
++                        published += 1
++                        self.assertTrue(eventually(lambda: stack.bridge.failure is not None))
++                self.assertEqual("OSError", getattr(stack.archive, "failure", None))
++                self.assertEqual((503, "ARCHIVE_FAILED:OSError"), (lambda r: (r[0], r[1]["reason"]))(stack.request("/readyz")))
++                self.assertEqual(503, stack.request("/events", "detector", detected(ctx))[0])
++                self.assertEqual((published, 0), (len(self.broker.logs[0]), self.broker.committed[0]))
++                if path == "recorder":
++                    stack.restart_bridge()  # the redelivered message meets the stopped archive
++                    self.assertTrue(eventually(lambda: stack.bridge.failure is not None))
++                    self.assertEqual(0, self.broker.committed[0])
++
++    def test_export_destination_errors_fail_the_export_only(self):
++        def destination_fault(destination, kind):
++            real_open = builtins.open
++
++            def fake_open(path, mode="r", *args, **kwargs):
++                inside = isinstance(path, (str, os.PathLike)) and Path(destination) in Path(path).parents
++                if inside and kind == "no space" and ("w" in mode or "x" in mode):
++                    raise OSError(errno.ENOSPC, "simulated full destination", str(path))
++                if inside and kind == "copy differs" and "r" in mode:
++                    return Flaky(real_open(path, mode, *args, **kwargs), corrupt=True)
++                return real_open(path, mode, *args, **kwargs)
++            if kind == "chmod":
++                return patch.object(Path, "chmod", side_effect=PermissionError(errno.EACCES, "simulated"))
++            if kind == "fsync":
++                return patch.object(store.os, "fsync", side_effect=eio(destination))
++            return patch("builtins.open", fake_open)
++
++        for plane in ("H", "O"):
++            with self.subTest(plane=plane):
++                stack, run, following = self.seeded(plane, sealed=True)
++                before = self.evidence(plane)
++                existing = Path(tempfile.mkdtemp(dir=self.temp.name))
++                with self.assertRaises(FileExistsError):
++                    stack.archive.export(run, existing)
++                for kind in ("no space", "copy differs", "chmod", "fsync"):
++                    destination = Path(tempfile.mkdtemp(dir=self.temp.name)) / "export"
++                    with destination_fault(destination, kind):
++                        with self.assertRaises(OSError) as raised:
++                            stack.archive.export(run, destination)
++                    self.assertNotIsInstance(raised.exception, ArchiveFailure, kind)
++                    if kind in {"no space", "copy differs"}:
++                        self.assertFalse((destination / "export.json").exists(), kind)
++                    self.assertEqual((None, 200), (getattr(stack.archive, "failure", None), stack.request("/readyz")[0]), kind)
++                self.assertEqual(before, self.evidence(plane))
++                # The healthy source keeps working: a full export, then new input is still stored (late: 409).
++                destination = Path(tempfile.mkdtemp(dir=self.temp.name)) / "export"
++                stack.archive.export(run, destination)
++                self.assertTrue((destination / "export.json").exists())
++                self.assertEqual(409, stack.request("/events", "harness" if plane == "H" else "detector", following)[0])
++
++
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)

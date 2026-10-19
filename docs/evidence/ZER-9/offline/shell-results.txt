@@ -1,0 +1,38 @@
+PASS: All nine --help paths have no CLI side effects, including a checkout path with spaces
+PASS: Recreate refuses deletion without the exact explicit flag
+PASS: Build failure prevents import and rollout
+PASS: Rollout failure is not reported as success
+PASS: Rebuild uses matching image/cluster/context and supports headless operation
+PASS: Phase 3 preserves existing Nemesis Secret while applying workload manifests
+PASS: Phase 3 creates the empty Secret template only when absent
+PASS: Secret API errors do not become permission to overwrite a Secret
+PASS: RBAC expectation mismatch fails the deployment script
+PASS: Namespaces component does not install Helm releases or recreate the cluster
+PASS: Confirmed recreation targets only the named local cluster in the mock environment
+PASS: Helm failure aborts the all-components path before later dependencies
+PASS: Malformed inventory stops before cluster creation
+PASS: Missing cluster selects create from config, never delete, and keeps current-context
+PASS: Unexpected Docker context or DOCKER_HOST stops before kubectl, k3d or image builds
+PASS: Charts install from pinned versions with checkout-local Helm state and no global repo edits
+PASS: Ingress installs the pinned Traefik chart into kube-system without CRDs or ingress-nginx
+PASS: Rollback R1 upgrades only release traefik to ClusterIP with the lab context, guard and local Helm cache
+PASS: A missing chart pin stops before preflight instead of installing the latest chart
+PASS: Kafka installs always use the heap renderer for Helm 4 or Helm 3
+PASS: Recreate refuses a different Docker daemon before any destructive command
+PASS: Baseline apps apply nine services, monitoring objects and the Traefik Ingress, without HPA
+PASS: Target rerun applies unchanged source objects and completes each of nine rollouts before the next apply
+PASS: A failed target rollout stops before applying the next Deployment
+PASS: A terminating target pod that does not drain stops the next Deployment apply
+PASS: A restart that leaves a stale image ID is reported as a failure
+PASS: Localhost repair is tested with TLS and backs up the selected default kubeconfig
+PASS: Custom KUBECONFIG is not silently rewritten
+PASS: Supervisor cleans up its own tunnel on TERM and preserves an unrelated process
+PASS: Port conflict fails without killing the current port owner
+PASS: Phase 5 default only checks HTTP/forwards; no install or smoke run
+PASS: Invalid experiment arguments fail before touching the lab
+PASS: Explicit smoke passes the selected context, isolates CSV output and cleans up its forwards
+PASS: All down targets fail, including legacy frontend 404; healthy telemetry exits 0
+PASS: Gaia log check: clean log passes, query errors fail, and a log that cannot be read fails instead of passing
+PASS: Consumer gate: fresh requests across two confirmed scrapes; idle, stale or refused traffic never passes; at most 12 requests
+PASS: Traefik ServiceMonitor values keep the backend service label (honorLabels: true)
+All offline Bash behavioral checks passed. No real lab commands were used.
