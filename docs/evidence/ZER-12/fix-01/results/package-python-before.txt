@@ -1,0 +1,98 @@
+test_unavailable_producer_is_terminal_and_does_not_poison_admission (test_command_guard_integration.EntrypointTests.test_unavailable_producer_is_terminal_and_does_not_poison_admission) ... 2026-10-19 23:25:44,681 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-19 23:25:47,831 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<EntrypointTests.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\zer12-before-8_9lfnfn\tests\test_command_guard_integration.py:33> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 4.875 seconds
+2026-10-19 23:25:47,985 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-19 23:25:48,004 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-19 23:25:48,023 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-19 23:25:48,045 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+FAIL
+test_benchmark_model_scenario_generation_is_blocked_in_all_groups (test_command_guard_integration.EntrypointTests.test_benchmark_model_scenario_generation_is_blocked_in_all_groups) ... 2026-10-19 23:25:48,081 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-19 23:25:48,144 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 200 OK"
+FAIL
+test_bad_schema_target_and_id_no_effects (test_command_guard_integration.EntrypointTests.test_bad_schema_target_and_id_no_effects) ... 2026-10-19 23:25:48,173 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-19 23:25:48,254 - nemesis-agent - [WARNING] - Command refused: DUPLICATE_KEY
+2026-10-19 23:25:48,254 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,254 - nemesis-agent - [WARNING] - Command refused: NONFINITE
+2026-10-19 23:25:48,254 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,254 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_DEPTH
+2026-10-19 23:25:48,254 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,254 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_SIZE
+2026-10-19 23:25:48,264 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 413 Request Entity Too Large"
+2026-10-19 23:25:48,273 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-19 23:25:48,294 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,305 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-19 23:25:48,313 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,325 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-19 23:25:48,337 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,344 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-19 23:25:48,355 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,365 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-19 23:25:48,379 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,383 - nemesis-agent - [WARNING] - Command refused: SCHEMA_FIELDS
+2026-10-19 23:25:48,395 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,408 - nemesis-agent - [WARNING] - Command refused: COMMAND_TYPE
+2026-10-19 23:25:48,420 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,433 - nemesis-agent - [WARNING] - Command refused: INTENSITY
+2026-10-19 23:25:48,453 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,464 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-19 23:25:48,477 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,484 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-19 23:25:48,497 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,513 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-19 23:25:48,525 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,537 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-19 23:25:48,545 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,558 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-19 23:25:48,577 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-19 23:25:48,587 - nemesis-agent - [WARNING] - Command refused: COMMAND_ID
+2026-10-19 23:25:48,595 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+ok
+test_native_model_key_is_not_in_url_or_response_log (test_command_guard_integration.EntrypointTests.test_native_model_key_is_not_in_url_or_response_log) ... 2026-10-19 23:25:48,653 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+ok
+
+======================================================================
+FAIL: test_unavailable_producer_is_terminal_and_does_not_poison_admission (test_command_guard_integration.EntrypointTests.test_unavailable_producer_is_terminal_and_does_not_poison_admission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 90, in _callTestMethod
+    if self._callMaybeAsync(method) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 112, in _callMaybeAsync
+    return self._asyncioRunner.run(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\zer12-before-8_9lfnfn\tests\test_command_guard_integration.py", line 167, in test_unavailable_producer_is_terminal_and_does_not_poison_admission
+    self.assertEqual(first.json(), retry.json())
+AssertionError: {'detail': 'PRODUCER_UNAVAILABLE'} != {'detail': 'OUTCOME_UNKNOWN'}
+- {'detail': 'PRODUCER_UNAVAILABLE'}
++ {'detail': 'OUTCOME_UNKNOWN'}
+
+======================================================================
+FAIL: test_benchmark_model_scenario_generation_is_blocked_in_all_groups (test_command_guard_integration.EntrypointTests.test_benchmark_model_scenario_generation_is_blocked_in_all_groups)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 90, in _callTestMethod
+    if self._callMaybeAsync(method) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 112, in _callMaybeAsync
+    return self._asyncioRunner.run(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\zer12-before-8_9lfnfn\tests\test_command_guard_integration.py", line 155, in test_benchmark_model_scenario_generation_is_blocked_in_all_groups
+    self.assertEqual(409, response.status_code, response.text)
+AssertionError: 409 != 200 : {"status":"PUBLISHED","commandId":"27cc8740-8ee1-4946-96ec-20670cfda767"}
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.751s
+
+FAILED (failures=2)
+EXPECTED_BASELINE_FAILURES=2 CLEAN_CONTROLS=2

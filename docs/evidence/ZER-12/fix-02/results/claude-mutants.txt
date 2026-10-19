@@ -1,0 +1,21 @@
+chaos-worker m_metadata_original CAUGHT unknown resource metadata field
+chaos-worker m_prefix CAUGHT prefixed envFrom is outside the guard wiring profile
+chaos-worker m_mount_swap CAUGHT unexpected guard mount source: ZD_COMMAND_POLICY_FILE
+chaos-worker m_ledger_readonly CAUGHT ledger must be writable
+chaos-worker m_cm_namespace CAUGHT missing ConfigMap in deployment namespace
+chaos-worker m_env_valuefrom CAUGHT dynamic guard env override
+chaos-worker m_policy_volume_secret CAUGHT unexpected guard volume type: ZD_COMMAND_POLICY_FILE
+nemesis m_metadata_original CAUGHT unknown resource metadata field
+nemesis m_prefix CAUGHT prefixed envFrom is outside the guard wiring profile
+nemesis m_mount_swap CAUGHT unexpected guard mount source: ZD_COMMAND_POLICY_FILE
+nemesis m_ledger_readonly CAUGHT ledger must be writable
+nemesis m_cm_namespace CAUGHT missing ConfigMap in deployment namespace
+nemesis m_env_valuefrom CAUGHT dynamic guard env override
+nemesis m_policy_volume_secret CAUGHT unexpected guard volume type: ZD_COMMAND_POLICY_FILE
+hephaestus m_metadata_original CAUGHT unknown resource metadata field
+hephaestus m_prefix CAUGHT prefixed envFrom is outside the guard wiring profile
+hephaestus m_mount_swap CAUGHT unexpected guard mount source: ZD_COMMAND_POLICY_FILE
+hephaestus m_cm_namespace CAUGHT missing ConfigMap in deployment namespace
+hephaestus m_env_valuefrom CAUGHT dynamic guard env override
+hephaestus m_policy_volume_secret CAUGHT unexpected guard volume type: ZD_COMMAND_POLICY_FILE
+20/20 independent Claude mutants caught; 3/3 clean controls PASS

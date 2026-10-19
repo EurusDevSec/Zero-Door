@@ -1,4 +1,32 @@
+## Con trỏ mới — Codex khép N1–N4 ZER-12/40 — 20/10/2026,00:05 +07
+
+[fix-02](../evidence/ZER-12/fix-02/README.md) khép bốn ghi chú P3 sau Claude RETEST_PASS_OFFLINE. 36 method/69 lượt trên hai production graphs + consumer đạt;24 fail-before subcase,20 mutant Claude,OpenAPI/Bandit đạt. Source seal79; evidence cũ giữ nguyên. F9 residual vẫn ghi rõ. Chờ quyền publication cho commit/push/PR/CI, rồi owner acceptance/merge; chưa Done, chưa lab/model/Docker/Linear write. Handoff cuối [note](milestones/R1-measurement/guards-and-ci.md).
+
+## Con trỏ mới — Claude retest fix-01 ZER-12 + ZER-40: PASS offline — 19/10/2026
+
+[Báo cáo retest](../evidence/ZER-12/claude-retest.md): F1–F8 và F10 đã sửa, kiểm độc lập trên Go 1.21.13 và hai pin production; F9 vẫn là residual như đã ghi. Không còn P1/P2. Có 4 ghi chú P3 không chặn: N1 gate manifest còn bỏ lọt vài mutant wiring, N2 thông điệp UNKNOWN, N3 hai Secret operator phải khác giá trị, N4 nên dùng strategy Recreate. AC-01, AC-02 và AC-03 = ZER-40 PASS offline, chưa Done: còn CI từ xa (race, image) và owner acceptance. Handoff ở cuối [note](milestones/R1-measurement/guards-and-ci.md). Writer trả Codex/Hoàng.
+
+## Con trỏ mới — Codex sửa gom ZER-12/40, chờ Claude retest — 19/10/2026, 23:28 +07
+
+[fix-01](../evidence/ZER-12/fix-01/README.md): F1–F8/F10 đã sửa và retest offline, F9 residual AUTO/healer disabled ghi rõ.102 method Python riêng biệt/133 lượt trên production pins + hồi quy,22 Go/vet/Linux/SAST đạt; before replay bắt đúng lỗi. Gói Claude retest ở cuối [note](milestones/R1-measurement/guards-and-ci.md), source đóng băng. Evidence/manifest v1 giữ lịch sử; dùng fix-01/verify_fix.py cho checksum mới. Chưa remote CI/Docker/lab/model/publication/Linear/Done; HEAD c09452a,staged rỗng.
+
+## Con trỏ mới — Claude review ZER-12 + ZER-40: CHANGES_REQUIRED — 19/10/2026
+
+[Báo cáo gom](../evidence/ZER-12/claude-review.md): 1 P1 (key ZD_* nằm trong metadata, không tới được container), 4 P2 (claim UNKNOWN khi chưa publish; redelivery sau expiry; llm-plan gate theo B2/B3; test chạy trên dependency khác image), 5 P3. Cả AC-01/02/03 = ZER-40 đều CHANGES_REQUIRED, không Done. Kiểm offline, không sửa source. Handoff ở cuối [note](milestones/R1-measurement/guards-and-ci.md). Writer trả Codex; Hoàng cần chốt F4.
+
+## Con trỏ mới — Codex triển khai trọn ZER-12 + ZER-40, chờ Claude review — 19/10/2026
+
+[Verification](../evidence/ZER-12/verification.md): OFFLINE_PASS, 99 test Python/17 test Go, vet/build Linux/SAST/hồi quy đạt; manifest khóa source hiện tại. [Gói review Claude](milestones/R1-measurement/guards-and-ci.md) ở cuối note: review cả ba AC cha và child AC-01, một báo cáo gom, không sửa source hay vận hành. Healer R1 disabled; remote CI/Docker/runtime/merge/owner acceptance chưa có. HEAD c09452a, branch zer-12-command-guards, staged rỗng, dirty ngoài gói giữ nguyên. Codex đóng băng source tới khi nhận review; writer báo cáo chuyển khi Hoàng gửi yêu cầu cho Claude.
+
 # Checkpoint phiên
+
+## Con trỏ mới — Điều chỉnh gói trọn ZER-12 + ZER-40 — 19/10/2026, 21:05 +07
+
+Hoàng yêu cầu làm trọn cha/con. [Điều chỉnh cuối note](milestones/R1-measurement/guards-and-ci.md#điều-chỉnh-gói--thực-hiện-trọn-zer-12-và-zer-40--19102026-2105-07) thay giới hạn gói 20:47: Claude triển khai AC-01/02 của ZER-12 và đầy đủ AC-03 = ZER-40, gồm mode guard/CI theo contract đã khóa; không mặc định chờ toàn bộ ZER-11. Dashboard/KPI/profile B0 thật vẫn thuộc ZER-11/39. Một gói review cho cả cha/con, giữ quyền offline và dirty/evidence; không tự lab/model/publication/Linear/Done. Khi nhận đọc cả gói 20:47 và điều chỉnh này, chụp baseline hiện hành, writer chuyển Claude khi Hoàng gửi prompt.
+
+## Con trỏ mới — Gói Claude ZER-12 guard và CI — 19/10/2026, 20:47 +07
+
+Hoàng yêu cầu chuẩn bị Claude thực hiện; [gói cuối note](milestones/R1-measurement/guards-and-ci.md#gói-claude-thực-hiện-zer-12--19102026-2047-07) khóa scope guard/auth/schema/dedup/budget và phần CI ZER-40 làm được ngay. Baseline HEAD4bec8ce, origin/main c09452a cùng cây mã; staged rỗng, dirty quy ước giữ nguyên. Claude nhận writer khi Hoàng gửi prompt, tạo/reuse nhánh zer-12-command-guards, triển khai và tự kiểm offline rồi trả Codex review một gói. Không lab/model/Git publication/Linear write; mode còn thiếu đối chiếu ZER-11, không tự đóng ZER-12/40 hay G1. ZER-9 đã hoàn tất, không mở lại evidence cũ. Snapshot chuẩn bị/bàn giao ở scratch/zer12/.
 
 ## Con trỏ mới — ZER-9: gói cuối và publication — 19/10/2026
 

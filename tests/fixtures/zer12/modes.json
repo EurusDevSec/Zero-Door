@@ -1,0 +1,44 @@
+{
+  "groups": {
+    "B0": [],
+    "BM": [
+      [
+        "operator_console",
+        "MANUAL",
+        "OPERATOR"
+      ]
+    ],
+    "B1": [
+      [
+        "decision_rules",
+        "RULES",
+        "AUTO"
+      ]
+    ],
+    "B2": [
+      [
+        "decision_llm",
+        "LLM",
+        "AUTO"
+      ],
+      [
+        "decision_rules",
+        "RULES",
+        "AUTO"
+      ]
+    ],
+    "B3": [
+      [
+        "decision_single_llm",
+        "SINGLE_LLM",
+        "AUTO"
+      ],
+      [
+        "decision_rules",
+        "RULES",
+        "AUTO"
+      ]
+    ]
+  },
+  "fallback_requires_reference": true
+}

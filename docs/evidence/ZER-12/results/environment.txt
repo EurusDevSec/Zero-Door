@@ -1,0 +1,30 @@
+2026-10-19T22:17:20+07:00
+go version go1.25.6 windows/amd64
+0
+scratch/zer12/codex/bin/gosec.exe: go1.21.13
+	path	github.com/securego/gosec/v2/cmd/gosec
+	mod	github.com/securego/gosec/v2	v2.19.0	h1:gl5xMkOI0/E6Hxx0XCY2XujA3V7SNSefA8sC+3f1gnk=
+	dep	github.com/ccojocar/zxcvbn-go	v1.0.2	h1:na/czXU8RrhXO4EZme6eQJLR4PzcGsahsBOAwU6I3Vg=
+	dep	github.com/google/uuid	v1.6.0	h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
+	dep	github.com/gookit/color	v1.5.4	h1:FZmqs7XOyGgCAxmWyPslpiok1k05wmY3SJTytgvYFs0=
+	dep	github.com/xo/terminfo	v0.0.0-20210125001918-ca9a967f8778	h1:QldyIu/L63oPpyvQmHgvgickp1Yw510KJOqX7H24mg8=
+	dep	golang.org/x/mod	v0.14.0	h1:dGoOF9QVLYng8IHTm7BAyWqCqSheQ5pYWGhzW00YJr0=
+	dep	golang.org/x/sys	v0.17.0	h1:25cE3gD+tdBA7lp7QfhuV+rJiE9YXTcS3VG1SqssI/Y=
+	dep	golang.org/x/tools	v0.17.0	h1:FvmRgNOcs3kOa+T20R1uhfP9F6HgG2mfxDv1vrx1Htc=
+	dep	gopkg.in/yaml.v3	v3.0.1	h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	DefaultGODEBUG=panicnil=1
+	build	CGO_ENABLED=0
+	build	GOARCH=amd64
+	build	GOOS=windows
+	build	GOAMD64=v1
+uv 0.11.17 (a33a629d6 2026-05-28 x86_64-pc-windows-msvc)
+3.12.4 (tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16) [MSC v.1940 64 bit (AMD64)]
+fastapi = 0.109.0
+httpx = 0.28.1
+kafka-python = 2.3.0
+kubernetes = 28.1.0
+openai = 2.52.0
+elasticsearch = 8.13.0
+PyYAML = 6.0.1

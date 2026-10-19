@@ -1,0 +1,58 @@
+{
+  "status": "OFFLINE_PASS_PENDING_INDEPENDENT_REVIEW",
+  "captured_at": "2026-10-19T15:27:07.933Z",
+  "baseline_head": "c09452ac975ec581bbc2ff1f0fb5ca94f58b5267",
+  "branch": "zer-12-command-guards",
+  "python": {
+    "version": "3.11.9",
+    "tests": 99,
+    "new_guard_mode_ci_tests": 24
+  },
+  "go": {
+    "version": "go1.21.13",
+    "top_level_tests": 17,
+    "tests": [
+      "TestDisabledWorkerStopsBeforeSignerLedgerOrKubernetes",
+      "TestWorkerInvalidConfigExitsFailureBeforeClients",
+      "TestStrictJSONAndDurations",
+      "TestHTTPSharedBudgetErrorsAndRedirectDeny",
+      "TestHTTPInvalidAndCancelledNoTransport",
+      "TestStressCancelUsesFreshBoundedCleanupAndUID",
+      "TestPodKillOnlyAllowedServiceSingleUID",
+      "TestInvalidConfigDoesNotFallBackToPermissiveDefaults",
+      "TestSharedSignatureAndAuth",
+      "TestPolicyCapsAndTargets",
+      "TestLedgerOwnershipRestartConflictAndUnknown",
+      "TestLedgerConcurrentClaimAndIOFailure",
+      "TestLedgerCorruptionAndAbandonedOwner",
+      "TestDispatchRealAdmissionNoSideEffectsAndReplay",
+      "TestAdmissionPacingAndUnknownSurviveRestart",
+      "TestPollDoesNotAckBeforeAdmissionOrPublication",
+      "TestExactTargetAndDerivedURL"
+    ],
+    "failures": 0,
+    "vet": "PASS",
+    "linux_build": "PASS",
+    "race": "NOT_RUN_LOCAL_CGO_DISABLED_CI_LINUX_GATE",
+    "binary_sha256": "7c6ef00398f6c461140df5a90ac6665d4b016d5a4283050da5676e937a6430cc",
+    "binary_size": 53204461
+  },
+  "fail_before": {
+    "failures": [
+      "TestURLConfusionRejected",
+      "TestOperatorDurationCap",
+      "TestDuplicateJSONRejected"
+    ],
+    "controls": [
+      "TestValidControl"
+    ]
+  },
+  "checks": {
+    "remote_ci": "NOT_RUN",
+    "docker_build": "NOT_RUN",
+    "lab": "NOT_RUN",
+    "model": "NOT_RUN",
+    "publication": "NOT_AUTHORIZED_IN_THIS_PACKAGE",
+    "linear_writes": 0
+  }
+}

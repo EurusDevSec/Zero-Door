@@ -1,0 +1,69 @@
+{
+  "verdict": "OFFLINE_PASS_PENDING_INDEPENDENT_RETEST",
+  "python": {
+    "unique_methods": 102,
+    "production_environment_methods_each": 31,
+    "production_environment_runs": 62,
+    "unchanged_regression_methods": 71,
+    "total_method_runs": 133,
+    "groups": {
+      "command_guards": 7,
+      "command_modes": 3,
+      "command_guard_integration": 12,
+      "command_guard_ci": 5,
+      "event_agents": 4
+    },
+    "regression": {
+      "event_pipeline": 22,
+      "event_pipeline_regressions": 42,
+      "event_actor_verifier": 4,
+      "nemesis_consumer": 3
+    }
+  },
+  "go": {
+    "version": "1.21.13",
+    "top_level_tests": [
+      "TestCommandLoopShutdownAndFailureOrdering",
+      "TestDisabledWorkerStopsBeforeSignerLedgerOrKubernetes",
+      "TestWorkerInvalidConfigExitsFailureBeforeClients",
+      "TestStrictJSONAndDurations",
+      "TestHTTPSharedBudgetErrorsAndRedirectDeny",
+      "TestHTTPInvalidAndCancelledNoTransport",
+      "TestStressCancelUsesFreshBoundedCleanupAndUID",
+      "TestPodKillOnlyAllowedServiceSingleUID",
+      "TestInvalidConfigDoesNotFallBackToPermissiveDefaults",
+      "TestSharedSignatureAndAuth",
+      "TestPolicyCapsAndTargets",
+      "TestLedgerOwnershipRestartConflictAndUnknown",
+      "TestLedgerConcurrentClaimAndIOFailure",
+      "TestLedgerCorruptionAndAbandonedOwner",
+      "TestDispatchRealAdmissionNoSideEffectsAndReplay",
+      "TestAdmissionPacingAndUnknownSurviveRestart",
+      "TestReviewExactJSONTagsAtEveryBoundary",
+      "TestReviewClockLeadBoundAndExpiry",
+      "TestReviewExpiredRedeliveryKeepsOutcomeWithoutEffect",
+      "TestReviewExpiredPendingIsStillUnknown",
+      "TestPollDoesNotAckBeforeAdmissionOrPublication",
+      "TestExactTargetAndDerivedURL"
+    ],
+    "vet": "PASS",
+    "linux_build": "PASS",
+    "race": "NOT_RUN_LOCAL_CGO_DISABLED"
+  },
+  "before": {
+    "go_failures": 4,
+    "go_control": 1,
+    "python_failures": 2,
+    "python_controls": 2,
+    "manifests_rejected": 3,
+    "manifest_fixed_controls": 3
+  },
+  "limits": [
+    "OFFLINE_ONLY",
+    "NO_REMOTE_CI",
+    "NO_DOCKER",
+    "NO_LAB_OR_MODEL",
+    "NO_PUBLICATION_OR_LINEAR_WRITE",
+    "F9_AUTO_DISPATCH_RESIDUAL"
+  ]
+}

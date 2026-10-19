@@ -8,7 +8,7 @@ metadata:
   labels:
     app: hephaestus
     phase: "4"
-automountServiceAccountToken: true
+automountServiceAccountToken: false
 
 ---
 # Role — scoped to target-app namespace with least-privilege
@@ -72,6 +72,8 @@ metadata:
     app: hephaestus
     phase: "4"
 data:
+  ZD_COMMAND_POLICY_FILE: "/command-policy/policy.json"
+  ZD_OPERATOR_TOKEN_FILE: "/command-operator/key.json"
   KAFKA_BOOTSTRAP_SERVERS:  "kafka.zero-door.svc.cluster.local:9092"
   KAFKA_ALERTS_TOPIC:       "monitoring.alerts"
   KAFKA_HEALING_TOPIC:      "healing.actions"
@@ -104,6 +106,7 @@ spec:
         phase: "4"
     spec:
       serviceAccountName: hephaestus-sa
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
@@ -118,6 +121,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: hephaestus-config
+          volumeMounts:
+            - {name: command-policy, mountPath: /command-policy, readOnly: true}
+            - {name: command-operator, mountPath: /command-operator, readOnly: true}
           resources:
             requests:
               cpu: "100m"
@@ -142,6 +148,11 @@ spec:
             readOnlyRootFilesystem: false  # uvicorn writes temp files
             capabilities:
               drop: ["ALL"]
+      volumes:
+        - name: command-policy
+          configMap: {name: zd-command-policy}
+        - name: command-operator
+          secret: {secretName: zd-heal-operator, optional: true, defaultMode: 0440}
       restartPolicy: Always
 
 ---

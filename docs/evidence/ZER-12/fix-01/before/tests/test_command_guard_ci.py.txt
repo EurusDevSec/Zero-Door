@@ -1,0 +1,100 @@
+"""Offline checks that pin/guard/mode gates cannot disappear from the publication path."""
+from copy import deepcopy
+import json
+from pathlib import Path
+import re
+import unittest
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def check_workflow(workflow):
+    jobs = workflow["jobs"]
+    required = {"bash-tooling", "r1-agent-http", "r1-image-build", "helm-lint", "python-build", "go-build", "iac-scan"}
+    if not required <= set(jobs) or not required <= set(jobs["publish-images"]["needs"]):
+        raise ValueError("missing publication gate")
+    steps = jobs["r1-agent-http"]["steps"]
+    runs = {line.strip() for step in steps for line in step.get("run", "").splitlines()}
+    for test in ("tests/test_command_guards.py", "tests/test_command_modes.py", "tests/test_command_guard_integration.py",
+                 "tests/test_command_guard_ci.py", "docs/evidence/ZER-37/verify_release.py", "tests/test_event_agents.py"):
+        if "python -B " + test not in runs:
+            raise ValueError("missing gate: " + test)
+    for job in jobs.values():
+        for step in job.get("steps", []):
+            if step.get("uses") and not re.fullmatch(r"[^@]+@[0-9a-f]{40}", step["uses"]):
+                raise ValueError("mutable action")
+            if "@latest" in step.get("run", ""):
+                raise ValueError("mutable tool")
+    if not any("go test -race ./..." in step.get("run", "") for step in jobs["go-build"]["steps"]):
+        raise ValueError("missing Go race test")
+    if {v["image"] for v in jobs["r1-image-build"]["strategy"]["matrix"]["include"]} != {"events", "gaia", "hephaestus", "nemesis"}:
+        raise ValueError("missing image import smoke")
+
+
+class CIChecks(unittest.TestCase):
+    def test_workflow_and_counterexamples(self):
+        workflow = yaml.safe_load((ROOT / ".github/workflows/ci.yml").read_text())
+        check_workflow(workflow)
+        missing = deepcopy(workflow)
+        missing["jobs"]["publish-images"]["needs"].remove("r1-agent-http")
+        with self.assertRaises(ValueError):
+            check_workflow(missing)
+        for test in ["tests/test_command_modes.py", "tests/test_command_guard_integration.py"]:
+            missing = deepcopy(workflow)
+            missing["jobs"]["r1-agent-http"]["steps"] = [s for s in missing["jobs"]["r1-agent-http"]["steps"] if test not in s.get("run", "")]
+            with self.assertRaises(ValueError):
+                check_workflow(missing)
+
+    def test_docker_base_images_match_registry_receipts(self):
+        pins = json.loads((ROOT / "docs/evidence/ZER-12/pin-metadata.json").read_text())
+        allowed = {v["linux_amd64"] for v in pins["images"].values()}
+        for path in [ROOT / "chaos-worker/Dockerfile", *[ROOT / "agent-orchestrator" / p / "Dockerfile" for p in ("gaia", "nemesis", "hephaestus", "event_pipeline")]]:
+            for line in path.read_text().splitlines():
+                if line.startswith("FROM "):
+                    image = line.split()[1]
+                    self.assertRegex(image, r"@sha256:[0-9a-f]{64}$")
+                    self.assertIn(image.split("@", 1)[1], allowed)
+        stress = (ROOT / "chaos-worker/internal/attack/cpu_stress.go").read_text()
+        self.assertIn("progrium/stress@" + pins["images"]["progrium/stress"]["linux_amd64"], stress)
+
+    def test_every_resolved_python_dependency_is_versioned_and_hashed(self):
+        for path in [ROOT / "tests/requirements-command-guards.lock", ROOT / "tests/requirements-command-tools.lock", *[ROOT / "agent-orchestrator" / p / "requirements.lock" for p in ("gaia", "nemesis", "hephaestus", "event_pipeline")]]:
+            lines = [line.strip() for line in path.read_text().splitlines() if line.strip() and not line.lstrip().startswith("#")]
+            current = None
+            hashes = 0
+            for line in lines + ["__end__==0"]:
+                if not line.startswith("--hash="):
+                    if current is not None:
+                        self.assertGreater(hashes, 0, (path, current))
+                    self.assertRegex(line, r"^[a-zA-Z0-9_.-]+(?:\[[^]]+\])?==[^\s;]+")
+                    current, hashes = line, 0
+                else:
+                    self.assertRegex(line, r"^--hash=sha256:[0-9a-f]{64}")
+                    hashes += 1
+
+    def test_disabled_manifest_boundary_and_credentials(self):
+        documents = list(yaml.safe_load_all((ROOT / "infrastructure/manifests/command-guard-config.yaml").read_text()))
+        self.assertEqual(["ConfigMap"], [d["kind"] for d in documents])
+        policy = json.loads(documents[0]["data"]["policy.json"])
+        self.assertIs(False, policy["enabled"])
+        for agent in ("chaos-worker", "nemesis", "hephaestus"):
+            path = "chaos-worker.yaml" if agent == "chaos-worker" else agent + "-deployment.yaml"
+            docs = list(yaml.safe_load_all((ROOT / "infrastructure/manifests" / path).read_text()))
+            deployment = next(d for d in docs if d and d["kind"] == "Deployment")
+            spec = deployment["spec"]["template"]["spec"]
+            self.assertEqual(1, deployment["spec"]["replicas"])
+            volumes = {v["name"]: v for v in spec["volumes"]}
+            self.assertEqual("zd-command-policy", volumes["command-policy"]["configMap"]["name"])
+            if agent == "hephaestus":
+                self.assertNotIn("command-fault", volumes)
+                self.assertNotIn("command-ledger", volumes)
+                self.assertIs(False, spec["automountServiceAccountToken"])
+            else:
+                self.assertIn("persistentVolumeClaim", volumes["command-ledger"])
+                self.assertNotIn("emptyDir", volumes["command-ledger"])
+                self.assertNotIn("event-o", str(volumes))
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

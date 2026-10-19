@@ -1,0 +1,9 @@
+chaos-worker baseline rejected as expected: ('$.metadata.ZD_COMMAND_POLICY_FILE', 'unknown field in V1ObjectMeta')
+chaos-worker baseline rejected as expected: unknown resource metadata field
+chaos-worker fixed valid control PASS
+nemesis baseline rejected as expected: ('$.metadata.ZD_COMMAND_POLICY_FILE', 'unknown field in V1ObjectMeta')
+nemesis baseline rejected as expected: unknown resource metadata field
+nemesis fixed valid control PASS
+hephaestus baseline rejected as expected: ('$.metadata.ZD_COMMAND_POLICY_FILE', 'unknown field in V1ObjectMeta')
+hephaestus baseline rejected as expected: unknown resource metadata field
+hephaestus fixed valid control PASS

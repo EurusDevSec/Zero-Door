@@ -1,8 +1,6 @@
 # ---- Stage 1: Build ----
-FROM golang:1.21-alpine AS builder
+FROM golang:1.21-alpine@sha256:8ee9b9e11ef79e314a7584040451a6df8e72a66712e741bf75951e05e587404e AS builder
 
-# git required for go module downloads
-RUN apk add --no-cache git
 
 WORKDIR /app
 
@@ -19,7 +17,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
 
 # ---- Stage 2: Runtime ----
 # Distroless for minimal attack surface
-FROM gcr.io/distroless/static-debian12:nonroot
+FROM gcr.io/distroless/static-debian12:nonroot@sha256:52dcfbabb7457ea47c82f6e13af8c8a4a1d9f7b0145142b3ecab20f2b888411d
 
 COPY --from=builder /chaos-worker /chaos-worker
 

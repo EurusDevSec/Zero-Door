@@ -1,74 +1,116 @@
-// Package validation provides blast-radius safety controls for the Chaos Worker.
-// All attack targets MUST pass validation before any destructive action is taken.
+// Package validation validates the parsed target, never a substring of a URL.
 package validation
 
 import (
 	"fmt"
-	"log/slog"
+	"net/url"
 	"strings"
 )
 
-// Validator enforces blast-radius constraints.
+type Target struct {
+	Namespace string `json:"namespace"`
+	Service   string `json:"service"`
+	URL       string `json:"url"`
+}
+
 type Validator struct {
-	allowedNamespaces map[string]struct{}
-	allowedDNSSuffix  string
+	targets    []Target
+	namespaces map[string]bool
 }
 
-// New creates a Validator with the given whitelist of Kubernetes namespaces.
-func New(allowedNamespaces []string) *Validator {
-	ns := make(map[string]struct{}, len(allowedNamespaces))
-	for _, n := range allowedNamespaces {
-		ns[strings.TrimSpace(n)] = struct{}{}
+func New(namespaces []string) *Validator {
+	targets := []Target{}
+	for _, service := range []string{"frontend", "cartservice", "productcatalogservice", "currencyservice", "checkoutservice", "redis-cart", "shippingservice", "paymentservice", "emailservice"} {
+		target := Target{Namespace: "target-app", Service: service}
+		if service == "frontend" {
+			target.URL = "http://frontend.target-app.svc.cluster.local/"
+		}
+		targets = append(targets, target)
 	}
-	return &Validator{
-		allowedNamespaces: ns,
-		allowedDNSSuffix:  ".target-app.svc.cluster.local",
-	}
+	return NewWithTargets(namespaces, targets)
 }
 
-// ValidateNamespace returns nil if the namespace is whitelisted, otherwise an error.
-func (v *Validator) ValidateNamespace(namespace string) error {
-	if _, ok := v.allowedNamespaces[namespace]; !ok {
-		slog.Error("BLAST RADIUS VIOLATION — namespace not in whitelist",
-			"requested_namespace", namespace,
-			"allowed_namespaces", v.allowedNamespaces,
-			"severity", "CRITICAL",
-		)
-		return fmt.Errorf("REJECTED: namespace '%s' is not in the allowed list %v — blast radius violation", namespace, v.allowedNamespaces)
-	}
-	return nil
-}
-
-// ValidateURL returns nil if the URL's host matches the allowed DNS pattern.
-// It prevents attacks from being directed outside the cluster or to system namespaces.
-func (v *Validator) ValidateURL(rawURL string) error {
-	if rawURL == "" {
-		return nil // URL not required for all attack types
-	}
-	lower := strings.ToLower(rawURL)
-
-	// Must match the allowed cluster-internal DNS suffix
-	if !strings.Contains(lower, v.allowedDNSSuffix) {
-		slog.Error("BLAST RADIUS VIOLATION — target URL does not match allowed DNS pattern",
-			"requested_url", rawURL,
-			"required_suffix", v.allowedDNSSuffix,
-			"severity", "CRITICAL",
-		)
-		return fmt.Errorf("REJECTED: target URL '%s' does not match allowed pattern '*%s' — blast radius violation", rawURL, v.allowedDNSSuffix)
-	}
-
-	// Must not target system namespaces even if suffix matches (defence in depth)
-	blockedPrefixes := []string{"kube-system", "monitoring", "zero-door"}
-	for _, blocked := range blockedPrefixes {
-		if strings.Contains(lower, blocked) {
-			slog.Error("BLAST RADIUS VIOLATION — target URL contains blocked namespace",
-				"requested_url", rawURL,
-				"blocked_namespace", blocked,
-				"severity", "CRITICAL",
-			)
-			return fmt.Errorf("REJECTED: target URL '%s' targets blocked namespace '%s' — blast radius violation", rawURL, blocked)
+func NewWithTargets(namespaces []string, targets []Target) *Validator {
+	v := &Validator{targets: targets, namespaces: map[string]bool{}}
+	for _, n := range namespaces {
+		if n == "target-app" {
+			v.namespaces[n] = true
 		}
 	}
+	return v
+}
 
+func (v *Validator) ValidateNamespace(namespace string) error {
+	if !v.namespaces[namespace] {
+		return fmt.Errorf("TARGET_NAMESPACE")
+	}
 	return nil
+}
+
+func parsed(raw string) (*url.URL, error) {
+	u, err := url.Parse(raw)
+	if err != nil || u == nil || u.Scheme != "http" || u.User != nil || u.Opaque != "" ||
+		u.RawQuery != "" || u.ForceQuery || u.Fragment != "" || u.RawPath != "" ||
+		strings.ContainsAny(raw, "\\%\r\n\t ") || u.Hostname() != "frontend.target-app.svc.cluster.local" ||
+		(u.Host != "frontend.target-app.svc.cluster.local" && u.Host != "frontend.target-app.svc.cluster.local:80") ||
+		(u.Port() != "" && u.Port() != "80") || (u.Path != "" && u.Path != "/") {
+		return nil, fmt.Errorf("TARGET_URL")
+	}
+	if u.Path == "" {
+		u.Path = "/"
+	}
+	// An explicit default port is equivalent; no other port is accepted.
+	u.Host = u.Hostname()
+	return u, nil
+}
+
+func (v *Validator) ValidateURL(raw string) error {
+	u, err := parsed(raw)
+	if err != nil {
+		return err
+	}
+	for _, t := range v.targets {
+		if !v.namespaces[t.Namespace] || t.URL == "" {
+			continue
+		}
+		allowed, e := parsed(t.URL)
+		if e == nil && u.String() == allowed.String() {
+			return nil
+		}
+	}
+	return fmt.Errorf("TARGET_URL_NOT_ALLOWED")
+}
+
+// Resolve validates the service and the URL actually used, including a derived URL.
+func (v *Validator) Resolve(namespace, service, raw string, httpTarget bool) (string, error) {
+	if err := v.ValidateNamespace(namespace); err != nil {
+		return "", err
+	}
+	for _, t := range v.targets {
+		if t.Namespace != namespace || t.Service != service {
+			continue
+		}
+		if !httpTarget {
+			if raw != "" {
+				return "", fmt.Errorf("UNEXPECTED_URL")
+			}
+			return "", nil
+		}
+		if raw == "" {
+			raw = fmt.Sprintf("http://%s.%s.svc.cluster.local/", service, namespace)
+		}
+		if t.URL == "" {
+			return "", fmt.Errorf("TARGET_ROUTE")
+		}
+		u, err := parsed(raw)
+		if err != nil {
+			return "", err
+		}
+		allowed, err := parsed(t.URL)
+		if err != nil || allowed.String() != u.String() {
+			return "", fmt.Errorf("TARGET_ROUTE")
+		}
+		return u.String(), nil
+	}
+	return "", fmt.Errorf("TARGET_SERVICE")
 }

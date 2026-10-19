@@ -1,14 +1,14 @@
 # Stage 1: Build dependencies
-FROM python:3.11-slim AS builder
+FROM python:3.11-slim@sha256:e529028263dbe6910a2d96f7d2b8f5266385e917fd45d286ef166977c094a51e AS builder
 
 WORKDIR /app
 
-COPY gaia/requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+COPY gaia/requirements.lock .
+RUN pip install --no-cache-dir --prefix=/install --require-hashes -r requirements.lock
 
 # Stage 2: Final minimal image
 # Use Google Distroless Python image for strict hardening (no bash/sh, no package manager)
-FROM gcr.io/distroless/python3-debian12:nonroot
+FROM gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61
 
 WORKDIR /app
 

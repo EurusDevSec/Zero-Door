@@ -1,0 +1,49 @@
+package main
+
+import (
+	"encoding/json"
+	"os"
+	"path/filepath"
+	"testing"
+)
+
+func TestDisabledWorkerStopsBeforeSignerLedgerOrKubernetes(t *testing.T) {
+	raw, err := os.ReadFile("../../tests/fixtures/zer12/command-guards.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var fixture map[string]json.RawMessage
+	if err = json.Unmarshal(raw, &fixture); err != nil {
+		t.Fatal(err)
+	}
+	var policy map[string]any
+	if err = json.Unmarshal(fixture["policy"], &policy); err != nil {
+		t.Fatal(err)
+	}
+	policy["enabled"] = false
+	bytes, err := json.Marshal(policy)
+	if err != nil {
+		t.Fatal(err)
+	}
+	dir := t.TempDir()
+	path := filepath.Join(dir, "policy.json")
+	if err = os.WriteFile(path, bytes, 0600); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("ZD_COMMAND_POLICY_FILE", path)
+	t.Setenv("ZD_COMMAND_SIGNER_FILE", filepath.Join(dir, "no-signer"))
+	t.Setenv("ZD_COMMAND_LEDGER_DIR", filepath.Join(dir, "not-created"))
+	t.Setenv("KUBECONFIG", filepath.Join(dir, "no-kubeconfig"))
+	if status := run(); status != 0 {
+		t.Fatal("disabled worker reached clients", status)
+	}
+	if _, err = os.Stat(filepath.Join(dir, "not-created")); !os.IsNotExist(err) {
+		t.Fatal("disabled worker opened ledger", err)
+	}
+}
+func TestWorkerInvalidConfigExitsFailureBeforeClients(t *testing.T) {
+	t.Setenv("MAX_ATTACK_DURATION_SEC", "not-an-int")
+	if status := run(); status != 1 {
+		t.Fatal(status)
+	}
+}

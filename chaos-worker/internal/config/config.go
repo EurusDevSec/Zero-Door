@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -8,6 +9,10 @@ import (
 
 // Config holds all runtime configuration for the Chaos Worker.
 type Config struct {
+	Error      error
+	PolicyFile string
+	SignerFile string
+	LedgerDir  string
 	// Kafka
 	KafkaBootstrapServers string
 	KafkaGroupID          string
@@ -29,33 +34,47 @@ type Config struct {
 
 // Load reads configuration from environment variables.
 func Load() *Config {
-	maxDur := 120
+	var configErr error
+	maxDur := 60
 	if v := os.Getenv("MAX_ATTACK_DURATION_SEC"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+		if n, err := strconv.Atoi(v); err == nil && n > 0 && n <= 600 {
 			maxDur = n
+		} else {
+			configErr = fmt.Errorf("INVALID_MAX_DURATION")
 		}
 	}
 
-	concurrency := 50
+	concurrency := 2
 	if v := os.Getenv("DEFAULT_CONCURRENCY"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+		if n, err := strconv.Atoi(v); err == nil && n > 0 && n <= 50 {
 			concurrency = n
+		} else {
+			configErr = fmt.Errorf("INVALID_CONCURRENCY")
 		}
 	}
 
-	rps := 100
+	rps := 5
 	if v := os.Getenv("DEFAULT_RPS"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+		if n, err := strconv.Atoi(v); err == nil && n > 0 && n <= 100 {
 			rps = n
+		} else {
+			configErr = fmt.Errorf("INVALID_RPS")
 		}
 	}
 
 	allowedNS := []string{"target-app"}
 	if v := os.Getenv("ALLOWED_NAMESPACES"); v != "" {
 		allowedNS = strings.Split(v, ",")
+		if len(allowedNS) != 1 || allowedNS[0] != "target-app" {
+			configErr = fmt.Errorf("INVALID_NAMESPACE_LIMIT")
+		}
 	}
 
 	return &Config{
+		Error:                 configErr,
+		PolicyFile:            os.Getenv("ZD_COMMAND_POLICY_FILE"),
+		SignerFile:            os.Getenv("ZD_COMMAND_SIGNER_FILE"),
+		LedgerDir:             os.Getenv("ZD_COMMAND_LEDGER_DIR"),
 		KafkaBootstrapServers: getEnvOrDefault("KAFKA_BOOTSTRAP_SERVERS", "kafka.zero-door.svc.cluster.local:9092"),
 		KafkaGroupID:          getEnvOrDefault("KAFKA_GROUP_ID", "chaos-worker-group"),
 		KafkaCommandsTopic:    getEnvOrDefault("KAFKA_COMMANDS_TOPIC", "attack.commands"),

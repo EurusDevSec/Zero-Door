@@ -9,6 +9,10 @@ metadata:
     app: nemesis
     phase: "3"
 data:
+  ZD_COMMAND_POLICY_FILE: "/command-policy/policy.json"
+  ZD_OPERATOR_TOKEN_FILE: "/command-operator/key.json"
+  ZD_COMMAND_SIGNER_FILE: "/command-fault/key.json"
+  ZD_COMMAND_LEDGER_FILE: "/command-ledger/claims.sqlite"
   KAFKA_BOOTSTRAP_SERVERS: "kafka.zero-door.svc.cluster.local:9092"
   KAFKA_COMMANDS_TOPIC: "attack.commands"
   KAFKA_RESULTS_TOPIC: "attack.results"
@@ -50,6 +54,8 @@ metadata:
     phase: "3"
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: nemesis
@@ -75,6 +81,11 @@ spec:
                 name: nemesis-config
             - secretRef:
                 name: nemesis-secrets
+          volumeMounts:
+            - {name: command-policy, mountPath: /command-policy, readOnly: true}
+            - {name: command-operator, mountPath: /command-operator, readOnly: true}
+            - {name: command-fault, mountPath: /command-fault, readOnly: true}
+            - {name: command-ledger, mountPath: /command-ledger}
           resources:
             requests:
               cpu: "100m"
@@ -99,6 +110,15 @@ spec:
             readOnlyRootFilesystem: false   # uvicorn writes tmp files
             capabilities:
               drop: ["ALL"]
+      volumes:
+        - name: command-policy
+          configMap: {name: zd-command-policy}
+        - name: command-operator
+          secret: {secretName: zd-command-operator, optional: true, defaultMode: 0440}
+        - name: command-fault
+          secret: {secretName: zd-command-fault, optional: true, defaultMode: 0440}
+        - name: command-ledger
+          persistentVolumeClaim: {claimName: nemesis-command-ledger}
       restartPolicy: Always
 
 ---

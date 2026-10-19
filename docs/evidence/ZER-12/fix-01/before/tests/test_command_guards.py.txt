@@ -1,0 +1,102 @@
+"""Offline pure policy, shared MAC vector and durable idempotency tests. No service access."""
+from concurrent.futures import ThreadPoolExecutor
+from copy import deepcopy
+import json
+from pathlib import Path
+import sqlite3
+import sys
+import tempfile
+import unittest
+import uuid
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "agent-orchestrator"))
+from nemesis.command_guard import CommandGuard, Ledger, Refused, strict_json, sign, url_valid
+FIXTURE = json.loads((ROOT / "tests/fixtures/zer12/command-guards.json").read_text())
+
+
+class GuardTests(unittest.TestCase):
+    def setUp(self):
+        self.guard = CommandGuard(deepcopy(FIXTURE["policy"]))
+        self.body = dict(attackType="HTTP_FLOOD", targetService="frontend", durationSec=3600, concurrency=100)
+
+    def test_mac_matches_independent_public_fixture(self):
+        self.assertEqual(FIXTURE["envelope"], sign(FIXTURE["command"], FIXTURE["key"], now=1700000000))
+        with self.assertRaises(Refused):
+            sign(FIXTURE["command"], dict(FIXTURE["key"], purpose="operator"))
+
+    def test_schema_duplicate_nonfinite_trailing_depth_and_size(self):
+        for raw in [b'{"x":1,"x":2}', b'{"x":NaN}', b'{"x":Infinity}', b'{"x":1e999}', b'{} {}', b'[' * 18 + b'0' + b']' * 18, b' ' * 32769, b'"\xff"']:
+            with self.subTest(raw=raw[:50]), self.assertRaises(Refused):
+                strict_json(raw)
+        self.assertEqual({"ok": [1, False, None]}, strict_json(b'{"ok":[1,false,null]}'))
+
+    def test_operator_caps_and_exact_target(self):
+        command = self.guard.command(self.body, FIXTURE["command"]["commandId"])
+        self.assertEqual((1, 2), (command["parameters"]["duration"], command["parameters"]["concurrency"]))
+        self.assertEqual(self.guard.policy["context"], command["context"])
+        self.assertEqual("http://frontend.target-app.svc.cluster.local/", command["target"]["url"])
+        for change in [dict(durationSec=0), dict(durationSec=True), dict(durationSec=1.5), dict(concurrency=-1),
+                       dict(targetNamespace="monitoring"), dict(targetService="frontend,app"), dict(attackType="SQLI"),
+                       dict(customParams={"labelSelector": ""}), dict(group="B2")]:
+            with self.subTest(change=change), self.assertRaises(Refused):
+                self.guard.command(dict(self.body, **change), str(uuid.uuid4()))
+
+    def test_url_confusion_route_port_protocol_userinfo(self):
+        valid = "http://frontend.target-app.svc.cluster.local"
+        self.assertEqual(valid + "/", url_valid(valid + ":80/"))
+        for raw in [valid + ".outside.invalid/", "http://outside.invalid/.target-app.svc.cluster.local", valid + "@outside.invalid/",
+                    valid + ":8080/", valid + ":/", valid + "/%2f", valid + "/?next=x", valid + "/?", valid + "/#x",
+                    valid + "/admin", valid.replace("http", "https"), "http://127.0.0.1/", "http://[::1]/"]:
+            with self.subTest(raw=raw), self.assertRaises(Refused):
+                self.guard.command(dict(self.body, targetURL=raw), str(uuid.uuid4()))
+
+    def test_policy_invalid_and_unknown_context_fail_closed(self):
+        for change in [dict(enabled="true"), dict(maxDurationSec=0), dict(rps=101), dict(maxConcurrency=True),
+                       dict(context={}), dict(context=dict(self.guard.policy["context"], group="AUTO"))]:
+            with self.subTest(change=change), self.assertRaises(Refused):
+                CommandGuard(dict(self.guard.policy, **change))
+        for group in ("B0", "BM", "B1", "B2", "B3"):
+            self.guard.policy["context"]["group"] = group
+            self.assertEqual(group, self.guard.command(self.body, str(uuid.uuid4()))["context"]["group"])
+            if group in {"B0", "BM", "B1"}:
+                with self.assertRaises(Refused):
+                    self.guard.allow_model()
+            else:
+                self.guard.allow_model()
+
+    def test_ledger_concurrency_restart_conflict_and_unknown(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "claims.sqlite"
+            ledger = Ledger(path)
+            key = str(uuid.uuid4())
+            def claim(_):
+                try:
+                    return ledger.claim(key, {"value": 1}) is None
+                except Refused as e:
+                    self.assertEqual("OUTCOME_UNKNOWN", e.reason)
+                    return False
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                self.assertEqual(1, sum(pool.map(claim, range(12))))
+            with self.assertRaisesRegex(Refused, "OUTCOME_UNKNOWN"):
+                Ledger(path).claim(key, {"value": 1})
+            with self.assertRaisesRegex(Refused, "ID_CONFLICT"):
+                ledger.claim(key, {"value": 2})
+            with self.assertRaisesRegex(Refused, "ACTIVE_OR_UNKNOWN_REQUEST"):
+                ledger.claim(str(uuid.uuid4()), {})
+            ledger.complete(key, {"status": "PUBLISHED"})
+            self.assertEqual({"status": "PUBLISHED"}, Ledger(path).claim(key, {"value": 1}))
+            with self.assertRaisesRegex(Refused, "ADMISSION_RATE"):
+                ledger.claim(str(uuid.uuid4()), {})
+
+    def test_ledger_disk_error_is_visible_before_dispatch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            ledger = Ledger(Path(tmp) / "claims.sqlite")
+            with patch.object(ledger, "connect", side_effect=sqlite3.OperationalError("offline disk")):
+                with self.assertRaisesRegex(Refused, "LEDGER_UNAVAILABLE"):
+                    ledger.claim(str(uuid.uuid4()), {})
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

@@ -1,0 +1,68 @@
+# Render-only template. Disabled, neutral sample IDs; not an approved run context.
+# Apply/provisioning/secrets/runtime require a separate authorized operation.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zd-command-policy
+  namespace: zero-door
+data:
+  policy.json: |
+    {
+      "version": "zd-guard/1",
+      "enabled": false,
+      "context": {
+        "run_id": "run_00000000000000000000000000000000",
+        "trial_id": "trl_00000000000000000000000000000000",
+        "group": "B0"
+      },
+      "targets": [
+        {
+          "namespace": "target-app",
+          "service": "frontend",
+          "url": "http://frontend.target-app.svc.cluster.local/"
+        },
+        {
+          "namespace": "target-app",
+          "service": "cartservice",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "productcatalogservice",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "currencyservice",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "checkoutservice",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "redis-cart",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "shippingservice",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "paymentservice",
+          "url": ""
+        },
+        {
+          "namespace": "target-app",
+          "service": "emailservice",
+          "url": ""
+        }
+      ],
+      "maxDurationSec": 60,
+      "maxConcurrency": 2,
+      "rps": 5
+    }

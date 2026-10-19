@@ -1,0 +1,29 @@
+{"Time":"2026-10-19T21:58:23.9515671+07:00","Action":"start","Package":"baseline"}
+{"Time":"2026-10-19T21:58:23.9524094+07:00","Action":"start","Package":"baseline/attack"}
+{"Time":"2026-10-19T21:58:23.9529897+07:00","Action":"start","Package":"baseline/validation"}
+{"Time":"2026-10-19T21:58:23.9529897+07:00","Action":"output","Package":"baseline/attack","Output":"?   \tbaseline/attack\t[no test files]\n"}
+{"Time":"2026-10-19T21:58:23.9529897+07:00","Action":"output","Package":"baseline/validation","Output":"?   \tbaseline/validation\t[no test files]\n"}
+{"Time":"2026-10-19T21:58:23.9537225+07:00","Action":"skip","Package":"baseline/attack","Elapsed":0.001}
+{"Time":"2026-10-19T21:58:23.9537225+07:00","Action":"skip","Package":"baseline/validation","Elapsed":0.001}
+{"Time":"2026-10-19T21:58:25.0268314+07:00","Action":"run","Package":"baseline","Test":"TestURLConfusionRejected"}
+{"Time":"2026-10-19T21:58:25.0268314+07:00","Action":"output","Package":"baseline","Test":"TestURLConfusionRejected","Output":"=== RUN   TestURLConfusionRejected\n"}
+{"Time":"2026-10-19T21:58:25.0273654+07:00","Action":"output","Package":"baseline","Test":"TestURLConfusionRejected","Output":"    guards_test.go:8: outside URL accepted\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestURLConfusionRejected","Output":"--- FAIL: TestURLConfusionRejected (0.00s)\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"fail","Package":"baseline","Test":"TestURLConfusionRejected","Elapsed":0}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"run","Package":"baseline","Test":"TestOperatorDurationCap"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestOperatorDurationCap","Output":"=== RUN   TestOperatorDurationCap\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestOperatorDurationCap","Output":"    guards_test.go:9: operator cap exceeded 1h0m0s\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestOperatorDurationCap","Output":"--- FAIL: TestOperatorDurationCap (0.00s)\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"fail","Package":"baseline","Test":"TestOperatorDurationCap","Elapsed":0}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"run","Package":"baseline","Test":"TestDuplicateJSONRejected"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestDuplicateJSONRejected","Output":"=== RUN   TestDuplicateJSONRejected\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestDuplicateJSONRejected","Output":"    guards_test.go:10: duplicate key accepted\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestDuplicateJSONRejected","Output":"--- FAIL: TestDuplicateJSONRejected (0.00s)\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"fail","Package":"baseline","Test":"TestDuplicateJSONRejected","Elapsed":0}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"run","Package":"baseline","Test":"TestValidControl"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestValidControl","Output":"=== RUN   TestValidControl\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Test":"TestValidControl","Output":"--- PASS: TestValidControl (0.00s)\n"}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"pass","Package":"baseline","Test":"TestValidControl","Elapsed":0}
+{"Time":"2026-10-19T21:58:25.0279109+07:00","Action":"output","Package":"baseline","Output":"FAIL\n"}
+{"Time":"2026-10-19T21:58:25.0292461+07:00","Action":"output","Package":"baseline","Output":"FAIL\tbaseline\t1.076s\n"}
+{"Time":"2026-10-19T21:58:25.0292461+07:00","Action":"fail","Package":"baseline","Elapsed":1.079}

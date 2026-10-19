@@ -14,9 +14,16 @@ import (
 
 // ---- Consumer ----
 
+type readerAPI interface {
+	FetchMessage(context.Context) (kgo.Message, error)
+	CommitMessages(context.Context, ...kgo.Message) error
+	Close() error
+}
+
 // Consumer wraps a kafka-go Reader for reading attack commands.
 type Consumer struct {
-	reader *kgo.Reader
+	reader  readerAPI
+	pending *kgo.Message
 }
 
 // NewConsumer creates a new Kafka consumer subscribed to the given topic.
@@ -25,9 +32,9 @@ func NewConsumer(bootstrapServers, groupID, topic string) (*Consumer, error) {
 		Brokers:        []string{bootstrapServers},
 		GroupID:        groupID,
 		Topic:          topic,
-		MinBytes:       10e3,   // 10KB
-		MaxBytes:       10e6,   // 10MB
-		CommitInterval: time.Second,
+		MinBytes:       10e3,  // 10KB
+		MaxBytes:       65536, // 10MB
+		CommitInterval: 0,
 		StartOffset:    kgo.LastOffset, // Only process new commands
 	})
 
@@ -38,6 +45,9 @@ func NewConsumer(bootstrapServers, groupID, topic string) (*Consumer, error) {
 // Poll fetches the next message, returning raw bytes.
 // Returns nil, nil if context is cancelled without error.
 func (c *Consumer) Poll(ctx context.Context, timeoutMs int) ([]byte, error) {
+	if c.pending != nil {
+		return nil, fmt.Errorf("UNACKNOWLEDGED_MESSAGE")
+	}
 	fetchCtx, cancel := context.WithTimeout(ctx, time.Duration(timeoutMs)*time.Millisecond)
 	defer cancel()
 
@@ -49,10 +59,7 @@ func (c *Consumer) Poll(ctx context.Context, timeoutMs int) ([]byte, error) {
 		return nil, fmt.Errorf("kafka fetch error: %w", err)
 	}
 
-	// Commit offset
-	if commitErr := c.reader.CommitMessages(ctx, msg); commitErr != nil {
-		slog.Warn("Failed to commit Kafka offset", "error", commitErr)
-	}
+	c.pending = &msg
 
 	slog.Debug("Kafka message received",
 		"topic", msg.Topic,
@@ -61,6 +68,18 @@ func (c *Consumer) Poll(ctx context.Context, timeoutMs int) ([]byte, error) {
 	)
 
 	return msg.Value, nil
+}
+
+// Ack is called only after a durable claim/result or final rejection has been published.
+func (c *Consumer) Ack(ctx context.Context) error {
+	if c.pending == nil {
+		return fmt.Errorf("NO_PENDING_MESSAGE")
+	}
+	if err := c.reader.CommitMessages(ctx, *c.pending); err != nil {
+		return err
+	}
+	c.pending = nil
+	return nil
 }
 
 // Close shuts down the consumer cleanly.
