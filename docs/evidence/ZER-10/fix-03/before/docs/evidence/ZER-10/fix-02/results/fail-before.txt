@@ -1,0 +1,31 @@
+NEGATIVE before=fail  after=pass  Fix02Cleanup.test_switched_cookie_in_the_answer_or_a_later_page
+NEGATIVE before=fail  after=pass  Fix02Cleanup.test_followed_redirect_that_switches_the_cookie
+NEGATIVE before=error after=pass  Fix02Cleanup.test_recaptured_identifier_cannot_retarget_the_cleanup
+CONTROL  before=pass  after=pass  Fix02Cleanup.test_failure_before_or_after_the_answer
+CONTROL  before=pass  after=pass  Fix02Cleanup.test_control_released_cart_needs_no_cleanup
+NEGATIVE before=fail  after=pass  Fix02Deadlines.test_slow_or_dripping_ack_ends_at_the_flush_deadline
+NEGATIVE before=fail  after=pass  Fix02Deadlines.test_no_request_starts_after_the_deadline
+NEGATIVE before=fail  after=pass  Fix02Deadlines.test_slot_wait_is_capped_by_the_run
+NEGATIVE before=error after=pass  Fix02Deadlines.test_early_stop_cleanup_uses_its_own_grace
+NEGATIVE before=error after=pass  Fix02Deadlines.test_stop_request_bounds_the_wind_down
+NEGATIVE before=fail  after=pass  Fix02Deadlines.test_h_writes_after_the_grace_stay_pending
+NEGATIVE before=error after=pass  Fix02Deadlines.test_clock_reading_is_bounded_and_never_redirected
+NEGATIVE before=error after=pass  Fix02Journal.test_cancelled_sample_cleanup_is_journaled_on_disk
+NEGATIVE before=fail  after=pass  Fix02Journal.test_journal_failure_refuses_before_any_request
+CONTROL  before=error after=pass  Fix02Journal.test_control_run_journal
+NEGATIVE before=error after=pass  Fix02TrialMetadata.test_missing_trial_bounds_are_missing_for_every_branch
+CONTROL  before=pass  after=pass  Fix02TrialMetadata.test_invalid_or_duplicate_trial_start
+NEGATIVE before=error after=pass  Fix02TrialMetadata.test_other_trials_keep_their_result
+CONTROL  before=error after=pass  Fix02TrialMetadata.test_control_e01
+NEGATIVE before=fail  after=pass  Fix02Usage.test_conflict_reaches_every_bucket
+NEGATIVE before=fail  after=pass  Fix02Usage.test_conflicting_record_naming_another_model_marks_it_too
+CONTROL  before=error after=pass  Fix02Usage.test_control_without_conflict
+CODEX    before=False after=True  R1 cookie_switch_cleanup: foreign cart kept, cleanup sent as the sample's own session
+CODEX    before=False after=True  R2 sink_deadline_drip: ends by the 0.05 s deadline (+0.2 s slack), event stays pending
+CODEX    before=False after=True  R2 cadence_wait_over_cap: one sample, then ends near max_duration 0.1 + grace 0.05 (+0.4 s slack)
+CODEX    before=False after=True  R2/ZR10-10 cli_cancel_journal: cleanup detail in CLI output, early stop within grace 0.05 (+0.2 s slack)
+CODEX    before=False after=True  R3 missing_trial: scored, MISSING with TRIAL_MISSING
+CODEX    before=False after=True  R3 invalid_request_missing_trial: scored, MISSING with REQUEST_INVALID and TRIAL_MISSING
+CODEX    before=False after=True  N1 conflicting_call_coverage: every bucket MISSING
+problems: []
+verdict: PASS

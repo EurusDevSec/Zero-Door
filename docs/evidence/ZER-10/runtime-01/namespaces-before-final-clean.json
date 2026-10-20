@@ -1,0 +1,51 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2026-10-20T15:50:58Z",
+                "labels": {
+                    "kubernetes.io/metadata.name": "zer10-acceptance-225057"
+                },
+                "name": "zer10-acceptance-225057",
+                "resourceVersion": "72755",
+                "uid": "739aafc7-732e-4739-af96-1b909298b2a4"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2026-10-20T15:53:15Z",
+                "labels": {
+                    "kubernetes.io/metadata.name": "zer10-acceptance-225314"
+                },
+                "name": "zer10-acceptance-225314",
+                "resourceVersion": "72820",
+                "uid": "51e364bd-0558-437a-9729-aba99030965a"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

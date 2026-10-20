@@ -1,0 +1,21 @@
+............................................F.........................................................................................
+======================================================================
+FAIL: test_connect_failure (test_measurement_probe.BoutiqueFlow.test_connect_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_probe.py", line 291, in test_connect_failure
+    self.assertEqual(("CONNECT", "CONNECT_REFUSED_OR_UNREACHABLE"), (p["error_class"], p["detail"]["reason"]))
+AssertionError: Tuples differ: ('CONNECT', 'CONNECT_REFUSED_OR_UNREACHABLE') != ('TIMEOUT', 'TRANSACTION_DEADLINE')
+
+First differing element 0:
+'CONNECT'
+'TIMEOUT'
+
+- ('CONNECT', 'CONNECT_REFUSED_OR_UNREACHABLE')
++ ('TIMEOUT', 'TRANSACTION_DEADLINE')
+
+----------------------------------------------------------------------
+Ran 134 tests in 144.038s
+
+FAILED (failures=1)
+{"e01_matches_hand_values": true, "e01_recompute": {"label": "RECOVERED", "mttd": 30.0, "mttr": 60.0, "reaction": 19.0, "total": 90.0}, "errors": 0, "failures": 1, "scope": "SYNTHETIC/OFFLINE only; not runtime evidence", "skipped": 0, "tests_run": 134, "verdict": "OFFLINE_FAIL"}

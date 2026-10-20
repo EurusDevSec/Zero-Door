@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: probe
+  namespace: zer10-acceptance-225527
+  labels:
+    app: zer10-acceptance
+spec:
+  nodeName: k3d-zero-door-server-0
+  automountServiceAccountToken: false
+  restartPolicy: Never
+  activeDeadlineSeconds: 900
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: probe
+    image: zero-door/measurement:zer10-53cdc11ad1a9
+    imagePullPolicy: Never
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: [ALL]
+    readinessProbe:
+      exec:
+        command: [python, -c, "import socket; socket.create_connection(('127.0.0.1', 9133), 1).close()"]
+      periodSeconds: 2

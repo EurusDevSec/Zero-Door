@@ -1,0 +1,16 @@
+{
+ "e01_matches_hand_values": true,
+ "e01_recompute": {
+  "label": "RECOVERED",
+  "mttd": 30.0,
+  "mttr": 60.0,
+  "reaction": 19.0,
+  "total": 90.0
+ },
+ "errors": 0,
+ "failures": 0,
+ "scope": "SYNTHETIC/OFFLINE only; not runtime evidence",
+ "skipped": 0,
+ "tests_run": 103,
+ "verdict": "OFFLINE_PASS"
+}

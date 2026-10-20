@@ -1,0 +1,285 @@
+{
+ "after": {
+  "codex": {
+   "N1 conflicting_call_coverage: every bucket MISSING": true,
+   "R1 cookie_switch_cleanup: foreign cart kept, cleanup sent as the sample's own session": true,
+   "R2 cadence_wait_over_cap: one sample, then ends near max_duration 0.1 + grace 0.05 (+0.4 s slack)": true,
+   "R2 sink_deadline_drip: ends by the 0.05 s deadline (+0.2 s slack), event stays pending": true,
+   "R2/ZR10-10 cli_cancel_journal: cleanup detail in CLI output, early stop within grace 0.05 (+0.2 s slack)": true,
+   "R3 invalid_request_missing_trial: scored, MISSING with REQUEST_INVALID and TRIAL_MISSING": true,
+   "R3 missing_trial: scored, MISSING with TRIAL_MISSING": true
+  },
+  "codex_observed": {
+   "cadence_wait_over_cap": {
+    "samples": 1,
+    "wall_s": 0.10425329999998212
+   },
+   "cli_cancel_journal": {
+    "exit": 0,
+    "wall_s": 0.1264950000004319
+   },
+   "cookie_switch_cleanup": {
+    "cleanup": {
+     "cart": "DONE"
+    },
+    "reason": "SESSION_CHANGED"
+   },
+   "metrics_exceptions": {
+    "conflicting_call_coverage": null,
+    "invalid_request_missing_trial": null,
+    "invalid_second_guard": null,
+    "missing_trial": null
+   },
+   "sink_deadline_drip": {
+    "delivered": 0,
+    "pending": 1,
+    "wall_s": 0.058419499997398816
+   }
+  },
+  "tests": {
+   "test_measurement_metrics.Fix02Usage.test_conflict_reaches_every_bucket": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_metrics.Fix02Usage.test_conflicting_record_naming_another_model_marks_it_too": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_metrics.Fix02Usage.test_control_without_conflict": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_control_released_cart_needs_no_cleanup": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_failure_before_or_after_the_answer": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_followed_redirect_that_switches_the_cookie": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_recaptured_identifier_cannot_retarget_the_cleanup": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_switched_cookie_in_the_answer_or_a_later_page": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_clock_reading_is_bounded_and_never_redirected": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_early_stop_cleanup_uses_its_own_grace": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_h_writes_after_the_grace_stay_pending": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_no_request_starts_after_the_deadline": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_slot_wait_is_capped_by_the_run": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_slow_or_dripping_ack_ends_at_the_flush_deadline": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_stop_request_bounds_the_wind_down": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Journal.test_cancelled_sample_cleanup_is_journaled_on_disk": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Journal.test_control_run_journal": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Journal.test_journal_failure_refuses_before_any_request": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_control_e01": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_invalid_or_duplicate_trial_start": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_missing_trial_bounds_are_missing_for_every_branch": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_other_trials_keep_their_result": {
+    "detail": null,
+    "outcome": "pass"
+   }
+  }
+ },
+ "before": {
+  "codex": {
+   "N1 conflicting_call_coverage: every bucket MISSING": false,
+   "R1 cookie_switch_cleanup: foreign cart kept, cleanup sent as the sample's own session": false,
+   "R2 cadence_wait_over_cap: one sample, then ends near max_duration 0.1 + grace 0.05 (+0.4 s slack)": false,
+   "R2 sink_deadline_drip: ends by the 0.05 s deadline (+0.2 s slack), event stays pending": false,
+   "R2/ZR10-10 cli_cancel_journal: cleanup detail in CLI output, early stop within grace 0.05 (+0.2 s slack)": false,
+   "R3 invalid_request_missing_trial: scored, MISSING with REQUEST_INVALID and TRIAL_MISSING": false,
+   "R3 missing_trial: scored, MISSING with TRIAL_MISSING": false
+  },
+  "codex_observed": {
+   "cadence_wait_over_cap": {
+    "samples": 1,
+    "wall_s": 6.012337100000877
+   },
+   "cli_cancel_journal": {
+    "exit": 0,
+    "wall_s": 0.37784090000059223
+   },
+   "cookie_switch_cleanup": {
+    "cleanup": {
+     "cart": "DONE"
+    },
+    "reason": "SESSION_CHANGED"
+   },
+   "metrics_exceptions": {
+    "conflicting_call_coverage": null,
+    "invalid_request_missing_trial": "AttributeError",
+    "invalid_second_guard": null,
+    "missing_trial": "AttributeError"
+   },
+   "sink_deadline_drip": {
+    "delivered": 1,
+    "pending": 0,
+    "wall_s": 0.3048036999971373
+   }
+  },
+  "tests": {
+   "test_measurement_metrics.Fix02Usage.test_conflict_reaches_every_bucket": {
+    "detail": "+ ('COMPLETE', 'MISSING', 'MISSING') : run/run_168ce646e1de4dd49a32581b73b570ab",
+    "outcome": "fail"
+   },
+   "test_measurement_metrics.Fix02Usage.test_conflicting_record_naming_another_model_marks_it_too": {
+    "detail": "'model-y'",
+    "outcome": "fail"
+   },
+   "test_measurement_metrics.Fix02Usage.test_control_without_conflict": {
+    "detail": "KeyError: 'conflicting_call_records'",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_control_released_cart_needs_no_cleanup": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_failure_before_or_after_the_answer": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_followed_redirect_that_switches_the_cookie": {
+    "detail": "+ []",
+    "outcome": "fail"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_recaptured_identifier_cannot_retarget_the_cleanup": {
+    "detail": "KeyError: 'foreign-order'",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Cleanup.test_switched_cookie_in_the_answer_or_a_later_page": {
+    "detail": "+ []",
+    "outcome": "fail"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_clock_reading_is_bounded_and_never_redirected": {
+    "detail": "TypeError: cristian() got an unexpected keyword argument 'deadline_ns'",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_early_stop_cleanup_uses_its_own_grace": {
+    "detail": "AssertionError: 0.33178050000060466 not less than 0.25",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_h_writes_after_the_grace_stay_pending": {
+    "detail": "AssertionError: 1.4369021000020439 not less than 0.7",
+    "outcome": "fail"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_no_request_starts_after_the_deadline": {
+    "detail": "AssertionError: 0.19244030000118073 not less than 0.13",
+    "outcome": "fail"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_slot_wait_is_capped_by_the_run": {
+    "detail": "AssertionError: 6.018324399999983 not less than 0.55",
+    "outcome": "fail"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_slow_or_dripping_ack_ends_at_the_flush_deadline": {
+    "detail": "AssertionError: 0.30696069999976316 not less than 0.25",
+    "outcome": "fail"
+   },
+   "test_measurement_probe.Fix02Deadlines.test_stop_request_bounds_the_wind_down": {
+    "detail": "AttributeError: 'ProbeRunner' object has no attribute 'stop'",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Journal.test_cancelled_sample_cleanup_is_journaled_on_disk": {
+    "detail": "KeyError: 'journal'",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Journal.test_control_run_journal": {
+    "detail": "KeyError: 'journal'",
+    "outcome": "error"
+   },
+   "test_measurement_probe.Fix02Journal.test_journal_failure_refuses_before_any_request": {
+    "detail": "AssertionError: 5 != 0",
+    "outcome": "fail"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_control_e01": {
+    "detail": "KeyError: 't_stop_status'",
+    "outcome": "error"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_invalid_or_duplicate_trial_start": {
+    "detail": null,
+    "outcome": "pass"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_missing_trial_bounds_are_missing_for_every_branch": {
+    "detail": "AttributeError: 'NoneType' object has no attribute 'ms'",
+    "outcome": "error"
+   },
+   "test_measurement_scorer.Fix02TrialMetadata.test_other_trials_keep_their_result": {
+    "detail": "AttributeError: 'NoneType' object has no attribute 'ms'",
+    "outcome": "error"
+   }
+  }
+ },
+ "kinds": {
+  "test_measurement_metrics.Fix02Usage.test_conflict_reaches_every_bucket": "NEGATIVE",
+  "test_measurement_metrics.Fix02Usage.test_conflicting_record_naming_another_model_marks_it_too": "NEGATIVE",
+  "test_measurement_metrics.Fix02Usage.test_control_without_conflict": "CONTROL",
+  "test_measurement_probe.Fix02Cleanup.test_control_released_cart_needs_no_cleanup": "CONTROL",
+  "test_measurement_probe.Fix02Cleanup.test_failure_before_or_after_the_answer": "CONTROL",
+  "test_measurement_probe.Fix02Cleanup.test_followed_redirect_that_switches_the_cookie": "NEGATIVE",
+  "test_measurement_probe.Fix02Cleanup.test_recaptured_identifier_cannot_retarget_the_cleanup": "NEGATIVE",
+  "test_measurement_probe.Fix02Cleanup.test_switched_cookie_in_the_answer_or_a_later_page": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_clock_reading_is_bounded_and_never_redirected": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_early_stop_cleanup_uses_its_own_grace": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_h_writes_after_the_grace_stay_pending": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_no_request_starts_after_the_deadline": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_slot_wait_is_capped_by_the_run": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_slow_or_dripping_ack_ends_at_the_flush_deadline": "NEGATIVE",
+  "test_measurement_probe.Fix02Deadlines.test_stop_request_bounds_the_wind_down": "NEGATIVE",
+  "test_measurement_probe.Fix02Journal.test_cancelled_sample_cleanup_is_journaled_on_disk": "NEGATIVE",
+  "test_measurement_probe.Fix02Journal.test_control_run_journal": "CONTROL",
+  "test_measurement_probe.Fix02Journal.test_journal_failure_refuses_before_any_request": "NEGATIVE",
+  "test_measurement_scorer.Fix02TrialMetadata.test_control_e01": "CONTROL",
+  "test_measurement_scorer.Fix02TrialMetadata.test_invalid_or_duplicate_trial_start": "CONTROL",
+  "test_measurement_scorer.Fix02TrialMetadata.test_missing_trial_bounds_are_missing_for_every_branch": "NEGATIVE",
+  "test_measurement_scorer.Fix02TrialMetadata.test_other_trials_keep_their_result": "NEGATIVE"
+ },
+ "problems": [],
+ "snapshot_problems": [],
+ "verdict": "PASS"
+}

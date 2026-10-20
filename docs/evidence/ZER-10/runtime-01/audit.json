@@ -1,0 +1,227 @@
+{
+  "verdict": "PASS",
+  "raw_records": 66,
+  "samples": 24,
+  "hashes": {
+    "H.jsonl": "b76675a84e1ace819e7a6037e6d1b8f50d82aa0b6ff213f8d4de3a78b7c1d6ce",
+    "manifest.json": "ecbcf4a7bce98ff0fb810c8cf2a331efd345b49f33ca7f63e950256fea6a4050"
+  },
+  "phases": {
+    "boutique-healthy": {
+      "samples": 3,
+      "pass": 3,
+      "error_classes": [
+        null,
+        null,
+        null
+      ],
+      "reasons": [
+        null,
+        null,
+        null
+      ],
+      "latency_ms": [
+        281.789,
+        260.646,
+        233.403
+      ],
+      "observed_start_period_s": [
+        0.996,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    },
+    "checkout-unavailable": {
+      "samples": 3,
+      "pass": 0,
+      "error_classes": [
+        "CONTENT",
+        "CONTENT",
+        "CONTENT"
+      ],
+      "reasons": [
+        "STATUS_500",
+        "STATUS_500",
+        "STATUS_500"
+      ],
+      "latency_ms": [
+        232.169,
+        435.848,
+        33.175
+      ],
+      "observed_start_period_s": [
+        0.995,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    },
+    "checkout-restored": {
+      "samples": 3,
+      "pass": 3,
+      "error_classes": [
+        null,
+        null,
+        null
+      ],
+      "reasons": [
+        null,
+        null,
+        null
+      ],
+      "latency_ms": [
+        450.055,
+        263.341,
+        250.994
+      ],
+      "observed_start_period_s": [
+        0.996,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    },
+    "frontend-unavailable": {
+      "samples": 3,
+      "pass": 0,
+      "error_classes": [
+        "TIMEOUT",
+        "CONNECT",
+        "CONNECT"
+      ],
+      "reasons": [
+        "STEP_DEADLINE",
+        "CONNECT_REFUSED_OR_UNREACHABLE",
+        "CONNECT_REFUSED_OR_UNREACHABLE"
+      ],
+      "latency_ms": [
+        3000.409,
+        0.456,
+        0.245
+      ],
+      "observed_start_period_s": [
+        3.01,
+        0.987
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 2,
+      "verdict": "PASS"
+    },
+    "frontend-restored": {
+      "samples": 3,
+      "pass": 3,
+      "error_classes": [
+        null,
+        null,
+        null
+      ],
+      "reasons": [
+        null,
+        null,
+        null
+      ],
+      "latency_ms": [
+        393.269,
+        36.635,
+        100.492
+      ],
+      "observed_start_period_s": [
+        0.993,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    },
+    "fixture-healthy": {
+      "samples": 3,
+      "pass": 3,
+      "error_classes": [
+        null,
+        null,
+        null
+      ],
+      "reasons": [
+        null,
+        null,
+        null
+      ],
+      "latency_ms": [
+        6.454,
+        6.219,
+        9.79
+      ],
+      "observed_start_period_s": [
+        0.978,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    },
+    "fixture-locked": {
+      "samples": 3,
+      "pass": 0,
+      "error_classes": [
+        "CONTENT",
+        "CONTENT",
+        "CONTENT"
+      ],
+      "reasons": [
+        "STATUS_503",
+        "STATUS_503",
+        "STATUS_503"
+      ],
+      "latency_ms": [
+        101.852,
+        102.24,
+        102.538
+      ],
+      "observed_start_period_s": [
+        0.993,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    },
+    "fixture-restored": {
+      "samples": 3,
+      "pass": 3,
+      "error_classes": [
+        null,
+        null,
+        null
+      ],
+      "reasons": [
+        null,
+        null,
+        null
+      ],
+      "latency_ms": [
+        4.815,
+        7.744,
+        5.319
+      ],
+      "observed_start_period_s": [
+        0.991,
+        1.0
+      ],
+      "configured_delta_s": 1,
+      "skipped_slots": 0,
+      "verdict": "PASS"
+    }
+  },
+  "restored_replicas": {
+    "frontend": 1,
+    "checkoutservice": 3
+  },
+  "sqlite_rows_remaining": 0,
+  "temporary_namespaces_remaining": 0,
+  "run_id": "run_92ca8b573fa247ababa02bf35974b63a",
+  "scope": "AC-01 real service probe acceptance; no detector, LLM, formal KPI or ZER-41 SQLi claim"
+}

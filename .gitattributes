@@ -3,3 +3,15 @@ docs/evidence/ZER-35/*.patch -text -whitespace
 docs/evidence/ZER-9/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/ZER-9/**/*.txt -whitespace
 docs/evidence/ZER-9/**/*.diff -whitespace
+
+# ZER-10: preserve the exact source/raw/snapshot bytes accepted on Windows and Linux.
+agent-orchestrator/measurement/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/ZER-10/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/ZER-10/**/*.txt -whitespace
+docs/design/r1-measurement.md -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/runbooks/independent-measurement.md -text whitespace=trailing-space,space-before-tab,cr-at-eol
+infrastructure/scripts/verify-measurement.py -text whitespace=trailing-space,space-before-tab,cr-at-eol
+tests/test_measurement_*.py -text whitespace=trailing-space,space-before-tab,cr-at-eol
+tests/fixtures/zer10/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/ZER-10/**/before/** -whitespace
+docs/evidence/ZER-10/**/*.diff -whitespace

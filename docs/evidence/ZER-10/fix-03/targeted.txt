@@ -1,0 +1,13 @@
+test_fast_io_finishes_within_grace_controls (test_measurement_boundaries.ActiveStop.test_fast_io_finishes_within_grace_controls) ... ok
+test_repeated_stop_does_not_extend_active_io (test_measurement_boundaries.ActiveStop.test_repeated_stop_does_not_extend_active_io) ... ok
+test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) ... ok
+test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) ... ok
+test_issue_step_pins_first_session_before_later_hops (test_measurement_boundaries.RedirectIdentity.test_issue_step_pins_first_session_before_later_hops) ... ok
+test_same_session_redirect_controls (test_measurement_boundaries.RedirectIdentity.test_same_session_redirect_controls) ... ok
+test_conflict_marks_both_incidents_and_counts_one_global_call (test_measurement_boundaries.UsageIncidentBuckets.test_conflict_marks_both_incidents_and_counts_one_global_call) ... ok
+test_distinct_calls_keep_incident_coverage_complete (test_measurement_boundaries.UsageIncidentBuckets.test_distinct_calls_keep_incident_coverage_complete) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 15.161s
+
+OK

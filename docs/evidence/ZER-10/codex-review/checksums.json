@@ -1,0 +1,15 @@
+{
+  "docs/evidence/ZER-10/codex-review/crosscheck.txt": "afee9b06a564f1329c15a1049206732a6fdffdeef4cc408b7abcdb0d01c10938",
+  "docs/evidence/ZER-10/codex-review/final-integrity.json": "56e916ca4b3bbb8ff29e22240f5c9e03b93d952baf9fff2906b955a7ef3184cd",
+  "docs/evidence/ZER-10/codex-review/intake.json": "0ae23cffb6a8b30eeb0ccb035dabb38acc63dbfd23bf3a403a8ab5ca8a8ddd60",
+  "docs/evidence/ZER-10/codex-review/metrics/counterexamples.json": "24f9c64b317febdeaafa95ceff11d9f11f15d243820b126ae58434726222a332",
+  "docs/evidence/ZER-10/codex-review/metrics/counterexamples.py": "a909c462bcbfeec0e71bd5801ba21bbd3e51513a0ed8886ecaf2468f14eaf84a",
+  "docs/evidence/ZER-10/codex-review/metrics/extra.json": "6c27a6f40d3cf69340cd27593ee533a17790edd59ac00728a9b0cdca04d0897f",
+  "docs/evidence/ZER-10/codex-review/metrics/extra.py": "7db05f451084b1564638fd0745d163e77f04ebc5d36a46ce5e6ba7641c28460e",
+  "docs/evidence/ZER-10/codex-review/offline.txt": "ed4253a91789f80032a9a248d1bfad9b3a01ac31fe09f3fb107e5daaad9e19e7",
+  "docs/evidence/ZER-10/codex-review/probe/counterexamples.json": "698f61701191da8a45dc596c524c19c407d939954c86f44266f2acb19b861896",
+  "docs/evidence/ZER-10/codex-review/probe/counterexamples.py": "4a9e2c44aa2da389745040b65519b6bf05c04c10c1e6311d2cfdd5c295c451f0",
+  "docs/evidence/ZER-10/codex-review/scorer-probes.json": "6c3a91342492711873f791a66052b5fe8a7d4f5e0209088f611728fbc9b57caf",
+  "docs/evidence/ZER-10/codex-review/scorer-probes.py": "2fb0773643b27a14fcbf1368ffe01aa58ba27dbe8357010fbc4a1b678e433d52",
+  "docs/evidence/ZER-10/codex-review.md": "9f0e9b495a1af50c0ea47f96f7546cf06bbd22adbe54ac9172c106c3dafc4237"
+}

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/app/live/acceptance.py", line 19, in <module>
+    from event_pipeline.contract import Producer, canonical, new_id
+ModuleNotFoundError: No module named 'event_pipeline'

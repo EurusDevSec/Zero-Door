@@ -1,0 +1,22 @@
+{
+  "package": {
+    "checked": 46,
+    "changed": []
+  },
+  "review": {
+    "checked": 14,
+    "changed": []
+  },
+  "protected": {
+    "checked": 28,
+    "changed": []
+  },
+  "notes_preserved": {
+    "docs/delivery/NOW.md": true,
+    "docs/delivery/milestones/R1-measurement/probes-and-metrics.md": true
+  },
+  "head": "55200c9143565c1773cbff57553a9ce858ffe858",
+  "staged": [],
+  "fix_manifest_sha256": "9f1e385097b417f91f0afa4cee64e58257fcb307d938eef309954c60bb82f08a",
+  "verdict": "PASS"
+}

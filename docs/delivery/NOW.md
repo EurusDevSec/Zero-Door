@@ -1,3 +1,7 @@
+## Con trỏ mới — ZER-10/38: fix-03 + runtime PASS, chuẩn bị PR — 20/10/2026
+
+[Fix-03](../evidence/ZER-10/fix-03/README.md):134test/178crosscheck/29replay,40mutantcaught (resumed),Bandit0; hai reviewlens không cònP1/P2. [Runtime](../evidence/ZER-10/runtime-01/README.md):8phase/24sample/66raw,healthy/failure/recovery Boutique+SQLite thật; replica1/3 và3namespace đã cleanup, rawauditPASS. AC01 córuntime,AC02–04 cócontrolledrawverification; khôngclaimKPIformal hayZER41Done. Hoàng cấp commit/push/mởPR; chờCI/merge/owneracceptance, chưaLinearDone. Handoff cuối [note](milestones/R1-measurement/probes-and-metrics.md).
+
 ## Con trỏ mới — PR25 ZER-12/40: sửa đường fixture CI — 20/10/2026
 
 [PR25](https://github.com/EurusDevSec/Zero-Door/pull/25), implementation c2edee8 đã push. Run đầu14 job đạt,1 contract gate thiếu scratch fixture; [ci-01](../evidence/ZER-12/ci-01/README.md) dùng fixture đã commit, clean archive replay+test đạt, chuẩn bị push delta CI và chờ run mới. Không đổi contract/history. Chưa merge/Linear/Done. Handoff cuối [note](milestones/R1-measurement/guards-and-ci.md).

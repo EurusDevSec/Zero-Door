@@ -1,0 +1,11 @@
+FIX02_SINK_WITHOUT_TOTAL_DEADLINE caught=True failed=4/7
+FIX02_FLUSH_DEADLINE_NOT_PASSED caught=True failed=4/7
+FIX02_EMIT_WITHOUT_DEADLINE  caught=True failed=1/7
+FIX02_CLEANUP_GRACE_FROM_CAP caught=True failed=1/7
+FIX02_CLOCK_READING_UNBOUNDED caught=True failed=1/7
+FIX02_JOURNAL_IN_MEMORY      caught=True failed=3/3
+FIX02_STOPS_SORTED_WITH_NONE caught=True failed=5/4
+FIX02_UPTIME_KNOWN_TRIALS_ONLY caught=True failed=8/4
+FIX02_CONFLICT_NOT_IN_BUCKETS caught=True failed=2/3
+control: 107 tests, failures 0, errors 0
+verdict: PASS

@@ -1,0 +1,1043 @@
+{
+  "cross_incident_conflict": {
+    "expected_incidents": [
+      "inc_62703532e2d449d3af33cb958a1005bc",
+      "inc_3bb01aa5685b42b4a269607ee502fb2e"
+    ],
+    "usage": {
+      "status": "MISSING",
+      "reasons": [
+        "1 LLM decision(s) without a valid LLM_CALL record",
+        "1 call_id(s) with conflicting records"
+      ],
+      "calls": 1,
+      "calls_lower_bound": true,
+      "raw_call_records": 2,
+      "call_coverage_status": "MISSING",
+      "usage_status": "MISSING",
+      "cost_status": "MISSING",
+      "call_id_conflicts": [
+        "cal_23adeea00ae24e25909eac627cc14f4e"
+      ],
+      "llm_decisions": 2,
+      "decisions_without_call": [
+        "dec_1609682e8c7944849048433f04fe99a9"
+      ],
+      "by": {
+        "run": {
+          "run_0e984931fa1f4310a8d5ee2731e1cc7a": {
+            "calls": 1,
+            "retries": 0,
+            "retries_unknown": 1,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 1,
+            "usd": 0.0,
+            "cost_missing": 1,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 1,
+            "conflicting_call_records": 2,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          }
+        },
+        "actor": {
+          "decision_llm": {
+            "calls": 1,
+            "retries": 0,
+            "retries_unknown": 1,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 1,
+            "usd": 0.0,
+            "cost_missing": 1,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 1,
+            "conflicting_call_records": 2,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          }
+        },
+        "model": {
+          "model-x": {
+            "calls": 1,
+            "retries": 0,
+            "retries_unknown": 1,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 1,
+            "usd": 0.0,
+            "cost_missing": 1,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 0,
+            "conflicting_call_records": 2,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          }
+        },
+        "trial": {
+          "trl_e77e1096f4b4415a8758f0e99d93cd2a": {
+            "calls": 1,
+            "retries": 0,
+            "retries_unknown": 1,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 1,
+            "usd": 0.0,
+            "cost_missing": 1,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 0,
+            "conflicting_call_records": 1,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          },
+          "trl_e2c4c0635883425999317ac7e5a88c7d": {
+            "calls": 0,
+            "retries": 0,
+            "retries_unknown": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 0,
+            "usd": 0.0,
+            "cost_missing": 0,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 1,
+            "conflicting_call_records": 1,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          }
+        },
+        "incident": {
+          "inc_3bb01aa5685b42b4a269607ee502fb2e": {
+            "calls": 1,
+            "retries": 0,
+            "retries_unknown": 1,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 1,
+            "usd": 0.0,
+            "cost_missing": 1,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 0,
+            "conflicting_call_records": 1,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          },
+          "inc_62703532e2d449d3af33cb958a1005bc": {
+            "calls": 0,
+            "retries": 0,
+            "retries_unknown": 0,
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "usage_missing": 0,
+            "usd": 0.0,
+            "cost_missing": 0,
+            "price_refs": [],
+            "invalid_call_records": 0,
+            "decisions_without_call": 1,
+            "conflicting_call_records": 1,
+            "call_coverage_status": "MISSING",
+            "usage_status": "MISSING",
+            "cost_status": "MISSING",
+            "note": "sums are lower bounds: some calls or their usage/cost are not known"
+          }
+        }
+      },
+      "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+    },
+    "labels": [
+      [
+        "inc_62703532e2d449d3af33cb958a1005bc",
+        "RECOVERED"
+      ],
+      [
+        "inc_3bb01aa5685b42b4a269607ee502fb2e",
+        "RECOVERED"
+      ]
+    ]
+  },
+  "trial_matrix": [
+    {
+      "bounds": "none",
+      "bad_request": false,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": false,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": false,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": false,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": false,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": false,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": true,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": true,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": true,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": true,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": true,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "none",
+      "bad_request": true,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": false,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": false,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": false,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": true,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": true,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": true,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": false,
+      "stop": null,
+      "action": null,
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": false,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": false,
+      "stop": null,
+      "action": "FAILED",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": false,
+      "stop": 240,
+      "action": null,
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": false,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": false,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": true,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": true,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": true,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": true,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": true,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "no_end",
+      "bad_request": true,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": false,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": false,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": false,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": true,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": true,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": true,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "bad_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": false,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": false,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": false,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": false,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "PROBE_NOT_REGISTERED",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": true,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": true,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": true,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_start",
+      "bad_request": true,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "PROBE_NOT_REGISTERED",
+        "REQUEST_INVALID",
+        "TRIAL_MISSING"
+      ]
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": false,
+      "stop": null,
+      "action": null,
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": false,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": false,
+      "stop": null,
+      "action": "FAILED",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": false,
+      "stop": 240,
+      "action": null,
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": false,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": false,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "RECOVERED",
+      "N": 1,
+      "missing": []
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": true,
+      "stop": null,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": true,
+      "stop": null,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": true,
+      "stop": null,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": true,
+      "stop": 240,
+      "action": null,
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": true,
+      "stop": 240,
+      "action": "SUCCESS",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    },
+    {
+      "bounds": "duplicate_end",
+      "bad_request": true,
+      "stop": 240,
+      "action": "FAILED",
+      "label": "MISSING",
+      "N": 1,
+      "missing": [
+        "INVALID_EVENT",
+        "REQUEST_INVALID"
+      ]
+    }
+  ]
+}

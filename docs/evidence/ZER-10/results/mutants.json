@@ -1,0 +1,127 @@
+{
+ "control": {
+  "errors": 0,
+  "failed_tests": [],
+  "failures": 0,
+  "run": 66
+ },
+ "mutants": {
+  "CANCEL_AS_FAILURE": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_cancel_mid_transaction_emits_no_sample_and_cleans_up"
+   ],
+   "failures": 1,
+   "run": 17
+  },
+  "EVALUATOR_TRUSTED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_evaluator_mismatch_is_reported_and_recomputed",
+    "test_ingest_order_and_late_receipt_do_not_move_milestones"
+   ],
+   "failures": 2,
+   "run": 24
+  },
+  "GAP_COUNTS_AS_UP": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_union_of_gaps_and_outages_is_counted_once"
+   ],
+   "failures": 1,
+   "run": 13
+  },
+  "HTTP_STATUS_ONLY": {
+   "caught": true,
+   "errors": 2,
+   "failed_tests": [
+    "test_probe_events_are_accepted_by_h_archive_and_scored",
+    "test_stale_session_and_replayed_response_are_failures",
+    "test_synthetic_fixture_round_trip_and_wrong_results",
+    "test_wrong_business_content_fails_even_with_http_200"
+   ],
+   "failures": 2,
+   "run": 17
+  },
+  "H_INTO_O": {
+   "caught": true,
+   "errors": 1,
+   "failed_tests": [
+    "test_business_pass_uses_a_new_session_every_sample_and_keeps_no_secrets",
+    "test_probe_events_are_accepted_by_h_archive_and_scored"
+   ],
+   "failures": 1,
+   "run": 17
+  },
+  "LOST_SEQUENCE_IGNORED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_lost_sequence_breaks_a_k_run_even_with_small_spacing"
+   ],
+   "failures": 1,
+   "run": 12
+  },
+  "MISSING_COUNTS_AS_PASS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_d01_verdicts_and_r_of_t",
+    "test_effect_states_and_denominators"
+   ],
+   "failures": 2,
+   "run": 37
+  },
+  "NO_EFFECT_WITHOUT_COVERAGE": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_effect_states_and_denominators"
+   ],
+   "failures": 1,
+   "run": 24
+  },
+  "T_REC_FROM_VERIFIED_AT": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_e01_hand_values_and_uncertainty",
+    "test_early_detect_and_invalid_clock",
+    "test_evaluator_mismatch_is_reported_and_recomputed",
+    "test_failed_partial_timeout_or_no_action_can_still_recover_without_credit",
+    "test_ingest_order_and_late_receipt_do_not_move_milestones",
+    "test_mode_rules",
+    "test_offset_and_drift_are_normalized",
+    "test_relapse_missing_probe_cap_and_stop",
+    "test_sync_must_cover_trial_end_and_carry_uncertainty",
+    "test_unverified_probe_clock_keeps_same_clock_durations",
+    "test_war_game_window_rule_and_overlap"
+   ],
+   "failures": 11,
+   "run": 24
+  },
+  "UNKNOWN_EFFECT_LEAVES_N": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_effect_states_and_denominators"
+   ],
+   "failures": 1,
+   "run": 24
+  },
+  "UNSYNCED_CLOCK_TRUSTED": {
+   "caught": true,
+   "errors": 1,
+   "failed_tests": [
+    "test_sync_must_cover_trial_end_and_carry_uncertainty",
+    "test_unverified_probe_clock_keeps_same_clock_durations"
+   ],
+   "failures": 1,
+   "run": 24
+  }
+ },
+ "verdict": "PASS"
+}

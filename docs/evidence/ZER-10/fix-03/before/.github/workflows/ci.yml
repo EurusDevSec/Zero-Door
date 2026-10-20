@@ -1,0 +1,381 @@
+name: Zero Door CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  bash-tooling:
+    name: Bash syntax and isolated CLI tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Install local tooling test dependency
+        run: python -m pip install --require-hashes -r tests/requirements-yaml.lock
+      - name: Check Bash syntax
+        shell: bash
+        run: |
+          while IFS= read -r -d '' script; do
+            bash -n "$script"
+          done < <(find . -name .git -prune -o -name '*.sh' -print0)
+      - name: Test local tooling without Docker or Kubernetes access
+        shell: bash
+        run: bash tests/shell/run.sh
+      - name: Test Nemesis consumer responsiveness and cleanup offline
+        run: python tests/test_nemesis_consumer.py
+      - name: Test bounded LLM backend probe offline without API credentials
+        run: python -B docs/evidence/ZER-36/test_probe.py
+      - name: Test R1 event transport and evidence isolation offline
+        run: python -B tests/test_event_pipeline.py
+      - name: Test R1 recorder failure paths, seal fence, quarantine, auth and leak audit offline
+        run: python -B tests/test_event_pipeline_regressions.py
+      - name: Test bounded actor verifier ownership, access gate and export integrity offline
+        run: python -B tests/test_event_actor_verifier.py
+
+  r1-measurement-offline:
+    name: R1 independent measurement offline (probe, recovery evaluator, raw scorer)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Help prints usage only (no lab, no network)
+        shell: bash
+        run: bash infrastructure/scripts/verify-measurement.sh --help
+      - name: Measurement suites and sealed E01 recompute (stdlib only, loopback fakes, socket guard)
+        shell: bash
+        run: bash infrastructure/scripts/verify-measurement.sh --offline
+      - name: Every measurement mutant is caught by the suites
+        run: python -B docs/evidence/ZER-10/check_mutants.py
+      - name: Scorer agrees with the accepted ZER-37 contract cases (hand-computed expectations)
+        run: python -B docs/evidence/ZER-10/crosscheck_zer37.py
+
+  r1-agent-http:
+    name: R1 agents over loopback HTTP (no Kafka, Kubernetes or LLM)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      # Test environment only: Gaia's pins plus the Kubernetes client Hephaestus imports. The two
+      # agents pin different FastAPI/Kafka clients; the production images are built separately below.
+      - name: Install agent test dependencies
+        run: python -m pip install --require-hashes -r tests/requirements-command-guards.lock
+      - name: Test command auth, caps, durable claims and strict schema offline
+        run: python -B tests/test_command_guards.py
+      - name: Test locked B0/BM/B1/B2/B3 mode guards offline
+        run: python -B tests/test_command_modes.py
+      - name: Test actual command entrypoints without model, Kafka or Kubernetes access
+        run: python -B tests/test_command_guard_integration.py
+      - name: Check pinned dependencies, image digests, workflow and manifest boundaries
+        run: python -B tests/test_command_guard_ci.py
+      - name: Verify locked event contract release offline
+        run: |
+          # The sealed historical checker still reads this scratch path.
+          # Materialize its exact committed fixture on a clean runner.
+          mkdir -p scratch/zer37
+          cp docs/evidence/ZER-37/fixtures.json scratch/zer37/fixtures.json
+          python -B docs/evidence/ZER-37/verify_release.py
+      - name: Test actual Gaia/Hephaestus R1 paths, per-actor keys and the Elasticsearch proxy
+        run: python -B tests/test_event_agents.py
+
+  r1-production-http:
+    name: Guard entrypoints on production dependency pins
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        agent: [nemesis, hephaestus]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Install test imports constrained by every production dependency
+        run: python -m pip install --require-hashes -r tests/requirements-command-${{ matrix.agent }}.lock
+      - name: Verify installed versions match the agent image lock
+        run: python -B tests/check_agent_dependencies.py ${{ matrix.agent }}
+      - name: Validate guard resources against pinned Kubernetes OpenAPI models offline
+        run: python -B tests/check_guard_manifests.py
+      - name: Test authentication, replay, modes and actual ASGI entrypoints offline
+        run: |
+          python -B tests/test_command_guards.py
+          python -B tests/test_command_modes.py
+          python -B tests/test_command_guard_integration.py
+          python -B tests/test_event_agents.py
+
+  r1-image-build:
+    name: Build R1 images without pushing
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        include:
+          - image: chaos-worker
+            context: ./chaos-worker
+            file: ./chaos-worker/Dockerfile
+            smoke: '--help'
+            entrypoint: '--entrypoint /chaos-worker'
+          - image: nemesis
+            context: ./agent-orchestrator/nemesis
+            file: ./agent-orchestrator/nemesis/Dockerfile
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            entrypoint: '--entrypoint /usr/bin/python3'
+          - image: events
+            context: ./agent-orchestrator
+            file: ./agent-orchestrator/event_pipeline/Dockerfile
+            smoke: '--help'
+            entrypoint: ''
+          - image: gaia
+            context: ./agent-orchestrator
+            file: ./agent-orchestrator/gaia/Dockerfile
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            entrypoint: '--entrypoint /usr/bin/python3'
+          - image: hephaestus
+            context: ./agent-orchestrator
+            file: ./agent-orchestrator/hephaestus/Dockerfile
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            entrypoint: '--entrypoint /usr/bin/python3'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - name: Build ${{ matrix.image }} (load locally, no push)
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
+          push: false
+          load: true
+          tags: zero-door-ci/${{ matrix.image }}:${{ github.sha }}
+      - name: Import smoke test — ${{ matrix.image }}
+        if: matrix.image != 'chaos-worker'
+        run: docker run --rm --network none ${{ matrix.entrypoint }} zero-door-ci/${{ matrix.image }}:${{ github.sha }} ${{ matrix.smoke }}
+      - name: Worker rejects missing configuration without opening clients
+        if: matrix.image == 'chaos-worker'
+        shell: bash
+        run: |
+          set +e
+          docker run --rm --network none zero-door-ci/chaos-worker:${{ github.sha }}
+          status=$?
+          set -e
+          test "$status" -eq 1
+
+  # ─────────────────────────────────────────────
+  # Job 1: Lint Kubernetes manifests + Helm
+  # ─────────────────────────────────────────────
+  helm-lint:
+    name: Helm Chart Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+
+      - name: Install YAML validation dependency
+        run: python -m pip install --require-hashes -r tests/requirements-yaml.lock
+
+      - name: Set up Helm
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4
+        with:
+          version: v3.12.0
+
+      - name: Lint Helm CLI (smoke test)
+        run: |
+          echo "Helm $(helm version --short) available."
+          echo "Linting custom manifests..."
+          # Validate all YAML manifests are parseable
+          find infrastructure/manifests -name "*.yaml" | while read f; do
+            python3 -c "import yaml,sys; list(yaml.safe_load_all(open('$f')))" \
+              && echo "  ✓ $f" \
+              || (echo "  ✗ $f INVALID" && exit 1)
+          done
+
+  # ─────────────────────────────────────────────
+  # Job 2: Python Agents (Gaia, Nemesis, Hephaestus)
+  # Replaces the old Java/Maven job — tech stack migrated to Python
+  # ─────────────────────────────────────────────
+  python-build:
+    name: Build Python Agent Orchestrator
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        agent: [gaia, nemesis, hephaestus]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+
+      - name: Install dependencies — ${{ matrix.agent }}
+        run: |
+          cd agent-orchestrator/${{ matrix.agent }}
+          pip install --no-cache-dir --require-hashes -r requirements.lock
+
+      - name: Syntax check — ${{ matrix.agent }}
+        run: |
+          cd agent-orchestrator/${{ matrix.agent }}
+          python -m py_compile main.py
+          echo "✓ ${{ matrix.agent }}/main.py syntax OK"
+
+      - name: Run Bandit SAST Scan — ${{ matrix.agent }}
+        run: |
+          pip install --no-cache-dir --require-hashes -r tests/requirements-command-tools.lock
+          cd agent-orchestrator/${{ matrix.agent }}
+          # Run bandit recursively on python source file(s)
+          # -lll: Only show medium/high severity issues, -iii: only show medium/high confidence issues
+          bandit -r . -lll -iii
+          echo "✓ bandit security scan passed for ${{ matrix.agent }}"
+
+  # ─────────────────────────────────────────────
+  # Job 3: Go Build — Chaos Worker
+  # ─────────────────────────────────────────────
+  go-build:
+    name: Build Go Chaos Worker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Go 1.21
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.21.13'
+          cache-dependency-path: chaos-worker/go.sum
+
+      - name: Download modules
+        run: |
+          cd chaos-worker
+          go mod download
+
+      - name: Build Go Application
+        run: |
+          cd chaos-worker
+          # Output to explicit binary name — avoids conflict with cmd/ directory
+          CGO_ENABLED=0 GOOS=linux go build -v -o chaos-worker-bin ./cmd/
+          echo "✓ chaos-worker binary built ($(du -sh chaos-worker-bin | cut -f1))"
+
+      - name: Test guarded production dispatch and executors with fake clients
+        run: |
+          cd chaos-worker
+          go test -race ./...
+
+      - name: Vet
+        run: |
+          cd chaos-worker
+          go vet ./...
+          echo "✓ go vet passed"
+
+      - name: Run Gosec SAST Scan
+        run: |
+          go install github.com/securego/gosec/v2/cmd/gosec@v2.19.0
+          cd chaos-worker
+          # Run gosec to find vulnerabilities, excluding vendor dir, fail on medium/high severity issues
+          gosec -severity medium -confidence medium ./...
+          echo "✓ gosec security scan passed"
+
+  # ─────────────────────────────────────────────
+  # Job 4: IaC Security Scan (Kubernetes Manifests)
+  # ─────────────────────────────────────────────
+  iac-scan:
+    name: Kubernetes Manifests Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Run Trivy Vulnerability Scanner (IaC)
+        uses: aquasecurity/trivy-action@6abccf398f78b4c337599c0656f933d91efb91a0 # master
+        with:
+          version: 'v0.76.0'
+          scan-type: 'config'
+          scan-ref: 'infrastructure/manifests'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1' # Fail on critical vulnerabilities
+          severity: 'CRITICAL'
+
+  # ─────────────────────────────────────────────
+  # Job 5: Build & Push Images to GHCR
+  # ─────────────────────────────────────────────
+  publish-images:
+    name: Build & Push Docker Images to GHCR
+    needs: [python-build, go-build, iac-scan, helm-lint, bash-tooling, r1-agent-http, r1-production-http, r1-image-build]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 1. Build and Push Chaos Worker
+      - name: Build & Push Go Chaos Worker
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: ./chaos-worker
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/chaos-worker:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 2. Build and Push Gaia
+      - name: Build & Push Gaia Agent
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: ./agent-orchestrator
+          file: ./agent-orchestrator/gaia/Dockerfile
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/gaia:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 3. Build and Push Nemesis
+      - name: Build & Push Nemesis Agent
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: ./agent-orchestrator/nemesis
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/nemesis:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 4. Build and Push Hephaestus
+      - name: Build & Push Hephaestus Agent
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
+        with:
+          context: ./agent-orchestrator
+          file: ./agent-orchestrator/hephaestus/Dockerfile
+          push: true
+          tags: ghcr.io/eurusdevsec/zero-door/hephaestus:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+

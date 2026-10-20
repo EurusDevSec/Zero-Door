@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-20",
+  "target": "Claude ZER-10/38 fix-01 local untracked package",
+  "base": "55200c9143565c1773cbff57553a9ce858ffe858",
+  "source": "read-only",
+  "allowed_writes": [
+    "scratch/zer10/codex-retest01/",
+    "docs/evidence/ZER-10/codex-retest01.md",
+    "docs/evidence/ZER-10/codex-retest01/",
+    "docs/delivery/milestones/R1-measurement/probes-and-metrics.md append",
+    "docs/delivery/NOW.md prepend"
+  ],
+  "checks": [
+    "offline103",
+    "old-counterexamples29",
+    "crosscheck178",
+    "independent targeted negative/control probes"
+  ],
+  "forbidden": [
+    "lab/API/model/cloud",
+    "source edits",
+    "Git publication",
+    "Linear writes"
+  ]
+}
