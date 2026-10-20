@@ -1,0 +1,304 @@
+{
+ "control": {
+  "errors": 0,
+  "failed_tests": [],
+  "failures": 0,
+  "run": 103
+ },
+ "mutants": {
+  "CANCEL_AS_FAILURE": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_cancel_mid_transaction_emits_no_sample_and_cleans_up",
+    "test_interrupt_after_the_add_request_still_owns_the_session_cart",
+    "test_interrupt_takes_the_cancel_path_and_cleans_up",
+    "test_run_cap_cuts_the_transaction_and_bounds_the_cleanup"
+   ],
+   "failures": 4,
+   "run": 28
+  },
+  "EVALUATOR_TRUSTED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_evaluator_mismatch_is_reported_and_recomputed",
+    "test_ingest_order_and_late_receipt_do_not_move_milestones"
+   ],
+   "failures": 2,
+   "run": 33
+  },
+  "FIX01_ANY_ACK_ACCEPTED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_only_the_gateway_ack_counts",
+    "test_redirects_are_refused_and_the_token_stays_home",
+    "test_refusal_stops_the_probe_and_keeps_the_outbox"
+   ],
+   "failures": 3,
+   "run": 4
+  },
+  "FIX01_CART_ITEM_ONLY": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_cart_must_hold_exactly_the_requested_item"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX01_CLEANUP_SKIPPED_ON_INTERRUPT": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_interrupt_after_the_add_request_still_owns_the_session_cart",
+    "test_interrupt_takes_the_cancel_path_and_cleans_up"
+   ],
+   "failures": 2,
+   "run": 7
+  },
+  "FIX01_EPISODES_UNKEYED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_episodes_are_keyed_by_signature_and_service"
+   ],
+   "failures": 1,
+   "run": 5
+  },
+  "FIX01_FIRST_GUARD_WINS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_conflicting_guard_verdicts_do_not_depend_on_order"
+   ],
+   "failures": 1,
+   "run": 3
+  },
+  "FIX01_GT_UNCHECKED": {
+   "caught": true,
+   "errors": 1,
+   "failed_tests": [
+    "test_malformed_ground_truth_is_unknown_not_a_crash"
+   ],
+   "failures": 0,
+   "run": 3
+  },
+  "FIX01_LOST_REQUEST_DROPPED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_late_request_stays_in_the_cohort",
+    "test_mixed_valid_and_invalid_trials_keep_both_turns",
+    "test_single_invalid_request_is_missing_not_empty",
+    "test_unattributable_request_makes_the_cohort_incomplete"
+   ],
+   "failures": 4,
+   "run": 5
+  },
+  "FIX01_M6_FROM_COMPLETED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_m6_counts_started_actions_in_w"
+   ],
+   "failures": 1,
+   "run": 5
+  },
+  "FIX01_OUTPUT_IGNORES_OTHER_EXPORTS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_output_inside_any_input_export_is_refused"
+   ],
+   "failures": 1,
+   "run": 6
+  },
+  "FIX01_OWNERSHIP_FROM_STATUS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_cleanup_never_deletes_a_record_it_did_not_create"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX01_RUN_CAP_IGNORED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_run_cap_cuts_the_transaction_and_bounds_the_cleanup"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX01_SINK_FOLLOWS_REDIRECT_AND_PROXY": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_environment_proxy_is_ignored",
+    "test_redirects_are_refused_and_the_token_stays_home",
+    "test_refusal_stops_the_probe_and_keeps_the_outbox"
+   ],
+   "failures": 3,
+   "run": 4
+  },
+  "FIX01_STEP_DEADLINE_IGNORED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_step_deadline_is_enforced_below_the_transaction_deadline"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX01_STREAM_FROM_SLOTS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_all_slots_hit_does_not_prove_the_stream"
+   ],
+   "failures": 1,
+   "run": 5
+  },
+  "FIX01_UNPLACED_DETECT_SKIPPED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_unverified_detector_is_missing_not_missed"
+   ],
+   "failures": 1,
+   "run": 4
+  },
+  "FIX01_UNPLACED_SUCCESS_IGNORED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_unverified_executor_leaves_reaction_unknown"
+   ],
+   "failures": 1,
+   "run": 4
+  },
+  "FIX01_USAGE_FROM_VALID_ONLY": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_invalid_second_call_keeps_lower_bounds",
+    "test_llm_decision_without_call_record"
+   ],
+   "failures": 2,
+   "run": 3
+  },
+  "GAP_COUNTS_AS_UP": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_union_of_gaps_and_outages_is_counted_once"
+   ],
+   "failures": 1,
+   "run": 24
+  },
+  "HTTP_STATUS_ONLY": {
+   "caught": true,
+   "errors": 3,
+   "failed_tests": [
+    "test_cart_must_hold_exactly_the_requested_item",
+    "test_cleanup_never_deletes_a_record_it_did_not_create",
+    "test_probe_events_are_accepted_by_h_archive_and_scored",
+    "test_stale_session_and_replayed_response_are_failures",
+    "test_synthetic_fixture_round_trip_and_wrong_results",
+    "test_wrong_business_content_fails_even_with_http_200"
+   ],
+   "failures": 3,
+   "run": 28
+  },
+  "H_INTO_O": {
+   "caught": true,
+   "errors": 1,
+   "failed_tests": [
+    "test_business_pass_uses_a_new_session_every_sample_and_keeps_no_secrets",
+    "test_probe_events_are_accepted_by_h_archive_and_scored"
+   ],
+   "failures": 1,
+   "run": 28
+  },
+  "LOST_SEQUENCE_IGNORED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_lost_sequence_breaks_a_k_run_even_with_small_spacing"
+   ],
+   "failures": 1,
+   "run": 12
+  },
+  "MISSING_COUNTS_AS_PASS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_d01_verdicts_and_r_of_t",
+    "test_effect_states_and_denominators",
+    "test_mixed_valid_and_invalid_trials_keep_both_turns",
+    "test_single_invalid_request_is_missing_not_empty",
+    "test_unverified_detector_is_missing_not_missed",
+    "test_unverified_executor_leaves_reaction_unknown"
+   ],
+   "failures": 6,
+   "run": 57
+  },
+  "NO_EFFECT_WITHOUT_COVERAGE": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_effect_states_and_denominators"
+   ],
+   "failures": 1,
+   "run": 33
+  },
+  "T_REC_FROM_VERIFIED_AT": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_controls_and_negative_latency",
+    "test_e01_hand_values_and_uncertainty",
+    "test_early_detect_and_invalid_clock",
+    "test_evaluator_mismatch_is_reported_and_recomputed",
+    "test_failed_partial_timeout_or_no_action_can_still_recover_without_credit",
+    "test_ingest_order_and_late_receipt_do_not_move_milestones",
+    "test_mode_rules",
+    "test_offset_and_drift_are_normalized",
+    "test_relapse_missing_probe_cap_and_stop",
+    "test_sync_must_cover_trial_end_and_carry_uncertainty",
+    "test_unverified_decision_has_no_order_or_latency",
+    "test_unverified_detector_is_missing_not_missed",
+    "test_unverified_probe_clock_keeps_same_clock_durations",
+    "test_war_game_window_rule_and_overlap"
+   ],
+   "failures": 14,
+   "run": 33
+  },
+  "UNKNOWN_EFFECT_LEAVES_N": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_effect_states_and_denominators"
+   ],
+   "failures": 1,
+   "run": 33
+  },
+  "UNSYNCED_CLOCK_TRUSTED": {
+   "caught": true,
+   "errors": 4,
+   "failed_tests": [
+    "test_sync_must_cover_trial_end_and_carry_uncertainty",
+    "test_unverified_decision_has_no_order_or_latency",
+    "test_unverified_detector_is_missing_not_missed",
+    "test_unverified_executor_leaves_reaction_unknown",
+    "test_unverified_probe_clock_keeps_same_clock_durations"
+   ],
+   "failures": 1,
+   "run": 33
+  }
+ },
+ "verdict": "PASS"
+}

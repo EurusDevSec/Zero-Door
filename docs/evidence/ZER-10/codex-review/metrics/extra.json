@@ -1,0 +1,34 @@
+{
+  "malformed_gt_constraint": {
+    "actual_exception": "TypeError: '<=' not supported between instances of 'int' and 'str'",
+    "expected": "UNKNOWN_GT without exception"
+  },
+  "conflicting_guard_verdicts": {
+    "actual_M3": {
+      "accept_correct": 1,
+      "accept_incorrect": 0,
+      "accept_unknown": 0,
+      "true_block": 0,
+      "false_block": 0,
+      "unknown_block": 0,
+      "proposals_without_verdict": 0,
+      "N": 1,
+      "coverage_scorable": 1.0
+    },
+    "label": "RECOVERED",
+    "expected": "conflicting verdicts invalid/integrity, never accept_correct"
+  },
+  "conflicting_guard_reversed": {
+    "actual_M3": {
+      "accept_correct": 0,
+      "accept_incorrect": 0,
+      "accept_unknown": 0,
+      "true_block": 0,
+      "false_block": 1,
+      "unknown_block": 0,
+      "proposals_without_verdict": 0,
+      "N": 1,
+      "coverage_scorable": 1.0
+    }
+  }
+}

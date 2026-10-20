@@ -1,0 +1,264 @@
+{
+ "generated_at": "2026-10-20T16:07:22+00:00",
+ "inputs": {
+  "h_export_json_sha256": "e5e160448d0ef187f257ed4cc2f3f6b6e206a07af6a852d3bf9d8ff2c883ce09",
+  "o_export_json_sha256": null,
+  "other_exports": [],
+  "run_id": "run_92ca8b573fa247ababa02bf35974b63a"
+ },
+ "options": {},
+ "runs": [
+  {
+   "cohort": {
+    "complete": true,
+    "problems": []
+   },
+   "f01": {
+    "cap_det_s": 30,
+    "cap_rec_s": 30,
+    "delta_s": 1,
+    "eps_s": 1,
+    "gap_s": 2,
+    "k": 3,
+    "l_ms": 2000,
+    "s_s": 2
+   },
+   "findings": {
+    "ambiguous": [],
+    "archive_scope": 0,
+    "cardinality_violations": [],
+    "duplicates": 0,
+    "foreign_references": [],
+    "integrity_errors": [],
+    "invalid": [],
+    "late_ingest": 0,
+    "link_conflicts": [],
+    "lost_requests": [],
+    "mode_violations": [],
+    "orphans": [],
+    "plane_violations": [],
+    "quarantined": {},
+    "quarantined_leaks": [],
+    "quarantined_link_conflicts": [],
+    "quarantined_mode_violations": [],
+    "source_violations": [],
+    "unattributable_quarantine": 0,
+    "unregistered_probe_samples": 0,
+    "unsupported": 0
+   },
+   "group": "B0",
+   "incidents": [],
+   "leak": {
+    "trl_06aa8d39d95543f68bb2488e4147e6dd": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_11c02e0f406e4d9095228d0614ebee33": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_1c3150d7183f48248c0d1eea6a28698f": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_1d3235023f2543629b2819b3aaf4ddef": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_376f7697eb4043f3b6b3cdf0cf973a39": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_614ea3e182214535a20ca3a088a440fb": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_a3a5cb7deaf54de3bdd46bc4c8f27234": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    },
+    "trl_f1684a9f7da043c08d6c82c80f17f2cf": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    }
+   },
+   "metrics": {
+    "M11_usage": {
+     "reason": "group B0 makes no LLM calls",
+     "status": "N/A"
+    },
+    "M12_containment": {
+     "reason": "no C2/C5 incident with ground truth in this run",
+     "status": "EMPTY"
+    },
+    "M2_funnel": {
+     "CONFIRMED": 0,
+     "CONFIRMED_NO_EFFECT": 0,
+     "UNKNOWN_EFFECT": 0,
+     "action_success": 0,
+     "recovered": 0,
+     "requested": 0,
+     "trigger_unknown": 0,
+     "triggered": 0,
+     "valid_response": 0
+    },
+    "M5_M6_benign": {
+     "reason": "C0 designation not provided (H schedule); FPR never defaults to 0",
+     "status": "MISSING"
+    },
+    "cpu_P179": {
+     "reason": "no container CPU usage/limit series in the H/O exports (ZER-38/44)",
+     "status": "MISSING"
+    },
+    "decisions": {
+     "M1": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M10": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M1c": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M3": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M4": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     }
+    },
+    "kpi": {
+     "counts": {
+      "CONFIRMED": 0,
+      "CONFIRMED_NO_EFFECT": 0,
+      "N": 0,
+      "UNKNOWN_EFFECT": 0,
+      "requested": 0,
+      "status": "EMPTY"
+     },
+     "labels": {},
+     "labels_by_trial": {},
+     "mttd": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 60,
+      "verdict": "EMPTY"
+     },
+     "mttr_120": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 120,
+      "verdict": "EMPTY"
+     },
+     "mttr_180": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 180,
+      "verdict": "EMPTY"
+     },
+     "r_t": {
+      "status": "EMPTY"
+     },
+     "reaction": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 60,
+      "verdict": "EMPTY"
+     },
+     "recovered_rate": {
+      "N": 0,
+      "status": "EMPTY"
+     },
+     "resolution": {
+      "delta_s": 1,
+      "k": 3,
+      "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+     }
+    },
+    "request_success_rate": {
+     "reason": "benign client request log not in the exports",
+     "status": "MISSING"
+    },
+    "uptime": {
+     "trl_06aa8d39d95543f68bb2488e4147e6dd": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_11c02e0f406e4d9095228d0614ebee33": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_1c3150d7183f48248c0d1eea6a28698f": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_1d3235023f2543629b2819b3aaf4ddef": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_376f7697eb4043f3b6b3cdf0cf973a39": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_614ea3e182214535a20ca3a088a440fb": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_a3a5cb7deaf54de3bdd46bc4c8f27234": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     },
+     "trl_f1684a9f7da043c08d6c82c80f17f2cf": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     }
+    }
+   },
+   "mode_findings": {},
+   "reference_clock_id": "clk-acceptance",
+   "run_flags": [
+    "CROSS_RUN_LINKS_UNCHECKED"
+   ],
+   "run_id": "run_92ca8b573fa247ababa02bf35974b63a"
+  }
+ ],
+ "schema": "zd-measurement-score/1",
+ "scorer_version": "zd-measurement/0.1.0/scorer"
+}

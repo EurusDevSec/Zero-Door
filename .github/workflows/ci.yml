@@ -38,6 +38,26 @@ jobs:
       - name: Test bounded actor verifier ownership, access gate and export integrity offline
         run: python -B tests/test_event_actor_verifier.py
 
+  r1-measurement-offline:
+    name: R1 independent measurement offline (probe, recovery evaluator, raw scorer)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11.9'
+      - name: Help prints usage only (no lab, no network)
+        shell: bash
+        run: bash infrastructure/scripts/verify-measurement.sh --help
+      - name: Measurement suites and sealed E01 recompute (stdlib only, loopback fakes, socket guard)
+        shell: bash
+        run: bash infrastructure/scripts/verify-measurement.sh --offline
+      - name: Every measurement mutant is caught by the suites
+        run: python -B docs/evidence/ZER-10/check_mutants.py
+      - name: Scorer agrees with the accepted ZER-37 contract cases (hand-computed expectations)
+        run: python -B docs/evidence/ZER-10/crosscheck_zer37.py
+
   r1-agent-http:
     name: R1 agents over loopback HTTP (no Kafka, Kubernetes or LLM)
     runs-on: ubuntu-latest

@@ -1,0 +1,89 @@
+{
+  "duplicate_cart": {
+    "expected_quantity": 1,
+    "ordered": [
+      [
+        "OLJCESPC7Z",
+        "OLJCESPC7Z"
+      ]
+    ],
+    "pass": true,
+    "reason": null
+  },
+  "fixture_stale_cleanup": {
+    "cleanup": {
+      "order": "DONE"
+    },
+    "pass": false,
+    "pre_existing_still_exists": false,
+    "reason": "WRONG_RESULT",
+    "requests": [
+      [
+        "POST",
+        "/fixture/orders"
+      ],
+      [
+        "DELETE",
+        "/fixture/orders/pre-existing-order"
+      ]
+    ]
+  },
+  "h_sink_redirect": {
+    "received_at_other_origin": [
+      {
+        "authorization": "Bearer SYNTHETIC_PROBE_TOKEN_01234567890123456789",
+        "method": "GET",
+        "path": "/wrong-plane"
+      }
+    ],
+    "status": [
+      "DELIVERED",
+      "RECORDED"
+    ]
+  },
+  "keyboard_interrupt_cleanup": {
+    "cart_sizes": [
+      1
+    ],
+    "cleanup_requests": []
+  },
+  "max_duration": {
+    "actual_s": 0.625,
+    "max_duration_s": 0.2,
+    "sample_latency_ms": 612.781,
+    "summary": {
+      "cancelled": 0,
+      "clock_sync_failed": 0,
+      "delivery": {
+        "delivered": 3,
+        "late": 0,
+        "rejected": 0,
+        "retries": 0
+      },
+      "fail": 0,
+      "heartbeats": 2,
+      "pass": 1,
+      "registration": {
+        "clock_id": "clk-host",
+        "flow": "checkout",
+        "probe_id": "prb-0",
+        "probe_version": "p0"
+      },
+      "requests": 5,
+      "samples": 1,
+      "skipped_slots": 0,
+      "stop_reason": "MAX_DURATION",
+      "undelivered": 0
+    }
+  },
+  "other_input_output": {
+    "created_inside_other_export": true,
+    "exit": 0
+  },
+  "step_timeout": {
+    "home_ms": 251.936,
+    "latency_ms": 314.788,
+    "pass": true,
+    "step_s": 0.05
+  }
+}

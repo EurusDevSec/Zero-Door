@@ -1,0 +1,95 @@
+{
+  "result": {
+    "ok": false,
+    "detail": "BUSINESS",
+    "reason": "SESSION_CHANGED",
+    "interrupted": false,
+    "stopped_ns": null,
+    "elapsed_ms": 6.0693,
+    "cleanup": {
+      "cart": "DONE"
+    },
+    "steps": [
+      {
+        "name": "home",
+        "status": 200,
+        "ok": true,
+        "ms": 1.258
+      },
+      {
+        "name": "product",
+        "status": 200,
+        "ok": true,
+        "ms": 0.947
+      },
+      {
+        "name": "add_to_cart",
+        "status": 302,
+        "ok": true,
+        "ms": 0.759
+      },
+      {
+        "name": "cart",
+        "status": 200,
+        "ok": true,
+        "ms": 0.788
+      },
+      {
+        "name": "checkout",
+        "status": 200,
+        "ok": false,
+        "ms": 2.29
+      }
+    ],
+    "requests": 8,
+    "captures": {
+      "cart_quantity_sha256_16": "6b86b273ff34fce1"
+    }
+  },
+  "log": [
+    [
+      "GET",
+      "/",
+      null
+    ],
+    [
+      "GET",
+      "/product/OLJCESPC7Z",
+      "29071bc7fd4d40708df4b1be7e4844d2"
+    ],
+    [
+      "POST",
+      "/cart",
+      "29071bc7fd4d40708df4b1be7e4844d2"
+    ],
+    [
+      "GET",
+      "/cart",
+      "29071bc7fd4d40708df4b1be7e4844d2"
+    ],
+    [
+      "POST",
+      "/cart/checkout",
+      "29071bc7fd4d40708df4b1be7e4844d2"
+    ],
+    [
+      "POST",
+      "/cart/empty",
+      "foreign-user"
+    ],
+    [
+      "GET",
+      "/",
+      "foreign-user"
+    ],
+    [
+      "POST",
+      "/cart/empty",
+      "29071bc7fd4d40708df4b1be7e4844d2"
+    ]
+  ],
+  "sessions": {
+    "foreign-user": [],
+    "29071bc7fd4d40708df4b1be7e4844d2": []
+  }
+}

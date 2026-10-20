@@ -1,0 +1,1445 @@
+{
+  "clean": {
+    "incidents": [
+      {
+        "incident_id": "inc_187bd747fc2d4eb8ab5f8eea69788b6b",
+        "trial_id": "trl_ef3459ac50ce4e5c82f8d1b26308c711",
+        "flow": "checkout",
+        "variant_ref": "var-a",
+        "effect": "CONFIRMED",
+        "action_attempts": 1,
+        "terminal": {
+          "SUCCESS": 1,
+          "FAILED": 0,
+          "PARTIAL": 0,
+          "TIMEOUT": 0
+        },
+        "relapses": 0,
+        "recovery_probe": "VERIFIED",
+        "evaluator_mismatch": false,
+        "evaluator_issues": [],
+        "uncertainty_ms": {
+          "mttd": 2,
+          "reaction": 2,
+          "mttr": 2,
+          "total": 2
+        },
+        "mttd": 30.0,
+        "reaction": 19.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "label": "RECOVERED",
+        "missing_reasons": [],
+        "flags": [],
+        "milestones": {
+          "t_req": {
+            "t_ms": 1792389700000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_eff": {
+            "t_ms": 1792389701000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_det": {
+            "t_ms": 1792389731000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_rec": {
+            "t_ms": 1792389791000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_stop": {
+            "t_ms": 1792389840000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          }
+        },
+        "clock_state": {
+          "clk_host_lab": []
+        }
+      }
+    ],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {},
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 1,
+        "CONFIRMED": 1,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 0,
+        "N": 1,
+        "status": "OK"
+      },
+      "labels": {
+        "RECOVERED": 1
+      },
+      "resolution": {
+        "delta_s": 1,
+        "k": 3,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 30.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_120": {
+        "status": "OK",
+        "threshold_s": 120,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_180": {
+        "status": "OK",
+        "threshold_s": 180,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "reaction": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 19.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "recovered_rate": {
+        "numerator": 1,
+        "N": 1,
+        "rate": 1.0,
+        "by_label": {
+          "RECOVERED": 1
+        }
+      },
+      "failure_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "TIMEOUT"
+        ]
+      },
+      "unknown_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "MISSING",
+          "MISSING_PROBE",
+          "UNKNOWN_EFFECT"
+        ]
+      },
+      "recovered_distribution": {
+        "total_s": [
+          90.0
+        ],
+        "mttr_s_recovered_only": [
+          60.0
+        ]
+      },
+      "labels_by_trial": {
+        "trl_ef3459ac50ce4e5c82f8d1b26308c711": {
+          "RECOVERED": 1
+        }
+      },
+      "r_t": {
+        "status": "OK",
+        "N": 1,
+        "points": {
+          "120": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "180": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "600": {
+            "lower": 1.0,
+            "upper": 1.0
+          }
+        },
+        "median": "<= cap_rec (needs the curve for a point value)",
+        "note": "120/180 s here are from effect, not the MTTR KPI from detect"
+      }
+    },
+    "rejected": []
+  },
+  "detector_unsynced": {
+    "incidents": [
+      {
+        "incident_id": "inc_40da5d927a0646ecaa694b6b601f6a51",
+        "trial_id": "trl_373449720d3f4a098ca6e1e85e6ecc8c",
+        "flow": "checkout",
+        "variant_ref": "var-a",
+        "effect": "CONFIRMED",
+        "action_attempts": 1,
+        "terminal": {
+          "SUCCESS": 1,
+          "FAILED": 0,
+          "PARTIAL": 0,
+          "TIMEOUT": 0
+        },
+        "relapses": 0,
+        "recovery_probe": "VERIFIED",
+        "evaluator_mismatch": false,
+        "evaluator_issues": [],
+        "mttd": "MISSED",
+        "reaction": "NO_DETECT",
+        "mttr": null,
+        "uncertainty_ms": {
+          "total": 2
+        },
+        "total": 90.0,
+        "label": "RECOVERED_UNDETECTED",
+        "missing_reasons": [],
+        "flags": [],
+        "milestones": {
+          "t_req": {
+            "t_ms": 1792389700000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_eff": {
+            "t_ms": 1792389701000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_det": null,
+          "t_rec": {
+            "t_ms": 1792389791000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_stop": {
+            "t_ms": 1792389840000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          }
+        },
+        "clock_state": {
+          "clk_detector_ext": [
+            "NO_SYNC_AT_TRIAL_START",
+            "NO_SYNC_AT_TRIAL_END"
+          ],
+          "clk_host_lab": []
+        }
+      }
+    ],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {},
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 1,
+        "CONFIRMED": 1,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 0,
+        "N": 1,
+        "status": "OK"
+      },
+      "labels": {
+        "RECOVERED_UNDETECTED": 1
+      },
+      "resolution": {
+        "delta_s": 1,
+        "k": 3,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 0,
+        "missing": 0,
+        "unobserved": 1,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          0.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "NOT_PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_120": {
+        "status": "OK",
+        "threshold_s": 120,
+        "N": 1,
+        "passed": 0,
+        "missing": 0,
+        "unobserved": 1,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          0.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "NOT_PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_180": {
+        "status": "OK",
+        "threshold_s": 180,
+        "N": 1,
+        "passed": 0,
+        "missing": 0,
+        "unobserved": 1,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          0.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "NOT_PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "reaction": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 0,
+        "missing": 0,
+        "unobserved": 1,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          0.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "NOT_PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "recovered_rate": {
+        "numerator": 1,
+        "N": 1,
+        "rate": 1.0,
+        "by_label": {
+          "RECOVERED_UNDETECTED": 1
+        }
+      },
+      "failure_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "TIMEOUT"
+        ]
+      },
+      "unknown_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "MISSING",
+          "MISSING_PROBE",
+          "UNKNOWN_EFFECT"
+        ]
+      },
+      "recovered_distribution": {
+        "total_s": [
+          90.0
+        ],
+        "mttr_s_recovered_only": []
+      },
+      "labels_by_trial": {
+        "trl_373449720d3f4a098ca6e1e85e6ecc8c": {
+          "RECOVERED_UNDETECTED": 1
+        }
+      },
+      "r_t": {
+        "status": "OK",
+        "N": 1,
+        "points": {
+          "120": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "180": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "600": {
+            "lower": 1.0,
+            "upper": 1.0
+          }
+        },
+        "median": "<= cap_rec (needs the curve for a point value)",
+        "note": "120/180 s here are from effect, not the MTTR KPI from detect"
+      }
+    },
+    "rejected": []
+  },
+  "invalid_request": {
+    "incidents": [],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [
+        "evt_af4cfcf796184cb7b15fe2f4beec08a2",
+        "evt_e5eac170842a4bce857b59336a7c28f0",
+        "evt_b2a6ad76b187424785357ace9e8a0142"
+      ],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {
+        "MISSING_FIELD": 1
+      },
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 0,
+        "CONFIRMED": 0,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 0,
+        "N": 0,
+        "status": "EMPTY"
+      },
+      "labels": {},
+      "resolution": {
+        "delta_s": 1,
+        "k": 3,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "EMPTY",
+        "verdict": "EMPTY",
+        "N": 0,
+        "threshold_s": 60
+      },
+      "mttr_120": {
+        "status": "EMPTY",
+        "verdict": "EMPTY",
+        "N": 0,
+        "threshold_s": 120
+      },
+      "mttr_180": {
+        "status": "EMPTY",
+        "verdict": "EMPTY",
+        "N": 0,
+        "threshold_s": 180
+      },
+      "reaction": {
+        "status": "EMPTY",
+        "verdict": "EMPTY",
+        "N": 0,
+        "threshold_s": 60
+      },
+      "recovered_rate": {
+        "status": "EMPTY",
+        "N": 0
+      },
+      "labels_by_trial": {},
+      "r_t": {
+        "status": "EMPTY"
+      }
+    },
+    "rejected": [
+      [
+        "ATTACK_REQUESTED",
+        "MISSING_FIELD"
+      ]
+    ]
+  },
+  "invalid_params": {
+    "incidents": [
+      {
+        "incident_id": "inc_7adec7de36914800b8934fc4be374fbb",
+        "trial_id": "trl_6e2b20669bb74169b664125eee456540",
+        "flow": "checkout",
+        "variant_ref": "var-a",
+        "effect": "UNKNOWN_EFFECT",
+        "action_attempts": 1,
+        "terminal": {
+          "SUCCESS": 1,
+          "FAILED": 0,
+          "PARTIAL": 0,
+          "TIMEOUT": 0
+        },
+        "mttd": "MISSING",
+        "mttr": "MISSING",
+        "reaction": "MISSING",
+        "total": null,
+        "label": "MISSING",
+        "missing_reasons": [
+          "PARAMS_INVALID"
+        ],
+        "flags": [],
+        "milestones": {
+          "t_req": {
+            "t_ms": 1792389700000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_eff": null,
+          "t_det": {
+            "t_ms": 1792389731000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_rec": null,
+          "t_stop": {
+            "t_ms": 1792389840000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          }
+        },
+        "clock_state": {
+          "clk_host_lab": []
+        }
+      }
+    ],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {},
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 1,
+        "CONFIRMED": 0,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 1,
+        "N": 1,
+        "status": "OK"
+      },
+      "labels": {
+        "MISSING": 1
+      },
+      "resolution": {
+        "delta_s": null,
+        "k": null,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 0,
+        "missing": 1,
+        "unobserved": 0,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          1.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "UNKNOWN",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_120": {
+        "status": "OK",
+        "threshold_s": 120,
+        "N": 1,
+        "passed": 0,
+        "missing": 1,
+        "unobserved": 0,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          1.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "UNKNOWN",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_180": {
+        "status": "OK",
+        "threshold_s": 180,
+        "N": 1,
+        "passed": 0,
+        "missing": 1,
+        "unobserved": 0,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          1.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "UNKNOWN",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "reaction": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 0,
+        "missing": 1,
+        "unobserved": 0,
+        "rate": 0.0,
+        "bounds": [
+          0.0,
+          1.0
+        ],
+        "mean_observed_s": null,
+        "mean_pool": 0,
+        "verdict": "UNKNOWN",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "recovered_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "by_label": {}
+      },
+      "failure_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "TIMEOUT"
+        ]
+      },
+      "unknown_rate": {
+        "numerator": 1,
+        "N": 1,
+        "rate": 1.0,
+        "labels": [
+          "MISSING",
+          "MISSING_PROBE",
+          "UNKNOWN_EFFECT"
+        ]
+      },
+      "recovered_distribution": {
+        "total_s": [],
+        "mttr_s_recovered_only": []
+      },
+      "labels_by_trial": {
+        "trl_6e2b20669bb74169b664125eee456540": {
+          "MISSING": 1
+        }
+      },
+      "r_t": {
+        "status": "PARAMS_INVALID"
+      }
+    },
+    "rejected": []
+  },
+  "samples_after_trial_end": {
+    "incidents": [
+      {
+        "incident_id": "inc_b231e364f1f2451bbab1f60ee90d2246",
+        "trial_id": "trl_f9e737a9a501423786bfd0482e7f8235",
+        "flow": "checkout",
+        "variant_ref": "var-a",
+        "effect": "CONFIRMED",
+        "action_attempts": 1,
+        "terminal": {
+          "SUCCESS": 1,
+          "FAILED": 0,
+          "PARTIAL": 0,
+          "TIMEOUT": 0
+        },
+        "relapses": 0,
+        "recovery_probe": "VERIFIED",
+        "evaluator_mismatch": false,
+        "evaluator_issues": [],
+        "uncertainty_ms": {
+          "mttd": 2,
+          "reaction": 2,
+          "mttr": 2,
+          "total": 2
+        },
+        "mttd": 30.0,
+        "reaction": 19.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "label": "RECOVERED",
+        "missing_reasons": [],
+        "flags": [],
+        "milestones": {
+          "t_req": {
+            "t_ms": 1792389700000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_eff": {
+            "t_ms": 1792389701000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_det": {
+            "t_ms": 1792389731000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_rec": {
+            "t_ms": 1792389791000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_stop": {
+            "t_ms": 1792389840000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          }
+        },
+        "clock_state": {
+          "clk_host_lab": []
+        }
+      }
+    ],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {},
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 1,
+        "CONFIRMED": 1,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 0,
+        "N": 1,
+        "status": "OK"
+      },
+      "labels": {
+        "RECOVERED": 1
+      },
+      "resolution": {
+        "delta_s": 1,
+        "k": 3,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 30.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_120": {
+        "status": "OK",
+        "threshold_s": 120,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_180": {
+        "status": "OK",
+        "threshold_s": 180,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "reaction": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 19.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "recovered_rate": {
+        "numerator": 1,
+        "N": 1,
+        "rate": 1.0,
+        "by_label": {
+          "RECOVERED": 1
+        }
+      },
+      "failure_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "TIMEOUT"
+        ]
+      },
+      "unknown_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "MISSING",
+          "MISSING_PROBE",
+          "UNKNOWN_EFFECT"
+        ]
+      },
+      "recovered_distribution": {
+        "total_s": [
+          90.0
+        ],
+        "mttr_s_recovered_only": [
+          60.0
+        ]
+      },
+      "labels_by_trial": {
+        "trl_f9e737a9a501423786bfd0482e7f8235": {
+          "RECOVERED": 1
+        }
+      },
+      "r_t": {
+        "status": "OK",
+        "N": 1,
+        "points": {
+          "120": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "180": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "600": {
+            "lower": 1.0,
+            "upper": 1.0
+          }
+        },
+        "median": "<= cap_rec (needs the curve for a point value)",
+        "note": "120/180 s here are from effect, not the MTTR KPI from detect"
+      }
+    },
+    "rejected": []
+  },
+  "mixed_invalid_request": {
+    "incidents": [
+      {
+        "incident_id": "inc_0d4da7092d7e4eecb7c3f9f6a3bc6783",
+        "trial_id": "trl_38c68265cd0c43bcac8e7e88f53f7791",
+        "flow": "checkout",
+        "variant_ref": "var-a",
+        "effect": "CONFIRMED",
+        "action_attempts": 1,
+        "terminal": {
+          "SUCCESS": 1,
+          "FAILED": 0,
+          "PARTIAL": 0,
+          "TIMEOUT": 0
+        },
+        "relapses": 0,
+        "recovery_probe": "VERIFIED",
+        "evaluator_mismatch": false,
+        "evaluator_issues": [],
+        "uncertainty_ms": {
+          "mttd": 2,
+          "reaction": 2,
+          "mttr": 2,
+          "total": 2
+        },
+        "mttd": 30.0,
+        "reaction": 19.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "label": "RECOVERED",
+        "missing_reasons": [],
+        "flags": [],
+        "milestones": {
+          "t_req": {
+            "t_ms": 1792389700000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_eff": {
+            "t_ms": 1792389701000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_det": {
+            "t_ms": 1792389731000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_rec": {
+            "t_ms": 1792389791000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_stop": {
+            "t_ms": 1792389840000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          }
+        },
+        "clock_state": {
+          "clk_host_lab": []
+        }
+      }
+    ],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [
+        "evt_b79fd200fdc14f7288e0f5adb7572c05",
+        "evt_a72be12135c74ab5a9a987c4d441c941",
+        "evt_72961b7bed7d4bd3bd4d57b3f8edc4be"
+      ],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {
+        "MISSING_FIELD": 1
+      },
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 1,
+        "CONFIRMED": 1,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 0,
+        "N": 1,
+        "status": "OK"
+      },
+      "labels": {
+        "RECOVERED": 1
+      },
+      "resolution": {
+        "delta_s": 1,
+        "k": 3,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 30.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_120": {
+        "status": "OK",
+        "threshold_s": 120,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_180": {
+        "status": "OK",
+        "threshold_s": 180,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "reaction": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 19.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "recovered_rate": {
+        "numerator": 1,
+        "N": 1,
+        "rate": 1.0,
+        "by_label": {
+          "RECOVERED": 1
+        }
+      },
+      "failure_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "TIMEOUT"
+        ]
+      },
+      "unknown_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "MISSING",
+          "MISSING_PROBE",
+          "UNKNOWN_EFFECT"
+        ]
+      },
+      "recovered_distribution": {
+        "total_s": [
+          90.0
+        ],
+        "mttr_s_recovered_only": [
+          60.0
+        ]
+      },
+      "labels_by_trial": {
+        "trl_38c68265cd0c43bcac8e7e88f53f7791": {
+          "RECOVERED": 1
+        }
+      },
+      "r_t": {
+        "status": "OK",
+        "N": 1,
+        "points": {
+          "120": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "180": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "600": {
+            "lower": 1.0,
+            "upper": 1.0
+          }
+        },
+        "median": "<= cap_rec (needs the curve for a point value)",
+        "note": "120/180 s here are from effect, not the MTTR KPI from detect"
+      }
+    },
+    "rejected": [
+      [
+        "ATTACK_REQUESTED",
+        "MISSING_FIELD"
+      ]
+    ]
+  },
+  "negative_latency": {
+    "incidents": [
+      {
+        "incident_id": "inc_4805e70a11594ff7a09d0e741ac2e7a8",
+        "trial_id": "trl_29b7f640969d4634b3a8961ab3909351",
+        "flow": "checkout",
+        "variant_ref": "var-a",
+        "effect": "CONFIRMED",
+        "action_attempts": 1,
+        "terminal": {
+          "SUCCESS": 1,
+          "FAILED": 0,
+          "PARTIAL": 0,
+          "TIMEOUT": 0
+        },
+        "relapses": 0,
+        "recovery_probe": "VERIFIED",
+        "evaluator_mismatch": false,
+        "evaluator_issues": [],
+        "uncertainty_ms": {
+          "mttd": 2,
+          "reaction": 2,
+          "mttr": 2,
+          "total": 2
+        },
+        "mttd": 30.0,
+        "reaction": 19.0,
+        "mttr": 60.0,
+        "total": 90.0,
+        "label": "RECOVERED",
+        "missing_reasons": [],
+        "flags": [],
+        "milestones": {
+          "t_req": {
+            "t_ms": 1792389700000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_eff": {
+            "t_ms": 1792389701000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_det": {
+            "t_ms": 1792389731000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_rec": {
+            "t_ms": 1792389791000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          },
+          "t_stop": {
+            "t_ms": 1792389840000,
+            "clock_id": "clk_host_lab",
+            "verified": true
+          }
+        },
+        "clock_state": {
+          "clk_host_lab": []
+        }
+      }
+    ],
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {},
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "kpi": {
+      "counts": {
+        "requested": 1,
+        "CONFIRMED": 1,
+        "CONFIRMED_NO_EFFECT": 0,
+        "UNKNOWN_EFFECT": 0,
+        "N": 1,
+        "status": "OK"
+      },
+      "labels": {
+        "RECOVERED": 1
+      },
+      "resolution": {
+        "delta_s": 1,
+        "k": 3,
+        "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+      },
+      "mttd": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 30.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_120": {
+        "status": "OK",
+        "threshold_s": 120,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "mttr_180": {
+        "status": "OK",
+        "threshold_s": 180,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 60.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "reaction": {
+        "status": "OK",
+        "threshold_s": 60,
+        "N": 1,
+        "passed": 1,
+        "missing": 0,
+        "unobserved": 0,
+        "rate": 1.0,
+        "bounds": [
+          1.0,
+          1.0
+        ],
+        "mean_observed_s": 19.0,
+        "mean_pool": 1,
+        "verdict": "PASS",
+        "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"
+      },
+      "recovered_rate": {
+        "numerator": 1,
+        "N": 1,
+        "rate": 1.0,
+        "by_label": {
+          "RECOVERED": 1
+        }
+      },
+      "failure_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "TIMEOUT"
+        ]
+      },
+      "unknown_rate": {
+        "numerator": 0,
+        "N": 1,
+        "rate": 0.0,
+        "labels": [
+          "MISSING",
+          "MISSING_PROBE",
+          "UNKNOWN_EFFECT"
+        ]
+      },
+      "recovered_distribution": {
+        "total_s": [
+          90.0
+        ],
+        "mttr_s_recovered_only": [
+          60.0
+        ]
+      },
+      "labels_by_trial": {
+        "trl_29b7f640969d4634b3a8961ab3909351": {
+          "RECOVERED": 1
+        }
+      },
+      "r_t": {
+        "status": "OK",
+        "N": 1,
+        "points": {
+          "120": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "180": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "600": {
+            "lower": 1.0,
+            "upper": 1.0
+          }
+        },
+        "median": "<= cap_rec (needs the curve for a point value)",
+        "note": "120/180 s here are from effect, not the MTTR KPI from detect"
+      }
+    },
+    "rejected": []
+  }
+}

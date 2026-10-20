@@ -1,0 +1,98 @@
+{
+  "H_ACK": {
+    "wall_s": 0.4068852,
+    "stop_to_end_s": 0.301557,
+    "summary": {
+      "samples": 0,
+      "pass": 0,
+      "fail": 0,
+      "skipped_slots": 0,
+      "cancelled": 0,
+      "requests": 0,
+      "clock_sync_failed": 0,
+      "heartbeats": 2,
+      "stop_reason": "INTERRUPTED",
+      "undelivered": 1,
+      "delivery": {
+        "delivered": 1,
+        "rejected": 0,
+        "late": 0,
+        "retries": 1
+      },
+      "registration": {
+        "probe_id": "prb-0",
+        "flow": "checkout",
+        "probe_version": "p0",
+        "clock_id": "clk-host"
+      },
+      "max_duration_s": 10,
+      "grace_s": 0.3,
+      "unresolved_cleanup": [],
+      "wall_s": 0.407
+    }
+  },
+  "reference": {
+    "wall_s": 0.2075014,
+    "stop_to_end_s": 0.1017599,
+    "summary": {
+      "samples": 0,
+      "pass": 0,
+      "fail": 0,
+      "skipped_slots": 0,
+      "cancelled": 0,
+      "requests": 0,
+      "clock_sync_failed": 0,
+      "heartbeats": 2,
+      "stop_reason": "INTERRUPTED",
+      "undelivered": 0,
+      "delivery": {
+        "delivered": 3,
+        "rejected": 0,
+        "late": 0,
+        "retries": 0
+      },
+      "registration": {
+        "probe_id": "prb-0",
+        "flow": "checkout",
+        "probe_version": "p0",
+        "clock_id": "clk-host"
+      },
+      "max_duration_s": 10,
+      "grace_s": 0.3,
+      "unresolved_cleanup": [],
+      "wall_s": 0.207
+    }
+  },
+  "cleanup": {
+    "wall_s": 0.2340779,
+    "stop_to_end_s": 0.0984991,
+    "summary": {
+      "samples": 1,
+      "pass": 0,
+      "fail": 1,
+      "skipped_slots": 0,
+      "cancelled": 0,
+      "requests": 6,
+      "clock_sync_failed": 0,
+      "heartbeats": 2,
+      "stop_reason": "INTERRUPTED",
+      "undelivered": 0,
+      "delivery": {
+        "delivered": 3,
+        "rejected": 0,
+        "late": 0,
+        "retries": 0
+      },
+      "registration": {
+        "probe_id": "prb-0",
+        "flow": "checkout",
+        "probe_version": "p0",
+        "clock_id": "clk-host"
+      },
+      "max_duration_s": 10,
+      "grace_s": 0.3,
+      "unresolved_cleanup": [],
+      "wall_s": 0.234
+    }
+  }
+}

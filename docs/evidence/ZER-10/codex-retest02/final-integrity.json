@@ -1,0 +1,16 @@
+{
+  "verdict": "PASS",
+  "problems": [],
+  "package_unchanged": 57,
+  "review_unchanged": 26,
+  "protected_unchanged": 28,
+  "before_snapshot": 46,
+  "notes_preserved": {
+    "docs/delivery/milestones/R1-measurement/probes-and-metrics.md": true,
+    "docs/delivery/NOW.md": true
+  },
+  "head": "55200c9143565c1773cbff57553a9ce858ffe858",
+  "staged": "",
+  "diff_check": 0,
+  "report_sha256": "2e5e462e0da9d52ba7db7bd28ec655578bd0feb2ba5774ec06d5cb2f33fe44bb"
+}

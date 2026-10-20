@@ -1,0 +1,30 @@
+T_REC_FROM_VERIFIED_AT       caught=True failed=14/33
+UNKNOWN_EFFECT_LEAVES_N      caught=True failed=1/33
+MISSING_COUNTS_AS_PASS       caught=True failed=6/57
+H_INTO_O                     caught=True failed=2/28
+GAP_COUNTS_AS_UP             caught=True failed=1/24
+LOST_SEQUENCE_IGNORED        caught=True failed=1/12
+HTTP_STATUS_ONLY             caught=True failed=6/28
+CANCEL_AS_FAILURE            caught=True failed=4/28
+NO_EFFECT_WITHOUT_COVERAGE   caught=True failed=1/33
+UNSYNCED_CLOCK_TRUSTED       caught=True failed=5/33
+EVALUATOR_TRUSTED            caught=True failed=2/33
+FIX01_LOST_REQUEST_DROPPED   caught=True failed=4/5
+FIX01_UNPLACED_DETECT_SKIPPED caught=True failed=1/4
+FIX01_UNPLACED_SUCCESS_IGNORED caught=True failed=1/4
+FIX01_EPISODES_UNKEYED       caught=True failed=1/5
+FIX01_STREAM_FROM_SLOTS      caught=True failed=1/5
+FIX01_M6_FROM_COMPLETED      caught=True failed=1/5
+FIX01_USAGE_FROM_VALID_ONLY  caught=True failed=2/3
+FIX01_GT_UNCHECKED           caught=True failed=1/3
+FIX01_FIRST_GUARD_WINS       caught=True failed=1/3
+FIX01_CART_ITEM_ONLY         caught=True failed=1/7
+FIX01_STEP_DEADLINE_IGNORED  caught=True failed=1/7
+FIX01_RUN_CAP_IGNORED        caught=True failed=1/7
+FIX01_OWNERSHIP_FROM_STATUS  caught=True failed=1/7
+FIX01_CLEANUP_SKIPPED_ON_INTERRUPT caught=True failed=2/7
+FIX01_SINK_FOLLOWS_REDIRECT_AND_PROXY caught=True failed=3/4
+FIX01_ANY_ACK_ACCEPTED       caught=True failed=3/4
+FIX01_OUTPUT_IGNORES_OTHER_EXPORTS caught=True failed=1/6
+control: 103 tests, failures 0, errors 0
+verdict: PASS

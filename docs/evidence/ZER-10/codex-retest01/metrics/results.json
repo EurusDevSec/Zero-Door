@@ -1,0 +1,197 @@
+{
+  "invalid_second_guard": {
+    "M3": {
+      "accept_correct": 1,
+      "accept_incorrect": 0,
+      "accept_unknown": 0,
+      "true_block": 0,
+      "false_block": 0,
+      "unknown_block": 0,
+      "conflicting_verdicts": 0,
+      "proposals_without_verdict": 0,
+      "N": 1,
+      "coverage_scorable": 1.0
+    },
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {
+        "MISSING_FIELD": 1
+      },
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": [],
+      "lost_requests": [],
+      "cardinality_violations": []
+    }
+  },
+  "conflicting_call_coverage": {
+    "status": "MISSING",
+    "reasons": [
+      "1 call_id(s) with conflicting records"
+    ],
+    "calls": 1,
+    "calls_lower_bound": true,
+    "raw_call_records": 2,
+    "call_coverage_status": "MISSING",
+    "usage_status": "MISSING",
+    "cost_status": "MISSING",
+    "call_id_conflicts": [
+      "cal_a50e0acf53ba47f7b44b28a5e182249d"
+    ],
+    "llm_decisions": 1,
+    "decisions_without_call": [],
+    "by": {
+      "run": {
+        "run_0428be003f594aca891567f94a7a9d8b": {
+          "calls": 1,
+          "retries": 0,
+          "retries_unknown": 1,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usage_missing": 1,
+          "usd": 0.0,
+          "cost_missing": 1,
+          "price_refs": [],
+          "invalid_call_records": 0,
+          "decisions_without_call": 0,
+          "call_coverage_status": "COMPLETE",
+          "usage_status": "MISSING",
+          "cost_status": "MISSING",
+          "note": "sums are lower bounds: some calls or their usage/cost are not known"
+        }
+      },
+      "actor": {
+        "decision_llm": {
+          "calls": 1,
+          "retries": 0,
+          "retries_unknown": 1,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usage_missing": 1,
+          "usd": 0.0,
+          "cost_missing": 1,
+          "price_refs": [],
+          "invalid_call_records": 0,
+          "decisions_without_call": 0,
+          "call_coverage_status": "COMPLETE",
+          "usage_status": "MISSING",
+          "cost_status": "MISSING",
+          "note": "sums are lower bounds: some calls or their usage/cost are not known"
+        }
+      },
+      "model": {
+        "model-x": {
+          "calls": 1,
+          "retries": 0,
+          "retries_unknown": 1,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usage_missing": 1,
+          "usd": 0.0,
+          "cost_missing": 1,
+          "price_refs": [],
+          "invalid_call_records": 0,
+          "decisions_without_call": 0,
+          "call_coverage_status": "COMPLETE",
+          "usage_status": "MISSING",
+          "cost_status": "MISSING",
+          "note": "sums are lower bounds: some calls or their usage/cost are not known"
+        }
+      },
+      "trial": {
+        "trl_e174557ff21e4a36933d7b1d5c7c8af1": {
+          "calls": 1,
+          "retries": 0,
+          "retries_unknown": 1,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usage_missing": 1,
+          "usd": 0.0,
+          "cost_missing": 1,
+          "price_refs": [],
+          "invalid_call_records": 0,
+          "decisions_without_call": 0,
+          "call_coverage_status": "COMPLETE",
+          "usage_status": "MISSING",
+          "cost_status": "MISSING",
+          "note": "sums are lower bounds: some calls or their usage/cost are not known"
+        }
+      },
+      "incident": {
+        "inc_d94fd9a77fcc499b87ffb3c92f1d9def": {
+          "calls": 1,
+          "retries": 0,
+          "retries_unknown": 1,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "usage_missing": 1,
+          "usd": 0.0,
+          "cost_missing": 1,
+          "price_refs": [],
+          "invalid_call_records": 0,
+          "decisions_without_call": 0,
+          "call_coverage_status": "COMPLETE",
+          "usage_status": "MISSING",
+          "cost_status": "MISSING",
+          "note": "sums are lower bounds: some calls or their usage/cost are not known"
+        }
+      }
+    },
+    "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+  },
+  "missing_trial": {
+    "rejected": [],
+    "trial_contexts": 1,
+    "trials": [],
+    "incidents": [
+      {
+        "id": "inc_40f187e5f2aa49ec901e428939f2687e",
+        "trial": "trl_3d420955df60433d897c4e815b19c47b",
+        "missing": [
+          "TRIAL_MISSING"
+        ]
+      }
+    ],
+    "exception": "AttributeError",
+    "message": "'NoneType' object has no attribute 'ms'",
+    "trace": "Traceback (most recent call last):\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer10\\codex-retest01\\metrics\\cases.py\", line 26, in no_trial\n    try: intake['result']=scored(t)\n                          ^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\tests\\test_measurement_metrics.py\", line 27, in scored\n    result = scorer.run()\n             ^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\agent-orchestrator\\measurement\\scorer.py\", line 1014, in run\n    incidents = [self.score_incident(inc) for inc in sorted(self.inc.values(), key=lambda i: (i[\"trial\"], i[\"id\"]))]\n                 ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\agent-orchestrator\\measurement\\scorer.py\", line 755, in score_incident\n    stops = sorted((self.stamp_of(e) for e in inc[\"stop\"]), key=lambda i: i.ms) if inc[\"stop\"] else []\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\agent-orchestrator\\measurement\\scorer.py\", line 755, in <lambda>\n    stops = sorted((self.stamp_of(e) for e in inc[\"stop\"]), key=lambda i: i.ms) if inc[\"stop\"] else []\n                                                                          ^^^^\nAttributeError: 'NoneType' object has no attribute 'ms'\n"
+  },
+  "invalid_request_missing_trial": {
+    "rejected": [
+      [
+        "ATTACK_REQUESTED",
+        "MISSING_FIELD"
+      ]
+    ],
+    "trial_contexts": 1,
+    "trials": [],
+    "incidents": [
+      {
+        "id": "inc_e8b694f009594f64aa285e54301c8421",
+        "trial": "trl_a7cafdb8a93c408699049483f08057c7",
+        "missing": [
+          "REQUEST_INVALID",
+          "TRIAL_MISSING"
+        ],
+        "targets_unknown": true
+      }
+    ],
+    "exception": "AttributeError",
+    "message": "'NoneType' object has no attribute 'ms'",
+    "trace": "Traceback (most recent call last):\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer10\\codex-retest01\\metrics\\cases.py\", line 26, in no_trial\n    try: intake['result']=scored(t)\n                          ^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\tests\\test_measurement_metrics.py\", line 27, in scored\n    result = scorer.run()\n             ^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\agent-orchestrator\\measurement\\scorer.py\", line 1014, in run\n    incidents = [self.score_incident(inc) for inc in sorted(self.inc.values(), key=lambda i: (i[\"trial\"], i[\"id\"]))]\n                 ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\agent-orchestrator\\measurement\\scorer.py\", line 755, in score_incident\n    stops = sorted((self.stamp_of(e) for e in inc[\"stop\"]), key=lambda i: i.ms) if inc[\"stop\"] else []\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\agent-orchestrator\\measurement\\scorer.py\", line 755, in <lambda>\n    stops = sorted((self.stamp_of(e) for e in inc[\"stop\"]), key=lambda i: i.ms) if inc[\"stop\"] else []\n                                                                          ^^^^\nAttributeError: 'NoneType' object has no attribute 'ms'\n"
+  }
+}

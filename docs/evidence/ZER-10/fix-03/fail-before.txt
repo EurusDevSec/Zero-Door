@@ -1,0 +1,230 @@
+test_fast_io_finishes_within_grace_controls (test_measurement_boundaries.ActiveStop.test_fast_io_finishes_within_grace_controls) ... ok
+test_repeated_stop_does_not_extend_active_io (test_measurement_boundaries.ActiveStop.test_repeated_stop_does_not_extend_active_io) ... FAIL
+test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) ... 
+  test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='H_ACK') ... FAIL
+  test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='reference') ... FAIL
+  test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='cleanup') ... FAIL
+  test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='final_flush') ... FAIL
+test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) ... 
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=301, second_hop=False) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=301, second_hop=True) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=302, second_hop=False) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=302, second_hop=True) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=303, second_hop=False) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=303, second_hop=True) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=307, second_hop=False) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=307, second_hop=True) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=308, second_hop=False) ... FAIL
+  test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=308, second_hop=True) ... FAIL
+test_issue_step_pins_first_session_before_later_hops (test_measurement_boundaries.RedirectIdentity.test_issue_step_pins_first_session_before_later_hops) ... FAIL
+test_same_session_redirect_controls (test_measurement_boundaries.RedirectIdentity.test_same_session_redirect_controls) ... ok
+test_conflict_marks_both_incidents_and_counts_one_global_call (test_measurement_boundaries.UsageIncidentBuckets.test_conflict_marks_both_incidents_and_counts_one_global_call) ... FAIL
+test_distinct_calls_keep_incident_coverage_complete (test_measurement_boundaries.UsageIncidentBuckets.test_distinct_calls_keep_incident_coverage_complete) ... ok
+
+======================================================================
+FAIL: test_repeated_stop_does_not_extend_active_io (test_measurement_boundaries.ActiveStop.test_repeated_stop_does_not_extend_active_io)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 183, in test_repeated_stop_does_not_extend_active_io
+    self.run_case("H_ACK", 1.2, repeat=True)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 154, in run_case
+    self.assertLess((end - requested[0]) / 1e9, 0.65, case)  # .2 grace + .2 read slice + scheduling
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.148456 not less than 0.65 : H_ACK
+
+======================================================================
+FAIL: test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='H_ACK')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 175, in test_stop_interrupts_active_h_reference_cleanup_and_final_flush
+    self.run_case(case, 1.2)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 154, in run_case
+    self.assertLess((end - requested[0]) / 1e9, 0.65, case)  # .2 grace + .2 read slice + scheduling
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1487686 not less than 0.65 : H_ACK
+
+======================================================================
+FAIL: test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='reference')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 175, in test_stop_interrupts_active_h_reference_cleanup_and_final_flush
+    self.run_case(case, 1.2)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 154, in run_case
+    self.assertLess((end - requested[0]) / 1e9, 0.65, case)  # .2 grace + .2 read slice + scheduling
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1475378 not less than 0.65 : reference
+
+======================================================================
+FAIL: test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='cleanup')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 175, in test_stop_interrupts_active_h_reference_cleanup_and_final_flush
+    self.run_case(case, 1.2)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 154, in run_case
+    self.assertLess((end - requested[0]) / 1e9, 0.65, case)  # .2 grace + .2 read slice + scheduling
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1451327 not less than 0.65 : cleanup
+
+======================================================================
+FAIL: test_stop_interrupts_active_h_reference_cleanup_and_final_flush (test_measurement_boundaries.ActiveStop.test_stop_interrupts_active_h_reference_cleanup_and_final_flush) (case='final_flush')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 175, in test_stop_interrupts_active_h_reference_cleanup_and_final_flush
+    self.run_case(case, 1.2)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 154, in run_case
+    self.assertLess((end - requested[0]) / 1e9, 0.65, case)  # .2 grace + .2 read slice + scheduling
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1.1448223 not less than 0.65 : final_flush
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=301, second_hop=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 41, in check_redirect
+    self.assertFalse(any(s == "foreign-user" for _, _, s in cls.log), cls.log)
+AssertionError: True is not false : [('GET', '/', None), ('GET', '/product/OLJCESPC7Z', '424433060b3f42578428fdb71119c578'), ('POST', '/cart', '424433060b3f42578428fdb71119c578'), ('GET', '/cart', '424433060b3f42578428fdb71119c578'), ('POST', '/cart/checkout', '424433060b3f42578428fdb71119c578'), ('GET', '/cart/empty', 'foreign-user'), ('POST', '/cart/empty', '424433060b3f42578428fdb71119c578')]
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=301, second_hop=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 41, in check_redirect
+    self.assertFalse(any(s == "foreign-user" for _, _, s in cls.log), cls.log)
+AssertionError: True is not false : [('GET', '/', None), ('GET', '/product/OLJCESPC7Z', '192d8c47d7124e44be433e0e950e7717'), ('POST', '/cart', '192d8c47d7124e44be433e0e950e7717'), ('GET', '/cart', '192d8c47d7124e44be433e0e950e7717'), ('POST', '/cart/checkout', '192d8c47d7124e44be433e0e950e7717'), ('GET', '/hop', '192d8c47d7124e44be433e0e950e7717'), ('GET', '/cart/empty', 'foreign-user'), ('POST', '/cart/empty', '192d8c47d7124e44be433e0e950e7717')]
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=302, second_hop=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 41, in check_redirect
+    self.assertFalse(any(s == "foreign-user" for _, _, s in cls.log), cls.log)
+AssertionError: True is not false : [('GET', '/', None), ('GET', '/product/OLJCESPC7Z', 'bc4bbd4b5df14530b5416c9b7839f3f4'), ('POST', '/cart', 'bc4bbd4b5df14530b5416c9b7839f3f4'), ('GET', '/cart', 'bc4bbd4b5df14530b5416c9b7839f3f4'), ('POST', '/cart/checkout', 'bc4bbd4b5df14530b5416c9b7839f3f4'), ('GET', '/cart/empty', 'foreign-user'), ('POST', '/cart/empty', 'bc4bbd4b5df14530b5416c9b7839f3f4')]
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=302, second_hop=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 41, in check_redirect
+    self.assertFalse(any(s == "foreign-user" for _, _, s in cls.log), cls.log)
+AssertionError: True is not false : [('GET', '/', None), ('GET', '/product/OLJCESPC7Z', '153490c80a6e46acb960180e5f798cd8'), ('POST', '/cart', '153490c80a6e46acb960180e5f798cd8'), ('GET', '/cart', '153490c80a6e46acb960180e5f798cd8'), ('POST', '/cart/checkout', '153490c80a6e46acb960180e5f798cd8'), ('GET', '/hop', '153490c80a6e46acb960180e5f798cd8'), ('GET', '/cart/empty', 'foreign-user'), ('POST', '/cart/empty', '153490c80a6e46acb960180e5f798cd8')]
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=303, second_hop=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 41, in check_redirect
+    self.assertFalse(any(s == "foreign-user" for _, _, s in cls.log), cls.log)
+AssertionError: True is not false : [('GET', '/', None), ('GET', '/product/OLJCESPC7Z', '6171beb95f4b44a59b7927d3658a5827'), ('POST', '/cart', '6171beb95f4b44a59b7927d3658a5827'), ('GET', '/cart', '6171beb95f4b44a59b7927d3658a5827'), ('POST', '/cart/checkout', '6171beb95f4b44a59b7927d3658a5827'), ('GET', '/cart/empty', 'foreign-user'), ('POST', '/cart/empty', '6171beb95f4b44a59b7927d3658a5827')]
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=303, second_hop=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 41, in check_redirect
+    self.assertFalse(any(s == "foreign-user" for _, _, s in cls.log), cls.log)
+AssertionError: True is not false : [('GET', '/', None), ('GET', '/product/OLJCESPC7Z', 'beb076a88ac349dda74722a3c1e21429'), ('POST', '/cart', 'beb076a88ac349dda74722a3c1e21429'), ('GET', '/cart', 'beb076a88ac349dda74722a3c1e21429'), ('POST', '/cart/checkout', 'beb076a88ac349dda74722a3c1e21429'), ('GET', '/hop', 'beb076a88ac349dda74722a3c1e21429'), ('GET', '/cart/empty', 'foreign-user'), ('POST', '/cart/empty', 'beb076a88ac349dda74722a3c1e21429')]
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=307, second_hop=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 40, in check_redirect
+    self.assertEqual(["foreign-product"], cls.sessions["foreign-user"])
+AssertionError: Lists differ: ['foreign-product'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'foreign-product'
+
+- ['foreign-product']
++ []
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=307, second_hop=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 40, in check_redirect
+    self.assertEqual(["foreign-product"], cls.sessions["foreign-user"])
+AssertionError: Lists differ: ['foreign-product'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'foreign-product'
+
+- ['foreign-product']
++ []
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=308, second_hop=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 40, in check_redirect
+    self.assertEqual(["foreign-product"], cls.sessions["foreign-user"])
+AssertionError: Lists differ: ['foreign-product'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'foreign-product'
+
+- ['foreign-product']
++ []
+
+======================================================================
+FAIL: test_changed_session_before_any_redirect_hop (test_measurement_boundaries.RedirectIdentity.test_changed_session_before_any_redirect_hop) (code=308, second_hop=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 51, in test_changed_session_before_any_redirect_hop
+    self.check_redirect(code, True, second)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 40, in check_redirect
+    self.assertEqual(["foreign-product"], cls.sessions["foreign-user"])
+AssertionError: Lists differ: ['foreign-product'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'foreign-product'
+
+- ['foreign-product']
++ []
+
+======================================================================
+FAIL: test_issue_step_pins_first_session_before_later_hops (test_measurement_boundaries.RedirectIdentity.test_issue_step_pins_first_session_before_later_hops)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 72, in test_issue_step_pins_first_session_before_later_hops
+    self.assertEqual("SESSION_CHANGED", result["reason"])
+AssertionError: 'SESSION_CHANGED' != 'STATUS_307'
+- SESSION_CHANGED
++ STATUS_307
+
+
+======================================================================
+FAIL: test_conflict_marks_both_incidents_and_counts_one_global_call (test_measurement_boundaries.UsageIncidentBuckets.test_conflict_marks_both_incidents_and_counts_one_global_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_measurement_boundaries.py", line 193, in test_conflict_marks_both_incidents_and_counts_one_global_call
+    self.assertEqual({x["incident_id"] for x in result["incidents"]}, set(usage["by"]["incident"]))
+AssertionError: Items in the first set but not the second:
+'inc_8a4ec769ad9b40f38e9548c3a62d41a5'
+
+----------------------------------------------------------------------
+Ran 8 tests in 21.842s
+
+FAILED (failures=17)

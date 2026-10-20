@@ -1,0 +1,17 @@
+interpreter: Python 3.11.9
+== tests/test_event_pipeline.py
+Ran 22 tests in 2.214s
+OK
+exit=0
+== tests/test_event_pipeline_regressions.py
+Ran 42 tests in 40.274s
+OK
+exit=0
+== tests/test_event_actor_verifier.py
+Ran 4 tests in 0.085s
+OK
+exit=0
+== docs/evidence/ZER-37/check_contract.py
+CONTROL 238/238
+MUTANTS 32/32
+exit=0

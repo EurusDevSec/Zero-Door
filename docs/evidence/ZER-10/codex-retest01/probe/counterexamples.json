@@ -1,0 +1,115 @@
+{
+  "cookie_switch_cleanup": {
+    "detail": "BUSINESS",
+    "reason": "SESSION_CHANGED",
+    "cleanup": {
+      "cart": "DONE"
+    },
+    "sessions": {
+      "foreign-user": [],
+      "a1636939c8ef4c128f1ac604cd9af80f": [
+        "OLJCESPC7Z"
+      ]
+    },
+    "log": [
+      [
+        "GET",
+        "/",
+        null
+      ],
+      [
+        "GET",
+        "/product/OLJCESPC7Z",
+        "a1636939c8ef4c128f1ac604cd9af80f"
+      ],
+      [
+        "POST",
+        "/cart",
+        "a1636939c8ef4c128f1ac604cd9af80f"
+      ],
+      [
+        "POST",
+        "/cart/empty",
+        "foreign-user"
+      ]
+    ],
+    "expected": "foreign-user cart retained; only original sample-owned cart cleaned or unresolved"
+  },
+  "sink_deadline_drip": {
+    "deadline_s": 0.05,
+    "sink_timeout_s": 0.05,
+    "wall_s": 0.3109260999990511,
+    "pending": 0,
+    "delivered": 1,
+    "expected": "end by declared total deadline; undelivered event stays pending"
+  },
+  "cadence_wait_over_cap": {
+    "wall_s": 6.009385699999257,
+    "summary": {
+      "samples": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped_slots": 0,
+      "cancelled": 0,
+      "requests": 5,
+      "clock_sync_failed": 0,
+      "heartbeats": 2,
+      "stop_reason": "MAX_DURATION",
+      "undelivered": 0,
+      "delivery": {
+        "delivered": 3,
+        "rejected": 0,
+        "late": 0,
+        "retries": 0
+      },
+      "registration": {
+        "probe_id": "prb-0",
+        "flow": "checkout",
+        "probe_version": "p0",
+        "clock_id": "clk-host"
+      },
+      "max_duration_s": 0.1,
+      "grace_s": 0.05,
+      "wall_s": 6.009
+    },
+    "expected": "max_duration .1 + grace .05; waiting for slot must also be capped"
+  },
+  "cli_cancel_journal": {
+    "wall_s": 0.3895388000000821,
+    "exit": 0,
+    "summary": {
+      "cancelled": 1,
+      "clock_sync_failed": 0,
+      "delivery": {
+        "delivered": 2,
+        "late": 0,
+        "rejected": 0,
+        "retries": 0
+      },
+      "fail": 0,
+      "grace_s": 0.05,
+      "heartbeats": 2,
+      "max_duration_s": 30,
+      "pass": 0,
+      "registration": {
+        "clock_id": "clk-host",
+        "flow": "checkout",
+        "probe_id": "prb-0",
+        "probe_version": "p0"
+      },
+      "requests": 5,
+      "runtime_approval": "OWNED_LOOPBACK_FAKE_ONLY",
+      "samples": 0,
+      "skipped_slots": 0,
+      "stop_reason": "INTERRUPTED",
+      "undelivered": 0,
+      "wall_s": 0.366
+    },
+    "outbox_event_types": [
+      "PROBE_HEARTBEAT",
+      "PROBE_HEARTBEAT"
+    ],
+    "cleanup_in_stdout_or_outbox": false,
+    "expected": "cancelled sample ownership/cleanup detail durably retained or included in CLI output; early-stop cleanup also respects .05s grace"
+  }
+}

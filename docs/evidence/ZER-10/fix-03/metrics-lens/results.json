@@ -1,0 +1,880 @@
+{
+  "verdict": "PASS",
+  "checks": 5,
+  "cases": {
+    "distinct": {
+      "N": 2,
+      "incidents": [
+        "inc_a9ab88236d7d43f982e8f72445a3d9ea",
+        "inc_c79c64d3967c418eb201657685929eb7"
+      ],
+      "usage": {
+        "status": "OK",
+        "reasons": [],
+        "calls": 2,
+        "calls_lower_bound": false,
+        "raw_call_records": 2,
+        "call_coverage_status": "COMPLETE",
+        "usage_status": "COMPLETE",
+        "cost_status": "COMPLETE",
+        "call_id_conflicts": [],
+        "llm_decisions": 2,
+        "decisions_without_call": [],
+        "by": {
+          "run": {
+            "run_d92994c58f8b4680929d3d16bad759fc": {
+              "calls": 2,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 2000,
+              "output_tokens": 200,
+              "usage_missing": 0,
+              "usd": 0.02,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            }
+          },
+          "actor": {
+            "decision_llm": {
+              "calls": 2,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 2000,
+              "output_tokens": 200,
+              "usage_missing": 0,
+              "usd": 0.02,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            }
+          },
+          "model": {
+            "model-x": {
+              "calls": 2,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 2000,
+              "output_tokens": 200,
+              "usage_missing": 0,
+              "usd": 0.02,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            }
+          },
+          "trial": {
+            "trl_696e2a16d2634a408ed56d88781d6077": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            },
+            "trl_b3517ed7bbc8481d8bf897b15ea5b770": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            }
+          },
+          "incident": {
+            "inc_c79c64d3967c418eb201657685929eb7": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            },
+            "inc_a9ab88236d7d43f982e8f72445a3d9ea": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            }
+          }
+        },
+        "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+      },
+      "labels": [
+        "RECOVERED",
+        "RECOVERED"
+      ]
+    },
+    "conflict": {
+      "N": 2,
+      "incidents": [
+        "inc_164e8e8e439f47b2bf043f564bef18d7",
+        "inc_dc4341e3aabf4b32814966989377cfca"
+      ],
+      "usage": {
+        "status": "MISSING",
+        "reasons": [
+          "1 LLM decision(s) without a valid LLM_CALL record",
+          "1 call_id(s) with conflicting records"
+        ],
+        "calls": 1,
+        "calls_lower_bound": true,
+        "raw_call_records": 2,
+        "call_coverage_status": "MISSING",
+        "usage_status": "MISSING",
+        "cost_status": "MISSING",
+        "call_id_conflicts": [
+          "cal_d31253bc31ae46b1bd0bad0a5bffd79f"
+        ],
+        "llm_decisions": 2,
+        "decisions_without_call": [
+          "dec_bd8c7fddc78e4197b10a8d45d90ef5bd"
+        ],
+        "by": {
+          "run": {
+            "run_11ecf9c3b4a94f0b84e69334f61fdfc7": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "actor": {
+            "decision_llm": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "model": {
+            "model-x": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "trial": {
+            "trl_ed0ce9cbd2f44e599f863b26cacefe02": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "trl_ae7c038359404937b4a45bf81f3a64c3": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "incident": {
+            "inc_164e8e8e439f47b2bf043f564bef18d7": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "inc_dc4341e3aabf4b32814966989377cfca": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          }
+        },
+        "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+      },
+      "labels": [
+        "RECOVERED",
+        "RECOVERED"
+      ]
+    },
+    "conflict_reverse": {
+      "N": 2,
+      "incidents": [
+        "inc_4ca2303b17864c1c822b55bb656e724d",
+        "inc_aea25cc7abf246cf91eaaf9b2aebb1f5"
+      ],
+      "usage": {
+        "status": "MISSING",
+        "reasons": [
+          "1 LLM decision(s) without a valid LLM_CALL record",
+          "1 call_id(s) with conflicting records"
+        ],
+        "calls": 1,
+        "calls_lower_bound": true,
+        "raw_call_records": 2,
+        "call_coverage_status": "MISSING",
+        "usage_status": "MISSING",
+        "cost_status": "MISSING",
+        "call_id_conflicts": [
+          "cal_52429c49e9574ef981088eab89cc3472"
+        ],
+        "llm_decisions": 2,
+        "decisions_without_call": [
+          "dec_1625600e3c264973bca29be8e8cb0163"
+        ],
+        "by": {
+          "run": {
+            "run_4dcba4e6bc964bc7bcb1b41f844298cd": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "actor": {
+            "decision_llm": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "model": {
+            "model-x": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "trial": {
+            "trl_96f95fa3e0934b15a2066f91e83dd297": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "trl_18d886c7c1554f758b32ce1b9da0ae76": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "incident": {
+            "inc_aea25cc7abf246cf91eaaf9b2aebb1f5": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "inc_4ca2303b17864c1c822b55bb656e724d": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          }
+        },
+        "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+      },
+      "labels": [
+        "RECOVERED",
+        "RECOVERED"
+      ]
+    },
+    "conflict_models": {
+      "N": 2,
+      "incidents": [
+        "inc_6b7527c9e3b64db58d86a5abca18af42",
+        "inc_b80b564410844d129d7b89667223390e"
+      ],
+      "usage": {
+        "status": "MISSING",
+        "reasons": [
+          "1 LLM decision(s) without a valid LLM_CALL record",
+          "1 call_id(s) with conflicting records"
+        ],
+        "calls": 1,
+        "calls_lower_bound": true,
+        "raw_call_records": 2,
+        "call_coverage_status": "MISSING",
+        "usage_status": "MISSING",
+        "cost_status": "MISSING",
+        "call_id_conflicts": [
+          "cal_98239896672b4686a4938f8959906060"
+        ],
+        "llm_decisions": 2,
+        "decisions_without_call": [
+          "dec_0a9c91eba1a34bc7a94b1b4ceff1e900"
+        ],
+        "by": {
+          "run": {
+            "run_10a9e211648d482c995ff366b9bf6e83": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "actor": {
+            "decision_llm": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 2,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "model": {
+            "model-x": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "model-y": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "trial": {
+            "trl_b0dbd6dbbda94f09b6ff4f5175a9b2cb": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "trl_eec5244981954d7ba023a26b26a6802c": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "incident": {
+            "inc_6b7527c9e3b64db58d86a5abca18af42": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 1,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 1,
+              "usd": 0.0,
+              "cost_missing": 1,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            },
+            "inc_b80b564410844d129d7b89667223390e": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 0,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 1,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          }
+        },
+        "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+      },
+      "labels": [
+        "RECOVERED",
+        "RECOVERED"
+      ]
+    },
+    "invalid_second": {
+      "N": 2,
+      "incidents": [
+        "inc_ebb7c45c04c3406e9d093ae64e8e981f",
+        "inc_f40ce8a4f5ca456f912be16bd7b87541"
+      ],
+      "usage": {
+        "status": "MISSING",
+        "reasons": [
+          "1 LLM decision(s) without a valid LLM_CALL record",
+          "1 invalid/quarantined LLM_CALL record(s)"
+        ],
+        "calls": 1,
+        "calls_lower_bound": true,
+        "raw_call_records": 2,
+        "call_coverage_status": "MISSING",
+        "usage_status": "MISSING",
+        "cost_status": "MISSING",
+        "call_id_conflicts": [],
+        "llm_decisions": 2,
+        "decisions_without_call": [
+          "dec_90e5b370e67f4538b35f6e82b393d1e6"
+        ],
+        "by": {
+          "run": {
+            "run_73da658634c44c628e72fe27cc07ea2f": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 1,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "actor": {
+            "decision_llm": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 1,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "model": {
+            "model-x": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 1,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "trial": {
+            "trl_b4898c6f5d1c4724a6ce4d7f690895a3": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            },
+            "trl_c472775698e144f7a7c07a3ab994e056": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 1,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          },
+          "incident": {
+            "inc_ebb7c45c04c3406e9d093ae64e8e981f": {
+              "calls": 1,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 1000,
+              "output_tokens": 100,
+              "usage_missing": 0,
+              "usd": 0.01,
+              "cost_missing": 0,
+              "price_refs": [
+                "price-table-synthetic"
+              ],
+              "invalid_call_records": 0,
+              "decisions_without_call": 0,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "COMPLETE",
+              "usage_status": "COMPLETE",
+              "cost_status": "COMPLETE"
+            },
+            "inc_f40ce8a4f5ca456f912be16bd7b87541": {
+              "calls": 0,
+              "retries": 0,
+              "retries_unknown": 0,
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "usage_missing": 0,
+              "usd": 0.0,
+              "cost_missing": 0,
+              "price_refs": [],
+              "invalid_call_records": 1,
+              "decisions_without_call": 1,
+              "conflicting_call_records": 0,
+              "call_coverage_status": "MISSING",
+              "usage_status": "MISSING",
+              "cost_status": "MISSING",
+              "note": "sums are lower bounds: some calls or their usage/cost are not known"
+            }
+          }
+        },
+        "rule": "one LLM_CALL per call_id, retries included; coverage from LLM decisions; missing stays MISSING"
+      },
+      "labels": [
+        "RECOVERED",
+        "RECOVERED"
+      ]
+    }
+  }
+}

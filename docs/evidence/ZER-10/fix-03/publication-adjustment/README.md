@@ -1,0 +1,3 @@
+# Publication byte/whitespace adjustment
+
+The first pre-publication seal is preserved in manifest-before.json (45c62eaf66c1865c4a6c35049264203714adfc9eb0584f0f499c876288cdefc0). Index verification matched all407acceptedblobs. git diff --cached --check then flagged original blank EOF/trailing spaces inside immutable before snapshots and a historical ci.diff. The attribute exception is limited to archived before/** and *.diff; no historical byte or production behavior was altered. Root manifest was amended before publication to include this receipt and final attributes. Current source/tests retain whitespace checks.

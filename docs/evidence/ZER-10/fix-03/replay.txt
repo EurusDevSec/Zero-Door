@@ -1,0 +1,30 @@
+ok   ZR10-01 - mixed_invalid_request requested/N | actual [2, 2] | expected [2, 2]
+ok   ZR10-01 - mixed_invalid_request MTTD verdict | actual "UNKNOWN" | expected "UNKNOWN"
+ok   ZR10-01 - invalid_request requested/status (not EMPTY) | actual [1, "OK"] | expected [1, "OK"]
+ok   ZR10-01 - invalid_request label | actual "MISSING" | expected "MISSING"
+ok   ZR10-02 - detector_unsynced label/mttd/total | actual ["MISSING", "MISSING", 90.0] | expected ["MISSING", "MISSING", 90.0]
+ok   ZR10-02 - detector_unsynced CLOCK_UNVERIFIED flag | actual true | expected true
+ok   ZR10-02 - detector_unsynced MTTD verdict | actual "UNKNOWN" | expected "UNKNOWN"
+ok   control - clean E01 MTTD/MTTR verdicts | actual ["PASS", "PASS"] | expected ["PASS", "PASS"]
+ok   common cause - negative_latency label | actual "MISSING" | expected "MISSING"
+ok   ZR10-03 - different_episode_keys episodes, per hour | actual [2, 25.899281] | expected [2, 25.899281]
+ok   ZR10-03 - all_slots_hit_without_coverage episodes/h, verdict | actual [null, "UNKNOWN"] | expected [null, "UNKNOWN"]
+ok   ZR10-03 - all_slots_hit_without_coverage slot bounds | actual [1.0, 1.0] | expected [1.0, 1.0]
+ok   ZR10-04 - started_action_no_terminal executed / terminal MISSING | actual [1, 1] | expected [1, 1]
+ok   B0 note - b0_detector_off M5/M6 | actual ["N/A", "N/A"] | expected ["N/A", "N/A"]
+ok   ZR10-05 - llm_decision_with_no_call_records status | actual "MISSING" | expected "MISSING"
+ok   ZR10-05 - invalid_second_llm_call raw records/coverage/usage/cost | actual [2, "MISSING", "MISSING", "MISSING"] | expected [2, "MISSING", "MISSING", "MISSING"]
+ok   ZR10-05 - invalid_second_llm_call cost lower bound | actual 0.01 | expected 0.01
+ok   ZR10-06 - malformed_gt_constraint: no exception, outcome | actual [false, "UNKNOWN_GT"] | expected [false, "UNKNOWN_GT"]
+ok   ZR10-07 - conflicting_guard_verdicts accept_correct/conflicts | actual [0, 1] | expected [0, 1]
+ok   ZR10-07 - same result in reversed ingest order | actual {"accept_correct": 0, "accept_incorrect": 0, "accept_unknown": 0, "true_block": 0, "false_block": 0, "unknown_block": 0, "conflicting_verdicts": 1, "proposals_without_verdict": 0, "N": 1, "coverage_scorable": 0.0} | expected {"accept_correct": 0, "accept_incorrect": 0, "accept_unknown": 0, "true_block": 0, "false_block": 0, "unknown_block": 0, "conflicting_verdicts": 1, "proposals_without_verdict": 0, "N": 1, "coverage_scorable": 0.0}
+ok   ZR10-08 - duplicate_cart pass | actual false | expected false
+ok   ZR10-09 - step_timeout pass/home ms < 200 | actual [false, true] | expected [false, true]
+ok   ZR10-09 - max_duration samples/cancelled/stop | actual [0, 1, "MAX_DURATION"] | expected [0, 1, "MAX_DURATION"]
+ok   ZR10-09 - max_duration wall within cap + grace + 1 s | actual true | expected true
+ok   ZR10-10 - fixture_stale_cleanup pre-existing kept / no DELETE | actual [true, false] | expected [true, false]
+ok   ZR10-10 - fixture_stale_cleanup cleanup | actual {"order": "UNRESOLVED_OWNERSHIP"} | expected {"order": "UNRESOLVED_OWNERSHIP"}
+ok   ZR10-10 - keyboard_interrupt_cleanup carts emptied / cleanup sent | actual [[0], 1] | expected [[0], 1]
+ok   ZR10-11 - h_sink_redirect refused, nothing at the other origin | actual ["REFUSED", []] | expected ["REFUSED", []]
+ok   ZR10-N1 - other_input_output exit/created | actual [4, false] | expected [4, false]
+ALL_EXPECTED 29/29

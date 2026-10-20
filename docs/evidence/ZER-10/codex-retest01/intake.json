@@ -1,0 +1,312 @@
+{
+  "manifest": {
+    "append_only": {
+      "docs/delivery/NOW.md": "2144b769b87916eef278df39073f66055e4dd7ca045dc0e7a7257ea1199d405d",
+      "docs/delivery/milestones/R1-measurement/probes-and-metrics.md": "31bbeb508121b02b5b15de0b728dd1cc61e22a13af40104dc415e7245a368765"
+    },
+    "base": "55200c9 (tree = 0babf90)",
+    "base_manifest": {
+      "path": "docs/evidence/ZER-10/manifest.json",
+      "sha256": "b3a33293105ee44f0e772405ca40ddea1b4820ca95cea035da93fdbc6b169292"
+    },
+    "delta": {
+      "added": [
+        "docs/evidence/ZER-10/fix-01/results/bandit.txt",
+        "docs/evidence/ZER-10/fix-01/results/counterexamples-retest.json",
+        "docs/evidence/ZER-10/fix-01/results/crosscheck-zer37.json",
+        "docs/evidence/ZER-10/fix-01/results/mutants.json",
+        "docs/evidence/ZER-10/fix-01/results/mutants.txt",
+        "docs/evidence/ZER-10/fix-01/results/offline-py3.11.9/offline-summary.json",
+        "docs/evidence/ZER-10/fix-01/results/offline-py3.12.4/offline-summary.json",
+        "docs/evidence/ZER-10/fix-01/results/regressions.txt",
+        "docs/evidence/ZER-10/fix-01/retest_counterexamples.py"
+      ],
+      "changed": [
+        "agent-orchestrator/measurement/__main__.py",
+        "agent-orchestrator/measurement/config.py",
+        "agent-orchestrator/measurement/flows.py",
+        "agent-orchestrator/measurement/metrics.py",
+        "agent-orchestrator/measurement/probe.py",
+        "agent-orchestrator/measurement/scorer.py",
+        "agent-orchestrator/measurement/sink.py",
+        "docs/design/r1-measurement.md",
+        "docs/evidence/ZER-10/check_mutants.py",
+        "docs/evidence/ZER-10/check_package.py",
+        "docs/evidence/ZER-10/crosscheck_zer37.py",
+        "docs/evidence/ZER-10/verification.md",
+        "docs/runbooks/independent-measurement.md",
+        "tests/fixtures/zer10/plan-synthetic-boutique.json",
+        "tests/fixtures/zer10/plan-synthetic-fixture.json",
+        "tests/test_measurement_cli.py",
+        "tests/test_measurement_metrics.py",
+        "tests/test_measurement_probe.py",
+        "tests/test_measurement_scorer.py"
+      ],
+      "removed": [],
+      "unchanged": 18
+    },
+    "files": {
+      ".github/workflows/ci.yml": "e9f8360433e6c5b38037b142a3239bd51988d6dc81c9eee9b77e2688028c4da2",
+      "agent-orchestrator/measurement/__init__.py": "b2be409aa99e14034e6afae7bbf2389660d40c57e99940a275cd5164d242669e",
+      "agent-orchestrator/measurement/__main__.py": "8a367c0b23449b46744171e26265803b1ed1e2daf96f646970844fe94ff2e3df",
+      "agent-orchestrator/measurement/clock.py": "b530d9ed4fb7ad28cf40c727a80d9f0a370b34e28934a9db47bfdc5628bf52dc",
+      "agent-orchestrator/measurement/config.py": "b81e3923164d470f6a52f0a3440f994ae8eeaba23154edf4beedeb2f4c15e1e4",
+      "agent-orchestrator/measurement/flows.py": "3485223fb8980402a15a0d628cb210dbe56646ba0a775fe3d209a17c4b896264",
+      "agent-orchestrator/measurement/metrics.py": "f630644e6d36349977a485a0b7f67498fcda4506918678704b53e047db9e9a53",
+      "agent-orchestrator/measurement/output.py": "4e0f83dd3099c8b2042efcbede8a6a9550187f374e151d7570fd554d5681f0f4",
+      "agent-orchestrator/measurement/probe.py": "2d9de4f763bce7052d702688df4832a6b1d8eb352cec397fb4e2f65d72f34c15",
+      "agent-orchestrator/measurement/raw.py": "f341480ce93b364a61be97e131a9a501e1908ca57274db714ad46ee4a58c3e94",
+      "agent-orchestrator/measurement/recovery.py": "866770559d89535a3949bde65a1d60facf8ccd54479beb632e646b67869eadd0",
+      "agent-orchestrator/measurement/scorer.py": "6e84dd8e60fad80b45f9a33eee5569f10501a97aaab431d5cb28d36081e58b47",
+      "agent-orchestrator/measurement/sink.py": "12e9cf9096184da0f64977cf27db1510a03e17dc91263bfd99f4b7c143341974",
+      "docs/design/r1-measurement.md": "6d5eed6a941d919f52dd5565c0ee8ee021f7f77cc83fbf7cf42b12741e0dc351",
+      "docs/evidence/ZER-10/check_mutants.py": "139369327607a24ac4e9edcfe95dea0f79ef0c7ec1767ee8063b4f559fee1046",
+      "docs/evidence/ZER-10/check_package.py": "c185fb2dbdf3b15a7bc74f7b79c2e3bdfd8466328de485172d8730ce943e5d7c",
+      "docs/evidence/ZER-10/crosscheck_zer37.py": "2e2505bd305c5fd17517837d577dba5714bbfd788f3f24ce371519b41ab91f99",
+      "docs/evidence/ZER-10/fix-01/results/bandit.txt": "1655c16ab93e48a2908d1f4c366eae7b18447deead1b6069d329817a6119d151",
+      "docs/evidence/ZER-10/fix-01/results/counterexamples-retest.json": "f8e649b5452d76235a02f7fec9030ebb817c9ecbdcb535396257e0eb69210d88",
+      "docs/evidence/ZER-10/fix-01/results/crosscheck-zer37.json": "fad09159380a6c55bd2c5cd51545fa177527b528194b96cef8bcfde3907811b2",
+      "docs/evidence/ZER-10/fix-01/results/mutants.json": "f249ddf4728812994e719321233a5baae99ab933c29ed1ebf9a814531083fc16",
+      "docs/evidence/ZER-10/fix-01/results/mutants.txt": "93516359900800f5419e0f6b76891c7a8a27c3de73f64e5dd8bcad868a13e571",
+      "docs/evidence/ZER-10/fix-01/results/offline-py3.11.9/offline-summary.json": "399607a5ccd78e705b40625055ef5669e7bb81a9494793b322b025bc1ab0078f",
+      "docs/evidence/ZER-10/fix-01/results/offline-py3.12.4/offline-summary.json": "399607a5ccd78e705b40625055ef5669e7bb81a9494793b322b025bc1ab0078f",
+      "docs/evidence/ZER-10/fix-01/results/regressions.txt": "938cf5e4aa4f8149aae4a70e937812c76ff1adde604bc6103be19c5c20fa6ed1",
+      "docs/evidence/ZER-10/fix-01/retest_counterexamples.py": "680ca6ee489781fa8009b1e8939f7aa9f0f85e02a8e3c7f8fabed3af9b8d0d02",
+      "docs/evidence/ZER-10/results/bandit.txt": "b6cb7c44462df39f071aa75ba562bbb23ea7e608016210ece80ebacfe7d6d0fa",
+      "docs/evidence/ZER-10/results/ci.diff": "550233537d9e859b91704d2cd4a5903d68ee444c40f89a2d039754f9a268f00c",
+      "docs/evidence/ZER-10/results/crosscheck-zer37.json": "fad09159380a6c55bd2c5cd51545fa177527b528194b96cef8bcfde3907811b2",
+      "docs/evidence/ZER-10/results/mutants.json": "195ca5e0bb85ddc1e8026d0aafc588c7a8e184d3986c903e7b7c69253d3727c1",
+      "docs/evidence/ZER-10/results/offline-py3.11.9/offline-summary.json": "46b18ac7602a5baed6713b974b544392e58fdef7c7f96424038eb41c3810eaf8",
+      "docs/evidence/ZER-10/results/offline-py3.12.4/offline-summary.json": "46b18ac7602a5baed6713b974b544392e58fdef7c7f96424038eb41c3810eaf8",
+      "docs/evidence/ZER-10/results/regressions.txt": "9c9f32f6e75e16fedec749823d771128936161eeaf624e150a5b16c82950283d",
+      "docs/evidence/ZER-10/verification.md": "3c506886c18fd63f1d19a09d7404d1ed4103a49f3a2a3cd3245f87e4586db945",
+      "docs/runbooks/independent-measurement.md": "45f6b4048e612adf177e8f0e1da2e493c5e6a7d474da353166309419e041fcb6",
+      "infrastructure/scripts/verify-measurement.py": "c25dd9ba36ae877a623808f27253f6ffff30327fb06c4ecabe1b99cb603d497f",
+      "infrastructure/scripts/verify-measurement.sh": "d20aee4d8f423eb8416673c6a723d972692c7c25130b5febebf13f0a0d5a12e7",
+      "tests/fixtures/zer10/builder.py": "fec83e3391120722d73975a58445fb690a549b95aa9b210e1af32491cf72588e",
+      "tests/fixtures/zer10/expected.json": "44f39f71b0dc98e747fab875500cf2afa380dd37e8ef64deb7a3a8cb1f9228e7",
+      "tests/fixtures/zer10/plan-synthetic-boutique.json": "7b28c458c3606475c6cb04a3146f6c53aceb8423fa57051d9f5291d7058323d3",
+      "tests/fixtures/zer10/plan-synthetic-fixture.json": "8ad01365ee2b5e3c7be4f243b7cf20469f3e1c35652166ea0105c402e6f9ac9e",
+      "tests/test_measurement_cli.py": "937482ae783f3fa817c83e6780b30ad43e5756eea48be6c152d57412d4190148",
+      "tests/test_measurement_metrics.py": "1467ff0c22aec2f850b94bf4ff0ac7f121a4c26f9003919b2fe4195144aeea52",
+      "tests/test_measurement_probe.py": "1a8df8d83d52c9dc672803755eff49ef05c017572b96337cf848901743fdc3b9",
+      "tests/test_measurement_recovery.py": "4e8127899081caf2a8bb1c8aa978f7ed34732b94203984f6143fac8a9090ac8e",
+      "tests/test_measurement_scorer.py": "f2912339a7a7ef75cd8160a2e6798e328c6288b9c575661dd49a8dbfc79e3e47"
+    },
+    "outside_scope": {
+      "docs/detail_zero-door.md": "16a4c724aa5f33edcbe789d3671e9687511cf3c17e59b5290015375c59046700"
+    },
+    "package": "ZER-10 + ZER-38 fix-01 offline (Claude, 20/10/2026)",
+    "review": "docs/evidence/ZER-10/codex-review.md (CHANGES_REQUIRED)",
+    "review_read_only": {
+      "docs/evidence/ZER-10/codex-review.md": "9f0e9b495a1af50c0ea47f96f7546cf06bbd22adbe54ac9172c106c3dafc4237",
+      "docs/evidence/ZER-10/codex-review/checksums.json": "ee55f5e4c4998b4311f49664a353620bb678496e388d8629ea6dd71d785c3775",
+      "docs/evidence/ZER-10/codex-review/crosscheck.txt": "afee9b06a564f1329c15a1049206732a6fdffdeef4cc408b7abcdb0d01c10938",
+      "docs/evidence/ZER-10/codex-review/final-integrity.json": "56e916ca4b3bbb8ff29e22240f5c9e03b93d952baf9fff2906b955a7ef3184cd",
+      "docs/evidence/ZER-10/codex-review/intake.json": "0ae23cffb6a8b30eeb0ccb035dabb38acc63dbfd23bf3a403a8ab5ca8a8ddd60",
+      "docs/evidence/ZER-10/codex-review/metrics/counterexamples.json": "24f9c64b317febdeaafa95ceff11d9f11f15d243820b126ae58434726222a332",
+      "docs/evidence/ZER-10/codex-review/metrics/counterexamples.py": "a909c462bcbfeec0e71bd5801ba21bbd3e51513a0ed8886ecaf2468f14eaf84a",
+      "docs/evidence/ZER-10/codex-review/metrics/extra.json": "6c27a6f40d3cf69340cd27593ee533a17790edd59ac00728a9b0cdca04d0897f",
+      "docs/evidence/ZER-10/codex-review/metrics/extra.py": "7db05f451084b1564638fd0745d163e77f04ebc5d36a46ce5e6ba7641c28460e",
+      "docs/evidence/ZER-10/codex-review/offline.txt": "ed4253a91789f80032a9a248d1bfad9b3a01ac31fe09f3fb107e5daaad9e19e7",
+      "docs/evidence/ZER-10/codex-review/probe/counterexamples.json": "698f61701191da8a45dc596c524c19c407d939954c86f44266f2acb19b861896",
+      "docs/evidence/ZER-10/codex-review/probe/counterexamples.py": "4a9e2c44aa2da389745040b65519b6bf05c04c10c1e6311d2cfdd5c295c451f0",
+      "docs/evidence/ZER-10/codex-review/scorer-probes.json": "6c3a91342492711873f791a66052b5fe8a7d4f5e0209088f611728fbc9b57caf",
+      "docs/evidence/ZER-10/codex-review/scorer-probes.py": "2fb0773643b27a14fcbf1368ffe01aa58ba27dbe8357010fbc4a1b678e433d52"
+    }
+  },
+  "files": {
+    ".github/workflows/ci.yml": {
+      "sha256": "e9f8360433e6c5b38037b142a3239bd51988d6dc81c9eee9b77e2688028c4da2",
+      "bytes": 16665
+    },
+    "agent-orchestrator/measurement/__init__.py": {
+      "sha256": "b2be409aa99e14034e6afae7bbf2389660d40c57e99940a275cd5164d242669e",
+      "bytes": 243
+    },
+    "agent-orchestrator/measurement/__main__.py": {
+      "sha256": "8a367c0b23449b46744171e26265803b1ed1e2daf96f646970844fe94ff2e3df",
+      "bytes": 8266
+    },
+    "agent-orchestrator/measurement/clock.py": {
+      "sha256": "b530d9ed4fb7ad28cf40c727a80d9f0a370b34e28934a9db47bfdc5628bf52dc",
+      "bytes": 10442
+    },
+    "agent-orchestrator/measurement/config.py": {
+      "sha256": "b81e3923164d470f6a52f0a3440f994ae8eeaba23154edf4beedeb2f4c15e1e4",
+      "bytes": 5897
+    },
+    "agent-orchestrator/measurement/flows.py": {
+      "sha256": "3485223fb8980402a15a0d628cb210dbe56646ba0a775fe3d209a17c4b896264",
+      "bytes": 31522
+    },
+    "agent-orchestrator/measurement/metrics.py": {
+      "sha256": "f630644e6d36349977a485a0b7f67498fcda4506918678704b53e047db9e9a53",
+      "bytes": 46503
+    },
+    "agent-orchestrator/measurement/output.py": {
+      "sha256": "4e0f83dd3099c8b2042efcbede8a6a9550187f374e151d7570fd554d5681f0f4",
+      "bytes": 4003
+    },
+    "agent-orchestrator/measurement/probe.py": {
+      "sha256": "2d9de4f763bce7052d702688df4832a6b1d8eb352cec397fb4e2f65d72f34c15",
+      "bytes": 11424
+    },
+    "agent-orchestrator/measurement/raw.py": {
+      "sha256": "f341480ce93b364a61be97e131a9a501e1908ca57274db714ad46ee4a58c3e94",
+      "bytes": 5850
+    },
+    "agent-orchestrator/measurement/recovery.py": {
+      "sha256": "866770559d89535a3949bde65a1d60facf8ccd54479beb632e646b67869eadd0",
+      "bytes": 7559
+    },
+    "agent-orchestrator/measurement/scorer.py": {
+      "sha256": "6e84dd8e60fad80b45f9a33eee5569f10501a97aaab431d5cb28d36081e58b47",
+      "bytes": 58859
+    },
+    "agent-orchestrator/measurement/sink.py": {
+      "sha256": "12e9cf9096184da0f64977cf27db1510a03e17dc91263bfd99f4b7c143341974",
+      "bytes": 7941
+    },
+    "docs/design/r1-measurement.md": {
+      "sha256": "6d5eed6a941d919f52dd5565c0ee8ee021f7f77cc83fbf7cf42b12741e0dc351",
+      "bytes": 27975
+    },
+    "docs/evidence/ZER-10/check_mutants.py": {
+      "sha256": "139369327607a24ac4e9edcfe95dea0f79ef0c7ec1767ee8063b4f559fee1046",
+      "bytes": 15259
+    },
+    "docs/evidence/ZER-10/check_package.py": {
+      "sha256": "c185fb2dbdf3b15a7bc74f7b79c2e3bdfd8466328de485172d8730ce943e5d7c",
+      "bytes": 12295
+    },
+    "docs/evidence/ZER-10/crosscheck_zer37.py": {
+      "sha256": "2e2505bd305c5fd17517837d577dba5714bbfd788f3f24ce371519b41ab91f99",
+      "bytes": 7892
+    },
+    "docs/evidence/ZER-10/fix-01/results/bandit.txt": {
+      "sha256": "1655c16ab93e48a2908d1f4c366eae7b18447deead1b6069d329817a6119d151",
+      "bytes": 717
+    },
+    "docs/evidence/ZER-10/fix-01/results/counterexamples-retest.json": {
+      "sha256": "f8e649b5452d76235a02f7fec9030ebb817c9ecbdcb535396257e0eb69210d88",
+      "bytes": 6730
+    },
+    "docs/evidence/ZER-10/fix-01/results/crosscheck-zer37.json": {
+      "sha256": "fad09159380a6c55bd2c5cd51545fa177527b528194b96cef8bcfde3907811b2",
+      "bytes": 114
+    },
+    "docs/evidence/ZER-10/fix-01/results/mutants.json": {
+      "sha256": "f249ddf4728812994e719321233a5baae99ab933c29ed1ebf9a814531083fc16",
+      "bytes": 7849
+    },
+    "docs/evidence/ZER-10/fix-01/results/mutants.txt": {
+      "sha256": "93516359900800f5419e0f6b76891c7a8a27c3de73f64e5dd8bcad868a13e571",
+      "bytes": 1577
+    },
+    "docs/evidence/ZER-10/fix-01/results/offline-py3.11.9/offline-summary.json": {
+      "sha256": "399607a5ccd78e705b40625055ef5669e7bb81a9494793b322b025bc1ab0078f",
+      "bytes": 319
+    },
+    "docs/evidence/ZER-10/fix-01/results/offline-py3.12.4/offline-summary.json": {
+      "sha256": "399607a5ccd78e705b40625055ef5669e7bb81a9494793b322b025bc1ab0078f",
+      "bytes": 319
+    },
+    "docs/evidence/ZER-10/fix-01/results/regressions.txt": {
+      "sha256": "938cf5e4aa4f8149aae4a70e937812c76ff1adde604bc6103be19c5c20fa6ed1",
+      "bytes": 319
+    },
+    "docs/evidence/ZER-10/fix-01/retest_counterexamples.py": {
+      "sha256": "680ca6ee489781fa8009b1e8939f7aa9f0f85e02a8e3c7f8fabed3af9b8d0d02",
+      "bytes": 9429
+    },
+    "docs/evidence/ZER-10/results/bandit.txt": {
+      "sha256": "b6cb7c44462df39f071aa75ba562bbb23ea7e608016210ece80ebacfe7d6d0fa",
+      "bytes": 657
+    },
+    "docs/evidence/ZER-10/results/ci.diff": {
+      "sha256": "550233537d9e859b91704d2cd4a5903d68ee444c40f89a2d039754f9a268f00c",
+      "bytes": 1483
+    },
+    "docs/evidence/ZER-10/results/crosscheck-zer37.json": {
+      "sha256": "fad09159380a6c55bd2c5cd51545fa177527b528194b96cef8bcfde3907811b2",
+      "bytes": 114
+    },
+    "docs/evidence/ZER-10/results/mutants.json": {
+      "sha256": "195ca5e0bb85ddc1e8026d0aafc588c7a8e184d3986c903e7b7c69253d3727c1",
+      "bytes": 3164
+    },
+    "docs/evidence/ZER-10/results/offline-py3.11.9/offline-summary.json": {
+      "sha256": "46b18ac7602a5baed6713b974b544392e58fdef7c7f96424038eb41c3810eaf8",
+      "bytes": 318
+    },
+    "docs/evidence/ZER-10/results/offline-py3.12.4/offline-summary.json": {
+      "sha256": "46b18ac7602a5baed6713b974b544392e58fdef7c7f96424038eb41c3810eaf8",
+      "bytes": 318
+    },
+    "docs/evidence/ZER-10/results/regressions.txt": {
+      "sha256": "9c9f32f6e75e16fedec749823d771128936161eeaf624e150a5b16c82950283d",
+      "bytes": 319
+    },
+    "docs/evidence/ZER-10/verification.md": {
+      "sha256": "3c506886c18fd63f1d19a09d7404d1ed4103a49f3a2a3cd3245f87e4586db945",
+      "bytes": 25234
+    },
+    "docs/runbooks/independent-measurement.md": {
+      "sha256": "45f6b4048e612adf177e8f0e1da2e493c5e6a7d474da353166309419e041fcb6",
+      "bytes": 8208
+    },
+    "infrastructure/scripts/verify-measurement.py": {
+      "sha256": "c25dd9ba36ae877a623808f27253f6ffff30327fb06c4ecabe1b99cb603d497f",
+      "bytes": 6032
+    },
+    "infrastructure/scripts/verify-measurement.sh": {
+      "sha256": "d20aee4d8f423eb8416673c6a723d972692c7c25130b5febebf13f0a0d5a12e7",
+      "bytes": 276
+    },
+    "tests/fixtures/zer10/builder.py": {
+      "sha256": "fec83e3391120722d73975a58445fb690a549b95aa9b210e1af32491cf72588e",
+      "bytes": 17591
+    },
+    "tests/fixtures/zer10/expected.json": {
+      "sha256": "44f39f71b0dc98e747fab875500cf2afa380dd37e8ef64deb7a3a8cb1f9228e7",
+      "bytes": 6845
+    },
+    "tests/fixtures/zer10/plan-synthetic-boutique.json": {
+      "sha256": "7b28c458c3606475c6cb04a3146f6c53aceb8423fa57051d9f5291d7058323d3",
+      "bytes": 1560
+    },
+    "tests/fixtures/zer10/plan-synthetic-fixture.json": {
+      "sha256": "8ad01365ee2b5e3c7be4f243b7cf20469f3e1c35652166ea0105c402e6f9ac9e",
+      "bytes": 1175
+    },
+    "tests/test_measurement_cli.py": {
+      "sha256": "937482ae783f3fa817c83e6780b30ad43e5756eea48be6c152d57412d4190148",
+      "bytes": 6914
+    },
+    "tests/test_measurement_metrics.py": {
+      "sha256": "1467ff0c22aec2f850b94bf4ff0ac7f121a4c26f9003919b2fe4195144aeea52",
+      "bytes": 19810
+    },
+    "tests/test_measurement_probe.py": {
+      "sha256": "1a8df8d83d52c9dc672803755eff49ef05c017572b96337cf848901743fdc3b9",
+      "bytes": 40344
+    },
+    "tests/test_measurement_recovery.py": {
+      "sha256": "4e8127899081caf2a8bb1c8aa978f7ed34732b94203984f6143fac8a9090ac8e",
+      "bytes": 6671
+    },
+    "tests/test_measurement_scorer.py": {
+      "sha256": "f2912339a7a7ef75cd8160a2e6798e328c6288b9c575661dd49a8dbfc79e3e47",
+      "bytes": 29249
+    },
+    "docs/delivery/NOW.md": {
+      "sha256": "e6430cd76a9236f396b816f5a5774f89f16f3314413ffc2b287ab82405ed231b",
+      "bytes": 67838
+    },
+    "docs/delivery/milestones/R1-measurement/probes-and-metrics.md": {
+      "sha256": "6e735d2db850a672615beba65a66ab6dca7317b985f4c3cbbd9b86f72b331bc4",
+      "bytes": 29500
+    }
+  }
+}

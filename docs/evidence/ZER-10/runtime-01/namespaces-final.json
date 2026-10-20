@@ -1,0 +1,176 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2026-10-18T02:54:54Z",
+                "labels": {
+                    "kubernetes.io/metadata.name": "default"
+                },
+                "name": "default",
+                "resourceVersion": "68",
+                "uid": "0b852780-25b4-4689-84b2-17f56da6ec27"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2026-10-18T02:54:55Z",
+                "labels": {
+                    "kubernetes.io/metadata.name": "kube-node-lease"
+                },
+                "name": "kube-node-lease",
+                "resourceVersion": "69",
+                "uid": "0f47c670-11ff-46b1-ad16-660c25b80ac5"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2026-10-18T02:54:54Z",
+                "labels": {
+                    "kubernetes.io/metadata.name": "kube-public"
+                },
+                "name": "kube-public",
+                "resourceVersion": "67",
+                "uid": "d6fdf404-a4cf-4e3c-8c60-4697f956fa3c"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "creationTimestamp": "2026-10-18T02:54:54Z",
+                "labels": {
+                    "kubernetes.io/metadata.name": "kube-system"
+                },
+                "name": "kube-system",
+                "resourceVersion": "9",
+                "uid": "8a43fe9c-c44b-4eeb-af81-1b21d4cc1e5f"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"labels\":{\"attack-target\":\"false\",\"component\":\"observability\",\"monitoring\":\"enabled\",\"project\":\"zero-door\"},\"name\":\"monitoring\"}}\n"
+                },
+                "creationTimestamp": "2026-10-18T04:55:52Z",
+                "labels": {
+                    "attack-target": "false",
+                    "component": "observability",
+                    "kubernetes.io/metadata.name": "monitoring",
+                    "monitoring": "enabled",
+                    "project": "zero-door"
+                },
+                "name": "monitoring",
+                "resourceVersion": "3478",
+                "uid": "53f36d63-ecac-4455-8321-ee7026b2d5d2"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"labels\":{\"attack-target\":\"true\",\"component\":\"target\",\"monitoring\":\"enabled\",\"project\":\"zero-door\"},\"name\":\"target-app\"}}\n"
+                },
+                "creationTimestamp": "2026-10-18T04:55:52Z",
+                "labels": {
+                    "attack-target": "true",
+                    "component": "target",
+                    "kubernetes.io/metadata.name": "target-app",
+                    "monitoring": "enabled",
+                    "project": "zero-door"
+                },
+                "name": "target-app",
+                "resourceVersion": "3472",
+                "uid": "e0191ba5-d26a-4535-a206-f3071535fad6"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Namespace",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"labels\":{\"component\":\"agents\",\"monitoring\":\"enabled\",\"project\":\"zero-door\"},\"name\":\"zero-door\"}}\n"
+                },
+                "creationTimestamp": "2026-10-18T04:55:51Z",
+                "labels": {
+                    "component": "agents",
+                    "kubernetes.io/metadata.name": "zero-door",
+                    "monitoring": "enabled",
+                    "project": "zero-door"
+                },
+                "name": "zero-door",
+                "resourceVersion": "3466",
+                "uid": "eea21823-d96d-4eaf-867e-9e528e0cb078"
+            },
+            "spec": {
+                "finalizers": [
+                    "kubernetes"
+                ]
+            },
+            "status": {
+                "phase": "Active"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

@@ -1,0 +1,47 @@
+T_REC_FROM_VERIFIED_AT       caught=True failed=15/37
+UNKNOWN_EFFECT_LEAVES_N      caught=True failed=1/37
+MISSING_COUNTS_AS_PASS       caught=True failed=14/64
+H_INTO_O                     caught=True failed=2/43
+GAP_COUNTS_AS_UP             caught=True failed=1/27
+LOST_SEQUENCE_IGNORED        caught=True failed=1/12
+HTTP_STATUS_ONLY             caught=True failed=7/43
+CANCEL_AS_FAILURE            caught=True failed=8/43
+NO_EFFECT_WITHOUT_COVERAGE   caught=True failed=1/37
+UNSYNCED_CLOCK_TRUSTED       caught=True failed=5/37
+EVALUATOR_TRUSTED            caught=True failed=2/37
+FIX01_LOST_REQUEST_DROPPED   caught=True failed=4/5
+FIX01_UNPLACED_DETECT_SKIPPED caught=True failed=1/4
+FIX01_UNPLACED_SUCCESS_IGNORED caught=True failed=1/4
+FIX01_EPISODES_UNKEYED       caught=True failed=1/5
+FIX01_STREAM_FROM_SLOTS      caught=True failed=1/5
+FIX01_M6_FROM_COMPLETED      caught=True failed=1/5
+FIX01_USAGE_FROM_VALID_ONLY  caught=True failed=2/3
+FIX01_GT_UNCHECKED           caught=True failed=1/3
+FIX01_FIRST_GUARD_WINS       caught=True failed=1/3
+FIX01_CART_ITEM_ONLY         caught=True failed=1/7
+FIX01_STEP_DEADLINE_IGNORED  caught=True failed=1/7
+FIX01_RUN_CAP_IGNORED        caught=True failed=1/7
+FIX01_OWNERSHIP_FROM_STATUS  caught=True failed=1/7
+FIX01_CLEANUP_SKIPPED_ON_INTERRUPT caught=True failed=2/7
+FIX01_SINK_FOLLOWS_REDIRECT_AND_PROXY caught=True failed=4/4
+FIX01_ANY_ACK_ACCEPTED       caught=True failed=3/4
+FIX01_OUTPUT_IGNORES_OTHER_EXPORTS caught=True failed=1/6
+FIX02_CLEANUP_USES_CURRENT_JAR caught=True failed=3/5
+FIX02_CLEANUP_TARGET_FROM_LIVE_ENV caught=True failed=1/5
+FIX02_SLOT_WAIT_UNCAPPED     caught=True failed=1/7
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-10\check_mutants.py", line 448, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-10\check_mutants.py", line 433, in main
+    outcome = run(targets, factory)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-10\check_mutants.py", line 420, in run
+    with (mutant() if mutant else contextlib.nullcontext()):
+          ^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-10\check_mutants.py", line 316, in sink_without_total_deadline
+    return source_mutant(sink.HttpHSink, "deliver", "limit = min(limit, deadline_ns)", "pass")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-10\check_mutants.py", line 292, in source_mutant
+    raise ValueError(f"mutant {name}: the fixed line is not found exactly once: {old!r}")
+ValueError: mutant deliver: the fixed line is not found exactly once: 'limit = min(limit, deadline_ns)'

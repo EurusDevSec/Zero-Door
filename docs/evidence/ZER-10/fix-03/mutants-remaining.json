@@ -1,0 +1,100 @@
+{
+ "control": {
+  "errors": 0,
+  "failed_tests": [],
+  "failures": 0,
+  "run": 107
+ },
+ "mutants": {
+  "FIX02_CLEANUP_GRACE_FROM_CAP": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_early_stop_cleanup_uses_its_own_grace"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX02_CLOCK_READING_UNBOUNDED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_clock_reading_is_bounded_and_never_redirected"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX02_CONFLICT_NOT_IN_BUCKETS": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_conflict_reaches_every_bucket",
+    "test_conflicting_record_naming_another_model_marks_it_too"
+   ],
+   "failures": 2,
+   "run": 3
+  },
+  "FIX02_EMIT_WITHOUT_DEADLINE": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_h_writes_after_the_grace_stay_pending"
+   ],
+   "failures": 1,
+   "run": 7
+  },
+  "FIX02_FLUSH_DEADLINE_NOT_PASSED": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_h_writes_after_the_grace_stay_pending",
+    "test_no_request_starts_after_the_deadline",
+    "test_slow_or_dripping_ack_ends_at_the_flush_deadline"
+   ],
+   "failures": 4,
+   "run": 7
+  },
+  "FIX02_JOURNAL_IN_MEMORY": {
+   "caught": true,
+   "errors": 3,
+   "failed_tests": [
+    "test_cancelled_sample_cleanup_is_journaled_on_disk",
+    "test_control_run_journal",
+    "test_journal_failure_refuses_before_any_request"
+   ],
+   "failures": 0,
+   "run": 3
+  },
+  "FIX02_SINK_WITHOUT_TOTAL_DEADLINE": {
+   "caught": true,
+   "errors": 0,
+   "failed_tests": [
+    "test_h_writes_after_the_grace_stay_pending",
+    "test_no_request_starts_after_the_deadline",
+    "test_slow_or_dripping_ack_ends_at_the_flush_deadline"
+   ],
+   "failures": 4,
+   "run": 7
+  },
+  "FIX02_STOPS_SORTED_WITH_NONE": {
+   "caught": true,
+   "errors": 5,
+   "failed_tests": [
+    "test_missing_trial_bounds_are_missing_for_every_branch",
+    "test_other_trials_keep_their_result"
+   ],
+   "failures": 0,
+   "run": 4
+  },
+  "FIX02_UPTIME_KNOWN_TRIALS_ONLY": {
+   "caught": true,
+   "errors": 8,
+   "failed_tests": [
+    "test_missing_trial_bounds_are_missing_for_every_branch"
+   ],
+   "failures": 0,
+   "run": 4
+  }
+ },
+ "verdict": "PASS"
+}

@@ -1,0 +1,235 @@
+{
+  "different_episode_keys": {
+    "actual": {
+      "N_slot": 5,
+      "last_slot_s": 38,
+      "hit": 1,
+      "unknown": 0,
+      "bounds": [
+        0.2,
+        0.2
+      ],
+      "episodes_observed": 1,
+      "episodes_per_hour": 12.94964,
+      "verdict": "OK",
+      "M6_actions_observed": 0,
+      "M6_action_log_coverage": true,
+      "M6_verdict": "OK",
+      "note": "slot rate is not a time rate; never divided by attack counts"
+    },
+    "expected": {
+      "episodes_observed": 2,
+      "episodes_per_hour": 25.899281
+    }
+  },
+  "all_slots_hit_without_coverage": {
+    "actual": {
+      "N_slot": 5,
+      "last_slot_s": 38,
+      "hit": 5,
+      "unknown": 0,
+      "bounds": [
+        1,
+        1
+      ],
+      "episodes_observed": 1,
+      "episodes_per_hour": 12.94964,
+      "verdict": "OK",
+      "M6_actions_observed": 0,
+      "M6_action_log_coverage": true,
+      "M6_verdict": "OK",
+      "note": "slot rate is not a time rate; never divided by attack counts"
+    },
+    "expected": {
+      "hit": 5,
+      "unknown": 0,
+      "bounds": [
+        1,
+        1
+      ],
+      "episodes_per_hour": null,
+      "verdict": "UNKNOWN for episode stream"
+    }
+  },
+  "started_action_no_terminal": {
+    "actual": {
+      "N_slot": 5,
+      "last_slot_s": 38,
+      "hit": 1,
+      "unknown": 0,
+      "bounds": [
+        0.2,
+        0.2
+      ],
+      "episodes_observed": 1,
+      "episodes_per_hour": 12.94964,
+      "verdict": "OK",
+      "M6_actions_observed": 0,
+      "M6_action_log_coverage": true,
+      "M6_verdict": "OK",
+      "note": "slot rate is not a time rate; never divided by attack counts"
+    },
+    "expected": {
+      "M6_actions_observed": 1
+    }
+  },
+  "b0_detector_off": {
+    "actual": {
+      "N_slot": 5,
+      "last_slot_s": 38,
+      "hit": 0,
+      "unknown": 0,
+      "bounds": [
+        0,
+        0
+      ],
+      "episodes_observed": 0,
+      "episodes_per_hour": 0,
+      "verdict": "OK",
+      "M6_actions_observed": 0,
+      "M6_action_log_coverage": true,
+      "M6_verdict": "OK",
+      "note": "slot rate is not a time rate; never divided by attack counts"
+    },
+    "expected": {
+      "M5": "N/A",
+      "M6": "N/A"
+    }
+  },
+  "llm_decision_with_no_call_records": {
+    "actual": {
+      "status": "OK",
+      "calls": 0,
+      "call_id_conflicts": [],
+      "by": {},
+      "rule": "one LLM_CALL per call_id, retries included; missing usage/cost stays MISSING"
+    },
+    "expected": {
+      "status": "MISSING",
+      "reason": "triggered LLM decision has no call/usage evidence"
+    }
+  },
+  "invalid_second_llm_call": {
+    "actual": {
+      "status": "OK",
+      "calls": 1,
+      "call_id_conflicts": [],
+      "by": {
+        "run": {
+          "run_4f00f4c0869345b39b0f0d63f8a03983": {
+            "calls": 1,
+            "retries": 0,
+            "input_tokens": 1000,
+            "output_tokens": 100,
+            "usage_missing": 0,
+            "usd": 0.01,
+            "cost_missing": 0,
+            "price_refs": [
+              "price-table-synthetic"
+            ],
+            "usage_status": "COMPLETE",
+            "cost_status": "COMPLETE"
+          }
+        },
+        "actor": {
+          "decision_llm": {
+            "calls": 1,
+            "retries": 0,
+            "input_tokens": 1000,
+            "output_tokens": 100,
+            "usage_missing": 0,
+            "usd": 0.01,
+            "cost_missing": 0,
+            "price_refs": [
+              "price-table-synthetic"
+            ],
+            "usage_status": "COMPLETE",
+            "cost_status": "COMPLETE"
+          }
+        },
+        "model": {
+          "model-x": {
+            "calls": 1,
+            "retries": 0,
+            "input_tokens": 1000,
+            "output_tokens": 100,
+            "usage_missing": 0,
+            "usd": 0.01,
+            "cost_missing": 0,
+            "price_refs": [
+              "price-table-synthetic"
+            ],
+            "usage_status": "COMPLETE",
+            "cost_status": "COMPLETE"
+          }
+        },
+        "trial": {
+          "trl_26f1f4f1610048f1ad5e172fed9e7a18": {
+            "calls": 1,
+            "retries": 0,
+            "input_tokens": 1000,
+            "output_tokens": 100,
+            "usage_missing": 0,
+            "usd": 0.01,
+            "cost_missing": 0,
+            "price_refs": [
+              "price-table-synthetic"
+            ],
+            "usage_status": "COMPLETE",
+            "cost_status": "COMPLETE"
+          }
+        },
+        "incident": {
+          "inc_d9ced0885d3641b1be45f9097166b289": {
+            "calls": 1,
+            "retries": 0,
+            "input_tokens": 1000,
+            "output_tokens": 100,
+            "usage_missing": 0,
+            "usd": 0.01,
+            "cost_missing": 0,
+            "price_refs": [
+              "price-table-synthetic"
+            ],
+            "usage_status": "COMPLETE",
+            "cost_status": "COMPLETE"
+          }
+        }
+      },
+      "rule": "one LLM_CALL per call_id, retries included; missing usage/cost stays MISSING"
+    },
+    "findings": {
+      "duplicates": 0,
+      "integrity_errors": [],
+      "invalid": [
+        {
+          "event_id": "evt_7b7dbb32dc9b4cbeabe8529418284a79",
+          "type": "LLM_CALL",
+          "class": "INVALID"
+        }
+      ],
+      "source_violations": [],
+      "plane_violations": [],
+      "mode_violations": [],
+      "orphans": [],
+      "link_conflicts": [],
+      "ambiguous": [],
+      "late_ingest": 0,
+      "quarantined": {},
+      "archive_scope": 0,
+      "unattributable_quarantine": 0,
+      "unsupported": 0,
+      "unregistered_probe_samples": 0,
+      "quarantined_link_conflicts": [],
+      "quarantined_mode_violations": [],
+      "quarantined_leaks": [],
+      "foreign_references": []
+    },
+    "expected": {
+      "usage_status": "MISSING",
+      "cost_lower_bound": 0.01,
+      "raw_call_records": 2,
+      "call_coverage_status": "MISSING"
+    }
+  }
+}

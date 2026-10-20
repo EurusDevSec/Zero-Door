@@ -1,0 +1,1 @@
+Evidence retained; namespace zer10-acceptance-225057 preserved for diagnosis. No automatic retry.

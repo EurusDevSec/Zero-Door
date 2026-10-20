@@ -1,0 +1,374 @@
+{
+ "adaptations": [
+  {
+   "new": "'sample_latency_ms':(samples(sink)[0]['payload']['latency_ms'] if samples(sink) else None)",
+   "old": "'sample_latency_ms':samples(sink)[0]['payload']['latency_ms']",
+   "why": "a run-cap cut sample is no longer emitted"
+  },
+  {
+   "new": "status=_refused(HttpHSink(",
+   "old": "status=HttpHSink(",
+   "why": "the sink now raises SinkRefused on a redirect"
+  },
+  {
+   "new": ".deliver)({'event_id':'evt_synthetic'})",
+   "old": ".deliver({'event_id':'evt_synthetic'})",
+   "why": "same line, closing the wrapper"
+  }
+ ],
+ "checks": [
+  {
+   "actual": [
+    2,
+    2
+   ],
+   "check": "mixed_invalid_request requested/N",
+   "expected": [
+    2,
+    2
+   ],
+   "finding": "ZR10-01",
+   "ok": true
+  },
+  {
+   "actual": "UNKNOWN",
+   "check": "mixed_invalid_request MTTD verdict",
+   "expected": "UNKNOWN",
+   "finding": "ZR10-01",
+   "ok": true
+  },
+  {
+   "actual": [
+    1,
+    "OK"
+   ],
+   "check": "invalid_request requested/status (not EMPTY)",
+   "expected": [
+    1,
+    "OK"
+   ],
+   "finding": "ZR10-01",
+   "ok": true
+  },
+  {
+   "actual": "MISSING",
+   "check": "invalid_request label",
+   "expected": "MISSING",
+   "finding": "ZR10-01",
+   "ok": true
+  },
+  {
+   "actual": [
+    "MISSING",
+    "MISSING",
+    90.0
+   ],
+   "check": "detector_unsynced label/mttd/total",
+   "expected": [
+    "MISSING",
+    "MISSING",
+    90.0
+   ],
+   "finding": "ZR10-02",
+   "ok": true
+  },
+  {
+   "actual": true,
+   "check": "detector_unsynced CLOCK_UNVERIFIED flag",
+   "expected": true,
+   "finding": "ZR10-02",
+   "ok": true
+  },
+  {
+   "actual": "UNKNOWN",
+   "check": "detector_unsynced MTTD verdict",
+   "expected": "UNKNOWN",
+   "finding": "ZR10-02",
+   "ok": true
+  },
+  {
+   "actual": [
+    "PASS",
+    "PASS"
+   ],
+   "check": "clean E01 MTTD/MTTR verdicts",
+   "expected": [
+    "PASS",
+    "PASS"
+   ],
+   "finding": "control",
+   "ok": true
+  },
+  {
+   "actual": "MISSING",
+   "check": "negative_latency label",
+   "expected": "MISSING",
+   "finding": "common cause",
+   "ok": true
+  },
+  {
+   "actual": [
+    2,
+    25.899281
+   ],
+   "check": "different_episode_keys episodes, per hour",
+   "expected": [
+    2,
+    25.899281
+   ],
+   "finding": "ZR10-03",
+   "ok": true
+  },
+  {
+   "actual": [
+    null,
+    "UNKNOWN"
+   ],
+   "check": "all_slots_hit_without_coverage episodes/h, verdict",
+   "expected": [
+    null,
+    "UNKNOWN"
+   ],
+   "finding": "ZR10-03",
+   "ok": true
+  },
+  {
+   "actual": [
+    1.0,
+    1.0
+   ],
+   "check": "all_slots_hit_without_coverage slot bounds",
+   "expected": [
+    1.0,
+    1.0
+   ],
+   "finding": "ZR10-03",
+   "ok": true
+  },
+  {
+   "actual": [
+    1,
+    1
+   ],
+   "check": "started_action_no_terminal executed / terminal MISSING",
+   "expected": [
+    1,
+    1
+   ],
+   "finding": "ZR10-04",
+   "ok": true
+  },
+  {
+   "actual": [
+    "N/A",
+    "N/A"
+   ],
+   "check": "b0_detector_off M5/M6",
+   "expected": [
+    "N/A",
+    "N/A"
+   ],
+   "finding": "B0 note",
+   "ok": true
+  },
+  {
+   "actual": "MISSING",
+   "check": "llm_decision_with_no_call_records status",
+   "expected": "MISSING",
+   "finding": "ZR10-05",
+   "ok": true
+  },
+  {
+   "actual": [
+    2,
+    "MISSING",
+    "MISSING",
+    "MISSING"
+   ],
+   "check": "invalid_second_llm_call raw records/coverage/usage/cost",
+   "expected": [
+    2,
+    "MISSING",
+    "MISSING",
+    "MISSING"
+   ],
+   "finding": "ZR10-05",
+   "ok": true
+  },
+  {
+   "actual": 0.01,
+   "check": "invalid_second_llm_call cost lower bound",
+   "expected": 0.01,
+   "finding": "ZR10-05",
+   "ok": true
+  },
+  {
+   "actual": [
+    false,
+    "UNKNOWN_GT"
+   ],
+   "check": "malformed_gt_constraint: no exception, outcome",
+   "expected": [
+    false,
+    "UNKNOWN_GT"
+   ],
+   "finding": "ZR10-06",
+   "ok": true
+  },
+  {
+   "actual": [
+    0,
+    1
+   ],
+   "check": "conflicting_guard_verdicts accept_correct/conflicts",
+   "expected": [
+    0,
+    1
+   ],
+   "finding": "ZR10-07",
+   "ok": true
+  },
+  {
+   "actual": {
+    "N": 1,
+    "accept_correct": 0,
+    "accept_incorrect": 0,
+    "accept_unknown": 0,
+    "conflicting_verdicts": 1,
+    "coverage_scorable": 0.0,
+    "false_block": 0,
+    "proposals_without_verdict": 0,
+    "true_block": 0,
+    "unknown_block": 0
+   },
+   "check": "same result in reversed ingest order",
+   "expected": {
+    "N": 1,
+    "accept_correct": 0,
+    "accept_incorrect": 0,
+    "accept_unknown": 0,
+    "conflicting_verdicts": 1,
+    "coverage_scorable": 0.0,
+    "false_block": 0,
+    "proposals_without_verdict": 0,
+    "true_block": 0,
+    "unknown_block": 0
+   },
+   "finding": "ZR10-07",
+   "ok": true
+  },
+  {
+   "actual": false,
+   "check": "duplicate_cart pass",
+   "expected": false,
+   "finding": "ZR10-08",
+   "ok": true
+  },
+  {
+   "actual": [
+    false,
+    true
+   ],
+   "check": "step_timeout pass/home ms < 200",
+   "expected": [
+    false,
+    true
+   ],
+   "finding": "ZR10-09",
+   "ok": true
+  },
+  {
+   "actual": [
+    0,
+    1,
+    "MAX_DURATION"
+   ],
+   "check": "max_duration samples/cancelled/stop",
+   "expected": [
+    0,
+    1,
+    "MAX_DURATION"
+   ],
+   "finding": "ZR10-09",
+   "ok": true
+  },
+  {
+   "actual": true,
+   "check": "max_duration wall within cap + grace + 1 s",
+   "expected": true,
+   "finding": "ZR10-09",
+   "ok": true
+  },
+  {
+   "actual": [
+    true,
+    false
+   ],
+   "check": "fixture_stale_cleanup pre-existing kept / no DELETE",
+   "expected": [
+    true,
+    false
+   ],
+   "finding": "ZR10-10",
+   "ok": true
+  },
+  {
+   "actual": {
+    "order": "UNRESOLVED_OWNERSHIP"
+   },
+   "check": "fixture_stale_cleanup cleanup",
+   "expected": {
+    "order": "UNRESOLVED_OWNERSHIP"
+   },
+   "finding": "ZR10-10",
+   "ok": true
+  },
+  {
+   "actual": [
+    [
+     0
+    ],
+    1
+   ],
+   "check": "keyboard_interrupt_cleanup carts emptied / cleanup sent",
+   "expected": [
+    [
+     0
+    ],
+    1
+   ],
+   "finding": "ZR10-10",
+   "ok": true
+  },
+  {
+   "actual": [
+    "REFUSED",
+    []
+   ],
+   "check": "h_sink_redirect refused, nothing at the other origin",
+   "expected": [
+    "REFUSED",
+    []
+   ],
+   "finding": "ZR10-11",
+   "ok": true
+  },
+  {
+   "actual": [
+    4,
+    false
+   ],
+   "check": "other_input_output exit/created",
+   "expected": [
+    4,
+    false
+   ],
+   "finding": "ZR10-N1",
+   "ok": true
+  }
+ ],
+ "passed": 29,
+ "script": "fix-01 retest of Codex counterexamples",
+ "total": 29,
+ "verdict": "ALL_EXPECTED"
+}

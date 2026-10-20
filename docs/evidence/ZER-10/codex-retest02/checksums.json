@@ -1,0 +1,23 @@
+{
+  "docs/evidence/ZER-10/codex-retest02/crosscheck.json": "afee9b06a564f1329c15a1049206732a6fdffdeef4cc408b7abcdb0d01c10938",
+  "docs/evidence/ZER-10/codex-retest02/fail-before.json": "5e72d064e89d8d539d61a14bde2fee385ba2443a4d9137d39aca05f8acafd77f",
+  "docs/evidence/ZER-10/codex-retest02/fail-before.txt": "eeefaa1fbf394c0d5e4218ea3fef625984f6ef7bd0bbf2cb8077e0bcd7570097",
+  "docs/evidence/ZER-10/codex-retest02/final-integrity.json": "307b05288c21aeaf22171044b802b48a5c7993f15962d08934ad8cb7749a1a6d",
+  "docs/evidence/ZER-10/codex-retest02/intake.json": "73df0bd28e3b6f485d97c45a7f44ef4f6e52aa28f3c1d616eb0c9aad151945c2",
+  "docs/evidence/ZER-10/codex-retest02/metrics/cases.py": "529ba5581ca54a23ba54111eb5ddd245a2332009dbc2cc13160da7e731713f0d",
+  "docs/evidence/ZER-10/codex-retest02/metrics/confirmed.json": "69b7a404622aba25e9fa0468920be4d85ffdf3b81c33799f89684fc7ff052257",
+  "docs/evidence/ZER-10/codex-retest02/offline.txt": "fdcbe9bd816128917a126e3da7bbc664bd30cc317074997c0c64682ec2edaccb",
+  "docs/evidence/ZER-10/codex-retest02/probe/redirect-confirm.json": "d1cdb413ddbcb1d32ebc4a3ceb1c09e1d1cd72886fdd1c0ad1a0ec3d3472b6ca",
+  "docs/evidence/ZER-10/codex-retest02/probe/redirect_308.json": "2ed6dc9575a39667bdb6501a078b353d9e406ff83f25badc48b6ea5598287599",
+  "docs/evidence/ZER-10/codex-retest02/probe/redirect_308.py": "864d40af6d0d3857d241ff70911e63744b6de94aa9ea90f34d8bc69665250bee",
+  "docs/evidence/ZER-10/codex-retest02/probe/redirect_control.json": "ed2735e97c6cadd680aa6b903e0296788c526a3fbd56969e3fbd495712635e09",
+  "docs/evidence/ZER-10/codex-retest02/probe/redirect_control.py": "52faf50c47502a9e9ca525059aec0946329b3a41a12930531344aa2fdb7cf2eb",
+  "docs/evidence/ZER-10/codex-retest02/probe/redirect_identity.py": "04c639fd0c762ab8b8573439534d6a906bedede6d50f6b23ab0e3b4419126cb6",
+  "docs/evidence/ZER-10/codex-retest02/probe/stop-io-confirm.json": "3bf7d69753004f3b21f2da736396e2cfc09896c0a5110427643b6d49b29000ae",
+  "docs/evidence/ZER-10/codex-retest02/probe/stop-io-control.json": "5dcaf3cadd06bf4f067f8313e18e245b853b8d33fa1d26e2bf5a1bbf6db3326d",
+  "docs/evidence/ZER-10/codex-retest02/probe/stop_io.py": "d8dc2634aa987b6f9b3b662a1d4e428d4e1df15e247d6bf60244ee5cad49032a",
+  "docs/evidence/ZER-10/codex-retest02/probe/stop_io_control.py": "82e8586c5bf35f8bbf099442ab5afeeaa00a15e92b6412273a924e3213336382",
+  "docs/evidence/ZER-10/codex-retest02/replay.txt": "c7be4c51db1fa15fe83e7e2a656bf9b346dd4f6d10f680833e21d17447af5dc8",
+  "docs/evidence/ZER-10/codex-retest02/review-scope.json": "8bd056bfc43cbd7737824b35da35b9cc90e00e0026a15151db9b6c889da75927",
+  "docs/evidence/ZER-10/codex-retest02.md": "2e5e462e0da9d52ba7db7bd28ec655578bd0feb2ba5774ec06d5cb2f33fe44bb"
+}

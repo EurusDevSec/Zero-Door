@@ -1,0 +1,15 @@
+{
+  "target": "local fix-02 delta vs byte-identical fix-01 snapshot",
+  "head": "55200c9143565c1773cbff57553a9ce858ffe858",
+  "branch": "zer-10-independent-measurement",
+  "source_read_only": true,
+  "allowed_writes": [
+    "scratch/zer10/codex-retest02/",
+    "docs/evidence/ZER-10/codex-retest02/",
+    "docs/evidence/ZER-10/codex-retest02.md",
+    "docs/delivery/milestones/R1-measurement/probes-and-metrics.md (append)",
+    "docs/delivery/NOW.md (prepend)"
+  ],
+  "operations": "Offline synthetic/temp archive/owned loopback only; no lab,API,model,Docker,Git publication,Linear mutation or external messaging",
+  "manifest_sha256": "6c18d7c5d09c5a43859f9325ee87eb6c2c9886657161501db1b330c04dc2bc51"
+}

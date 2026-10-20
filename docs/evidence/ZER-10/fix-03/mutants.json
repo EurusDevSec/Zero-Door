@@ -1,0 +1,304 @@
+{
+  "verdict": "PASS_RESUMED",
+  "mutants": {
+    "T_REC_FROM_VERIFIED_AT": {
+      "caught": true,
+      "failed": 15,
+      "run": 37,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "UNKNOWN_EFFECT_LEAVES_N": {
+      "caught": true,
+      "failed": 1,
+      "run": 37,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "MISSING_COUNTS_AS_PASS": {
+      "caught": true,
+      "failed": 14,
+      "run": 64,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "H_INTO_O": {
+      "caught": true,
+      "failed": 2,
+      "run": 43,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "GAP_COUNTS_AS_UP": {
+      "caught": true,
+      "failed": 1,
+      "run": 27,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "LOST_SEQUENCE_IGNORED": {
+      "caught": true,
+      "failed": 1,
+      "run": 12,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "HTTP_STATUS_ONLY": {
+      "caught": true,
+      "failed": 7,
+      "run": 43,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "CANCEL_AS_FAILURE": {
+      "caught": true,
+      "failed": 8,
+      "run": 43,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "NO_EFFECT_WITHOUT_COVERAGE": {
+      "caught": true,
+      "failed": 1,
+      "run": 37,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "UNSYNCED_CLOCK_TRUSTED": {
+      "caught": true,
+      "failed": 5,
+      "run": 37,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "EVALUATOR_TRUSTED": {
+      "caught": true,
+      "failed": 2,
+      "run": 37,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_LOST_REQUEST_DROPPED": {
+      "caught": true,
+      "failed": 4,
+      "run": 5,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_UNPLACED_DETECT_SKIPPED": {
+      "caught": true,
+      "failed": 1,
+      "run": 4,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_UNPLACED_SUCCESS_IGNORED": {
+      "caught": true,
+      "failed": 1,
+      "run": 4,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_EPISODES_UNKEYED": {
+      "caught": true,
+      "failed": 1,
+      "run": 5,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_STREAM_FROM_SLOTS": {
+      "caught": true,
+      "failed": 1,
+      "run": 5,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_M6_FROM_COMPLETED": {
+      "caught": true,
+      "failed": 1,
+      "run": 5,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_USAGE_FROM_VALID_ONLY": {
+      "caught": true,
+      "failed": 2,
+      "run": 3,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_GT_UNCHECKED": {
+      "caught": true,
+      "failed": 1,
+      "run": 3,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_FIRST_GUARD_WINS": {
+      "caught": true,
+      "failed": 1,
+      "run": 3,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_CART_ITEM_ONLY": {
+      "caught": true,
+      "failed": 1,
+      "run": 7,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_STEP_DEADLINE_IGNORED": {
+      "caught": true,
+      "failed": 1,
+      "run": 7,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_RUN_CAP_IGNORED": {
+      "caught": true,
+      "failed": 1,
+      "run": 7,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_OWNERSHIP_FROM_STATUS": {
+      "caught": true,
+      "failed": 1,
+      "run": 7,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_CLEANUP_SKIPPED_ON_INTERRUPT": {
+      "caught": true,
+      "failed": 2,
+      "run": 7,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_SINK_FOLLOWS_REDIRECT_AND_PROXY": {
+      "caught": true,
+      "failed": 4,
+      "run": 4,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_ANY_ACK_ACCEPTED": {
+      "caught": true,
+      "failed": 3,
+      "run": 4,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX01_OUTPUT_IGNORES_OTHER_EXPORTS": {
+      "caught": true,
+      "failed": 1,
+      "run": 6,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX02_CLEANUP_USES_CURRENT_JAR": {
+      "caught": true,
+      "failed": 3,
+      "run": 5,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX02_CLEANUP_TARGET_FROM_LIVE_ENV": {
+      "caught": true,
+      "failed": 1,
+      "run": 5,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX02_SLOT_WAIT_UNCAPPED": {
+      "caught": true,
+      "failed": 1,
+      "run": 7,
+      "evidence": "mutants-attempt1.txt"
+    },
+    "FIX02_CLEANUP_GRACE_FROM_CAP": {
+      "caught": true,
+      "errors": 0,
+      "failed_tests": [
+        "test_early_stop_cleanup_uses_its_own_grace"
+      ],
+      "failures": 1,
+      "run": 7
+    },
+    "FIX02_CLOCK_READING_UNBOUNDED": {
+      "caught": true,
+      "errors": 0,
+      "failed_tests": [
+        "test_clock_reading_is_bounded_and_never_redirected"
+      ],
+      "failures": 1,
+      "run": 7
+    },
+    "FIX02_CONFLICT_NOT_IN_BUCKETS": {
+      "caught": true,
+      "errors": 0,
+      "failed_tests": [
+        "test_conflict_reaches_every_bucket",
+        "test_conflicting_record_naming_another_model_marks_it_too"
+      ],
+      "failures": 2,
+      "run": 3
+    },
+    "FIX02_EMIT_WITHOUT_DEADLINE": {
+      "caught": true,
+      "errors": 0,
+      "failed_tests": [
+        "test_h_writes_after_the_grace_stay_pending"
+      ],
+      "failures": 1,
+      "run": 7
+    },
+    "FIX02_FLUSH_DEADLINE_NOT_PASSED": {
+      "caught": true,
+      "errors": 0,
+      "failed_tests": [
+        "test_h_writes_after_the_grace_stay_pending",
+        "test_no_request_starts_after_the_deadline",
+        "test_slow_or_dripping_ack_ends_at_the_flush_deadline"
+      ],
+      "failures": 4,
+      "run": 7
+    },
+    "FIX02_JOURNAL_IN_MEMORY": {
+      "caught": true,
+      "errors": 3,
+      "failed_tests": [
+        "test_cancelled_sample_cleanup_is_journaled_on_disk",
+        "test_control_run_journal",
+        "test_journal_failure_refuses_before_any_request"
+      ],
+      "failures": 0,
+      "run": 3
+    },
+    "FIX02_SINK_WITHOUT_TOTAL_DEADLINE": {
+      "caught": true,
+      "errors": 0,
+      "failed_tests": [
+        "test_h_writes_after_the_grace_stay_pending",
+        "test_no_request_starts_after_the_deadline",
+        "test_slow_or_dripping_ack_ends_at_the_flush_deadline"
+      ],
+      "failures": 4,
+      "run": 7
+    },
+    "FIX02_STOPS_SORTED_WITH_NONE": {
+      "caught": true,
+      "errors": 5,
+      "failed_tests": [
+        "test_missing_trial_bounds_are_missing_for_every_branch",
+        "test_other_trials_keep_their_result"
+      ],
+      "failures": 0,
+      "run": 4
+    },
+    "FIX02_UPTIME_KNOWN_TRIALS_ONLY": {
+      "caught": true,
+      "errors": 8,
+      "failed_tests": [
+        "test_missing_trial_bounds_are_missing_for_every_branch"
+      ],
+      "failures": 0,
+      "run": 4
+    }
+  },
+  "count": 40,
+  "baseline": {
+    "e01_matches_hand_values": true,
+    "e01_recompute": {
+      "label": "RECOVERED",
+      "mttd": 30.0,
+      "mttr": 60.0,
+      "reaction": 19.0,
+      "total": 90.0
+    },
+    "errors": 0,
+    "failures": 0,
+    "scope": "SYNTHETIC/OFFLINE only; not runtime evidence",
+    "skipped": 0,
+    "tests_run": 134,
+    "verdict": "OFFLINE_PASS"
+  },
+  "remaining_control": {
+    "errors": 0,
+    "failed_tests": [],
+    "failures": 0,
+    "run": 107
+  },
+  "scope": "31 unchanged mutants already caught; 9 remaining with corrected selector; not a single full-command run"
+}
