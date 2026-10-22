@@ -1,0 +1,186 @@
+[
+  {
+    "p": ".github/workflows/ci.yml",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/hephaestus/command_guard.py",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/hephaestus/main.py",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/Dockerfile",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/main.py",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/measurement_view.py",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/static/app.js",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/static/index.html",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/static/results.html",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/static/results.js",
+    "ok": true
+  },
+  {
+    "p": "agent-orchestrator/nemesis/static/style.css",
+    "ok": true
+  },
+  {
+    "p": "docs/delivery/NOW.md",
+    "ok": true
+  },
+  {
+    "p": "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/README.md",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/01-no-access.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/02-loaded-b1.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/03-timeout-null-not-zero.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/04-empty.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/05-artifact-error.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/06-stale.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/07-b0-mode-violation.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/browser/08-console-no-kpi.jpg",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/check_mutants.py",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/clean_checkout.sh",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/fail_before.py",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/clean-checkout.txt",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/fail-before-attempt1.json",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/fail-before-attempt1.txt",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/fail-before.json",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/fail-before.txt",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/mutants-attempt1.json",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/mutants-attempt1.txt",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/mutants.json",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/mutants.txt",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/results/regressions.txt",
+    "ok": true
+  },
+  {
+    "p": "docs/evidence/ZER-11/run_regressions.sh",
+    "ok": true
+  },
+  {
+    "p": "docs/runbooks/dashboard-and-baselines.md",
+    "ok": true
+  },
+  {
+    "p": "infrastructure/manifests/r1-baselines.yaml",
+    "ok": true
+  },
+  {
+    "p": "infrastructure/scripts/verify-dashboard-baselines.py",
+    "ok": true
+  },
+  {
+    "p": "infrastructure/scripts/verify-dashboard-baselines.sh",
+    "ok": true
+  },
+  {
+    "p": "tests/check_r1_baselines.py",
+    "ok": true
+  },
+  {
+    "p": "tests/fixtures/zer11/cases.py",
+    "ok": true
+  },
+  {
+    "p": "tests/fixtures/zer11/expected.json",
+    "ok": true
+  },
+  {
+    "p": "tests/test_command_guard_integration.py",
+    "ok": true
+  },
+  {
+    "p": "tests/test_dashboard_measurement.py",
+    "ok": true
+  },
+  {
+    "p": "tests/test_dashboard_modes.py",
+    "ok": true
+  }
+]

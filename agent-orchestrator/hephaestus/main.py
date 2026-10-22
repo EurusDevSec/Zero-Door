@@ -438,9 +438,16 @@ def _kafka_consumer_thread():
     """
     if r1_client:
         rules = GuardedRules(r1_client, RulesConsumer(r1_client, decide_action))
+        audited = None
         while True:
             try:
                 rules.poll()
+                if rules.skipped != audited:
+                    # Logged once per change: this group's trusted context does not auto-decide.
+                    audited = rules.skipped
+                    if audited is not None:
+                        audit_refusal("consumer", "AUTO_DECISION_DISABLED_FOR_GROUP",
+                                      {"run_id": r1_client.run, "trial_id": r1_client.trial, "group": audited})
             except Exception as error:
                 logger.error("R1 O consumer unavailable: %s", type(error).__name__)
             time.sleep(1)
@@ -527,11 +534,28 @@ async def command_boundary(request: Request, call_next):
     return await call_next(request)
 
 
+# Tests only. Production R1 never assigns an executor (no environment variable or config reads it),
+# so every admitted proposal ends in R1_EXECUTOR_DISABLED; a test sets a fake to prove the path is live.
+R1_EXECUTOR = None
+
+
+def decision_claim_id(decision_id):
+    """Ledger IDs are UUID4 strings: derive one from dec_<32 hex>. The claim digest keeps the full
+    decision_id, so two decisions mapping to one ID are refused (ID_CONFLICT), never merged."""
+    return str(uuid.UUID(hex=decision_id[4:], version=4))
+
+
+def audit_refusal(route, reason, context):
+    # Operational audit (log), not an O event: B0 forbids even GUARD_VERDICT (contract 7.4).
+    logger.warning("MODE_AUDIT %s", json.dumps({"route": route, "reason": reason, "context": context}, sort_keys=True))
+
+
 @app.post("/heal/trigger")
 async def manual_heal(request: "Request" = None):
     # Compatibility with direct offline callers: no Request is never an authorization.
     if request is None or not hasattr(request, "state") or not r1_client:
         raise HTTPException(status_code=409, detail="R1_EXECUTOR_DISABLED")
+    context = None
     try:
         body = request.state.command_body
         fields(body, {"decision_id"})
@@ -549,10 +573,23 @@ async def manual_heal(request: "Request" = None):
         decision = found[0]
         if context["group"] != "BM":
             raise Refused("MANUAL_GROUP_REQUIRED", 409)
-        # No executor argument: a valid proposal still cannot activate R1 healing.
-        return ModeGate.dispatch(context, decision, decision["source_component"], "OPERATOR")
+        executor = None
+        if R1_EXECUTOR is not None:
+            ledger, key = request.state.command_guard.ledger(), decision_claim_id(body["decision_id"])
+
+            def once(proposal):
+                # One action per operator decision: a replayed trigger returns the first outcome.
+                previous = ledger.claim(key, {"path": "/heal/trigger", "decision_id": body["decision_id"], "context": context})
+                if previous is not None:
+                    return previous
+                result = R1_EXECUTOR(proposal)
+                ledger.complete(key, result)
+                return result
+            executor = once
+        # Production R1 has no executor: a valid proposal is admitted and then refused (R1_EXECUTOR_DISABLED).
+        return ModeGate.dispatch(context, decision, decision["source_component"], "OPERATOR", executor=executor)
     except Refused as error:
-        logger.warning("Command refused: %s", error.reason)
+        audit_refusal("/heal/trigger", error.reason, context)
         raise HTTPException(error.status, error.reason)
 
 

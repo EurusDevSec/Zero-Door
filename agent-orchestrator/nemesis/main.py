@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 from pathlib import Path
 import json
 import time
@@ -11,7 +12,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from kafka import KafkaProducer, KafkaConsumer
@@ -20,6 +21,7 @@ import httpx
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from nemesis.command_guard import CommandGuard, Refused, strict_json, sign, fields, identifier
+from nemesis.measurement_view import ResultError, ResultsStore, authorize_reader
 
 # ---- Logging Buffer for Dashboard ----
 NEMESIS_LOG_BUFFER = []
@@ -218,10 +220,6 @@ async def get_system_summary() -> str:
         return "No metrics available. Target app may be idle."
     return "\n".join(summary_lines)
 
-
-# ---- Global Chat Reasoning Buffer for Explainable AI ----
-REASONING_CHAT_BUFFER = []
-PROCESSED_CHAT_KEYS = set()
 
 # ---- LLM Attack Plan Generator ----
 
@@ -456,6 +454,16 @@ def healthz():
 
 @app.middleware("http")
 async def command_boundary(request: Request, call_next):
+    if request.url.path.startswith("/api/results"):
+        # S results: read-only, and only with the separate results-reader key. The operator key is
+        # refused here, so the O console cannot open labels or scores while a run is in progress.
+        if request.method != "GET":
+            return JSONResponse({"detail": "READ_ONLY"}, status_code=405, headers=NO_STORE)
+        try:
+            authorize_reader(request.headers.get("Authorization"))
+        except Refused as error:
+            return JSONResponse({"detail": error.reason}, status_code=error.status, headers=NO_STORE)
+        return await call_next(request)
     if request.method == "GET" and (request.url.path.startswith("/api/") or request.url.path == "/attack/status"):
         try:
             CommandGuard.from_env().authorize(request.headers.get("Authorization"))
@@ -478,7 +486,11 @@ async def command_boundary(request: Request, call_next):
         except Refused as error:
             logger.warning("Command refused: %s", error.reason)
             return JSONResponse({"detail": error.reason}, status_code=error.status)
-    return await call_next(request)
+    response = await call_next(request)
+    if request.url.path.startswith("/dashboard"):
+        # Revalidate pages/scripts on every load (ETag/304), so a browser never runs an old KPI script.
+        response.headers["Cache-Control"] = "no-cache"
+    return response
 
 
 def publish_command(guard, command, key):
@@ -601,51 +613,65 @@ def get_service_name(pod_name: str) -> str:
     return pod_name
 
 
-@app.get("/api/status", summary="Get status of microservices replicas and CPU utilization")
-async def get_api_status():
-    services_status = {
-        "frontend": {"replicas": 0, "cpu": 0.0},
-        "cartservice": {"replicas": 0, "cpu": 0.0},
-        "productcatalogservice": {"replicas": 0, "cpu": 0.0},
-        "currencyservice": {"replicas": 0, "cpu": 0.0},
-        "checkoutservice": {"replicas": 0, "cpu": 0.0},
-        "redis-cart": {"replicas": 0, "cpu": 0.0},
-        "shippingservice": {"replicas": 0, "cpu": 0.0},
-        "paymentservice": {"replicas": 0, "cpu": 0.0},
-        "emailservice": {"replicas": 0, "cpu": 0.0},
-    }
+DASHBOARD_SERVICES = ("frontend", "cartservice", "productcatalogservice", "currencyservice", "checkoutservice",
+                      "redis-cart", "shippingservice", "paymentservice", "emailservice")
+NO_STORE = {"Cache-Control": "no-store"}
 
-    # Query Replicas and CPU usage from Prometheus
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+
+
+def sample_value(result):
+    """A finite Prometheus sample value, or None: an unparsable sample is no data, never 0."""
+    try:
+        value = float(result.get("value", [None, None])[1])
+    except (TypeError, ValueError, IndexError, AttributeError):
+        return None
+    return value if math.isfinite(value) else None
+
+
+@app.get("/api/status", summary="Live O telemetry: replicas and CPU per service, with the source state")
+async def get_api_status():
+    # null is no data for that service; 0 is reported only when Prometheus answered 0.
+    services_status = {name: {"replicas": None, "cpu": None} for name in DASHBOARD_SERVICES}
+    errors = []
+    queries = {
+        "replicas": 'kube_deployment_status_replicas{namespace="target-app"}',
+        # include zero-door for stress pods
+        "cpu": 'sum(rate(container_cpu_usage_seconds_total{namespace=~"target-app|zero-door", container!=""}[2m])) by (pod)',
+    }
     try:
         async with httpx.AsyncClient(timeout=3.0) as client:
-            # Get Replicas
-            r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
-                "query": 'kube_deployment_status_replicas{namespace="target-app"}'
-            })
-            if r.status_code == 200:
-                results = r.json().get("data", {}).get("result", [])
-                for res in results:
-                    dep_name = res.get("metric", {}).get("deployment")
-                    val = int(res.get("value", [0, "0"])[1])
-                    if dep_name in services_status:
-                        services_status[dep_name]["replicas"] = val
-
-            # Get CPU Usage per pod (include zero-door for stress pods)
-            r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
-                "query": 'sum(rate(container_cpu_usage_seconds_total{namespace=~"target-app|zero-door", container!=""}[2m])) by (pod)'
-            })
-            if r.status_code == 200:
-                results = r.json().get("data", {}).get("result", [])
-                for res in results:
-                    pod_name = res.get("metric", {}).get("pod")
-                    cpu_val = float(res.get("value", [0, "0"])[1])
-                    svc_name = get_service_name(pod_name)
-                    if svc_name in services_status:
-                        services_status[svc_name]["cpu"] += cpu_val
+            for name, query in queries.items():
+                r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={"query": query})
+                if r.status_code != 200:
+                    errors.append(f"{name.upper()}_HTTP_{r.status_code}")
+                    continue
+                try:
+                    results = r.json().get("data", {}).get("result", [])
+                except (ValueError, AttributeError):
+                    errors.append(f"{name.upper()}_MALFORMED")
+                    continue
+                for res in results if isinstance(results, list) else []:
+                    value = sample_value(res) if isinstance(res, dict) else None
+                    if value is None:
+                        continue
+                    labels = res.get("metric") if isinstance(res.get("metric"), dict) else {}
+                    if name == "replicas":
+                        if labels.get("deployment") in services_status:
+                            services_status[labels["deployment"]]["replicas"] = int(value)
+                    else:
+                        svc_name = get_service_name(str(labels.get("pod") or ""))
+                        if svc_name in services_status:
+                            services_status[svc_name]["cpu"] = (services_status[svc_name]["cpu"] or 0.0) + value
     except Exception as e:
-        logger.warning(f"Error querying Prometheus for dashboard: {e}")
-
-    return {"services": services_status}
+        logger.warning("Error querying Prometheus for dashboard: %s", type(e).__name__)
+        errors.append("UPSTREAM_UNREACHABLE")
+    state = "OK" if not errors else "PARTIAL" if len(errors) < len(queries) and "UPSTREAM_UNREACHABLE" not in errors else "ERROR"
+    return {"services": services_status,
+            "source": {"name": "prometheus", "status": state, "errors": errors, "fetched_at": utc_now(),
+                       "note": "live O telemetry, not a KPI"}}
 
 
 @app.get("/api/logs", summary="Get combined real-time logs from Nemesis and Hephaestus")
@@ -660,7 +686,8 @@ async def get_api_logs():
                 "message": log[24:]
             })
 
-    # Fetch Hephaestus logs
+    # Fetch Hephaestus logs; a failed fetch is reported, not shown as "no actions".
+    hephaestus_state = "OK"
     try:
         async with httpx.AsyncClient(timeout=3.0) as client:
             r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
@@ -676,7 +703,7 @@ async def get_api_logs():
                 for event in heal_history:
                     if not isinstance(event, dict):
                         continue
-                    ts = event.get("timestamp", "")[:19]
+                    ts = str(event.get("timestamp", ""))[:19]
                     svc = event.get("service", "")
                     act = event.get("action", "")
                     status = event.get("status", "")
@@ -685,105 +712,29 @@ async def get_api_logs():
                         "timestamp": ts if ts.endswith("Z") else ts + "Z",
                         "message": msg
                     })
+            else:
+                hephaestus_state = f"HTTP_{r.status_code}"
     except Exception as e:
-        logger.warning(f"Could not fetch Hephaestus logs: {e}")
+        logger.warning("Could not fetch Hephaestus logs: %s", type(e).__name__)
+        hephaestus_state = "UNREACHABLE"
 
     # Sort logs descending (newest first)
     combined_logs.sort(key=lambda x: x["timestamp"], reverse=True)
-    return {"logs": combined_logs[:50]}
+    # Operational text only: not KPI evidence and not LLM decisions.
+    return {"logs": combined_logs[:50], "sources": {"nemesis": "OK", "hephaestus": hephaestus_state}, "fetched_at": utc_now()}
 
 
-@app.get("/api/chat", summary="Get explainable AI reasoning chat stream")
+@app.get("/api/chat", summary="Decision reasoning stream: unavailable in R1")
 async def get_api_chat():
-    # 1. Fetch Hephaestus healing history and parse into chat bubbles
-    try:
-        async with httpx.AsyncClient(timeout=3.0) as client:
-            r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
-            if r.status_code == 200:
-                resp_json = r.json()
-                if isinstance(resp_json, dict):
-                    heal_history = resp_json.get("history", [])
-                elif isinstance(resp_json, list):
-                    heal_history = resp_json
-                else:
-                    heal_history = []
-                for event in heal_history:
-                    if not isinstance(event, dict):
-                        continue
-                    ts = event.get("timestamp", "")
-                    svc = event.get("service", "")
-                    act = event.get("action", "")
-                    status = event.get("status", "")
-                    
-                    chat_key = f"hephaestus_{ts}_{svc}_{act}_{status}"
-                    if chat_key not in PROCESSED_CHAT_KEYS:
-                        reasoning = "Kích hoạt hành động tự phục hồi để bảo đảm tính ổn định của hệ thống."
-                        if act == "SCALE_UP":
-                            reasoning = f"Phát hiện tài nguyên của dịch vụ '{svc}' bị quá tải nghiêm trọng. Thực hiện scale up tăng số lượng Pods lên để phân chia tải, tránh nghẽn luồng và duy trì hoạt động."
-                        elif act == "RESTART":
-                            reasoning = f"Dịch vụ '{svc}' bị đơ hoặc không phản hồi các cuộc kiểm tra sức khỏe (Liveness probes). Thực hiện khởi động lại (Restart pod) để giải phóng bộ nhớ đệm và phục hồi trạng thái lành mạnh."
-                        elif act == "BLOCK_IP":
-                            reasoning = f"Nhận thấy dấu hiệu tấn công HTTP Flood tràn ngập API. Thực hiện cấu hình chặn IP nguồn tấn công trực tiếp tại ingress controller để bảo vệ băng thông và tài nguyên cụm."
-                        elif act == "SCALE_DOWN":
-                            reasoning = f"Hệ thống đã phục hồi trạng thái Steady State bình thường. Tiến hành scale down số lượng Pods của dịch vụ '{svc}' về mức tối thiểu (1 pod) để tối ưu hóa chi phí vận hành."
-                        
-                        REASONING_CHAT_BUFFER.append({
-                            "timestamp": ts if ts.endswith("Z") else ts + "Z",
-                            "agent": "HEPHAESTUS",
-                            "message": f"Thực hiện hành động '{act}' cho dịch vụ '{svc}' (Trạng thái: {status}).",
-                            "reasoning": reasoning
-                        })
-                        PROCESSED_CHAT_KEYS.add(chat_key)
-    except Exception as e:
-        logger.warning(f"Could not sync Hephaestus actions to chat: {e}")
-
-    # 2. Check current CPU stress and inject Gaia warnings
-    try:
-        async with httpx.AsyncClient(timeout=3.0) as client:
-            r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
-                "query": 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[2m])) by (pod)'
-            })
-            if r.status_code == 200:
-                results = r.json().get("data", {}).get("result", [])
-                for res in results:
-                    pod = res.get("metric", {}).get("pod")
-                    cpu_val = float(res.get("value", [0, "0"])[1])
-                    if cpu_val > 0.08:
-                        if not pod:
-                            continue
-                        # Extract service name from pod name (standardize with Gaia's logic)
-                        if "-stress" in pod:
-                            svc = pod.split("-stress")[0]
-                        else:
-                            parts = pod.split("-")
-                            if len(parts) > 2:
-                                svc = "-".join(parts[:-2])
-                            else:
-                                svc = parts[0]
-                                
-                        current_minute = datetime.now(timezone.utc).strftime("%Y-%m-%d-%H-%M")
-                        chat_key = f"gaia_stress_{svc}_{current_minute}"
-                        if chat_key not in PROCESSED_CHAT_KEYS:
-                            REASONING_CHAT_BUFFER.append({
-                                "timestamp": datetime.now(timezone.utc).isoformat(),
-                                "agent": "GAIA",
-                                "message": f"Phát hiện bất thường hiệu năng (Anomaly Detected) tại dịch vụ '{svc}'.",
-                                "reasoning": f"Chỉ số CPU usage thực tế đo được từ Prometheus tăng vọt lên {round(cpu_val, 3)} cores, vượt xa ngưỡng cảnh báo an toàn (0.05 cores). Gửi yêu cầu tự phục hồi tới Hephaestus."
-                             })
-                            PROCESSED_CHAT_KEYS.add(chat_key)
-    except Exception as e:
-        logger.warning(f"Could not check Prometheus CPU for Gaia alerts: {e}")
-
-    # Sort chat list ascending (oldest first for rendering in scroll pane)
-    REASONING_CHAT_BUFFER.sort(key=lambda x: x["timestamp"])
-    return {"chat": REASONING_CHAT_BUFFER}
+    # The former stream wrote fixed sentences from heal history and CPU readings and showed them as
+    # agent reasoning. R1 has no LLM decision producer, so nothing is shown and nothing is generated.
+    return {"chat": [], "status": "UNAVAILABLE", "reason": "NO_DECISION_PRODUCER_IN_R1",
+            "note": "no AI reasoning is generated or replayed; decisions are read from scored results only"}
 
 
-@app.post("/api/chat/clear", summary="Reset reasoning chat history")
+@app.post("/api/chat/clear", summary="Compatibility no-op: there is no reasoning history to clear")
 def clear_reasoning_chat():
-    REASONING_CHAT_BUFFER.clear()
-    PROCESSED_CHAT_KEYS.clear()
-    return {"status": "SUCCESS", "message": "Reasoning chat history cleared."}
+    return {"status": "UNAVAILABLE", "reason": "NO_DECISION_PRODUCER_IN_R1"}
 
 
 @app.post("/api/reset", summary="Reset experiment and clean log buffers")
@@ -792,17 +743,57 @@ async def api_reset():
     raise HTTPException(409, "RESET_REQUIRES_HARNESS")
 
 
-@app.get("/api/heal-history", summary="Proxy: Get Hephaestus heal history for SRE dashboard")
+@app.get("/api/heal-history", summary="Proxy: Hephaestus heal history (legacy audit, never a KPI source)")
 async def get_heal_history_proxy():
-    """Proxy endpoint — fetches heal history from Hephaestus and forwards to frontend."""
+    """Proxy endpoint — an unreachable or failing Hephaestus is an error, not an empty history."""
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
-            if r.status_code == 200:
-                return r.json()
     except Exception as e:
-        logger.warning(f"Could not proxy Hephaestus heal history: {e}")
-    return {"history": []}
+        logger.warning("Could not proxy Hephaestus heal history: %s", type(e).__name__)
+        raise HTTPException(503, "UPSTREAM_UNAVAILABLE")
+    if r.status_code != 200:
+        raise HTTPException(502, f"UPSTREAM_HTTP_{r.status_code}")
+    try:
+        return r.json()
+    except ValueError:
+        raise HTTPException(502, "UPSTREAM_MALFORMED")
+
+
+# ---- S results: registered runs only, read-only (nemesis/measurement_view.py) ----
+
+def result_error(error):
+    # Reason codes only: no filesystem path, key or exception text leaves the server.
+    return JSONResponse({"detail": error.reason}, status_code=error.status, headers=NO_STORE)
+
+
+@app.get("/api/results/runs", summary="Registered, closed runs with scorer artifacts")
+def results_runs():
+    try:
+        return JSONResponse({"runs": ResultsStore.from_env().runs(), "checked_at": utc_now()}, headers=NO_STORE)
+    except ResultError as error:
+        return result_error(error)
+
+
+@app.get("/api/results/runs/{run_id}", summary="KPI view of one registered run, passed through from score.json")
+def results_run(run_id: str):
+    try:
+        view = ResultsStore.from_env().view(run_id)
+    except ResultError as error:
+        return result_error(error)
+    view["served_at"] = utc_now()
+    return JSONResponse(view, headers=NO_STORE)
+
+
+@app.get("/api/results/runs/{run_id}/files/{name}", summary="The same export files the view was read from")
+def results_file(run_id: str, name: str):
+    try:
+        data, digest = ResultsStore.from_env().file(run_id, name)
+    except ResultError as error:
+        return result_error(error)
+    media = "application/json" if name.endswith(".json") else "text/csv; charset=utf-8"
+    return Response(content=data, media_type=media, headers=dict(NO_STORE, **{
+        "X-ZD-SHA256": digest, "Content-Disposition": f'attachment; filename="{run_id}-{name}"'}))
 
 
 # ---- Mount Dashboard Static Files ----

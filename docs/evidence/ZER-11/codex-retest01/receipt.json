@@ -1,0 +1,172 @@
+{
+  "timestamp": "2026-10-21T05:06:21.237Z",
+  "verdict": "RETEST_PASS_OFFLINE / NOT_READY_FOR_RUNTIME",
+  "head": "169413303340fc01eea8597c121ce39455892af0",
+  "manifest_sha256": "a43006fb1eab0090182cead4244d7ee2a72a83b726e10af95885cbe0d941d881",
+  "intake_manifest_matches": 28,
+  "unchanged_snapshot_files": 55,
+  "protected_files": 10,
+  "source_and_evidence_unchanged": [
+    {
+      "path": "agent-orchestrator/nemesis/measurement_view.py",
+      "match": true
+    },
+    {
+      "path": "agent-orchestrator/nemesis/static/results.js",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/README.md",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/browser/01-good-then-hash-mismatch-cleared.jpg",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/browser/02-transient-503-stale.jpg",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/browser/03-reconnect-wrong-key-cleared.jpg",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/browser/04-serve-results-standin-root.jpg",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/check_mutants.py",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/clean_checkout.sh",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/fail_before.py",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/replay_codex_ui.cjs",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/clean-checkout.txt",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/codex-adapter-probe-after.jsonl",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/codex-ui-counterexample-after.json",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/fail-before.json",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/fail-before.txt",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.json",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.txt",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/mutants.json",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/mutants.txt",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/results/regressions.txt",
+      "match": true
+    },
+    {
+      "path": "docs/evidence/ZER-11/fix-01/run_regressions.sh",
+      "match": true
+    },
+    {
+      "path": "docs/runbooks/dashboard-and-baselines.md",
+      "match": true
+    },
+    {
+      "path": "infrastructure/scripts/verify-dashboard-baselines.py",
+      "match": true
+    },
+    {
+      "path": "tests/results_page_vm.cjs",
+      "match": true
+    },
+    {
+      "path": "tests/test_dashboard_measurement.py",
+      "match": true
+    }
+  ],
+  "independent_checks": {
+    "production_nemesis": {
+      "dashboard": 33,
+      "modes": 7,
+      "provenance": "tool transcript, initial review.sh exit0"
+    },
+    "production_hephaestus": {
+      "dashboard": 33,
+      "log": "production-hephaestus.log"
+    },
+    "js_current": 19,
+    "js_before": {
+      "negative": 12,
+      "control": 7
+    },
+    "old_ui_replay": 4,
+    "old_adapter_replay": {
+      "refused": 5,
+      "unconsumed_field_control": 1
+    },
+    "bandit_two_python_files": 0,
+    "node_syntax": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "boundaries": {
+    "lab": false,
+    "model": false,
+    "publication": false,
+    "linear_write": false,
+    "source_edits": false,
+    "browser_reexecuted": false
+  },
+  "note_append_only": true,
+  "now_prepend_only": true,
+  "evidence": {
+    "adapter-independent-replay.jsonl": "66133b35c2eccd3744244a3e9f1abb782220eb6de5f0aca77c53e431831892f4",
+    "bandit.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "graph-final.json": "1c7a181906510004bc85d759f6ae2a71b838cda9f7a33806877e1f2b1b18f415",
+    "graph.json": "80725800cc7b6f116453a2642e12c096f780495a8d2dde9a18fd22261fccb4d9",
+    "hash-intake.json": "d0f177b65bde361aa86a134b47d8afff984645bc55233109a53cce340617e313",
+    "index.log": "43fa62fbf28470314b36d9b7fc7aa3b0cc8e03a0fc8ca13817bd2d4fb5710137",
+    "plan.json": "69cbd6a053a63dd73fbc445c7468e93ec8f5545c0eab2a63ab425776012ea0c0",
+    "production-hephaestus.log": "9e7a06ccffb64b818622ffb100503bcb9b2d4ed911c00b3fc07c564f6f2ff019",
+    "protected-check.json": "1ff63e911dad35f60891018b3500409424534324ff1aededc317721e89a161f0",
+    "source.diff": "f73bf87c82af339b56b84cbd4a9accf566e0188bf273f794d0e2b53c092b8267",
+    "ui-before.json": "ef2d128f3d315339276d4412ba7390dcb3d698116bd7c3eae7e60b47cc94e418",
+    "ui-current.json": "b56598229057f183f99fbe5152c312954e295664f15baff7d0a2ffc157e2760b",
+    "ui-independent-replay.json": "796d8e22d176ee5cde7a740c335a3b3fd06d48b0bfd752688db8113c04f37e91",
+    "unchanged-snapshot.json": "2926c3554f43c58ba483e88374223255b550bad92f90dece640388cffaed8152"
+  },
+  "report_sha256": "3181113a3f620c6b45a9b94a25dc88c0451096dc5affd58fac3477b7fc0a8d05",
+  "cleanup": {
+    "test_sessions_finished": true,
+    "index_session_finished": true,
+    "servers_started": 0,
+    "staged_empty": true
+  }
+}

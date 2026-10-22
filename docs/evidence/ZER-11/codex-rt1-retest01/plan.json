@@ -1,0 +1,57 @@
+{
+ "context": "k3d-zero-door",
+ "f01_pilot": {
+  "cap_det_s": 300,
+  "cap_rec_s": 600,
+  "delta_s": 1,
+  "eps_s": 1,
+  "gap_s": 2,
+  "k": 3,
+  "l_ms": 2000,
+  "s_s": 30
+ },
+ "id": "G-ZER11-RT1",
+ "phases_s": {
+  "P0": 180,
+  "P1": 300,
+  "P2": 180,
+  "P4_hpa_ready": 120,
+  "P5_seal_export": 180,
+  "P7": 300
+ },
+ "problems": [],
+ "totals": {
+  "cap_s": 3600,
+  "frontend_pod_deletes": 1,
+  "load_requests": 3600,
+  "p6": false,
+  "probe_requests": 17910,
+  "probe_samples": 1990,
+  "worst_case_s": 3250
+ },
+ "trials": {
+  "B0-CTRL": {
+   "fault": "delete 1 frontend pod",
+   "no_effect_needs_s": 300,
+   "probe_max_duration_s": 995,
+   "probe_max_requests": 8955,
+   "probe_max_samples": 995,
+   "timeout_needs_after_t_eff_s": 600,
+   "trial_max_s": 965,
+   "verify_min_samples": 33,
+   "warmup_s": 30
+  },
+  "B0-HPA": {
+   "fault": "HTTP GET load on frontend",
+   "no_effect_needs_s": 300,
+   "probe_max_duration_s": 995,
+   "probe_max_requests": 8955,
+   "probe_max_samples": 995,
+   "timeout_needs_after_t_eff_s": 600,
+   "trial_max_s": 965,
+   "verify_min_samples": 33,
+   "warmup_s": 30
+  }
+ },
+ "w_eff_s": 300
+}

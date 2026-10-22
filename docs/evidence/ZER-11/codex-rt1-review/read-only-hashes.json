@@ -1,0 +1,762 @@
+[
+  {
+    "path": "agent-orchestrator/event_pipeline/Dockerfile",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/__init__.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/adapters.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/audit.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/client.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/contract.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/gateway.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/requirements.lock",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/requirements.txt",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/store.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/event_pipeline/telemetry.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/__init__.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/__main__.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/clock.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/config.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/flows.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/metrics.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/output.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/probe.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/raw.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/recovery.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/scorer.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/measurement/sink.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/Dockerfile",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/command_guard.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/main.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/measurement_view.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/requirements.lock",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/requirements.txt",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/app.js",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/index.html",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/results.html",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/results.js",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/style.css",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/Dockerfile",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/cmd/loop_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/cmd/main.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/cmd/main_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/go.mod",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/go.sum",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/attack/cpu_stress.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/attack/executor.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/attack/guards_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/attack/http_flood.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/attack/kube_guard_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/attack/pod_kill.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/config/config.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/config/config_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/guard/auth.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/guard/dispatch.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/guard/guard_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/guard/ledger.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/guard/policy.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/guard/review_regression_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/kafka/client.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/kafka/client_test.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/validation/target.go",
+    "match": true
+  },
+  {
+    "path": "chaos-worker/internal/validation/target_test.go",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/README.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/01-no-access.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/02-loaded-b1.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/03-timeout-null-not-zero.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/04-empty.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/05-artifact-error.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/06-stale.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/07-b0-mode-violation.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/08-console-no-kpi.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/check_mutants.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/clean_checkout.sh",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/adapter-independent-replay.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/bandit.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/graph-final.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/graph.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/hash-intake.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/index.log",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/plan.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/production-hephaestus.log",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/protected-check.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/receipt.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/source.diff",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/ui-before.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/ui-current.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/ui-independent-replay.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-retest01/unchanged-snapshot.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/adapter-probe.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/adapter-results.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/bandit.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/cleanup.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/final.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/hash-intake.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/index.log",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/protected-check.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/receipt.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/source.diff",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/stale-integrity.png",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/tests.log",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/ui-counterexample.cjs",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/ui-counterexample.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fail_before.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/README.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/01-good-then-hash-mismatch-cleared.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/02-transient-503-stale.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/03-reconnect-wrong-key-cleared.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/04-serve-results-standin-root.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/check_mutants.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/clean_checkout.sh",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/fail_before.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/manifest-fix01.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/replay_codex_ui.cjs",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/clean-checkout.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/codex-adapter-probe-after.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/codex-ui-counterexample-after.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/fail-before.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/fail-before.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/regressions.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/run_regressions.sh",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/manifest.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/clean-checkout.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before-attempt1.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before-attempt1.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants-attempt1.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants-attempt1.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/regressions.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/run_regressions.sh",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/chaos-worker.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/command-guard-config.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/gaia-deployment.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/hephaestus-deployment.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/nemesis-deployment.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/network-policies.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/prometheus-rules.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/r1-baselines.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/r1-event-actors.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/r1-event-pipeline.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/target-app-addons.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/target-app-hpa.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/target-app-ingress.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/target-app-raw.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/target-app.yaml",
+    "match": true
+  },
+  {
+    "path": "tests/check_agent_dependencies.py",
+    "match": true
+  },
+  {
+    "path": "tests/check_guard_manifests.py",
+    "match": true
+  },
+  {
+    "path": "tests/check_r1_baselines.py",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer10/builder.py",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer10/expected.json",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer10/plan-synthetic-boutique.json",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer10/plan-synthetic-fixture.json",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer11/cases.py",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer11/expected.json",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer12/command-guards.json",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer12/modes.json",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-guards.lock",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-guards.txt",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-hephaestus.lock",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-hephaestus.txt",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-nemesis.lock",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-nemesis.txt",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-tools.lock",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-command-tools.txt",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-yaml.lock",
+    "match": true
+  },
+  {
+    "path": "tests/requirements-yaml.txt",
+    "match": true
+  },
+  {
+    "path": "tests/results_page_vm.cjs",
+    "match": true
+  },
+  {
+    "path": "tests/shell/run.sh",
+    "match": true
+  },
+  {
+    "path": "tests/shell/test-local-restore.sh",
+    "match": true
+  },
+  {
+    "path": "tests/test_command_guard_ci.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_command_guard_integration.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_command_guards.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_command_modes.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_dashboard_measurement.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_dashboard_modes.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_event_actor_verifier.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_event_agents.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_event_pipeline.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_event_pipeline_regressions.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_measurement_boundaries.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_measurement_cli.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_measurement_metrics.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_measurement_probe.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_measurement_recovery.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_measurement_scorer.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_nemesis_consumer.py",
+    "match": true
+  }
+]

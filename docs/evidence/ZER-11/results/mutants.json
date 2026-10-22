@@ -1,0 +1,153 @@
+{
+ "caught": 17,
+ "mutants": 17,
+ "rows": {
+  "BM_EXECUTES_RULES_DECISION": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/hephaestus/main.py",
+   "meaning": "the manual trigger would execute an automatic RULES decision",
+   "suite": "test_dashboard_modes",
+   "summary": "Ran 7 tests in 8.547s FAILED (failures=1)"
+  },
+  "CONSUMER_NOT_AUDITED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/hephaestus/command_guard.py",
+   "meaning": "a group that never auto-decides would leave no operational audit",
+   "suite": "test_dashboard_modes",
+   "summary": "Ran 7 tests in 8.326s FAILED (failures=4)"
+  },
+  "CONTROL:test_dashboard_measurement": {
+   "exit": 0,
+   "pass": true,
+   "summary": "Ran 24 tests in 14.811s OK"
+  },
+  "CONTROL:test_dashboard_modes": {
+   "exit": 0,
+   "pass": true,
+   "summary": "Ran 7 tests in 8.457s OK"
+  },
+  "DATA_TIME_FROM_GENERATED_AT": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "the update delay would be measured from the scorer's write time",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 16.133s FAILED (failures=2)"
+  },
+  "DUPLICATE_KEYS_ACCEPTED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "a duplicate KPI key would silently pick one value",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.899s FAILED (failures=1)"
+  },
+  "EXPORT_NOT_COMPARED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "the page could show values that differ from incidents.csv",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 15.157s FAILED (failures=1)"
+  },
+  "GROUP_NOT_MATCHED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "the registry could relabel the mode of a scored run",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 15.462s FAILED (failures=1)"
+  },
+  "HASH_NOT_CHECKED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "a tampered score.json would be served as the registered artifact",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.351s FAILED (failures=2)"
+  },
+  "HEAL_REPLAY_EXECUTES": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/hephaestus/main.py",
+   "meaning": "a replayed operator trigger would run a second action",
+   "suite": "test_dashboard_modes",
+   "summary": "Ran 7 tests in 8.523s FAILED (failures=1)"
+  },
+  "KEY_SEPARATION_REMOVED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "one shared secret would act as both operator and results reader",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.742s FAILED (failures=1)"
+  },
+  "NONFINITE_ACCEPTED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "1e999 would be shown as Infinity instead of refused",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 15.059s FAILED (failures=1)"
+  },
+  "OPEN_RUN_SERVED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "a run still in progress could be registered and read",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.473s FAILED (failures=1)"
+  },
+  "OPERATOR_KEY_READS_RESULTS": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/main.py",
+   "meaning": "the BM operator's key would open S results",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.763s FAILED (failures=7, errors=1)"
+  },
+  "RESULTS_ACCEPT_WRITES": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/main.py",
+   "meaning": "a non-GET request to the results API would reach the operator/command path",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 15.030s FAILED (failures=1)"
+  },
+  "RUN_NOT_MATCHED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "a request for run A could show run B's artifact",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.398s FAILED (failures=1)"
+  },
+  "STATUS_DEFAULTS_ZERO": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/main.py",
+   "meaning": "a Prometheus outage would look like 0 replicas / 0 CPU",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 15.141s FAILED (failures=1)"
+  },
+  "SYMLINK_FOLLOWED": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "a run directory replaced by a symlink would be read through",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 15.140s FAILED (failures=1)"
+  },
+  "VIEW_DROPS_BOUNDS": {
+   "caught": true,
+   "exit": 1,
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "meaning": "the API would no longer pass KPI values (missing-data bounds) through unchanged",
+   "suite": "test_dashboard_measurement",
+   "summary": "Ran 24 tests in 14.832s FAILED (failures=1)"
+  }
+ },
+ "verdict": "PASS"
+}

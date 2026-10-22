@@ -1,0 +1,147 @@
+test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery)
+A matching replacement seen later cannot explain an earlier business recovery. ... 
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [before trial]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [full second before trial]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [event time missing]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [request time missing]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [request time invalid]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [recovery time missing]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [one second before recovery]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [overlaps recovery second]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [at recovery]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+  test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [after recovery]
+A matching replacement seen later cannot explain an earlier business recovery. ... FAIL
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [before trial]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [full second before trial]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [event time missing]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [request time missing]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [request time invalid]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [recovery time missing]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [one second before recovery]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [overlaps recovery second]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [at recovery]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+======================================================================
+FAIL: test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery) [after recovery]
+A matching replacement seen later cannot explain an earlier business recovery.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_baseline_runtime.py", line 984, in test_controller_claim_requires_trial_time_window_before_recovery
+    self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+AssertionError: 'RECOVERED_CONTROLLER_EVIDENCE_MISSING' != 'CONTROLLER_RECOVERY_OBSERVED'
+- RECOVERED_CONTROLLER_EVIDENCE_MISSING
++ CONTROLLER_RECOVERY_OBSERVED
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=10)

@@ -1,0 +1,109 @@
+{
+ "controls": {
+  "('node', 'tests/results_page_vm.cjs')": true,
+  "test_dashboard_measurement.AdapterIntegrity.test_shape_of_consumed_fields_is_a_reason_code": true,
+  "test_dashboard_measurement.ResultsServer": true,
+  "test_dashboard_measurement.RuntimePlan": true
+ },
+ "killed": 11,
+ "mutants": [
+  {
+   "check": "node tests/results_page_vm.cjs",
+   "file": "agent-orchestrator/nemesis/static/results.js",
+   "invariant": "only transport/upstream failures keep a STALE view",
+   "killed": true,
+   "mutant": "EVERY_ERROR_TRANSIENT",
+   "summary": ""
+  },
+  {
+   "check": "node tests/results_page_vm.cjs",
+   "file": "agent-orchestrator/nemesis/static/results.js",
+   "invariant": "registry/key configuration 503s are fatal",
+   "killed": true,
+   "mutant": "CONFIG_503_TRANSIENT",
+   "summary": ""
+  },
+  {
+   "check": "node tests/results_page_vm.cjs",
+   "file": "agent-orchestrator/nemesis/static/results.js",
+   "invariant": "a (re)connect clears the previous key's view before reading the registry",
+   "killed": true,
+   "mutant": "RECONNECT_KEEPS_OLD_VIEW",
+   "summary": ""
+  },
+  {
+   "check": "node tests/results_page_vm.cjs",
+   "file": "agent-orchestrator/nemesis/static/results.js",
+   "invariant": "a refused key ends the session and its refresh timer",
+   "killed": true,
+   "mutant": "REFUSED_KEY_KEEPS_POLLING",
+   "summary": ""
+  },
+  {
+   "check": "node tests/results_page_vm.cjs",
+   "file": "agent-orchestrator/nemesis/static/results.js",
+   "invariant": "only a completely rendered view becomes the last good one",
+   "killed": false,
+   "mutant": "UNRENDERED_VIEW_IS_LAST_GOOD",
+   "summary": ""
+  },
+  {
+   "check": "test_dashboard_measurement.AdapterIntegrity.test_shape_of_consumed_fields_is_a_reason_code",
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "invariant": "a score must name its H/O export digests",
+   "killed": true,
+   "mutant": "INPUT_DIGEST_OPTIONAL",
+   "summary": "Ran 1 test in 1.187s FAILED (failures=2)"
+  },
+  {
+   "check": "test_dashboard_measurement.AdapterIntegrity.test_shape_of_consumed_fields_is_a_reason_code",
+   "file": "agent-orchestrator/nemesis/measurement_view.py",
+   "invariant": "consumed fields of the wrong type are a 422, not a 500",
+   "killed": true,
+   "mutant": "CONSUMED_SHAPE_UNCHECKED",
+   "summary": "Ran 1 test in 1.034s FAILED (failures=8)"
+  },
+  {
+   "check": "test_dashboard_measurement.ResultsServer",
+   "file": "infrastructure/scripts/verify-dashboard-baselines.py",
+   "invariant": "serve-results answers only the results page and /api/results",
+   "killed": true,
+   "mutant": "RESULTS_MODE_OPEN",
+   "summary": "Ran 4 tests in 8.518s FAILED (failures=7, errors=1)"
+  },
+  {
+   "check": "test_dashboard_measurement.ResultsServer",
+   "file": "infrastructure/scripts/verify-dashboard-baselines.py",
+   "invariant": "serve-results starts no Kafka consumer",
+   "killed": true,
+   "mutant": "RESULTS_MODE_STARTS_CONSUMER",
+   "summary": "Ran 4 tests in 6.018s FAILED (failures=1)"
+  },
+  {
+   "check": "test_dashboard_measurement.ResultsServer",
+   "file": "infrastructure/scripts/verify-dashboard-baselines.py",
+   "invariant": "serve-results serves the given root, never a generated one",
+   "killed": true,
+   "mutant": "RESULTS_MODE_ROOT_FROM_FIXTURE",
+   "summary": "Ran 4 tests in 4.346s FAILED (failures=4)"
+  },
+  {
+   "check": "test_dashboard_measurement.RuntimePlan",
+   "file": "infrastructure/scripts/verify-dashboard-baselines.py",
+   "invariant": "the per-trial probe budget is checked",
+   "killed": true,
+   "mutant": "PLAN_SAMPLE_CAP_IGNORED",
+   "summary": "Ran 3 tests in 0.025s FAILED (failures=1)"
+  },
+  {
+   "check": "test_dashboard_measurement.RuntimePlan",
+   "file": "infrastructure/scripts/verify-dashboard-baselines.py",
+   "invariant": "a trial window covers cap_rec plus S so TIMEOUT stays scorable",
+   "killed": true,
+   "mutant": "PLAN_WINDOW_SHORT_OF_CAP_REC",
+   "summary": "Ran 3 tests in 0.026s FAILED (failures=2)"
+  }
+ ],
+ "total": 12,
+ "verdict": "FAIL"
+}

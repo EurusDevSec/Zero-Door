@@ -1,0 +1,10 @@
+test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve (test_dashboard_baseline_runtime.Budget.test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve) ... ok
+test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve (test_dashboard_baseline_runtime.Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve) ... 2026-10-21 16:39:16,365 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 16:39:16,426 - httpx - [INFO] - HTTP Request: GET http://testserver/api/results/runs/run_f7a891ae7fd74cc996bd5c5a439d22e5 "HTTP/1.1 200 OK"
+ok
+test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect (test_dashboard_baseline_runtime.Controller.test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 22.005s
+
+OK

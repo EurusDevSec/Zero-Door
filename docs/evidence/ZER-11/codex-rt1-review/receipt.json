@@ -1,0 +1,57 @@
+{
+  "verdict": "CHANGES_REQUIRED",
+  "runtime": "NOT_RUN",
+  "head": "169413303340fc01eea8597c121ce39455892af0",
+  "branch": "zer-10-independent-measurement",
+  "findings": [
+    "RT1-01:P1",
+    "RT1-02:P2",
+    "RT1-03:P2",
+    "RT1-04:P2",
+    "RT1-05:P2"
+  ],
+  "live_linear": {
+    "workspace": "zero-door",
+    "issues": {
+      "ZER-11": "In Progress",
+      "ZER-39": "In Progress"
+    },
+    "ac04_equals_child_ac01": true,
+    "writes": false
+  },
+  "hashes": {
+    "manifest": 21,
+    "matched": 21,
+    "read_only_checked": 190,
+    "read_only_changed": 0,
+    "protected": 10,
+    "protected_changed": 0,
+    "after_note_now_excluded": 19,
+    "source_drift": []
+  },
+  "tests": {
+    "nemesis1": "17/17",
+    "hephaestus1": "17/17",
+    "nemesis2": "17 tests;2FAIL+1ERROR",
+    "diagnostic02": "3/3 PASS",
+    "diagnostic01": "reviewer capture hook failed copying .owner;not package failure",
+    "dashboard": "33/33",
+    "modes": "7/7",
+    "ci_boundary": "6/6",
+    "profile": "PASS",
+    "bandit_exit": 0,
+    "host_counterexamples_exit": 0,
+    "pod_counterexamples_exit": 0
+  },
+  "boundaries": {
+    "source_edits": false,
+    "lab": false,
+    "docker": false,
+    "model_api": false,
+    "publication": false,
+    "linear_writes": false
+  },
+  "note_append_only": true,
+  "now_old_suffix_preserved": true,
+  "report_sha256": "773877219f180eb168cd485e18dc69abe1a478995cf65cd99db470494497e550"
+}

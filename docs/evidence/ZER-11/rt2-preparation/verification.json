@@ -1,0 +1,77 @@
+{
+  "verdict": "READY_FOR_SCOPED_RT2_REVIEW",
+  "head": "169413303340fc01eea8597c121ce39455892af0",
+  "branch": "zer-10-independent-measurement",
+  "authority": "Prepare and test RT2 offline only. No build/import, cluster mutation, paid API, publication or Linear write.",
+  "offline": {
+    "new_suite": {
+      "nemesis": "3/3",
+      "hephaestus": "3/3",
+      "subprocesses": "actual production Uvicorn with real loopback O gateway; HTTP observation injected only into diagnostic Driver; no fake executor"
+    },
+    "existing_modes": "7/7",
+    "bandit": "0 findings (two documented intentional patterns)",
+    "bash_syntax": "PASS",
+    "assessment_nemesis": {
+      "LLM": "NOT_CALLED",
+      "MTTD_MTTR": "NOT_SCORED",
+      "errors": [],
+      "gaia": "NOT_TESTED",
+      "runtime_host_acceptance": "REQUIRES_IMAGE_SOURCE_PREFLIGHT_AND_CLEANUP_RECEIPTS",
+      "verdict": "PASS_BOUNDARY_OFFLINE"
+    },
+    "assessment_hephaestus": {
+      "LLM": "NOT_CALLED",
+      "MTTD_MTTR": "NOT_SCORED",
+      "errors": [],
+      "gaia": "NOT_TESTED",
+      "runtime_host_acceptance": "REQUIRES_IMAGE_SOURCE_PREFLIGHT_AND_CLEANUP_RECEIPTS",
+      "verdict": "PASS_BOUNDARY_OFFLINE"
+    }
+  },
+  "protected": {
+    "infrastructure/scripts/r1_baseline_runtime.py": {
+      "expected": "3a87989b579023d38aebae8370f68fb16e4ff9d990a5d772bc0b84d7eb52b577",
+      "actual": "3a87989b579023d38aebae8370f68fb16e4ff9d990a5d772bc0b84d7eb52b577"
+    },
+    "infrastructure/scripts/verify-dashboard-baselines.py": {
+      "expected": "8f2bff44384ff9638e47d5e751b87dc611358eaefcecdeaa6783878429614be7",
+      "actual": "8f2bff44384ff9638e47d5e751b87dc611358eaefcecdeaa6783878429614be7"
+    },
+    "agent-orchestrator/hephaestus/main.py": {
+      "expected": "d3acc796f6fd2cc8118687d1bf5f85f69fc20b35c698f9c4152e57a49c229e4a",
+      "actual": "d3acc796f6fd2cc8118687d1bf5f85f69fc20b35c698f9c4152e57a49c229e4a"
+    },
+    "agent-orchestrator/hephaestus/command_guard.py": {
+      "expected": "5a1c241619b75f4b70549d788ffa5553add71d08f286a614d926291836809287",
+      "actual": "5a1c241619b75f4b70549d788ffa5553add71d08f286a614d926291836809287"
+    },
+    "agent-orchestrator/nemesis/main.py": {
+      "expected": "0c89f54e37ff29435b842b3863fc9d68d1a90ffe947c3d9c7d05f7c725acf0f5",
+      "actual": "0c89f54e37ff29435b842b3863fc9d68d1a90ffe947c3d9c7d05f7c725acf0f5"
+    },
+    "agent-orchestrator/nemesis/command_guard.py": {
+      "expected": "abceffec7f73c5063a2100fc6b1d857ce6c61d1e165b650715841809bb42dd4d",
+      "actual": "abceffec7f73c5063a2100fc6b1d857ce6c61d1e165b650715841809bb42dd4d"
+    },
+    "agent-orchestrator/hephaestus/Dockerfile": {
+      "expected": "f54a2df08ef39465e90419b4c157b76767b46747418a8295f1d407f03fab74e4",
+      "actual": "f54a2df08ef39465e90419b4c157b76767b46747418a8295f1d407f03fab74e4"
+    }
+  },
+  "not_run": [
+    "Docker build/import",
+    "Kubernetes RT2",
+    "paid model/API",
+    "remote CI",
+    "publication",
+    "Linear write"
+  ],
+  "source_hashes": {
+    "infrastructure/scripts/r1_mode_runtime.py": "2a2ad5c45891b9605356ae6f3d62d794b8c69bc86b039151a4f0c44356398502",
+    "infrastructure/scripts/verify-dashboard-modes.sh": "fca674b33a37d1be725de078fd8f3483f2c89c1060dcd9d375c622283037c979",
+    "tests/test_dashboard_mode_runtime.py": "60aeed8f825e6e5520aba809bdd6d9d828e9b935c0c9607a29a094ef0991762e",
+    ".github/workflows/ci.yml": "581b089805bda2b0063bb75f8eff38a7748679e1fa0b10ebf791a32cde189c37",
+    "docs/runbooks/dashboard-and-baselines.md": "2217204c068485735ab6b6ea2a6941b725f0ec220e3c2cd013e4fc592c711f0c"
+  }
+}

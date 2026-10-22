@@ -1,0 +1,58 @@
+
+  GitNexus Impact (1.6.11)
+{
+  "target": {
+    "id": "Method:infrastructure/scripts/r1_baseline_runtime.py:Agent.handle#1",
+    "name": "handle",
+    "type": "Method",
+    "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+  },
+  "direction": "upstream",
+  "impactedCount": 1,
+  "risk": "LOW",
+  "riskSharedAxes": "LOW",
+  "riskScale": {
+    "comparableAcrossKinds": true,
+    "unusedAxes": []
+  },
+  "epistemic": "lower-bound",
+  "boundaries": [
+    "1 call site invoking `handle` was dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+  ],
+  "causes": {
+    "scopeExtractionFiles": 0,
+    "receiverTyping": 1,
+    "dispatchBoundary": 0,
+    "externalBoundary": 0,
+    "undecidedSatisfaction": 0
+  },
+  "summary": {
+    "direct": 1,
+    "processes_affected": 0,
+    "modules_affected": 1
+  },
+  "byDepthCounts": {
+    "1": 1
+  },
+  "affected_processes": [],
+  "affected_modules": [
+    {
+      "name": "Scripts",
+      "hits": 1,
+      "impact": "direct"
+    }
+  ],
+  "byDepth": {
+    "1": [
+      {
+        "depth": 1,
+        "id": "Method:infrastructure/scripts/r1_baseline_runtime.py:Control.do_POST#0",
+        "name": "do_POST",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py",
+        "relationType": "CALLS",
+        "confidence": 0.85,
+        "processes": []
+      }
+    ]
+  }
+}

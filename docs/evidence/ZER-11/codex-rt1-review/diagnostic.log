@@ -1,0 +1,49 @@
+test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve (test_dashboard_baseline_runtime.Budget.test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve) ... ERROR
+test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve (test_dashboard_baseline_runtime.Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve) ... 2026-10-21 16:36:35,275 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 16:36:35,348 - httpx - [INFO] - HTTP Request: GET http://testserver/api/results/runs/run_1754be7b8b9b4eb4a8c6cc6073307a5a "HTTP/1.1 200 OK"
+ERROR
+test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect (test_dashboard_baseline_runtime.Controller.test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect) ... ERROR
+
+======================================================================
+ERROR: test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve (test_dashboard_baseline_runtime.Budget.test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer11\codex-rt1-review\diagnose.py", line 16, in close
+    shutil.copytree(run.cluster.agent.root,dest/'agent',dirs_exist_ok=True)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\shutil.py", line 573, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\shutil.py", line 527, in _copytree
+    raise Error(errors)
+shutil.Error: [('C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpnh5frx2g\\agent-4caad4\\archive-H\\.owner', 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer11\\codex-rt1-review\\diagnostic-runs\\1\\agent\\archive-H\\.owner', '[Errno 13] Permission denied'), ('C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpnh5frx2g\\agent-4caad4\\archive-O\\.owner', 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer11\\codex-rt1-review\\diagnostic-runs\\1\\agent\\archive-O\\.owner', '[Errno 13] Permission denied')]
+
+======================================================================
+ERROR: test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve (test_dashboard_baseline_runtime.Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer11\codex-rt1-review\diagnose.py", line 16, in close
+    shutil.copytree(run.cluster.agent.root,dest/'agent',dirs_exist_ok=True)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\shutil.py", line 573, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\shutil.py", line 527, in _copytree
+    raise Error(errors)
+shutil.Error: [('C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp7kapdgov\\agent-ddc8e5\\archive-H\\.owner', 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer11\\codex-rt1-review\\diagnostic-runs\\2\\agent\\archive-H\\.owner', '[Errno 13] Permission denied'), ('C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp7kapdgov\\agent-ddc8e5\\archive-O\\.owner', 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer11\\codex-rt1-review\\diagnostic-runs\\2\\agent\\archive-O\\.owner', '[Errno 13] Permission denied')]
+
+======================================================================
+ERROR: test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect (test_dashboard_baseline_runtime.Controller.test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer11\codex-rt1-review\diagnose.py", line 16, in close
+    shutil.copytree(run.cluster.agent.root,dest/'agent',dirs_exist_ok=True)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\shutil.py", line 573, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\shutil.py", line 527, in _copytree
+    raise Error(errors)
+shutil.Error: [('C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpt6mc90bf\\agent-a8f99c\\archive-H\\.owner', 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer11\\codex-rt1-review\\diagnostic-runs\\3\\agent\\archive-H\\.owner', '[Errno 13] Permission denied'), ('C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpt6mc90bf\\agent-a8f99c\\archive-O\\.owner', 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer11\\codex-rt1-review\\diagnostic-runs\\3\\agent\\archive-O\\.owner', '[Errno 13] Permission denied')]
+
+----------------------------------------------------------------------
+Ran 3 tests in 22.727s
+
+FAILED (errors=3)

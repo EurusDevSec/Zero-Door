@@ -1,0 +1,222 @@
+[
+  {
+    "path": ".github/workflows/ci.yml",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/hephaestus/command_guard.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/hephaestus/main.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/Dockerfile",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/main.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/app.js",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/index.html",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/results.html",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/style.css",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/README.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/01-no-access.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/02-loaded-b1.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/03-timeout-null-not-zero.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/04-empty.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/05-artifact-error.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/06-stale.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/07-b0-mode-violation.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/browser/08-console-no-kpi.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/check_mutants.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/clean_checkout.sh",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/adapter-probe.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/adapter-results.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/bandit.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/cleanup.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/final.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/hash-intake.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/index.log",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/protected-check.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/receipt.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/source.diff",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/stale-integrity.png",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/tests.log",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/ui-counterexample.cjs",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/codex-review/ui-counterexample.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fail_before.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/manifest.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/clean-checkout.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before-attempt1.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before-attempt1.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/fail-before.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants-attempt1.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants-attempt1.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/mutants.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/results/regressions.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/run_regressions.sh",
+    "match": true
+  },
+  {
+    "path": "infrastructure/manifests/r1-baselines.yaml",
+    "match": true
+  },
+  {
+    "path": "infrastructure/scripts/verify-dashboard-baselines.sh",
+    "match": true
+  },
+  {
+    "path": "tests/check_r1_baselines.py",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer11/cases.py",
+    "match": true
+  },
+  {
+    "path": "tests/fixtures/zer11/expected.json",
+    "match": true
+  },
+  {
+    "path": "tests/test_command_guard_integration.py",
+    "match": true
+  },
+  {
+    "path": "tests/test_dashboard_modes.py",
+    "match": true
+  }
+]

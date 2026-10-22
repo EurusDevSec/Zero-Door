@@ -1013,3 +1013,10 @@ html, body {
     justify-content: center;
     gap: 8px;
 }
+
+/* ZER-11: source/stale state and "no data" are visible, never shown as zero */
+.telemetry-source { font-family: monospace; font-size: 10px; color: var(--clr-text-secondary); padding: 4px 2px; }
+.telemetry-source[data-state="stale"], .telemetry-source[data-state="ERROR"] { color: var(--clr-danger); font-weight: 700; }
+.telemetry-source[data-state="PARTIAL"] { color: var(--clr-warning); font-weight: 700; }
+.sc-metric-val.nodata { color: var(--clr-text-disabled); font-style: italic; }
+.chat-unavailable { padding: 16px; font-size: 11px; line-height: 1.6; color: var(--clr-text-secondary); border: 1px dashed var(--clr-border-divider); border-radius: 6px; }

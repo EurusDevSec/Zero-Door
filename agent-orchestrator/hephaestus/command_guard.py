@@ -52,6 +52,7 @@ class GuardedRules:
     """Run the locked rules adapter only for the trusted B1 trial context."""
     def __init__(self, client, rules):
         self.client, self.rules = client, rules
+        self.skipped = None  # the group whose trusted context disabled auto-decision, for the ops audit
 
     def poll(self):
         ctx = self.client.context()
@@ -60,6 +61,8 @@ class GuardedRules:
         if context["run_id"] != self.client.run or context["trial_id"] != self.client.trial:
             raise Refused("RUN_CONTEXT", 409)
         if context["group"] == "B1":
+            self.skipped = None
             return self.rules.poll()
         # B0/BM do not auto-decide; B2/B3 require a real LLM/fallback producer.
+        self.skipped = context["group"]
         return None

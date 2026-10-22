@@ -33,7 +33,7 @@
         <div class="nav-actions">
             <span class="status-badge">
                 <span class="status-dot"></span>
-                System: Active
+                Static page: no live health claim
             </span>
             <span class="cluster-badge">
                 <i class="fa-solid fa-server" style="font-size:9px; margin-right:4px;"></i>Local cluster: zero-door
@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="status-kv">
                                     <span class="kv-key">Nemesis LLM</span>
-                                    <span class="kv-val-purple">Active LLM</span>
+                                    <span class="kv-val-purple">Disabled in R1 benchmark</span>
                                 </div>
                                 <div class="status-kv">
                                     <span class="kv-key">Load Balancer</span>
@@ -259,7 +259,7 @@
                                     <div class="topo-sub-cell">
                                         <div id="node-llm" class="topo-node-sub">
                                             <span class="topo-node-label">AI Model</span>
-                                            <span class="topo-node-name">✨ Active LLM</span>
+                                            <span class="topo-node-name">Disabled in R1</span>
                                         </div>
                                     </div>
 
@@ -317,28 +317,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- SRE SLOs Monitor Card -->
-                    <div class="card" style="flex-shrink: 0; height: 130px;">
+                    <!-- KPI note: the O console computes no KPI (ZER-11) -->
+                    <div class="card" style="flex-shrink: 0;">
                         <div class="card-header" style="padding: 6px 12px; border-bottom: 1px solid var(--clr-border-divider);">
-                            <h2 class="card-title" style="font-size: 10px; text-transform: uppercase;"><i class="fa-solid fa-chart-bar" style="color: #6b46c1; margin-right: 5px;"></i> SRE SLOs Monitor</h2>
+                            <h2 class="card-title" style="font-size: 10px; text-transform: uppercase;"><i class="fa-solid fa-chart-bar" style="color: #6b46c1; margin-right: 5px;"></i> KPI (MTTD / MTTR / uptime)</h2>
                         </div>
-                        <div class="card-body" style="padding: 8px 12px; font-size: 11px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto;">
-                            <div class="status-kv">
-                                <span class="kv-key" style="font-size: 11px;">Avg MTTD (Detect)</span>
-                                <span id="sre-mttd" class="kv-val-purple" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
-                            </div>
-                            <div class="status-kv">
-                                <span class="kv-key" style="font-size: 11px;">Avg MTTR (Recover)</span>
-                                <span id="sre-mttr" class="kv-val-blue" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
-                            </div>
-                            <div class="status-kv">
-                                <span class="kv-key" style="font-size: 11px;">Uptime SLO</span>
-                                <span id="sre-uptime" class="kv-val-green" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
-                            </div>
-                            <div class="status-kv">
-                                <span class="kv-key" style="font-size: 11px;">Heal Success Rate</span>
-                                <span id="sre-success" class="kv-val-green" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
-                            </div>
+                        <div id="kpi-note" class="card-body" style="padding: 8px 12px; font-size: 11px; line-height: 1.5; color: var(--clr-text-secondary);">
+                            No KPI is computed in this operations console. KPIs come only from sealed scorer
+                            results of a closed run (separate results-reader access), never from heal history or logs.
                         </div>
                     </div>
                 </section>
@@ -387,7 +373,7 @@
                 </div>
             </div>
 
-            <!-- Chat messages -->
+            <!-- Chat messages: no reasoning is generated in R1 -->
             <div id="agent-chat-box" class="chat-messages">
                 <!-- Skeleton placeholders -->
                 <div class="chat-entry">

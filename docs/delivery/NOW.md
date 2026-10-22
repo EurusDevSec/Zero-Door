@@ -1,6 +1,114 @@
+## Con trỏ mới — Publication ZER-11/39 đã được duyệt — 22/10/2026
+
+Nhánh `zer-11-dashboard-baselines`, gói dashboard/mode/B0 cùng RT1/RT2 đã kiểm. Hoàng cho commit/push và mở PR để chạy CI; chưa merge/Linear. Giữ dirty ngoài allowlist và hash raw bằng thuộc tính evidence riêng. Runtime [RT1](../evidence/ZER-11/runtime-01/README.md), [RT2](../evidence/ZER-11/runtime-02/README.md); handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).
+
+## Con trỏ mới — RT2 hoàn tất; chờ publication/CI/nghiệm thu — 22/10/2026
+
+[RT2 runtime-02](../evidence/ZER-11/runtime-02/README.md): PASS_SCOPED_RT2/CLEAN; đủ 180 s, 81 mẫu HTTP (14 lỗi). BM MANUAL scripted bị guard từ chối 409; B1 một RULES; B2/B3 disabled audit; không LLM/action. Source/image sáu pod và raw/cleanup độc lập 98/98 đạt. Cả 13 deployment nguyên baseline, namespace đã vắng; một pod delete, cận trên 258/360 GET, tổng 19 phút 52 giây. Suite cuối 4/4 trên hai pin; giữ failure/giới hạn và RT1. ZER-11/39 chưa Done/G1; tiếp theo commit/push/PR/CI đúng gói sau quyền riêng. Chưa publication/Linear; handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).
+
+## Con trỏ mới — RT2 đã chuẩn bị offline, chờ quyền lab riêng — 21/10/2026
+
+[Gói RT2](../evidence/ZER-11/rt2-preparation/README.md): 3/3 test mới trên cả hai pin, mode7/7, Bandit/Bash đạt. Actor giữ nguyên source/ENTRYPOINT production; O-console riêng; BM observer HTTP thật trong kế hoạch, controls synthetic tách run. Chưa build/import hoặc chạy cluster. Xin một quyền45phút gồm cleanup, một pod delete và360GET theo runbook§6; không LLM/HPA/quota change. RT1 giữ nguyên; ZER-11/39 chưa Done. Handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).
+
+## Con trỏ mới — RT1 chạy thật xong, còn RT2 trước Done — 21/10/2026
+
+[Runtime và sửa trực tiếp](../evidence/ZER-11/runtime-01/README.md): COMPLETED/CLEAN; controller phục hồi 39,997 s, HPA CONFIRMED_NO_EFFECT. Quota chặn thêm pod nên không claim HPA chữa lỗi. Đã phục hồi đúng 13 deployment; 676 hash raw và ba file dashboard/API khớp; root_unchanged=true. Hồi quy 29 test và các test trên hai pin đạt. Giữ failure lịch sử, PROBE_GAP/MISSING và một cleanup cart chưa xác minh. AC-03 còn RT2 MANUAL/RULES runtime theo runbook §5.7; chưa quyền triển khai image/P6, publication/merge/Linear. ZER-11/39 và G1 chưa Done. Chi tiết cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).
+
+## Con trỏ mới — Codex đã sửa phần CTRL còn lại, chờ quyền RT1 — 21/10/2026
+
+[Fix trực tiếp](../evidence/ZER-11/codex-rt1-fix02.md): FXRT1-01 khép offline. Fail-before10ca sai/2đối chứng; sau sửa test thời gian+identity trên2pins, replay4/4 và fake end-to-end đạt. Giữ failure timing26/27 cũ; không claim full suite xanh. Chưa runtime/Done/publication/Linear. Kế tiếp quyền RT1 theo runbook§5; handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).
+
+## Con trỏ mới — Codex retest rt1-fix-01: còn một P2 trong CTRL — 21/10/2026
+
+[Review](../evidence/ZER-11/codex-rt1-retest01.md): RT1-01…04 khép; RT1-05 còn thiếu kiểm thời gian Event controller (sau T_rec vẫn claim). Nemesis26/27 với raw ACK chậm4.1s trên cửa sổ giả2s; Hephaestus27/27; hồi quy/Bandit đạt. Giữ failure, không chạy lại tới xanh. Đề xuất sửa tối thiểu CTRL/caller/test/runbook, chưa sửa source hoặc nhắn Claude. Chưa quyền RT1, lab/publication/Linear; chi tiết cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).
+
+## Con trỏ mới — Claude sửa rt1-fix-01 ZER-11/39: READY_FOR_CODEX_RETEST_OFFLINE — 21/10/2026
+
+Đã sửa RT1-01…05 của Codex trong harness `r1_baseline_runtime.py` cùng suite, runbook §5.5/5.9 và 2 dòng CLI. Fail-before/expected-fixed 11/11; N1 được phân loại thành nghẽn fsync host (fail closed đúng) và một lỗi fake hang (đã sửa). Suite 27/27 trên hai pin, hồi quy và clean checkout đạt. Runtime NOT_RUN. Bước kế: Codex retest rồi mới xin quyền RT1. [Evidence](../evidence/ZER-11/rt1-fix-01/README.md), handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md). Chưa commit/Linear/lab.
+
+## Con trỏ mới — Codex review H-RT1: CHANGES_REQUIRED, sửa gom rt1-fix-01 — 21/10/2026
+
+[Review](../evidence/ZER-11/codex-rt1-review.md):5lỗi có phản ví dụ (P7 bỏ khi I/O lỗi; managedFields kubectl; positive control fail bị ghi ok; create mất ACK báo CLEAN sai; Event cũ/downscale bị nhận là recovery). Suite17 đạt trên hai pins nhưng lượt lặp có2FAIL+1ERROR, giữ log. Gói sửa gom cuối [note](milestones/R1-measurement/dashboard-and-baselines.md), không mở lại dashboard fix-01. Chưa runtime/lab/model/publication/Linear.
+
+## Con trỏ mới — Claude bàn giao H-RT1 ZER-11/39: READY_FOR_RUNTIME_REVIEW (offline) — 21/10/2026
+
+Harness `r1_baseline_runtime.py` cùng `verify-dashboard-baselines.py rt1` chạy P0–P8 của runbook §5 (mục 5.9 mới), mọi thao tác ghi đều trong một danh sách được duyệt, có UID precondition, trần 3600 s, P7 luôn chạy, P8 chấm và đăng ký. Suite fake 17 test trên hai production pins, mutant 12/12, Bandit 0, clean checkout đạt. Runtime NOT_RUN. Bước kế: Codex review rồi mới xin quyền RT1. [Evidence](../evidence/ZER-11/rt1-preparation/README.md), handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md). Chưa commit/Linear/lab.
+
+## Con trỏ mới — Codex retest ZER-11/39: PASS_OFFLINE, tiếp H-RT1 — 21/10/2026
+
+[Retest fix-01](../evidence/ZER-11/codex-retest01.md): hai P2 đã khép, không còn lỗi chặn trong delta; dashboard33 trên hai production pins, modes7, JS19 và fail-before12/7, replay cũ đúng, Bandit sạch. Chưa Done/runtime. Gói tiếp theo **H-RT1 chỉ offline** ở cuối [note](milestones/R1-measurement/dashboard-and-baselines.md): harness thực thi kế hoạch B0, raw/coverage/stop/rollback, test fake và plan sẵn review trước quyền lab. Giữ source/evidence cũ; chưa publication/Linear/model/lab.
+
+## Con trỏ mới — Claude trả fix-01 ZER-11/39: READY_FOR_CODEX_RETEST_OFFLINE — 21/10/2026
+
+ZR11-01 sửa ở `results.js` (chỉ lỗi tạm thời giữ STALE; integrity/quyền/rút run xóa số; đổi khóa vô hiệu câu trả lời cũ), có regression Node VM và browser. ZR11-02: `serve-results` đọc root S thật chỉ đọc, `plan-check` và runbook mục 5 nhất quán (P6 tách RT2, 1 lần xóa pod, phủ cap_rec, 3250/3600 s). N1 khép. Fail-before 9/24, mutant 12/12, hồi quy 3 interpreter pin. Còn thiếu harness H-RT1 trước khi xin quyền runtime. [Evidence](../evidence/ZER-11/fix-01/README.md), handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md). Chưa commit/Linear/lab.
+
+## Con trỏ mới — Codex review ZER-11/39: hai P2, chưa runtime — 21/10/2026
+
+[Review gom](../evidence/ZER-11/codex-review.md): ZR11-01 refresh giữ PASS sau lỗi integrity; ZR11-02 plan runtime còn mâu thuẫn nguồn Gaia/budget/đường đọc root thật. Có một P3 validation shape local. Hai production env và mode/guard/profile/Bandit đạt, browser+VM có phản ví dụ. Gói fix-01 cuối [note](milestones/R1-measurement/dashboard-and-baselines.md), giữ snapshot/protected/evidence. Chưa lab/model/publication/Linear; G1 chưa đóng.
+
+## Con trỏ mới — Claude trả ZER-11 + ZER-39: READY_FOR_CODEX_REVIEW_OFFLINE — 21/10/2026
+
+Dashboard chỉ đọc kết quả scorer đã đăng ký, khớp export (hash, CSV tự sinh lại), hiện no data/STALE/lỗi artifact; console bỏ KPI giả; MANUAL/RULES/AI tách ở consumer và `/heal/trigger` thật, có audit và positive control; profile B0/HPA và checker. Fail-before 8/5, mutant 17/17, hồi quy 3 interpreter pin, measurement 134/134, browser cục bộ. Runtime B0 NOT_RUN, kế hoạch chờ duyệt. [Evidence](../evidence/ZER-11/README.md), handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md). Chưa commit/Linear/lab.
+
+## Con trỏ mới — Giao Claude ZER-11 + ZER-39 — 21/10/2026
+
+Hoàng giao Claude triển khai trọn dashboard/chế độ đối chứng/B0 sau khi ZER-10/38 Done. Đọc gói cuối [dashboard-and-baselines.md](milestones/R1-measurement/dashboard-and-baselines.md): AC cha/con, scope mã/offline/browser, snapshot fail-before, boundaries H/O/S, mode và runtime plan. Claude writer; Codex review độc lập cả gói. Chưa cho phép lab/model/publication/Linear; status live đọc Linear. Baseline local HEAD1694133, origin/main22a89db cùng tree; dirty owner giữ nguyên.
+
+## Con trỏ mới — ZER-10 và ZER-38 đã Done — 21/10/2026
+
+Hoàng cho phép đóng Linear; đã cập nhật và đọc lại ZER-10 Done (AC-01–04) và ZER-38 Done (AC-01), kèm receipt, [PR #26](https://github.com/EurusDevSec/Zero-Door/pull/26), CI và evidence tại merge `22a89db`. Scope nghiệm thu và giới hạn ở cuối [note](milestones/R1-measurement/probes-and-metrics.md). R1/G1 và các issue khác chưa tự đổi trạng thái.
+
+## Con trỏ mới — PR #26 đã merge, chờ quyền đóng Linear — 21/10/2026
+
+PR #26 đã merge tại `22a89db`; tree khớp bản nghiệm thu, 16 job CI đạt. Cập nhật Done trên Linear bị duyệt tự động từ chối vì cần quyền rõ cho việc đóng ZER-10/38. Chưa thay Linear; chi tiết cuối [note](milestones/R1-measurement/probes-and-metrics.md).
+
+## Con trỏ mới — ZER-10/38: GitHub chưa merge, chờ quyền rõ — 21/10/2026
+
+[PR #26](https://github.com/EurusDevSec/Zero-Door/pull/26) vẫn OPEN theo GraphQL/REST, head1694133 và16CIđạt. Hoàng báo đã merge; lệnh merge do Codex chuẩn bị bị bộ duyệt tự động từ chối trước thực thi vì cần quyền rõ cho merge mới. Chưa thay Linear (ZER-10/38 In Progress). Package386file0problem, evidence/runtime giữ nguyên. Chi tiết cuối [note](milestones/R1-measurement/probes-and-metrics.md).
+
+## Con trỏ mới — ZER-10/38: PR #26, CI xanh, chờ nghiệm thu/merge — 20/10/2026
+
+[PR #26](https://github.com/EurusDevSec/Zero-Door/pull/26), head `1694133`: 16 job CI đạt; Linux 134 test, 40/40 mutant bằng lệnh đầy đủ, 178/178 đối chiếu. [Runtime](../evidence/ZER-10/runtime-01/README.md) có 24 mẫu/8 pha trên Boutique và SQLite thật, rollback/cleanup xác minh. [Fix-03](../evidence/ZER-10/fix-03/README.md) và handoff cuối [note](milestones/R1-measurement/probes-and-metrics.md). Chờ Hoàng nghiệm thu và quyền merge/cập nhật Linear; chưa Done. Các thay đổi riêng của Hoàng giữ nguyên.
+
 ## Con trỏ mới — ZER-10/38: fix-03 + runtime PASS, chuẩn bị PR — 20/10/2026
 
 [Fix-03](../evidence/ZER-10/fix-03/README.md):134test/178crosscheck/29replay,40mutantcaught (resumed),Bandit0; hai reviewlens không cònP1/P2. [Runtime](../evidence/ZER-10/runtime-01/README.md):8phase/24sample/66raw,healthy/failure/recovery Boutique+SQLite thật; replica1/3 và3namespace đã cleanup, rawauditPASS. AC01 córuntime,AC02–04 cócontrolledrawverification; khôngclaimKPIformal hayZER41Done. Hoàng cấp commit/push/mởPR; chờCI/merge/owneracceptance, chưaLinearDone. Handoff cuối [note](milestones/R1-measurement/probes-and-metrics.md).
+
+## Con trỏ mới — Codex retest fix-02 ZER-10/38: còn hai P2 — 20/10/2026
+
+[Report](../evidence/ZER-10/codex-retest02.md):125test/29replay/178crosscheck và fail-before đạt; scorer thiếu trial và frozen cleanup đã sửa đúng. Còn redirect307/308 dùng session đổi trước kiểm, và stop không rút ngắn H/reference/cleanup đang chờ; P3M11cross-incident. Gói fix-03 ở cuối [note](milestones/R1-measurement/probes-and-metrics.md), phải đối chiếu invariant ownership/stop budget trước patch. AC01vẫnPARTIAL; chưa lab/API/publication/Linear write.
+
+## Con trỏ mới — Claude trả fix-02 ZER-10/38: READY_FOR_CODEX_RETEST_OFFLINE — 20/10/2026
+
+Đã sửa gom FX01-R1…R3, FX01-N1 và residual journal ZR10-10 của [Codex retest01](../evidence/ZER-10/codex-retest01.md), có snapshot trước sửa (`fix-02/before/`) và fail-before thật: 16 test NEGATIVE fail trước/đạt sau, 7/7 phản ví dụ Codex đổi đúng. 125/125 test trên Python 3.11.9 và 3.12.4; 40/40 mutant; ZER-37 178/178; Bandit sạch. ZER-38/AC-01 còn PARTIAL vì chưa có fixture/runtime. Chi tiết ở [verification §8](../evidence/ZER-10/verification.md), handoff ở cuối [note](milestones/R1-measurement/probes-and-metrics.md). Bằng chứng Codex giữ nguyên hash; staged rỗng. Chưa lab/API/Linear/commit.
+
+## Con trỏ mới — Codex retest fix-01 ZER-10/38: còn 3 P2 — 20/10/2026
+
+[Report](../evidence/ZER-10/codex-retest01.md): 103 test, 29 phản ví dụ cũ và 178 đối chiếu đạt; còn cleanup sai session, deadline ngoài giao dịch và restored cohort thiếu trial metadata crash. Gói fix-02 ở cuối [note](milestones/R1-measurement/probes-and-metrics.md); source/evidence cũ giữ hash. Chưa lab/API/publication/Linear write; AC01 vẫn PARTIAL.
+
+## Con trỏ mới — Claude trả fix-01 ZER-10/38: READY_FOR_CODEX_RETEST_OFFLINE — 20/10/2026
+
+Đã sửa gom ZR10-01…11 và N1 của [Codex review](../evidence/ZER-10/codex-review.md), mỗi finding có regression. Kết quả: 103/103 test trên Python 3.11.9 và 3.12.4; 29/29 phản ví dụ Codex ra đúng expected; 28/28 mutant bị bắt (17 mutant khôi phục hành vi cũ); ZER-37 178/178; Bandit sạch; hồi quy đạt. ZER-38/AC-01 còn PARTIAL vì chưa có fixture/runtime. Chi tiết ở [verification §7](../evidence/ZER-10/verification.md), handoff ở cuối [note](milestones/R1-measurement/probes-and-metrics.md). Bằng chứng Codex giữ nguyên hash; staged rỗng. Chưa lab/API/Linear/commit.
+
+## Con trỏ mới — Codex review ZER-10/38: CHANGES_REQUIRED — 20/10/2026
+
+[Review gom](../evidence/ZER-10/codex-review.md): một P1 + mười P2 có phản ví dụ; 71test/178đối chiếu vẫn đạt nhưng chưa đủ nghiệm thu. [Gói sửa fix-01](milestones/R1-measurement/probes-and-metrics.md) ở cuối note. Source Claude giữ nguyên37hash, protected27khớp; AC01 còn fixture/runtime PARTIAL. Chưa lab/API/publication/Linear write.
+
+## Con trỏ mới — Claude trả gói ZER-10 + ZER-38: READY_FOR_CODEX_REVIEW_OFFLINE — 20/10/2026
+
+Probe nghiệp vụ độc lập, recovery evaluator, scorer raw và metric quyết định/usage đã xong ở mức offline. Kết quả: 71 test trên Python 3.11.9 và 3.12.4, 11/11 mutant bị bắt, đối chiếu 62 ca ZER-37 khớp 178/178, Bandit sạch. ZER-38/AC-01 còn PARTIAL vì chưa có fixture thật (ZER-41) và chưa quan sát được lỗi thật; chưa runtime, chưa Done. [Verification](../evidence/ZER-10/verification.md), [runbook và runtime plan](../runbooks/independent-measurement.md); handoff ở cuối [note](milestones/R1-measurement/probes-and-metrics.md). Nhánh `zer-10-independent-measurement` từ 55200c9, staged rỗng, dirty giữ nguyên. Writer trả Codex review gom; chưa lab/model/Linear/commit.
+
+## Con trỏ mới — Giao Claude ZER-10 + ZER-38 — 20/10/2026
+
+Hoàng yêu cầu ghi gói cho Claude làm cả probe độc lập và đủ AC cha về recovery/scorer/missing/decision/usage. Gói ở cuối [probes-and-metrics](milestones/R1-measurement/probes-and-metrics.md), mục **Gói thực hiện Claude — ZER-10 + ZER-38 — 20/10/2026**. Baseline local0babf90/nhánh zer-12; base triển khai merge55200c9, dirty giữ nguyên. Claude nhận writer khi bắt đầu, triển khai và kiểm offline xuyên suốt rồi trả Codex review gom. Fixture ZER-41/runtime còn cần phạm vi và quyền riêng; mock không đóng AC-01. Chưa lab/model/publication/Linear write hoặc G1 Done.
+
+## Con trỏ mới — ZER-12/40 Done; mở ZER-10/38 — 20/10/2026
+
+Hoàng đã merge [PR25](https://github.com/EurusDevSec/Zero-Door/pull/25); merge55200c9 thuộc main và source khớp head0babf90/CI15 success. Linear Zero Door đã tích đủ AC và read-back ZER-12/40 Done. Gói kế tiếp [ZER-10](https://linear.app/zero-door/issue/ZER-10/djo-suc-khoe-va-thoi-gian-djoc-lap) + [ZER-38](https://linear.app/zero-door/issue/ZER-38/dung-probe-nghiep-vu-djoc-lap) In Progress; bắt đầu probe độc lập, rồi đủ AC cha. [Handoff](milestones/R1-measurement/probes-and-metrics.md) cuối note. Phải chốt baseline/file scope và xử lý fixture trước runtime; chưa code/lab/model. ZER-11/39 giữ Backlog, G1 chưa đóng. Local checkout/dirty giữ nguyên.
+
+## Con trỏ mới — PR25 ZER-12/40: CI15/15 đạt — 20/10/2026
+
+[PR25](https://github.com/EurusDevSec/Zero-Door/pull/25) head0babf90 đã push; [CI](https://github.com/EurusDevSec/Zero-Door/actions/runs/39292284101)15 success,publish-images skipped đúng PR. Implementation c2edee8 +bootstrap CI0babf90; gói hiện tại [ci-01](../evidence/ZER-12/ci-01/README.md) nối hash fix-02. Chờ Hoàng nghiệm thu/quyền merge và Linear; chưa Done,không lab/model. Handoff cuối [note](milestones/R1-measurement/guards-and-ci.md).
 
 ## Con trỏ mới — PR25 ZER-12/40: sửa đường fixture CI — 20/10/2026
 
@@ -35,6 +143,14 @@ Hoàng yêu cầu làm trọn cha/con. [Điều chỉnh cuối note](milestones/
 ## Con trỏ mới — Gói Claude ZER-12 guard và CI — 19/10/2026, 20:47 +07
 
 Hoàng yêu cầu chuẩn bị Claude thực hiện; [gói cuối note](milestones/R1-measurement/guards-and-ci.md#gói-claude-thực-hiện-zer-12--19102026-2047-07) khóa scope guard/auth/schema/dedup/budget và phần CI ZER-40 làm được ngay. Baseline HEAD4bec8ce, origin/main c09452a cùng cây mã; staged rỗng, dirty quy ước giữ nguyên. Claude nhận writer khi Hoàng gửi prompt, tạo/reuse nhánh zer-12-command-guards, triển khai và tự kiểm offline rồi trả Codex review một gói. Không lab/model/Git publication/Linear write; mode còn thiếu đối chiếu ZER-11, không tự đóng ZER-12/40 hay G1. ZER-9 đã hoàn tất, không mở lại evidence cũ. Snapshot chuẩn bị/bàn giao ở scratch/zer12/.
+
+## Con trỏ mới — ZER-9 hoàn tất sau merge — 19/10/2026
+
+[ZER-9](https://linear.app/zero-door/issue/ZER-9/thong-nhat-hop-djong-su-kien-va-luu-dau-vet) đã Done,3 AC được tích và đọc lại lúc20:34+07. [PR24](https://github.com/EurusDevSec/Zero-Door/pull/24) MERGED tại c09452a; origin/main chứa commit, cây mã khớp head4bec8ce đã qua11/11 CI PR. [Runtime](../evidence/ZER-9/actor-runtime/README.md)10/10, đối chiếu68/68, cleanup hoàn tất. Không cần lab lại, không đóng G1. Handoff mới nhất ở cuối [issue note](milestones/R1-measurement/event-contract.md); dirty quy ước ngoài gói giữ nguyên.
+
+## Con trỏ mới — ZER-9: PR24/CI đạt, chờ quyền merge cụ thể — 19/10/2026
+
+[PR24](https://github.com/EurusDevSec/Zero-Door/pull/24), head4bec8ce:11 job SUCCESS, publish-images skip đúng PR. [Runtime](../evidence/ZER-9/actor-runtime/README.md)10/10 và reconcile68/68; cleanup hoàn tất. Auto-review chặn merge vì quyền commit/PR chưa được nhận là cho phép merge cụ thể vào main; không có lệnh merge được chạy. Linear vẫn In Review, chưa Done. Bước tiếp: Hoàng duyệt merge PR24 vào main, Codex kiểm head/CI rồi merge/read-back và đóng Linear. Writer Codex; không cần chạy lại lab.
 
 ## Con trỏ mới — ZER-9: gói cuối và publication — 19/10/2026
 

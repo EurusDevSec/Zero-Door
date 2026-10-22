@@ -1,0 +1,106 @@
+
+  GitNexus Context (1.6.11)
+{
+  "status": "found",
+  "symbol": {
+    "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.create#3",
+    "name": "create",
+    "kind": "Method",
+    "filePath": "infrastructure/scripts/r1_baseline_runtime.py",
+    "startLine": 893,
+    "endLine": 902
+  },
+  "epistemic": "lower-bound",
+  "boundaries": [
+    "1 call site invoking `create` was dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher."
+  ],
+  "causes": {
+    "scopeExtractionFiles": 0,
+    "receiverTyping": 1,
+    "dispatchBoundary": 0,
+    "externalBoundary": 0,
+    "undecidedSatisfaction": 0
+  },
+  "incoming": {
+    "has_method": [
+      {
+        "uid": "Class:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator",
+        "name": "Orchestrator",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      }
+    ],
+    "calls": [
+      {
+        "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.fault#1",
+        "name": "fault",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      },
+      {
+        "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.p1#0",
+        "name": "p1",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      },
+      {
+        "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.p1#0",
+        "name": "p1",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      },
+      {
+        "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.p1#0",
+        "name": "p1",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      },
+      {
+        "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.p1#0",
+        "name": "p1",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      }
+    ]
+  },
+  "outgoing": {
+    "calls": [
+      {
+        "uid": "Function:infrastructure/scripts/r1_baseline_runtime.py:canonical",
+        "name": "canonical",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      },
+      {
+        "uid": "Method:infrastructure/scripts/r1_baseline_runtime.py:Orchestrator.write#8",
+        "name": "write",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      }
+    ]
+  },
+  "processes": [
+    {
+      "id": "proc_331_p1",
+      "name": "P1 → Utc",
+      "step_index": 2,
+      "step_count": 4
+    },
+    {
+      "id": "proc_348_p2",
+      "name": "P2 → Utc",
+      "step_index": 2,
+      "step_count": 4
+    },
+    {
+      "id": "proc_351_p1",
+      "name": "P1 → Canonical",
+      "step_index": 2,
+      "step_count": 3
+    },
+    {
+      "id": "proc_363_p4",
+      "name": "P4 → Utc",
+      "step_index": 2,
+      "step_count": 4
+    },
+    {
+      "id": "proc_366_p2",
+      "name": "P2 → Canonical",
+      "step_index": 2,
+      "step_count": 3
+    }
+  ]
+}

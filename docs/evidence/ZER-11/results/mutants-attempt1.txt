@@ -1,0 +1,21 @@
+CONTROL test_dashboard_measurement Ran 24 tests in 14.555s OK
+CONTROL test_dashboard_modes Ran 7 tests in 8.390s OK
+CAUGHT  HASH_NOT_CHECKED | Ran 24 tests in 14.591s FAILED (failures=2)
+CAUGHT  SYMLINK_FOLLOWED | Ran 24 tests in 14.685s FAILED (failures=1)
+CAUGHT  EXPORT_NOT_COMPARED | Ran 24 tests in 14.760s FAILED (failures=1)
+CAUGHT  RUN_NOT_MATCHED | Ran 24 tests in 14.630s FAILED (failures=1)
+CAUGHT  GROUP_NOT_MATCHED | Ran 24 tests in 15.020s FAILED (failures=1)
+CAUGHT  NONFINITE_ACCEPTED | Ran 24 tests in 15.214s FAILED (failures=1)
+CAUGHT  DUPLICATE_KEYS_ACCEPTED | Ran 24 tests in 15.380s FAILED (failures=1)
+CAUGHT  OPEN_RUN_SERVED | Ran 24 tests in 14.997s FAILED (failures=1)
+CAUGHT  DATA_TIME_FROM_GENERATED_AT | Ran 24 tests in 14.629s FAILED (failures=2)
+CAUGHT  VIEW_DROPS_BOUNDS | Ran 24 tests in 15.428s FAILED (failures=1)
+CAUGHT  OPERATOR_KEY_READS_RESULTS | Ran 24 tests in 14.739s FAILED (failures=7, errors=1)
+SURVIVED RESULTS_ACCEPT_WRITES | Ran 24 tests in 14.662s OK
+CAUGHT  KEY_SEPARATION_REMOVED | Ran 24 tests in 15.245s FAILED (failures=1)
+CAUGHT  STATUS_DEFAULTS_ZERO | Ran 24 tests in 15.140s FAILED (failures=1)
+CAUGHT  HEAL_REPLAY_EXECUTES | Ran 7 tests in 8.339s FAILED (failures=1)
+CAUGHT  CONSUMER_NOT_AUDITED | Ran 7 tests in 8.452s FAILED (failures=4)
+CAUGHT  BM_EXECUTES_RULES_DECISION | Ran 7 tests in 8.353s FAILED (failures=1)
+VERDICT FAIL 16/17
+mutants exit 1

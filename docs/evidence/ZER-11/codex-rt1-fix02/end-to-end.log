@@ -1,0 +1,28 @@
+test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve (__main__.Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 22:43:06,345 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\testclient.py:41: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+  [], typing.ContextManager[anyio.abc.BlockingPortal]
+2026-10-21 22:43:06,428 - httpx - [INFO] - HTTP Request: GET http://testserver/api/results/runs/run_d26da6e5d2074dc29fceda1d32df4e04 "HTTP/1.1 200 OK"
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 10.848s
+
+OK

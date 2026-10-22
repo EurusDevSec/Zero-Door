@@ -1,0 +1,19 @@
+
+  GitNexus Analyzer (1.6.11)
+
+  GitNexus Analyzer (1.6.11)
+[2K  Skipped 2 large files (>512KB, likely generated/vendored)
+[2K  - docs/evidence/ZER-11/runtime-01/attempt-04/raw/export-H/H.jsonl
+[2K  - docs/evidence/ZER-11/runtime-01/attempt-04/raw/work/B0-HPA.probe.outbox.jsonl
+[2K  Set GITNEXUS_MAX_FILE_SIZE=<KB> to include files above the default cap.
+{"level":40,"time":1792633401569,"name":"gitnexus","msg":"[scope-resolution] 32 property read/write site(s) name a field that IS defined in this workspace, but only in another language, so per-language inference declined to link them. Queries for these fields return an empty result that does NOT mean \"unused\" — it means the definition anchor is in a different language. Affected: calls (go/javascript), failed (go), group (javascript), lock (go), namespaces (go), pods (go), reader (go), reason (javascript), runs (javascript), stop (go), …"}
+{"level":40,"time":1792633403012,"name":"gitnexus","truncation":{"truncated":true,"entryPointCandidatesDropped":553,"entryPointsUnexplored":0,"walksCutByBudget":32,"tracesDepthCapped":0,"calleesDropped":869,"processesDropped":0},"msg":"[processes] 439 flows reported, but whole flows are MISSING: 553 of 753 candidate entry point(s) never ranked in, 0 ranked entry point(s) never traced, 0 deduplicated flow(s) dropped at maxProcesses, 0 trace(s) cut at maxTraceDepth, 869 callee(s) skipped at maxBranching, 32 walk(s) cut by the per-entry trace budget. An absent flow does NOT mean the code path does not exist."}
+[2KIncremental: changed=5, added=19, deleted=0 (skipping wipe + 1155 unchanged file rows preserved)
+[2KIncremental: +17 importer(s) added to writable set (BFS depth ≤ 4)
+[2KParse cache: pruned 3 stale chunk entries
+
+  Repository indexed successfully (30.2s)
+
+  34,749 nodes | 98,864 edges | 345 clusters | 439 flows
+  R:\_Projects\Eurus_Workspace\zero_door
+

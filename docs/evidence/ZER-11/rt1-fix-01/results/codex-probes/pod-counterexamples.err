@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-11\codex-rt1-review\pod-counterexamples.py", line 24, in <module>
+    assert a.pc['ok'] is False and answer['ok'] is True
+           ~~~~^^^^^^
+KeyError: 'ok'

@@ -91,65 +91,98 @@ function renderSkeleton() {
     }
 }
 
+// Live O telemetry state: last good answer and when it was fetched. A failed poll keeps the last
+// good values on screen but marks them stale; it never refreshes their time or shows them as new.
+const telemetry = { lastGood: null, lastGoodAt: null, lastError: null };
+
+function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined && text !== null) node.textContent = String(text);
+    return node;
+}
+
+function renderTelemetrySource() {
+    let banner = document.getElementById("telemetry-source");
+    const container = document.getElementById("services-container");
+    if (!container) return;
+    if (!banner) {
+        banner = el("div", "telemetry-source");
+        banner.id = "telemetry-source";
+        container.parentNode.insertBefore(banner, container);
+    }
+    const good = telemetry.lastGood;
+    const parts = [];
+    if (good) {
+        const src = good.source || {};
+        parts.push(`Source: ${src.name || "unknown"} (${src.status || "UNKNOWN"})`);
+        parts.push(`fetched ${formatTimestamp(src.fetched_at) || "?"}`);
+        if (src.errors && src.errors.length) parts.push(`errors: ${src.errors.join(", ")}`);
+    } else {
+        parts.push("Source: no successful fetch yet");
+    }
+    if (telemetry.lastError) parts.push(`STALE — last poll failed (${telemetry.lastError})`);
+    banner.textContent = parts.join(" · ");
+    banner.dataset.state = telemetry.lastError ? "stale" : (good && good.source && good.source.status) || "none";
+}
+
 // Fetch System Replicas & CPU Metrics
 async function updateMetrics() {
     renderSkeleton();
     try {
         const response = await fetch(`${API_BASE}/api/status`);
-        if (!response.ok) throw new Error("Status API returned error");
-        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        renderServices(data.services);
-        updateWorkflowGraph(data.services);
-        
-        // Push data to telemetry chart
+        telemetry.lastGood = data;
+        telemetry.lastGoodAt = Date.now();
+        telemetry.lastError = null;
+        renderServices(data.services || {});
+        updateWorkflowGraph(data.services || {});
+
+        // Chart only real readings; a service without data adds a gap, not a zero.
         const selectedService = document.getElementById("select-service")?.value || "frontend";
-        const serviceStatus = data.services[selectedService] || { cpu: 0.0 };
-        const currentCPU = serviceStatus.cpu;
-        
-        const now = new Date();
-        const timeLabel = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        
+        const serviceStatus = (data.services || {})[selectedService] || {};
+        const currentCPU = typeof serviceStatus.cpu === "number" ? serviceStatus.cpu : null;
+        const timeLabel = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         chartData.labels.push(timeLabel);
         chartData.cpuData.push(currentCPU);
-        
         if (chartData.labels.length > chartHistoryLimit) {
             chartData.labels.shift();
             chartData.cpuData.shift();
         }
-        
         if (telemetryChart) {
-            const maxVal = Math.max(...chartData.cpuData, 0.2);
+            const values = chartData.cpuData.filter(v => typeof v === "number");
+            const maxVal = Math.max(...values, 0.2);
             telemetryChart.options.scales.y.max = maxVal > 0.4 ? maxVal * 1.2 : 0.5;
             telemetryChart.data.datasets[0].label = `${selectedService} CPU (Cores)`;
-            telemetryChart.data.datasets[0].borderColor = currentCPU > 0.05 ? '#b50000' : '#6b46c1';
-            telemetryChart.data.datasets[0].backgroundColor = currentCPU > 0.05 ? 'rgba(181, 0, 0, 0.1)' : 'rgba(107, 70, 193, 0.1)';
+            telemetryChart.data.datasets[0].borderColor = currentCPU !== null && currentCPU > 0.05 ? '#b50000' : '#6b46c1';
             telemetryChart.update();
         }
-
         consecutiveErrors = 0;
         hideConnectionWarning();
     } catch (error) {
         console.error("Failed to update metrics:", error);
+        telemetry.lastError = error.message || "error";
         consecutiveErrors++;
         if (consecutiveErrors >= 2) {
             showConnectionWarning();
         }
     }
+    renderTelemetrySource();
 }
 
 // Fetch Combined Logs
 async function updateLogs() {
     try {
         const response = await fetch(`${API_BASE}/api/logs`);
-        if (!response.ok) throw new Error("Logs API returned error");
-        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
-        renderLogs(data.logs);
+        renderLogs(data.logs || [], data.sources || {});
         consecutiveErrors = 0;
         hideConnectionWarning();
     } catch (error) {
         console.error("Failed to update logs:", error);
+        renderLogsError(error.message || "error");
         consecutiveErrors++;
         if (consecutiveErrors >= 2) {
             showConnectionWarning();
@@ -157,136 +190,114 @@ async function updateLogs() {
     }
 }
 
-// Fetch Agent Reasoning Chat
+// Decision reasoning: unavailable in R1 (no AI decision producer). Nothing is generated here.
 async function updateAgentChat() {
+    let state = { status: "UNAVAILABLE", reason: "NO_DECISION_PRODUCER_IN_R1" };
     try {
         const response = await fetch(`${API_BASE}/api/chat`);
-        if (!response.ok) throw new Error("Chat API returned error");
-        
-        const data = await response.json();
-        renderAgentChat(data.chat);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        state = await response.json();
     } catch (error) {
-        console.error("Failed to update agent chat:", error);
+        state = { status: "ERROR", reason: error.message || "error" };
     }
+    renderAgentChat(state);
 }
 
-// Render Microservices in Grid
+// Render Microservices in Grid. Values are text; null is "no data", never 0.
 function renderServices(services) {
     const container = document.getElementById("services-container");
     if (!container) return;
-    container.innerHTML = "";
-    
+    container.textContent = "";
     let activeStressPod = false;
 
     Object.entries(services).forEach(([name, status]) => {
-        const replicas = status.replicas;
-        const cpu = status.cpu;
-        
+        const replicas = typeof status.replicas === "number" ? status.replicas : null;
+        const cpu = typeof status.cpu === "number" ? status.cpu : null;
         const cpuLimit = 0.2;
-        const cpuPercent = Math.min((cpu / cpuLimit) * 100, 300);
-        
-        let valClass = "sc-metric-val green";
-        let cardStyle = "";
-        
-        if (cpu > 0.05) {
-            valClass = "sc-metric-val red";
-            cardStyle = "border-color: var(--clr-danger-border); background: var(--clr-danger-bg);";
+        const cpuPercent = cpu === null ? null : Math.min((cpu / cpuLimit) * 100, 300);
+
+        const card = el("div", "service-card");
+        if (cpu !== null && cpu > 0.05) {
+            card.style.cssText = "border-color: var(--clr-danger-border); background: var(--clr-danger-bg);";
             activeStressPod = true;
-        } else if (replicas > 1) {
-            valClass = "sc-metric-val";
-            cardStyle = "border-color: #c5def9; background: #f0f7ff;";
+        } else if (replicas !== null && replicas > 1) {
+            card.style.cssText = "border-color: #c5def9; background: #f0f7ff;";
         }
+        const head = el("div");
+        head.style.cssText = "display:flex; justify-content:space-between; align-items:center;";
+        head.appendChild(el("span", "sc-name", name));
+        head.appendChild(el("span", "sc-pods", replicas === null ? "no data" : `${replicas} Pod${replicas !== 1 ? 's' : ''}`));
+        card.appendChild(head);
 
-        const barColor = cpu > 0.05 ? 'var(--clr-danger)' : replicas > 1 ? 'var(--clr-brand-primary)' : 'var(--clr-success)';
+        const metrics = el("div", "sc-metrics");
+        const row = el("div", "sc-metric-row");
+        row.appendChild(el("span", "sc-metric-key", "CPU Usage"));
+        row.appendChild(el("span", cpu === null ? "sc-metric-val nodata" : cpu > 0.05 ? "sc-metric-val red" : "sc-metric-val green",
+            cpu === null ? "no data" : `${cpu.toFixed(3)} (${cpuPercent.toFixed(0)}%)`));
+        metrics.appendChild(row);
+        card.appendChild(metrics);
 
-        const card = document.createElement("div");
-        card.className = "service-card";
-        card.style.cssText = cardStyle;
-        card.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="sc-name">${name}</span>
-                <span class="sc-pods">${replicas} Pod${replicas !== 1 ? 's' : ''}</span>
-            </div>
-            <div class="sc-metrics">
-                <div class="sc-metric-row">
-                    <span class="sc-metric-key">CPU Usage</span>
-                    <span class="${valClass}">${cpu.toFixed(3)} (${cpuPercent.toFixed(0)}%)</span>
-                </div>
-            </div>
-            <div style="width:100%; height:4px; background:var(--clr-border-divider); border-radius:2px; overflow:hidden; margin-top:2px;">
-                <div style="width:${Math.min(cpuPercent, 100)}%; height:100%; background:${barColor}; border-radius:2px; transition:width 1s;"></div>
-            </div>
-        `;
+        const track = el("div");
+        track.style.cssText = "width:100%; height:4px; background:var(--clr-border-divider); border-radius:2px; overflow:hidden; margin-top:2px;";
+        if (cpu !== null) {
+            const bar = el("div");
+            const barColor = cpu > 0.05 ? 'var(--clr-danger)' : replicas !== null && replicas > 1 ? 'var(--clr-brand-primary)' : 'var(--clr-success)';
+            bar.style.cssText = `width:${Math.min(cpuPercent, 100)}%; height:100%; background:${barColor}; border-radius:2px; transition:width 1s;`;
+            track.appendChild(bar);
+        }
+        card.appendChild(track);
         container.appendChild(card);
     });
 
     isAttackInProgress = activeStressPod;
 }
 
-// Pretty formatting helper for JSON strings inside log console (Light Theme version)
-function formatLogJson(msg) {
-    const braceIndex = msg.indexOf("{");
-    if (braceIndex === -1) return msg;
-
-    const prefix = msg.substring(0, braceIndex);
-    let jsonStr = msg.substring(braceIndex);
-
-    try {
-        let validJsonStr = jsonStr
-            .replace(/'/g, '"')
-            .replace(/None/g, 'null')
-            .replace(/True/g, 'true')
-            .replace(/False/g, 'false');
-            
-        const obj = JSON.parse(validJsonStr);
-        const prettyJson = JSON.stringify(obj, null, 2);
-        
-        return `${prefix}<pre class="bg-zinc-50 border border-zinc-200 p-2.5 rounded-lg text-[10px] text-indigo-700 my-2 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed shadow-inner max-w-full block">${prettyJson}</pre>`;
-    } catch (e) {
-        return msg;
-    }
+function logLine(time, badge, badgeClass, message) {
+    const line = el("div", "log-line");
+    line.appendChild(el("span", "log-ts", time));
+    line.appendChild(el("span", `log-badge ${badgeClass}`, badge));
+    line.appendChild(el("span", "log-msg", message));
+    return line;
 }
 
-// Render Log List in Console Window
-function renderLogs(logs) {
+function renderLogsError(reason) {
     const consoleLogs = document.getElementById("console-logs");
     if (!consoleLogs) return;
-    consoleLogs.innerHTML = "";
-    
+    const notice = logLine("", "SYS", "badge-system", `Log poll failed (${reason}); lines below may be stale.`);
+    notice.dataset.state = "stale";
+    const old = consoleLogs.querySelector('[data-state="stale"]');
+    if (old) old.remove();
+    consoleLogs.insertBefore(notice, consoleLogs.firstChild);
+}
+
+// Render Log List in Console Window. Log text is untrusted: it is set as text, never as HTML.
+function renderLogs(logs, sources) {
+    const consoleLogs = document.getElementById("console-logs");
+    if (!consoleLogs) return;
+    consoleLogs.textContent = "";
+    const failed = Object.entries(sources || {}).filter(([, state]) => state !== "OK");
+    if (failed.length) {
+        consoleLogs.appendChild(logLine("", "SYS", "badge-system",
+            `Source error: ${failed.map(([name, state]) => `${name}=${state}`).join(", ")} — missing lines are not "no actions".`));
+    }
     if (logs.length === 0) {
-        consoleLogs.innerHTML = `<div class="log-line"><span class="log-badge badge-system">SYS</span><span class="log-msg" style="color:#79c0ff;">Listening for agent logs... Trigger an attack to start.</span></div>`;
+        consoleLogs.appendChild(logLine("", "SYS", "badge-system", "No log lines received."));
         return;
     }
-
     logs.forEach(log => {
-        const timeStr = formatTimestamp(log.timestamp);
-        let rawMsg = log.message;
-        let sender = "SYS";
-        let badgeClass = "badge-system";
-        let cleanMsg = rawMsg;
-
+        const rawMsg = String(log.message || "");
+        let sender = "SYS", badgeClass = "badge-system", cleanMsg = rawMsg;
         if (rawMsg.includes("[HEPHAESTUS]")) {
-            sender = "DEFENDER";
-            badgeClass = "badge-defender";
+            sender = "DEFENDER"; badgeClass = "badge-defender";
             cleanMsg = rawMsg.replace("[HEPHAESTUS]", "").trim();
         } else if (rawMsg.includes("nemesis-agent")) {
-            sender = "ATTACKER";
-            badgeClass = "badge-attacker";
-            cleanMsg = rawMsg.replace(/nemesis-agent\s*-\s*\[INFO\]\s*-\s*/g, "").replace(/nemesis-agent\s*-\s*\[WARNING\]\s*-\s*/g, "").trim();
+            sender = "ATTACKER"; badgeClass = "badge-attacker";
+            cleanMsg = rawMsg.replace(/nemesis-agent\s*-\s*\[(INFO|WARNING|ERROR)\]\s*-\s*/g, "").trim();
         } else if (rawMsg.includes("[GAIA]")) {
-            sender = "OBSERVER";
-            badgeClass = "badge-observer";
+            sender = "OBSERVER"; badgeClass = "badge-observer";
             cleanMsg = rawMsg.replace("[GAIA]", "").trim();
         }
-
-        const line = document.createElement("div");
-        line.className = "log-line";
-        line.innerHTML = `
-            <span class="log-ts">${timeStr}</span>
-            <span class="log-badge ${badgeClass}">${sender}</span>
-            <span class="log-msg">${cleanMsg}</span>
-        `;
-        consoleLogs.appendChild(line);
+        consoleLogs.appendChild(logLine(formatTimestamp(log.timestamp), sender, badgeClass, cleanMsg));
     });
 }
 
@@ -428,100 +439,22 @@ async function resetSystem() {
     }
 }
 
-// // Render Agent Chat Bubbles
-function renderAgentChat(chatList) {
+// Decision reasoning panel. R1 has no AI decision producer: say so; never write reasoning here.
+function renderAgentChat(state) {
     const chatBox = document.getElementById("agent-chat-box");
     const insightsPreview = document.getElementById("agent-insights-preview");
     if (!chatBox) return;
-    
-    if (chatList.length === 0) {
-        chatBox.innerHTML = `
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 16px; color:var(--clr-text-disabled); text-align:center; gap:10px;">
-                <i class="fa-solid fa-comments" style="font-size:28px; color:#ddd;"></i>
-                <span style="font-size:11px; line-height:1.6;">No active conversations.<br>Trigger an attack to start AI reasoning.</span>
-            </div>
-        `;
-        if (insightsPreview) {
-            insightsPreview.innerHTML = `<div class="shimmer" style="height:48px;"></div><div class="shimmer" style="height:60px;"></div>`;
-        }
-        return;
-    }
-
-    const isAtBottom = chatBox.scrollHeight - chatBox.clientHeight <= chatBox.scrollTop + 60;
-    chatBox.innerHTML = "";
-
-    chatList.forEach(chat => {
-        const timeStr = formatTimestamp(chat.timestamp);
-        const agent = chat.agent;
-        const msg = chat.message;
-        const reasoning = chat.reasoning;
-
-        let avatarClass = "avatar-system";
-        let avatarIcon = "fa-solid fa-robot";
-        let agentLabel = "SYSTEM";
-        let bubbleClass = "bubble-system";
-        let reasonClass = "reasoning-system";
-
-        if (agent === "NEMESIS") {
-            avatarClass = "avatar-attacker";
-            avatarIcon = "fa-solid fa-brain";
-            agentLabel = "NEMESIS (ATTACKER)";
-            bubbleClass = "bubble-attacker";
-            reasonClass = "reasoning-attacker";
-        } else if (agent === "HEPHAESTUS") {
-            avatarClass = "avatar-defender";
-            avatarIcon = "fa-solid fa-shield-halved";
-            agentLabel = "HEPHAESTUS (DEFENDER)";
-            bubbleClass = "bubble-defender";
-            reasonClass = "reasoning-defender";
-        } else if (agent === "GAIA") {
-            avatarClass = "avatar-observer";
-            avatarIcon = "fa-solid fa-eye";
-            agentLabel = "GAIA (OBSERVER)";
-            bubbleClass = "bubble-observer";
-            reasonClass = "reasoning-observer";
-        }
-
-        const msgDiv = document.createElement("div");
-        msgDiv.className = "chat-entry";
-        msgDiv.innerHTML = `
-            <div class="chat-avatar ${avatarClass}"><i class="${avatarIcon}"></i></div>
-            <div class="chat-bubble-wrap">
-                <div class="chat-meta">
-                    <span class="chat-agent-name">${agentLabel}</span>
-                    <span class="chat-time">${timeStr}</span>
-                </div>
-                <div class="chat-bubble ${bubbleClass}">
-                    <div style="font-weight:700; margin-bottom:6px;">${msg}</div>
-                    ${reasoning ? `<div class="chat-reasoning ${reasonClass}">
-                        <div class="reasoning-label"><i class="fa-solid fa-lightbulb"></i> Reasoning &amp; Logic</div>
-                        ${reasoning}
-                    </div>` : ''}
-                </div>
-            </div>
-        `;
-        chatBox.appendChild(msgDiv);
-    });
-
-    // Also update insights preview panel
-    if (insightsPreview && chatList.length > 0) {
-        insightsPreview.innerHTML = "";
-        const last3 = chatList.slice(-3).reverse();
-        last3.forEach(chat => {
-            const agent = chat.agent;
-            let dotColor = '#6b46c1';
-            if (agent === 'NEMESIS') dotColor = '#c00';
-            else if (agent === 'HEPHAESTUS') dotColor = '#037f0c';
-            else if (agent === 'GAIA') dotColor = '#8d6605';
-            const p = document.createElement('div');
-            p.style.cssText = `padding:6px 8px; border-radius:4px; border:1px solid var(--clr-border-divider); background:var(--clr-bg-layout); font-size:11px; line-height:1.5; color:var(--clr-text-body);`;
-            p.innerHTML = `<div style="font-size:9px; font-family:monospace; font-weight:700; color:${dotColor}; text-transform:uppercase; margin-bottom:3px;">${agent}</div>${chat.message}`;
-            insightsPreview.appendChild(p);
-        });
-    }
-
-    if (isAtBottom) {
-        chatBox.scrollTop = chatBox.scrollHeight;
+    const message = state.status === "ERROR"
+        ? `Reasoning status unavailable (${state.reason}).`
+        : "AI decision producer: unavailable in R1. No reasoning is generated or replayed in this console; " +
+          "decisions and their sources are read from scored results only.";
+    chatBox.textContent = "";
+    const box = el("div", "chat-unavailable", message);
+    box.dataset.status = state.status || "UNAVAILABLE";
+    chatBox.appendChild(box);
+    if (insightsPreview) {
+        insightsPreview.textContent = "";
+        insightsPreview.appendChild(el("div", "chat-unavailable", `AI: ${state.status || "UNAVAILABLE"} (${state.reason || "NO_DECISION_PRODUCER_IN_R1"})`));
     }
 }
 
@@ -590,132 +523,13 @@ function initChart() {
     });
 }
 
-// Helper: set SRE value and remove shimmer
-function setSREValue(id, text) {
-    const el = document.getElementById(id);
-    if (el) el.innerText = text;
-}
-
-// Helper: show shimmer skeleton for an SRE cell
-function setSREShimmer(id) {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = '<span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span>';
-}
-
-// Fetch SRE SLOs stats — computes real values from heal history + attack logs
-async function updateSREStats() {
-    try {
-        // Fetch both endpoints in parallel
-        const [histRes, logsRes] = await Promise.all([
-            fetch(`${API_BASE}/api/heal-history`),
-            fetch(`${API_BASE}/api/logs`)
-        ]);
-
-        const histData = histRes.ok ? await histRes.json() : { history: [] };
-        const logsData = logsRes.ok ? await logsRes.json() : { logs: [] };
-
-        const history = histData.history || [];
-        const logs = logsData.logs || [];
-
-        if (history.length === 0) {
-            setSREValue("sre-mttd", "--");
-            setSREValue("sre-mttr", "--");
-            setSREValue("sre-uptime", "100.00%");
-            setSREValue("sre-success", "--");
-            return;
-        }
-
-        // ── 1. Parse logs to match attacks and heals ──
-        // Attacker logs look like: "- nemesis-agent - [INFO] - Manual attack command sent: ..."
-        const attackerLogs = logs.filter(l => l.message && 
-            (l.message.includes('Manual attack command sent') || l.message.includes('attackType')));
-
-        // Hephaestus logs look like: "[HEPHAESTUS] Action=SCALE_UP | Service=X | Status=SUCCESS"
-        const hepLogs = logs.filter(l => l.message && l.message.includes('[HEPHAESTUS]') && l.message.includes('Status=SUCCESS'));
-
-        let totalMTTD = 0, countedMTTD = 0;
-        let totalMTTR = 0, countedMTTR = 0;
-
-        for (const heal of hepLogs) {
-            const healTime = new Date(heal.timestamp).getTime();
-            // Find most recent attacker log before this heal
-            const prior = attackerLogs
-                .filter(l => new Date(l.timestamp).getTime() < healTime)
-                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                
-            if (prior.length > 0) {
-                const attackTime = new Date(prior[0].timestamp).getTime();
-                const totalIncidentSec = (healTime - attackTime) / 1000;
-                
-                if (totalIncidentSec > 0 && totalIncidentSec < 300) {
-                    // Calculate realistic MTTD based on attack type
-                    let mttd = 0;
-                    if (prior[0].message.includes('CPU_STRESS')) {
-                        // CPU metrics cAdvisor scrape delay: ~15-28s
-                        mttd = Math.max(12.0, Math.min(28.5, totalIncidentSec - 5.0));
-                    } else if (prior[0].message.includes('HTTP_FLOOD')) {
-                        // HTTP flood detection is faster: ~2-5s
-                        mttd = Math.max(1.0, Math.min(4.5, totalIncidentSec - 2.0));
-                    } else {
-                        // Pod kill: ~1-3s
-                        mttd = Math.max(1.0, Math.min(3.5, totalIncidentSec - 1.5));
-                    }
-                    
-                    // Calculate MTTR (reconciliation time + Pod spinup/readiness delay)
-                    let mttr = Math.max(1.0, totalIncidentSec - mttd);
-                    
-                    // Add actual Kubernetes rollout latency
-                    if (heal.message.includes('Action=SCALE_UP')) {
-                        mttr += 8.2 + (Math.random() * 2.0); // 8-10s replica spinup
-                    } else if (heal.message.includes('Action=RESTART')) {
-                        mttr += 32.5 + (Math.random() * 5.0); // 32-37s container boot + probe ready
-                    } else if (heal.message.includes('Action=ROLLBACK')) {
-                        mttr += 14.3 + (Math.random() * 3.0); // 14-17s rollback
-                    } else {
-                        mttr += 1.2 + (Math.random() * 0.5); // firewall block
-                    }
-
-                    totalMTTD += mttd;
-                    countedMTTD++;
-                    totalMTTR += mttr;
-                    countedMTTR++;
-                }
-            }
-        }
-
-        // ── 2. Heal Success Rate ──
-        const totalHeals = history.length;
-        const successHeals = history.filter(h => h.status === 'SUCCESS' || h.status === 'PARTIAL').length;
-
-        // ── 3. Uptime SLO (last 60 minutes approximation) ──
-        const windowSec = 3600; // 60 min
-        const estDowntime = countedMTTR > 0 ? (totalMTTR / countedMTTR) * history.length : 0;
-        const uptimePct = Math.min(100, Math.max(0, ((windowSec - estDowntime) / windowSec) * 100));
-
-        // ── Display ──
-        setSREValue("sre-mttd", countedMTTD > 0 ? `${(totalMTTD / countedMTTD).toFixed(1)}s` : "25.6s");
-        setSREValue("sre-mttr", countedMTTR > 0 ? `${(totalMTTR / countedMTTR).toFixed(1)}s` : "12.3s");
-        setSREValue("sre-success", totalHeals > 0 ? `${((successHeals / totalHeals) * 100).toFixed(1)}%` : "100.0%");
-        setSREValue("sre-uptime", `${uptimePct.toFixed(2)}%`);
-
-    } catch (error) {
-        console.error("SRE stats error:", error);
-        setSREValue("sre-mttd", "--");
-        setSREValue("sre-mttr", "--");
-        setSREValue("sre-uptime", "--");
-        setSREValue("sre-success", "--");
-    }
-}
-
 // Polling setup
 setInterval(updateMetrics, 5000);
 setInterval(updateLogs, 5000);
 setInterval(updateAgentChat, 5000);
-setInterval(updateSREStats, 5000);
 
 // Initial Load
 initChart();
 updateMetrics();
 updateLogs();
 updateAgentChat();
-updateSREStats();

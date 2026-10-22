@@ -1,0 +1,236 @@
+--- before/infrastructure/scripts/r1_baseline_runtime.py
++++ after/infrastructure/scripts/r1_baseline_runtime.py
+@@ -1134,7 +1134,7 @@
+         reads["nodes"] = [{"name": n["metadata"]["name"], "ready": self.node_ready(n)} for n in nodes]
+         if not nodes or not all(x["ready"] for x in reads["nodes"]):
+             raise Abort("NODE_NOT_READY")
+-        images = {name for n in nodes for i in n.get("status", {}).get("images", []) for name in i.get("names", [])}
++        images = {name for n in nodes for i in (n.get("status", {}).get("images") or []) for name in (i.get("names") or [])}
+         reads["image_present"] = any(name.endswith(self.cfg["image"]) for name in images)
+         if not reads["image_present"]:
+             raise Abort("IMAGE_ABSENT", self.cfg["image"])
+@@ -1207,8 +1207,13 @@
+         code, out, err = self.kube.run(["create", "--dry-run=client", "-f", str(self.manifest), "-o", "json"], d)
+         if code != 0:
+             raise Abort("PROFILE_CONVERSION_FAILED", err.decode(errors="replace")[-200:])
+-        docs = json.loads(out)
+-        self.profile_docs = {i["metadata"]["name"]: i for i in (docs.get("items") or [docs])}
++        # kubectl emits a JSON stream for a multi-document YAML manifest, not necessarily one List.
++        decoder, remaining, docs = json.JSONDecoder(), out.decode().strip(), []
++        while remaining:
++            doc, end = decoder.raw_decode(remaining)
++            docs.extend(doc.get("items") or [doc])
++            remaining = remaining[end:].lstrip()
++        self.profile_docs = {i["metadata"]["name"]: i for i in docs}
+         self.create("P1", copy.deepcopy(self.profile_docs[PROFILES_CM]), d)
+         for name in ZD_COMPONENTS:
+             base = self.baseline["zero-door"].get(name)
+@@ -1263,15 +1268,20 @@
+                            "template": {"metadata": {"labels": {"app": CANARY}}, "spec": spec}}}
+         self.create("P2", canary, d)
+         get = lambda dl: self.kube.json(["get", "deploy", CANARY, "-n", self.ns], dl, managed_fields=True)
++        scale_observations = []
+         for current, target in ((0, 1), (1, 0)):
+             dep = get(d)
+             self.scale("P2", self.ns, CANARY, current, target, dep["metadata"]["resourceVersion"], d)
+             self.wait(f"canary at {target}", lambda dl, t=target: (get(dl)["status"].get("readyReplicas") or 0) == t and
+                       (t or not self.kube.json(["get", "pods", "-n", self.ns, "-l", f"app={CANARY}"], dl)["items"]), self.cfg["scale_wait_s"])
+-        managers = replica_managers(get(d))
++            observed = get(d)
++            scale_observations.append({"replicas": observed["spec"]["replicas"], "uid": observed["metadata"]["uid"],
++                                       "resourceVersion": observed["metadata"]["resourceVersion"], "replica_managers": replica_managers(observed)})
++        # On k3s, scaling back to zero can remove field ownership. Preserve evidence at each scale step.
++        managers = [m for observation in scale_observations for m in observation["replica_managers"]]
+         events = self.kube.json(["get", "events", "-n", self.ns], d)["items"]
+         sources = sorted({event_source(e) for e in events if e.get("reason") in ("SuccessfulCreate", "ScalingReplicaSet")} - {None})
+-        attribution = {"replica_managers": managers, "event_sources": sources}
++        attribution = {"replica_managers": managers, "event_sources": sources, "scale_observations": scale_observations}
+         self.evidence["positive_control"]["scale_attribution"] = attribution
+         names = {str(m["manager"]) for m in managers}
+         # spec.replicas must now be owned through the scale subresource by kubectl scale (no --field-manager flag:
+@@ -1685,14 +1695,19 @@
+         return None
+ 
+ 
+-def controller_replacement(ev):
++def controller_replacement(ev, t_rec):
+     """A new Ready pod (uid not there before the delete) owned by the deleted pod's ReplicaSet (same uid), and
+-    that ReplicaSet's own SuccessfulCreate event naming it."""
++    that ReplicaSet's own SuccessfulCreate event naming it, within this trial and before recovery.
++    Core Event times are floored to seconds: allow that at T_req, but require a full second before T_rec."""
+     ident = ev["identity"]
++    t_req = stamp_ms(ident.get("t_req"))
++    if t_req is None or t_rec is None:
++        return False
+     owners, before = set(ident.get("owner_uids") or []) - {None}, set(ident.get("pods_before") or [])
+     new = [p for p in ev.get("frontend_pods_after", []) if p.get("ready") and p.get("uid") not in before
+            and owners & {o.get("uid") for o in p.get("owner", []) if isinstance(o, dict)}]
+     return any(e["reason"] == "SuccessfulCreate" and e["source"] == "replicaset-controller" and e.get("object_uid") in owners
++               and e.get("t_ms") is not None and t_req - 1000 < e["t_ms"] and e["t_ms"] + 1000 < t_rec
+                and any(p["name"] in (e.get("message") or "") for p in new) for e in ev.get("events", []))
+ 
+ 
+@@ -1734,7 +1749,8 @@
+         elif label == "RECOVERED_UNDETECTED" and not audit:
+             claim = "RECOVERED_BUT_ABSENCE_AUDIT_INCOMPLETE"
+         elif label == "RECOVERED_UNDETECTED" and name == "B0-CTRL":
+-            claim = "CONTROLLER_RECOVERY_OBSERVED" if known and controller_replacement(ev) else "RECOVERED_CONTROLLER_EVIDENCE_MISSING"
++            t_rec = (inc["milestones"].get("t_rec") or {}).get("t_ms")
++            claim = "CONTROLLER_RECOVERY_OBSERVED" if known and controller_replacement(ev, t_rec) else "RECOVERED_CONTROLLER_EVIDENCE_MISSING"
+         elif label == "RECOVERED_UNDETECTED" and not known:
+             claim = "RECOVERED_HPA_EVIDENCE_MISSING"
+         elif label == "RECOVERED_UNDETECTED":
+--- before/infrastructure/scripts/verify-dashboard-baselines.py
++++ after/infrastructure/scripts/verify-dashboard-baselines.py
+@@ -203,7 +203,10 @@
+     if args.receipt:  # written at start too, so a hard stop still leaves the starting hashes to compare
+         with open(args.receipt, "x", encoding="utf-8") as handle:
+             json.dump(dict(info, root_files_sha256=before, stopped=False), handle, indent=1, sort_keys=True)
+-    uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
++    try:
++        uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
++    except KeyboardInterrupt:
++        pass  # Uvicorn can re-raise Ctrl+C after shutdown; still record the root integrity below.
+     after = root_digest(root)
+     receipt = dict(info, root_files_sha256=before, stopped=True, root_digest_after=digest(after), root_unchanged=after == before,
+                    changed=sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k)))
+--- before/docs/runbooks/dashboard-and-baselines.md
++++ after/docs/runbooks/dashboard-and-baselines.md
+@@ -301,11 +301,14 @@
+ 
+ Event được giữ cùng UID của đối tượng. Một Event cũ hơn, của đối tượng khác cùng tên (ví dụ của lượt chạy trước) hay chỉ là downscale đều không được tính.
+ 
++Positive control P2 lưu ownership ngay sau từng bước canary 0→1 và 1→0, kèm UID/resourceVersion. Trên k3s v1.31.5 đã quan sát ownership của `spec.replicas` có ở 1 nhưng biến mất khi về 0; không chỉ đọc trạng thái cuối. Vẫn bắt buộc thấy manager kubectl qua subresource `scale` và controller Event, không thay bằng suy luận từ lệnh gửi thành công. Preflight bỏ qua image inventory có `names: null` nhưng vẫn đòi image cụ thể có mặt; dry-run manifest đọc đủ từng JSON document do kubectl trả.
++
+ - B0-CTRL được kết luận `CONTROLLER_RECOVERY_OBSERVED` chỉ khi đủ các điều kiện:
+   - Nhãn RECOVERED_UNDETECTED.
+   - AUDIT_COVERAGE đủ.
+   - Có một pod Ready mới, với UID chưa có trước lúc xóa, thuộc đúng ReplicaSet (cùng UID) của pod đã xóa.
+   - Event `SuccessfulCreate` của chính ReplicaSet đó, do `replicaset-controller` phát, nêu tên pod mới này.
++  - Có đủ T_req, T_rec và thời gian Event. Event phải lớn hơn T_req − 1 s và sớm hơn T_rec quá 1 s; dung sai tại T_req chỉ để bù Event core làm tròn xuống giây, giống nhánh HPA. Thiếu thời gian, chồng lấn độ phân giải hoặc Event sau phục hồi không đủ để quy kết lần phục hồi nghiệp vụ cho controller.
+   - Thiếu một trong các điều trên thì là `RECOVERED_CONTROLLER_EVIDENCE_MISSING`.
+ - B0-HPA được kết luận `HPA_RECOVERY_OBSERVED` chỉ khi có Event `SuccessfulRescale` thỏa cả bốn điều:
+   - Của đúng HPA tạo trong run này (cùng UID), do `horizontal-pod-autoscaler` phát.
+--- before/tests/test_dashboard_baseline_runtime.py
++++ after/tests/test_dashboard_baseline_runtime.py
+@@ -105,7 +105,9 @@
+         fields = d["metadata"]["managedFields"]
+         for entry in fields:
+             entry.get("fieldsV1", {}).get("f:spec", {}).pop("f:replicas", None)
+-        fields.append({"manager": manager, "operation": "Update", "subresource": "scale", "fieldsV1": {"f:spec": {"f:replicas": {}}}})
++        # k3s v1.31.5 observed: scaling to zero drops replicas ownership; retain the scale-up observation.
++        if d["spec"]["replicas"] != 0:
++            fields.append({"manager": manager, "operation": "Update", "subresource": "scale", "fieldsV1": {"f:spec": {"f:replicas": {}}}})
+ 
+     def event(self, ns, reason, kind, name, source, message="", uid=None, at_ms=None):
+         now = time.time() * 1000 if at_ms is None else at_ms
+@@ -211,7 +213,8 @@
+             return 1, b"no\n", b""
+         if verb == "create" and "--dry-run=client" in args:
+             docs = [d for d in yaml.safe_load_all(Path(args[args.index("-f") + 1]).read_text()) if d]
+-            return {"kind": "List", "apiVersion": "v1", "items": docs}
++            # Real kubectl emits one JSON document per YAML document, rather than wrapping them in a List.
++            return b"\n".join(rt.canonical(doc) for doc in docs)
+         if verb == "create":
+             return self.create(json.loads(stdin))
+         if verb == "scale":
+@@ -950,6 +953,40 @@
+             self.assertEqual("INCOMPLETE", result["cleanup"])
+ 
+     # ---------------------------------------------------------------- RT1-05
++    def test_controller_claim_requires_trial_time_window_before_recovery(self):
++        """A matching replacement seen later cannot explain an earlier business recovery."""
++        t = 1_800_000_000_000
++        base = {"identity": {"t_req": iso(t), "owner_uids": ["rs-1"], "pods_before": ["old"]},
++                "frontend_pods_after": [{"name": "frontend-new", "uid": "new", "ready": True,
++                                         "owner": [{"uid": "rs-1"}]}],
++                "events": [{"reason": "SuccessfulCreate", "source": "replicaset-controller",
++                            "object_uid": "rs-1", "message": "Created pod: frontend-new", "t_ms": t + 1000}]}
++        cases = (("valid", t + 1000, iso(t), t + 20000, True),
++                 ("same second floored", t - 400, iso(t), t + 20000, True),
++                 ("before trial", t - 60000, iso(t), t + 20000, False),
++                 ("full second before trial", t - 1000, iso(t), t + 20000, False),
++                 ("event time missing", None, iso(t), t + 20000, False),
++                 ("request time missing", t + 1000, None, t + 20000, False),
++                 ("request time invalid", t + 1000, "invalid", t + 20000, False),
++                 ("recovery time missing", t + 1000, iso(t), None, False),
++                 ("one second before recovery", t + 19000, iso(t), t + 20000, False),
++                 ("overlaps recovery second", t + 19500, iso(t), t + 20000, False),
++                 ("at recovery", t + 20000, iso(t), t + 20000, False),
++                 ("after recovery", t + 25000, iso(t), t + 20000, False))
++        for why, event_at, requested_at, recovered_at, accepted in cases:
++            with self.subTest(why):
++                ev = copy.deepcopy(base)
++                ev["identity"]["t_req"] = requested_at
++                ev["events"][0]["t_ms"] = event_at
++                run = {"incidents": [{"trial_id": "trl-1", "label": "RECOVERED_UNDETECTED",
++                                      "milestones": {"t_rec": {"t_ms": recovered_at}}}]}
++                receipt = {"trials": {"B0-CTRL": {"trial_id": "trl-1", "audit_coverage": {"complete": True},
++                                                 "stop_point": "a"}}}
++                result = rt.interpret(run, receipt, {"trials": {"B0-CTRL": ev}})["B0-CTRL"]
++                self.assertEqual("RECOVERED_UNDETECTED", result["label"])
++                self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
++                                 result["claim"])
++
+     def test_rt1_05_controller_and_hpa_claims_need_this_trials_objects(self):
+         from measurement.clock import stamp
+         t = 1_800_000_000_000
+@@ -1001,6 +1038,30 @@
+ 
+ 
+ class Boundaries(unittest.TestCase):
++    def test_preflight_ignores_untagged_node_images_but_still_requires_the_image(self):
++        for image_present in (True, False):
++            with self.subTest(image_present=image_present):
++                run = Run(self)
++                run.orch.main_deadline = time.monotonic() + 30
++                read = run.kube.json
++                def nodes_with_untagged_images(args, *a, **kw):
++                    obj = read(args, *a, **kw)
++                    if args == ["get", "nodes"]:
++                        for node in obj["items"]:
++                            node["status"]["images"] = [{"names": None, "sizeBytes": 38746964}]
++                            if image_present:
++                                node["status"]["images"].append({"names": ["docker.io/" + run.cfg["image"]]})
++                    return obj
++                with patch.object(run.kube, "json", side_effect=nodes_with_untagged_images):
++                    if image_present:
++                        run.orch.p0()
++                        self.assertTrue(run.orch.preflight["image_present"])
++                    else:
++                        with self.assertRaises(rt.Abort) as caught:
++                            run.orch.p0()
++                        self.assertEqual("IMAGE_ABSENT", caught.exception.reason)
++                self.assertEqual([], run.orch.writes)
++
+     def test_offline_entrypoints_never_run_kubectl(self):
+         with patch("subprocess.run", side_effect=AssertionError("subprocess")):
+             self.assertEqual(0, verify.main(["rt1"]))
+--- before/tests/test_dashboard_measurement.py
++++ after/tests/test_dashboard_measurement.py
+@@ -623,6 +623,25 @@
+         with contextlib.redirect_stderr(io.StringIO()):
+             self.assertEqual(4, self.verify.serve_results(args(d / "b.json")))  # an existing receipt is never overwritten
+ 
++    def test_ctrl_c_still_records_root_integrity_and_reports_changes(self):
++        import uvicorn
++        d = Path(self.tmp.name)
++        for changed in (False, True):
++            receipt = d / ("interrupt-changed.json" if changed else "interrupt-clean.json")
++            args = type("Args", (), {"root": str(self.root), "reader_key_file": str(d / "reader.json"),
++                                     "operator_key_file": None, "port": 8799, "receipt": str(receipt)})()
++            def stop(app, **kw):
++                if changed:
++                    touched = self.root / "b0_controller" / "usage.csv"
++                    touched.write_bytes(touched.read_bytes() + b"x")
++                raise KeyboardInterrupt
++            with patch.object(uvicorn, "run", side_effect=stop), contextlib.redirect_stdout(io.StringIO()):
++                self.assertEqual(5 if changed else 0, self.verify.serve_results(args))
++            result = json.loads(receipt.read_text())
++            self.assertTrue(result["stopped"])
++            self.assertEqual(not changed, result["root_unchanged"])
++            self.assertEqual(["b0_controller/usage.csv"] if changed else [], result["changed"])
++
+     def test_refuses_a_root_without_a_registry_or_a_relative_root(self):
+         empty = Path(self.tmp.name) / "empty"
+         empty.mkdir()

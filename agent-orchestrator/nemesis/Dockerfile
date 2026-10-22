@@ -16,6 +16,7 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 COPY main.py .
 COPY command_guard.py /nemesis/command_guard.py
+COPY measurement_view.py /nemesis/measurement_view.py
 COPY static ./static
 
 # Configure python path to find copied site-packages

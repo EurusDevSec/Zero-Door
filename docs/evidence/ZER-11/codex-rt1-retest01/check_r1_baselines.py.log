@@ -1,0 +1,5 @@
+OpenAPI field/type PASS 3 resources
+Group table equals contract 7.4 PASS
+B0 has no ZERO DOOR decision/action/LLM/RBAC; profile adds no workload or RBAC PASS
+HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS
+Live Nemesis deployment mounts no results root/reader key PASS

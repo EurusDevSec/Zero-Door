@@ -1,0 +1,119 @@
+{
+ "approval": "Hoang-call_84d20afcbd014088a379b9fc172d89da-approved-RT1-shared-deadline",
+ "baseline": {
+  "target-app": {
+   "cartservice": {
+    "generation": 1,
+    "replicas": 1,
+    "resourceVersion": "91291",
+    "selector": "app=cartservice",
+    "spec_sha256": "4a72a1a08c5517da4b00b58bfbdbb456a9799992697c2849e4adcea3d07aebc5",
+    "uid": "8cd9e24f-05b8-45bb-a842-f66ae2420d0f"
+   },
+   "checkoutservice": {
+    "generation": 5,
+    "replicas": 3,
+    "resourceVersion": "91416",
+    "selector": "app=checkoutservice",
+    "spec_sha256": "8e223ee5a4d2b79d4c680a1b670dbe2c3d64dcaffd4200e291326a4c9e305ebe",
+    "uid": "5c1f8e0f-abe9-4a82-a76d-f84ac0744cf7"
+   },
+   "currencyservice": {
+    "generation": 3,
+    "replicas": 2,
+    "resourceVersion": "91183",
+    "selector": "app=currencyservice",
+    "spec_sha256": "69caa34f5c1482d09c781fb8a884a309fbbd39a91cf8228699853de038826752",
+    "uid": "dd585d53-0398-45fb-b514-dc8239252e7a"
+   },
+   "emailservice": {
+    "generation": 2,
+    "replicas": 1,
+    "resourceVersion": "91191",
+    "selector": "app=emailservice",
+    "spec_sha256": "68eadd1e37e92db83612e615c0a17d177a77bacbdf17b97dff60933a6ec6a8d2",
+    "uid": "d0e90b18-0d2e-4fd0-89c4-0e33e4c762f7"
+   },
+   "frontend": {
+    "generation": 3,
+    "replicas": 1,
+    "resourceVersion": "83711",
+    "selector": "app=frontend",
+    "spec_sha256": "2b095bf80d08a920c56367ff3810977bd378428702b23e588e9d52f8a4261fc7",
+    "uid": "b3a696e2-cb3f-4bc3-b807-ace82d3c4f3e"
+   },
+   "paymentservice": {
+    "generation": 2,
+    "replicas": 1,
+    "resourceVersion": "91285",
+    "selector": "app=paymentservice",
+    "spec_sha256": "9b840e00654f59cb4d65009c84fee619d19d6419e75c2853a3668fc48136001d",
+    "uid": "a0847341-2bc0-445d-b12f-627bb2989449"
+   },
+   "productcatalogservice": {
+    "generation": 1,
+    "replicas": 1,
+    "resourceVersion": "90920",
+    "selector": "app=productcatalogservice",
+    "spec_sha256": "cdbcdb2f2f97d2d2258a17b9196536c17bf87c614a0779c0de9cfe52b5cfe5b8",
+    "uid": "7431191e-ea13-4338-aba6-17e83172d56a"
+   },
+   "redis-cart": {
+    "generation": 1,
+    "replicas": 1,
+    "resourceVersion": "77353",
+    "selector": "app=redis-cart",
+    "spec_sha256": "115befda10bfea29f0eccc43c0acbcb19c29c1f7afbe6505dc650cd0d7233da1",
+    "uid": "9c4ab813-a90d-4140-b09a-d45f6f1055a1"
+   },
+   "shippingservice": {
+    "generation": 1,
+    "replicas": 1,
+    "resourceVersion": "98979",
+    "selector": "app=shippingservice",
+    "spec_sha256": "55e3fac6fca46b5997bdefa5cee26cb31974456facd3468075e3116ac3612ed7",
+    "uid": "6b4cd4fd-f099-4261-888b-d349a8d70d41"
+   }
+  },
+  "zero-door": {
+   "gaia": {
+    "generation": 3,
+    "replicas": 1,
+    "resourceVersion": "91234",
+    "selector": "app=gaia",
+    "spec_sha256": "b611bdacbc38caebfd0e289e01062753eb450d10816e3ea571c8f683d561b89a",
+    "uid": "e00d21d9-bdd5-4820-84a1-4b93b081b959"
+   },
+   "hephaestus": {
+    "generation": 2,
+    "replicas": 1,
+    "resourceVersion": "91118",
+    "selector": "app=hephaestus",
+    "spec_sha256": "92dcb00a8e14103247b2b32e63b6ab17ff2f251840a6802a0dca62a09ec8bb35",
+    "uid": "898a458b-26a9-485d-a50e-bdf352736790"
+   }
+  }
+ },
+ "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+ "context": "k3d-zero-door",
+ "hephaestus_sa_can": {
+  "delete pods": "yes",
+  "patch deployments/scale": "yes"
+ },
+ "hpa_on_targets": [],
+ "image_present": true,
+ "kubectl_client": "v1.33.5-dispatcher",
+ "metrics_api": true,
+ "namespace": "zd-zer11-2d82abe8",
+ "nodes": [
+  {
+   "name": "k3d-zero-door-agent-0",
+   "ready": true
+  },
+  {
+   "name": "k3d-zero-door-server-0",
+   "ready": true
+  }
+ ],
+ "origin": "http://10.43.91.65:80"
+}

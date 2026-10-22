@@ -1,0 +1,34 @@
+169413303340fc01eea8597c121ce39455892af0
+ M .github/workflows/ci.yml
+ M AGENTS.md
+ M agent-orchestrator/hephaestus/command_guard.py
+ M agent-orchestrator/hephaestus/main.py
+ M agent-orchestrator/nemesis/Dockerfile
+ M agent-orchestrator/nemesis/main.py
+ M agent-orchestrator/nemesis/static/app.js
+ M agent-orchestrator/nemesis/static/index.html
+ M agent-orchestrator/nemesis/static/style.css
+ M docs/delivery/NOW.md
+ M docs/delivery/README.md
+ M docs/delivery/WORKFLOW.md
+ M docs/delivery/milestones/R1-measurement/README.md
+ M docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md
+ M docs/delivery/milestones/R1-measurement/event-contract.md
+ M docs/delivery/milestones/R1-measurement/guards-and-ci.md
+ M docs/delivery/milestones/R1-measurement/probes-and-metrics.md
+ M tests/test_command_guard_integration.py
+?? agent-orchestrator/nemesis/measurement_view.py
+?? agent-orchestrator/nemesis/static/results.html
+?? agent-orchestrator/nemesis/static/results.js
+?? docs/delivery/WORKING-AGREEMENT.md
+?? docs/detail_zero-door.md
+?? docs/evidence/ZER-11/
+?? docs/runbooks/dashboard-and-baselines.md
+?? infrastructure/manifests/r1-baselines.yaml
+?? infrastructure/scripts/verify-dashboard-baselines.py
+?? infrastructure/scripts/verify-dashboard-baselines.sh
+?? tests/check_r1_baselines.py
+?? tests/fixtures/zer11/
+?? tests/test_dashboard_measurement.py
+?? tests/test_dashboard_modes.py
+review_fixture_port_closed True

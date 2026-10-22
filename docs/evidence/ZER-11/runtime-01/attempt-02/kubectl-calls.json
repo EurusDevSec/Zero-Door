@@ -1,0 +1,836 @@
+[
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "config",
+   "get-contexts",
+   "k3d-zero-door",
+   "-o",
+   "name"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "version",
+   "--client",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "nodes",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "-n",
+   "target-app",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "-n",
+   "zero-door",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "hpa",
+   "-A",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "apiservice",
+   "v1beta1.metrics.k8s.io",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "configmap",
+   "-n",
+   "zero-door",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespaces",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "service",
+   "frontend",
+   "-n",
+   "target-app",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "auth",
+   "can-i",
+   "patch",
+   "deployments/scale",
+   "-n",
+   "target-app",
+   "--as",
+   "system:serviceaccount:zero-door:hephaestus-sa"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "auth",
+   "can-i",
+   "delete",
+   "pods",
+   "-n",
+   "target-app",
+   "--as",
+   "system:serviceaccount:zero-door:hephaestus-sa"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "create",
+   "-f",
+   "-",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.203
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "create",
+   "-f",
+   "-",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.172
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "delete",
+   "--raw",
+   "/api/v1/namespaces/zd-zer11-62702b22/configmaps/zd-rt1-harness",
+   "-f",
+   "-"
+  ],
+  "exit": 1,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "configmap",
+   "zd-rt1-harness",
+   "-n",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "create",
+   "-f",
+   "-",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.156
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "pod",
+   "zd-rt1-agent",
+   "-n",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "pod",
+   "zd-rt1-agent",
+   "-n",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "pod",
+   "zd-rt1-agent",
+   "-n",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.141
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=30s",
+   "exec",
+   "-n",
+   "zd-zer11-62702b22",
+   "zd-rt1-agent",
+   "--",
+   "python",
+   "-B",
+   "/app/rt1/r1_baseline_runtime.py",
+   "call",
+   "{\"action\":\"hello\"}"
+  ],
+  "exit": 0,
+  "s": 1.844
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "create",
+   "--dry-run=client",
+   "-f",
+   "R:\\_Projects\\Eurus_Workspace\\zero_door\\infrastructure\\manifests\\r1-baselines.yaml",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.156
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=30s",
+   "exec",
+   "-n",
+   "zd-zer11-62702b22",
+   "zd-rt1-agent",
+   "--",
+   "python",
+   "-B",
+   "/app/rt1/r1_baseline_runtime.py",
+   "call",
+   "{\"action\":\"abort\",\"fault_ended\":true,\"reason\":\"UNEXPECTED (JSONDecodeError: Extra data: line 16 column 1 (char 3700))\"}"
+  ],
+  "exit": 0,
+  "s": 0.64
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=60s",
+   "exec",
+   "-n",
+   "zd-zer11-62702b22",
+   "zd-rt1-agent",
+   "--",
+   "python",
+   "-B",
+   "/app/rt1/r1_baseline_runtime.py",
+   "call",
+   "{\"action\":\"close\",\"close_reason\":\"ABORTED\"}"
+  ],
+  "exit": 0,
+  "s": 0.391
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=60s",
+   "exec",
+   "-n",
+   "zd-zer11-62702b22",
+   "zd-rt1-agent",
+   "--",
+   "tar",
+   "-C",
+   "/tmp/rt1/out",
+   "-cf",
+   "-",
+   "."
+  ],
+  "exit": 0,
+  "s": 0.219
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "frontend",
+   "-n",
+   "target-app",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "cartservice",
+   "-n",
+   "target-app",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "gaia",
+   "-n",
+   "zero-door",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "hephaestus",
+   "-n",
+   "zero-door",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "delete",
+   "--raw",
+   "/api/v1/namespaces/zd-zer11-62702b22",
+   "-f",
+   "-"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.203
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.141
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 1,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "-n",
+   "target-app",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "deploy",
+   "-n",
+   "zero-door",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "hpa",
+   "-n",
+   "target-app",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "configmap",
+   "-n",
+   "zero-door",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "namespace",
+   "zd-zer11-62702b22",
+   "-o",
+   "json"
+  ],
+  "exit": 1,
+  "s": 0.125
+ }
+]

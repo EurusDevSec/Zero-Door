@@ -1,0 +1,450 @@
+{
+ "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe-cfaa05": {
+  "abort": "TRIAL_INCOMPLETE (B0-CTRL: PROBE_ENDED:MAX_DURATION)",
+  "cleanup": "CLEAN",
+  "control_deliveries": [
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_70f5b46a26844cf6b775b6bea0de69e4",
+    "event_type": "RUN_STARTED",
+    "ms": 5.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_e38ed7dc084b465eba22028a8277e31a",
+    "event_type": "RUN_CONTEXT",
+    "ms": 26.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_e70f63cb47a146f2b7cbb6ef7337219a",
+    "event_type": "RUN_STARTED",
+    "ms": 7.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_4010a539d3544076a152fc4c5702558d",
+    "event_type": "RUN_CONTEXT",
+    "ms": 58.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_e4124bf4b4f34eb9a4e09374fe34a848",
+    "event_type": "TRIAL_STARTED",
+    "ms": 5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_bd94b219da6c442689c098ac6ad51db0",
+    "event_type": "TRIAL_CONTEXT",
+    "ms": 3.4,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_69d63ad1e641497f964f898b9dbf879a",
+    "event_type": "TRIAL_ENDED",
+    "ms": 46.3,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_e68990fa6425481e92443041d2781167",
+    "event_type": "RUN_CLOSED",
+    "ms": 4.3,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_1ab9bcb5d3d140b2b5c319e903e1c48d",
+    "event_type": "TRIAL_CONTEXT",
+    "ms": 178.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_d947e35bda5d4661afae4cf4732e47e2",
+    "event_type": "TRIAL_STARTED",
+    "ms": 4.9,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_343e094e5fba4f1aa451a52ab498b0b4",
+    "event_type": "ATTACK_REQUESTED",
+    "ms": 4091.6,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_9c50138e565b40859cdb0a59a656cf7f",
+    "event_type": "ATTACK_STOPPED",
+    "ms": 537.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_e0a2121e5eb146a29718285b92863960",
+    "event_type": "EFFECT_EVALUATED",
+    "ms": 7.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_f9abdac7566247468f01334dfb089b34",
+    "event_type": "TRIAL_ENDED",
+    "ms": 3.9,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_a16d1d8446ac44f1a3c8958269525920",
+    "event_type": "RUN_CLOSED",
+    "ms": 4.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   }
+  ],
+  "trials": {
+   "B0-CTRL": {
+    "audit_coverage": {
+     "complete": false,
+     "failed_ticks": [],
+     "max_gap_s": 4.732,
+     "o_actions": 0,
+     "ticks": 30
+    },
+    "effect": {
+     "reason": "STOPPED_BEFORE_W_EFF_DECIDED",
+     "status": "UNKNOWN_EFFECT",
+     "t_eff": null
+    },
+    "end_reason": "ABORTED",
+    "incident_id": "inc_2e0255df28b04279902fdc836f32547d",
+    "name": "B0-CTRL",
+    "probe": {
+     "cancelled": 1,
+     "clock_sync_failed": 0,
+     "delivery": {
+      "delivered": 8,
+      "late": 0,
+      "rejected": 0,
+      "retries": 0
+     },
+     "fail": 0,
+     "grace_s": 10,
+     "heartbeats": 4,
+     "max_duration_s": 6.8999999999999995,
+     "pass": 4,
+     "registration": {
+      "clock_id": "clk-rt1",
+      "flow": "checkout",
+      "probe_id": "prb-rt1",
+      "probe_version": "p1"
+     },
+     "requests": 21,
+     "samples": 4,
+     "skipped_slots": 23,
+     "stop_reason": "MAX_DURATION",
+     "undelivered": 0,
+     "unresolved_cleanup": [],
+     "wall_s": 7.487
+    },
+    "recovery_verified": false,
+    "samples": 4,
+    "stop_point": "d",
+    "stop_reason": "PROBE_ENDED:MAX_DURATION",
+    "t_trial_end": "2026-10-21T15:30:35.456Z",
+    "trial_id": "trl_933acc9b44354b77a2b060973550b530",
+    "unrecorded": []
+   }
+  }
+ },
+ "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe-d58966": {
+  "abort": "BASELINE_UNHEALTHY (B0-HPA)",
+  "cleanup": "CLEAN",
+  "control_deliveries": [
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_d26f23d018b04ba9a542427ba464e0f5",
+    "event_type": "RUN_STARTED",
+    "ms": 3.9,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_6d2a2f5d7b084799a17388302ccac47c",
+    "event_type": "RUN_CONTEXT",
+    "ms": 3.6,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_f035422c49cd4d25bef7801544bd07e0",
+    "event_type": "RUN_STARTED",
+    "ms": 4.3,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_c6b9ab7698184856a56b21e54bec8396",
+    "event_type": "RUN_CONTEXT",
+    "ms": 4,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_3f4244c4a2e84ab59d35d7d2ebea998a",
+    "event_type": "TRIAL_STARTED",
+    "ms": 3.2,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_5134884c95cb4930aaca8f58fb3aa93a",
+    "event_type": "TRIAL_CONTEXT",
+    "ms": 3.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_01705a90ad684e4e8d1428e226ebfd03",
+    "event_type": "TRIAL_ENDED",
+    "ms": 3.8,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_83da0198f753416caa462f40c950147c",
+    "event_type": "RUN_CLOSED",
+    "ms": 3.3,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_ffad011bd77240b78f4c978bd32adb99",
+    "event_type": "TRIAL_CONTEXT",
+    "ms": 5.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_21ca91875ccc46798e0cbca53baf346e",
+    "event_type": "TRIAL_STARTED",
+    "ms": 3.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_2de1ae1780984f738d5083d422d02eeb",
+    "event_type": "ATTACK_REQUESTED",
+    "ms": 5.9,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_cb18cbdded1f4d7ea68f446440574f1b",
+    "event_type": "ATTACK_STOPPED",
+    "ms": 3.9,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_48c11bc865c44d6db4bff780f0aeb55b",
+    "event_type": "EFFECT_EVALUATED",
+    "ms": 4.1,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_633e6dd67161483d89fb8c85cda7297f",
+    "event_type": "AUDIT_COVERAGE",
+    "ms": 3.9,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_18fe48a09a084f318db7fe15f37ba583",
+    "event_type": "TRIAL_ENDED",
+    "ms": 3.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_e0d248c4d30a4dc8aa6a8e869657f589",
+    "event_type": "TRIAL_CONTEXT",
+    "ms": 3.4,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_657dabc60b0942eb877790e0dd718993",
+    "event_type": "TRIAL_STARTED",
+    "ms": 3.7,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_f5f3782f0c7340f79ec4d6131c55be0d",
+    "event_type": "AUDIT_COVERAGE",
+    "ms": 3.4,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_42f7453c38d84462a0a3d348ee42547b",
+    "event_type": "TRIAL_ENDED",
+    "ms": 4.5,
+    "retries": 0,
+    "state": "DELIVERED"
+   },
+   {
+    "deadline_ms": 10000,
+    "event_id": "evt_632cf2940db4433a8c7ba46eca03e666",
+    "event_type": "RUN_CLOSED",
+    "ms": 4.1,
+    "retries": 0,
+    "state": "DELIVERED"
+   }
+  ],
+  "trials": {
+   "B0-CTRL": {
+    "audit_coverage": {
+     "complete": true,
+     "failed_ticks": [],
+     "max_gap_s": 0.112,
+     "o_actions": 0,
+     "ticks": 53
+    },
+    "effect": {
+     "reason": "FIRST_FAILING_SAMPLE",
+     "status": "CONFIRMED",
+     "t_eff": 1792596618174
+    },
+    "end_reason": "HORIZON",
+    "incident_id": "inc_e208cbea35c54eabbb2e227ded045383",
+    "name": "B0-CTRL",
+    "probe": {
+     "cancelled": 0,
+     "clock_sync_failed": 0,
+     "delivery": {
+      "delivered": 33,
+      "late": 0,
+      "rejected": 0,
+      "retries": 0
+     },
+     "fail": 21,
+     "grace_s": 10,
+     "heartbeats": 6,
+     "max_duration_s": 6.8999999999999995,
+     "pass": 6,
+     "registration": {
+      "clock_id": "clk-rt1",
+      "flow": "checkout",
+      "probe_id": "prb-rt1",
+      "probe_version": "p1"
+     },
+     "requests": 51,
+     "samples": 27,
+     "skipped_slots": 0,
+     "stop_reason": "CANCELLED",
+     "undelivered": 0,
+     "unresolved_cleanup": [],
+     "wall_s": 5.211
+    },
+    "recovery_verified": false,
+    "samples": 27,
+    "stop_point": "c",
+    "stop_reason": "CAP_REC_REACHED",
+    "t_trial_end": "2026-10-21T15:30:22.189Z",
+    "trial_id": "trl_f1b48759bd9449fdb584e57f1bf27184",
+    "unrecorded": []
+   },
+   "B0-HPA": {
+    "audit_coverage": {
+     "complete": true,
+     "failed_ticks": [],
+     "max_gap_s": 0.11,
+     "o_actions": 0,
+     "ticks": 41
+    },
+    "effect": null,
+    "end_reason": "ABORTED",
+    "incident_id": null,
+    "name": "B0-HPA",
+    "probe": {
+     "cancelled": 0,
+     "clock_sync_failed": 0,
+     "delivery": {
+      "delivered": 26,
+      "late": 0,
+      "rejected": 0,
+      "retries": 0
+     },
+     "fail": 21,
+     "grace_s": 10,
+     "heartbeats": 5,
+     "max_duration_s": 6.8999999999999995,
+     "pass": 0,
+     "registration": {
+      "clock_id": "clk-rt1",
+      "flow": "checkout",
+      "probe_id": "prb-rt1",
+      "probe_version": "p1"
+     },
+     "requests": 21,
+     "samples": 21,
+     "skipped_slots": 0,
+     "stop_reason": "CANCELLED",
+     "undelivered": 0,
+     "unresolved_cleanup": [],
+     "wall_s": 4.109
+    },
+    "recovery_verified": false,
+    "samples": 21,
+    "stop_point": "d",
+    "stop_reason": "ABORTED:BASELINE_UNHEALTHY (B0-HPA)",
+    "t_trial_end": "2026-10-21T15:30:26.315Z",
+    "trial_id": "trl_15a499a7875c4e8e8207049c99e4c6ff",
+    "unrecorded": []
+   }
+  }
+ }
+}

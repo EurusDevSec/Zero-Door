@@ -88,6 +88,12 @@ jobs:
           python -B docs/evidence/ZER-37/verify_release.py
       - name: Test actual Gaia/Hephaestus R1 paths, per-actor keys and the Elasticsearch proxy
         run: python -B tests/test_event_agents.py
+      - name: Test dashboard results (scorer artifact only) and MANUAL/RULES/AI/B0 mode entrypoints offline
+        run: |
+          python -B tests/test_dashboard_measurement.py
+          python -B tests/test_dashboard_modes.py
+          python -B tests/test_dashboard_baseline_runtime.py
+          python -B tests/test_dashboard_mode_runtime.py
 
   r1-production-http:
     name: Guard entrypoints on production dependency pins
@@ -113,6 +119,13 @@ jobs:
           python -B tests/test_command_modes.py
           python -B tests/test_command_guard_integration.py
           python -B tests/test_event_agents.py
+      - name: Dashboard results and mode entrypoints on production pins (ZER-11/39)
+        run: |
+          python -B tests/test_dashboard_measurement.py
+          python -B tests/test_dashboard_modes.py
+          python -B tests/test_dashboard_baseline_runtime.py
+          python -B tests/test_dashboard_mode_runtime.py
+          python -B tests/check_r1_baselines.py
 
   r1-image-build:
     name: Build R1 images without pushing

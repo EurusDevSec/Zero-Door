@@ -1,0 +1,30 @@
+[
+  {
+    "http": 503,
+    "detail": "UPSTREAM_DOWN",
+    "state": "STALE",
+    "kpi": "PASS / rate=100%",
+    "expected": "STALE with cached values"
+  },
+  {
+    "http": 422,
+    "detail": "ARTIFACT_HASH_MISMATCH",
+    "state": "ARTIFACT_ERROR",
+    "kpi": "",
+    "expected": "clear cached KPI; show integrity/access/unregistered error"
+  },
+  {
+    "http": 401,
+    "detail": "UNAUTHORIZED",
+    "state": "NO_ACCESS",
+    "kpi": "",
+    "expected": "clear cached KPI; show integrity/access/unregistered error"
+  },
+  {
+    "http": 404,
+    "detail": "RUN_NOT_REGISTERED",
+    "state": "ERROR",
+    "kpi": "",
+    "expected": "clear cached KPI; show integrity/access/unregistered error"
+  }
+]

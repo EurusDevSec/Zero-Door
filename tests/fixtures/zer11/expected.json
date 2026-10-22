@@ -1,0 +1,26 @@
+{
+  "_note": "Hand-computed from the case timelines in cases.py (contract 10.1 E01 and 7.4), not from the scorer. Seconds; T0 = 2026-10-19T06:00:00.000Z = 1792389600000 ms.",
+  "t0_ms": 1792389600000,
+  "cases": {
+    "b1_recovered": {"group": "B1", "mode": "RULES", "label": "RECOVERED", "mttd_s": "30.0", "mttr_s": "60.0", "total_s": "90.0", "reaction_s": "19.0",
+                     "why": "mttd = detect 131 - effect 101; mttr = T_rec 191 - detect 131; total = 191 - 101; reaction = SUCCESS 150 - detect 131",
+                     "kpi": {"N": 1, "mttd": ["PASS", 1.0, 30.0], "mttr_120": ["PASS", 1.0, 60.0], "mttr_180": ["PASS", 1.0, 60.0], "reaction": ["PASS", 1.0, 19.0]},
+                     "recovered_rate": [1, 1], "failure_rate": [0, 1], "mode_violations": 0, "latest_milestone_s": 240},
+    "bm_manual": {"group": "BM", "mode": "MANUAL", "label": "RECOVERED", "mttd_s": "30.0", "mttr_s": "60.0", "total_s": "90.0", "reaction_s": "19.0",
+                  "why": "same timeline; the operator decision is the action source", "mode_violations": 0},
+    "bm_autoheal": {"group": "BM", "mode": "MANUAL", "label": "MISSING", "missing": "MODE_VIOLATION",
+                    "why": "an automatic RULES decision behind a BM action is auto-heal in MANUAL (contract 7.4)", "mode_violations_min": 1},
+    "b0_controller": {"group": "B0", "mode": "K8S_BASELINE", "label": "RECOVERED_UNDETECTED", "mttd_s": "N/A", "mttr_s": "N/A", "total_s": "90.0", "reaction_s": "N/A",
+                      "why": "no ZERO DOOR detector/decider: MTTD/MTTR/reaction are N/A, never 0; TotalRecovery from effect = 191 - 101",
+                      "flags": ["NO_ACTION_BEFORE_RECOVERY"], "mode_violations": 0},
+    "b0_with_decision": {"group": "B0", "mode": "K8S_BASELINE", "label": "MISSING", "missing": "MODE_VIOLATION",
+                         "why": "DECISION, HEAL_STARTED, API_ACCEPTED, ACTION_COMPLETED are forbidden in B0", "mode_violations": 4},
+    "b1_failed_timeout": {"group": "B1", "mode": "RULES", "label": "TIMEOUT", "mttd_s": "30.0", "mttr_s": "", "total_s": "", "reaction_s": "NO_SUCCESS",
+                          "why": "action FAILED, probe fails from 101 to 260 and covers T_eff + cap_rec = 101 + 120 = 221: TIMEOUT; no MTTR (empty, not 0)",
+                          "failure_rate": [1, 1], "recovered_rate": [0, 1]},
+    "b1_clock_unverified": {"group": "B1", "mode": "RULES", "label": "MISSING", "flags": ["CLOCK_UNVERIFIED"],
+                            "why": "probe clock without CLOCK_SYNC: effect/recovery cannot be compared with the host-clock detect", "mttd_verdict": "UNKNOWN"},
+    "b1_empty": {"group": "B1", "mode": "RULES", "incidents": 0, "status": "EMPTY",
+                 "why": "no attack: N = 0 is EMPTY, never PASS and never a rate of 0 or 100%"}
+  }
+}

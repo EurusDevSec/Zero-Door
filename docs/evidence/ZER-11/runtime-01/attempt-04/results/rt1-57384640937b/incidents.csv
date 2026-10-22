@@ -1,0 +1,3 @@
+run_id,group,trial_id,incident_id,flow,effect,label,mttd_s,mttr_s,total_s,reaction_s,u_mttd_ms,u_mttr_ms,u_total_ms,u_reaction_ms,relapses,action_attempts,evaluator_mismatch,flags,missing_reasons
+run_57384640937b4fedab2e07d588ce46db,B0,trl_0b7a4c3ea59f4cd5ac15fc11dfc69dd7,inc_41344255ba7145b98059843ed3bcb3b5,checkout,CONFIRMED,RECOVERED_UNDETECTED,N/A,N/A,39.997,N/A,,,2.0,,0,0,false,NO_ACTION_BEFORE_RECOVERY|PROBE_GAP,
+run_57384640937b4fedab2e07d588ce46db,B0,trl_a4359478f89a4df5b55f0e8d9915025a,inc_f3d1dff7ac49495c9cf442a980337a3c,checkout,CONFIRMED_NO_EFFECT,CONFIRMED_NO_EFFECT,N/A,N/A,,N/A,,,,,,0,,,

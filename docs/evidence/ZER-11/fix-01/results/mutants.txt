@@ -1,0 +1,17 @@
+CONTROL pass ('node', 'tests/results_page_vm.cjs')
+CONTROL pass test_dashboard_measurement.AdapterIntegrity.test_shape_of_consumed_fields_is_a_reason_code
+CONTROL pass test_dashboard_measurement.ResultsServer
+CONTROL pass test_dashboard_measurement.RuntimePlan
+KILLED   EVERY_ERROR_TRANSIENT |
+KILLED   CONFIG_503_TRANSIENT |
+KILLED   RECONNECT_KEEPS_OLD_VIEW |
+KILLED   REFUSED_KEY_KEEPS_POLLING |
+KILLED   STATUSLESS_ERROR_TRANSIENT |
+KILLED   INPUT_DIGEST_OPTIONAL | Ran 1 test in 1.432s FAILED (failures=2)
+KILLED   CONSUMED_SHAPE_UNCHECKED | Ran 1 test in 1.351s FAILED (failures=8)
+KILLED   RESULTS_MODE_OPEN | Ran 4 tests in 8.440s FAILED (failures=7, errors=1)
+KILLED   RESULTS_MODE_STARTS_CONSUMER | Ran 4 tests in 5.984s FAILED (failures=1)
+KILLED   RESULTS_MODE_ROOT_FROM_FIXTURE | Ran 4 tests in 4.341s FAILED (failures=4)
+KILLED   PLAN_SAMPLE_CAP_IGNORED | Ran 3 tests in 0.027s FAILED (failures=1)
+KILLED   PLAN_WINDOW_SHORT_OF_CAP_REC | Ran 3 tests in 0.031s FAILED (failures=2)
+VERDICT PASS 12/12

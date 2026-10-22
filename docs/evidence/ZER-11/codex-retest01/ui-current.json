@@ -1,0 +1,414 @@
+{
+ "source": "agent-orchestrator/nemesis/static/results.js",
+ "cases": [
+  {
+   "name": "good_then_422_ARTIFACT_HASH_MISMATCH_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ARTIFACT_ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Artifact không hợp lệ (ARTIFACT_HASH_MISMATCH): không hiện số liệu."
+    },
+    {
+     "timers": 1
+    }
+   ]
+  },
+  {
+   "name": "good_then_422_SCHEMA_UNSUPPORTED_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ARTIFACT_ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Artifact không hợp lệ (SCHEMA_UNSUPPORTED): không hiện số liệu."
+    },
+    {
+     "timers": 1
+    }
+   ]
+  },
+  {
+   "name": "good_then_422_EXPORT_INCONSISTENT_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ARTIFACT_ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Artifact không hợp lệ (EXPORT_INCONSISTENT): không hiện số liệu."
+    },
+    {
+     "timers": 1
+    }
+   ]
+  },
+  {
+   "name": "good_then_401_UNAUTHORIZED_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "NO_ACCESS",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Khóa không còn được chấp nhận (UNAUTHORIZED): đã xóa số liệu, cần kết nối lại."
+    },
+    {
+     "timers": 0
+    }
+   ]
+  },
+  {
+   "name": "good_then_404_RUN_NOT_REGISTERED_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Run không còn xác minh được (RUN_NOT_REGISTERED): không hiện số liệu."
+    },
+    {
+     "timers": 1
+    }
+   ]
+  },
+  {
+   "name": "good_then_503_REGISTRY_INVALID_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Run không còn xác minh được (REGISTRY_INVALID): không hiện số liệu."
+    },
+    {
+     "timers": 1
+    }
+   ]
+  },
+  {
+   "name": "good_then_503_KEY_SEPARATION_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "NO_ACCESS",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Khóa không còn được chấp nhận (KEY_SEPARATION): đã xóa số liệu, cần kết nối lại."
+    },
+    {
+     "timers": 0
+    }
+   ]
+  },
+  {
+   "name": "good_then_500_HTTP_500_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Run không còn xác minh được (HTTP_500): không hiện số liệu."
+    },
+    {
+     "timers": 1
+    }
+   ]
+  },
+  {
+   "name": "good_then_unrenderable_answer_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Run không còn xác minh được (Cannot read properties of null (reading 'length')): không hiện số liệu."
+    }
+   ]
+  },
+  {
+   "name": "good_then_mismatched_answer_clears_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ARTIFACT_ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Artifact không hợp lệ (RUN_MISMATCH): không hiện số liệu."
+    }
+   ]
+  },
+  {
+   "name": "good_then_503_upstream_is_stale_then_good",
+   "ok": true,
+   "detail": [
+    {
+     "stale": {
+      "state": "STALE",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKPASS11001 (100.0%)1, 130 s1MTTR < 120 sOKPASS11001 (100.0%)1, 130 s1MTTR < 180 sOKPASS11001 (100.0%)1, 130 s1Reaction < 60 sOKPASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "PASS",
+       "PASS",
+       "PASS",
+       "PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     },
+     "fresh": {
+      "state": "OK",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     }
+    }
+   ]
+  },
+  {
+   "name": "good_then_502_is_stale_then_good",
+   "ok": true,
+   "detail": [
+    {
+     "stale": {
+      "state": "STALE",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKPASS11001 (100.0%)1, 130 s1MTTR < 120 sOKPASS11001 (100.0%)1, 130 s1MTTR < 180 sOKPASS11001 (100.0%)1, 130 s1Reaction < 60 sOKPASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "PASS",
+       "PASS",
+       "PASS",
+       "PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     },
+     "fresh": {
+      "state": "OK",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     }
+    }
+   ]
+  },
+  {
+   "name": "good_then_504_is_stale_then_good",
+   "ok": true,
+   "detail": [
+    {
+     "stale": {
+      "state": "STALE",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKPASS11001 (100.0%)1, 130 s1MTTR < 120 sOKPASS11001 (100.0%)1, 130 s1MTTR < 180 sOKPASS11001 (100.0%)1, 130 s1Reaction < 60 sOKPASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "PASS",
+       "PASS",
+       "PASS",
+       "PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     },
+     "fresh": {
+      "state": "OK",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     }
+    }
+   ]
+  },
+  {
+   "name": "good_then_network_is_stale_then_good",
+   "ok": true,
+   "detail": [
+    {
+     "stale": {
+      "state": "STALE",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKPASS11001 (100.0%)1, 130 s1MTTR < 120 sOKPASS11001 (100.0%)1, 130 s1MTTR < 180 sOKPASS11001 (100.0%)1, 130 s1Reaction < 60 sOKPASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "PASS",
+       "PASS",
+       "PASS",
+       "PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     },
+     "fresh": {
+      "state": "OK",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     }
+    }
+   ]
+  },
+  {
+   "name": "after_fatal_a_later_verified_answer_is_shown_fresh",
+   "ok": true,
+   "detail": [
+    {
+     "state": "OK",
+     "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+     "downloads": 3,
+     "verdicts": [
+      "NOT_PASS",
+      "NOT_PASS",
+      "NOT_PASS",
+      "NOT_PASS"
+     ],
+     "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+     "banner": ""
+    }
+   ]
+  },
+  {
+   "name": "fatal_then_transient_does_not_bring_back_old_view",
+   "ok": true,
+   "detail": [
+    {
+     "state": "ERROR",
+     "kpi": "",
+     "downloads": 0,
+     "verdicts": [],
+     "run": "",
+     "banner": "Không tải được run (FIXTURE_UPSTREAM_DOWN)."
+    }
+   ]
+  },
+  {
+   "name": "late_answer_of_previous_run_is_dropped",
+   "ok": true,
+   "detail": [
+    {
+     "state": "OK",
+     "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+     "downloads": 3,
+     "verdicts": [
+      "NOT_PASS",
+      "NOT_PASS",
+      "NOT_PASS",
+      "NOT_PASS"
+     ],
+     "run": "run_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+     "banner": ""
+    }
+   ]
+  },
+  {
+   "name": "reconnect_drops_old_view_and_old_inflight_answer",
+   "ok": true,
+   "detail": [
+    {
+     "duringList": {
+      "state": "LOADING",
+      "kpi": "",
+      "downloads": 0,
+      "verdicts": [],
+      "run": "",
+      "banner": ""
+     },
+     "after": {
+      "state": "NO_ACCESS",
+      "kpi": "",
+      "downloads": 0,
+      "verdicts": [],
+      "run": "",
+      "banner": "Khóa không hợp lệ."
+     },
+     "timersAfter": 0,
+     "auths": [
+      "Bearer key-1",
+      "Bearer key-1",
+      "Bearer key-1",
+      "Bearer key-2"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "reconnect_with_valid_key_reloads_selected_run_with_new_key",
+   "ok": true,
+   "detail": [
+    {
+     "s": {
+      "state": "OK",
+      "kpi": "KPIstatusverdictNpassedmissingunobservedrateboundsmean (mô tả)mean poolghi chúMTTD < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 120 sOKNOT_PASS11001 (100.0%)1, 130 s1MTTR < 180 sOKNOT_PASS11001 (100.0%)1, 130 s1Reaction < 60 sOKNOT_PASS11001 (100.0%)1, 130 s1",
+      "downloads": 3,
+      "verdicts": [
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS",
+       "NOT_PASS"
+      ],
+      "run": "run_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "banner": ""
+     },
+     "auths": [
+      "Bearer key-2",
+      "Bearer key-2"
+     ],
+     "timers": 1
+    }
+   ]
+  }
+ ]
+}

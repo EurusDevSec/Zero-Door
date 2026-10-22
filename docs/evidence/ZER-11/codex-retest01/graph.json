@@ -1,0 +1,114 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "impact-ui",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"target\": {\n    \"id\": \"Function:agent-orchestrator/nemesis/static/results.js:loadRun\",\n    \"name\": \"loadRun\",\n    \"type\": \"Function\",\n    \"filePath\": \"agent-orchestrator/nemesis/static/results.js\"\n  },\n  \"direction\": \"upstream\",\n  \"impactedCount\": 1,\n  \"risk\": \"LOW\",\n  \"riskSharedAxes\": \"LOW\",\n  \"riskScale\": {\n    \"comparableAcrossKinds\": true,\n    \"unusedAxes\": []\n  },\n  \"epistemic\": \"exact\",\n  \"summary\": {\n    \"direct\": 1,\n    \"processes_affected\": 0,\n    \"modules_affected\": 0\n  },\n  \"byDepthCounts\": {\n    \"1\": 1\n  },\n  \"affected_processes\": [],\n  \"affected_modules\": [],\n  \"byDepth\": {\n    \"1\": [\n      {\n        \"depth\": 1,\n        \"id\": \"File:agent-orchestrator/nemesis/static/results.js\",\n        \"name\": \"results.js\",\n        \"filePath\": \"agent-orchestrator/nemesis/static/results.js\",\n        \"relationType\": \"CALLS\",\n        \"confidence\": 0.85,\n        \"processes\": []\n      }\n    ]\n  }\n}\n\n---\n**Next:** Review d=1 items first (WILL BREAK). To check affected execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "impact-validation",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"target\": {\n    \"id\": \"Function:agent-orchestrator/nemesis/measurement_view.py:check_document\",\n    \"name\": \"check_document\",\n    \"type\": \"Function\",\n    \"filePath\": \"agent-orchestrator/nemesis/measurement_view.py\"\n  },\n  \"direction\": \"upstream\",\n  \"impactedCount\": 2,\n  \"risk\": \"LOW\",\n  \"riskSharedAxes\": \"LOW\",\n  \"riskScale\": {\n    \"comparableAcrossKinds\": true,\n    \"unusedAxes\": []\n  },\n  \"epistemic\": \"exact\",\n  \"summary\": {\n    \"direct\": 2,\n    \"processes_affected\": 2,\n    \"modules_affected\": 1\n  },\n  \"byDepthCounts\": {\n    \"1\": 2\n  },\n  \"affected_processes\": [\n    {\n      \"name\": \"view\",\n      \"type\": \"Function\",\n      \"filePath\": \"agent-orchestrator/nemesis/measurement_view.py\",\n      \"affected_process_count\": 5,\n      \"total_hits\": 5,\n      \"earliest_broken_step\": 2\n    },\n    {\n      \"name\": \"register\",\n      \"type\": \"Function\",\n      \"filePath\": \"agent-orchestrator/nemesis/measurement_view.py\",\n      \"affected_process_count\": 2,\n      \"total_hits\": 2,\n      \"earliest_broken_step\": 1\n    }\n  ],\n  \"affected_modules\": [\n    {\n      \"name\": \"Nemesis\",\n      \"hits\": 2,\n      \"impact\": \"direct\"\n    }\n  ],\n  \"byDepth\": {\n    \"1\": [\n      {\n        \"depth\": 1,\n        \"id\": \"Function:agent-orchestrator/nemesis/measurement_view.py:register\",\n        \"name\": \"register\",\n        \"filePath\": \"agent-orchestrator/nemesis/measurement_view.py\",\n        \"relationType\": \"CALLS\",\n        \"confidence\": 0.85,\n        \"processes\": [\n          {\n            \"id\": \"proc_284_register\",\n            \"label\": \"Register → Strict_json\",\n            \"processType\": \"intra_community\",\n            \"step\": 1\n          },\n          {\n            \"id\": \"proc_285_register\",\n            \"label\": \"Register → Read\",\n            \"processType\": \"intra_community\",\n            \"step\": 1\n          }\n        ]\n      },\n      {\n        \"depth\": 1,\n        \"id\": \"Method:agent-orchestrator/nemesis/measurement_view.py:ResultsStore.artifact#1\",\n        \"name\": \"artifact\",\n        \"filePath\": \"agent-orchestrator/nemesis/measurement_view.py\",\n        \"relationType\": \"CALLS\",\n        \"confidence\": 0.85,\n        \"processes\": [\n          {\n            \"id\": \"proc_224_view\",\n            \"label\": \"View → Strict_json\",\n            \"processType\": \"cross_community\",\n            \"step\": 2\n          },\n          {\n            \"id\": \"proc_88_view\",\n            \"label\": \"View → Optional\",\n            \"processType\": \"cross_community\",\n            \"step\": 2\n          },\n          {\n            \"id\": \"proc_87_view\",\n            \"label\": \"View → Incident_rows\",\n            \"processType\": \"cross_community\",\n            \"step\": 2\n          },\n          {\n            \"id\": \"proc_225_view\",\n            \"label\": \"View → Read\",\n            \"processType\": \"cross_community\",\n            \"step\": 2\n          },\n          {\n            \"id\": \"proc_89_view\",\n            \"label\": \"View → Usage_rows\",\n            \"processType\": \"cross_community\",\n            \"step\": 2\n          }\n        ]\n      }\n    ]\n  }\n}\n\n---\n**Next:** Review d=1 items first (WILL BREAK). To check affected execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "impact-serving",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"target\": {\n    \"id\": \"Function:infrastructure/scripts/verify-dashboard-baselines.py:results_app\",\n    \"name\": \"results_app\",\n    \"type\": \"Function\",\n    \"filePath\": \"infrastructure/scripts/verify-dashboard-baselines.py\"\n  },\n  \"direction\": \"upstream\",\n  \"impactedCount\": 1,\n  \"risk\": \"LOW\",\n  \"riskSharedAxes\": \"LOW\",\n  \"riskScale\": {\n    \"comparableAcrossKinds\": true,\n    \"unusedAxes\": []\n  },\n  \"epistemic\": \"lower-bound\",\n  \"boundaries\": [\n    \"3 call sites invoking `results_app` were dropped at index time because the receiver's type could not be established (e.g. an unresolved constructor, factory or chained expression). Those callers are absent from this result — actual impact may be higher.\"\n  ],\n  \"causes\": {\n    \"scopeExtractionFiles\": 0,\n    \"receiverTyping\": 3,\n    \"dispatchBoundary\": 0,\n    \"externalBoundary\": 0,\n    \"undecidedSatisfaction\": 0\n  },\n  \"summary\": {\n    \"direct\": 1,\n    \"processes_affected\": 1,\n    \"modules_affected\": 1\n  },\n  \"byDepthCounts\": {\n    \"1\": 1\n  },\n  \"affected_processes\": [\n    {\n      \"name\": \"serve_results\",\n      \"type\": \"Function\",\n      \"filePath\": \"infrastructure/scripts/verify-dashboard-baselines.py\",\n      \"affected_process_count\": 2,\n      \"total_hits\": 2,\n      \"earliest_broken_step\": 1\n    }\n  ],\n  \"affected_modules\": [\n    {\n      \"name\": \"Scripts\",\n      \"hits\": 1,\n      \"impact\": \"direct\"\n    }\n  ],\n  \"byDepth\": {\n    \"1\": [\n      {\n        \"depth\": 1,\n        \"id\": \"Function:infrastructure/scripts/verify-dashboard-baselines.py:serve_results\",\n        \"name\": \"serve_results\",\n        \"filePath\": \"infrastructure/scripts/verify-dashboard-baselines.py\",\n        \"relationType\": \"CALLS\",\n        \"confidence\": 0.85,\n        \"processes\": [\n          {\n            \"id\": \"proc_52_serve_results\",\n            \"label\": \"Serve_results → Read\",\n            \"processType\": \"cross_community\",\n            \"step\": 1\n          },\n          {\n            \"id\": \"proc_51_serve_results\",\n            \"label\": \"Serve_results → Strict_json\",\n            \"processType\": \"cross_community\",\n            \"step\": 1\n          }\n        ]\n      }\n    ]\n  }\n}\n\n---\n**Next:** Review d=1 items first (WILL BREAK). To check affected execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "taint-ui",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"anchor\": {\n    \"file\": \"agent-orchestrator/nemesis/static/results.js\"\n  },\n  \"findings\": [],\n  \"totalFindings\": 0,\n  \"note\": \"Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher.\"\n}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "taint-adapter",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"anchor\": {\n    \"file\": \"agent-orchestrator/nemesis/measurement_view.py\"\n  },\n  \"findings\": [],\n  \"totalFindings\": 0,\n  \"note\": \"Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher.\"\n}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "taint-serving",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"anchor\": {\n    \"file\": \"infrastructure/scripts/verify-dashboard-baselines.py\"\n  },\n  \"findings\": [],\n  \"totalFindings\": 0,\n  \"note\": \"Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher.\"\n}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "pdg-ui",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"mode\": \"controls\",\n  \"anchor\": {\n    \"file\": \"agent-orchestrator/nemesis/static/results.js\"\n  },\n  \"results\": [\n    {\n      \"functionLine\": 122,\n      \"controller\": {\n        \"line\": 123\n      },\n      \"dependent\": {\n        \"line\": 123,\n        \"text\": \"return show(rate);\"\n      },\n      \"label\": \"T\",\n      \"guard\": true\n    },\n    {\n      \"functionLine\": 122,\n      \"controller\": {\n        \"line\": 123\n      },\n      \"dependent\": {\n        \"line\": 124,\n        \"text\": \"return node(\\\"span\\\", `${rate} (${(rate * 100).toFixed(1)}%)`);\"\n      },\n      \"label\": \"F\",\n      \"guard\": true\n    },\n    {\n      \"functionLine\": 127,\n      \"controller\": {\n        \"line\": 141\n      },\n      \"dependent\": {\n        \"line\": 142,\n        \"text\": \"addKV(list, \\\"Mốc event mới nhất đã chấm\\\", `${new Date(d.latest_ms).toISOString()} (${d.milestone}, ${d.clock_id})`);\\nconst delay = (displayedAt - d.latest_ms) / 1000;\\naddKV(list, \\\"Độ trễ cập nhật\\\", `${delay.toFixed(1)} s (thời điểm hiển thị − mốc event; đồng hồ trình duyệt)`);\"\n      },\n      \"label\": \"T\"\n    }\n  ],\n  \"total\": 119,\n  \"truncated\": true\n}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "name": "pdg-validation",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"mode\": \"controls\",\n  \"anchor\": {\n    \"file\": \"agent-orchestrator/nemesis/measurement_view.py\",\n    \"symbol\": \"check_document\",\n    \"startLine\": 233,\n    \"endLine\": 272\n  },\n  \"results\": [\n    {\n      \"functionLine\": 233,\n      \"controller\": {\n        \"line\": 245\n      },\n      \"dependent\": {\n        \"line\": 247,\n        \"text\": \"raise ResultError(\\\"INPUT_DIGEST_MISSING\\\", 422)\"\n      },\n      \"label\": \"T\"\n    },\n    {\n      \"functionLine\": 233,\n      \"controller\": {\n        \"line\": 245\n      },\n      \"dependent\": {\n        \"line\": 248,\n        \"text\": \"metrics = run.get(\\\"metrics\\\")\"\n      },\n      \"label\": \"F\"\n    },\n    {\n      \"functionLine\": 233,\n      \"controller\": {\n        \"line\": 245\n      },\n      \"dependent\": {\n        \"line\": 249,\n        \"text\": \"type(metrics) is not dict or type(metrics.get(\\\"kpi\\\")) is not dict or type(run.get(\\\"incidents\\\")) is not list \\\\\\n            or type(metrics.get(\\\"M11_usage\\\")) is not dict or type(run.get(\\\"findings\\\")) is not dict\"\n      },\n      \"label\": \"F\"\n    }\n  ],\n  \"total\": 27,\n  \"truncated\": true\n}"
+          }
+        ]
+      }
+    }
+  }
+]

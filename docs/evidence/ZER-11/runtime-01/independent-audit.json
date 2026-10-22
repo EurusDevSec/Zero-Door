@@ -1,0 +1,49 @@
+{
+ "verdict": "PASS_SCOPED_RT1",
+ "restored_deployments": [
+  "cartservice",
+  "checkoutservice",
+  "currencyservice",
+  "emailservice",
+  "frontend",
+  "paymentservice",
+  "productcatalogservice",
+  "redis-cart",
+  "shippingservice",
+  "chaos-worker",
+  "gaia",
+  "hephaestus",
+  "nemesis"
+ ],
+ "raw_records": {
+  "H": 673,
+  "O": 3
+ },
+ "envelope_hashes_verified": 676,
+ "event_types": {
+  "H": [
+   "ATTACK_REQUESTED",
+   "ATTACK_STOPPED",
+   "AUDIT_COVERAGE",
+   "EFFECT_EVALUATED",
+   "PROBE_HEARTBEAT",
+   "PROBE_SAMPLE",
+   "RECOVERY_VERIFIED",
+   "RUN_CLOSED",
+   "RUN_STARTED",
+   "TRIAL_ENDED",
+   "TRIAL_STARTED"
+  ],
+  "O": [
+   "RUN_CONTEXT",
+   "TRIAL_CONTEXT"
+  ]
+ },
+ "controller_total_recovery_s": 39.997,
+ "hpa_label": "CONFIRMED_NO_EFFECT",
+ "limits": [
+  "HPA extra pods blocked by existing CPU quota; no HPA recovery claim",
+  "one unresolved cart cleanup CONNECTION_RESET during controller outage",
+  "not formal KPI acceptance; BM/RT2 not run"
+ ]
+}

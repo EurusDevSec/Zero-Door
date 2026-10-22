@@ -1,0 +1,35 @@
+{
+ "failed": true,
+ "skipped": [],
+ "result": {
+  "verdict": "ABORTED",
+  "abort": "PERSISTENCE (CONTROL_NOT_DURABLE: RUN_STARTED None after 10002.0 ms, 1 retries)",
+  "p5": {
+   "errors": {
+    "export-O": "ValueError"
+   },
+   "exports": {
+    "export-H": {
+     "export_json_sha256": "5b9ae47b38c2187c33cad00dbf2d28357c431d99cd7fed230c6ba2ec16e032b5",
+     "raw_sha256": "3f7597490bec816b91732ceda9e4211c9208c2f5cc3d984220bb670cd66f499b",
+     "run_id": "run_6a47e27810904376b96c6f1358d84551"
+    }
+   },
+   "ok": true
+  },
+  "final_diff": {
+   "deployments": {},
+   "hpas_left": [],
+   "profiles_left": [],
+   "namespace_left": false
+  },
+  "cleanup": "CLEAN",
+  "p8": {
+   "skipped": "MAIN_EXPORTS_MISSING",
+   "exports": [
+    "export-H"
+   ]
+  }
+ },
+ "kubectl_calls": 43
+}

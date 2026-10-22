@@ -1,0 +1,102 @@
+[
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "context-run",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"error\": \"Symbol 'Orchestrator.run' not found\"\n}\n\n---\n**Next:** If planning changes, use impact({target: \"Orchestrator.run\", direction: \"upstream\", repo: \"zero_door\"}) to check blast radius. To see execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "context-create",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"error\": \"Symbol 'create' not found\"\n}\n\n---\n**Next:** If planning changes, use impact({target: \"create\", direction: \"upstream\", repo: \"zero_door\"}) to check blast radius. To see execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "context-interpret",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"error\": \"Symbol 'interpret' not found\"\n}\n\n---\n**Next:** If planning changes, use impact({target: \"interpret\", direction: \"upstream\", repo: \"zero_door\"}) to check blast radius. To see execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "impact-runtime",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"error\": \"Target 'infrastructure/scripts/r1_baseline_runtime.py' not found\",\n  \"target\": {\n    \"name\": \"infrastructure/scripts/r1_baseline_runtime.py\"\n  },\n  \"direction\": \"upstream\",\n  \"impactedCount\": null,\n  \"risk\": \"UNKNOWN\"\n}\n\n---\n**Next:** Review d=1 items first (WILL BREAK). To check affected execution flows, READ gitnexus://repo/zero_door/processes."
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "explain-runtime",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "tool call error: tool call failed for `gitnexus/explain`\n\nCaused by:\n    Transport closed"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "pdg-write",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"error\": \"Symbol 'Orchestrator.write' not found\"\n}"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "status": "fulfilled",
+    "value": {
+      "label": "changes",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "tool call error: tool call failed for `gitnexus/detect_changes`\n\nCaused by:\n    Transport closed"
+          }
+        ],
+        "isError": true
+      }
+    }
+  }
+]

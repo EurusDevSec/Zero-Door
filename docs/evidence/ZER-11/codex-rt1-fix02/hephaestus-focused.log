@@ -1,0 +1,8 @@
+test_controller_claim_requires_trial_time_window_before_recovery (__main__.Findings.test_controller_claim_requires_trial_time_window_before_recovery)
+A matching replacement seen later cannot explain an earlier business recovery. ... ok
+test_rt1_05_controller_and_hpa_claims_need_this_trials_objects (__main__.Findings.test_rt1_05_controller_and_hpa_claims_need_this_trials_objects) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK

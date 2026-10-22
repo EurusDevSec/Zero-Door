@@ -1,0 +1,964 @@
+{
+ "n1-before-serial": {
+  "runs": 12,
+  "exits": [
+   "r1-p1 exit 0",
+   "r2-p1 exit 0",
+   "r3-p1 exit 0",
+   "r4-p1 exit 0",
+   "r5-p1 exit 0",
+   "r6-p1 exit 0",
+   "r7-p1 exit 0",
+   "r8-p1 exit 0",
+   "r9-p1 exit 0",
+   "r10-p1 exit 0",
+   "r11-p1 exit 0",
+   "r12-p1 exit 0",
+   "DONE"
+  ],
+  "failing_runs": [],
+  "submit_ms": {
+   "n": 7398,
+   "p50": 1.24,
+   "p99": 3.29,
+   "max": 50.23,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "append_fsync_ms": {
+   "n": 7059,
+   "p50": 0.57,
+   "p99": 1.62,
+   "max": 49.28,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "deliver_control_ms": {
+   "n": 3204,
+   "p50": 2.41,
+   "p99": 17.21,
+   "max": 51.57,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "deliver_probe_ms": {
+   "n": 4194,
+   "p50": 2.51,
+   "p99": 16.52,
+   "max": 48.03,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "retries": [
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.68,
+    "budget_ms": 1999.4
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.14,
+    "budget_ms": 1997.5
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.93,
+    "budget_ms": 1996.3
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.94,
+    "budget_ms": 1995.3
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.93,
+    "budget_ms": 1999.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.88,
+    "budget_ms": 1998.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.97,
+    "budget_ms": 1997.1
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.87,
+    "budget_ms": 1996.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.86,
+    "budget_ms": 1999.2
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.84,
+    "budget_ms": 1998.2
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.88,
+    "budget_ms": 1997.3
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.77,
+    "budget_ms": 1996.4
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.07,
+    "budget_ms": 1999.3
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.96,
+    "budget_ms": 1998.1
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.96,
+    "budget_ms": 1997.1
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.14,
+    "budget_ms": 1996.1
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.05,
+    "budget_ms": 1998.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.25,
+    "budget_ms": 1997.8
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.84,
+    "budget_ms": 1996.5
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.03,
+    "budget_ms": 1995.6
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.86,
+    "budget_ms": 1999.4
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.89,
+    "budget_ms": 1998.5
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.93,
+    "budget_ms": 1997.6
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.79,
+    "budget_ms": 1996.6
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.88,
+    "budget_ms": 1999.5
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.81,
+    "budget_ms": 1998.5
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.8,
+    "budget_ms": 1997.7
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.83,
+    "budget_ms": 1996.8
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 2.21,
+    "budget_ms": 1998.9
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.37,
+    "budget_ms": 1996.6
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.36,
+    "budget_ms": 1995.2
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 19.41,
+    "budget_ms": 1993.8
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.08,
+    "budget_ms": 1999.4
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.05,
+    "budget_ms": 1998.3
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.94,
+    "budget_ms": 1997.2
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.98,
+    "budget_ms": 1996.2
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.99,
+    "budget_ms": 1999.4
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.97,
+    "budget_ms": 1998.3
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.85,
+    "budget_ms": 1997.3
+   },
+   {
+    "file": "r10-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.09,
+    "budget_ms": 1996.3
+   }
+  ],
+  "slowest_control": [
+   {
+    "file": "r8-p1",
+    "test": "Faults.test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence",
+    "type": "EFFECT_EVALUATED",
+    "ms": 51.57,
+    "budget_ms": 1998.8,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r11-p1",
+    "test": "Faults.test_target_uid_changed_is_never_overwritten",
+    "type": "TRIAL_STARTED",
+    "ms": 28.2,
+    "budget_ms": 1999.6,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p1",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "type": "RECOVERY_VERIFIED",
+    "ms": 27.64,
+    "budget_ms": 1998.7,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r9-p1",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "type": "TRIAL_CONTEXT",
+    "ms": 25.77,
+    "budget_ms": 1999.2,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r4-p1",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "type": "EFFECT_EVALUATED",
+    "ms": 24.72,
+    "budget_ms": 1998.8,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "TRIAL_ENDED",
+    "ms": 24.65,
+    "budget_ms": 1997.2,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r7-p1",
+    "test": "Controller.test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect",
+    "type": "TRIAL_CONTEXT",
+    "ms": 24.43,
+    "budget_ms": 1999.5,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r7-p1",
+    "test": "Budget.test_probe_sample_cap_stops_at_d_and_scores_missing_probe",
+    "type": "AUDIT_COVERAGE",
+    "ms": 23.55,
+    "budget_ms": 1999.6,
+    "outcome": "DELIVERED"
+   }
+  ],
+  "slowest_append": [
+   {
+    "file": "r8-p1",
+    "test": "Faults.test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence",
+    "ms": 49.28
+   },
+   {
+    "file": "r3-p1",
+    "test": "Faults.test_watcher_failure_means_no_audit_coverage_and_no_absence_claim",
+    "ms": 45.65
+   },
+   {
+    "file": "r3-p1",
+    "test": "Faults.test_target_uid_changed_is_never_overwritten",
+    "ms": 40.1
+   },
+   {
+    "file": "r3-p1",
+    "test": "Faults.test_target_uid_changed_is_never_overwritten",
+    "ms": 13.37
+   },
+   {
+    "file": "r8-p1",
+    "test": "Faults.test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence",
+    "ms": 8.95
+   },
+   {
+    "file": "r3-p1",
+    "test": "Faults.test_target_uid_changed_is_never_overwritten",
+    "ms": 8.91
+   },
+   {
+    "file": "r8-p1",
+    "test": "Faults.test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence",
+    "ms": 8.45
+   },
+   {
+    "file": "r3-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "ms": 8.15
+   }
+  ]
+ },
+ "n1-before-par3": {
+  "runs": 12,
+  "exits": [
+   "r1-p1 exit 0",
+   "r1-p2 exit 0",
+   "r1-p3 exit 0",
+   "r2-p2 exit 0",
+   "r2-p1 exit 0",
+   "r2-p3 exit 0",
+   "r3-p1 exit 0",
+   "r3-p3 exit 0",
+   "r3-p2 exit 0",
+   "r4-p2 exit 0",
+   "r4-p3 exit 0",
+   "r4-p1 exit 0",
+   "DONE"
+  ],
+  "failing_runs": [],
+  "submit_ms": {
+   "n": 7398,
+   "p50": 1.45,
+   "p99": 3.73,
+   "max": 197.32,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "append_fsync_ms": {
+   "n": 7062,
+   "p50": 0.71,
+   "p99": 2.18,
+   "max": 196.77,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "deliver_control_ms": {
+   "n": 3204,
+   "p50": 2.74,
+   "p99": 11.99,
+   "max": 198.71,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "deliver_probe_ms": {
+   "n": 4194,
+   "p50": 2.72,
+   "p99": 8.56,
+   "max": 106.46,
+   "over_1000ms": 0,
+   "over_2000ms": 0
+  },
+  "retries": [
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.53,
+    "budget_ms": 1999.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.0,
+    "budget_ms": 1997.4
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.96,
+    "budget_ms": 1996.3
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.11,
+    "budget_ms": 1995.3
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.08,
+    "budget_ms": 1999.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.91,
+    "budget_ms": 1997.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.95,
+    "budget_ms": 1996.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.86,
+    "budget_ms": 1995.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.15,
+    "budget_ms": 1998.7
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.02,
+    "budget_ms": 1997.5
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.96,
+    "budget_ms": 1996.4
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.81,
+    "budget_ms": 1995.4
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.02,
+    "budget_ms": 1998.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.86,
+    "budget_ms": 1997.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.93,
+    "budget_ms": 1996.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "EFFECT_EVALUATED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.04,
+    "budget_ms": 1995.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.03,
+    "budget_ms": 1999.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.93,
+    "budget_ms": 1997.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.99,
+    "budget_ms": 1997.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.01,
+    "budget_ms": 1995.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.93,
+    "budget_ms": 1998.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.97,
+    "budget_ms": 1997.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.85,
+    "budget_ms": 1996.9
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.84,
+    "budget_ms": 1996.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.02,
+    "budget_ms": 1999.1
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.92,
+    "budget_ms": 1998.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.97,
+    "budget_ms": 1997.0
+   },
+   {
+    "file": "r1-p1",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.84,
+    "budget_ms": 1996.0
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.25,
+    "budget_ms": 1998.9
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.15,
+    "budget_ms": 1997.6
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.03,
+    "budget_ms": 1996.4
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.87,
+    "budget_ms": 1995.4
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.06,
+    "budget_ms": 1999.0
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.9,
+    "budget_ms": 1997.9
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.86,
+    "budget_ms": 1996.9
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "ATTACK_STOPPED",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.9,
+    "budget_ms": 1996.0
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.98,
+    "budget_ms": 1998.4
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.14,
+    "budget_ms": 1997.3
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 1.01,
+    "budget_ms": 1996.2
+   },
+   {
+    "file": "r1-p2",
+    "test": "Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "type": "PROBE_HEARTBEAT",
+    "outcome": "Retry:HTTP 503",
+    "ms": 0.99,
+    "budget_ms": 1995.1
+   }
+  ],
+  "slowest_control": [
+   {
+    "file": "r3-p2",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "type": "AUDIT_COVERAGE",
+    "ms": 198.71,
+    "budget_ms": 1995.3,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p1",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "type": "TRIAL_CONTEXT",
+    "ms": 146.68,
+    "budget_ms": 1787.6,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p3",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "type": "TRIAL_CONTEXT",
+    "ms": 89.72,
+    "budget_ms": 1730.7,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p2",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "type": "TRIAL_CONTEXT",
+    "ms": 89.65,
+    "budget_ms": 1730.7,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p3",
+    "test": "Budget.test_probe_sample_cap_stops_at_d_and_scores_missing_probe",
+    "type": "RUN_CONTEXT",
+    "ms": 30.02,
+    "budget_ms": 1998.6,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p2",
+    "test": "Budget.test_probe_sample_cap_stops_at_d_and_scores_missing_probe",
+    "type": "RUN_STARTED",
+    "ms": 27.7,
+    "budget_ms": 1996.7,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r1-p1",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "type": "AUDIT_COVERAGE",
+    "ms": 27.48,
+    "budget_ms": 1999.2,
+    "outcome": "DELIVERED"
+   },
+   {
+    "file": "r3-p1",
+    "test": "Budget.test_probe_sample_cap_stops_at_d_and_scores_missing_probe",
+    "type": "RUN_STARTED",
+    "ms": 27.26,
+    "budget_ms": 1996.8,
+    "outcome": "DELIVERED"
+   }
+  ],
+  "slowest_append": [
+   {
+    "file": "r3-p2",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "ms": 196.77
+   },
+   {
+    "file": "r3-p1",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "ms": 143.75
+   },
+   {
+    "file": "r1-p1",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "ms": 103.16
+   },
+   {
+    "file": "r3-p3",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "ms": 86.49
+   },
+   {
+    "file": "r3-p2",
+    "test": "Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve",
+    "ms": 86.43
+   },
+   {
+    "file": "r2-p1",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "ms": 84.4
+   },
+   {
+    "file": "r2-p2",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "ms": 82.21
+   },
+   {
+    "file": "r3-p3",
+    "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "ms": 8.48
+   }
+  ]
+ }
+}

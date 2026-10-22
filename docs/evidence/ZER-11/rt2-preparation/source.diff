@@ -1,0 +1,862 @@
+--- before/infrastructure/scripts/r1_mode_runtime.py
++++ after/infrastructure/scripts/r1_mode_runtime.py
+@@ -0,0 +1,529 @@
++"""RT2 preparation and in-pod O boundary checks; never mutates Kubernetes or builds images.
++
++prepare creates a fresh, private bundle. The image is built from the unchanged production
++Hephaestus Dockerfile/context, then imported ONLY after separate lab approval. The driver
++and actors are separate pods with separate key projections and no service-account tokens.
++BM observes real HTTP availability; B1/B2/B3 use explicitly synthetic transport controls
++in different runs. None of these runs is a recovery-performance dataset.
++"""
++import argparse
++import hashlib
++import ipaddress
++import json
++from pathlib import Path
++import re
++import secrets
++import sys
++import threading
++import time
++from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
++from urllib.error import HTTPError
++from urllib.parse import urlsplit
++from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
++
++_PARENTS = Path(__file__).resolve().parents
++ROOT = _PARENTS[2] if len(_PARENTS) >= 3 else Path("/")
++sys.path.insert(0, str(ROOT / "agent-orchestrator"))
++GROUPS = ("BM", "B1", "B2", "B3")
++TARGET = "http://frontend.target-app.svc.cluster.local/"
++CLOCK = {"clock_id": "clk-rt2-o", "clock_source": "UNKNOWN", "resolution_ms": None}
++FORBIDDEN = {"HEAL_STARTED", "API_ACCEPTED", "ACTION_COMPLETED", "GUARD_VERDICT", "LLM_CALL"}
++LIMITS = {"total_s": 2700, "cleanup_reserve_s": 300, "monitor_s": 180,
++          "max_gets": 360, "interval_s": 0.5, "request_timeout_s": 1,
++          "frontend_pod_deletes": 1, "paid_api_calls": 0}
++
++
++def encoded(value):
++    return json.dumps(value, sort_keys=True, ensure_ascii=False, allow_nan=False).encode()
++
++
++def digest(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def save(path, value):
++    Path(path).write_bytes(encoded(value) + b"\n")
++
++
++class NoRedirect(HTTPRedirectHandler):
++    def redirect_request(self, req, fp, code, msg, headers, newurl):
++        return None
++
++
++def http(url, body=None, token=None, timeout=2):
++    """No proxy/redirect: the explicit in-cluster endpoint is the only destination."""
++    headers = {"Content-Type": "application/json"}
++    if token:
++        headers["Authorization"] = "Bearer " + token
++    request = Request(url, data=encoded(body) if body is not None else None, headers=headers)
++    opener = build_opener(ProxyHandler({}), NoRedirect())
++    try:
++        with opener.open(request, timeout=timeout) as response:
++            return response.status, response.read(2 * 1024 * 1024)
++    except HTTPError as error:
++        return error.code, error.read(2 * 1024 * 1024)
++
++
++def specification():
++    return {"id": "G-ZER11-RT2", "context": "k3d-zero-door", "limits": LIMITS,
++            "image": "unchanged production Hephaestus Dockerfile; unique source-digest tag, pull Never",
++            "source": "BM detector=rt2-http-availability/1, NOT Gaia. B1/B2/B3 are transport controls only.",
++            "writes": ["build/import ONE new local Hephaestus image after approval",
++                       "create one zd-zer11-rt2-<8hex> namespace and its labelled bundle resources",
++                       "temporarily scale existing zero-door/gaia and zero-door/hephaestus to zero",
++                       "delete exactly one existing target-app/frontend pod by UID",
++                       "restore original Gaia/Hephaestus replicas with UID/spec/resourceVersion checks",
++                       "delete only run-created namespace/resources by UID; read back absence"],
++            "excluded": ["target replica/quota changes", "HPA", "paid model", "legacy healer",
++                         "performance/KPI claims", "human-blind BM claim", "publication/Linear"],
++            "stop": ["wrong context or node NotReady", "foreign HPA on frontend",
++                     "source/image mismatch", "BM auto-decision/action", "archive failure",
++                     "request/time cap", "ownership/spec drift", "interruption"],
++            "completion": "BM must have an observed failed GET, live consumer audit, valid manual refusal, no action; controls and cleanup must pass"}
++
++
++def source_files():
++    base = ROOT / "agent-orchestrator"
++    files = [base / "hephaestus" / name for name in ("Dockerfile", "requirements.lock", "main.py", "command_guard.py")]
++    files += [base / "nemesis" / "command_guard.py"]
++    files += sorted(p for p in (base / "event_pipeline").rglob("*.py") if "__pycache__" not in p.parts)
++    return base, files
++
++
++def pod(name, namespace, image, role, mounts, volumes, env=None, command=None):
++    container = {"name": "main", "image": image, "imagePullPolicy": "Never",
++                 "env": [{"name": k, "value": str(v)} for k, v in (env or {}).items()],
++                 "resources": {"requests": {"cpu": "50m", "memory": "96Mi"},
++                               "limits": {"cpu": "250m", "memory": "192Mi"}},
++                 "securityContext": {"allowPrivilegeEscalation": False, "readOnlyRootFilesystem": True,
++                                     "capabilities": {"drop": ["ALL"]}}, "volumeMounts": mounts}
++    if command:
++        container["command"] = command
++    return {"apiVersion": "v1", "kind": "Pod", "metadata": {"name": name, "namespace": namespace,
++             "labels": {"zero-door.io/run": namespace, "rt2-role": role}},
++            "spec": {"nodeName": "k3d-zero-door-server-0", "restartPolicy": "Never",
++                     "automountServiceAccountToken": False, "activeDeadlineSeconds": LIMITS["total_s"],
++                     "securityContext": {"runAsNonRoot": True, "runAsUser": 65532, "runAsGroup": 65532,
++                                         "fsGroup": 65532, "seccompProfile": {"type": "RuntimeDefault"}},
++                     "containers": [container], "volumes": volumes}}
++
++
++def prepare(output, namespace):
++    if not re.fullmatch(r"zd-zer11-rt2-[0-9a-f]{8}", namespace):
++        raise ValueError("namespace must be fresh zd-zer11-rt2-<8 hex>")
++    from event_pipeline.contract import new_id
++    out = Path(output)
++    out.mkdir(parents=True, exist_ok=False)
++    base, files = source_files()
++    manifest = {}
++    for source in files:
++        rel = source.relative_to(base)
++        destination = out / "build" / rel
++        destination.parent.mkdir(parents=True, exist_ok=True)
++        data = source.read_bytes()
++        destination.write_bytes(data)
++        manifest[str(rel).replace("\\", "/")] = digest(data)
++    source_hash = digest(encoded(manifest))
++    image = "zero-door/hephaestus:zer11-rt2-" + source_hash[:16]
++    cfg = {"version": "zd-rt2/1", "profile": "RUNTIME_PENDING", "target": TARGET, "namespace": namespace, "image": image,
++           "source_files": manifest, "driver_sha256": digest(Path(__file__).read_bytes()),
++           "source_sha256": source_hash, "contexts": {g: {"run_id": new_id("run"), "trial_id": new_id("trl"),
++             "incident_id": new_id("inc"), "group": g, "config_ref": "sha256:" + source_hash,
++             "method_version": "rt2-mode-boundary/1; " + ("LIVE_HTTP_NOT_GAIA" if g == "BM" else "SYNTHETIC_TRANSPORT_CONTROL")}
++             for g in GROUPS}}
++    roles = ("harness", "detector", "decision_rules", "operator_console", "reader")
++    keys = {role: secrets.token_hex(32) for role in roles}
++    operator = {"id": "rt2-heal-operator", "purpose": "heal-operator", "secret": secrets.token_hex(32)}
++    secret_data = {"gateway.json": json.dumps(keys),
++                   "rules.json": json.dumps({k: keys[k] for k in ("decision_rules", "reader")}),
++                   "operator.json": json.dumps({k: keys[k] for k in ("operator_console", "reader")}),
++                   "heal-operator.json": json.dumps(operator)}
++    for group in GROUPS:
++        secret_data["policy-" + group + ".json"] = json.dumps({"version": "zd-guard/1", "enabled": True,
++            "context": {k: cfg["contexts"][group][k] for k in ("run_id", "trial_id", "group")},
++            "targets": [{"namespace": "target-app", "service": "frontend", "url": TARGET}],
++            "maxDurationSec": 1, "maxConcurrency": 1, "rps": 1})
++    meta = lambda name: {"name": name, "namespace": namespace, "labels": {"zero-door.io/run": namespace}}
++    docs = [{"apiVersion": "v1", "kind": "Namespace", "metadata": {"name": namespace,
++              "labels": {"zero-door.io/run": namespace}}},
++            {"apiVersion": "v1", "kind": "Secret", "metadata": meta("rt2-keys"), "type": "Opaque", "stringData": secret_data},
++            {"apiVersion": "v1", "kind": "ConfigMap", "metadata": meta("rt2-code"),
++             "data": {"r1_mode_runtime.py": Path(__file__).read_text(encoding="utf-8"), "config.json": json.dumps(cfg)}}]
++    cm = {"name": "code", "configMap": {"name": "rt2-code"}}
++    work = {"name": "work", "emptyDir": {}}
++    code_mount = {"name": "code", "mountPath": "/rt2", "readOnly": True}
++    work_mount = {"name": "work", "mountPath": "/work"}
++    def secret(items):
++        return {"name": "keys", "secret": {"secretName": "rt2-keys", "defaultMode": 288,
++                "items": [{"key": key, "path": path} for key, path in items]}}
++    key_mount = {"name": "keys", "mountPath": "/keys", "readOnly": True}
++    python_env = {"PYTHONPATH": "/:/app:/usr/local/lib/python3.11/site-packages", "PYTHONDONTWRITEBYTECODE": "1", "TMPDIR": "/work"}
++    docs.append(pod("rt2-driver", namespace, image, "gateway", [code_mount, work_mount, key_mount],
++                    [cm, work, secret([("gateway.json", "gateway.json")])], python_env,
++                    ["/usr/bin/python3", "-B", "/rt2/r1_mode_runtime.py", "driver", "--root", "/work", "--config", "/rt2/config.json", "--keys", "/keys/gateway.json"]))
++    docs.append({"apiVersion": "v1", "kind": "Service", "metadata": meta("rt2-o"), "spec": {
++        "selector": {"rt2-role": "gateway", "zero-door.io/run": namespace}, "ports": [{"port": 9141, "targetPort": 9141}]}})
++    for group in GROUPS:
++        # ZD_OPERATOR_TOKEN_FILE below is a mounted path; the random token is never in an env value.
++        env = dict(python_env, ZD_EVENT_URL="http://rt2-o:9141", ZD_O_KEYS_FILE="/keys/rules.json",  # nosec B106
++                   ZD_COMMAND_POLICY_FILE="/keys/policy.json", ZD_OPERATOR_TOKEN_FILE="/keys/heal-operator.json",
++                   ZD_COMMAND_LEDGER_FILE="/work/claims.sqlite", ZD_PRODUCER_VERSION="rt2-image-" + source_hash[:16],
++                   ZD_CLOCK_ID="clk-rt2-heph", ZD_CLOCK_SOURCE="UNKNOWN",
++                   ZD_RUN_ID=cfg["contexts"][group]["run_id"], ZD_TRIAL_ID=cfg["contexts"][group]["trial_id"])
++        docs.append(pod("rt2-" + group.lower(), namespace, image, "actor", [code_mount, work_mount, key_mount],
++                        [cm, work, secret([("rules.json", "rules.json"), ("policy-" + group + ".json", "policy.json"),
++                                       ("heal-operator.json", "heal-operator.json")])], env))
++    docs.append(pod("rt2-console", namespace, image, "console", [code_mount, work_mount, key_mount],
++                    [cm, work, secret([("operator.json", "operator.json"), ("heal-operator.json", "heal-operator.json")])],
++                    python_env, ["/usr/bin/python3", "-c", "import time; time.sleep(2700)"]))
++    docs.append({"apiVersion": "networking.k8s.io/v1", "kind": "NetworkPolicy", "metadata": meta("rt2-ingress"),
++                 "spec": {"podSelector": {}, "policyTypes": ["Ingress"], "ingress": [
++                     {"from": [{"podSelector": {"matchLabels": {"rt2-role": "actor"}}},
++                               {"podSelector": {"matchLabels": {"rt2-role": "console"}}}],
++                      "ports": [{"protocol": "TCP", "port": 9141}, {"protocol": "TCP", "port": 8000}]}]}})
++    # Private manifests contain fresh test credentials: never copy these into public evidence.
++    save(out / "private-resources.json", {"apiVersion": "v1", "kind": "List", "items": docs})
++    save(out / "config.json", cfg)
++    save(out / "source-manifest.json", {"files": manifest, "source_sha256": source_hash, "image": image,
++         "driver_sha256": digest(Path(__file__).read_bytes()), "built": False, "runtime": "NOT_RUN"})
++    save(out / "plan.json", specification())
++    return {"output": str(out), "image": image, "source_sha256": source_hash, "built": False, "runtime": "NOT_RUN"}
++
++
++class Driver:
++    def __init__(self, root, cfg, keys, bind="127.0.0.1", port=0):
++        from event_pipeline.contract import Producer
++        from event_pipeline.gateway import Gateway, server
++        from event_pipeline.store import Archive
++        self.root, self.cfg, self.keys = Path(root), cfg, keys
++        if self.root.exists():
++            # Kubernetes /work exists; require this run's archive and outputs to be fresh.
++            if any((self.root / p).exists() for p in ("archive-O", "observations.json", "exports")):
++                raise ValueError("RT2 root is not fresh")
++        self.root.mkdir(parents=True, exist_ok=True)
++        self.archive = Archive(self.root / "archive-O", "O")
++        self.gateway = Gateway(self.archive, keys)
++        self.http = server(self.gateway, (bind, port))
++        self.thread = threading.Thread(target=self.http.serve_forever, daemon=True)
++        self.thread.start()
++        self.url = "http://127.0.0.1:" + str(self.http.server_port)
++        harness = Producer("harness", "rt2-boundary/1", CLOCK)
++        for ctx in cfg["contexts"].values():
++            for event in (harness.event(dict(ctx, trial_id=None), "RUN_CONTEXT", {}, "o.context"),
++                          harness.event(ctx, "TRIAL_CONTEXT", {}, "o.context")):
++                self.gateway.submit(event, "harness", "rt2-start")
++        self.samples, self.failure, self.detected, self.monitor = [], None, None, None
++        self.started, self.finished = None, False
++        self.monitor_end, self.monitor_reason = None, None
++        self.stop = threading.Event()
++        self.lock = threading.Lock()
++
++    def detection(self, group, rule, metric, value, threshold, description):
++        from event_pipeline.client import Client
++        from event_pipeline.contract import Producer, new_id
++        ctx = self.cfg["contexts"][group]
++        version = "rt2-http-availability/1" if group == "BM" else "rt2-synthetic-transport-control/1"
++        client = Client(self.url, self.keys["detector"], self.keys["reader"], ctx["run_id"], ctx["trial_id"],
++                        Producer("detector", version, CLOCK))
++        # Gaia's adapter has a Gaia-specific rule_version. Do not mislabel this diagnostic observer as Gaia.
++        event = client.producer.event(client.context(), "DETECTED", {"rule_id": rule, "rule_version": version,
++            "signature": rule + "/frontend", "metric": metric, "value": value, "threshold": threshold,
++            "severity": "WARNING", "description": description}, "o.alert",
++            target={"namespace": "target-app", "service": "frontend", "flow": None}, alert_id=new_id("alt"))
++        client.publish(event)
++        return event
++
++    def observe(self, request=http):
++        with self.lock:
++            if self.finished or len(self.samples) >= LIMITS["max_gets"]:
++                raise ValueError("monitor is closed or request cap reached")
++            at, mono = time.time(), time.monotonic()
++            try:
++                code, _ = request(TARGET, timeout=LIMITS["request_timeout_s"])
++                sample = {"at": at, "status": code, "ok": code == 200}
++            except (OSError, TimeoutError) as error:
++                sample = {"at": at, "status": None, "ok": False, "error": type(error).__name__}
++            self.samples.append(sample)
++            sample["monotonic_s"] = mono
++            save(self.root / "observations.json", self.samples)
++            if not sample["ok"] and self.detected is None:
++                self.detected = self.detection("BM", "HIGH_ERROR_RATE", "rt2_http_unavailable", 1, 0,
++                    "Observed failed GET; availability boundary only, not Gaia or business recovery")
++            return sample
++
++    def start_monitor(self):
++        with self.lock:
++            if self.monitor or self.finished:
++                raise ValueError("monitor already started or closed")
++            self.started = time.monotonic()
++            def run():
++                try:
++                    while not self.stop.is_set() and time.monotonic() - self.started < LIMITS["monitor_s"]:
++                        if len(self.samples) >= LIMITS["max_gets"]:
++                            self.monitor_reason = "REQUEST_CAP"
++                            return
++                        self.observe()
++                        if self.stop.wait(LIMITS["interval_s"]):
++                            break
++                    self.monitor_reason = "STOP_REQUESTED" if self.stop.is_set() else "WINDOW_COMPLETE"
++                except Exception as error:
++                    self.failure = type(error).__name__
++                    self.monitor_reason = "EXCEPTION"
++                finally:
++                    self.monitor_end = time.monotonic()
++            self.monitor = threading.Thread(target=run, daemon=True)
++            self.monitor.start()
++
++    def controls(self):
++        if self.finished:
++            raise ValueError("closed")
++        for group in ("B1", "B2", "B3"):
++            events = self.events(group)
++            if not any(e["event_type"] == "DETECTED" for e in events):
++                self.detection(group, "HIGH_CPU", "SYNTHETIC_TRANSPORT_ONLY", 90, 80,
++                    "SYNTHETIC positive control; never recovery evidence or scored cohort")
++
++    def events(self, group):
++        return [r["envelope"] for r in self.archive.records(self.cfg["contexts"][group]["run_id"])]
++
++    def summary(self):
++        return {"contexts": self.cfg["contexts"], "samples": list(self.samples), "failure": self.failure,
++                "profile": self.cfg.get("profile"), "monitor_reason": self.monitor_reason,
++                "monitor_duration_s": self.monitor_end - self.started if self.started is not None and self.monitor_end is not None else None,
++                "monitor_alive": bool(self.monitor and self.monitor.is_alive()),
++                "finished": self.finished, "events": {g: self.events(g) for g in GROUPS}}
++
++    def finish(self):
++        self.stop.set()
++        if self.monitor:
++            self.monitor.join(3)
++            if self.monitor.is_alive():
++                raise RuntimeError("MONITOR_NOT_STOPPED")
++        self.finished = True
++        exports = self.root / "exports"
++        exports.mkdir(exist_ok=False)
++        for group, ctx in self.cfg["contexts"].items():
++            self.gateway.seal(ctx["run_id"])
++            self.archive.export(ctx["run_id"], exports / group)
++        answer = self.summary()
++        save(self.root / "summary.json", answer)
++        return answer
++
++    def close(self):
++        self.stop.set()
++        if self.monitor:
++            self.monitor.join(3)
++        self.http.shutdown()
++        self.http.server_close()
++        self.thread.join(2)
++        self.archive.close()
++
++
++def operator(cfg, keys, token, url, heal_url):
++    """Scripted operator control, O-only. This is NOT a blinded human BM trial."""
++    from event_pipeline.client import Client
++    from event_pipeline.contract import Producer, new_id, now
++    if set(keys) != {"operator_console", "reader"}:
++        raise ValueError("operator has unexpected roles")
++    target = urlsplit(heal_url)
++    if target.scheme != "http" or target.username or target.password or target.path not in ("", "/") \
++            or target.query or target.fragment or not target.hostname:
++        raise ValueError("invalid explicit heal endpoint")
++    # Both an explicitly read pod IP and loopback used by offline integration are accepted.
++    try:
++        if not ipaddress.ip_address(target.hostname).is_private:
++            raise ValueError("heal endpoint is not private")
++    except ValueError:
++        raise ValueError("explicit private pod IP required") from None
++    ctx = cfg["contexts"]["BM"]
++    client = Client(url, keys["operator_console"], keys["reader"], ctx["run_id"], ctx["trial_id"],
++                    Producer("operator_console", "rt2-scripted-operator/1", CLOCK))
++    actual = client.context()
++    if any(actual.get(k) != ctx[k] for k in ("run_id", "trial_id", "group")):
++        raise ValueError("operator context mismatch")
++    alerts = [r["envelope"] for r in client.records() if r["envelope"]["event_type"] == "DETECTED"]
++    if len(alerts) != 1 or alerts[0]["producer_version"] != "rt2-http-availability/1":
++        raise ValueError("one live BM observation required")
++    alert = alerts[0]
++    event = client.producer.event(actual, "DECISION", {"stage": "PROPOSAL", "decision_source": "MANUAL",
++        "inputs": [{"event_id": alert["event_id"], "received_at": now()}], "response_kind": "ACTION",
++        "proposal": {"action_type": "SCALE_UP", "params": {"service": "frontend"}},
++        "fallback": False, "fallback_of": None, "prompt_version": None, "prompt_sha256": None,
++        "evidence_package_version": "o-envelope/1.0.0"}, "o.decision", target=alert["target"],
++        decision_id=new_id("dec"), causation_id=alert["event_id"])
++    client.publish(event)
++    status, raw = http(heal_url.rstrip("/") + "/heal/trigger", {"decision_id": event["decision_id"]}, token["secret"], timeout=10)
++    return {"scripted_operator_control": True, "decision_id": event["decision_id"], "status": status, "body": json.loads(raw)}
++
++
++def assess(summary, logs, manual):
++    """Boundary evidence only. Host image/cleanup/source checks remain separately required."""
++    errors = []
++    if summary.get("failure") or summary.get("monitor_alive") or not summary.get("finished"):
++        errors.append("MONITOR_INCOMPLETE")
++    offline = summary.get("profile") == "OFFLINE_TEST_ONLY"
++    if not offline and (summary.get("monitor_reason") != "WINDOW_COMPLETE" or
++                        (summary.get("monitor_duration_s") or 0) < LIMITS["monitor_s"]):
++        errors.append("BM_OBSERVATION_WINDOW_INCOMPLETE")
++    samples = summary.get("samples", [])
++    if not samples or not any(s.get("ok") is False for s in samples) or len(samples) > LIMITS["max_gets"]:
++        errors.append("BM_LIVE_FAILURE_NOT_OBSERVED")
++    if not any(s.get("ok") is True for s in samples):
++        errors.append("BM_HEALTHY_CONTROL_MISSING")
++    failed = [i for i, sample in enumerate(samples) if sample.get("ok") is False]
++    if failed and not any(s.get("ok") is True for s in samples[:failed[0]]):
++        errors.append("BM_HEALTHY_BASELINE_MISSING")
++    for group in GROUPS:
++        events = summary["events"][group]
++        if any(e["event_type"] in FORBIDDEN for e in events):
++            errors.append(group + "_FORBIDDEN_EVENT")
++        detections = [e for e in events if e["event_type"] == "DETECTED"]
++        expected_version = "rt2-http-availability/1" if group == "BM" else "rt2-synthetic-transport-control/1"
++        if len(detections) != 1 or detections[0]["producer_version"] != expected_version or detections[0]["payload"]["rule_version"] != expected_version:
++            errors.append(group + "_DETECTION_MISSING_OR_WRONG_SOURCE")
++        decisions = [e for e in events if e["event_type"] == "DECISION"]
++        expected_kind = {"BM": "MANUAL", "B1": "RULES"}.get(group)
++        if expected_kind:
++            source = "operator_console" if group == "BM" else "decision_rules"
++            if len(decisions) != 1 or decisions[0]["payload"]["decision_source"] != expected_kind or decisions[0]["source_component"] != source:
++                errors.append(group + "_DECISION_BOUNDARY")
++            elif len(detections) == 1 and decisions[0]["causation_id"] != detections[0]["event_id"]:
++                errors.append(group + "_DECISION_CAUSATION")
++        elif decisions:
++            errors.append(group + "_UNEXPECTED_AUTO_DECISION")
++        if group != "B1":
++            audit = []
++            for line in logs.get(group, "").splitlines():
++                if "MODE_AUDIT " in line:
++                    try:
++                        audit.append(json.loads(line.split("MODE_AUDIT ", 1)[1]))
++                    except ValueError:
++                        errors.append(group + "_MALFORMED_AUDIT")
++            ctx = {k: summary["contexts"][group][k] for k in ("run_id", "trial_id", "group")}
++            if not any(a.get("reason") == "AUTO_DECISION_DISABLED_FOR_GROUP" and a.get("route") == "consumer" and a.get("context") == ctx for a in audit):
++                errors.append(group + "_CONSUMER_AUDIT_MISSING")
++            if group == "BM" and not any(a.get("reason") == "R1_EXECUTOR_DISABLED" and a.get("route") == "/heal/trigger" and a.get("context") == ctx for a in audit):
++                errors.append("BM_MANUAL_REFUSAL_AUDIT_MISSING")
++    if (manual.get("status"), manual.get("body")) != (409, {"detail": "R1_EXECUTOR_DISABLED"}):
++        errors.append("MANUAL_EXECUTOR_REFUSAL_MISSING")
++    bm_decisions = [e for e in summary["events"]["BM"] if e["event_type"] == "DECISION"]
++    if not bm_decisions or manual.get("decision_id") != bm_decisions[0]["decision_id"]:
++        errors.append("MANUAL_RECEIPT_DECISION_MISMATCH")
++    return {"verdict": ("PASS_BOUNDARY_OFFLINE" if offline else "PASS_BOUNDARY_ONLY") if not errors else "CHANGES_REQUIRED", "errors": errors,
++            "runtime_host_acceptance": "REQUIRES_IMAGE_SOURCE_PREFLIGHT_AND_CLEANUP_RECEIPTS",
++            "gaia": "NOT_TESTED", "MTTD_MTTR": "NOT_SCORED", "LLM": "NOT_CALLED"}
++
++
++def attest(cfg):
++    """Run inside each pod: verify actual runtime files, not just a tag or image existence."""
++    actual, errors = {}, []
++    for rel, expected in cfg["source_files"].items():
++        if rel in {"hephaestus/Dockerfile", "hephaestus/requirements.lock"}:
++            continue  # build inputs are pinned by the host build-context manifest, not copied by the image
++        path = Path("/app/main.py") if rel == "hephaestus/main.py" else Path("/") / rel
++        try:
++            actual[rel] = digest(path.read_bytes())
++        except OSError:
++            errors.append(rel + ":MISSING")
++            continue
++        if actual[rel] != expected:
++            errors.append(rel + ":SOURCE_MISMATCH")
++    if digest(Path(__file__).read_bytes()) != cfg["driver_sha256"]:
++        errors.append("DRIVER_MISMATCH")
++    return {"python": sys.version, "files": actual, "errors": errors, "source_sha256": cfg["source_sha256"]}
++
++
++def driver_server(driver):
++    class Handler(BaseHTTPRequestHandler):
++        def log_message(self, *args):
++            pass
++
++        def do_POST(self):
++            try:
++                length = int(self.headers.get("Content-Length", "0"))
++                if self.path != "/control" or not 0 < length <= 16384:
++                    raise ValueError("invalid control")
++                command = json.loads(self.rfile.read(length))
++                action = command.get("action")
++                if action == "monitor":
++                    driver.start_monitor()
++                    answer = {"started": True}
++                elif action == "controls":
++                    driver.controls()
++                    answer = {"seeded": True}
++                elif action == "status":
++                    answer = driver.summary()
++                elif action == "finish":
++                    answer = driver.finish()
++                else:
++                    raise ValueError("unsupported control")
++                data, code = encoded(answer), 200
++            except Exception as error:
++                data, code = encoded({"error": type(error).__name__}), 409
++            self.send_response(code)
++            self.send_header("Content-Type", "application/json")
++            self.send_header("Content-Length", str(len(data)))
++            self.end_headers()
++            self.wfile.write(data)
++    # Control is loopback-only; access through kubectl exec, never through the O Service.
++    return ThreadingHTTPServer(("127.0.0.1", 9140), Handler)
++
++
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    commands = parser.add_subparsers(dest="command", required=True)
++    commands.add_parser("plan")
++    prep = commands.add_parser("prepare")
++    prep.add_argument("--output", required=True)
++    prep.add_argument("--namespace", required=True)
++    srv = commands.add_parser("driver")
++    for name in ("root", "config", "keys"):
++        srv.add_argument("--" + name, required=True)
++    call = commands.add_parser("call")
++    call.add_argument("action", choices=("monitor", "controls", "status", "finish"))
++    att = commands.add_parser("attest")
++    att.add_argument("--config", required=True)
++    op = commands.add_parser("operator")
++    for name in ("config", "keys", "token", "url", "heal-url", "output"):
++        op.add_argument("--" + name, required=True)
++    check = commands.add_parser("assess")
++    for name in ("summary", "logs", "manual", "output"):
++        check.add_argument("--" + name, required=True)
++    args = parser.parse_args(argv)
++    load = lambda path: json.loads(Path(path).read_text(encoding="utf-8"))
++    if args.command == "plan":
++        print(json.dumps(specification(), indent=2))
++    elif args.command == "prepare":
++        print(json.dumps(prepare(args.output, args.namespace)))
++    elif args.command == "driver":
++        # O is authenticated and reachable only through the temporary namespace's ingress policy;
++        # the unauthenticated control endpoint below remains loopback-only, reached via kubectl exec.
++        driver = Driver(args.root, load(args.config), load(args.keys), bind="0.0.0.0", port=9141)  # nosec B104
++        control = driver_server(driver)
++        try:
++            control.serve_forever()
++        finally:
++            control.server_close()
++            driver.close()
++    elif args.command == "call":
++        code, body = http("http://127.0.0.1:9140/control", {"action": args.action}, timeout=30)
++        print(body.decode())
++        return 0 if code == 200 else 1
++    elif args.command == "attest":
++        answer = attest(load(args.config))
++        print(json.dumps(answer))
++        return 0 if not answer["errors"] else 1
++    elif args.command == "operator":
++        answer = operator(load(args.config), load(args.keys), load(args.token), args.url, args.heal_url)
++        save(args.output, answer)
++        print(json.dumps(answer))
++    else:
++        answer = assess(load(args.summary), load(args.logs), load(args.manual))
++        save(args.output, answer)
++        print(json.dumps(answer))
++        return 0 if not answer["errors"] else 1
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- before/infrastructure/scripts/verify-dashboard-modes.sh
++++ after/infrastructure/scripts/verify-dashboard-modes.sh
+@@ -0,0 +1,6 @@
++#!/usr/bin/env bash
++# RT2 preparation / O-boundary tools. No command here builds or mutates Kubernetes.
++set -euo pipefail
++root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
++cd "$root"
++exec "${ZD_PYTHON:-python}" -B infrastructure/scripts/r1_mode_runtime.py "$@"
+--- before/tests/test_dashboard_mode_runtime.py
++++ after/tests/test_dashboard_mode_runtime.py
+@@ -0,0 +1,188 @@
++"""RT2 offline: real gateway, actual production Uvicorn startup, no Kubernetes/Kafka/model.
++
++HTTP availability is injected only into the diagnostic observer, never into production
++Hephaestus. The same driver/bundle bytes will be used in the separately approved lab.
++This suite cannot establish live outage, deployed image, firewall or cleanup acceptance.
++"""
++import copy
++import importlib.util
++import json
++import os
++from pathlib import Path
++import socket
++import subprocess  # nosec B404 -- fixed current interpreter + production uvicorn module, no shell
++import sys
++import tempfile
++import time
++import unittest
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / "agent-orchestrator"))
++spec = importlib.util.spec_from_file_location("rt2", ROOT / "infrastructure/scripts/r1_mode_runtime.py")
++rt2 = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(rt2)
++
++
++class Bundle(unittest.TestCase):
++    def test_private_bundle_keeps_production_entrypoint_and_limits_each_actor_keys(self):
++        with tempfile.TemporaryDirectory() as temp:
++            out = Path(temp) / "bundle"
++            receipt = rt2.prepare(out, "zd-zer11-rt2-01234567")
++            self.assertFalse(receipt["built"])
++            docs = json.loads((out / "private-resources.json").read_text())["items"]
++            by_name = {(d["kind"], d["metadata"]["name"]): d for d in docs}
++            secret = by_name["Secret", "rt2-keys"]["stringData"]
++            values = json.loads(secret["gateway.json"])
++            self.assertEqual(len(values), len(set(values.values())))
++            self.assertTrue(all(len(v) >= 32 for v in values.values()))
++            for group in rt2.GROUPS:
++                pod = by_name["Pod", "rt2-" + group.lower()]
++                container = pod["spec"]["containers"][0]
++                self.assertNotIn("command", container)  # original Docker ENTRYPOINT really runs
++                self.assertFalse(pod["spec"]["automountServiceAccountToken"])
++                projection = next(v["secret"]["items"] for v in pod["spec"]["volumes"] if "secret" in v)
++                self.assertEqual({"rules.json", "policy-" + group + ".json", "heal-operator.json"}, {i["key"] for i in projection})
++                self.assertEqual({"reader", "decision_rules"}, set(json.loads(secret["rules.json"])))
++                self.assertNotIn("EXECUTOR", " ".join(e["name"] for e in container["env"]))
++            console = by_name["Pod", "rt2-console"]
++            projection = next(v["secret"]["items"] for v in console["spec"]["volumes"] if "secret" in v)
++            self.assertEqual({"operator.json", "heal-operator.json"}, {i["key"] for i in projection})
++            source = json.loads((out / "source-manifest.json").read_text())
++            for rel, digest in source["files"].items():
++                self.assertEqual(digest, rt2.digest((out / "build" / rel).read_bytes()))
++            self.assertEqual((ROOT / "agent-orchestrator/hephaestus/Dockerfile").read_bytes(), (out / "build/hephaestus/Dockerfile").read_bytes())
++            self.assertEqual(1, rt2.specification()["limits"]["frontend_pod_deletes"])
++            self.assertNotIn("HorizontalPodAutoscaler", {d["kind"] for d in docs})
++
++    def test_existing_bundle_or_invalid_namespace_is_refused(self):
++        with tempfile.TemporaryDirectory() as temp:
++            with self.assertRaises(ValueError):
++                rt2.prepare(Path(temp) / "bad", "target-app")
++            rt2.prepare(Path(temp) / "bundle", "zd-zer11-rt2-01234567")
++            with self.assertRaises(FileExistsError):
++                rt2.prepare(Path(temp) / "bundle", "zd-zer11-rt2-01234567")
++
++
++class RealProductionProcesses(unittest.TestCase):
++    def test_boundary_and_fail_closed_counterexamples(self):
++        with tempfile.TemporaryDirectory() as temp:
++            work = Path(temp)
++            rt2.prepare(work / "bundle", "zd-zer11-rt2-abcdef12")
++            cfg = json.loads((work / "bundle/config.json").read_text())
++            cfg["profile"] = "OFFLINE_TEST_ONLY"  # injected HTTP is never promoted to a live-window PASS
++            docs = json.loads((work / "bundle/private-resources.json").read_text())["items"]
++            secret = next(d["stringData"] for d in docs if d["kind"] == "Secret")
++            keys = json.loads(secret["gateway.json"])
++            driver = rt2.Driver(work / "driver", cfg, keys)
++            processes, logs, ports, handles = {}, {}, {}, []
++            try:
++                for group in rt2.GROUPS:
++                    actor = work / group
++                    actor.mkdir()
++                    for name, content in (("rules.json", secret["rules.json"]), ("policy.json", secret["policy-" + group + ".json"]),
++                                          ("heal-operator.json", secret["heal-operator.json"])):
++                        (actor / name).write_text(content)
++                    with socket.socket() as sock:
++                        sock.bind(("127.0.0.1", 0))
++                        ports[group] = sock.getsockname()[1]
++                    env = dict(os.environ, PYTHONPATH=str(ROOT / "agent-orchestrator"), PYTHONDONTWRITEBYTECODE="1",
++                        ZD_EVENT_URL=driver.url, ZD_O_KEYS_FILE=str(actor / "rules.json"),
++                        ZD_RUN_ID=cfg["contexts"][group]["run_id"], ZD_TRIAL_ID=cfg["contexts"][group]["trial_id"],
++                        ZD_PRODUCER_VERSION="rt2-offline", ZD_CLOCK_ID="clk-offline", ZD_CLOCK_SOURCE="UNKNOWN",
++                        ZD_COMMAND_POLICY_FILE=str(actor / "policy.json"), ZD_OPERATOR_TOKEN_FILE=str(actor / "heal-operator.json"),
++                        ZD_COMMAND_LEDGER_FILE=str(actor / "claims.sqlite"))
++                    logs[group] = actor / "uvicorn.log"
++                    handle = logs[group].open("wb")
++                    handles.append(handle)
++                    # Production startup, real background consumer; no monkeypatch to healer globals.
++                    processes[group] = subprocess.Popen([sys.executable, "-B", "-m", "uvicorn", "main:app", "--app-dir",
++                        str(ROOT / "agent-orchestrator/hephaestus"), "--host", "127.0.0.1", "--port", str(ports[group])],
++                        env=env, stdout=handle, stderr=subprocess.STDOUT)  # nosec B603 -- fixed reviewed module/paths
++                until = time.monotonic() + 30
++                for group in rt2.GROUPS:
++                    while True:
++                        if processes[group].poll() is not None:
++                            self.fail(logs[group].read_text())
++                        try:
++                            code, data = rt2.http(f"http://127.0.0.1:{ports[group]}/healthz")
++                            if code == 200:
++                                self.assertEqual("DISABLED_PENDING_GUARD", json.loads(data)["execution"])
++                                break
++                        except OSError:
++                            pass
++                        if time.monotonic() >= until:
++                            self.fail("production startup timeout")
++                        time.sleep(0.1)
++                with self.assertRaises(ValueError):
++                    rt2.operator(cfg, json.loads(secret["operator.json"]), json.loads(secret["heal-operator.json"]),
++                                 driver.url, f"http://127.0.0.1:{ports['BM']}")
++                driver.observe(lambda *a, **kw: (200, b"healthy"))
++                driver.observe(lambda *a, **kw: (503, b"unavailable"))
++                driver.observe(lambda *a, **kw: (200, b"healthy"))
++                self.assertEqual(1, len([e for e in driver.events("BM") if e["event_type"] == "DETECTED"]))
++                # A plain observation must never be an automatic proposal in BM.
++                driver.controls()
++                while not any(e["event_type"] == "DECISION" for e in driver.events("B1")):
++                    if time.monotonic() >= until:
++                        self.fail("RULES positive control timeout")
++                    time.sleep(0.1)
++                time.sleep(1.2)  # second real consumer poll, including durable dedup
++                self.assertFalse(any(e["event_type"] == "DECISION" for e in driver.events("BM")))
++                code, _ = rt2.http(f"http://127.0.0.1:{ports['BM']}/heal/trigger", {"decision_id": "bad"}, "wrong")
++                self.assertEqual(401, code)
++                manual = rt2.operator(cfg, json.loads(secret["operator.json"]), json.loads(secret["heal-operator.json"]),
++                                      driver.url, f"http://127.0.0.1:{ports['BM']}")
++                self.assertEqual((409, {"detail": "R1_EXECUTOR_DISABLED"}), (manual["status"], manual["body"]))
++            finally:
++                for process in processes.values():
++                    if process.poll() is None:
++                        process.terminate()
++                for process in processes.values():
++                    try:
++                        process.wait(5)
++                    except subprocess.TimeoutExpired:
++                        process.kill()
++                        process.wait(5)
++                for handle in handles:
++                    handle.close()
++                try:
++                    summary = driver.finish()
++                finally:
++                    driver.close()
++            captured = {g: p.read_text() for g, p in logs.items()}
++            result = rt2.assess(summary, captured, manual)
++            self.assertEqual([], result["errors"], result)
++            self.assertEqual("PASS_BOUNDARY_OFFLINE", result["verdict"])
++            # Rejections must be evidence-sensitive, not an unconditional happy path.
++            mutations = []
++            missing = copy.deepcopy(summary)
++            missing["samples"] = [{"ok": True}]
++            mutations.append((missing, captured, manual, "BM_LIVE_FAILURE_NOT_OBSERVED"))
++            missing = copy.deepcopy(summary)
++            missing["events"]["B1"] = [e for e in missing["events"]["B1"] if e["event_type"] != "DECISION"]
++            mutations.append((missing, captured, manual, "B1_DECISION_BOUNDARY"))
++            missing = copy.deepcopy(summary)
++            missing["events"]["BM"].append({"event_type": "HEAL_STARTED"})
++            mutations.append((missing, captured, manual, "BM_FORBIDDEN_EVENT"))
++            mutations.append((summary, dict(captured, BM=""), manual, "BM_CONSUMER_AUDIT_MISSING"))
++            mutations.append((summary, captured, dict(manual, status=200), "MANUAL_EXECUTOR_REFUSAL_MISSING"))
++            live = copy.deepcopy(summary)
++            live["profile"] = "RUNTIME_PENDING"
++            mutations.append((live, captured, manual, "BM_OBSERVATION_WINDOW_INCOMPLETE"))
++            for data, audit, receipt, error in mutations:
++                with self.subTest(error=error):
++                    self.assertIn(error, rt2.assess(data, audit, receipt)["errors"])
++            for group in rt2.GROUPS:
++                self.assertTrue((work / "driver/exports" / group / "O.jsonl").is_file())
++            # Optional sanitized evidence only. Never copy bundle Secret manifests or actor key files.
++            if os.getenv("RT2_KEEP"):
++                keep = Path(os.environ["RT2_KEEP"])
++                keep.mkdir(parents=True, exist_ok=False)
++                rt2.save(keep / "summary.json", summary)
++                rt2.save(keep / "manual.json", manual)
++                rt2.save(keep / "assessment.json", result)
++                rt2.save(keep / "logs.json", captured)
++
++
++if __name__ == "__main__":
++    unittest.main(verbosity=2)
+--- before/.github/workflows/ci.yml
++++ after/.github/workflows/ci.yml
+@@ -93,6 +93,7 @@
+           python -B tests/test_dashboard_measurement.py
+           python -B tests/test_dashboard_modes.py
+           python -B tests/test_dashboard_baseline_runtime.py
++          python -B tests/test_dashboard_mode_runtime.py
+ 
+   r1-production-http:
+     name: Guard entrypoints on production dependency pins
+@@ -123,6 +124,7 @@
+           python -B tests/test_dashboard_measurement.py
+           python -B tests/test_dashboard_modes.py
+           python -B tests/test_dashboard_baseline_runtime.py
++          python -B tests/test_dashboard_mode_runtime.py
+           python -B tests/check_r1_baselines.py
+ 
+   r1-image-build:
+--- before/docs/runbooks/dashboard-and-baselines.md
++++ after/docs/runbooks/dashboard-and-baselines.md
+@@ -212,15 +212,9 @@
+ 
+ Target không phục hồi trong cap_rec **không** phải abort. Trial dừng ở mốc (c) và được chấm TIMEOUT nếu đã phủ liên tục. P7 vẫn chạy, nhưng không ai chữa target bằng tay trước khi export xong.
+ 
+-### 5.7 P6 / G-ZER11-RT2 (ngoài RT1, chỉ để review sau)
+-
+-P6 chứng minh BM không tự heal trên image mới. Nó cần gói riêng gồm:
+-
+-- Quyền Docker build/import Nemesis và Hephaestus từ cây đã review.
+-- Một nguồn DETECTED thật: Gaia được trả về replicas baseline và cấu hình gửi DETECTED tới gateway O của run với `group=BM`, hoặc nói rõ là không có detector (MTTD N/A).
+-- Một lần xóa pod frontend riêng và trần thời gian riêng, không cộng dồn vào RT1.
+-- Kiểm `MODE_AUDIT … AUTO_DECISION_DISABLED_FOR_GROUP`, `/heal/trigger` MANUAL trả 409 `R1_EXECUTOR_DISABLED` không có HEAL_STARTED, và một đối chứng B1 ngắn có DECISION RULES.
+-- Một O-console riêng cho operator BM. Console Nemesis hiện hiện log tấn công (H), nên không được dùng làm màn hình BM.
++### 5.7 P6 / G-ZER11-RT2 (ngoài RT1)
++
++Gói thực hiện đã chuẩn bị ở **mục 6**. Chỉ cần build/import **một image Hephaestus**; O-console tách riêng nên không cần build hoặc thay Nemesis. Dùng quan sát HTTP thật được ghi rõ nguồn thay vì sửa cấu hình Gaia đang chạy. Đây là kiểm ranh giới chế độ, không phải nghiệm thu detector Gaia, vận hành BM mù hay KPI nghiên cứu. Quyền RT1 không áp dụng cho RT2.
+ 
+ ### 5.8 Bằng chứng và cách đọc
+ 
+@@ -390,14 +384,87 @@
+ - Định dạng thật của Events và managedFields của k3s.
+ - Thời gian kubectl thực tế.
+ 
+-## 6. Ánh xạ gate G1 (kế thừa và còn thiếu)
++## 6. G-ZER11-RT2 — gói kiểm MANUAL/RULES trên image production
++
++**Hiện chỉ được chuẩn bị/kiểm offline. Chưa có quyền build/import hoặc chạy lab RT2.** Không dùng lại quyền RT1. Gói không tự ghi Kubernetes: Codex thực hiện có giám sát theo bảng thao tác dưới đây sau khi Hoàng duyệt, ghi mọi argv/result/UID và giữ một deadline chung. Không giao người dùng tự ráp hoặc tự chạy cả khối.
++
++### 6.1 Kết luận cần kiểm, không mở rộng sang KPI
++
++- **BM:** một quan sát HTTP lỗi thật đi vào O; consumer Hephaestus chạy nhưng ghi `AUTO_DECISION_DISABLED_FOR_GROUP`, không tự tạo DECISION hoặc phát action. Một đề xuất MANUAL hợp lệ từ O-console riêng được nhận, rồi `/heal/trigger` trả 409 `R1_EXECUTOR_DISABLED` và có audit đúng context.
++- **B1:** một DETECTED *synthetic transport control* trong **run khác** tạo đúng một DECISION RULES qua consumer thật; polling lại không tạo bản trùng.
++- **B2/B3:** run control riêng ghi audit bỏ qua; không tự giả RULES/LLM, không gọi model. Đây là log ranh giới chế độ AI khi chưa có producer LLM, **không chứng minh AI chạy thành công**.
++- Nguồn quan sát BM là `rt2-http-availability/1`: đọc GET frontend, phát DETECTED qua Client/Producer production với producer/rule_version đúng của observer này. **Không phải Gaia**, không dùng nhãn rule Gaia hoặc sửa ngưỡng/quy tắc Gaia. Đồng hồ `UNKNOWN`, không chạy scorer và không claim MTTD/MTTR hay phục hồi nghiệp vụ. Kết quả RT1 đã chấm giữ nguyên.
++- O-console là CLI trong pod riêng chỉ nhận khóa `operator_console/reader` và token gọi guard; không có H/raw/archive/attack key. Operator được script mô phỏng để kiểm route, không phải một trial BM có người vận hành mù.
++
++### 6.2 Chuẩn bị offline và build input
++
++```bash
++ZD_PYTHON=scratch/zer12/production-hephaestus/Scripts/python.exe bash infrastructure/scripts/verify-dashboard-modes.sh plan
++```
++
++```bash
++ZD_PYTHON=scratch/zer12/production-hephaestus/Scripts/python.exe bash infrastructure/scripts/verify-dashboard-modes.sh prepare --output scratch/zer11/rt2-bundle-<nonce> --namespace zd-zer11-rt2-<8hex>
++```
++
++`prepare` chỉ ghi thư mục mới; không gọi Docker/kubectl, không nối mạng. Bundle có build context tối thiểu chép byte-identical từ Hephaestus Dockerfile, lock, source và event_pipeline; source-manifest/hash; config; kế hoạch; List JSON **private-resources.json có khóa thử sinh mới**. Không in khóa hoặc đưa manifest private vào evidence/commit. Tên đã có thì dừng. Chạy lại khi source thay đổi; không ghi đè bundle cũ.
++
++Image dự kiến `zero-door/hephaestus:zer11-rt2-<source_sha256 đầu16>`. Sau quyền, build từ `build/` với `-f build/hephaestus/Dockerfile`, import đúng cluster `zero-door`. Không build/restart Nemesis. Host giữ log build, inspect config digest/ENTRYPOINT và IDs thực trong từng pod; `attest --config /rt2/config.json` trong **mọi pod** phải khớp source runtime và script mount, không chỉ tin tag. Chưa kiểm Docker/Linux image build ở bước offline.
++
++### 6.3 Phạm vi thao tác đề nghị cho một lượt
++
++| Pha | Thao tác và điều kiện | Giới hạn / khôi phục |
++| --- | --- | --- |
++| Preflight chỉ đọc | Context `k3d-zero-door`; Docker `desktop-linux`; không DOCKER_HOST; node Ready; ghi UID/spec/replicas/Ready của cả 13 deployment, pod frontend/owner ReplicaSet, quota và HPA. Có HPA khác trỏ frontend thì dừng. Kiểm RAM/CPU headroom cho pod tạm, không tự tăng quota | Không sửa current-context, quota, PVC, Secret sẵn có, target replicas hoặc HPA |
++| Build/import | Một image Hephaestus theo bundle và Dockerfile đã khóa; đối chiếu source/build/pod image IDs | Không áp deployment production, không chạy setup/rebuild legacy; không tải/chạy model |
++| Tạo | Một namespace `zd-zer11-rt2-<8hex>`; Secret/ConfigMap, Service O, policy ingress, driver, 4 actor BM/B1/B2/B3 và console từ bundle. Mọi đối tượng có nhãn run; create intent ghi trước, UID sau; Secret không ghi nội dung vào log | 6 pod nonroot, filesystem chỉ đọc, emptyDir riêng, không SA token; imagePullPolicy Never; node server; 300m CPU/576Mi requests, 1500m/1152Mi limits tổng |
++| Cô lập production | Tạm scale Gaia/Hephaestus về 0, xác nhận không còn pod Running/Pending. Giữ UID/spec/replicas ban đầu để trả đúng; không đổi image/env của chúng | Chỉ hai deployment này; worker/Nemesis và target giữ spec |
++| Sẵn sàng | Đợi `/healthz` từng actor báo `transport=r1-o-gateway`, execution disabled. Chạy attest, lấy log audit đúng context. Kiểm thiếu token đọc O bị từ chối, control port9140 không có Service; console không đọc được khóa gateway | Lỗi preflight/wiring thì dọn trước fault; chưa chạm target |
++| BM thật | `call monitor`, đợi ít nhất 10 mẫu GET200 liên tiếp (5s), chụp pod frontend + UID/Ready ngay trước khi xóa. Chỉ xóa **đúng một pod frontend** thuộc UID ReplicaSet đã ghi, DeleteOptions precondition UID. Theo dõi đủ180s, ≥1 GET lỗi rồi có DETECTED thật | Tối đa360 GET, interval0,5s, timeout1s, không retry ngầm/redirect/proxy; không tạo tải khác. Không thấy lỗi: INCONCLUSIVE, không xóa lần hai để tìm PASS |
++| Operator | Khi có DETECTED thật, console đọc O và tạo đúng một proposal MANUAL; gọi guard BM bằng token thử, lấy HTTP409/audit. Một request token sai phải401. Lưu receipt không chứa token | Không gắn executor giả, không sửa `R1_EXECUTOR`, không gọi route legacy/reset/attack |
++| Controls | `call controls` phát DETECTED synthetic vào các run B1/B2/B3 riêng. Đợi hai poll và kiểm B1 đúng một RULES; B2/B3 audit disabled, không LLM/action. Thu health/log actor cuối cửa sổ | Không cộng control vào run BM hoặc cohort KPI |
++| Thu và dọn | Lưu logs, image/source attest, frontend UID/RS/Event; dừng/xóa actor theo UID trước seal để không có writer muộn; `call finish`; kéo exports/summary/observations từ emptyDir. Dọn namespace theo nhãn+UID, xác nhận vắng; trả Gaia/Hephaestus theo UID/spec/resourceVersion và replicas baseline, đợi Ready; đọc lại cả13deployment | P7 luôn chạy trong finally kể cả Ctrl+C/lỗi. Create mất phản hồi phải reconcile tên+nhãn để lấy UID. Owner/spec đổi: để nguyên, báo INCOMPLETE; không xóa/scale theo tên trần |
++
++**Trần đề nghị:** 45 phút **tổng từ trước build/import**, gồm 5 phút cuối dành cleanup; từng lệnh có timeout trong deadline chung. Chạm hạn chính thì dừng quan sát, giữ failure và dọn; không gọi là đủ cửa sổ. Pod có `activeDeadlineSeconds=2700` là lớp dự phòng, không thay deadline host. Không dùng GET này làm business probe; nó không tạo giỏ hàng hoặc checkout. Không gọi API/model trả phí. Không tự xóa image dùng chung hay prune Docker để rollback; chỉ để lại image mới với receipt nguồn.
++
++### 6.4 Lệnh trong pod và bằng chứng
++
++Driver chạy `/rt2/r1_mode_runtime.py driver` thay entrypoint **chỉ ở pod gateway**. Actor giữ nguyên ENTRYPOINT Uvicorn của image production và source không patch; không fake Kafka/Kubernetes/executor trong lab.
++
++```bash
++# Các argv bên dưới chỉ dùng SAU quyền lab, qua kubectl exec với context/namespace rõ.
++# Trong pod driver:
++/usr/bin/python3 -B /rt2/r1_mode_runtime.py call monitor
++/usr/bin/python3 -B /rt2/r1_mode_runtime.py call status
++/usr/bin/python3 -B /rt2/r1_mode_runtime.py call controls
++# Sau khi actor đã dừng và log đã lưu:
++/usr/bin/python3 -B /rt2/r1_mode_runtime.py call finish
++```
++
++```bash
++# Trong pod console, IP Hephaestus BM lấy từ read-back đúng pod UID, không đoán:
++/usr/bin/python3 -B /rt2/r1_mode_runtime.py operator --config /rt2/config.json --keys /keys/operator.json --token /keys/heal-operator.json --url http://rt2-o:9141 --heal-url http://<BM-pod-IP>:8000 --output /work/manual.json
++```
++
++CLI console chỉ mở O và endpoint guard riêng, không có đường export/H. Không phát lại operator command khi outcome chưa rõ: dừng, đọc O đối chiếu event_id thay vì tạo proposal mới. Khóa private nằm trong bundle scratch/Secret mới, không lẫn raw export; chỉ giữ hash và metadata trong báo cáo.
++
++Chấm **boundary**, không chấm recovery:
++
++```bash
++ZD_PYTHON=scratch/zer12/production-hephaestus/Scripts/python.exe bash infrastructure/scripts/verify-dashboard-modes.sh assess --summary <summary.json> --logs <JSON group-to-log> --manual <manual.json> --output <file mới>
++```
++
++`PASS_BOUNDARY_ONLY` yêu cầu cửa sổ thật đủ180s, có khỏe trước lỗi, nguồn DETECTED đúng, BM chỉ có một MANUAL có causation đúng, B1 chỉ có một RULES, B2/B3 không quyết định, không action/LLM, audit đúng group/run/trial và HTTP409 khớp decision. Test có HTTP giả bắt buộc profile `OFFLINE_TEST_ONLY` và chỉ ra `PASS_BOUNDARY_OFFLINE`. Cả hai verdict đều **chưa xác nhận image/firewall/ownership/cleanup**: host phải đối chiếu các receipt đó độc lập trước nghiệm thu AC.
++
++Bằng chứng runtime tối thiểu trong một thư mục mới: source/image hashes, argv/result không secrets, pre/postflight13deployment, audit/log4nhóm, raw O seal/export từng run, các quan sát HTTP, operator receipt, boundary verdict, cleanup theo UID và AC→case→kết quả. BM không có DETECTED, observer thiếu cửa sổ, log/health/source thiếu hoặc cleanup hỏng là INCOMPLETE/NOT_READY; không sửa criterion hoặc dùng control synthetic thay lỗi thật.
++
++## 7. Ánh xạ gate G1 (kế thừa và còn thiếu)
+ 
+ | Điều kiện G1 | Đã có | ZER-11/39 thêm | Còn thiếu |
+ | --- | --- | --- | --- |
+ | ID xuyên pipeline | ZER-9 (transport/archive, runtime đã nghiệm thu), ZER-37 contract | Dashboard đọc run_id/trial_id/incident_id từ artifact đã chấm | — |
+-| Raw/export và KPI tái tính | ZER-10 scorer, runtime-01 | Dashboard/API/export cùng artifact, kiểm hash và CSV; fixture và mutant; `serve-results` cho root thật | Run B0 thật được chấm và hiển thị (P8) |
++| Raw/export và KPI tái tính | ZER-10 scorer, runtime-01 | Dashboard/API/export cùng artifact; RT1 run B0 thật được chấm/hiển thị, hash và root unchanged trong evidence runtime-01 | Publication/CI/acceptance của gói hiện tại |
+ | Evidence không lộ đáp án | ZER-9 AC-03 leak check, ZER-10 LEAK_CHECK | Kết quả S chỉ đọc bằng khóa riêng; deployment live không mount; lỗi không lộ path | Một O-console riêng cho operator BM: console Nemesis hiện vẫn hiện log tấn công (H) cho người giữ khóa operator |
+-| B0/BM không auto-heal | ModeGate/GuardedRules ZER-12 | Consumer và `/heal/trigger` thật có audit, positive control, replay; profile B0 | P3/P4 của RT1 (B0 runtime qua H-RT1, chờ review và quyền); BM trên image mới ở gói RT2 riêng |
++| B0/BM không auto-heal | ModeGate/GuardedRules ZER-12 | B0 runtime RT1 đã có trong giới hạn ghi rõ; consumer và manual route kiểm offline | BM trên image mới ở gói RT2 riêng, chưa build/chạy |
+ | Guard hoạt động | ZER-12/40 (CI, guard đã nghiệm thu) | Không đổi guard; executor production vẫn khóa | — |
+ 
+ Bảng này không kết luận G1 PASS.

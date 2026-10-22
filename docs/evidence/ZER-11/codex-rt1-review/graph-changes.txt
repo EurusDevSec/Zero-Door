@@ -1,0 +1,36 @@
+
+  GitNexus Detect Changes (1.6.11)
+Changes: 18 files, 111 symbols
+Affected processes: 19
+Risk level: critical
+
+Changed symbols:
+  Section Working in ZERO DOOR → AGENTS.md
+  Class GuardedRules → agent-orchestrator/hephaestus/command_guard.py
+  Method __init__ → agent-orchestrator/hephaestus/command_guard.py
+  Method poll → agent-orchestrator/hephaestus/command_guard.py
+  Function _kafka_consumer_thread → agent-orchestrator/hephaestus/main.py
+  Variable R1_EXECUTOR → agent-orchestrator/hephaestus/main.py
+  Function decision_claim_id → agent-orchestrator/hephaestus/main.py
+  Function audit_refusal → agent-orchestrator/hephaestus/main.py
+  Function manual_heal → agent-orchestrator/hephaestus/main.py
+  Function once → agent-orchestrator/hephaestus/main.py
+  Function command_boundary → agent-orchestrator/nemesis/main.py
+  Variable DASHBOARD_SERVICES → agent-orchestrator/nemesis/main.py
+  Variable NO_STORE → agent-orchestrator/nemesis/main.py
+  Function utc_now → agent-orchestrator/nemesis/main.py
+  Function sample_value → agent-orchestrator/nemesis/main.py
+... and 96 more
+
+Affected execution flows:
+  • Manual_heal → Fields (5 steps) — changed: manual_heal
+  • Command_boundary → Depth (5 steps) — changed: command_boundary
+  • ResetSystem → El (5 steps) — changed: renderLogs, logLine, updateLogs, el
+  • TriggerAIAttack → FormatTimestamp (4 steps) — changed: renderLogs, updateLogs
+  • ResetSystem → El (5 steps) — changed: updateMetrics
+  • ResetSystem → Element (4 steps) — changed: updateMetrics
+  • Command_boundary → Fields (4 steps) — changed: command_boundary
+  • TriggerAIAttack → El (5 steps) — changed: renderLogs, logLine, updateLogs, el
+  • TriggerManualAttack → FormatTimestamp (4 steps) — changed: renderLogs, updateLogs
+  • Command_boundary → Integer (3 steps) — changed: command_boundary
+... and 9 more

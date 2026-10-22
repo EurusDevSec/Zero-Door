@@ -1,0 +1,37 @@
+{
+ "tree": "R:\\_Projects\\Eurus_Workspace\\zero_door",
+ "outcome": "sample",
+ "ok": false,
+ "detail": "TIMEOUT",
+ "reason": "STEP_DEADLINE",
+ "cleanup": {
+  "cart": "GRACE_EXPIRED"
+ },
+ "requests": [
+  {
+   "method": "GET",
+   "path": "/",
+   "deadline": "number"
+  },
+  {
+   "method": "GET",
+   "path": "/product/OLJCESPC7Z",
+   "deadline": "number"
+  },
+  {
+   "method": "POST",
+   "path": "/cart",
+   "deadline": "number"
+  },
+  {
+   "method": "GET",
+   "path": "/cart",
+   "deadline": "number"
+  },
+  {
+   "method": "POST",
+   "path": "/cart/empty",
+   "deadline": "callable"
+  }
+ ]
+}
