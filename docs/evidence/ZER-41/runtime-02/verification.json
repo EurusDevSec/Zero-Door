@@ -1,0 +1,44 @@
+{
+  "verdict": "TECHNICAL_PASS_PRIVATE_PROFILE_PENDING_CI_MERGE_OWNER_ACCEPTANCE",
+  "matched_runtime_requests": 48,
+  "unique_request_ids": 48,
+  "unique_correlations": 48,
+  "sources": [
+    "10.42.1.199",
+    "10.42.1.200"
+  ],
+  "safe_restricted_rows": [
+    0,
+    0
+  ],
+  "vulnerable_restricted_rows": [
+    3,
+    3
+  ],
+  "owned_orders_deleted": 4,
+  "direct_fixture_from_sources": "DENIED_BOTH",
+  "forged_XFF": "NOT_ACCEPTED_BOTH_PROFILES",
+  "fixture_access_records_observed": 78,
+  "manual_http_attempts": 48,
+  "kubelet_http_access_records_observed": 30,
+  "unobserved_failed_kubelet_attempts": "not independently counted; no exact network-attempt-total claim",
+  "es_queries": 2,
+  "es_sentinels_found": 2,
+  "namespace": "CLEAN_UID_CONDITIONED",
+  "server_restarts": 1,
+  "restore": "RESTORE_PASS",
+  "pvc_identities": "3/3 unchanged",
+  "desired_replicas": "all unchanged",
+  "restore_complete_utc": "2026-10-22T09:39:02.631Z",
+  "elapsed_to_restore_seconds": 496,
+  "frontend_check_history": [
+    500,
+    200
+  ],
+  "frontend_current": "200 after observed cart-container restart; transient error retained, no uptime claim",
+  "stock_shared_ingress": "NOT_APPLIED",
+  "parent_ZER13": "NOT_DONE",
+  "ZER42": "NOT_IMPLEMENTED",
+  "paid_API_calls": 0,
+  "publication": "NOT_AUTHORIZED"
+}

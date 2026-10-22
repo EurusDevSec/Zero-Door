@@ -1,0 +1,37 @@
+NAME                            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE    SELECTOR
+service/cartservice             ClusterIP   10.43.16.197    <none>        7070/TCP    4d3h   app=cartservice
+service/checkoutservice         ClusterIP   10.43.202.211   <none>        5050/TCP    4d3h   app=checkoutservice
+service/currencyservice         ClusterIP   10.43.182.182   <none>        7000/TCP    4d3h   app=currencyservice
+service/emailservice            ClusterIP   10.43.168.222   <none>        5000/TCP    4d3h   app=emailservice
+service/frontend                ClusterIP   10.43.91.65     <none>        80/TCP      4d3h   app=frontend
+service/frontend-external       ClusterIP   10.43.201.14    <none>        80/TCP      4d3h   app=frontend
+service/paymentservice          ClusterIP   10.43.109.214   <none>        50051/TCP   4d3h   app=paymentservice
+service/productcatalogservice   ClusterIP   10.43.180.239   <none>        3550/TCP    4d3h   app=productcatalogservice
+service/redis-cart              ClusterIP   10.43.81.162    <none>        6379/TCP    4d3h   app=redis-cart
+service/shippingservice         ClusterIP   10.43.193.91    <none>        50051/TCP   4d3h   app=shippingservice
+
+NAME                              ENDPOINTS                                            AGE
+endpoints/cartservice             10.42.0.154:7070                                     4d3h
+endpoints/checkoutservice         10.42.0.151:5050,10.42.0.158:5050,10.42.0.159:5050   4d3h
+endpoints/currencyservice         10.42.0.137:7000,10.42.0.140:7000                    4d3h
+endpoints/emailservice            10.42.0.143:8080                                     4d3h
+endpoints/frontend                10.42.0.160:8080                                     4d3h
+endpoints/frontend-external       10.42.0.160:8080                                     4d3h
+endpoints/paymentservice          10.42.0.145:50051                                    4d3h
+endpoints/productcatalogservice   10.42.0.136:3550                                     4d3h
+endpoints/redis-cart              10.42.0.153:6379                                     4d3h
+endpoints/shippingservice         10.42.0.144:50051                                    4d3h
+
+NAME                                         READY   STATUS    RESTARTS         AGE    IP            NODE                    NOMINATED NODE   READINESS GATES
+pod/cartservice-56b9fb479f-ppsgd             1/1     Running   11 (118s ago)    2d7h   10.42.0.154   k3d-zero-door-agent-0   <none>           <none>
+pod/checkoutservice-7cdb898bbb-2t7qc         1/1     Running   2 (2m16s ago)    21m    10.42.0.158   k3d-zero-door-agent-0   <none>           <none>
+pod/checkoutservice-7cdb898bbb-n9qbn         1/1     Running   12 (4h32m ago)   41h    10.42.0.151   k3d-zero-door-agent-0   <none>           <none>
+pod/checkoutservice-7cdb898bbb-qqhsp         1/1     Running   2 (2m8s ago)     21m    10.42.0.159   k3d-zero-door-agent-0   <none>           <none>
+pod/currencyservice-6b7ffcdb66-8tdq9         1/1     Running   6 (19m ago)      2d7h   10.42.0.137   k3d-zero-door-agent-0   <none>           <none>
+pod/currencyservice-6b7ffcdb66-kqgtk         1/1     Running   6 (19m ago)      39h    10.42.0.140   k3d-zero-door-agent-0   <none>           <none>
+pod/emailservice-574b6fbcc9-p6gtx            1/1     Running   13 (18m ago)     2d7h   10.42.0.143   k3d-zero-door-agent-0   <none>           <none>
+pod/frontend-84b6b4cf7-sqw5l                 1/1     Running   0                21m    10.42.0.160   k3d-zero-door-agent-0   <none>           <none>
+pod/paymentservice-7f8b7fd8d8-26f7p          1/1     Running   8 (19m ago)      2d7h   10.42.0.145   k3d-zero-door-agent-0   <none>           <none>
+pod/productcatalogservice-5cc4fdfd64-c7wdg   1/1     Running   10 (68m ago)     2d7h   10.42.0.136   k3d-zero-door-agent-0   <none>           <none>
+pod/redis-cart-558f8d8d44-kz7kj              1/1     Running   2 (8h ago)       2d7h   10.42.0.153   k3d-zero-door-agent-0   <none>           <none>
+pod/shippingservice-7bf88f7cd4-5tp7g         1/1     Running   12 (4h32m ago)   2d7h   10.42.0.144   k3d-zero-door-agent-0   <none>           <none>

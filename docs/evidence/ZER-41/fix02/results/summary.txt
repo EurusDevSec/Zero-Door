@@ -1,0 +1,8 @@
+== fail-before: fix01 snapshot (expect only the new FX41 regressions to fail) ==
+before-main | exit 1 | Ran 42 tests in 6.307s FAILED (failures=7) 
+before-http | exit 1 | Ran 15 tests in 32.167s FAILED (failures=9) 
+before-edges | 12.0 <no answer within 12s> | HTTP/1.1 501 Unsupported method ('TRACE') | canary True traceback True
+== after: current service (expect OK) ==
+after-main | exit 0 | Ran 42 tests in 6.281s OK 
+after-http | exit 0 | Ran 15 tests in 22.891s OK 
+after-edges | 3.0 HTTP/1.1 408 Request Timeout | HTTP/1.1 405 Method Not Allowed | canary False traceback False

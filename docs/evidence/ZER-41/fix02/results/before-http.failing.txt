@@ -1,0 +1,9 @@
+test_malformed_request_line_is_structured_400 ... FAIL
+test_too_many_headers_is_structured_431 ... FAIL
+test_unsupported_http_version_is_structured_505 ... FAIL
+test_unsupported_methods_listed_or_not_are_structured_405 (method='TRACE') ... FAIL
+test_unsupported_methods_listed_or_not_are_structured_405 (method='FOO') ... FAIL
+test_dribbled_body_is_cut_at_the_request_budget ... FAIL
+test_dribbled_headers_are_cut_at_the_request_budget ... FAIL
+test_dribbled_request_line_is_cut_at_the_request_budget ... FAIL
+test_idle_connection_is_closed_at_the_budget_without_a_record ... FAIL

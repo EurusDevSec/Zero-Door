@@ -1,0 +1,425 @@
+{
+  "format": "lossless consolidation of empty per-poll raw files",
+  "original_files": [
+    {
+      "name": "policy-safe-1.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:38.526Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-10.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:53.925Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-11.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:55.509Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-12.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:57.094Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-13.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:58.683Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-14.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:00.261Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-15.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:01.834Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-16.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:03.399Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-17.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:04.979Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-18.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:06.573Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-19.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:08.143Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-2.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:40.708Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-20.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:09.713Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-21.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:11.272Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-22.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:12.852Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-23.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:14.427Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-24.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:16.029Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-25.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:17.613Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-26.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:19.188Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-27.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:20.762Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-28.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:22.354Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-29.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:23.921Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-3.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:42.694Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-30.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:25.504Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-31.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:27.073Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-32.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:28.717Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-33.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:30.278Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-34.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:31.864Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-35.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:33.431Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-36.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:35.028Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-37.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:36.595Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-38.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:38.172Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-39.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:39.734Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-4.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:44.265Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-40.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:41.304Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-41.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:42.872Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-42.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:44.462Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-43.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:46.062Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-44.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:47.635Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-45.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:49.229Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-46.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:50.811Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-47.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:52.634Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-48.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:54.210Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-49.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:55.779Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-5.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:45.869Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-50.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:57.354Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-51.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:10:58.938Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-52.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:00.527Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-53.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:02.099Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-54.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:03.683Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-55.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:05.268Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-56.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:06.853Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-57.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:08.425Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-58.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:09.994Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-59.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:11.573Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-6.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:47.537Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-60.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:11:13.154Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-7.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:49.123Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-8.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:50.740Z",
+      "content": ""
+    },
+    {
+      "name": "policy-safe-9.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed_mtime_utc": "2026-10-22T09:09:52.349Z",
+      "content": ""
+    }
+  ]
+}

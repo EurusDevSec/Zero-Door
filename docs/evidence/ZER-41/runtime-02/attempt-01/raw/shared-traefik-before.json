@@ -1,0 +1,381 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-19T17:41:15Z",
+                "generateName": "traefik-75bb84786-",
+                "labels": {
+                    "app.kubernetes.io/instance": "traefik-kube-system",
+                    "app.kubernetes.io/managed-by": "Helm",
+                    "app.kubernetes.io/name": "traefik",
+                    "helm.sh/chart": "traefik-42.0.0",
+                    "pod-template-hash": "75bb84786"
+                },
+                "name": "traefik-75bb84786-v4rz5",
+                "namespace": "kube-system",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "traefik-75bb84786",
+                        "uid": "326d90b7-a6e2-4a34-9906-c7deec88e63d"
+                    }
+                ],
+                "resourceVersion": "111657",
+                "uid": "2ad61597-f36d-4c09-909a-40114fecfa36"
+            },
+            "spec": {
+                "automountServiceAccountToken": true,
+                "containers": [
+                    {
+                        "args": [
+                            "--global.checkNewVersion=false",
+                            "--entryPoints.metrics.address=:9100/tcp",
+                            "--entryPoints.traefik.address=:8080/tcp",
+                            "--entryPoints.web.address=:8000/tcp",
+                            "--entryPoints.websecure.address=:8443/tcp",
+                            "--api.dashboard=true",
+                            "--ping=true",
+                            "--metrics.prometheus=true",
+                            "--metrics.prometheus.entrypoint=metrics",
+                            "--metrics.prometheus.addEntryPointsLabels=true",
+                            "--metrics.prometheus.addServicesLabels=true",
+                            "--metrics.prometheus.buckets=0.005,0.01,0.025,0.05,0.1,0.25,0.5,1,2.5,5,10",
+                            "--providers.kubernetesingress",
+                            "--providers.kubernetesingress.allowEmptyServices=true",
+                            "--providers.kubernetesingress.ingressendpoint.publishedservice=kube-system/traefik",
+                            "--providers.kubernetesingress.strictPrefixMatching=true",
+                            "--providers.file.directory=/etc/traefik/dynamic",
+                            "--entryPoints.websecure.http.tls=true",
+                            "--log.format=json",
+                            "--log.level=INFO",
+                            "--accesslog=true",
+                            "--accesslog.format=json",
+                            "--accesslog.fields.defaultmode=keep",
+                            "--accesslog.fields.headers.defaultmode=drop",
+                            "--accesslog.fields.headers.names.User-Agent=keep",
+                            "--accesslog.fields.headers.names.X-Forwarded-For=keep",
+                            "--accesslog.fields.queryparameters.defaultmode=keep"
+                        ],
+                        "env": [
+                            {
+                                "name": "POD_NAME",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.name"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "POD_NAMESPACE",
+                                "valueFrom": {
+                                    "fieldRef": {
+                                        "apiVersion": "v1",
+                                        "fieldPath": "metadata.namespace"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "USER",
+                                "value": "traefik"
+                            },
+                            {
+                                "name": "GOMAXPROCS",
+                                "valueFrom": {
+                                    "resourceFieldRef": {
+                                        "divisor": "1",
+                                        "resource": "limits.cpu"
+                                    }
+                                }
+                            },
+                            {
+                                "name": "GOMEMLIMIT",
+                                "value": "144MiB"
+                            }
+                        ],
+                        "image": "docker.io/traefik:v3.7.14",
+                        "imagePullPolicy": "IfNotPresent",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/ping",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 2,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 2
+                        },
+                        "name": "traefik",
+                        "ports": [
+                            {
+                                "containerPort": 9100,
+                                "name": "metrics",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 8080,
+                                "name": "traefik",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 8000,
+                                "name": "web",
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 8443,
+                                "name": "websecure",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 1,
+                            "httpGet": {
+                                "path": "/ping",
+                                "port": 8080,
+                                "scheme": "HTTP"
+                            },
+                            "initialDelaySeconds": 2,
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 2
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "300m",
+                                "memory": "160Mi"
+                            },
+                            "requests": {
+                                "cpu": "50m",
+                                "memory": "64Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/data",
+                                "name": "data"
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "tmp"
+                            },
+                            {
+                                "mountPath": "/etc/traefik/dynamic",
+                                "name": "traefik-extra-config"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-htvrf",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "nodeName": "k3d-zero-door-agent-0",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "runAsGroup": 65532,
+                    "runAsNonRoot": true,
+                    "runAsUser": 65532,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "serviceAccount": "traefik",
+                "serviceAccountName": "traefik",
+                "terminationGracePeriodSeconds": 60,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "data"
+                    },
+                    {
+                        "emptyDir": {},
+                        "name": "tmp"
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "traefik-file-provider"
+                        },
+                        "name": "traefik-extra-config"
+                    },
+                    {
+                        "name": "kube-api-access-htvrf",
+                        "projected": {
+                            "defaultMode": 420,
+                            "sources": [
+                                {
+                                    "serviceAccountToken": {
+                                        "expirationSeconds": 3607,
+                                        "path": "token"
+                                    }
+                                },
+                                {
+                                    "configMap": {
+                                        "items": [
+                                            {
+                                                "key": "ca.crt",
+                                                "path": "ca.crt"
+                                            }
+                                        ],
+                                        "name": "kube-root-ca.crt"
+                                    }
+                                },
+                                {
+                                    "downwardAPI": {
+                                        "items": [
+                                            {
+                                                "fieldRef": {
+                                                    "apiVersion": "v1",
+                                                    "fieldPath": "metadata.namespace"
+                                                },
+                                                "path": "namespace"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-22T01:32:53Z",
+                        "status": "True",
+                        "type": "PodReadyToStartContainers"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-19T22:55:28Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-22T05:19:36Z",
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-22T05:19:36Z",
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-19T22:55:18Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "containerd://34d1759783a37ca72eb7a0a9e42ca957f9be4ea5343a89bcc524fb72d44da4b6",
+                        "image": "docker.io/library/traefik:v3.7.14",
+                        "imageID": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+                        "lastState": {
+                            "terminated": {
+                                "containerID": "containerd://ed482f476a2680f55a6f203d18a43007c906d116fda02617f09cca7a3f27eb2d",
+                                "exitCode": 0,
+                                "finishedAt": "2026-10-22T04:48:17Z",
+                                "reason": "Completed",
+                                "startedAt": "2026-10-22T01:32:53Z"
+                            }
+                        },
+                        "name": "traefik",
+                        "ready": true,
+                        "restartCount": 8,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2026-10-22T04:48:18Z"
+                            }
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/data",
+                                "name": "data"
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "tmp"
+                            },
+                            {
+                                "mountPath": "/etc/traefik/dynamic",
+                                "name": "traefik-extra-config"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "kube-api-access-htvrf",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            }
+                        ]
+                    }
+                ],
+                "hostIP": "172.19.0.4",
+                "hostIPs": [
+                    {
+                        "ip": "172.19.0.4"
+                    }
+                ],
+                "phase": "Running",
+                "podIP": "10.42.0.146",
+                "podIPs": [
+                    {
+                        "ip": "10.42.0.146"
+                    }
+                ],
+                "qosClass": "Burstable",
+                "startTime": "2026-10-19T22:55:28Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

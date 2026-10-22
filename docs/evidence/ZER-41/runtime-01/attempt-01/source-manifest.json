@@ -1,0 +1,7 @@
+{
+  "services/sqli-fixture/app.py": "37c7a045e098f1c169a3b356a03e0807670b1f2876f342db0710b137810aa755",
+  "services/sqli-fixture/Dockerfile": "5a0966a282fabea5ab770431331bb8a503ced999037f7ba27a3293d5a37d11de",
+  "services/sqli-fixture/seed.json": "ec9f818b85a3dce1dbe4b7d87572890b6bbf244ffaea33df549f6079612af90b",
+  "scratch/zer13/codex-completion/runtime-owned.yaml": "574d90b60ef163118aea9cd83109fd5736b2bc74fada799d6223ff94c2b6aa0c",
+  "scratch/zer13/codex-completion/runtime_probe.py": "c50475fa40cc9767be7a3ba529103a05c9e683389dce325259044cdf8bd12574"
+}

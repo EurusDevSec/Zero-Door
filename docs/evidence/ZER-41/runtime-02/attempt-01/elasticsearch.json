@@ -1,0 +1,18 @@
+{
+  "queries": 2,
+  "found": [
+    {
+      "correlation_id": "zer41-20261022-9ad4b1e6-fafba4a3-a-1",
+      "document_ids": [
+        "3Fr1YqEBaiWeL17vEWql"
+      ]
+    },
+    {
+      "correlation_id": "zer41-20261022-9ad4b1e6-abd412b5-b-1",
+      "document_ids": [
+        "ylr2YqEBaiWeL17vcW0D"
+      ]
+    }
+  ],
+  "verdict": "PASS"
+}

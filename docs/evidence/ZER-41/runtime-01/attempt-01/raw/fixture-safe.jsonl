@@ -1,0 +1,5 @@
+zd-sqli-fixture listening on 0.0.0.0:9140 (db created)
+{"ts":1792659526.5556035,"request_id":"d0bdae5f374b4785bcdeeae8674d6353","method":"GET","path":"/health","status":200,"duration_ms":299.501,"tcp_peer":null,"source_method":null,"source_confidence":null,"client_ip":null,"correlation_id":null}
+{"ts":1792659526.555774,"request_id":"5a8b452785914cb18b36b0d3befd2adc","method":"GET","path":"/ready","status":200,"duration_ms":300.362,"tcp_peer":null,"source_method":null,"source_confidence":null,"client_ip":null,"correlation_id":null}
+{"ts":1792659536.1368258,"request_id":"027c62016c20454db21bd953ada256fe","method":"GET","path":"/health","status":200,"duration_ms":0.465,"tcp_peer":null,"source_method":null,"source_confidence":null,"client_ip":null,"correlation_id":null}
+{"ts":1792659536.137985,"request_id":"f168f0a553f94a328c080d2518c81e5c","method":"GET","path":"/ready","status":200,"duration_ms":2.298,"tcp_peer":null,"source_method":null,"source_confidence":null,"client_ip":null,"correlation_id":null}

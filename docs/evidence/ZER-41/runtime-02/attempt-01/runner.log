@@ -1,0 +1,32 @@
+
+PHASE P0 elapsed=46s cap=180s
+Reuse the one already-built/imported fixture image; no second image build.
+
+PHASE P2_SAFE_ROLLOUT elapsed=48s cap=180s
+Waiting for deployment "zer41-private-ingress" rollout to finish: 0 of 1 updated replicas are available...
+deployment "zer41-private-ingress" successfully rolled out
+pod/zer41-source-a condition met
+pod/zer41-source-b condition met
+configmap/sqli-fixture-config patched
+deployment.apps/sqli-fixture created
+POLICY_RULE_PRESENT pod=sqli-fixture-759596847d-pkd84 round=2
+Waiting for deployment "sqli-fixture" rollout to finish: 0 of 1 updated replicas are available...
+deployment "sqli-fixture" successfully rolled out
+
+PHASE P3_SAFE elapsed=76s cap=240s
+{"profile": "safe", "verdict": "PASS_ROUTE_SOURCE_EFFECT_CRUD", "matched_samples": 24, "sources": {"sqli-fixture-759596847d-pkd84": "10.42.1.202", "zer41-private-ingress-54f7cf4bb4-5pxd4": "10.42.1.201", "zer41-source-a": "10.42.1.199", "zer41-source-b": "10.42.1.200"}, "fixture_access_records": 41}
+
+PHASE P4_VULNERABLE_ROLLOUT elapsed=174s cap=120s
+configmap/sqli-fixture-config patched
+deployment.apps/sqli-fixture restarted
+POLICY_RULE_PRESENT pod=sqli-fixture-58c7c77d88-5k7nt round=1
+Waiting for deployment "sqli-fixture" rollout to finish: 0 of 1 updated replicas are available...
+deployment "sqli-fixture" successfully rolled out
+
+PHASE P5_VULNERABLE elapsed=214s cap=240s
+{"profile": "vulnerable", "verdict": "PASS_ROUTE_SOURCE_EFFECT_CRUD", "matched_samples": 24, "sources": {"sqli-fixture-58c7c77d88-5k7nt": "10.42.1.203", "zer41-private-ingress-54f7cf4bb4-5pxd4": "10.42.1.201", "zer41-source-a": "10.42.1.199", "zer41-source-b": "10.42.1.200"}, "fixture_access_records": 29}
+{"queries": 2, "found": [{"correlation_id": "zer41-20261022-9ad4b1e6-fafba4a3-a-1", "document_ids": ["3Fr1YqEBaiWeL17vEWql"]}, {"correlation_id": "zer41-20261022-9ad4b1e6-abd412b5-b-1", "document_ids": ["ylr2YqEBaiWeL17vcW0D"]}], "verdict": "PASS"}
+All requested private runtime cases completed; cleaning up.
+
+CLEANUP elapsed=239s exit=0
+{"run":"zer41-20261022-9ad4b1e6","cleanup":"CLEAN","exit_code":0,"elapsed_seconds":277}

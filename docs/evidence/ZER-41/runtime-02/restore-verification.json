@@ -1,0 +1,37 @@
+{
+  "verdict": "RESTORE_PASS",
+  "pvc_identity": "3/3 unchanged",
+  "desired_replicas": "all unchanged",
+  "protected_availability": [
+    {
+      "namespace": "monitoring",
+      "name": "elasticsearch",
+      "desired": 1,
+      "available": 1
+    },
+    {
+      "namespace": "target-app",
+      "name": "checkoutservice",
+      "desired": 3,
+      "available": 3
+    },
+    {
+      "namespace": "target-app",
+      "name": "frontend",
+      "desired": 1,
+      "available": 1
+    },
+    {
+      "namespace": "zero-door",
+      "name": "gaia",
+      "desired": 1,
+      "available": 1
+    },
+    {
+      "namespace": "zero-door",
+      "name": "hephaestus",
+      "desired": 1,
+      "available": 1
+    }
+  ]
+}

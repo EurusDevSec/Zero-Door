@@ -1,0 +1,7 @@
+NAME                                      READY   STATUS    RESTARTS         AGE     IP            NODE                     NOMINATED NODE   READINESS GATES
+coredns-ccb96694c-drjgp                   1/1     Running   3 (7h33m ago)    2d15h   10.42.0.152   k3d-zero-door-agent-0    <none>           <none>
+local-path-provisioner-5cf85fd84d-mb74p   1/1     Running   4 (7h32m ago)    2d15h   10.42.0.156   k3d-zero-door-agent-0    <none>           <none>
+metrics-server-5985cbc9d7-s6h86           1/1     Running   11 (4h17m ago)   4d6h    10.42.0.141   k3d-zero-door-agent-0    <none>           <none>
+svclb-traefik-2aaf11e4-6ktqh              2/2     Running   14 (7h32m ago)   3d22h   10.42.1.183   k3d-zero-door-server-0   <none>           <none>
+svclb-traefik-2aaf11e4-bsq7z              2/2     Running   10 (7h33m ago)   3d22h   10.42.0.148   k3d-zero-door-agent-0    <none>           <none>
+traefik-75bb84786-v4rz5                   1/1     Running   8 (4h17m ago)    2d15h   10.42.0.146   k3d-zero-door-agent-0    <none>           <none>

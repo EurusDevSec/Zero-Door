@@ -1,0 +1,70 @@
+:KUBE-NWPLCY-6ON67B7WRW5NYX3Q - [0:0]
+:KUBE-NWPLCY-DEFAULT - [0:0]
+:KUBE-NWPLCY-EUUOQO7BYRRST2TE - [0:0]
+:KUBE-NWPLCY-M3LYTCTWDNKTBVQ4 - [0:0]
+:KUBE-NWPLCY-ODI3MZ2QPCIK65II - [0:0]
+:KUBE-POD-FW-23XHBGB27SSHOAZE - [0:0]
+:KUBE-POD-FW-2MDQSWYZEU2WIOY4 - [0:0]
+:KUBE-POD-FW-63ESM6TS7XSCNPRJ - [0:0]
+:KUBE-POD-FW-C3KRF7PVJS5UVQIS - [0:0]
+:KUBE-POD-FW-CCBGL6XLM6DAW2GQ - [0:0]
+:KUBE-POD-FW-DW5JMTHDUWYZJEWF - [0:0]
+:KUBE-POD-FW-E5QJODGELWFZ3TD5 - [0:0]
+:KUBE-POD-FW-GCPGHWYK2BXL2RRD - [0:0]
+:KUBE-POD-FW-GW2ETG7KEC7YXB5L - [0:0]
+:KUBE-POD-FW-H2ZQ5CJDG3UDV3KI - [0:0]
+:KUBE-POD-FW-ITXZNHPCER5BHQKN - [0:0]
+:KUBE-POD-FW-KIKHAU2APXLVNHTP - [0:0]
+:KUBE-POD-FW-L3LAOEV4GGVOR67L - [0:0]
+:KUBE-POD-FW-LNQ2C4MWWCPZGNIZ - [0:0]
+:KUBE-POD-FW-MPSS2I3AHOINOK3X - [0:0]
+:KUBE-POD-FW-PHN65ZJIMKPPNC3P - [0:0]
+:KUBE-POD-FW-Q4MTOZ6K3I5UKXRV - [0:0]
+:KUBE-POD-FW-UZPVYJKF3XFK2QA5 - [0:0]
+:KUBE-POD-FW-V76NEPXAJVY55XYP - [0:0]
+:KUBE-POD-FW-WM5F6TY5OAIAKVGI - [0:0]
+:KUBE-POD-FW-XIKDHNQ4JTGS27JA - [0:0]
+:KUBE-POD-FW-XSC5FAKFNDOKLNUK - [0:0]
+:KUBE-ROUTER-FORWARD - [0:0]
+:KUBE-ROUTER-INPUT - [0:0]
+:KUBE-ROUTER-OUTPUT - [0:0]
+-A INPUT -m comment --comment "kube-router netpol - 4IA2OSFRMVNDXBVV" -j KUBE-ROUTER-INPUT
+-A INPUT -m comment --comment "KUBE-ROUTER rule to explicitly ACCEPT traffic that comply to network policies" -m mark --mark 0x20000/0x20000 -j ACCEPT
+-A FORWARD -m comment --comment "kube-router netpol - TEMCG2JMHZYE7H7T" -j KUBE-ROUTER-FORWARD
+-A FORWARD -m comment --comment "KUBE-ROUTER rule to explicitly ACCEPT traffic that comply to network policies" -m mark --mark 0x20000/0x20000 -j ACCEPT
+-A OUTPUT -m comment --comment "kube-router netpol - VEAAIY32XVBHCSCY" -j KUBE-ROUTER-OUTPUT
+-A OUTPUT -m comment --comment "KUBE-ROUTER rule to explicitly ACCEPT traffic that comply to network policies" -m mark --mark 0x20000/0x20000 -j ACCEPT
+-A KUBE-NWPLCY-6ON67B7WRW5NYX3Q -m comment --comment "rule to ACCEPT traffic from source pods to all destinations selected by policy name: allow-prometheus-scraping-egress namespace monitoring" -m set --match-set KUBE-SRC-5CGNHGM2C2FVMP5Y src -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-6ON67B7WRW5NYX3Q -m comment --comment "rule to ACCEPT traffic from source pods to all destinations selected by policy name: allow-prometheus-scraping-egress namespace monitoring" -m set --match-set KUBE-SRC-5CGNHGM2C2FVMP5Y src -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-6ON67B7WRW5NYX3Q -m comment --comment "rule to log dropped traffic" -m limit --limit 10/min --limit-burst 10 -m mark ! --mark 0x10000/0x10000 -j NFLOG --nflog-prefix "DROP by policy monitoring/allow-prometheus-scraping-egress" --nflog-group 100
+-A KUBE-NWPLCY-DEFAULT -p icmp -m comment --comment "allow icmp echo requests" -m icmp --icmp-type 8 -j ACCEPT
+-A KUBE-NWPLCY-DEFAULT -p icmp -m comment --comment "allow icmp destination unreachable messages" -m icmp --icmp-type 3 -j ACCEPT
+-A KUBE-NWPLCY-DEFAULT -p icmp -m comment --comment "allow icmp time exceeded messages" -m icmp --icmp-type 11 -j ACCEPT
+-A KUBE-NWPLCY-DEFAULT -m comment --comment "rule to mark traffic matching a network policy" -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-EUUOQO7BYRRST2TE -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: allow-grafana-ingress namespace monitoring" -m set --match-set KUBE-DST-NAVAJLAQR4L7DNA5 dst -m tcp --dport 3000 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-EUUOQO7BYRRST2TE -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: allow-grafana-ingress namespace monitoring" -m set --match-set KUBE-DST-NAVAJLAQR4L7DNA5 dst -m tcp --dport 3000 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-EUUOQO7BYRRST2TE -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: allow-grafana-ingress namespace monitoring" -m set --match-set KUBE-DST-NAVAJLAQR4L7DNA5 dst -m tcp --dport 80 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-EUUOQO7BYRRST2TE -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: allow-grafana-ingress namespace monitoring" -m set --match-set KUBE-DST-NAVAJLAQR4L7DNA5 dst -m tcp --dport 80 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-EUUOQO7BYRRST2TE -m comment --comment "rule to log dropped traffic" -m limit --limit 10/min --limit-burst 10 -m mark ! --mark 0x10000/0x10000 -j NFLOG --nflog-prefix "DROP by policy monitoring/allow-grafana-ingress" --nflog-group 100
+-A KUBE-NWPLCY-M3LYTCTWDNKTBVQ4 -p tcp -m comment --comment "rule to ACCEPT traffic from source pods to dest pods selected by policy name allow-fluent-bit-to-elasticsearch namespace monitoring" -m set --match-set KUBE-SRC-PHAH4LNPOWVIC6Q2 src -m set --match-set KUBE-DST-NEADIWFKRCQYVXAV dst -m tcp --dport 9200 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-M3LYTCTWDNKTBVQ4 -p tcp -m comment --comment "rule to ACCEPT traffic from source pods to dest pods selected by policy name allow-fluent-bit-to-elasticsearch namespace monitoring" -m set --match-set KUBE-SRC-PHAH4LNPOWVIC6Q2 src -m set --match-set KUBE-DST-NEADIWFKRCQYVXAV dst -m tcp --dport 9200 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-M3LYTCTWDNKTBVQ4 -p tcp -m comment --comment "rule to ACCEPT traffic from source pods to dest pods selected by policy name allow-fluent-bit-to-elasticsearch namespace monitoring" -m set --match-set KUBE-SRC-OYN3SYTQNPYOOL42 src -m set --match-set KUBE-DST-NEADIWFKRCQYVXAV dst -m tcp --dport 9200 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-M3LYTCTWDNKTBVQ4 -p tcp -m comment --comment "rule to ACCEPT traffic from source pods to dest pods selected by policy name allow-fluent-bit-to-elasticsearch namespace monitoring" -m set --match-set KUBE-SRC-OYN3SYTQNPYOOL42 src -m set --match-set KUBE-DST-NEADIWFKRCQYVXAV dst -m tcp --dport 9200 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-M3LYTCTWDNKTBVQ4 -m comment --comment "rule to log dropped traffic" -m limit --limit 10/min --limit-burst 10 -m mark ! --mark 0x10000/0x10000 -j NFLOG --nflog-prefix "DROP by policy monitoring/allow-fluent-bit-to-elasticsearch" --nflog-group 100
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 9092 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 9092 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 9094 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 9094 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 9093 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 9093 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 5556 -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -p tcp -m comment --comment "rule to ACCEPT traffic from all sources to dest pods selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-DST-OB2ZCOT6YGUDGMN2 dst -m tcp --dport 5556 -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -m comment --comment "rule to ACCEPT traffic from source pods to all destinations selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-SRC-OB2ZCOT6YGUDGMN2 src -j MARK --set-xmark 0x10000/0x10000
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -m comment --comment "rule to ACCEPT traffic from source pods to all destinations selected by policy name: kafka namespace zero-door" -m set --match-set KUBE-SRC-OB2ZCOT6YGUDGMN2 src -m mark --mark 0x10000/0x10000 -j RETURN
+-A KUBE-NWPLCY-ODI3MZ2QPCIK65II -m comment --comment "rule to log dropped traffic" -m limit --limit 10/min --limit-burst 10 -m mark ! --mark 0x10000/0x10000 -j NFLOG --nflog-prefix "DROP by policy zero-door/kafka" --nflog-group 100
+-A KUBE-POD-FW-23XHBGB27SSHOAZE -m comment --comment "rule for stateful firewall for pod" -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A KUBE-POD-FW-23XHBGB27SSHOAZE -m comment --comment "rule to drop invalid state for pod" -m conntrack --ctstate INVALID -j DROP
+-A KUBE-POD-FW-23XHBGB27SSHOAZE -d 10.42.0.136/32 -m comment --comment "rule to permit the traffic traffic to pods when source is the pod\'s local node" -m addrtype --src-type LOCAL -j ACCEPT
+-A KUBE-POD-FW-23XHBGB27SSHOAZE -s 10.42.0.136/32 -m comment --comment "run through default egress network policy chain" -j KUBE-NWPLCY-DEFAULT
+-A KUBE-POD-FW-23XHBGB27SSHOAZE -d 10.42.0.136/32 -m comment --comment "run through default ingress network policy chain" -j KUBE-NWPLCY-DEFAULT
+-A KUBE-POD-FW-23XHBGB27SSHOAZE -m comment --comment "rule to log dropped traffic POD name:productcatalogservice-5cc4fdfd64-c7wdg namespace: target-app" -m mark ! --mark 0x10000/0x10000 -m limit --limit 10/min --limit-burst 10 -j NFLOG --nflog-group 100

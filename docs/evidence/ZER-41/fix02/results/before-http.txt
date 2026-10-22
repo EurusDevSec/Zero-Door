@@ -1,0 +1,110 @@
+test_search_fails_fast_when_all_db_slots_are_busy (__main__.Admission.test_search_fails_fast_when_all_db_slots_are_busy) ... ok
+test_embedded_request_in_a_body_is_not_smuggled (__main__.Framing.test_embedded_request_in_a_body_is_not_smuggled) ... ok
+test_one_request_one_response_then_close (__main__.Framing.test_one_request_one_response_then_close) ... ok
+test_pipelined_second_request_is_not_served (__main__.Framing.test_pipelined_second_request_is_not_served) ... ok
+test_separate_connections_get_distinct_request_ids (__main__.Framing.test_separate_connections_get_distinct_request_ids) ... ok
+test_head_is_rejected_without_a_body (__main__.Methods.test_head_is_rejected_without_a_body) ... ok
+test_malformed_request_line_is_structured_400 (__main__.Methods.test_malformed_request_line_is_structured_400) ... FAIL
+test_too_many_headers_is_structured_431 (__main__.Methods.test_too_many_headers_is_structured_431) ... FAIL
+test_unsupported_http_version_is_structured_505 (__main__.Methods.test_unsupported_http_version_is_structured_505) ... FAIL
+test_unsupported_methods_listed_or_not_are_structured_405 (__main__.Methods.test_unsupported_methods_listed_or_not_are_structured_405) ... 
+  test_unsupported_methods_listed_or_not_are_structured_405 (__main__.Methods.test_unsupported_methods_listed_or_not_are_structured_405) (method='TRACE') ... FAIL
+  test_unsupported_methods_listed_or_not_are_structured_405 (__main__.Methods.test_unsupported_methods_listed_or_not_are_structured_405) (method='FOO') ... FAIL
+test_connection_admission_limit_refuses_excess_fast (__main__.Transport.test_connection_admission_limit_refuses_excess_fast) ... ok
+test_dribbled_body_is_cut_at_the_request_budget (__main__.Transport.test_dribbled_body_is_cut_at_the_request_budget) ... FAIL
+test_dribbled_headers_are_cut_at_the_request_budget (__main__.Transport.test_dribbled_headers_are_cut_at_the_request_budget) ... FAIL
+test_dribbled_request_line_is_cut_at_the_request_budget (__main__.Transport.test_dribbled_request_line_is_cut_at_the_request_budget) ... FAIL
+test_idle_connection_is_closed_at_the_budget_without_a_record (__main__.Transport.test_idle_connection_is_closed_at_the_budget_without_a_record) ... FAIL
+
+======================================================================
+FAIL: test_malformed_request_line_is_structured_400 (__main__.Methods.test_malformed_request_line_is_structured_400)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 166, in test_malformed_request_line_is_structured_400
+    body, _ = self.rejected(b"GARBAGE\r\n", 400)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 142, in rejected
+    self.assertEqual(count_responses(wire), 1, wire[:200])
+AssertionError: 0 != 1 : b'<!DOCTYPE HTML>\n<html lang="en">\n    <head>\n        <meta charset="utf-8">\n        <title>Error response</title>\n    </head>\n    <body>\n        <h1>Error response</h1>\n        <p>Error code: 400</p>\n '
+
+======================================================================
+FAIL: test_too_many_headers_is_structured_431 (__main__.Methods.test_too_many_headers_is_structured_431)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 175, in test_too_many_headers_is_structured_431
+    body, _ = self.rejected(b"GET /health HTTP/1.1\r\n" + headers, 431)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 144, in rejected
+    self.assertIn(b"X-Request-Id", head)           # structured, never the inherited HTML page
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'X-Request-Id' not found in b'HTTP/1.1 431 Too many headers\r\nServer: zd-sqli-fixture \r\nDate: Thu, 22 Oct 2026 07:46:45 GMT\r\nConnection: close\r\nContent-Type: text/html;charset=utf-8\r\nContent-Length: 333'
+
+======================================================================
+FAIL: test_unsupported_http_version_is_structured_505 (__main__.Methods.test_unsupported_http_version_is_structured_505)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 170, in test_unsupported_http_version_is_structured_505
+    body, _ = self.rejected(b"GET /health HTTP/9.9\r\n", 505)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 142, in rejected
+    self.assertEqual(count_responses(wire), 1, wire[:200])
+AssertionError: 0 != 1 : b'<!DOCTYPE HTML>\n<html lang="en">\n    <head>\n        <meta charset="utf-8">\n        <title>Error response</title>\n    </head>\n    <body>\n        <h1>Error response</h1>\n        <p>Error code: 505</p>\n '
+
+======================================================================
+FAIL: test_unsupported_methods_listed_or_not_are_structured_405 (__main__.Methods.test_unsupported_methods_listed_or_not_are_structured_405) (method='TRACE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 154, in test_unsupported_methods_listed_or_not_are_structured_405
+    body, record = self.rejected(
+                   ^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 143, in rejected
+    self.assertIn(str(status).encode(), head.split(b"\r\n", 1)[0])
+AssertionError: b'405' not found in b"HTTP/1.1 501 Unsupported method ('TRACE')"
+
+======================================================================
+FAIL: test_unsupported_methods_listed_or_not_are_structured_405 (__main__.Methods.test_unsupported_methods_listed_or_not_are_structured_405) (method='FOO')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 154, in test_unsupported_methods_listed_or_not_are_structured_405
+    body, record = self.rejected(
+                   ^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 143, in rejected
+    self.assertIn(str(status).encode(), head.split(b"\r\n", 1)[0])
+AssertionError: b'405' not found in b"HTTP/1.1 501 Unsupported method ('FOO')"
+
+======================================================================
+FAIL: test_dribbled_body_is_cut_at_the_request_budget (__main__.Transport.test_dribbled_body_is_cut_at_the_request_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 235, in test_dribbled_body_is_cut_at_the_request_budget
+    self.assertIsNotNone(answer, "no answer: progress kept extending the read")
+AssertionError: unexpectedly None : no answer: progress kept extending the read
+
+======================================================================
+FAIL: test_dribbled_headers_are_cut_at_the_request_budget (__main__.Transport.test_dribbled_headers_are_cut_at_the_request_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 250, in test_dribbled_headers_are_cut_at_the_request_budget
+    self.assertIsNotNone(answer, "no answer: header progress kept extending the read")
+AssertionError: unexpectedly None : no answer: header progress kept extending the read
+
+======================================================================
+FAIL: test_dribbled_request_line_is_cut_at_the_request_budget (__main__.Transport.test_dribbled_request_line_is_cut_at_the_request_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 260, in test_dribbled_request_line_is_cut_at_the_request_budget
+    self.assertIsNotNone(answer, "no answer: request-line progress kept extending the read")
+AssertionError: unexpectedly None : no answer: request-line progress kept extending the read
+
+======================================================================
+FAIL: test_idle_connection_is_closed_at_the_budget_without_a_record (__main__.Transport.test_idle_connection_is_closed_at_the_budget_without_a_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture_http.py", line 280, in test_idle_connection_is_closed_at_the_budget_without_a_record
+    self.assertLessEqual(time.monotonic() - start, self.limit)
+AssertionError: 5.0 not less than or equal to 4.0
+
+----------------------------------------------------------------------
+Ran 15 tests in 32.167s
+
+FAILED (failures=9)

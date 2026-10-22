@@ -1,0 +1,96 @@
+{
+  "verdict": "PARTIAL_ONE_SOURCE_ONLY",
+  "matched_samples": 12,
+  "pod_ips": {
+    "sqli-fixture-755485fc74-ndcrx": "10.42.1.191",
+    "zer41-private-ingress-998cd8fbb-cfkkl": "10.42.1.190",
+    "zer41-source-a": "10.42.1.188",
+    "zer41-source-b": "10.42.1.189"
+  },
+  "observations": [
+    {
+      "request_id": "a87947565e8c4516a1b598156b4c9dbd",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "5e0c077c175a47a4ade9be1de0e2ad87",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "6d497afb956641f49f6dba083141ae85",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "ca1ff5eed38e4fd8b770aea8d082d998",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "990bd8ea4b6c45bfb8a61a15a2255f80",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "fa11cf51bacb4ac1b32a354b428e89c7",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "e84df2eeb48b4cef891d316f9c457e75",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "d8bb80d967f04b4397b3e357f75ba138",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "7f3acdb36e204dec858d03eccf538208",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "5a31cc2e60274a2dba4b36eb00d8c26c",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "b66e0df985cc457db750fb6f42f81639",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    },
+    {
+      "request_id": "31b18afd3c144a578c3338e280bc5a77",
+      "correlation_match": true,
+      "status_match": true,
+      "source_match": true,
+      "spoof_not_accepted": true
+    }
+  ]
+}

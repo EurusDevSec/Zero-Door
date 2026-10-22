@@ -1,0 +1,12 @@
+serviceaccount/sqli-fixture created
+configmap/sqli-fixture-config created
+service/sqli-fixture created
+networkpolicy.networking.k8s.io/default-deny created
+networkpolicy.networking.k8s.io/allow-ingress-controller-and-dns created
+configmap/zer41-private-ingress created
+deployment.apps/zer41-private-ingress created
+service/zer41-private-ingress created
+pod/zer41-source-a created
+pod/zer41-source-b created
+networkpolicy.networking.k8s.io/private-ingress created
+networkpolicy.networking.k8s.io/private-sources created

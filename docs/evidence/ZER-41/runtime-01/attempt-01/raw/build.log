@@ -1,0 +1,45 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.03kB 0.0s done
+#1 DONE 3.2s
+
+#2 [internal] load metadata for gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61
+#2 DONE 1.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61
+#4 resolve gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61 0.0s done
+#4 DONE 0.0s
+
+#5 [2/4] WORKDIR /app
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 36.51kB 0.0s done
+#6 DONE 0.0s
+
+#7 [3/4] COPY app.py .
+#7 DONE 0.2s
+
+#8 [4/4] COPY seed.json .
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:3933673007d58956e8d09465753d626bb6f8978b3fb8e2fcab4f04946e30bb58 0.0s done
+#9 exporting config sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f 0.0s done
+#9 exporting attestation manifest sha256:1cd434a66e51339eb79773e4a9cb57f3037f27295d375f3fa0d891ebd39b0df8 0.0s done
+#9 exporting manifest list sha256:e95d058b11defba91a76d3a13c703811f846ddc40e877bf3459fc8c1b6f6b17c
+#9 exporting manifest list sha256:e95d058b11defba91a76d3a13c703811f846ddc40e877bf3459fc8c1b6f6b17c 0.0s done
+#9 naming to docker.io/library/zer41-fixture:37c7a045e098 done
+#9 unpacking to docker.io/library/zer41-fixture:37c7a045e098
+#9 unpacking to docker.io/library/zer41-fixture:37c7a045e098 0.4s done
+#9 DONE 1.0s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/kk34tsyxreij1fmhszvjo6vdk

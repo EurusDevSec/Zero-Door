@@ -15,3 +15,11 @@ tests/test_measurement_*.py -text whitespace=trailing-space,space-before-tab,cr-
 tests/fixtures/zer10/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/ZER-10/**/before/** -whitespace
 docs/evidence/ZER-10/**/*.diff -whitespace
+
+# ZER-41: preserve reviewed Windows source and original evidence bytes.
+services/sqli-fixture/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/ZER-41/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/ZER-41/**/*.txt -whitespace
+docs/evidence/ZER-41/**/*.diff -whitespace
+docs/evidence/ZER-41/runtime-02/raw/*.html -whitespace
+docs/evidence/ZER-41/**/*.log -whitespace

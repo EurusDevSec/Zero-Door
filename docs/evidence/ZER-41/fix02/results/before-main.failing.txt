@@ -1,0 +1,7 @@
+test_foreign_file_fails_neutrally_and_is_kept ... FAIL
+test_handler_error_writes_no_traceback ... FAIL
+test_ill_formed_seed_fails_neutrally ... FAIL
+test_invalid_settings_fail_neutrally_without_echoing_values (setting='ZD_SQLI_PROFILE') ... FAIL
+test_invalid_settings_fail_neutrally_without_echoing_values (setting='ZD_SQLI_TRUSTED_PROXIES') ... FAIL
+test_invalid_settings_fail_neutrally_without_echoing_values (setting='ZD_SQLI_SEED') ... FAIL
+test_mismatched_seed_db_fails_neutrally_and_is_kept ... FAIL

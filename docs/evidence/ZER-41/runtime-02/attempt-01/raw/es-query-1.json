@@ -1,0 +1,48 @@
+{
+  "took": 2285,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 1,
+      "relation": "eq"
+    },
+    "max_score": 34.246605,
+    "hits": [
+      {
+        "_index": "zero-door-logs-2026.10.22",
+        "_id": "3Fr1YqEBaiWeL17vEWql",
+        "_score": 34.246605,
+        "_ignored": [
+          "message.keyword"
+        ],
+        "_source": {
+          "@timestamp": "2026-10-22T09:33:05.508Z",
+          "stream": "stdout",
+          "logtag": "F",
+          "message": "{\"ts\":1792661585.4730835,\"request_id\":\"79da42a43fcc4e1f880a9068ba6c24ae\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":2.752,\"tcp_peer\":\"10.42.1.201\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.1.199\",\"correlation_id\":\"zer41-20261022-9ad4b1e6-fafba4a3-a-1\",\"rows\":2,\"restricted_rows\":0}",
+          "kubernetes": {
+            "pod_name": "sqli-fixture-759596847d-pkd84",
+            "namespace_name": "zd-sqli-lab",
+            "pod_id": "ac8a2724-a872-43cc-b48e-39416046f417",
+            "labels": {
+              "app": "sqli-fixture",
+              "pod-template-hash": "759596847d",
+              "zero-door_io/run": "zer41-20261022-9ad4b1e6"
+            },
+            "host": "k3d-zero-door-server-0",
+            "container_name": "sqli-fixture",
+            "docker_id": "4bd892325d1610e8bb713c03667d321418e98e6f8745f5ea3aeee1c8f51282e5",
+            "container_hash": "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f",
+            "container_image": "docker.io/library/zer41-fixture:37c7a045e098"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+k3d-zero-door-server-0
+/proc/sys/net/bridge/bridge-nf-call-iptables=1
+/proc/sys/net/ipv4/ip_forward=1
+k3d-zero-door-agent-0
+/proc/sys/net/bridge/bridge-nf-call-iptables=1
+/proc/sys/net/ipv4/ip_forward=1

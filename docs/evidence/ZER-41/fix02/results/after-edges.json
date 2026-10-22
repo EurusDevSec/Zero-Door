@@ -1,0 +1,51 @@
+{
+ "app": "R:\\_Projects\\Eurus_Workspace\\zero_door\\services\\sqli-fixture\\app.py",
+ "dribbling_body": {
+  "elapsed_s": 3.0,
+  "request_budget_s": 3.0,
+  "status_line": "HTTP/1.1 408 Request Timeout",
+  "records": [
+   {
+    "ts": 1792655277.5666656,
+    "request_id": "eb69b16aadd94983846d7fdb6af89cf9",
+    "method": "POST",
+    "path": "/fixture/orders",
+    "status": 408,
+    "duration_ms": 3000.0,
+    "tcp_peer": "127.0.0.1",
+    "source_method": "DIRECT_PEER",
+    "source_confidence": "OBSERVED_PEER",
+    "client_ip": "127.0.0.1",
+    "correlation_id": null
+   }
+  ]
+ },
+ "unhandled_method": {
+  "status_line": "HTTP/1.1 405 Method Not Allowed",
+  "has_request_id": true,
+  "html": false,
+  "new_records": [
+   {
+    "ts": 1792655277.5825486,
+    "request_id": "612f0ed5211b42bd97a96f7566b62786",
+    "method": "TRACE",
+    "path": "/health",
+    "status": 405,
+    "duration_ms": 16.0,
+    "tcp_peer": "127.0.0.1",
+    "source_method": "DIRECT_PEER",
+    "source_confidence": "OBSERVED_PEER",
+    "client_ip": "127.0.0.1",
+    "correlation_id": null
+   }
+  ]
+ },
+ "startup_failure_process": {
+  "returncode": 2,
+  "stderr": "{\"event\":\"startup_failed\",\"reason\":\"DB_INCOMPATIBLE\",\"setting\":\"ZD_SQLI_DB_DIR\"}\n",
+  "canary_on_streams": false,
+  "traceback_on_streams": false,
+  "db_path_on_streams": false,
+  "db_kept": true
+ }
+}
