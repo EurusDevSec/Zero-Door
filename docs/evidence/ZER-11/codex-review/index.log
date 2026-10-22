@@ -1,0 +1,15 @@
+
+  GitNexus Analyzer (1.6.11)
+
+  GitNexus Analyzer (1.6.11)
+{"level":40,"time":1792555732791,"name":"gitnexus","msg":"[scope-resolution] 27 property read/write site(s) name a field that IS defined in this workspace, but only in another language, so per-language inference declined to link them. Queries for these fields return an empty result that does NOT mean \"unused\" — it means the definition anchor is in a different language. Affected: calls (go), failed (go), lock (go), reader (go), reason (javascript), runs (javascript), stop (go), mode (python), run_id (python), source (python), …"}
+{"level":40,"time":1792555734076,"name":"gitnexus","truncation":{"truncated":true,"entryPointCandidatesDropped":434,"entryPointsUnexplored":0,"walksCutByBudget":29,"tracesDepthCapped":0,"calleesDropped":783,"processesDropped":0},"msg":"[processes] 424 flows reported, but whole flows are MISSING: 434 of 634 candidate entry point(s) never ranked in, 0 ranked entry point(s) never traced, 0 deduplicated flow(s) dropped at maxProcesses, 0 trace(s) cut at maxTraceDepth, 783 callee(s) skipped at maxBranching, 29 walk(s) cut by the per-entry trace budget. An absent flow does NOT mean the code path does not exist."}
+[2KIncremental: changed=11, added=26, deleted=0 (skipping wipe + 867 unchanged file rows preserved)
+[2KIncremental: +19 importer(s) added to writable set (BFS depth ≤ 4)
+[2KParse cache: pruned 10 stale chunk entries
+
+  Repository indexed successfully (68.7s)
+
+  30,649 nodes | 87,652 edges | 292 clusters | 424 flows
+  R:\_Projects\Eurus_Workspace\zero_door
+

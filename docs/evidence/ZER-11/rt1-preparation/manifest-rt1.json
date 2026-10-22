@@ -1,0 +1,120 @@
+{
+ "counts": {
+  "added": 16,
+  "modified": 5
+ },
+ "files": {
+  ".github/workflows/ci.yml": {
+   "after": "0d656ef229514b3b2bc9129366de34d2ad06b5275765cb4cf67aa1682844376b",
+   "before": "d1d6fb2cadec081dc164908f1b2feeba294de7eab95bffb5e882436ef324b0ee",
+   "change": "modified"
+  },
+  "docs/delivery/NOW.md": {
+   "after": "02f35693f183273c581b1eebcc0d6493e97d94e650501830002d1302064e922c",
+   "before": "81d27c7b8d40e528201cb797f7368afbb6cc80d62f4cba2782e60e0d8a79927c",
+   "change": "modified"
+  },
+  "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md": {
+   "after": "c00bdc843d89a96cbbec505ea6fa6c0303068072a7eab8cb38d2a8383439892b",
+   "before": "afba5c115195c2979828af933e06bf143994487e14615ef942885fe04c90a556",
+   "change": "modified"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/README.md": {
+   "after": "4bd46fb74508db3c75d780ed58a6793594efa98deea8fdba647e51ea67766c5a",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/check_mutants.py": {
+   "after": "2b0277b30395ddf3453211c0486c1e29c9ea8046744bfd1c545e08d56e2f6ef5",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/clean_checkout.sh": {
+   "after": "e03ce27313297b73b1145c5cf50a520bbce668af8f470e5f33e4460b84ddb7a6",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/clean-checkout-attempt1.txt": {
+   "after": "449f1c6101f4ec92a593fd03cad7db61550e56ab9a3e810dc10987518d0faa48",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/clean-checkout.txt": {
+   "after": "224ad9f2560e707089cd7903da1d820585b22170cd8326ebcf1759a5a4b7bc57",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/mutants-attempt1.json": {
+   "after": "520054a5230ace40e7fa2f53a826468969c8bb0ef8c7af44b5c76888a6fdad6b",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/mutants-attempt2.json": {
+   "after": "a21581edb92f086810f8b4230708cd8c7858066198af15fdd91c66188ec7d603",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/mutants.json": {
+   "after": "9e331e823e9aad5dded5fbda75aee249523cdf669d6950e1560444d6165ee088",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/plan-check.json": {
+   "after": "2468ed6b153e5b527017efd5e6be0d8ef2cbd91c44d7bee4f85be40350de88fd",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/regressions-attempt1.txt": {
+   "after": "8e3d0463feee9e7f1f4d4dedf60d799e216074876ef380d536431decc86f5fa3",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/regressions-attempt2.txt": {
+   "after": "a104e93196c5ad9a539e98f2b8ef6f2bde1903f06906e6c43324bab6d7dd8579",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/regressions.txt": {
+   "after": "f8e79ff962c687a6516c7674079eefc6ce4fde9c694da732fc2dec548d74c7f1",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/results/rt1-matrix.json": {
+   "after": "72f58eabe6cf4378db0eaaf4281a5de8c2ee663f3b8a30721cc18bebcdbce0fe",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/rt1-preparation/run_regressions.sh": {
+   "after": "0e77e09e41feaef2e4cbf73252299fdb10ef9bc35ea62a5be9548b68d1d9ffcc",
+   "before": null,
+   "change": "added"
+  },
+  "docs/runbooks/dashboard-and-baselines.md": {
+   "after": "90a7c690394baae207f450249d203358107560ebd8f599e2f73d009c976a2d85",
+   "before": "21c9333706e044083d5634e7061d02f436ae27f755c5cff8c3dee6045ac90031",
+   "change": "modified"
+  },
+  "infrastructure/scripts/r1_baseline_runtime.py": {
+   "after": "dd0062edea8fc0919717c546b0c2c10b29ec82d9f7048132549cc271d5f0db8e",
+   "before": null,
+   "change": "added"
+  },
+  "infrastructure/scripts/verify-dashboard-baselines.py": {
+   "after": "72e114fe2d3bb6b88c39e980e9299a15db6e3898caa0340f7598e898f7407f3b",
+   "before": "7ee20952a229f74dc37443bb5c809514d8e5a5859763e7c28222b7e08e7810be",
+   "change": "modified"
+  },
+  "tests/test_dashboard_baseline_runtime.py": {
+   "after": "7075498d786d52bb52ddd5c214e7f094cd9360ce4c57b1a39724c5439a928bad",
+   "before": null,
+   "change": "added"
+  }
+ },
+ "head": "169413303340fc01eea8597c121ce39455892af0",
+ "package": "ZER-11 + ZER-39 H-RT1 preparation (Claude)",
+ "protected_unchanged": true,
+ "read_only_changed": [],
+ "read_only_checked": 190,
+ "snapshot": "scratch/zer11/claude-rt1/before.json",
+ "staged": []
+}

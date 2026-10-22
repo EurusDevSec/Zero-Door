@@ -1,0 +1,224 @@
+{
+ "abort": [
+  "wrong context",
+  "foreign HPA on frontend/cartservice",
+  "node NotReady",
+  "Gaia/Hephaestus pod in the B0 window",
+  "accepted O decision/action event",
+  "H/O persistence or ack stall",
+  "budget cap",
+  "positive control failed",
+  "baseline unhealthy",
+  "interrupt"
+ ],
+ "caps": {
+  "frontend_pod_deletes": 1,
+  "load_requests": 3600,
+  "probe_samples_per_trial": 1000,
+  "total_s": 3600
+ },
+ "context": "k3d-zero-door",
+ "f01_pilot": {
+  "cap_det_s": 300,
+  "cap_rec_s": 600,
+  "delta_s": 1,
+  "eps_s": 1,
+  "gap_s": 2,
+  "k": 3,
+  "l_ms": 2000,
+  "s_s": 30
+ },
+ "id": "G-ZER11-RT1",
+ "image": {
+  "image": "zero-door/measurement:zer10-574a0c3a2dad",
+  "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+  "node": "k3d-zero-door-server-0"
+ },
+ "image_note": "existing ZER-10 image, imagePullPolicy Never, no build; this file mounted read-only from a ConfigMap",
+ "phases_s": {
+  "P0": 180,
+  "P1": 300,
+  "P2": 180,
+  "P4_hpa_ready": 120,
+  "P5_seal_export": 180,
+  "P7": 300
+ },
+ "probe_budgets": {
+  "B0-CTRL": {
+   "max_duration_s": 995,
+   "max_requests": 8955,
+   "max_samples": 995,
+   "trial_window_s": 965
+  },
+  "B0-HPA": {
+   "max_duration_s": 995,
+   "max_requests": 8955,
+   "max_samples": 995,
+   "trial_window_s": 965
+  }
+ },
+ "reads": "get/auth can-i/version/config get-contexts/create --dry-run=client (local conversion); exec into the agent pod",
+ "stop_points": {
+  "a": "RECOVERY_VERIFIED evidence_complete_at + stop margin",
+  "b": "samples cover [T_req, T_req + W_eff] without failure",
+  "c": "samples reach T_eff + cap_rec + S + margin without verified recovery (scorer: TIMEOUT if covered)",
+  "d": "abort, total cap, probe budget, coverage gap in W_eff: MISSING_PROBE / UNKNOWN_EFFECT, never TIMEOUT or PASS"
+ },
+ "w_eff_s": 300,
+ "writes": [
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-<nonce>",
+   "phase": "P1",
+   "rollback": "P7 delete with uid precondition, then read back absent",
+   "verb": "create"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "rollback": "removed with the namespace",
+   "verb": "create"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "rollback": "self-test with a WRONG uid: must be refused (Conflict) and the ConfigMap must remain",
+   "verb": "delete"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "phase": "P1",
+   "rollback": "removed with the namespace (evidence pulled first)",
+   "verb": "create"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P1",
+   "rollback": "P7 delete with uid precondition",
+   "verb": "create"
+  },
+  {
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P1",
+   "rollback": "P7 scale back to the P0 replicas (uid, spec and resourceVersion checked)",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P1",
+   "rollback": "P7 scale back to the P0 replicas (uid, spec and resourceVersion checked)",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "rollback": "removed with the namespace",
+   "verb": "create"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "rollback": "0 -> 1 -> 0 inside the namespace",
+   "verb": "scale"
+  },
+  {
+   "kind": "Pod",
+   "name": "frontend-*",
+   "phase": "P3",
+   "rollback": "none: the ReplicaSet controller recreating it is the observation; exactly 1, uid precondition",
+   "verb": "delete"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "phase": "P4",
+   "rollback": "P7 delete with uid precondition",
+   "verb": "create"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "phase": "P4",
+   "rollback": "P7 delete with uid precondition",
+   "verb": "create"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-load",
+   "phase": "P4",
+   "rollback": "removed with the namespace; deleted by uid if it outlives the load window",
+   "verb": "create"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-load",
+   "phase": "P4",
+   "rollback": "same",
+   "verb": "delete"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  },
+  {
+   "kind": "Deployment",
+   "name": "frontend",
+   "phase": "P7",
+   "rollback": "CLEANUP: back to the P0 replicas after the HPA is gone; never evidence of recovery",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "cartservice",
+   "phase": "P7",
+   "rollback": "CLEANUP: same",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P7",
+   "rollback": "CLEANUP: back to the P0 replicas",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P7",
+   "rollback": "CLEANUP: back to the P0 replicas",
+   "verb": "scale"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  },
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-<nonce>",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  }
+ ]
+}

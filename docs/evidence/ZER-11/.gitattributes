@@ -1,0 +1,6 @@
+# Preserve exact capture/snapshot bytes and SHA-256 across Windows and Linux.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Captured CLI output and unified patches contain intentional whitespace.
+*.txt -whitespace
+*.diff -whitespace
+*.log -whitespace

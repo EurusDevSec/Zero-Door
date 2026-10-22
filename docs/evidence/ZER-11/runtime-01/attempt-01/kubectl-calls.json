@@ -1,0 +1,42 @@
+[
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "config",
+   "get-contexts",
+   "k3d-zero-door",
+   "-o",
+   "name"
+  ],
+  "exit": 0,
+  "s": 0.11
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "version",
+   "--client",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.109
+ },
+ {
+  "argv": [
+   "--context",
+   "k3d-zero-door",
+   "--request-timeout=20s",
+   "get",
+   "nodes",
+   "-o",
+   "json"
+  ],
+  "exit": 0,
+  "s": 0.125
+ }
+]

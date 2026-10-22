@@ -1,0 +1,302 @@
+diff --git a/scratch/zer11/claude-rt1/before/infrastructure/scripts/verify-dashboard-baselines.py b/infrastructure/scripts/verify-dashboard-baselines.py
+index 3f4960e..3a1d778 100644
+--- a/scratch/zer11/claude-rt1/before/infrastructure/scripts/verify-dashboard-baselines.py
++++ b/infrastructure/scripts/verify-dashboard-baselines.py
+@@ -15,8 +15,13 @@
+                      scorer's coverage rules (offline; the runbook quotes these numbers)
+   runtime-preflight  RUNTIME, read-only kubectl inventory for the approved plan; refuses without
+                      --runtime-approval and never applies, scales, deletes or injects anything
++  rt1                H-RT1 harness (r1_baseline_runtime.py). Without --execute: print the exact
++                     phase/write/rollback matrix, probe budgets and image (offline). With --execute,
++                     --runtime-approval <ref> and --context k3d-zero-door: RUNTIME, runs P0-P7 then P8.
++                     The flag records an approval given elsewhere; it grants nothing by itself
++  rt1-score          P8 again, offline: score pulled H/O exports with the ZER-10 CLI and register them
+ 
+-The runtime plan itself is docs/runbooks/dashboard-and-baselines.md; nothing here runs it.
++The runtime plan itself is docs/runbooks/dashboard-and-baselines.md.
+ """
+ import argparse
+ import asyncio
+@@ -35,7 +40,8 @@ ROOT = Path(__file__).resolve().parents[2]
+ NEMESIS = ROOT / "agent-orchestrator/nemesis"
+ RESULTS_PAGES = {"/dashboard/results.html", "/dashboard/results.js"}
+ SUITES = ["tests/test_dashboard_measurement.py", "tests/test_dashboard_modes.py", "tests/check_r1_baselines.py",
+-          "tests/test_command_modes.py", "tests/test_command_guard_integration.py", "tests/test_event_agents.py"]
++          "tests/test_command_modes.py", "tests/test_command_guard_integration.py", "tests/test_event_agents.py",
++          "tests/test_dashboard_baseline_runtime.py"]
+ 
+ 
+ def offline(args):
+@@ -299,6 +305,40 @@ def runtime_preflight(args):
+     return 0 if all(v["exit"] == 0 for v in snapshot["reads"].values()) else 1
+ 
+ 
++def harness():
++    sys.path.insert(0, str(Path(__file__).resolve().parent))
++    import r1_baseline_runtime
++    return r1_baseline_runtime
++
++
++def rt1(args):
++    rt = harness()
++    if not args.execute:
++        print(json.dumps(rt.matrix(RT1), indent=1, sort_keys=True))
++        return 0
++    if not args.runtime_approval:
++        print("REFUSED: --execute needs --runtime-approval <reference to Hoang's approval of the reviewed RT1 plan>", file=sys.stderr)
++        return 2
++    if args.context != RT1["context"]:
++        print(f"REFUSED: --context must be exactly {RT1['context']}", file=sys.stderr)
++        return 2
++    problems = plan_matrix()["problems"]
++    if problems or not args.out or Path(args.out).exists():
++        print("REFUSED: plan-check problems or --out missing/existing", problems, file=sys.stderr)
++        return 2
++    kube = rt.Kube(args.context)
++    result = rt.Orchestrator(RT1, kube, Path(args.out), args.runtime_approval).run()
++    print(json.dumps({k: result.get(k) for k in ("verdict", "abort", "cleanup", "final_diff", "p8")}, indent=1, default=str))
++    return 0 if result["verdict"] == "COMPLETED" and result["cleanup"] == "CLEAN" else 1
++
++
++def rt1_score(args):
++    rt = harness()
++    out = rt.score_and_register(Path(args.raw), Path(args.root))
++    print(json.dumps(out, indent=1, sort_keys=True, default=str))
++    return 0 if "registered" in out else 1
++
++
+ def main(argv=None):
+     parser = argparse.ArgumentParser(prog="verify-dashboard-baselines", description=__doc__,
+                                      formatter_class=argparse.RawDescriptionHelpFormatter)
+@@ -320,8 +360,16 @@ def main(argv=None):
+     p.add_argument("--runtime-approval")
+     p.add_argument("--context")
+     p.add_argument("--output", default="zer11-preflight.json")
++    h = sub.add_parser("rt1", help="H-RT1: print the matrix (default) or RUN it with --execute")
++    h.add_argument("--execute", action="store_true")
++    h.add_argument("--runtime-approval")
++    h.add_argument("--context")
++    h.add_argument("--out", help="new directory for receipts, raw exports and results")
++    q = sub.add_parser("rt1-score", help="P8 offline on pulled exports")
++    q.add_argument("--raw", required=True)
++    q.add_argument("--root", required=True)
+     args = parser.parse_args(argv)
+-    return {"offline": offline, "fixture-server": fixture_server, "register": register_cmd,
++    return {"rt1": rt1, "rt1-score": rt1_score, "offline": offline, "fixture-server": fixture_server, "register": register_cmd,
+             "serve-results": serve_results, "plan-check": plan_check, "runtime-preflight": runtime_preflight}[args.command](args)
+ 
+ 
+diff --git a/scratch/zer11/claude-rt1/before/docs/runbooks/dashboard-and-baselines.md b/docs/runbooks/dashboard-and-baselines.md
+index 905a1f4..c0b32ce 100644
+--- a/scratch/zer11/claude-rt1/before/docs/runbooks/dashboard-and-baselines.md
++++ b/docs/runbooks/dashboard-and-baselines.md
+@@ -59,7 +59,13 @@ Regression của trang kết quả chạy chính `results.js` trong Node VM (kh
+ node tests/results_page_vm.cjs
+ ```
+ 
+-`--help`, `offline`, `fixture-server`, `register`, `serve-results` và `plan-check` không chạm cluster, Docker hay model. Kiểm browser cục bộ với dữ liệu SYNTHETIC:
++Harness H-RT1 (mục 5.9) có suite offline riêng, gọi từ `offline` và CI. Suite chạy chính mã orchestration của CLI với kubectl giả, target giả và thang thời gian rút gọn:
++
++```bash
++python -B tests/test_dashboard_baseline_runtime.py
++```
++
++`--help`, `offline`, `fixture-server`, `register`, `serve-results`, `plan-check`, `rt1` (không có `--execute`) và `rt1-score` không chạm cluster, Docker hay model. Kiểm browser cục bộ với dữ liệu SYNTHETIC:
+ 
+ ```bash
+ ZD_PYTHON=scratch/zer12/production-nemesis/Scripts/python.exe bash infrastructure/scripts/verify-dashboard-baselines.sh fixture-server --port 8711
+@@ -96,7 +102,7 @@ Mọi nhóm dùng cùng target, probe, kế hoạch fault đã khóa và giới
+ 
+ ## 5. Kế hoạch runtime chờ duyệt (G-ZER11-RT1)
+ 
+-Chưa được phép chạy. Codex review kế hoạch này trước, sau đó Hoàng duyệt một lần cho đúng gói này. Lệnh `runtime-preflight` từ chối nếu thiếu `--runtime-approval` và chỉ đọc. Mọi con số ở 5.3 do `plan-check` tính và kiểm; sửa số thì sửa `RT1` trong `verify-dashboard-baselines.py`, chạy lại lệnh và test.
++Chưa được phép chạy. Codex review kế hoạch này và harness H-RT1 (5.9) trước, sau đó Hoàng duyệt một lần cho đúng gói này. Lệnh `runtime-preflight` từ chối nếu thiếu `--runtime-approval` và chỉ đọc; `rt1` không có `--execute` chỉ in ma trận. Mọi con số ở 5.3 do `plan-check` tính và kiểm; sửa số thì sửa `RT1` trong `verify-dashboard-baselines.py`, chạy lại lệnh và test.
+ 
+ ```bash
+ python -B infrastructure/scripts/verify-dashboard-baselines.py plan-check
+@@ -130,7 +136,7 @@ python -B infrastructure/scripts/verify-dashboard-baselines.py plan-check
+ - **Image:** chỉ image đã có (target, gateway, probe ZER-10). Không Docker build.
+ - **Root S (offline, trên host):** `scratch/zer11/runtime-<nonce>/results/`, tạo mới, không trùng run cũ. Khóa `results-reader` sinh mới cho run, ghi file ngoài repo, không in ra.
+ 
+-**Điều kiện trước khi xin quyền (chưa có trong repo):** harness B0 H-RT1, cùng khuôn `docs/evidence/ZER-10/runtime-01/acceptance.py`. Harness phát RUN_STARTED/RUN_CONTEXT/TRIAL_CONTEXT (`group=B0`, `config_ref` = SHA-256 của `r1-baselines.yaml`), TRIAL_STARTED/TRIAL_ENDED, ATTACK_REQUESTED/ATTACK_STOPPED (vai `harness`), EFFECT_EVALUATED (vai `effect_evaluator`), RELAPSE/RECOVERY_VERIFIED (vai `recovery_evaluator`, dùng `measurement.recovery.RecoveryMonitor`) và AUDIT_COVERAGE. Nó tự dừng trial theo 5.4 và giữ trần 5.3. H-RT1 phải có test offline và được Codex review trước; gói fix-01 không viết harness này.
++**Harness:** H-RT1 ở `infrastructure/scripts/r1_baseline_runtime.py`, chạy qua `verify-dashboard-baselines.py rt1` (mục 5.9). Harness phát RUN_STARTED/RUN_CONTEXT/TRIAL_CONTEXT (`group=B0`, `config_ref` = SHA-256 của `r1-baselines.yaml`), TRIAL_STARTED/TRIAL_ENDED, ATTACK_REQUESTED/ATTACK_STOPPED (vai `harness`), EFFECT_EVALUATED (vai `effect_evaluator`), RELAPSE/RECOVERY_VERIFIED (vai `recovery_evaluator`, dùng `measurement.recovery.RecoveryMonitor`) và AUDIT_COVERAGE. Nó tự dừng trial theo 5.4 và giữ trần 5.3. Codex review harness trước khi xin quyền.
+ 
+ ### 5.3 Trần và budget (output của `plan-check`)
+ 
+@@ -168,13 +174,13 @@ Khoảng trống > gap = 2 s trong lúc target sập (giao dịch timeout 10 s,
+ | Pha | Việc | Thao tác ghi lên cluster |
+ | --- | --- | --- |
+ | P0 | Preflight chỉ đọc: context, UID/spec, không có HPA nào trỏ frontend/cartservice (có thì dừng), Metrics API Available, node Ready, `kubectl auth can-i` của `zero-door:hephaestus-sa` với `patch deployments/scale` và `delete pods` ở `target-app` | Không |
+-| P1 | Tạo namespace tạm, gateway H/O, harness, probe; áp ConfigMap; scale Gaia và Hephaestus về 0 và xác nhận 0 pod | 1 namespace + đối tượng trong đó; 1 ConfigMap; 2 lệnh scale |
+-| P2 | Positive control trước trial: (1) harness phát một event O hợp lệ, thấy nó trong export O; (2) gửi một DECISION giả `decision_rules` cho run B0 qua gateway, phải bị quarantine MODE_VIOLATION; (3) `kubectl scale` `zd-scale-canary` 0→1→0, quy trách nhiệm qua Events `source` và `managedFields.manager` phải ra `kubectl`, khác `horizontal-pod-autoscaler`/`replicaset-controller` | 2 lệnh scale trong namespace tạm |
++| P1 | Tạo namespace tạm; ConfigMap `zd-rt1-harness` chứa đúng file harness; **tự kiểm precondition**: xóa ConfigMap đó với một UID sai phải bị từ chối (Conflict) và ConfigMap phải còn, nếu không thì dừng trước khi chạm target; pod agent (gateway H/O, harness, probe), agent báo SHA-256 file phải trùng host; áp ConfigMap profile; scale Gaia và Hephaestus về 0 và xác nhận 0 pod | 1 namespace + 2 đối tượng trong đó; 1 lệnh xóa bị từ chối có chủ đích; 1 ConfigMap; 2 lệnh scale |
++| P2 | Positive control trước trial, trong **một run B0 riêng** (ngoài cohort chính; export riêng `pc-export-H/O`, chấm riêng ở P8): (1) harness phát một event O hợp lệ, thấy nó trong archive O; (2) gửi một DECISION `decision_rules` cho run B0 đó qua gateway, phải bị quarantine MODE_VIOLATION; (3) `kubectl scale` `zd-scale-canary` 0→1→0, `managedFields.manager` của `spec.replicas` phải bắt đầu bằng `kubectl` (kubectl/kubectl.exe, theo user agent), không phải `horizontal-pod-autoscaler`, và pod mới do `replicaset-controller` tạo | 1 Deployment và 2 lệnh scale trong namespace tạm |
+ | P3 | B0-CTRL: warm-up, baseline, harness xóa đúng 1 pod frontend (ATTACK_REQUESTED → delete → ATTACK_STOPPED), ghi Events, UID pod trước/sau, trạng thái ReplicaSet; dừng theo 5.4 | 1 lần xóa pod |
+ | P4 | Áp 2 HPA, chờ `currentMetrics` (tối đa 120 s; không có thì ghi "HPA không đo được" và bỏ trial). B0-HPA: ATTACK_REQUESTED, pod tải chạy 180 s trong trần, ATTACK_STOPPED; ghi `desiredReplicas`/`currentReplicas` và Event `SuccessfulRescale`; dừng theo 5.4. Không tự scale về | 2 HPA; pod tải trong namespace tạm |
+-| P5 | TRIAL_ENDED, AUDIT_COVERAGE, seal, export H/O ra host | Không |
++| P5 | RUN_CLOSED, seal, export H/O của run chính và run positive control; host kéo về bằng `kubectl exec ... tar` (giải nén chỉ nhận file/thư mục thường) | Không |
+ | P7 | Cleanup, luôn chạy kể cả khi abort: xóa HPA và ConfigMap theo tên + nhãn + UID; trả frontend/cartservice về replicas baseline; trả Gaia/Hephaestus về replicas P0; xóa namespace tạm rồi đọc lại xác nhận đã vắng; diff UID/spec với P0, chỉ được khác replicas trong lúc chạy | Xóa đúng đối tượng đã tạo; ≤ 4 lệnh scale khôi phục |
+-| P8 (offline, sau P7) | Chấm và hiển thị, không cần cluster (lệnh ở dưới) | Không |
++| P8 (offline, sau P7) | Chấm và hiển thị, không cần cluster: harness tự chạy CLI scorer và `register` khi có đủ export H và O; thiếu một trong hai thì ghi `MAIN_EXPORTS_MISSING`, không chấm. Lệnh tay ở dưới | Không |
+ 
+ Nếu HPA không scale vì tải không vượt 70% CPU thì ghi đúng "HPA không kích hoạt", không tuyên bố đã kiểm HPA. Nếu B0-HPA có hiệu ứng mà phục hồi chỉ xảy ra sau ATTACK_STOPPED, không có `SuccessfulRescale` trước đó, thì phục hồi là do tải dừng, không quy cho HPA.
+ 
+@@ -226,6 +232,129 @@ P6 chứng minh BM không tự heal trên image mới. Nó cần gói riêng g
+ | Trial chưa hoàn tất | Mốc (d) và lý do được ghi; scorer ra MISSING_PROBE/UNKNOWN_EFFECT | Gọi là TIMEOUT hay PASS |
+ | Dashboard = export | Receipt `serve-results` (`root_unchanged`), hash ba file = registry; KPI và incident trên trang = `score.json`/CSV; chụp màn hình | Hai consumer cùng đọc một số sai |
+ 
++### 5.9 Harness H-RT1 (thực thi)
++
++Một file `infrastructure/scripts/r1_baseline_runtime.py`, hai nửa:
++
++- **Host (Orchestrator):** chạy P0–P7 rồi P8.
++  - Mọi lệnh là argv kubectl có `--context k3d-zero-door` và `--request-timeout`, không qua shell.
++  - Mọi thao tác ghi đi qua một hàm duy nhất và bị từ chối nếu không có trong bảng `ACTIONS` (in bằng `rt1`).
++  - Xóa dùng `kubectl delete --raw <đường dẫn> -f <DeleteOptions có preconditions.uid>`. Scale dùng `--current-replicas` và `--resource-version`.
++  - Dừng khi chạm deadline tổng (trần 3600 s), tính cả lệnh đang chờ. P7 có phần dự trữ riêng 300 s trong cùng trần.
++- **Pod (Agent):**
++  - Chạy trong pod tạm, từ image ZER-10 sẵn có `zero-door/measurement:zer10-574a0c3a2dad` (`sha256:baf75538…8d32`, `imagePullPolicy: Never`, không build). Measurement/event_pipeline trong image trùng từng byte với cây hiện tại (`runtime-01/attempt-03/source-manifest.json`).
++  - File harness được mount chỉ đọc từ ConfigMap; agent báo SHA-256 của nó và host so.
++  - Agent giữ gateway H/O production: archive và khóa riêng cho từng plane, khóa sinh mới chỉ trong bộ nhớ, ack 201 bền. Ngoài ra là ProbeRunner ZER-10 cho từng trial, bộ đánh giá effect, `RecoveryMonitor` và AUDIT_COVERAGE.
++  - Host chỉ nói chuyện với agent qua `kubectl exec ... call <json>`.
++
++**Mốc và nguồn:**
++
++- T_req là `ts_event` của ATTACK_REQUESTED. Event này được phát và ack bền **trước** khi xóa pod hay tạo pod tải.
++- EFFECT_EVALUATED (`zd-rt1-effect/0`):
++  - Mẫu lỗi đầu tiên trong [T_req, T_req + W_eff] cho CONFIRMED.
++  - Mẫu phủ liên tục cả cửa sổ mà không có lỗi cho CONFIRMED_NO_EFFECT.
++  - Cửa sổ có khoảng trống, hoặc trial dừng trước khi quyết được, cho UNKNOWN_EFFECT.
++- Bộ đánh giá chỉ dùng mẫu probe đã được gateway H ack bền, theo đúng thứ tự sequence.
++- RECOVERY_VERIFIED chỉ phát khi đồng hồ harness đã qua `evidence_complete_at`.
++  - Lý do: `t_end` của mẫu là giờ wall lúc bắt đầu cộng thời gian monotonic, nên có thể vượt số đọc wall ngay sau đó.
++  - Nếu phát sớm hơn, scorer báo `published_before_evidence_complete`.
++- Controller tạo pod mới, hay HPA scale, không phải là mốc phục hồi. Phục hồi chỉ đến từ mẫu probe.
++- Harness không phát DETECTED, DECISION hay HEAL trong run chính.
++
++**Theo dõi vắng mặt (AUDIT_COVERAGE):**
++
++- Mỗi vòng poll, host đọc pod Gaia/Hephaestus và trạng thái node, rồi gửi kết quả cho agent. Agent đóng dấu thời gian bằng đồng hồ harness.
++- AUDIT_COVERAGE (`complete: true`, phạm vi `B0_ZERO_DOOR_ABSENCE`) chỉ được phát khi đủ ba điều kiện:
++  - Mọi lần đọc đều thành công và cho 0 pod.
++  - Không có khoảng trống quá 10 s, kể cả ở đầu và cuối trial.
++  - Archive O của run chính không nhận event nào ngoài RUN_CONTEXT/TRIAL_CONTEXT.
++- Một lần đọc lỗi thì không phát AUDIT_COVERAGE. Khi đó P8 ghi `RECOVERED_BUT_ABSENCE_AUDIT_INCOMPLETE`, không kết luận "không ai heal".
++
++**Dừng và dọn (5.4, 5.6):**
++
++- Trial kết thúc ở (d) thì cả run dừng. (d) gồm: abort, budget probe, ngắt, hoặc khoảng trống trong W_eff.
++- Khi đó trial đang mở được đóng lại rồi run được export:
++  - ATTACK_STOPPED `ABORTED` nếu lỗi chưa dừng.
++  - TRIAL_ENDED `ABORTED`.
++- P7 luôn chạy, theo thứ tự:
++  1. Kéo bằng chứng.
++  2. Xóa HPA theo UID.
++  3. Trả replicas của target. Chỉ làm với đúng đối tượng có cùng UID và cùng spec trừ replicas; khác thì để nguyên và ghi `REFUSED_UID_CHANGED`/`REFUSED_SPEC_CHANGED`.
++  4. Trả replicas của Gaia/Hephaestus.
++  5. Xóa ConfigMap profile.
++  6. Xóa namespace, đọc lại để xác nhận đã vắng.
++  7. So với P0.
++- Ctrl+C trong một bước dọn thì bước đó chạy lại một lần. Các bước đều idempotent nhờ precondition.
++
++**P8, đọc kết quả:** nhãn của scorer cộng với bằng chứng cluster cho ra kết luận của trial.
++
++- B0-CTRL được kết luận `CONTROLLER_RECOVERY_OBSERVED` chỉ khi đủ ba điều kiện:
++  - Nhãn RECOVERED_UNDETECTED.
++  - AUDIT_COVERAGE đủ.
++  - Có Event `SuccessfulCreate` của `replicaset-controller`.
++- B0-HPA được kết luận `HPA_RECOVERY_OBSERVED` chỉ khi Event `SuccessfulRescale` của `horizontal-pod-autoscaler` sớm hơn T_rec quá 1 s (Event có độ phân giải giây).
++- Các kết luận khác:
++  - `HPA_NOT_ACTIVATED_NO_EFFECT`.
++  - `RECOVERED_AFTER_LOAD_STOP_NOT_HPA`.
++  - `RESCALE_NOT_BY_HPA`.
++  - `NOT_RECOVERED_WITHIN_CAP` (TIMEOUT).
++  - `INCOMPLETE:<nhãn>`.
++
++**Chạy (sau khi có quyền):**
++
++```bash
++python -B infrastructure/scripts/verify-dashboard-baselines.py rt1
++```
++
++```bash
++python -B infrastructure/scripts/verify-dashboard-baselines.py rt1 --execute --runtime-approval <tham chiếu quyền Hoàng> --context k3d-zero-door --out <thư mục mới ngoài repo>
++```
++
++`--execute` chỉ ghi lại tham chiếu quyền; nó không cấp quyền. Thư mục `--out` nhận:
++
++- `preflight.json`.
++- `receipt.json`: pha, mọi thao tác ghi, cleanup, so với P0, P8.
++- `cluster-evidence.json` và `kubectl-calls.json`.
++- `raw/`: export H/O, outbox, journal, receipt của agent.
++- `results/`: root S đã đăng ký.
++
++Sau đó phục vụ `results/` bằng `serve-results` (P8), với một khóa `results-reader` sinh mới ngoài repo. Chấm lại offline:
++
++```bash
++python -B infrastructure/scripts/verify-dashboard-baselines.py rt1-score --raw <out>/raw --root <root S mới>
++```
++
++**Kiểm offline** (`tests/test_dashboard_baseline_runtime.py`, chạy trong `offline` và CI):
++
++- Phần giả:
++  - kubectl: cluster trong bộ nhớ có ReplicaSet controller, HPA và Events.
++  - Khả năng truy cập target: fake Boutique ZER-10 trên loopback, bị cắt khi không có pod frontend Ready.
++  - Thang thời gian tính bằng giây (bản SYNTHETIC của RT1).
++- Phần thật: harness, gateway và archive, ProbeRunner, RecoveryMonitor, CLI scorer, `register` và app `serve-results`.
++
++Ca kiểm:
++
++- Controller và HPA phục hồi, chấm và phục vụ.
++- HPA không kích hoạt.
++- Không phục hồi khi có phủ cho TIMEOUT; không phục hồi khi không phủ cho MISSING_PROBE.
++- Watcher lỗi.
++- Pod Gaia xuất hiện.
++- Ack H hỏng.
++- UID target đổi.
++- Ctrl+C trong trial và trong cleanup.
++- Chạm trần tổng.
++- Chạm trần số mẫu.
++- Precondition UID không được tôn trọng.
++- Ghi ngoài `ACTIONS`.
++- Tar không an toàn.
++- Trần request của tải.
++
++Chưa kiểm được offline:
++
++- Hành vi thật của `kubectl delete --raw -f` trên cluster (vì thế có self-test ở P1).
++- Định dạng thật của Events và managedFields của k3s.
++- Thời gian kubectl thực tế.
++
+ ## 6. Ánh xạ gate G1 (kế thừa và còn thiếu)
+ 
+ | Điều kiện G1 | Đã có | ZER-11/39 thêm | Còn thiếu |
+@@ -233,7 +362,7 @@ P6 chứng minh BM không tự heal trên image mới. Nó cần gói riêng g
+ | ID xuyên pipeline | ZER-9 (transport/archive, runtime đã nghiệm thu), ZER-37 contract | Dashboard đọc run_id/trial_id/incident_id từ artifact đã chấm | — |
+ | Raw/export và KPI tái tính | ZER-10 scorer, runtime-01 | Dashboard/API/export cùng artifact, kiểm hash và CSV; fixture và mutant; `serve-results` cho root thật | Run B0 thật được chấm và hiển thị (P8) |
+ | Evidence không lộ đáp án | ZER-9 AC-03 leak check, ZER-10 LEAK_CHECK | Kết quả S chỉ đọc bằng khóa riêng; deployment live không mount; lỗi không lộ path | Một O-console riêng cho operator BM: console Nemesis hiện vẫn hiện log tấn công (H) cho người giữ khóa operator |
+-| B0/BM không auto-heal | ModeGate/GuardedRules ZER-12 | Consumer và `/heal/trigger` thật có audit, positive control, replay; profile B0 | P3/P4 của RT1 (B0 runtime, cần harness H-RT1); BM trên image mới ở gói RT2 riêng |
++| B0/BM không auto-heal | ModeGate/GuardedRules ZER-12 | Consumer và `/heal/trigger` thật có audit, positive control, replay; profile B0 | P3/P4 của RT1 (B0 runtime qua H-RT1, chờ review và quyền); BM trên image mới ở gói RT2 riêng |
+ | Guard hoạt động | ZER-12/40 (CI, guard đã nghiệm thu) | Không đổi guard; executor production vẫn khóa | — |
+ 
+ Bảng này không kết luận G1 PASS.
+diff --git a/scratch/zer11/claude-rt1/before/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index eacf686..70a0e69 100644
+--- a/scratch/zer11/claude-rt1/before/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -92,6 +92,7 @@ jobs:
+         run: |
+           python -B tests/test_dashboard_measurement.py
+           python -B tests/test_dashboard_modes.py
++          python -B tests/test_dashboard_baseline_runtime.py
+ 
+   r1-production-http:
+     name: Guard entrypoints on production dependency pins
+@@ -121,6 +122,7 @@ jobs:
+         run: |
+           python -B tests/test_dashboard_measurement.py
+           python -B tests/test_dashboard_modes.py
++          python -B tests/test_dashboard_baseline_runtime.py
+           python -B tests/check_r1_baselines.py
+ 
+   r1-image-build:

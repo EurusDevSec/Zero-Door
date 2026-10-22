@@ -1,0 +1,131 @@
+# ZER-39 / ZER-11 AC-03-04: R1 comparison profiles (B0, BM, B1, B2, B3).
+#
+# A separate opt-in profile. It does NOT change the default live lab (target-app.yaml keeps
+# 9 services, 1 replica, no HPA) and is not applied by any setup script. Applying it needs the
+# approved runtime plan in docs/runbooks/dashboard-and-baselines.md.
+#
+# Every group shares the same target, probe, HPA and scale limits (ZER-8 section 4.1). The groups
+# differ only in who may decide and act. In B0 no ZERO DOOR component decides or acts: recovery comes
+# from Kubernetes alone, split into the Deployment/ReplicaSet controller (always on) and the HPA
+# below (only while these two objects exist). Checked offline by tests/check_r1_baselines.py.
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zd-r1-baseline-profiles
+  namespace: zero-door
+  labels:
+    app.kubernetes.io/part-of: zero-door
+    zero-door.io/profile: r1-baselines
+data:
+  profiles.json: |
+    {
+      "format": "zd-r1-baselines/1",
+      "contract": "zd-event/1.0.0 section 7.4",
+      "common": {
+        "target_namespace": "target-app",
+        "target_manifest": "infrastructure/manifests/target-app.yaml",
+        "probe": "measurement probe (H, ZER-38): the same locked plan for every group; it gives nothing to the deciding side",
+        "fault_plan": "the locked harness plan, identical for every group; no fault chosen by an LLM per group",
+        "controllers": "Deployment/ReplicaSet controller and kubelet restartPolicy Always: always on, in every group",
+        "hpa_objects": ["frontend-hpa-r1", "cartservice-hpa-r1"],
+        "scale_limit": {"min_replicas": 1, "max_replicas": 3, "same_as": "hephaestus-config MAX_REPLICAS"},
+        "guards": ["zd-command-policy (ZER-12)", "network-policies.yaml", "event gateway source/mode validation (ZER-9)"],
+        "observers": ["event gateway + recorder (H/O archives, ZER-9)", "Prometheus/kube-state-metrics telemetry (O)", "measurement probe (H)"],
+        "results_access": "S results are read only with the results-reader key after RUN_CLOSED; the live nemesis-deployment.yaml mounts no results root or reader key"
+      },
+      "groups": {
+        "B0": {"mode": "K8S_BASELINE", "decisions": [], "llm_call": false, "initiator": null,
+               "zero_door_components": [], "absent": ["gaia", "hephaestus"],
+               "detector": "OFF (observation mode not used: ZER-8 4.1 keeps MTTD/MTTR/reaction N/A for B0)",
+               "heal_rbac": "hephaestus-healer-role/binding not applied",
+               "recovery_by": ["deployment-controller", "hpa"],
+               "forbidden_events": ["DECISION", "LLM_CALL", "GUARD_VERDICT", "HEAL_STARTED", "API_ACCEPTED", "ACTION_COMPLETED"]},
+        "BM": {"mode": "MANUAL", "decisions": [["operator_console", "MANUAL", "OPERATOR"]], "llm_call": false, "initiator": "OPERATOR",
+               "zero_door_components": ["gaia", "hephaestus"], "absent": [],
+               "detector": "ON (alerts shown to the operator)", "auto_decision": false,
+               "executor": "R1_EXECUTOR_DISABLED: an operator decision is admitted and refused"},
+        "B1": {"mode": "RULES", "decisions": [["decision_rules", "RULES", "AUTO"]], "llm_call": false, "initiator": "AUTO",
+               "zero_door_components": ["gaia", "hephaestus"], "absent": [],
+               "detector": "ON", "auto_decision": true, "executor": "R1_EXECUTOR_DISABLED"},
+        "B2": {"mode": "AI", "decisions": [["decision_llm", "LLM", "AUTO"], ["decision_rules", "RULES", "AUTO"]], "llm_call": true, "initiator": "AUTO",
+               "zero_door_components": [], "absent": ["decision_llm producer"], "available": false,
+               "reason": "no LLM decision producer in R1; the dashboard shows AI as unavailable and never calls a model"},
+        "B3": {"mode": "AI_SINGLE", "decisions": [["decision_single_llm", "SINGLE_LLM", "AUTO"], ["decision_rules", "RULES", "AUTO"]], "llm_call": true, "initiator": "AUTO",
+               "zero_door_components": [], "absent": ["decision_single_llm producer"], "available": false,
+               "reason": "only if configured (ZER-8); never shown as B2"}
+      }
+    }
+---
+# The shared HPA profile. Same bounds as the legacy target-app-hpa.yaml, under distinct names so that
+# applying this profile never silently edits another HPA; the runtime plan refuses to apply it while
+# any other HPA targets these Deployments (two HPAs on one target are undefined behaviour).
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-hpa-r1
+  namespace: target-app
+  labels:
+    zero-door.io/profile: r1-baselines
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cartservice-hpa-r1
+  namespace: target-app
+  labels:
+    zero-door.io/profile: r1-baselines
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cartservice
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60

@@ -1,0 +1,33 @@
+{
+ "head": "169413303340fc01eea8597c121ce39455892af0",
+ "manifest_files": 66,
+ "manifest_mismatches": [],
+ "readonly_files": 246,
+ "readonly_mismatches": [],
+ "runtime_nemesis": {
+  "run": 27,
+  "passed": 26,
+  "failed": 1
+ },
+ "runtime_hephaestus": {
+  "run": 27,
+  "passed": 27,
+  "failed": 0
+ },
+ "other": {
+  "bandit.log": [],
+  "check_r1_baselines.py.log": [],
+  "test_command_guard_ci.py.log": [
+   "Ran 6 tests in 0.100s\r",
+   "OK\r"
+  ],
+  "test_dashboard_measurement.py.log": [
+   "Ran 33 tests in 18.702s\r",
+   "OK\r"
+  ],
+  "test_dashboard_modes.py.log": [
+   "Ran 7 tests in 9.131s\r",
+   "OK\r"
+  ]
+ }
+}

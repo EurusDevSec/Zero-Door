@@ -1,0 +1,87 @@
+{
+ "abort": "UNEXPECTED (TypeError: 'NoneType' object is not iterable)",
+ "approval": "Hoang-call_84d20afcbd014088a379b9fc172d89da-approved-RT1-3600s",
+ "cap_s": 3600,
+ "cleanup": "CLEAN",
+ "cleanup_steps": [
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "pull evidence"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete HPAs"
+  },
+  {
+   "attempts": 1,
+   "detail": {},
+   "status": "DONE",
+   "step": "restore target replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": {},
+   "status": "DONE",
+   "step": "restore gaia/hephaestus replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete profiles ConfigMap"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete namespace"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "final diff against P0"
+  }
+ ],
+ "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+ "context": "k3d-zero-door",
+ "created": [],
+ "elapsed_s": 0.344,
+ "image": "zero-door/measurement:zer10-574a0c3a2dad",
+ "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+ "module_sha256": "a74909ed48028f68dd3e55a387b8920eebba58e19aef4490b6c06a41b051dfbf",
+ "namespace": "zd-zer11-03292ba3",
+ "nonce": "03292ba3",
+ "p8": {
+  "exports": [],
+  "skipped": "MAIN_EXPORTS_MISSING"
+ },
+ "package": "H-RT1 / G-ZER11-RT1",
+ "phases": [
+  {
+   "phase": "P0",
+   "started": "2026-10-21T15:47:47.837Z",
+   "status": "FAILED:TypeError",
+   "t0_s": 0.0,
+   "t1_s": 0.344
+  },
+  {
+   "phase": "P7",
+   "started": "2026-10-21T15:47:48.188Z",
+   "status": "DONE",
+   "t0_s": 0.344,
+   "t1_s": 0.344
+  }
+ ],
+ "pod_deletes": {
+  "frontend_pod": 0
+ },
+ "reads": 3,
+ "trials": {},
+ "verdict": "ABORTED",
+ "writes": []
+}

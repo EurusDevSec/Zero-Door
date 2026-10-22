@@ -1,0 +1,4 @@
+n1-before-serial: 12 ok / 0 fail
+n1-before-par3: 12 ok / 0 fail
+n1-after-serial: 6 ok / 2 fail
+n1-after-par3: 8 ok / 1 fail

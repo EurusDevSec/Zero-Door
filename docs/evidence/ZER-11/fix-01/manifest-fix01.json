@@ -1,0 +1,156 @@
+{
+ "counts": {
+  "added": 21,
+  "deleted": 0,
+  "modified": 7
+ },
+ "earlier_evidence_and_codex_review_unchanged": true,
+ "earlier_evidence_checked": 39,
+ "files": {
+  "agent-orchestrator/nemesis/measurement_view.py": {
+   "after": "83269562474e3a0fa5b157d81c0fa3fdd2b52cbeae70f2cf2a51756ded4d87de",
+   "before": "ab3a2db9576a09f2204dddc781a1a0ba79b07375401c5baaefa30765f3d00804",
+   "change": "modified"
+  },
+  "agent-orchestrator/nemesis/static/results.js": {
+   "after": "a28d925e856f7569099560a04aa789b8fd54334dc44b4a4e411562f124ee96a7",
+   "before": "a3ea272b09dff3df1b41dd6e7992bef55ed828c5a613da9274b897bcd4e9162c",
+   "change": "modified"
+  },
+  "docs/delivery/NOW.md": {
+   "after": "b0fe5064e1196a5b909a03c7fecd69ef3cef1b25eaae294397946888cbb80409",
+   "before": "19e40f089f0529c7d378ec57f5d3f1ac19b399a52778b72187068c45a65109f7",
+   "change": "modified"
+  },
+  "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md": {
+   "after": "ba12f9971acc4616deb2f6f95e4463783a0667b2712149d91c5f04d4fffe38e9",
+   "before": "4aef2de2d5320ceb8cd50241a4f774a7e3805f73e4ec5d40432e8f9e077774b9",
+   "change": "modified"
+  },
+  "docs/evidence/ZER-11/fix-01/README.md": {
+   "after": "c38187f833fd5dceda5476b1fdcfda5b6b2e3ea26d6d9422c680456e071add0f",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/browser/01-good-then-hash-mismatch-cleared.jpg": {
+   "after": "29479e213ebeb9fcb5dab28ddaed67ad75e3926aa103cfcb9d738152d0756d78",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/browser/02-transient-503-stale.jpg": {
+   "after": "40d8ebb8ace853d357e3159813636f24fa7d2260db1a988ffad197b5c0aabc05",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/browser/03-reconnect-wrong-key-cleared.jpg": {
+   "after": "4ee94a6c416c57a7a464d5fc88e6e905c9d1350e4c01c5523b84fd3f4d25aaa7",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/browser/04-serve-results-standin-root.jpg": {
+   "after": "dfc8244d6d020d593e0d7653f846563f23c51cedae199c5b8fc4f94cb50f5dd1",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/check_mutants.py": {
+   "after": "51b34214ad625d5531be5261a0d0f181f665e7fd82f4a682ed85010e6696cdd5",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/clean_checkout.sh": {
+   "after": "2578b05fe7efc7bf25a2ee9c168c6bd6d0752f25e6efa72c3bed048e46eef7bd",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/fail_before.py": {
+   "after": "c931a6993fa5edae4a0c9efc24b86029b21c72c7e32ecb3d9658dffafe3c7134",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/replay_codex_ui.cjs": {
+   "after": "7e11463a80860f7f2bd72c917520104049bfe65dceffd4c9a6fd9143b8157b94",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/clean-checkout.txt": {
+   "after": "f6b8e79a1f6cdf7a403ed50f62834c4c19d601393dbbe1a3957ee3c35be9411e",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/codex-adapter-probe-after.jsonl": {
+   "after": "3f35a840ca0c252be5e65afd4133f638f81c1f29973e7c541cd515da959e1efa",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/codex-ui-counterexample-after.json": {
+   "after": "796d8e22d176ee5cde7a740c335a3b3fd06d48b0bfd752688db8113c04f37e91",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/fail-before.json": {
+   "after": "fe1228fc43b05024b117670a4302e56e84755f389d626f6914b8f997a0d9f7b8",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/fail-before.txt": {
+   "after": "583504f87ca4e6b87f442eb42755defe439a9a609a109d3d1e0ab6b79b16253c",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.json": {
+   "after": "d40c0100545c28e4a75241b2d74d083ac3cbba3247016892301a197c1c85f1d3",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.txt": {
+   "after": "ab7453556877f8e4c54c582c3126684f48f00141e80db3da189407a6334595e0",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/mutants.json": {
+   "after": "f75ed2b41c0536ad51f142f0cd626fee11f151489ee1e6913f0310e28fe8dcd8",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/mutants.txt": {
+   "after": "01c3cded90e12eb28c53182b4689af297ffced62841e90bed9cc3074065d837c",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/results/regressions.txt": {
+   "after": "f8fac797e1513b5fa0d1a2613dfa7ae51a230d3ec7e7f56a70eb29dcad02d8cb",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fix-01/run_regressions.sh": {
+   "after": "cb575e9e38ed03acac472a587d26d6feaeab9e3770d51b397264c6c981e76a54",
+   "before": null,
+   "change": "added"
+  },
+  "docs/runbooks/dashboard-and-baselines.md": {
+   "after": "21c9333706e044083d5634e7061d02f436ae27f755c5cff8c3dee6045ac90031",
+   "before": "9e152465dbeecf96e35f4921f5b3351339cbb38a90dcf66fb1324e374677e4f0",
+   "change": "modified"
+  },
+  "infrastructure/scripts/verify-dashboard-baselines.py": {
+   "after": "7ee20952a229f74dc37443bb5c809514d8e5a5859763e7c28222b7e08e7810be",
+   "before": "5b1aa2eb8a029f406d3fbb5a6fe9c096b21e9313068102953e801bb6c8549a3e",
+   "change": "modified"
+  },
+  "tests/results_page_vm.cjs": {
+   "after": "f61d4077d6f886b110c430b481dbf24289be0846375489439d80b2d9af468929",
+   "before": null,
+   "change": "added"
+  },
+  "tests/test_dashboard_measurement.py": {
+   "after": "7b58e13929a75e6d1316a7d10d59b4ed4682dab7048d0dc32cc485fa1167db61",
+   "before": "c51e91abbef11c2915b24fb37f24f977711f7fbf48b8f2922422175dbf146428",
+   "change": "modified"
+  }
+ },
+ "head": "169413303340fc01eea8597c121ce39455892af0",
+ "package": "ZER-11 + ZER-39 fix-01 (Claude)",
+ "protected_unchanged": true,
+ "snapshot": "scratch/zer11/claude-fix01/before.json",
+ "staged": []
+}

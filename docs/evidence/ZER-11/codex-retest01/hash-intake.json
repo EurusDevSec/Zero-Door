@@ -1,0 +1,114 @@
+[
+  {
+    "path": "agent-orchestrator/nemesis/measurement_view.py",
+    "match": true
+  },
+  {
+    "path": "agent-orchestrator/nemesis/static/results.js",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/NOW.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/README.md",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/01-good-then-hash-mismatch-cleared.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/02-transient-503-stale.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/03-reconnect-wrong-key-cleared.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/browser/04-serve-results-standin-root.jpg",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/check_mutants.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/clean_checkout.sh",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/fail_before.py",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/replay_codex_ui.cjs",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/clean-checkout.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/codex-adapter-probe-after.jsonl",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/codex-ui-counterexample-after.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/fail-before.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/fail-before.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants-attempt1.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants.json",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/mutants.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/results/regressions.txt",
+    "match": true
+  },
+  {
+    "path": "docs/evidence/ZER-11/fix-01/run_regressions.sh",
+    "match": true
+  },
+  {
+    "path": "docs/runbooks/dashboard-and-baselines.md",
+    "match": true
+  },
+  {
+    "path": "infrastructure/scripts/verify-dashboard-baselines.py",
+    "match": true
+  },
+  {
+    "path": "tests/results_page_vm.cjs",
+    "match": true
+  },
+  {
+    "path": "tests/test_dashboard_measurement.py",
+    "match": true
+  }
+]

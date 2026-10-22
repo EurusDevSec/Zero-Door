@@ -1,0 +1,1 @@
+{"abort": null, "attribution": {"event_sources": ["deployment-controller", "replicaset-controller"], "replica_managers": [{"manager": "kubectl", "operation": "Update", "subresource": "scale"}]}, "case": "real_kubectl_default", "cleanup": "CLEAN", "trials": ["B0-CTRL", "B0-HPA"]}

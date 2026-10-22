@@ -1,0 +1,177 @@
+{
+ "abort": "UNEXPECTED (JSONDecodeError: Extra data: line 16 column 1 (char 3700))",
+ "approval": "Hoang-call_84d20afcbd014088a379b9fc172d89da-approved-RT1-3600s",
+ "cap_s": 3600,
+ "cleanup": "CLEAN",
+ "cleanup_steps": [
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "pull evidence"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete HPAs"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "cartservice": "UNCHANGED",
+    "frontend": "UNCHANGED"
+   },
+   "status": "DONE",
+   "step": "restore target replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "gaia": "UNCHANGED",
+    "hephaestus": "UNCHANGED"
+   },
+   "status": "DONE",
+   "step": "restore gaia/hephaestus replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete profiles ConfigMap"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED, read back absent",
+   "status": "DONE",
+   "step": "delete namespace"
+  },
+  {
+   "attempts": 1,
+   "detail": "MATCHES_P0",
+   "status": "DONE",
+   "step": "final diff against P0"
+  }
+ ],
+ "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+ "context": "k3d-zero-door",
+ "created": [
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-62702b22",
+   "namespace": null,
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "d0269e3d-3663-4205-aa32-bb12c450e1c1"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "namespace": "zd-zer11-62702b22",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "94c2b74f-38c7-4cea-a4a5-602fd1160e55"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "namespace": "zd-zer11-62702b22",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "84654e31-1076-4747-8a5a-263238af95fe"
+  }
+ ],
+ "elapsed_s": 53.594,
+ "final_diff": {
+  "deployments": {},
+  "hpas_left": [],
+  "namespace_left": false,
+  "profiles_left": []
+ },
+ "image": "zero-door/measurement:zer10-574a0c3a2dad",
+ "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+ "module_sha256": "a103bc49910d9460129ada2105e41871da8d8e008c290807b0bc10d6c8c7c973",
+ "namespace": "zd-zer11-62702b22",
+ "nonce": "62702b22",
+ "p5": {
+  "errors": {},
+  "exports": {},
+  "ok": true
+ },
+ "p8": {
+  "exports": [],
+  "skipped": "MAIN_EXPORTS_MISSING"
+ },
+ "package": "H-RT1 / G-ZER11-RT1",
+ "phases": [
+  {
+   "phase": "P0",
+   "started": "2026-10-21T15:49:47.839Z",
+   "status": "DONE",
+   "t0_s": 0.0,
+   "t1_s": 1.422
+  },
+  {
+   "phase": "P1",
+   "started": "2026-10-21T15:49:49.273Z",
+   "status": "FAILED:JSONDecodeError",
+   "t0_s": 1.422,
+   "t1_s": 8.563
+  },
+  {
+   "phase": "P7",
+   "started": "2026-10-21T15:49:57.663Z",
+   "status": "DONE",
+   "t0_s": 9.813,
+   "t1_s": 53.594
+  }
+ ],
+ "pod_deletes": {
+  "frontend_pod": 0
+ },
+ "reads": 51,
+ "trials": {},
+ "verdict": "ABORTED",
+ "writes": [
+  {
+   "at": "2026-10-21T15:49:49.472Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-62702b22",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:49:49.640Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:49:49.758Z",
+   "exit": 1,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:49:50.034Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:49:58.245Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-62702b22",
+   "phase": "P7",
+   "verb": "delete"
+  }
+ ]
+}

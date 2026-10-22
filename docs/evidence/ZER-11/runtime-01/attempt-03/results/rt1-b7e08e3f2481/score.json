@@ -1,0 +1,179 @@
+{
+ "generated_at": "2026-10-21T15:54:48+00:00",
+ "inputs": {
+  "h_export_json_sha256": "dc1337d3e9e3102b7e2f4042355710960ed458128cd4823391e38978e0574ca0",
+  "o_export_json_sha256": "bc83a89230cc133808c4c8874571887bb1ceacd9bc4d970e1d4d6ac4ddf02fb0",
+  "other_exports": [
+   {
+    "export_json_sha256": "b13b4dbca633a74f1060eb9e0dad34c2a93e69415bfb209ec89513109a415cb9",
+    "plane": "H",
+    "run_id": "run_b76d44e920624e4ea88ccfbe52c5e9fe"
+   },
+   {
+    "export_json_sha256": "cc2441cee1b0bf5ef532e9e9d6637d2091157aea973fe625d6c320867a5bbb9e",
+    "plane": "O",
+    "run_id": "run_b76d44e920624e4ea88ccfbe52c5e9fe"
+   }
+  ],
+  "run_id": "run_b7e08e3f24814160b785a11298ebc821"
+ },
+ "options": {
+  "required_flows": [
+   "checkout"
+  ]
+ },
+ "runs": [
+  {
+   "cohort": {
+    "complete": true,
+    "problems": []
+   },
+   "f01": {
+    "cap_det_s": 300,
+    "cap_rec_s": 600,
+    "delta_s": 1,
+    "eps_s": 1,
+    "gap_s": 2,
+    "k": 3,
+    "l_ms": 2000,
+    "s_s": 30
+   },
+   "findings": {
+    "ambiguous": [],
+    "archive_scope": 0,
+    "cardinality_violations": [],
+    "duplicates": 0,
+    "foreign_references": [],
+    "integrity_errors": [],
+    "invalid": [],
+    "late_ingest": 0,
+    "link_conflicts": [],
+    "lost_requests": [],
+    "mode_violations": [],
+    "orphans": [],
+    "plane_violations": [],
+    "quarantined": {},
+    "quarantined_leaks": [],
+    "quarantined_link_conflicts": [],
+    "quarantined_mode_violations": [],
+    "source_violations": [],
+    "unattributable_quarantine": 0,
+    "unregistered_probe_samples": 0,
+    "unsupported": 0
+   },
+   "group": "B0",
+   "incidents": [],
+   "leak": {},
+   "metrics": {
+    "M11_usage": {
+     "reason": "group B0 makes no LLM calls",
+     "status": "N/A"
+    },
+    "M12_containment": {
+     "reason": "no C2/C5 incident with ground truth in this run",
+     "status": "EMPTY"
+    },
+    "M2_funnel": {
+     "CONFIRMED": 0,
+     "CONFIRMED_NO_EFFECT": 0,
+     "UNKNOWN_EFFECT": 0,
+     "action_success": 0,
+     "recovered": 0,
+     "requested": 0,
+     "trigger_unknown": 0,
+     "triggered": 0,
+     "valid_response": 0
+    },
+    "M5_M6_benign": {
+     "reason": "C0 designation not provided (H schedule); FPR never defaults to 0",
+     "status": "MISSING"
+    },
+    "cpu_P179": {
+     "reason": "no container CPU usage/limit series in the H/O exports (ZER-38/44)",
+     "status": "MISSING"
+    },
+    "decisions": {
+     "M1": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M10": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M1c": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M3": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M4": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     }
+    },
+    "kpi": {
+     "counts": {
+      "CONFIRMED": 0,
+      "CONFIRMED_NO_EFFECT": 0,
+      "N": 0,
+      "UNKNOWN_EFFECT": 0,
+      "requested": 0,
+      "status": "EMPTY"
+     },
+     "labels": {},
+     "labels_by_trial": {},
+     "mttd": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 60,
+      "verdict": "EMPTY"
+     },
+     "mttr_120": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 120,
+      "verdict": "EMPTY"
+     },
+     "mttr_180": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 180,
+      "verdict": "EMPTY"
+     },
+     "r_t": {
+      "status": "EMPTY"
+     },
+     "reaction": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 60,
+      "verdict": "EMPTY"
+     },
+     "recovered_rate": {
+      "N": 0,
+      "status": "EMPTY"
+     },
+     "resolution": {
+      "delta_s": 1,
+      "k": 3,
+      "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+     }
+    },
+    "request_success_rate": {
+     "reason": "benign client request log not in the exports",
+     "status": "MISSING"
+    },
+    "uptime": {}
+   },
+   "mode_findings": {},
+   "reference_clock_id": "clk-rt1",
+   "run_flags": [],
+   "run_id": "run_b7e08e3f24814160b785a11298ebc821"
+  }
+ ],
+ "schema": "zd-measurement-score/1",
+ "scorer_version": "zd-measurement/0.1.0/scorer"
+}

@@ -1,0 +1,18 @@
+{
+ "note": "read-only; results page and GET /api/results only",
+ "registry_sha256": "0b2055d2cc496283714f723ec810a5006f4c589e5c4e7f54bac591240bb991ef",
+ "root": "C:\\Users\\ACER\\AppData\\Local\\Packages\\sandbox.{8d72322d-6d76-4dc7-a37f-4d339db38a0f}\\AC\\Temp\\zero-door-rt1-20261021-4d39d9f7-attempt04\\results",
+ "root_digest": "99fae012d9a6c6df894424f2433f9160a97ec1ad3838875273adcad70ece89ee",
+ "root_files": 4,
+ "root_files_sha256": {
+  "registry.json": "0b2055d2cc496283714f723ec810a5006f4c589e5c4e7f54bac591240bb991ef",
+  "rt1-57384640937b/incidents.csv": "3b1c3f7f18fde2181dd55ef596867601afc725a2f092fe408af0472732e2aba4",
+  "rt1-57384640937b/score.json": "ee2da9929d681aadb41343f5e3d12f9f1acb796db758e75d6506c7bb5e25ebe5",
+  "rt1-57384640937b/usage.csv": "97ee15b1853613e46589be137dcf7c896903ca0c8b806ac3af26a03feeabca1c"
+ },
+ "runs": [
+  "run_57384640937b4fedab2e07d588ce46db"
+ ],
+ "stopped": false,
+ "url": "http://127.0.0.1:8712/dashboard/results.html"
+}

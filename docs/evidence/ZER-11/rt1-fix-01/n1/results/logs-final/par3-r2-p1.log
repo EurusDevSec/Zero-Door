@@ -1,0 +1,350 @@
+test_fake_hang_honours_the_live_deadline_of_a_cleanup_request (test_dashboard_baseline_runtime.Boundaries.test_fake_hang_honours_the_live_deadline_of_a_cleanup_request)
+N1 (rt1-fix-01): when the fault lands after the probe's transaction has filled the cart, its cleanup ... ok
+test_load_generator_honours_its_request_cap (test_dashboard_baseline_runtime.Boundaries.test_load_generator_honours_its_request_cap) ... ok
+test_offline_entrypoints_never_run_kubectl (test_dashboard_baseline_runtime.Boundaries.test_offline_entrypoints_never_run_kubectl) ... REFUSED: --execute needs --runtime-approval <reference to Hoang's approval of the reviewed RT1 plan>
+REFUSED: --context must be exactly k3d-zero-door
+ok
+test_uid_precondition_not_honoured_stops_before_the_target (test_dashboard_baseline_runtime.Boundaries.test_uid_precondition_not_honoured_stops_before_the_target) ... ok
+test_unsafe_tar_member_is_refused (test_dashboard_baseline_runtime.Boundaries.test_unsafe_tar_member_is_refused) ... ok
+test_writes_outside_actions_are_refused (test_dashboard_baseline_runtime.Boundaries.test_writes_outside_actions_are_refused) ... ok
+test_budgets_match_plan_check_and_pod_delete_cap (test_dashboard_baseline_runtime.Budget.test_budgets_match_plan_check_and_pod_delete_cap) ... ok
+test_probe_sample_cap_stops_at_d_and_scores_missing_probe (test_dashboard_baseline_runtime.Budget.test_probe_sample_cap_stops_at_d_and_scores_missing_probe) ... ok
+test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve (test_dashboard_baseline_runtime.Budget.test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve) ... ok
+test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve (test_dashboard_baseline_runtime.Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve) ... 2026-10-21 18:36:43,621 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 18:36:43,703 - httpx - [INFO] - HTTP Request: GET http://testserver/api/results/runs/run_1cddb9981ecd4d6798b5fca9f5980f81 "HTTP/1.1 200 OK"
+ok
+test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect (test_dashboard_baseline_runtime.Controller.test_gap_in_effect_window_without_failure_is_unknown_effect_not_no_effect) ... ok
+test_hpa_not_activated_is_said_so_and_no_effect_leaves_n (test_dashboard_baseline_runtime.Controller.test_hpa_not_activated_is_said_so_and_no_effect_leaves_n) ... ok
+test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe (test_dashboard_baseline_runtime.Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe) ... ok
+test_control_ack_later_than_its_deadline_fails_closed (test_dashboard_baseline_runtime.Faults.test_control_ack_later_than_its_deadline_fails_closed)
+N1's signature on purpose: the gateway records ATTACK_REQUESTED but answers after the control deadline ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 55811)
+Traceback (most recent call last):
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 191, in do_POST
+    return self.reply(202 if gateway.kafka else 201, result)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 164, in reply
+    self.wfile.write(data)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 834, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 199, in do_POST
+    return self.reply(503, {"error": "NOT_DURABLE"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 163, in reply
+    self.end_headers()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 538, in end_headers
+    self.flush_headers()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 542, in flush_headers
+    self.wfile.write(b"".join(self._headers_buffer))
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 834, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+ok
+test_h_ack_failure_stops_closes_and_cleans_up_without_scoring (test_dashboard_baseline_runtime.Faults.test_h_ack_failure_stops_closes_and_cleans_up_without_scoring) ... ok
+test_interrupt_in_trial_and_in_cleanup (test_dashboard_baseline_runtime.Faults.test_interrupt_in_trial_and_in_cleanup) ... ok
+test_target_uid_changed_is_never_overwritten (test_dashboard_baseline_runtime.Faults.test_target_uid_changed_is_never_overwritten) ... ok
+test_watcher_failure_means_no_audit_coverage_and_no_absence_claim (test_dashboard_baseline_runtime.Faults.test_watcher_failure_means_no_audit_coverage_and_no_absence_claim) ... ok
+test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence (test_dashboard_baseline_runtime.Faults.test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence) ... ok
+test_rt1_01_host_disk_full_from_cleanup_on_and_a_failing_first_step (test_dashboard_baseline_runtime.Findings.test_rt1_01_host_disk_full_from_cleanup_on_and_a_failing_first_step) ... ok
+test_rt1_01_host_disk_full_in_main_phase_still_runs_every_cleanup_step (test_dashboard_baseline_runtime.Findings.test_rt1_01_host_disk_full_in_main_phase_still_runs_every_cleanup_step) ... ok
+test_rt1_01_unexpected_error_in_a_trial_or_a_cleanup_step_never_skips_the_rest (test_dashboard_baseline_runtime.Findings.test_rt1_01_unexpected_error_in_a_trial_or_a_cleanup_step_never_skips_the_rest) ... ok
+test_rt1_02_ownership_reads_ask_for_managed_fields_and_a_wrong_manager_still_fails (test_dashboard_baseline_runtime.Findings.test_rt1_02_ownership_reads_ask_for_managed_fields_and_a_wrong_manager_still_fails) ... ok
+test_rt1_03_positive_control_failure_is_decided_by_the_host_and_stops_before_the_target (test_dashboard_baseline_runtime.Findings.test_rt1_03_positive_control_failure_is_decided_by_the_host_and_stops_before_the_target) ... ok
+test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete (test_dashboard_baseline_runtime.Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete) ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 63671)
+Traceback (most recent call last):
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 191, in do_POST
+    return self.reply(202 if gateway.kafka else 201, result)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 164, in reply
+    self.wfile.write(data)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 834, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 199, in do_POST
+    return self.reply(503, {"error": "NOT_DURABLE"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/agent-orchestrator\event_pipeline\gateway.py", line 163, in reply
+    self.end_headers()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 538, in end_headers
+    self.flush_headers()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 542, in flush_headers
+    self.wfile.write(b"".join(self._headers_buffer))
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 834, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+
+  test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete (test_dashboard_baseline_runtime.Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete) [profiles ConfigMap replaced by another uid during the run] ... FAIL
+test_rt1_04_lost_create_answers_are_reconciled_by_label_and_removed_by_uid (test_dashboard_baseline_runtime.Findings.test_rt1_04_lost_create_answers_are_reconciled_by_label_and_removed_by_uid) ... ok
+test_rt1_05_controller_and_hpa_claims_need_this_trials_objects (test_dashboard_baseline_runtime.Findings.test_rt1_05_controller_and_hpa_claims_need_this_trials_objects) ... ok
+
+======================================================================
+FAIL: test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete (test_dashboard_baseline_runtime.Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete) [profiles ConfigMap replaced by another uid during the run]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects/Eurus_Workspace/zero_door/scratch/zer11/claude-rt1-fix01/tree-final/tests\test_dashboard_baseline_runtime.py", line 946, in test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete
+    self.assertEqual("FAILED", step["status"])
+AssertionError: 'FAILED' != 'DONE'
+- FAILED
++ DONE
+
+
+----------------------------------------------------------------------
+Ran 27 tests in 154.724s
+
+FAILED (failures=1)
+{
+ "abort": [
+  "wrong context",
+  "foreign HPA on frontend/cartservice",
+  "node NotReady",
+  "Gaia/Hephaestus pod in the B0 window",
+  "accepted O decision/action event",
+  "H/O persistence or ack stall",
+  "budget cap",
+  "positive control failed",
+  "baseline unhealthy",
+  "interrupt"
+ ],
+ "caps": {
+  "frontend_pod_deletes": 1,
+  "load_requests": 3600,
+  "probe_samples_per_trial": 1000,
+  "total_s": 3600
+ },
+ "context": "k3d-zero-door",
+ "f01_pilot": {
+  "cap_det_s": 300,
+  "cap_rec_s": 600,
+  "delta_s": 1,
+  "eps_s": 1,
+  "gap_s": 2,
+  "k": 3,
+  "l_ms": 2000,
+  "s_s": 30
+ },
+ "id": "G-ZER11-RT1",
+ "image": {
+  "image": "zero-door/measurement:zer10-574a0c3a2dad",
+  "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+  "node": "k3d-zero-door-server-0"
+ },
+ "image_note": "existing ZER-10 image, imagePullPolicy Never, no build; this file mounted read-only from a ConfigMap",
+ "phases_s": {
+  "P0": 180,
+  "P1": 300,
+  "P2": 180,
+  "P4_hpa_ready": 120,
+  "P5_seal_export": 180,
+  "P7": 300
+ },
+ "probe_budgets": {
+  "B0-CTRL": {
+   "max_duration_s": 995,
+   "max_requests": 8955,
+   "max_samples": 995,
+   "trial_window_s": 965
+  },
+  "B0-HPA": {
+   "max_duration_s": 995,
+   "max_requests": 8955,
+   "max_samples": 995,
+   "trial_window_s": 965
+  }
+ },
+ "reads": "get/auth can-i/version/config get-contexts/create --dry-run=client (local conversion); exec into the agent pod",
+ "stop_points": {
+  "a": "RECOVERY_VERIFIED evidence_complete_at + stop margin",
+  "b": "samples cover [T_req, T_req + W_eff] without failure",
+  "c": "samples reach T_eff + cap_rec + S + margin without verified recovery (scorer: TIMEOUT if covered)",
+  "d": "abort, total cap, probe budget, coverage gap in W_eff: MISSING_PROBE / UNKNOWN_EFFECT, never TIMEOUT or PASS"
+ },
+ "w_eff_s": 300,
+ "writes": [
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-<nonce>",
+   "phase": "P1",
+   "rollback": "P7 delete with uid precondition, then read back absent",
+   "verb": "create"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "rollback": "removed with the namespace",
+   "verb": "create"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "rollback": "self-test with a WRONG uid: must be refused (Conflict) and the ConfigMap must remain",
+   "verb": "delete"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "phase": "P1",
+   "rollback": "removed with the namespace (evidence pulled first)",
+   "verb": "create"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P1",
+   "rollback": "P7 delete with uid precondition",
+   "verb": "create"
+  },
+  {
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P1",
+   "rollback": "P7 scale back to the P0 replicas (uid, spec and resourceVersion checked)",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P1",
+   "rollback": "P7 scale back to the P0 replicas (uid, spec and resourceVersion checked)",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "rollback": "removed with the namespace",
+   "verb": "create"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "rollback": "0 -> 1 -> 0 inside the namespace",
+   "verb": "scale"
+  },
+  {
+   "kind": "Pod",
+   "name": "frontend-*",
+   "phase": "P3",
+   "rollback": "none: the ReplicaSet controller recreating it is the observation; exactly 1, uid precondition",
+   "verb": "delete"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "phase": "P4",
+   "rollback": "P7 delete with uid precondition",
+   "verb": "create"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "phase": "P4",
+   "rollback": "P7 delete with uid precondition",
+   "verb": "create"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-load",
+   "phase": "P4",
+   "rollback": "removed with the namespace; deleted by uid if it outlives the load window",
+   "verb": "create"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-load",
+   "phase": "P4",
+   "rollback": "same",
+   "verb": "delete"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  },
+  {
+   "kind": "Deployment",
+   "name": "frontend",
+   "phase": "P7",
+   "rollback": "CLEANUP: back to the P0 replicas after the HPA is gone; never evidence of recovery",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "cartservice",
+   "phase": "P7",
+   "rollback": "CLEANUP: same",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P7",
+   "rollback": "CLEANUP: back to the P0 replicas",
+   "verb": "scale"
+  },
+  {
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P7",
+   "rollback": "CLEANUP: back to the P0 replicas",
+   "verb": "scale"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  },
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-<nonce>",
+   "phase": "P7",
+   "rollback": "cleanup",
+   "verb": "delete"
+  }
+ ]
+}

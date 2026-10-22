@@ -1,0 +1,982 @@
+--- before/agent-orchestrator/nemesis/measurement_view.py
++++ agent-orchestrator/nemesis/measurement_view.py
+@@ -40,6 +40,8 @@
+                     "total_s", "reaction_s", "u_mttd_ms", "u_mttr_ms", "u_total_ms", "u_reaction_ms", "relapses",
+                     "action_attempts", "evaluator_mismatch", "flags", "missing_reasons"]
+ USAGE_COLUMNS = ["level", "key", "calls", "retries", "input_tokens", "output_tokens", "usage_status", "usd", "cost_status", "price_refs"]
++# KPI entries the results page reads as objects (present for every scored run, EMPTY included).
++KPI_OBJECTS = ("mttd", "mttr_120", "mttr_180", "reaction", "counts", "labels", "recovered_rate")
+ 
+ 
+ class ResultError(Exception):
+@@ -239,17 +241,39 @@
+         raise ResultError("RUN_MISMATCH", 422)
+     if run.get("group") != entry["group"]:
+         raise ResultError("GROUP_MISMATCH", 422)
++    # The view names the H and O exports the score came from; a score without them has no provenance.
++    if not all(type(document["inputs"].get(k)) is str and SHA256.fullmatch(document["inputs"][k])
++               for k in ("h_export_json_sha256", "o_export_json_sha256")):
++        raise ResultError("INPUT_DIGEST_MISSING", 422)
+     metrics = run.get("metrics")
+     if type(metrics) is not dict or type(metrics.get("kpi")) is not dict or type(run.get("incidents")) is not list \
+             or type(metrics.get("M11_usage")) is not dict or type(run.get("findings")) is not dict:
+         raise ResultError("ARTIFACT_MALFORMED", 422)
++    # Only the fields that build_view, data_time, the CSV rows and the page consume; the values inside
++    # them are passed through as scored.
++    kpi, findings, leak, uptime = metrics["kpi"], run["findings"], run.get("leak"), metrics.get("uptime")
++    shape = [type(kpi.get(k)) is dict for k in KPI_OBJECTS] + [optional(kpi.get(k), dict) for k in ("failure_rate", "unknown_rate")]
++    shape += [optional(findings.get(k), list) for k in ("mode_violations", "quarantined_mode_violations")]
++    shape += [optional(run.get("run_flags"), list), optional(run.get("mode_findings"), dict), optional(leak, dict),
++              optional(metrics.get("decisions"), dict), optional(uptime, dict)]
++    if type(leak) is dict:
++        shape += [optional(v.get("findings"), list) and optional(v.get("unknown"), list) for v in leak.values() if type(v) is dict]
++    if type(uptime) is dict:
++        shape += [type(u) is dict for u in uptime.values()]
++    for r in run["incidents"]:
++        shape.append(type(r) is dict and type(r.get("flags")) is list and type(r.get("missing_reasons")) is list
++                     and optional(r.get("milestones"), dict) and ("uncertainty_ms" not in r or type(r["uncertainty_ms"]) is dict))
++    if not all(shape):
++        raise ResultError("ARTIFACT_MALFORMED", 422)
+     try:
+-        for r in run["incidents"]:
+-            if type(r) is not dict or type(r["flags"]) is not list or type(r["missing_reasons"]) is not list:
+-                raise ResultError("ARTIFACT_MALFORMED", 422)
++        list(incident_rows(run))
+         list(usage_rows(metrics["M11_usage"]))
+     except (KeyError, TypeError, AttributeError):
+         raise ResultError("ARTIFACT_MALFORMED", 422) from None
++
++
++def optional(value, kind):
++    return value is None or type(value) is kind
+ 
+ 
+ def data_time(run):
+@@ -329,9 +353,17 @@
+         raise ResultError("RUN_DIR_INVALID", 400)
+     files = {name: store.read(directory, name) for name in FILES}
+     document = strict_json(files["score.json"], "ARTIFACT_MALFORMED")
+-    if type(document) is not dict or type(document.get("runs")) is not list or len(document["runs"]) != 1:
++    if type(document) is not dict or type(document.get("runs")) is not list or len(document["runs"]) != 1 \
++            or type(document["runs"][0]) is not dict:
+         raise ResultError("ARTIFACT_MALFORMED", 422)
+     run = document["runs"][0]
++    entry = {"run_id": run.get("run_id"), "dir": directory, "group": run.get("group"), "status": "CLOSED",
++             "registered_at": now or datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
++             "sha256": {name: hashlib.sha256(data).hexdigest() for name, data in files.items()}}
++    if type(entry["run_id"]) is not str or not RUN_ID.fullmatch(entry["run_id"]) or entry["group"] not in MODES:
++        raise ResultError("ARTIFACT_MALFORMED", 422)
++    # Shape first, so measurement.output below only ever rebuilds the CSVs of a well-formed score.
++    check_document(document, entry)
+     if files["incidents.csv"] != csv_bytes(columns, list(rows_of(run))) or \
+             files["usage.csv"] != csv_bytes(usage_columns, list(usage_of(run["metrics"]["M11_usage"]))):
+         raise ResultError("EXPORT_INCONSISTENT", 422)
+@@ -341,14 +373,8 @@
+         if error.reason != "REGISTRY_MISSING":
+             raise
+         registry = {"format": REGISTRY_FORMAT, "runs": []}
+-    if any(e["run_id"] == run.get("run_id") or e["dir"] == directory for e in registry["runs"]):
++    if any(e["run_id"] == entry["run_id"] or e["dir"] == directory for e in registry["runs"]):
+         raise ResultError("ALREADY_REGISTERED", 409)
+-    entry = {"run_id": run.get("run_id"), "dir": directory, "group": run.get("group"), "status": "CLOSED",
+-             "registered_at": now or datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+-             "sha256": {name: hashlib.sha256(data).hexdigest() for name, data in files.items()}}
+-    if type(entry["run_id"]) is not str or not RUN_ID.fullmatch(entry["run_id"]) or entry["group"] not in MODES:
+-        raise ResultError("ARTIFACT_MALFORMED", 422)
+-    check_document(document, entry)
+     registry["runs"].append(entry)
+     target = store.root / "registry.json"
+     staging = store.root / ".registry.json.partial"
+--- before/agent-orchestrator/nemesis/static/results.js
++++ agent-orchestrator/nemesis/static/results.js
+@@ -5,13 +5,20 @@
+ // - null/absent is shown as "no data" with its status; it is never turned into 0 or 100%.
+ // - Untrusted strings are set with textContent only.
+ // - Only GET requests. The key stays in memory for this tab; it is not stored.
+-// - Switching runs discards late answers of the previous run; a failed refresh keeps the last good
+-//   view marked STALE with the time it was fetched, never as new data.
++// - Switching runs or keys discards late answers of the previous run or key.
++// - A refresh that fails in transit or upstream (no response, 502/503/504 other than the store's
++//   own configuration reasons) keeps the last good view marked STALE with the time it was fetched.
++//   Any other failure (integrity/schema 422, access 401/403, run no longer registered 404, registry
++//   or key configuration, a mismatched answer) means the shown run can no longer be verified: the
++//   cached view, its KPI and its downloads are cleared and the error is shown instead.
+ "use strict";
+ 
+ const API = window.location.origin + "/api/results";
+ const REFRESH_MS = 15000;
+-const S = { token: "", runs: [], selected: "", generation: 0, view: null, viewAt: null, timer: null };
++const S = { token: "", runs: [], selected: "", session: 0, generation: 0, view: null, viewAt: null, timer: null };
++// 503 reasons of measurement_view/authorize_reader that are configuration or registry state, not a
++// transient outage: the run cannot be verified, so they are fatal like a 4xx.
++const FATAL_503 = new Set(["RESULTS_NOT_CONFIGURED", "RESULTS_ROOT_INVALID", "REGISTRY_MISSING", "REGISTRY_INVALID", "KEY_SEPARATION"]);
+ 
+ function $(id) { return document.getElementById(id); }
+ 
+@@ -42,7 +49,12 @@
+ function banner(text) { $("banner").textContent = text || ""; }
+ 
+ async function get(path) {
+-    const response = await fetch(API + path, { method: "GET", headers: { Authorization: "Bearer " + S.token }, cache: "no-store" });
++    let response;
++    try {
++        response = await fetch(API + path, { method: "GET", headers: { Authorization: "Bearer " + S.token }, cache: "no-store" });
++    } catch (e) {
++        throw Object.assign(new Error("NETWORK_ERROR"), { transport: true });  // no HTTP answer at all
++    }
+     let body = null;
+     try { body = await response.json(); } catch (e) { body = null; }
+     if (!response.ok) {
+@@ -57,6 +69,26 @@
+ function clearView() {
+     for (const id of ["provenance", "kpi", "rates", "counts", "uptime", "modes", "incidents", "downloads"]) $(id).textContent = "";
+     $("download-note").textContent = "";
++}
++
++function dropView() {
++    S.view = null;
++    S.viewAt = null;
++    clearView();
++    document.body.dataset.run = "";
++}
++
++// Transient: no HTTP answer at all (network, aborted) or a gateway/upstream outage. Anything else,
++// including a bad answer (status 0) or a view that cannot be rendered, is fatal.
++function transient(error) {
++    if (error.transport === true) return true;
++    return [502, 503, 504].includes(error.status) && !FATAL_503.has(error.message);
++}
++
++function fatalState(error) {
++    if (error.status === 401 || error.status === 403 || error.message === "KEY_SEPARATION") return "NO_ACCESS";
++    if (error.status === 422 || error.status === 0) return "ARTIFACT_ERROR";
++    return "ERROR";
+ }
+ 
+ function addKV(list, key, value, unit) {
+@@ -186,11 +218,13 @@
+ }
+ 
+ async function download(runId, name) {
++    const session = S.session;
+     try {
+         const response = await fetch(`${API}/runs/${encodeURIComponent(runId)}/files/${encodeURIComponent(name)}`,
+             { method: "GET", headers: { Authorization: "Bearer " + S.token }, cache: "no-store" });
+         if (!response.ok) throw new Error(`HTTP_${response.status}`);
+         const blob = await response.blob();
++        if (session !== S.session || !S.view || S.view.run_id !== runId) return;
+         const a = document.createElement("a");
+         a.href = URL.createObjectURL(blob);
+         a.download = `${runId}-${name}`;
+@@ -198,6 +232,7 @@
+         URL.revokeObjectURL(a.href);
+         $("download-note").textContent = `${name}: SHA-256 ${response.headers.get("X-ZD-SHA256")}`;
+     } catch (error) {
++        if (session !== S.session) return;
+         $("download-note").textContent = `${name}: tải lỗi (${error.message})`;
+     }
+ }
+@@ -229,36 +264,64 @@
+         const view = await get("/runs/" + encodeURIComponent(runId));
+         // A late answer for a run that is no longer selected is dropped, never mixed in.
+         if (generation !== S.generation || runId !== S.selected) return;
+-        if (!view || view.run_id !== runId) throw new Error("RUN_MISMATCH");
++        if (!view || view.run_id !== runId) throw Object.assign(new Error("RUN_MISMATCH"), { status: 0 });
++        render(view);  // only a view that rendered completely becomes the last good one
+         S.view = view;
+         S.viewAt = Date.now();
+-        render(view);
+         banner("");
+         setState("OK", `run ${runId} · lấy lúc ${new Date(S.viewAt).toISOString()}`);
+     } catch (error) {
+         if (generation !== S.generation || runId !== S.selected) return;
+-        if (S.view && refresh) {
++        if (S.view && refresh && transient(error)) {
+             setState("STALE", `lần tải gần nhất lỗi (${error.message}); số liệu đang hiện là của lần thành công lúc ${new Date(S.viewAt).toISOString()}`);
+             return;
+         }
+-        clearView();
+-        setState(error.status === 401 ? "NO_ACCESS" : error.status === 422 ? "ARTIFACT_ERROR" : "ERROR", error.message);
+-        banner(error.status === 422 ? `Artifact không hợp lệ (${error.message}): không hiện số liệu.` : `Không tải được run (${error.message}).`);
+-    }
++        dropView();
++        const state = fatalState(error);
++        setState(state, error.message);
++        if (state === "NO_ACCESS") {
++            endSession();
++            banner(`Khóa không còn được chấp nhận (${error.message}): đã xóa số liệu, cần kết nối lại.`);
++        } else if (state === "ARTIFACT_ERROR") {
++            banner(`Artifact không hợp lệ (${error.message}): không hiện số liệu.`);
++        } else if (transient(error)) {
++            banner(`Không tải được run (${error.message}).`);
++        } else {
++            banner(`Run không còn xác minh được (${error.message}): không hiện số liệu.`);
++        }
++    }
++}
++
++// Forget everything read with the current key: in-flight answers, the cached view, the run list and
++// the refresh timer. Used before a (re)connect and when the key stops being accepted.
++function endSession() {
++    S.session++;
++    S.generation++;
++    clearInterval(S.timer);
++    S.timer = null;
++    S.runs = [];
++    S.selected = "";
++    dropView();
++    const select = $("run");
++    select.textContent = "";
++    select.disabled = true;
+ }
+ 
+ async function loadRuns() {
++    const session = S.session;
++    let body;
+     try {
+-        const body = await get("/runs");
+-        S.runs = Array.isArray(body.runs) ? body.runs : [];
++        body = await get("/runs");
+     } catch (error) {
+-        S.runs = [];
+-        $("run").disabled = true;
+-        clearView();
+-        setState(error.status === 401 ? "NO_ACCESS" : "ERROR", error.message);
+-        banner(error.status === 401 ? "Khóa không hợp lệ." : `Không đọc được danh sách run (${error.message}).`);
++        if (session !== S.session) return false;
++        endSession();
++        setState(error.status === 401 || error.status === 403 ? "NO_ACCESS" : "ERROR", error.message);
++        banner(error.status === 401 || error.status === 403 ? "Khóa không hợp lệ." : `Không đọc được danh sách run (${error.message}).`);
+         return false;
+     }
++    // A list answered for an earlier key or connect is dropped.
++    if (session !== S.session) return false;
++    S.runs = body && Array.isArray(body.runs) ? body.runs : [];
+     const select = $("run");
+     select.textContent = "";
+     select.appendChild(node("option", S.runs.length ? "— chọn run —" : "— không có run —"));
+@@ -275,10 +338,18 @@
+ }
+ 
+ $("connect").addEventListener("click", async () => {
++    // The previous key's view and answers are invalid before the new key reads the registry.
++    const selected = S.selected;
++    endSession();
++    banner("");
++    setState("LOADING", "đọc danh sách run");
+     S.token = $("token").value;
+     $("token").value = "";
+-    if (await loadRuns()) await loadRun(S.selected || "", false);
+-    clearInterval(S.timer);
++    S.selected = selected;
++    const session = S.session;
++    if (!(await loadRuns())) return;
++    await loadRun(S.selected || "", false);
++    if (session !== S.session) return;  // a newer connect or a refused key owns the page now
+     S.timer = setInterval(() => { if (S.selected) loadRun(S.selected, true); }, REFRESH_MS);
+ });
+ $("run").addEventListener("change", event => loadRun(event.target.value, false));
+--- before/infrastructure/scripts/verify-dashboard-baselines.py
++++ infrastructure/scripts/verify-dashboard-baselines.py
+@@ -7,6 +7,12 @@
+                      local browser check (no Kafka consumer, no Prometheus, no model)
+   register           add a closed run's output/1 directory to <root>/registry.json after checking that
+                      its CSVs equal measurement.output of its score.json
++  serve-results      serve an existing results root (a real run's registered artifacts) read-only on
++                     127.0.0.1: only the results page and GET /api/results/*; no fixture is generated,
++                     no Kafka consumer starts and no Prometheus/Hephaestus/model route is reachable;
++                     the root's file hashes are compared at exit
++  plan-check         print the G-ZER11-RT1 phase/budget matrix and check its arithmetic against the
++                     scorer's coverage rules (offline; the runbook quotes these numbers)
+   runtime-preflight  RUNTIME, read-only kubectl inventory for the approved plan; refuses without
+                      --runtime-approval and never applies, scales, deletes or injects anything
+ 
+@@ -14,6 +20,8 @@
+ """
+ import argparse
+ import asyncio
++import hashlib
++import importlib.util
+ import json
+ import os
+ # subprocess runs fixed argv lists only, never through a shell.
+@@ -24,6 +32,8 @@
+ from pathlib import Path
+ 
+ ROOT = Path(__file__).resolve().parents[2]
++NEMESIS = ROOT / "agent-orchestrator/nemesis"
++RESULTS_PAGES = {"/dashboard/results.html", "/dashboard/results.js"}
+ SUITES = ["tests/test_dashboard_measurement.py", "tests/test_dashboard_modes.py", "tests/check_r1_baselines.py",
+           "tests/test_command_modes.py", "tests/test_command_guard_integration.py", "tests/test_event_agents.py"]
+ 
+@@ -107,6 +117,155 @@
+         return 3
+     print(json.dumps(entry, sort_keys=True))
+     return 0
++
++
++def root_digest(root):
++    """{relative path: sha256} of every regular file under the root (symlinks are listed, not followed)."""
++    out = {}
++    for base, dirs, files in os.walk(root):
++        for name in sorted(dirs + files):
++            path = Path(base) / name
++            if path.is_symlink():
++                out[path.relative_to(root).as_posix()] = "SYMLINK"
++            elif path.is_file():
++                out[path.relative_to(root).as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
++    return out
++
++
++def results_app(root, reader_key_file, operator_key_file=None):
++    """The real Nemesis app, restricted to the S results page and GET /api/results/*, over `root`.
++
++    The root is used as given: nothing is scored, generated or registered here. Startup handlers
++    (the Kafka results consumer) are removed and every other route answers 404 before reaching
++    Nemesis code, so no Prometheus, Hephaestus, Kafka or model call can be made. Returns (app, runs)."""
++    root = Path(root)
++    if not root.is_absolute():
++        raise SystemExit("REFUSED: --root must be an absolute path")
++    sys.path.insert(0, str(ROOT / "agent-orchestrator"))
++    from nemesis.measurement_view import ResultsStore
++    runs = ResultsStore(root).runs()  # the registry must parse under the reader's own rules
++    os.environ.update({"ZD_RESULTS_ROOT": str(root), "ZD_RESULTS_TOKEN_FILE": str(Path(reader_key_file).resolve()),
++                       "ZD_EVENT_URL": "", "OPENAI_API_KEY": "", "GEMINI_API_KEYS": "",
++                       "KAFKA_BOOTSTRAP_SERVERS": "127.0.0.1:9", "PROMETHEUS_URL": "http://127.0.0.1:9",
++                       "HEPHAESTUS_URL": "http://127.0.0.1:9"})
++    if operator_key_file:  # lets authorize_reader enforce KEY_SEPARATION against the run's operator key
++        os.environ["ZD_OPERATOR_TOKEN_FILE"] = str(Path(operator_key_file).resolve())
++    else:
++        os.environ.pop("ZD_OPERATOR_TOKEN_FILE", None)
++    spec = importlib.util.spec_from_file_location("zd_nemesis_results_only", NEMESIS / "main.py")
++    nemesis = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(nemesis)
++    nemesis.app.router.on_startup.clear()
++    from fastapi.responses import JSONResponse
++    from fastapi.staticfiles import StaticFiles
++    if not any(getattr(route, "path", None) == "/dashboard" for route in nemesis.app.routes):
++        nemesis.app.mount("/dashboard", StaticFiles(directory=str(NEMESIS / "static")), name="dashboard")
++
++    @nemesis.app.middleware("http")
++    async def results_only(request, call_next):
++        # Outermost: /api/results* goes on to Nemesis' own READ_ONLY and results-reader checks.
++        path = request.url.path
++        if path.startswith("/api/results") or (request.method == "GET" and path in RESULTS_PAGES):
++            return await call_next(request)
++        return JSONResponse({"detail": "NOT_SERVED_IN_RESULTS_MODE"}, status_code=404)
++
++    return nemesis.app, runs
++
++
++def serve_results(args):
++    import uvicorn
++    root = Path(args.root)
++    if not root.is_absolute() or not root.is_dir():
++        print("REFUSED: --root must be an existing absolute directory", file=sys.stderr)
++        return 2
++    if args.receipt and Path(args.receipt).exists():
++        print("REFUSED: receipt exists; choose a new file", file=sys.stderr)
++        return 4
++    before = root_digest(root)
++    sys.path.insert(0, str(ROOT / "agent-orchestrator"))
++    from nemesis.measurement_view import ResultError
++    try:
++        app, runs = results_app(root, args.reader_key_file, args.operator_key_file)
++    except ResultError as error:
++        print("REFUSED", error.reason, file=sys.stderr)
++        return 3
++    digest = lambda d: hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
++    info = {"url": f"http://127.0.0.1:{args.port}/dashboard/results.html", "root": str(root),
++            "runs": [r["run_id"] for r in runs], "registry_sha256": before.get("registry.json"),
++            "root_files": len(before), "root_digest": digest(before), "note": "read-only; results page and GET /api/results only"}
++    print(json.dumps(info, indent=1), flush=True)
++    if args.receipt:  # written at start too, so a hard stop still leaves the starting hashes to compare
++        with open(args.receipt, "x", encoding="utf-8") as handle:
++            json.dump(dict(info, root_files_sha256=before, stopped=False), handle, indent=1, sort_keys=True)
++    uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
++    after = root_digest(root)
++    receipt = dict(info, root_files_sha256=before, stopped=True, root_digest_after=digest(after), root_unchanged=after == before,
++                   changed=sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k)))
++    print(json.dumps({k: receipt[k] for k in ("root_unchanged", "changed")}), flush=True)
++    if args.receipt:
++        Path(args.receipt).write_text(json.dumps(receipt, indent=1, sort_keys=True), encoding="utf-8")
++    return 0 if receipt["root_unchanged"] else 5
++
++
++# G-ZER11-RT1 (docs/runbooks/dashboard-and-baselines.md section 5). F-01 values are the ZER-32 3.6
++# illustrative set used as PILOT inputs, unchanged; nothing here relaxes them to fit a time cap.
++RT1 = {
++    "id": "G-ZER11-RT1", "context": "k3d-zero-door", "p6": False,
++    "f01": {"delta_s": 1, "k": 3, "s_s": 30, "l_ms": 2000, "gap_s": 2, "eps_s": 1, "cap_det_s": 300, "cap_rec_s": 600},
++    "w_eff_s": 300, "requests_per_sample": 9, "stop_margin_s": 5,
++    # Wall-clock allowance of the non-trial phases, seconds.
++    "phases_s": {"P0": 180, "P1": 300, "P2": 180, "P4_hpa_ready": 120, "P5_seal_export": 180, "P7": 300},
++    "trials": {"B0-CTRL": {"warmup_s": 30, "baseline_s": 30, "fault": "delete 1 frontend pod", "load_s": 0},
++               "B0-HPA": {"warmup_s": 30, "baseline_s": 30, "fault": "HTTP GET load on frontend", "load_s": 180}},
++    "load": {"rps": 20, "connections": 10},
++    "caps": {"total_s": 3600, "probe_samples_per_trial": 1000, "frontend_pod_deletes": 1, "load_requests": 3600},
++}
++
++
++def plan_matrix(plan=RT1):
++    """Derived worst cases and the checks the plan must pass (raises nothing; `problems` lists failures)."""
++    f, caps = plan["f01"], plan["caps"]
++    trials, problems = {}, []
++    for name, t in plan["trials"].items():
++        # Worst case: the effect is confirmed only at T_req + W_eff, then nothing recovers, so the
++        # probe must cover T_eff + cap_rec (TIMEOUT) and a candidate at the cap still gets its S.
++        recovery_s = f["cap_rec_s"] + f["s_s"] + plan["stop_margin_s"]
++        window_s = t["baseline_s"] + plan["w_eff_s"] + recovery_s
++        samples = (t["warmup_s"] + window_s) // f["delta_s"]
++        trials[name] = {"fault": t["fault"], "warmup_s": t["warmup_s"], "trial_max_s": window_s,
++                        "probe_max_duration_s": t["warmup_s"] + window_s, "probe_max_samples": samples,
++                        "probe_max_requests": samples * plan["requests_per_sample"],
++                        "verify_min_samples": f["k"] + f["s_s"] // f["delta_s"],
++                        "no_effect_needs_s": plan["w_eff_s"], "timeout_needs_after_t_eff_s": f["cap_rec_s"]}
++        if samples > caps["probe_samples_per_trial"]:
++            problems.append(f"{name}: {samples} samples exceed the per-trial cap")
++        if recovery_s < f["cap_rec_s"] + f["gap_s"]:
++            problems.append(f"{name}: the window cannot cover cap_rec, so TIMEOUT could never be scored")
++        if t["load_s"] > plan["w_eff_s"]:
++            problems.append(f"{name}: load runs past the effect window")
++    trial_s = sum(t["probe_max_duration_s"] for t in trials.values())
++    total_s = sum(plan["phases_s"].values()) + trial_s
++    load_requests = plan["load"]["rps"] * plan["trials"]["B0-HPA"]["load_s"]
++    if total_s > caps["total_s"]:
++        problems.append(f"worst case {total_s} s exceeds the total cap {caps['total_s']} s")
++    if load_requests > caps["load_requests"]:
++        problems.append("load requests exceed the cap")
++    if plan["p6"]:
++        problems.append("P6 (BM on a new image) is not part of RT1; it needs its own package")
++    deletes = sum(1 for t in plan["trials"].values() if t["fault"].startswith("delete"))
++    if deletes != caps["frontend_pod_deletes"]:
++        problems.append("pod deletions differ from the cap")
++    totals = {"worst_case_s": total_s, "cap_s": caps["total_s"], "probe_samples": sum(t["probe_max_samples"] for t in trials.values()),
++              "probe_requests": sum(t["probe_max_requests"] for t in trials.values()), "load_requests": load_requests,
++              "frontend_pod_deletes": deletes, "p6": plan["p6"]}
++    return {"id": plan["id"], "context": plan["context"], "f01_pilot": f, "w_eff_s": plan["w_eff_s"], "phases_s": plan["phases_s"],
++            "trials": trials, "totals": totals, "problems": problems}
++
++
++def plan_check(args):
++    matrix = plan_matrix()
++    print(json.dumps(matrix, indent=1, sort_keys=True))
++    return 1 if matrix["problems"] else 0
+ 
+ 
+ def runtime_preflight(args):
+@@ -150,13 +309,20 @@
+     r = sub.add_parser("register", help="register a closed run's scorer output directory")
+     r.add_argument("--root", required=True)
+     r.add_argument("--dir", required=True, help="directory name under the root (no path)")
++    s = sub.add_parser("serve-results", help="serve an existing results root read-only on 127.0.0.1")
++    s.add_argument("--root", required=True, help="absolute path of the results root (registry.json + run dirs)")
++    s.add_argument("--reader-key-file", required=True, help='{"id","purpose":"results-reader","secret"} file')
++    s.add_argument("--operator-key-file", help="the run's operator key file, to enforce KEY_SEPARATION")
++    s.add_argument("--port", type=int, default=8712)
++    s.add_argument("--receipt", help="new file for the start/exit root hashes")
++    sub.add_parser("plan-check", help="print and check the G-ZER11-RT1 budget matrix (offline)")
+     p = sub.add_parser("runtime-preflight", help="RUNTIME read-only inventory; needs --runtime-approval")
+     p.add_argument("--runtime-approval")
+     p.add_argument("--context")
+     p.add_argument("--output", default="zer11-preflight.json")
+     args = parser.parse_args(argv)
+     return {"offline": offline, "fixture-server": fixture_server, "register": register_cmd,
+-            "runtime-preflight": runtime_preflight}[args.command](args)
++            "serve-results": serve_results, "plan-check": plan_check, "runtime-preflight": runtime_preflight}[args.command](args)
+ 
+ 
+ if __name__ == "__main__":
+--- before/docs/runbooks/dashboard-and-baselines.md
++++ docs/runbooks/dashboard-and-baselines.md
+@@ -12,12 +12,14 @@
+   - Tự sinh lại hai CSV từ `score.json` và từ chối nếu khác file.
+   - Không nhận đường dẫn từ request: chặn traversal, symlink và mọi file ngoài root.
+   - Lỗi chỉ trả mã lý do, không lộ path, khóa hay text exception.
++  - `score.json` thiếu hoặc sai kiểu ở các trường adapter và trang dùng (digest export H/O, các mục KPI, milestones, findings vi phạm mode, leak, uptime, cột CSV) bị từ chối bằng mã 422 khi đăng ký và khi đọc, không thành lỗi 500. Giá trị bên trong các trường đó vẫn đi nguyên như scorer ghi.
+ - **Hiện đúng trạng thái thiếu dữ liệu:**
+   - null hiện là "no data", không thành 0. EMPTY/NO_ELIGIBLE không có rate.
+   - MISSING/UNKNOWN và N/A của B0 giữ nguyên.
+   - Artifact lỗi thì không hiện số nào.
+-  - Poll lỗi thì giữ số cũ với nhãn STALE kèm giờ lấy cuối.
+-  - Chuyển run thì bỏ câu trả lời muộn của run trước.
++  - Poll lỗi vận chuyển hay upstream tạm thời (không có phản hồi, 502/503/504 trừ các lý do cấu hình của store) thì giữ số cũ với nhãn STALE kèm giờ lấy cuối.
++  - Poll trả lỗi integrity/schema (422), mất quyền (401/403), run không còn đăng ký (404), registry/khóa sai cấu hình hay câu trả lời lệch run thì xóa số đã hiện, KPI và nút tải, rồi hiện lỗi. Mất quyền còn kết thúc phiên: dừng poll, cần kết nối lại.
++  - Chuyển run hay đổi khóa thì bỏ câu trả lời muộn của run/khóa trước; đổi khóa xóa số cũ trước khi đọc danh sách run mới.
+ - **Độ trễ cập nhật** = thời điểm hiển thị − mốc event mới nhất đã chấm trên trục đồng hồ tham chiếu đã xác minh. `generated_at` chỉ là lúc scorer ghi file, không dùng làm mốc. Không có mốc đã xác minh thì độ trễ là UNKNOWN.
+ - **Quyền đọc kết quả tách riêng.** `/api/results/*` chỉ nhận GET với khóa `results-reader` (file `ZD_RESULTS_TOKEN_FILE`, purpose `results-reader`).
+   - Khóa operator bị từ chối (401), còn khóa reader không mở API khác.
+@@ -51,13 +53,21 @@
+ python -B docs/evidence/ZER-11/check_mutants.py --nemesis <python nemesis pins> --hephaestus <python hephaestus pins>
+ ```
+ 
+-`--help`, `offline`, `fixture-server` và `register` không chạm cluster, Docker hay model. Kiểm browser cục bộ:
++Regression của trang kết quả chạy chính `results.js` trong Node VM (không browser, không mạng). Test `StaticPages` gọi nó; chạy riêng:
++
++```bash
++node tests/results_page_vm.cjs
++```
++
++`--help`, `offline`, `fixture-server`, `register`, `serve-results` và `plan-check` không chạm cluster, Docker hay model. Kiểm browser cục bộ với dữ liệu SYNTHETIC:
+ 
+ ```bash
+ ZD_PYTHON=scratch/zer12/production-nemesis/Scripts/python.exe bash infrastructure/scripts/verify-dashboard-baselines.sh fixture-server --port 8711
+ ```
+ 
+ Lệnh in URL `http://127.0.0.1:8711/dashboard/results.html`, file khóa reader SYNTHETIC và file điều khiển. Trong file điều khiển, `{"fail": true}` giả lập lỗi upstream để xem STALE; `{"delay": {"<run_id>": 4}}` làm run đó trả muộn để kiểm chuyển run.
++
++`fixture-server` luôn tự sinh dữ liệu SYNTHETIC; không dùng nó cho run thật. Root của một run thật được phục vụ bằng `serve-results` (mục 5.5, P8).
+ 
+ ## 3. Đăng ký run sau khi đóng
+ 
+@@ -86,113 +96,144 @@
+ 
+ ## 5. Kế hoạch runtime chờ duyệt (G-ZER11-RT1)
+ 
+-Chưa được phép chạy. Codex review kế hoạch này trước, sau đó Hoàng duyệt một lần cho cả gói. Lệnh `runtime-preflight` từ chối nếu thiếu `--runtime-approval` và chỉ đọc.
++Chưa được phép chạy. Codex review kế hoạch này trước, sau đó Hoàng duyệt một lần cho đúng gói này. Lệnh `runtime-preflight` từ chối nếu thiếu `--runtime-approval` và chỉ đọc. Mọi con số ở 5.3 do `plan-check` tính và kiểm; sửa số thì sửa `RT1` trong `verify-dashboard-baselines.py`, chạy lại lệnh và test.
++
++```bash
++python -B infrastructure/scripts/verify-dashboard-baselines.py plan-check
++```
+ 
+ ### 5.1 Mục tiêu và giới hạn
+ 
+ - **ZER-39/ZER-11 AC-04:**
+-  - Trong B0, Kubernetes tự phục hồi: tách phần do Deployment controller và phần do HPA.
++  - Trong B0, Kubernetes tự phục hồi: tách phần do Deployment controller (trial B0-CTRL) và phần do HPA (trial B0-HPA).
+   - ZERO DOOR không phát lệnh heal, có coverage và positive control.
+   - Probe độc lập vẫn đo được.
+-- **AC-02 runtime:** dashboard đọc artifact của một run thật và khớp export.
+-- **AC-03 runtime:** trên image mới, BM không tự heal. Đây là pha P6, tùy Hoàng duyệt.
+-- **Không làm:** pilot, vector R2/R3, LLM, provider trả phí, sửa target để "chữa hộ". Không dùng việc operator scale về làm bằng chứng tự phục hồi.
+-
+-### 5.2 Context và tài nguyên
++- **AC-02 runtime:** trang kết quả đọc artifact của chính run này qua `serve-results` và khớp export.
++- **P6 (BM trên image mới) KHÔNG thuộc RT1.** RT1 không build image, không bật Gaia/Hephaestus và không xin xóa pod lần hai. P6 cần một gói riêng (G-ZER11-RT2) với các điều kiện ở 5.7.
++- **Không làm:** pilot, vector R2/R3, LLM, provider trả phí, sửa target để "chữa hộ". Không dùng việc operator scale về làm bằng chứng tự phục hồi. Không đổi scorer, F-01 hay criteria để che giới hạn thời gian.
++
++### 5.2 Context, tài nguyên, ownership
+ 
+ - **Context:** chỉ `k3d-zero-door`. Cluster khác thì dừng.
+-- **Đọc trước:**
++- **Đọc trước (P0, lưu bằng `runtime-preflight --output <file mới>`):**
+   - UID, generation và spec hash của mọi Deployment trong `target-app`.
+   - Replicas hiện tại (runtime-01 ghi frontend 1, checkoutservice 3; phải đọc lại, không giả định).
+   - HPA ở mọi namespace và trạng thái `v1beta1.metrics.k8s.io`.
+-  - Deployment/RBAC của Gaia và Hephaestus trong `zero-door`.
+-  - Lưu bằng `runtime-preflight --output <file mới>`.
+-- **Tạo mới, có nhãn `zero-door.io/run=<run_id>`, xóa ở cleanup:**
+-  - Namespace tạm `zd-zer11-<8 hex>`, gồm gateway/recorder H và O, probe, một pod tải HTTP và một Deployment test cho positive control.
+-  - ConfigMap `zd-r1-baseline-profiles` trong `zero-door`.
+-  - HPA `frontend-hpa-r1`, `cartservice-hpa-r1` trong `target-app`.
++  - Deployment/RBAC của Gaia và Hephaestus trong `zero-door`, kèm replicas để khôi phục.
++- **Tạo mới, nhãn `zero-door.io/run=<run_id>`, ghi UID ngay khi tạo, xóa ở P7 theo tên + nhãn + UID:**
++  - Namespace tạm `zd-zer11-<8 hex>`: gateway/recorder H và O (production gateway như ZER-10 runtime-01, ack 201), harness B0, probe, một pod tải HTTP, một Deployment test `zd-scale-canary` (0 replica) cho positive control.
++  - ConfigMap `zd-r1-baseline-profiles` trong `zero-door` (P1).
++  - HPA `frontend-hpa-r1`, `cartservice-hpa-r1` trong `target-app`, chỉ áp ở đầu P4 để trial B0-CTRL không có HPA.
+ - **Sửa tạm, khôi phục theo UID:**
+-  - Scale `gaia` và `hephaestus` trong `zero-door` về 0 trong cửa sổ B0, rồi trả về replicas đã đọc.
+-  - Sau khi xóa HPA, trả `spec.replicas` của frontend/cartservice về giá trị baseline. Đây là cleanup, không phải bằng chứng phục hồi.
+-- **Image:** chỉ dùng image đã có cho B0 (target, gateway, probe ZER-10). P6 cần build/import Nemesis và Hephaestus từ cây này; đó là bước Docker riêng, cần duyệt riêng trong cùng gói.
+-
+-### 5.3 Trần
+-
+-- Tổng thời gian tối đa 35 phút, kể cả cleanup.
+-- Mỗi trial tối đa 6 phút; `cap_rec` 600 s chỉ dùng để chấm.
+-- Probe checkout: tối đa 30 giao dịch mỗi trial, 90 cho cả gói.
+-- Tải HTTP: chỉ GET trang chủ frontend, tối đa 10 kết nối đồng thời, tối đa 20 req/s và 180 s, tổng ≤ 3 600 request.
+-- Đúng 1 lần xóa pod frontend cho trial controller.
++  - Scale `gaia` và `hephaestus` trong `zero-door` về 0 trong toàn cửa sổ B0, rồi trả về replicas đã đọc ở P0.
++  - Sau khi xóa HPA, trả `spec.replicas` của frontend/cartservice về baseline nếu HPA đã đổi. Đây là cleanup, không phải bằng chứng phục hồi.
++- **Image:** chỉ image đã có (target, gateway, probe ZER-10). Không Docker build.
++- **Root S (offline, trên host):** `scratch/zer11/runtime-<nonce>/results/`, tạo mới, không trùng run cũ. Khóa `results-reader` sinh mới cho run, ghi file ngoài repo, không in ra.
++
++**Điều kiện trước khi xin quyền (chưa có trong repo):** harness B0 H-RT1, cùng khuôn `docs/evidence/ZER-10/runtime-01/acceptance.py`. Harness phát RUN_STARTED/RUN_CONTEXT/TRIAL_CONTEXT (`group=B0`, `config_ref` = SHA-256 của `r1-baselines.yaml`), TRIAL_STARTED/TRIAL_ENDED, ATTACK_REQUESTED/ATTACK_STOPPED (vai `harness`), EFFECT_EVALUATED (vai `effect_evaluator`), RELAPSE/RECOVERY_VERIFIED (vai `recovery_evaluator`, dùng `measurement.recovery.RecoveryMonitor`) và AUDIT_COVERAGE. Nó tự dừng trial theo 5.4 và giữ trần 5.3. H-RT1 phải có test offline và được Codex review trước; gói fix-01 không viết harness này.
++
++### 5.3 Trần và budget (output của `plan-check`)
++
++F-01 là bộ minh họa ZER-32 mục 3.6, dùng làm input PILOT, không đổi: Δ = 1 s, K = 3, S = 30 s, gap = 2 s, L = 2000 ms, cap_rec = 600 s, W_eff = 300 s.
++
++| Hạng mục | B0-CTRL | B0-HPA | Tổng / trần |
++| --- | --- | --- | --- |
++| Lỗi | Xóa 1 pod frontend | Tải GET frontend 180 s (20 req/s, 10 kết nối) | 1 lần xóa pod; 3600 request tải |
++| Warm-up (ngoài cửa sổ trial) | 30 s | 30 s | — |
++| Cửa sổ trial tối đa | 965 s = 30 baseline + 300 W_eff + 600 cap_rec + 30 S + 5 | 965 s | — |
++| Probe tối đa (warm-up + trial) | 995 s, 995 mẫu, 8955 request | 995 s, 995 mẫu, 8955 request | 1990 mẫu, 17910 request; trần 1000 mẫu/trial |
++| Mẫu tối thiểu để xác minh recovery | K + S/Δ = 33 mẫu đạt liên tục | 33 | — |
++| Pha khác (P0, P1, P2, chờ HPA, seal/export, P7) | — | — | 180 + 300 + 180 + 120 + 180 + 300 s |
++| Thời gian | — | — | worst case 3250 s; trần 3600 s, kể cả cleanup |
++
++- Một mẫu probe là một giao dịch checkout (`probe.py` `sample`), tối đa 9 request. Plan probe mỗi trial đặt `budget.max_duration_s` 995, `max_samples` 995, `max_requests` 8955, `grace_s` 10.
++- Thường trial ngắn hơn nhiều: pod frontend tạo lại trong vài chục giây, nên B0-CTRL dừng sớm ở mốc (a) dưới đây. Trần là worst case, không phải dự kiến.
+ - Không thêm fault nào khác. Không gọi model.
+ 
+-### 5.4 Các pha
+-
+-- **P0 — Preflight (chỉ đọc):**
+-  - Kiểm context, UID và spec baseline.
+-  - Phải chưa có HPA nào trỏ tới frontend/cartservice: hai HPA trên một target là hành vi không xác định, nên có thì dừng.
+-  - Metrics API phải Available và node phải Ready.
+-  - Ghi `kubectl auth can-i` cho SA `zero-door:hephaestus-sa` với `patch deployments/scale` và `delete pods` trong `target-app`.
+-- **P1 — Dựng B0:**
+-  - Tạo namespace tạm, gateway H/O và probe như ZER-10 runtime-01. Phát RUN_STARTED/RUN_CONTEXT/TRIAL_CONTEXT với `group=B0` và `config_ref` là hash manifest.
+-  - Scale Gaia và Hephaestus về 0 rồi xác nhận 0 pod.
+-  - Áp `r1-baselines.yaml` và chờ HPA có `currentMetrics`.
+-- **P2 — Positive control coverage (trước trial):**
+-  - Phát một event O hợp lệ của harness rồi thấy nó trong export O: recorder đang ghi.
+-  - Gửi một DECISION giả dạng `decision_rules` cho run B0 qua gateway: phải bị quarantine MODE_VIOLATION và hiện trong rejection, chứng minh vi phạm sẽ bị thấy.
+-  - Scale Deployment test trong namespace tạm bằng `kubectl scale`. Phương pháp quy trách nhiệm (Events `source`, `managedFields.manager` của subresource scale) phải chỉ ra `kubectl`, khác `horizontal-pod-autoscaler`/`replicaset-controller`.
+-- **P3 — Trial B0-CTRL (controller):**
+-  - Probe chạy 1 s/mẫu, có CLOCK_SYNC đầu và cuối.
+-  - Sau warm-up, harness xóa một pod frontend (ATTACK_REQUESTED/STOPPED). ReplicaSet tạo pod mới.
+-  - Ghi Events, pod UID trước/sau và trạng thái ReplicaSet.
+-  - Chờ recovery evaluator: K=3, S=30 s, hoặc tới trần.
+-- **P4 — Trial B0-HPA:**
+-  - Pod tải GET frontend trong trần ở 5.3.
+-  - Ghi `status.desiredReplicas`, `status.currentReplicas` của HPA và Event `SuccessfulRescale` (source `horizontal-pod-autoscaler`). Probe đo trong suốt trial.
+-  - Dừng tải, chờ tới hết trial. Không tự scale về.
+-  - HPA có thể không scale nếu tải không vượt 70% CPU. Khi đó ghi đúng kết quả là "HPA không kích hoạt", không tuyên bố đã kiểm HPA.
+-- **P5 — Kết thúc:**
+-  - TRIAL_ENDED, seal, export H/O và AUDIT_COVERAGE cho cửa sổ.
+-  - Chấm bằng `python -m measurement score` ra thư mục mới, đăng ký vào root S tạm.
+-  - Mở trang kết quả qua Nemesis cục bộ (fixture-server trỏ root thật, hoặc image P6). So KPI, bảng incident và hash với export, rồi chụp màn hình.
+-- **P6 — Tùy chọn, cần duyệt Docker:**
+-  - Build/import Nemesis và Hephaestus từ cây đã review, deploy vào namespace tạm với `group=BM`.
+-  - Lặp kịch bản P3 một lần. Phải có DETECTED từ Gaia.
+-  - Không có DECISION RULES. Trong log Hephaestus có dòng `MODE_AUDIT … AUTO_DECISION_DISABLED_FOR_GROUP`.
+-  - Gửi `/heal/trigger` với decision MANUAL hợp lệ: phải trả 409 `R1_EXECUTOR_DISABLED` và không có HEAL_STARTED. Đối chứng B1 ngắn: consumer phải phát DECISION RULES.
+-- **P7 — Cleanup và rollback (luôn chạy, kể cả khi abort):**
+-  - Xóa HPA và ConfigMap theo tên, nhãn và UID đã ghi.
+-  - Trả replicas frontend/cartservice về baseline, kiểm UID.
+-  - Trả replicas Gaia/Hephaestus về baseline.
+-  - Xóa namespace tạm rồi đọc lại xác nhận đã vắng. Diff UID/spec với P0, chỉ được khác `replicas` trong lúc chạy.
+-
+-### 5.5 Dừng khẩn
+-
+-Dừng ngay, chạy P7 và ghi lại khi gặp một trong các trường hợp:
++### 5.4 Khi nào một trial kết thúc
++
++Harness dừng trial ở mốc đến trước trong các mốc sau. Mỗi mốc ứng với đúng một kết quả của scorer; không có mốc nào đổi thiếu dữ liệu thành TIMEOUT hay PASS.
++
++| Mốc | Điều kiện | Scorer chấm |
++| --- | --- | --- |
++| (a) Phục hồi xác minh | `evidence_complete_at` của RECOVERY_VERIFIED + 5 s | RECOVERED (B0: RECOVERED_UNDETECTED, MTTD/MTTR N/A) |
++| (b) Không có hiệu ứng | Mẫu phủ liên tục [T_req, T_req + 300 s] không có lỗi | CONFIRMED_NO_EFFECT, rời N |
++| (c) Hết cap_rec | Mẫu phủ liên tục tới T_eff + 600 s cộng S cho ứng viên đúng trần (T_eff + 635 s) | TIMEOUT |
++| (d) Dừng sớm | Abort 5.5, trần tổng 3600 s, hoặc probe hết budget | Cửa sổ không đủ phủ: MISSING_PROBE hoặc UNKNOWN_EFFECT, ghi là chưa hoàn tất |
++
++Khoảng trống > gap = 2 s trong lúc target sập (giao dịch timeout 10 s, slot bị bỏ như runtime-01) làm cửa sổ không phủ liên tục. Khi đó scorer chấm MISSING_PROBE chứ không phải TIMEOUT. Đây là kết quả đúng, không chỉnh gap hay timeout để tránh.
++
++### 5.5 Các pha và thao tác
++
++| Pha | Việc | Thao tác ghi lên cluster |
++| --- | --- | --- |
++| P0 | Preflight chỉ đọc: context, UID/spec, không có HPA nào trỏ frontend/cartservice (có thì dừng), Metrics API Available, node Ready, `kubectl auth can-i` của `zero-door:hephaestus-sa` với `patch deployments/scale` và `delete pods` ở `target-app` | Không |
++| P1 | Tạo namespace tạm, gateway H/O, harness, probe; áp ConfigMap; scale Gaia và Hephaestus về 0 và xác nhận 0 pod | 1 namespace + đối tượng trong đó; 1 ConfigMap; 2 lệnh scale |
++| P2 | Positive control trước trial: (1) harness phát một event O hợp lệ, thấy nó trong export O; (2) gửi một DECISION giả `decision_rules` cho run B0 qua gateway, phải bị quarantine MODE_VIOLATION; (3) `kubectl scale` `zd-scale-canary` 0→1→0, quy trách nhiệm qua Events `source` và `managedFields.manager` phải ra `kubectl`, khác `horizontal-pod-autoscaler`/`replicaset-controller` | 2 lệnh scale trong namespace tạm |
++| P3 | B0-CTRL: warm-up, baseline, harness xóa đúng 1 pod frontend (ATTACK_REQUESTED → delete → ATTACK_STOPPED), ghi Events, UID pod trước/sau, trạng thái ReplicaSet; dừng theo 5.4 | 1 lần xóa pod |
++| P4 | Áp 2 HPA, chờ `currentMetrics` (tối đa 120 s; không có thì ghi "HPA không đo được" và bỏ trial). B0-HPA: ATTACK_REQUESTED, pod tải chạy 180 s trong trần, ATTACK_STOPPED; ghi `desiredReplicas`/`currentReplicas` và Event `SuccessfulRescale`; dừng theo 5.4. Không tự scale về | 2 HPA; pod tải trong namespace tạm |
++| P5 | TRIAL_ENDED, AUDIT_COVERAGE, seal, export H/O ra host | Không |
++| P7 | Cleanup, luôn chạy kể cả khi abort: xóa HPA và ConfigMap theo tên + nhãn + UID; trả frontend/cartservice về replicas baseline; trả Gaia/Hephaestus về replicas P0; xóa namespace tạm rồi đọc lại xác nhận đã vắng; diff UID/spec với P0, chỉ được khác replicas trong lúc chạy | Xóa đúng đối tượng đã tạo; ≤ 4 lệnh scale khôi phục |
++| P8 (offline, sau P7) | Chấm và hiển thị, không cần cluster (lệnh ở dưới) | Không |
++
++Nếu HPA không scale vì tải không vượt 70% CPU thì ghi đúng "HPA không kích hoạt", không tuyên bố đã kiểm HPA. Nếu B0-HPA có hiệu ứng mà phục hồi chỉ xảy ra sau ATTACK_STOPPED, không có `SuccessfulRescale` trước đó, thì phục hồi là do tải dừng, không quy cho HPA.
++
++**P8, chấm và hiển thị trên host (offline, loopback):**
++
++```bash
++python -m measurement score --h-export <export H> --o-export <export O> --output <root S>/<thư mục run> --required-flow checkout
++```
++
++```bash
++python -B infrastructure/scripts/verify-dashboard-baselines.py register --root <root S> --dir <thư mục run>
++```
++
++```bash
++ZD_PYTHON=scratch/zer12/production-nemesis/Scripts/python.exe bash infrastructure/scripts/verify-dashboard-baselines.sh serve-results --root <root S tuyệt đối> --reader-key-file <khóa results-reader> --port 8712 --receipt <file mới>
++```
++
++`serve-results` phục vụ đúng root đã cho: không sinh fixture, không chấm, không ghi. Nó chỉ mở `results.html`, `results.js` và GET `/api/results/*`; mọi route khác trả 404 trước khi tới mã Nemesis. Không có consumer Kafka, Prometheus, Hephaestus hay model. Khi dừng, lệnh so hash mọi file trong root lúc đầu và lúc cuối, ghi vào receipt. Có thay đổi thì exit 5. So KPI, bảng incident và hash trên trang với `score.json`/CSV, rồi chụp màn hình.
++
++### 5.6 Dừng khẩn
++
++Dừng ngay, chạy P7 và ghi lại khi gặp một trong các trường hợp sau. Trial đang chạy kết thúc ở mốc (d), tức là chưa hoàn tất.
+ 
+ - Context sai, hoặc HPA lạ trỏ cùng target.
+ - Node NotReady.
+-- Vượt trần thời gian hoặc giao dịch.
+-- Có event DECISION/HEAL nào được ghi (không phải bị quarantine) trong B0.
+-- Target không phục hồi trong `cap_rec`. Trường hợp này vẫn chấm là TIMEOUT, không chữa tay.
++- Chạm trần thời gian, mẫu, request hay số lần xóa pod.
++- Gaia/Hephaestus có pod trong cửa sổ B0, hoặc có event DECISION/HEAL được nhận (không phải bị quarantine).
+ - Lỗi persistence của outbox hoặc journal.
+ 
+-### 5.6 Bằng chứng và cách đọc
++Target không phục hồi trong cap_rec **không** phải abort. Trial dừng ở mốc (c) và được chấm TIMEOUT nếu đã phủ liên tục. P7 vẫn chạy, nhưng không ai chữa target bằng tay trước khi export xong.
++
++### 5.7 P6 / G-ZER11-RT2 (ngoài RT1, chỉ để review sau)
++
++P6 chứng minh BM không tự heal trên image mới. Nó cần gói riêng gồm:
++
++- Quyền Docker build/import Nemesis và Hephaestus từ cây đã review.
++- Một nguồn DETECTED thật: Gaia được trả về replicas baseline và cấu hình gửi DETECTED tới gateway O của run với `group=BM`, hoặc nói rõ là không có detector (MTTD N/A).
++- Một lần xóa pod frontend riêng và trần thời gian riêng, không cộng dồn vào RT1.
++- Kiểm `MODE_AUDIT … AUTO_DECISION_DISABLED_FOR_GROUP`, `/heal/trigger` MANUAL trả 409 `R1_EXECUTOR_DISABLED` không có HEAL_STARTED, và một đối chứng B1 ngắn có DECISION RULES.
++- Một O-console riêng cho operator BM. Console Nemesis hiện hiện log tấn công (H), nên không được dùng làm màn hình BM.
++
++### 5.8 Bằng chứng và cách đọc
+ 
+ | Kết luận | Bằng chứng cần có | Không đủ nếu chỉ có |
+ | --- | --- | --- |
+ | B0 không phát heal | Gaia/Hephaestus 0 pod suốt cửa sổ (đọc trước/sau, Events); export O không có event cấm ngoài quarantine; AUDIT_COVERAGE phủ cửa sổ; positive control P2 cho thấy vi phạm và thao tác scale đều sẽ bị thấy | "Không thấy log" |
+-| Controller tự phục hồi | Pod UID mới do `replicaset-controller`; probe RECOVERED/RECOVERED_UNDETECTED, TotalRecovery tính từ effect | Thấy pod Running |
+-| HPA tự phục hồi | `SuccessfulRescale` từ `horizontal-pod-autoscaler`, replicas tăng trong trial, probe đạt | HPA tồn tại trong manifest |
+-| Dashboard = export | Hash ba file = registry; KPI và incident trên trang = `score.json`/CSV; chụp màn hình | Hai consumer cùng đọc một số sai |
++| Controller tự phục hồi | Pod UID mới do `replicaset-controller`; probe RECOVERED_UNDETECTED theo 5.4 (a), TotalRecovery tính từ effect | Thấy pod Running |
++| HPA tự phục hồi | `SuccessfulRescale` từ `horizontal-pod-autoscaler` trước mốc phục hồi, replicas tăng trong trial, probe đạt | HPA tồn tại trong manifest |
++| Trial chưa hoàn tất | Mốc (d) và lý do được ghi; scorer ra MISSING_PROBE/UNKNOWN_EFFECT | Gọi là TIMEOUT hay PASS |
++| Dashboard = export | Receipt `serve-results` (`root_unchanged`), hash ba file = registry; KPI và incident trên trang = `score.json`/CSV; chụp màn hình | Hai consumer cùng đọc một số sai |
+ 
+ ## 6. Ánh xạ gate G1 (kế thừa và còn thiếu)
+ 
+ | Điều kiện G1 | Đã có | ZER-11/39 thêm | Còn thiếu |
+ | --- | --- | --- | --- |
+ | ID xuyên pipeline | ZER-9 (transport/archive, runtime đã nghiệm thu), ZER-37 contract | Dashboard đọc run_id/trial_id/incident_id từ artifact đã chấm | — |
+-| Raw/export và KPI tái tính | ZER-10 scorer, runtime-01 | Dashboard/API/export cùng artifact, kiểm hash và CSV; fixture và mutant | Run B0 thật được chấm và hiển thị (P5) |
++| Raw/export và KPI tái tính | ZER-10 scorer, runtime-01 | Dashboard/API/export cùng artifact, kiểm hash và CSV; fixture và mutant; `serve-results` cho root thật | Run B0 thật được chấm và hiển thị (P8) |
+ | Evidence không lộ đáp án | ZER-9 AC-03 leak check, ZER-10 LEAK_CHECK | Kết quả S chỉ đọc bằng khóa riêng; deployment live không mount; lỗi không lộ path | Một O-console riêng cho operator BM: console Nemesis hiện vẫn hiện log tấn công (H) cho người giữ khóa operator |
+-| B0/BM không auto-heal | ModeGate/GuardedRules ZER-12 | Consumer và `/heal/trigger` thật có audit, positive control, replay; profile B0 | P3/P4 (B0 runtime), P6 (BM trên image mới) |
++| B0/BM không auto-heal | ModeGate/GuardedRules ZER-12 | Consumer và `/heal/trigger` thật có audit, positive control, replay; profile B0 | P3/P4 của RT1 (B0 runtime, cần harness H-RT1); BM trên image mới ở gói RT2 riêng |
+ | Guard hoạt động | ZER-12/40 (CI, guard đã nghiệm thu) | Không đổi guard; executor production vẫn khóa | — |
+ 
+ Bảng này không kết luận G1 PASS.
+--- before/tests/test_dashboard_measurement.py
++++ tests/test_dashboard_measurement.py
+@@ -17,6 +17,7 @@
+ from pathlib import Path
+ import re
+ import shutil
++import subprocess
+ import sys
+ import tempfile
+ import unittest
+@@ -336,6 +337,45 @@
+         self.assertEqual("EXPORT_INCONSISTENT", raised.exception.reason)
+         self.assertEqual(1, len(json.loads((self.root / "registry.json").read_text())["runs"]))
+ 
++    def test_shape_of_consumed_fields_is_a_reason_code(self):
++        # A score.json that parses but lacks what the view, the CSV rows or the page read is refused with
++        # a 422 reason code when registered and when read, never an exception (HTTP 500).
++        good = json.loads((self.root / "b1_recovered/score.json").read_bytes())
++        run = lambda d: d["runs"][0]
++        cases = [
++            ("no H export digest", lambda d: d["inputs"].update(h_export_json_sha256=None), "INPUT_DIGEST_MISSING"),
++            ("O export digest not hex", lambda d: d["inputs"].update(o_export_json_sha256="sha256:" + "0" * 64), "INPUT_DIGEST_MISSING"),
++            ("kpi without entries", lambda d: run(d)["metrics"].update(kpi={}), "ARTIFACT_MALFORMED"),
++            ("kpi entry not an object", lambda d: run(d)["metrics"]["kpi"].update(mttd=[]), "ARTIFACT_MALFORMED"),
++            ("milestones list", lambda d: run(d)["incidents"][0].update(milestones=["t_det"]), "ARTIFACT_MALFORMED"),
++            ("uncertainty null", lambda d: run(d)["incidents"][0].update(uncertainty_ms=None), "ARTIFACT_MALFORMED"),
++            ("incident without label", lambda d: run(d)["incidents"][0].pop("label"), "ARTIFACT_MALFORMED"),
++            ("mode violations count", lambda d: run(d)["findings"].update(mode_violations=1), "ARTIFACT_MALFORMED"),
++            ("leak list", lambda d: run(d).update(leak=["trial"]), "ARTIFACT_MALFORMED"),
++            ("leak unknown text", lambda d: run(d).update(leak={"trl_x": {"result": "PASS", "unknown": "x"}}), "ARTIFACT_MALFORMED"),
++            ("uptime entry null", lambda d: run(d)["metrics"].update(uptime={"trl_x": None}), "ARTIFACT_MALFORMED"),
++            ("run flags text", lambda d: run(d).update(run_flags="x"), "ARTIFACT_MALFORMED"),
++        ]
++        for i, (name, change, reason) in enumerate(cases):
++            with self.subTest(case=name):
++                doc = copy.deepcopy(good)
++                change(doc)
++                data = json.dumps(doc).encode()
++                fresh = self.root / f"shape-{i}"
++                shutil.copytree(self.root / "b1_recovered", fresh)
++                (fresh / "score.json").write_bytes(data)
++                with self.assertRaises(self.mv.ResultError) as raised:
++                    self.mv.register(self.root, fresh.name)
++                self.assertEqual((reason, 422), (raised.exception.reason, raised.exception.status))
++                self.rewrite("score.json", data)  # registered entry now names these bytes
++                self.assertEqual(422, self.refused(reason).status)
++        # Control: a key nothing consumes is passed through as scored, not judged.
++        doc = copy.deepcopy(good)
++        run(doc)["metrics"]["kpi"]["N"] = "not read by the view"
++        self.rewrite("score.json", json.dumps(doc).encode())
++        self.assertEqual("not read by the view", self.mv.ResultsStore(self.root).view(self.run)["kpi"]["N"])
++        self.assertEqual(1, len(json.loads((self.root / "registry.json").read_text())["runs"]))
++
+ 
+ class FakeResponse:
+     def __init__(self, status, body):
+@@ -496,6 +536,150 @@
+         self.assertEqual((422, {"detail": "ARTIFACT_HASH_MISMATCH"}), (response.status_code, response.json()))
+ 
+ 
++class ResultsServer(unittest.IsolatedAsyncioTestCase):
++    """serve-results: the real Nemesis app over an existing results root, read-only, results routes only."""
++    async def asyncSetUp(self):
++        self.tmp = tempfile.TemporaryDirectory()
++        d = Path(self.tmp.name)
++        self.root = d / "s-root"
++        self.root.mkdir()
++        # Stands in for a closed run's root: two registered runs, not the fixture-server's SYNTHETIC set.
++        self.runs = {}
++        for name in ("b1_failed_timeout", "b0_controller"):
++            score_case(name, self.root)
++            self.runs[view_module().register(self.root, name)["run_id"]] = name
++        self.reader = {"id": "reader", "purpose": "results-reader", "secret": "offline-results-reader-token-000000000"}
++        (d / "reader.json").write_text(json.dumps(self.reader))
++        self.env = patch.dict(os.environ, {})
++        self.env.start()  # results_app sets the process env; restored after each test
++        spec = importlib.util.spec_from_file_location("zer11_verify", ROOT / "infrastructure/scripts/verify-dashboard-baselines.py")
++        self.verify = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(self.verify)
++        self.before = self.verify.root_digest(self.root)
++        self.siblings = sorted(p.name for p in d.iterdir())
++        with patch.object(self.verify, "build_fixture_root", side_effect=AssertionError("fixture generated")):
++            self.app, self.listed = self.verify.results_app(self.root, d / "reader.json")
++        self.http = patch.object(httpx, "AsyncClient", FakeHttp)
++        self.http.start()
++        FakeHttp.answers, FakeHttp.calls = {}, []
++
++    async def asyncTearDown(self):
++        self.http.stop()
++        self.env.stop()
++        self.tmp.cleanup()
++
++    async def request(self, method, path, token=None):
++        headers = {"Authorization": "Bearer " + token} if token else {}
++        async with REAL_CLIENT(transport=httpx.ASGITransport(app=self.app), base_url="http://offline") as client:
++            return await client.request(method, path, headers=headers)
++
++    async def test_serves_exactly_the_given_root_and_leaves_it_unchanged(self):
++        registry = json.loads((self.root / "registry.json").read_bytes())
++        self.assertEqual(set(self.runs), {r["run_id"] for r in self.listed})
++        listed = (await self.request("GET", "/api/results/runs", self.reader["secret"])).json()["runs"]
++        self.assertEqual({e["run_id"] for e in registry["runs"]}, {r["run_id"] for r in listed})
++        for entry in registry["runs"]:
++            view = (await self.request("GET", f"/api/results/runs/{entry['run_id']}", self.reader["secret"])).json()
++            self.assertEqual(entry["sha256"], view["provenance"]["sha256"])
++            for name in ("score.json", "incidents.csv"):
++                body = await self.request("GET", f"/api/results/runs/{entry['run_id']}/files/{name}", self.reader["secret"])
++                self.assertEqual((self.root / entry["dir"] / name).read_bytes(), body.content)
++        page = await self.request("GET", "/dashboard/results.html")
++        self.assertEqual(200, page.status_code)
++        self.assertIn('src="results.js"', page.text)
++        self.assertEqual(200, (await self.request("GET", "/dashboard/results.js")).status_code)
++        self.assertEqual(401, (await self.request("GET", "/api/results/runs")).status_code)
++        self.assertEqual((405, {"detail": "READ_ONLY"}), ((r := await self.request("POST", "/api/results/runs", self.reader["secret"])).status_code, r.json()))
++        self.assertEqual(self.before, self.verify.root_digest(self.root))
++        self.assertEqual(self.siblings, sorted(p.name for p in Path(self.tmp.name).iterdir()))
++
++    async def test_other_routes_and_startup_never_reach_upstreams(self):
++        self.assertEqual([], self.app.router.on_startup)  # no Kafka results consumer
++        for method, path in [("GET", "/api/status"), ("GET", "/api/logs"), ("GET", "/api/heal-history"), ("POST", "/api/chat"),
++                             ("POST", "/attack"), ("GET", "/healthz"), ("GET", "/dashboard/index.html"), ("POST", "/api/reset")]:
++            with self.subTest(path=path):
++                response = await self.request(method, path, self.reader["secret"])
++                self.assertEqual((404, {"detail": "NOT_SERVED_IN_RESULTS_MODE"}), (response.status_code, response.json()))
++        self.assertEqual([], FakeHttp.calls)
++
++    def test_cli_receipt_records_the_root_at_start_and_exit(self):
++        import uvicorn
++        d = Path(self.tmp.name)
++        args = lambda receipt: type("Args", (), {"root": str(self.root), "reader_key_file": str(d / "reader.json"),
++                                                 "operator_key_file": None, "port": 8799, "receipt": str(receipt)})()
++        started = []
++        with patch.object(uvicorn, "run", side_effect=lambda app, **kw: started.append(json.loads((d / "a.json").read_text()))), \
++                contextlib.redirect_stdout(io.StringIO()):
++            self.assertEqual(0, self.verify.serve_results(args(d / "a.json")))
++        self.assertEqual((False, self.before), (started[0]["stopped"], started[0]["root_files_sha256"]))  # on disk before serving
++        receipt = json.loads((d / "a.json").read_text())
++        self.assertEqual((True, True, [], sorted(self.runs)), (receipt["stopped"], receipt["root_unchanged"], receipt["changed"], sorted(receipt["runs"])))
++        # A file changed while serving is reported and fails the command.
++        touched = self.root / "b0_controller" / "usage.csv"
++        with patch.object(uvicorn, "run", side_effect=lambda app, **kw: touched.write_bytes(touched.read_bytes() + b"x")), \
++                contextlib.redirect_stdout(io.StringIO()):
++            self.assertEqual(5, self.verify.serve_results(args(d / "b.json")))
++        self.assertEqual(["b0_controller/usage.csv"], json.loads((d / "b.json").read_text())["changed"])
++        with contextlib.redirect_stderr(io.StringIO()):
++            self.assertEqual(4, self.verify.serve_results(args(d / "b.json")))  # an existing receipt is never overwritten
++
++    def test_refuses_a_root_without_a_registry_or_a_relative_root(self):
++        empty = Path(self.tmp.name) / "empty"
++        empty.mkdir()
++        with self.assertRaises(view_module().ResultError) as raised:
++            self.verify.results_app(empty, Path(self.tmp.name) / "reader.json")
++        self.assertEqual("REGISTRY_MISSING", raised.exception.reason)
++        with self.assertRaises(SystemExit):
++            self.verify.results_app(Path("relative"), Path(self.tmp.name) / "reader.json")
++
++
++class RuntimePlan(unittest.TestCase):
++    """G-ZER11-RT1 budget (verify-dashboard-baselines.py plan-check) against the scorer's coverage rules."""
++    def setUp(self):
++        spec = importlib.util.spec_from_file_location("zer11_verify_plan", ROOT / "infrastructure/scripts/verify-dashboard-baselines.py")
++        self.verify = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(self.verify)
++
++    def plan(self, change):
++        plan = copy.deepcopy(self.verify.RT1)
++        change(plan)
++        return self.verify.plan_matrix(plan)["problems"]
++
++    def test_budget_covers_timeout_no_effect_and_verification(self):
++        m = self.verify.plan_matrix()
++        self.assertEqual([], m["problems"])
++        f = m["f01_pilot"]
++        # The PILOT inputs stay the ZER-32 3.6 illustrative set; the plan does not relax them.
++        self.assertEqual({"delta_s": 1, "k": 3, "s_s": 30, "gap_s": 2, "cap_rec_s": 600}, {k: f[k] for k in ("delta_s", "k", "s_s", "gap_s", "cap_rec_s")})
++        for name, t in m["trials"].items():
++            with self.subTest(trial=name):
++                after_effect = t["trial_max_s"] - self.verify.RT1["trials"][name]["baseline_s"] - m["w_eff_s"]
++                self.assertGreaterEqual(after_effect, f["cap_rec_s"] + f["s_s"])  # TIMEOUT coverable, S kept at the cap
++                self.assertGreaterEqual(t["trial_max_s"], m["w_eff_s"])           # NO_EFFECT coverable
++                self.assertEqual(33, t["verify_min_samples"])
++                self.assertGreaterEqual(t["probe_max_samples"], t["probe_max_duration_s"] // f["delta_s"])
++        self.assertEqual((1, False), (m["totals"]["frontend_pod_deletes"], m["totals"]["p6"]))
++        self.assertLessEqual(m["totals"]["worst_case_s"], m["totals"]["cap_s"])
++
++    def test_the_reviewed_inconsistencies_are_rejected(self):
++        # ZR11-02: the first plan's 35 min total, 30 transactions per trial and an enabled P6.
++        self.assertTrue(self.plan(lambda p: p["caps"].update(total_s=35 * 60)))
++        self.assertTrue(self.plan(lambda p: p["caps"].update(probe_samples_per_trial=30)))
++        self.assertTrue(self.plan(lambda p: p.update(p6=True)))
++        self.assertTrue(self.plan(lambda p: p["trials"]["B0-HPA"].update(fault="delete 1 frontend pod")))
++
++    def test_runbook_quotes_the_computed_numbers(self):
++        m = self.verify.plan_matrix()
++        text = (ROOT / "docs/runbooks/dashboard-and-baselines.md").read_text(encoding="utf-8")
++        section = text[text.index("### 5.3"):text.index("### 5.4")]
++        t = m["trials"]["B0-CTRL"]
++        for value in (t["trial_max_s"], t["probe_max_samples"], t["probe_max_requests"], t["verify_min_samples"],
++                      m["totals"]["probe_samples"], m["totals"]["probe_requests"], m["totals"]["worst_case_s"],
++                      m["totals"]["cap_s"], m["totals"]["load_requests"]):
++            self.assertIn(str(value), section)
++        self.assertIn("KHÔNG thuộc RT1", text)
++
++
+ class StaticPages(unittest.TestCase):
+     def test_console_has_no_kpi_path_or_synthetic_numbers(self):
+         app = (STATIC / "app.js").read_text(encoding="utf-8")
+@@ -517,6 +701,21 @@
+             self.assertNotIn(target, js)
+         self.assertNotRegex(html, r"<script[^>]+src=\"https?:|<link[^>]+href=\"https?:")
+ 
++    def test_refresh_keeps_stale_only_for_transient_failures(self):
++        # results.js itself in a Node VM (tests/results_page_vm.cjs): after a good view, an integrity,
++        # access, unregistered or configuration answer clears the cached view; only a transient outage
++        # keeps it as STALE; late answers of a previous run or key are dropped.
++        node = shutil.which("node")
++        self.assertIsNotNone(node, "node is required for the results page regression")
++        done = subprocess.run([node, str(ROOT / "tests/results_page_vm.cjs"), str(STATIC / "results.js")],
++                              capture_output=True, text=True, timeout=120)
++        report = json.loads(done.stdout)
++        self.assertGreaterEqual(len(report["cases"]), 18)
++        for case in report["cases"]:
++            with self.subTest(case=case["name"]):
++                self.assertTrue(case["ok"], json.dumps(case["detail"]))
++        self.assertEqual(0, done.returncode, done.stderr)
++
+ 
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)

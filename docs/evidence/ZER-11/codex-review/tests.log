@@ -1,0 +1,1585 @@
+3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)] 0.111.0 2.7.4
+test_malformed_nonfinite_duplicate_and_schema (__main__.AdapterIntegrity.test_malformed_nonfinite_duplicate_and_schema) ... ok
+test_register_refuses_an_export_that_differs_from_score_json (__main__.AdapterIntegrity.test_register_refuses_an_export_that_differs_from_score_json) ... ok
+test_registry_paths_status_and_ids (__main__.AdapterIntegrity.test_registry_paths_status_and_ids) ... ok
+test_root_configuration (__main__.AdapterIntegrity.test_root_configuration) ... ok
+test_run_group_and_export_mismatch (__main__.AdapterIntegrity.test_run_group_and_export_mismatch) ... ok
+test_symlinked_artifact_outside_root_is_refused (__main__.AdapterIntegrity.test_symlinked_artifact_outside_root_is_refused) ... ok
+test_tampered_artifact_is_refused (__main__.AdapterIntegrity.test_tampered_artifact_is_refused) ... ok
+test_unregistered_output_is_never_listed_or_served (__main__.AdapterIntegrity.test_unregistered_output_is_never_listed_or_served) ... ok
+test_data_time_is_latest_scored_milestone_not_generated_at (__main__.AdapterValues.test_data_time_is_latest_scored_milestone_not_generated_at) ... ok
+test_e01_matches_hand_values_and_the_export_file (__main__.AdapterValues.test_e01_matches_hand_values_and_the_export_file) ... ok
+test_empty_run_is_empty_not_pass_or_rate (__main__.AdapterValues.test_empty_run_is_empty_not_pass_or_rate) ... ok
+test_missing_and_unverified_clock_stay_unknown (__main__.AdapterValues.test_missing_and_unverified_clock_stay_unknown) ... ok
+test_modes_labels_and_mode_violations (__main__.AdapterValues.test_modes_labels_and_mode_violations) ... ok
+test_null_stays_empty_and_failure_is_counted (__main__.AdapterValues.test_null_stays_empty_and_failure_is_counted) ... ok
+test_same_run_inputs_and_options_give_the_same_kpi (__main__.AdapterValues.test_same_run_inputs_and_options_give_the_same_kpi) ... ok
+test_view_leaks_no_path_and_columns_match_measurement_output (__main__.AdapterValues.test_view_leaks_no_path_and_columns_match_measurement_output) ... ok
+test_api_view_and_download_are_the_same_artifact (__main__.Http.test_api_view_and_download_are_the_same_artifact) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 11:04:45,571 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:04:45,572 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<Http.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:377> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.938 seconds
+2026-10-21 11:04:46,036 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<Http.test_api_view_and_download_are_the_same_artifact() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:465> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.468 seconds
+2026-10-21 11:04:46,068 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 200 OK"
+2026-10-21 11:04:46,104 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_c341b7a879f54316a1f29e968454a1f5?group=B2&run_id=run_ffffffffffffffffffffffffffffffff "HTTP/1.1 200 OK"
+2026-10-21 11:04:46,164 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_c341b7a879f54316a1f29e968454a1f5/files/score.json "HTTP/1.1 200 OK"
+2026-10-21 11:04:46,200 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_c341b7a879f54316a1f29e968454a1f5/files/incidents.csv "HTTP/1.1 200 OK"
+2026-10-21 11:04:46,248 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_c341b7a879f54316a1f29e968454a1f5/files/usage.csv "HTTP/1.1 200 OK"
+ok
+test_bad_requests_return_codes_without_paths (__main__.Http.test_bad_requests_return_codes_without_paths) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:46,281 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:04:46,781 - asyncio - [WARNING] - Executing <Task pending name='Task-15' coro=<Http.test_bad_requests_return_codes_without_paths() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:490> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.500 seconds
+2026-10-21 11:04:46,802 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_aa77bb3bf05c4c2e8f3cc3de2a0d646c/files/registry.json "HTTP/1.1 404 Not Found"
+2026-10-21 11:04:46,822 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/..%2F..%2Fregistry.json "HTTP/1.1 404 Not Found"
+2026-10-21 11:04:46,840 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_aa77bb3bf05c4c2e8f3cc3de2a0d646c/files/..%2Fregistry.json "HTTP/1.1 404 Not Found"
+2026-10-21 11:04:46,863 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_bad "HTTP/1.1 400 Bad Request"
+2026-10-21 11:04:46,894 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_00000000000000000000000000000000 "HTTP/1.1 404 Not Found"
+2026-10-21 11:04:46,940 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_aa77bb3bf05c4c2e8f3cc3de2a0d646c "HTTP/1.1 422 Unprocessable Entity"
+ok
+test_chat_generates_no_reasoning (__main__.Http.test_chat_generates_no_reasoning) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:46,973 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:04:47,005 - httpx - [INFO] - HTTP Request: GET http://offline/api/chat "HTTP/1.1 200 OK"
+ok
+test_heal_history_and_logs_report_upstream_failure (__main__.Http.test_heal_history_and_logs_report_upstream_failure) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:47,030 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:04:47,040 - nemesis-agent - [WARNING] - Could not proxy Hephaestus heal history: ConnectionError
+2026-10-21 11:04:47,053 - httpx - [INFO] - HTTP Request: GET http://offline/api/heal-history "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:04:47,059 - nemesis-agent - [WARNING] - Could not fetch Hephaestus logs: ConnectionError
+2026-10-21 11:04:47,072 - httpx - [INFO] - HTTP Request: GET http://offline/api/logs "HTTP/1.1 200 OK"
+ok
+test_results_need_the_reader_key_and_are_read_only (__main__.Http.test_results_need_the_reader_key_and_are_read_only) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:47,099 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:04:47,596 - asyncio - [WARNING] - Executing <Task pending name='Task-45' coro=<Http.test_results_need_the_reader_key_and_are_read_only() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:447> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+2026-10-21 11:04:47,597 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:04:47,598 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:04:47,600 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:04:47,601 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/runs/run_605b0ebab1ef4079b28d354a126d70ef "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,602 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,602 - httpx - [INFO] - HTTP Request: PUT http://offline/api/results/runs/run_605b0ebab1ef4079b28d354a126d70ef "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,603 - httpx - [INFO] - HTTP Request: PUT http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,603 - httpx - [INFO] - HTTP Request: DELETE http://offline/api/results/runs/run_605b0ebab1ef4079b28d354a126d70ef "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,604 - httpx - [INFO] - HTTP Request: DELETE http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,606 - httpx - [INFO] - HTTP Request: PATCH http://offline/api/results/runs/run_605b0ebab1ef4079b28d354a126d70ef "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,607 - httpx - [INFO] - HTTP Request: PATCH http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:04:47,608 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:04:47,615 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 503 Service Unavailable"
+ok
+test_status_reports_no_data_and_source_error_not_zero (__main__.Http.test_status_reports_no_data_and_source_error_not_zero) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:47,644 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:04:47,654 - nemesis-agent - [WARNING] - Error querying Prometheus for dashboard: ConnectionError
+2026-10-21 11:04:47,670 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 200 OK"
+2026-10-21 11:04:47,687 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 200 OK"
+ok
+test_console_has_no_kpi_path_or_synthetic_numbers (__main__.StaticPages.test_console_has_no_kpi_path_or_synthetic_numbers) ... ok
+test_results_page_is_get_only_text_only_and_self_contained (__main__.StaticPages.test_results_page_is_get_only_text_only_and_self_contained) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 15.512s
+
+OK
+test_only_b1_auto_decides_through_the_real_consumer (__main__.ConsumerModes.test_only_b1_auto_decides_through_the_real_consumer) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_b0_with_a_forged_operator_decision_is_still_refused (__main__.ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:55,028 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:246> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.125 seconds
+2026-10-21 11:04:55,062 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B0", "run_id": "run_f4e56773bc4246e3bbe0bfe27415737a", "trial_id": "trl_c5eca5cc1c5041b88ee01c6a87d1ab2b"}, "reason": "DECISION_MISSING_OR_AMBIGUOUS", "route": "/heal/trigger"}
+2026-10-21 11:04:55,075 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:04:55,556 - asyncio - [WARNING] - Executing <Task finished name='Task-3' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+ok
+test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled (__main__.ManualTrigger.test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:55,668 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:04:56,159 - asyncio - [WARNING] - Executing <Task finished name='Task-9' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.485 seconds
+ok
+test_mode_refusals_hold_even_with_an_executor (__main__.ManualTrigger.test_mode_refusals_hold_even_with_an_executor) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:56,333 - asyncio - [WARNING] - Executing <Task pending name='Task-14' coro=<ManualTrigger.test_mode_refusals_hold_even_with_an_executor() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:231> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.172 seconds
+2026-10-21 11:04:56,349 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:04:56,382 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:04:56,438 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:04:56,922 - asyncio - [WARNING] - Executing <Task finished name='Task-15' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.468 seconds
+ok
+test_positive_control_one_action_per_operator_decision (__main__.ManualTrigger.test_positive_control_one_action_per_operator_decision) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:57,114 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 200 OK"
+2026-10-21 11:04:57,149 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 200 OK"
+2026-10-21 11:04:57,624 - asyncio - [WARNING] - Executing <Task finished name='Task-23' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.468 seconds
+ok
+test_trigger_needs_the_trusted_context_and_heal_operator (__main__.ManualTrigger.test_trigger_needs_the_trusted_context_and_heal_operator) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:04:57,685 - hephaestus-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:04:57,685 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:04:57,724 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "BM", "run_id": "run_77b195fa790b4048aa6211ce067d142b", "trial_id": "trl_795f7fe6db25466b8c78b36e86ca3f37"}, "reason": "RUN_CONTEXT", "route": "/heal/trigger"}
+2026-10-21 11:04:57,737 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:04:58,209 - asyncio - [WARNING] - Executing <Task finished name='Task-30' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+ok
+test_executor_seam_is_never_configured_in_production (__main__.ProductionWiring.test_executor_seam_is_never_configured_in_production) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 9.800s
+
+OK
+test_allowed_proposals_and_production_executor_disabled (__main__.ModeTests.test_allowed_proposals_and_production_executor_disabled) ... ok
+test_blocked_context_source_manual_fallback_and_no_action (__main__.ModeTests.test_blocked_context_source_manual_fallback_and_no_action) ... ok
+test_rules_wrapper_uses_trusted_context_before_locked_adapter (__main__.ModeTests.test_rules_wrapper_uses_trusted_context_before_locked_adapter) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+OK
+test_actual_route_publishes_signed_capped_command_once_after_restart (__main__.EntrypointTests.test_actual_route_publishes_signed_capped_command_once_after_restart) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 11:05:00,154 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 11:05:01,480 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<EntrypointTests.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_command_guard_integration.py:33> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 2.219 seconds
+2026-10-21 11:05:01,574 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:01,586 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:01,612 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+2026-10-21 11:05:01,618 - nemesis-agent - [WARNING] - Command refused: ID_CONFLICT
+2026-10-21 11:05:01,634 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:01,644 - nemesis-agent - [WARNING] - Command refused: ID_CONFLICT
+2026-10-21 11:05:01,659 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_bad_schema_target_and_id_no_effects (__main__.EntrypointTests.test_bad_schema_target_and_id_no_effects) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:01,695 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:01,704 - nemesis-agent - [WARNING] - Command refused: DUPLICATE_KEY
+2026-10-21 11:05:01,704 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,708 - nemesis-agent - [WARNING] - Command refused: NONFINITE
+2026-10-21 11:05:01,708 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,710 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_DEPTH
+2026-10-21 11:05:01,710 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,711 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_SIZE
+2026-10-21 11:05:01,713 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 413 Request Entity Too Large"
+2026-10-21 11:05:01,724 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-21 11:05:01,734 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,743 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:01,754 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,759 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-21 11:05:01,773 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,780 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-21 11:05:01,790 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,799 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-21 11:05:01,806 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,814 - nemesis-agent - [WARNING] - Command refused: SCHEMA_FIELDS
+2026-10-21 11:05:01,830 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,839 - nemesis-agent - [WARNING] - Command refused: COMMAND_TYPE
+2026-10-21 11:05:01,853 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,861 - nemesis-agent - [WARNING] - Command refused: INTENSITY
+2026-10-21 11:05:01,874 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,881 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-21 11:05:01,894 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,899 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:01,904 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,919 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:01,973 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,980 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:01,992 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:01,994 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:02,011 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:02,021 - nemesis-agent - [WARNING] - Command refused: COMMAND_ID
+2026-10-21 11:05:02,034 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+ok
+test_benchmark_model_scenario_generation_is_blocked_in_all_groups (__main__.EntrypointTests.test_benchmark_model_scenario_generation_is_blocked_in_all_groups) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,064 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,084 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:02,099 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,113 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:02,122 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,129 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:02,140 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,154 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:02,164 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,164 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:02,183 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+ok
+test_disabled_config_and_ledger_failure_no_effects (__main__.EntrypointTests.test_disabled_config_and_ledger_failure_no_effects) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,212 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,237 - nemesis-agent - [WARNING] - Command refused: EXECUTOR_DISABLED
+2026-10-21 11:05:02,249 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,254 - nemesis-agent - [WARNING] - Command refused: LEDGER_PATH
+2026-10-21 11:05:02,269 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+ok
+test_healer_http_context_and_legacy_bypasses_cannot_execute (__main__.EntrypointTests.test_healer_http_context_and_legacy_bypasses_cannot_execute) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,299 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,319 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B0", "run_id": "run_d90b06945079469ea8a2a3453506a98f", "trial_id": "trl_fdd0b70820ca440b99f7327706f6bab8"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:02,332 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,346 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "BM", "run_id": "run_45f977787ed14ca2aaea739203594890", "trial_id": "trl_b4ea1c7275154d9b8dca106b12ec2f8b"}, "reason": "R1_EXECUTOR_DISABLED", "route": "/heal/trigger"}
+2026-10-21 11:05:02,356 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,364 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B1", "run_id": "run_1a6c871002e64f2981642515a9db9bb6", "trial_id": "trl_e5f9c977067c426a936dc260bf40abfb"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:02,379 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,395 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B2", "run_id": "run_77940e1c48d44b30ac68daeea9fb0aab", "trial_id": "trl_0040b6115f304ba5bf4ae3f3b0845fc7"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:02,404 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,423 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B3", "run_id": "run_60059f20219b4a0085dcecaae306b747", "trial_id": "trl_48912b8c177043458d26ce69fcad95db"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:02,434 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:02,434 - hephaestus-agent - [WARNING] - Legacy Kafka healing disabled; no authenticated R1 client configured.
+2026-10-21 11:05:02,456 - httpx - [INFO] - HTTP Request: POST http://offline/experiment/reset "HTTP/1.1 409 Conflict"
+ok
+test_ledger_failure_after_send_reports_unknown_without_replay (__main__.EntrypointTests.test_ledger_failure_after_send_reports_unknown_without_replay) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,484 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,522 - nemesis-agent - [ERROR] - Command outcome unknown after send: LEDGER_UNAVAILABLE
+2026-10-21 11:05:02,537 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:02,547 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-21 11:05:02,559 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_missing_or_wrong_operator_before_publish_and_model (__main__.EntrypointTests.test_missing_or_wrong_operator_before_publish_and_model) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,584 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,594 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,598 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,598 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,598 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,598 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,598 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,598 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,604 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,604 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,604 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,604 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,604 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,604 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,604 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,604 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,604 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,609 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,609 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+ok
+test_native_model_key_is_not_in_url_or_response_log (__main__.EntrypointTests.test_native_model_key_is_not_in_url_or_response_log) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,634 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_operator_credentials_cannot_cross_fault_and_heal_roles (__main__.EntrypointTests.test_operator_credentials_cannot_cross_fault_and_heal_roles) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,664 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,677 - hephaestus-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,677 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,677 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:02,682 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:02,682 - nemesis-agent - [WARNING] - Command refused: KEY_CONFIG
+2026-10-21 11:05:02,682 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+ok
+test_publish_unknown_is_not_retried (__main__.EntrypointTests.test_publish_unknown_is_not_retried) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,707 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,737 - nemesis-agent - [ERROR] - Command outcome unknown: TimeoutError
+2026-10-21 11:05:02,752 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:02,762 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-21 11:05:02,776 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_reset_never_proxies_or_clears_state (__main__.EntrypointTests.test_reset_never_proxies_or_clears_state) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,802 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,814 - nemesis-agent - [WARNING] - Command refused: RESET_REQUIRES_HARNESS
+2026-10-21 11:05:02,816 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 409 Conflict"
+ok
+test_send_invocation_error_stays_unknown_but_setup_error_is_terminal (__main__.EntrypointTests.test_send_invocation_error_stays_unknown_but_setup_error_is_terminal) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,839 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,869 - nemesis-agent - [ERROR] - Command refused before send: RuntimeError
+2026-10-21 11:05:02,884 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:02,898 - nemesis-agent - [WARNING] - Command refused: PRE_PUBLISH_FAILED
+2026-10-21 11:05:02,912 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:02,924 - nemesis-agent - [ERROR] - Command outcome unknown: RuntimeError
+2026-10-21 11:05:02,934 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:02,946 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-21 11:05:02,964 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_unavailable_producer_is_terminal_and_does_not_poison_admission (__main__.EntrypointTests.test_unavailable_producer_is_terminal_and_does_not_poison_admission) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:02,994 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:03,029 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-21 11:05:03,041 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:03,049 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-21 11:05:03,059 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:03,094 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.853s
+
+OK
+test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy (__main__.AgentHttpTests.test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:07,038 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-21 11:05:07,046 - elastic_transport.transport - [INFO] - HEAD http://127.0.0.1:50960/elasticsearch/ [status:200 duration:0.002s]
+2026-10-21 11:05:07,046 - gaia-agent - [INFO] - Elasticsearch Client connected successfully.
+2026-10-21 11:05:07,046 - elastic_transport.transport - [INFO] - POST http://127.0.0.1:50960/elasticsearch/zero-door-logs-*/_search [status:200 duration:0.000s]
+2026-10-21 11:05:07,046 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+ok
+test_actual_gaia_http_and_healer_consumer_keep_ids (__main__.AgentHttpTests.test_actual_gaia_http_and_healer_consumer_keep_ids) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_actual_r1_entrypoints_and_telemetry_use_boundary (__main__.AgentHttpTests.test_actual_r1_entrypoints_and_telemetry_use_boundary) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_agent_refuses_a_key_file_with_another_actors_role (__main__.AgentHttpTests.test_agent_refuses_a_key_file_with_another_actors_role) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 7.565s
+
+OK
+OpenAPI field/type PASS 3 resources
+Group table equals contract 7.4 PASS
+B0 has no ZERO DOOR decision/action/LLM/RBAC; profile adds no workload or RBAC PASS
+HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS
+Live Nemesis deployment mounts no results root/reader key PASS
+chaos-worker.yaml OpenAPI field/type PASS 5 resources
+nemesis-deployment.yaml OpenAPI field/type PASS 5 resources
+hephaestus-deployment.yaml OpenAPI field/type PASS 7 resources
+command-guard-config.yaml OpenAPI field/type PASS 1 resources
+3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)] 0.111.0 2.7.4
+test_malformed_nonfinite_duplicate_and_schema (__main__.AdapterIntegrity.test_malformed_nonfinite_duplicate_and_schema) ... ok
+test_register_refuses_an_export_that_differs_from_score_json (__main__.AdapterIntegrity.test_register_refuses_an_export_that_differs_from_score_json) ... ok
+test_registry_paths_status_and_ids (__main__.AdapterIntegrity.test_registry_paths_status_and_ids) ... ok
+test_root_configuration (__main__.AdapterIntegrity.test_root_configuration) ... ok
+test_run_group_and_export_mismatch (__main__.AdapterIntegrity.test_run_group_and_export_mismatch) ... ok
+test_symlinked_artifact_outside_root_is_refused (__main__.AdapterIntegrity.test_symlinked_artifact_outside_root_is_refused) ... ok
+test_tampered_artifact_is_refused (__main__.AdapterIntegrity.test_tampered_artifact_is_refused) ... ok
+test_unregistered_output_is_never_listed_or_served (__main__.AdapterIntegrity.test_unregistered_output_is_never_listed_or_served) ... ok
+test_data_time_is_latest_scored_milestone_not_generated_at (__main__.AdapterValues.test_data_time_is_latest_scored_milestone_not_generated_at) ... ok
+test_e01_matches_hand_values_and_the_export_file (__main__.AdapterValues.test_e01_matches_hand_values_and_the_export_file) ... ok
+test_empty_run_is_empty_not_pass_or_rate (__main__.AdapterValues.test_empty_run_is_empty_not_pass_or_rate) ... ok
+test_missing_and_unverified_clock_stay_unknown (__main__.AdapterValues.test_missing_and_unverified_clock_stay_unknown) ... ok
+test_modes_labels_and_mode_violations (__main__.AdapterValues.test_modes_labels_and_mode_violations) ... ok
+test_null_stays_empty_and_failure_is_counted (__main__.AdapterValues.test_null_stays_empty_and_failure_is_counted) ... ok
+test_same_run_inputs_and_options_give_the_same_kpi (__main__.AdapterValues.test_same_run_inputs_and_options_give_the_same_kpi) ... ok
+test_view_leaks_no_path_and_columns_match_measurement_output (__main__.AdapterValues.test_view_leaks_no_path_and_columns_match_measurement_output) ... ok
+test_api_view_and_download_are_the_same_artifact (__main__.Http.test_api_view_and_download_are_the_same_artifact) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 11:05:33,641 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:33,641 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<Http.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:377> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 2.875 seconds
+2026-10-21 11:05:34,524 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<Http.test_api_view_and_download_are_the_same_artifact() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:465> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.875 seconds
+2026-10-21 11:05:34,584 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 200 OK"
+2026-10-21 11:05:34,640 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_19298f0dab7d46a094d44ef299912d35?group=B2&run_id=run_ffffffffffffffffffffffffffffffff "HTTP/1.1 200 OK"
+2026-10-21 11:05:34,709 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_19298f0dab7d46a094d44ef299912d35/files/score.json "HTTP/1.1 200 OK"
+2026-10-21 11:05:34,765 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_19298f0dab7d46a094d44ef299912d35/files/incidents.csv "HTTP/1.1 200 OK"
+2026-10-21 11:05:34,811 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_19298f0dab7d46a094d44ef299912d35/files/usage.csv "HTTP/1.1 200 OK"
+2026-10-21 11:05:34,937 - asyncio - [WARNING] - Executing <Task finished name='Task-8' coro=<Http.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:394> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.109 seconds
+ok
+test_bad_requests_return_codes_without_paths (__main__.Http.test_bad_requests_return_codes_without_paths) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:35,037 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:35,839 - asyncio - [WARNING] - Executing <Task pending name='Task-16' coro=<Http.test_bad_requests_return_codes_without_paths() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:490> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.797 seconds
+2026-10-21 11:05:35,866 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_8e2ce086eec84b17a4d780f91825704d/files/registry.json "HTTP/1.1 404 Not Found"
+2026-10-21 11:05:35,898 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/..%2F..%2Fregistry.json "HTTP/1.1 404 Not Found"
+2026-10-21 11:05:35,924 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_8e2ce086eec84b17a4d780f91825704d/files/..%2Fregistry.json "HTTP/1.1 404 Not Found"
+2026-10-21 11:05:35,962 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_bad "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:36,004 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_00000000000000000000000000000000 "HTTP/1.1 404 Not Found"
+2026-10-21 11:05:36,073 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_8e2ce086eec84b17a4d780f91825704d "HTTP/1.1 422 Unprocessable Entity"
+ok
+test_chat_generates_no_reasoning (__main__.Http.test_chat_generates_no_reasoning) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:36,124 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:36,168 - httpx - [INFO] - HTTP Request: GET http://offline/api/chat "HTTP/1.1 200 OK"
+ok
+test_heal_history_and_logs_report_upstream_failure (__main__.Http.test_heal_history_and_logs_report_upstream_failure) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:36,204 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:36,245 - nemesis-agent - [WARNING] - Could not proxy Hephaestus heal history: ConnectionError
+2026-10-21 11:05:36,264 - httpx - [INFO] - HTTP Request: GET http://offline/api/heal-history "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:36,277 - nemesis-agent - [WARNING] - Could not fetch Hephaestus logs: ConnectionError
+2026-10-21 11:05:36,305 - httpx - [INFO] - HTTP Request: GET http://offline/api/logs "HTTP/1.1 200 OK"
+ok
+test_results_need_the_reader_key_and_are_read_only (__main__.Http.test_results_need_the_reader_key_and_are_read_only) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:36,340 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:36,986 - asyncio - [WARNING] - Executing <Task pending name='Task-46' coro=<Http.test_results_need_the_reader_key_and_are_read_only() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:447> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.641 seconds
+2026-10-21 11:05:36,988 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:36,990 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:36,990 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:36,990 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/runs/run_0ff3151707c84bbf917270e05a4915c0 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: PUT http://offline/api/results/runs/run_0ff3151707c84bbf917270e05a4915c0 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: PUT http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: DELETE http://offline/api/results/runs/run_0ff3151707c84bbf917270e05a4915c0 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: DELETE http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: PATCH http://offline/api/results/runs/run_0ff3151707c84bbf917270e05a4915c0 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:36,994 - httpx - [INFO] - HTTP Request: PATCH http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 11:05:37,004 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:37,008 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 503 Service Unavailable"
+ok
+test_status_reports_no_data_and_source_error_not_zero (__main__.Http.test_status_reports_no_data_and_source_error_not_zero) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:37,048 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:37,074 - nemesis-agent - [WARNING] - Error querying Prometheus for dashboard: ConnectionError
+2026-10-21 11:05:37,115 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 200 OK"
+2026-10-21 11:05:37,151 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 200 OK"
+ok
+test_console_has_no_kpi_path_or_synthetic_numbers (__main__.StaticPages.test_console_has_no_kpi_path_or_synthetic_numbers) ... ok
+test_results_page_is_get_only_text_only_and_self_contained (__main__.StaticPages.test_results_page_is_get_only_text_only_and_self_contained) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 20.311s
+
+OK
+test_only_b1_auto_decides_through_the_real_consumer (__main__.ConsumerModes.test_only_b1_auto_decides_through_the_real_consumer) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_b0_with_a_forged_operator_decision_is_still_refused (__main__.ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:48,465 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:246> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.125 seconds
+2026-10-21 11:05:48,480 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B0", "run_id": "run_a930d21fb48b483b88054395926ea253", "trial_id": "trl_849ecd99626741f1b5c07d5591b28a1e"}, "reason": "DECISION_MISSING_OR_AMBIGUOUS", "route": "/heal/trigger"}
+2026-10-21 11:05:48,502 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:48,987 - asyncio - [WARNING] - Executing <Task finished name='Task-3' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.485 seconds
+ok
+test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled (__main__.ManualTrigger.test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:49,390 - asyncio - [WARNING] - Executing <Task pending name='Task-8' coro=<ManualTrigger.test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:200> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.391 seconds
+2026-10-21 11:05:49,424 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:49,919 - asyncio - [WARNING] - Executing <Task finished name='Task-9' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.500 seconds
+ok
+test_mode_refusals_hold_even_with_an_executor (__main__.ManualTrigger.test_mode_refusals_hold_even_with_an_executor) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:50,105 - asyncio - [WARNING] - Executing <Task pending name='Task-14' coro=<ManualTrigger.test_mode_refusals_hold_even_with_an_executor() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:231> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.172 seconds
+2026-10-21 11:05:50,148 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:50,190 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:50,250 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:50,724 - asyncio - [WARNING] - Executing <Task finished name='Task-15' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.469 seconds
+ok
+test_positive_control_one_action_per_operator_decision (__main__.ManualTrigger.test_positive_control_one_action_per_operator_decision) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:50,931 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 200 OK"
+2026-10-21 11:05:50,978 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 200 OK"
+2026-10-21 11:05:51,454 - asyncio - [WARNING] - Executing <Task finished name='Task-23' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.469 seconds
+ok
+test_trigger_needs_the_trusted_context_and_heal_operator (__main__.ManualTrigger.test_trigger_needs_the_trusted_context_and_heal_operator) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:51,587 - hephaestus-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:51,587 - asyncio - [WARNING] - Executing <Task pending name='Task-29' coro=<ManualTrigger.test_trigger_needs_the_trusted_context_and_heal_operator() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:254> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.125 seconds
+2026-10-21 11:05:51,587 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:51,634 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "BM", "run_id": "run_547f92ae7b8345f5aa115c68437a8269", "trial_id": "trl_3eb53f8937374d08824eb61ef7db7891"}, "reason": "RUN_CONTEXT", "route": "/heal/trigger"}
+2026-10-21 11:05:51,644 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:52,120 - asyncio - [WARNING] - Executing <Task finished name='Task-30' coro=<ManualTrigger.asyncTearDown() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_modes.py:185> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+ok
+test_executor_seam_is_never_configured_in_production (__main__.ProductionWiring.test_executor_seam_is_never_configured_in_production) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 12.550s
+
+OK
+test_allowed_proposals_and_production_executor_disabled (__main__.ModeTests.test_allowed_proposals_and_production_executor_disabled) ... ok
+test_blocked_context_source_manual_fallback_and_no_action (__main__.ModeTests.test_blocked_context_source_manual_fallback_and_no_action) ... ok
+test_rules_wrapper_uses_trusted_context_before_locked_adapter (__main__.ModeTests.test_rules_wrapper_uses_trusted_context_before_locked_adapter) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+OK
+test_actual_route_publishes_signed_capped_command_once_after_restart (__main__.EntrypointTests.test_actual_route_publishes_signed_capped_command_once_after_restart) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 11:05:54,179 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 11:05:55,565 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<EntrypointTests.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_command_guard_integration.py:33> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 2.500 seconds
+2026-10-21 11:05:55,674 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:55,688 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 11:05:55,715 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+2026-10-21 11:05:55,733 - nemesis-agent - [WARNING] - Command refused: ID_CONFLICT
+2026-10-21 11:05:55,745 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:55,766 - nemesis-agent - [WARNING] - Command refused: ID_CONFLICT
+2026-10-21 11:05:55,784 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_bad_schema_target_and_id_no_effects (__main__.EntrypointTests.test_bad_schema_target_and_id_no_effects) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:55,824 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:55,839 - nemesis-agent - [WARNING] - Command refused: DUPLICATE_KEY
+2026-10-21 11:05:55,841 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,841 - nemesis-agent - [WARNING] - Command refused: NONFINITE
+2026-10-21 11:05:55,841 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,841 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_DEPTH
+2026-10-21 11:05:55,844 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,844 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_SIZE
+2026-10-21 11:05:55,844 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 413 Request Entity Too Large"
+2026-10-21 11:05:55,855 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-21 11:05:55,864 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,874 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:55,894 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,894 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-21 11:05:55,916 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,927 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-21 11:05:55,950 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,954 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-21 11:05:55,976 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:55,984 - nemesis-agent - [WARNING] - Command refused: SCHEMA_FIELDS
+2026-10-21 11:05:56,004 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,016 - nemesis-agent - [WARNING] - Command refused: COMMAND_TYPE
+2026-10-21 11:05:56,030 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,039 - nemesis-agent - [WARNING] - Command refused: INTENSITY
+2026-10-21 11:05:56,058 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,073 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-21 11:05:56,085 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,101 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:56,118 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,131 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:56,144 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,155 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:56,181 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,189 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-21 11:05:56,210 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-21 11:05:56,224 - nemesis-agent - [WARNING] - Command refused: COMMAND_ID
+2026-10-21 11:05:56,241 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+ok
+test_benchmark_model_scenario_generation_is_blocked_in_all_groups (__main__.EntrypointTests.test_benchmark_model_scenario_generation_is_blocked_in_all_groups) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,324 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,345 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:56,361 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,374 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:56,384 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,394 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:56,416 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,425 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:56,440 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,450 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-21 11:05:56,465 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+ok
+test_disabled_config_and_ledger_failure_no_effects (__main__.EntrypointTests.test_disabled_config_and_ledger_failure_no_effects) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,513 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,544 - nemesis-agent - [WARNING] - Command refused: EXECUTOR_DISABLED
+2026-10-21 11:05:56,562 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,578 - nemesis-agent - [WARNING] - Command refused: LEDGER_PATH
+2026-10-21 11:05:56,594 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+ok
+test_healer_http_context_and_legacy_bypasses_cannot_execute (__main__.EntrypointTests.test_healer_http_context_and_legacy_bypasses_cannot_execute) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,634 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,664 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B0", "run_id": "run_5312ecb62eb74bf88f9d85d929ddac68", "trial_id": "trl_bda0073f893c47b7992337d45829d357"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:56,678 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,691 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "BM", "run_id": "run_90bd650161744d05a7e646a99e1980c9", "trial_id": "trl_15aa57cd82324004b9deadd7d9fba9f1"}, "reason": "R1_EXECUTOR_DISABLED", "route": "/heal/trigger"}
+2026-10-21 11:05:56,706 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,714 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B1", "run_id": "run_9ca43ddc8ac444c7a4f486709e8818c1", "trial_id": "trl_6a2385eab78240cc9e37117d6032bda4"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:56,734 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,754 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B2", "run_id": "run_fe6f8c08197d42e6a9c3602abdb2eac0", "trial_id": "trl_37b67a74ac1e4fd28391bfe47f78cb37"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:56,774 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,790 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B3", "run_id": "run_30db3fb712474999aa36c08c803d9ac2", "trial_id": "trl_44bb2202abcd41dd8ba5f51557392392"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-21 11:05:56,808 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-21 11:05:56,810 - hephaestus-agent - [WARNING] - Legacy Kafka healing disabled; no authenticated R1 client configured.
+2026-10-21 11:05:56,836 - httpx - [INFO] - HTTP Request: POST http://offline/experiment/reset "HTTP/1.1 409 Conflict"
+ok
+test_ledger_failure_after_send_reports_unknown_without_replay (__main__.EntrypointTests.test_ledger_failure_after_send_reports_unknown_without_replay) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,877 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,914 - nemesis-agent - [ERROR] - Command outcome unknown after send: LEDGER_UNAVAILABLE
+2026-10-21 11:05:56,931 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:56,940 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-21 11:05:56,960 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_missing_or_wrong_operator_before_publish_and_model (__main__.EntrypointTests.test_missing_or_wrong_operator_before_publish_and_model) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:56,994 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,004 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,007 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,007 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,009 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,010 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,011 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,011 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,011 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,011 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,011 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,014 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,014 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,016 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,016 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,017 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,017 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,017 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,017 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+ok
+test_native_model_key_is_not_in_url_or_response_log (__main__.EntrypointTests.test_native_model_key_is_not_in_url_or_response_log) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,114 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_operator_credentials_cannot_cross_fault_and_heal_roles (__main__.EntrypointTests.test_operator_credentials_cannot_cross_fault_and_heal_roles) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,162 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,174 - hephaestus-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,179 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,184 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-21 11:05:57,184 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-21 11:05:57,184 - nemesis-agent - [WARNING] - Command refused: KEY_CONFIG
+2026-10-21 11:05:57,186 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+ok
+test_publish_unknown_is_not_retried (__main__.EntrypointTests.test_publish_unknown_is_not_retried) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,219 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,254 - nemesis-agent - [ERROR] - Command outcome unknown: TimeoutError
+2026-10-21 11:05:57,267 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:57,274 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-21 11:05:57,295 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_reset_never_proxies_or_clears_state (__main__.EntrypointTests.test_reset_never_proxies_or_clears_state) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,331 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,346 - nemesis-agent - [WARNING] - Command refused: RESET_REQUIRES_HARNESS
+2026-10-21 11:05:57,346 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 409 Conflict"
+ok
+test_send_invocation_error_stays_unknown_but_setup_error_is_terminal (__main__.EntrypointTests.test_send_invocation_error_stays_unknown_but_setup_error_is_terminal) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,383 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,423 - nemesis-agent - [ERROR] - Command refused before send: RuntimeError
+2026-10-21 11:05:57,439 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:57,454 - nemesis-agent - [WARNING] - Command refused: PRE_PUBLISH_FAILED
+2026-10-21 11:05:57,466 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:57,490 - nemesis-agent - [ERROR] - Command outcome unknown: RuntimeError
+2026-10-21 11:05:57,507 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:57,520 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-21 11:05:57,536 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_unavailable_producer_is_terminal_and_does_not_poison_admission (__main__.EntrypointTests.test_unavailable_producer_is_terminal_and_does_not_poison_admission) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,579 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:05:57,616 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-21 11:05:57,629 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:57,634 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-21 11:05:57,659 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-21 11:05:57,700 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 4.678s
+
+OK
+test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy (__main__.AgentHttpTests.test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 11:06:00,704 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-21 11:06:00,711 - elastic_transport.transport - [INFO] - HEAD http://127.0.0.1:51980/elasticsearch/ [status:200 duration:0.000s]
+2026-10-21 11:06:00,711 - gaia-agent - [INFO] - Elasticsearch Client connected successfully.
+2026-10-21 11:06:00,727 - elastic_transport.transport - [INFO] - POST http://127.0.0.1:51980/elasticsearch/zero-door-logs-*/_search [status:200 duration:0.016s]
+2026-10-21 11:06:00,727 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+ok
+test_actual_gaia_http_and_healer_consumer_keep_ids (__main__.AgentHttpTests.test_actual_gaia_http_and_healer_consumer_keep_ids) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_actual_r1_entrypoints_and_telemetry_use_boundary (__main__.AgentHttpTests.test_actual_r1_entrypoints_and_telemetry_use_boundary) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+test_agent_refuses_a_key_file_with_another_actors_role (__main__.AgentHttpTests.test_agent_refuses_a_key_file_with_another_actors_role) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\hephaestus\main.py:470: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.553s
+
+OK
+OpenAPI field/type PASS 3 resources
+Group table equals contract 7.4 PASS
+B0 has no ZERO DOOR decision/action/LLM/RBAC; profile adds no workload or RBAC PASS
+HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS
+Live Nemesis deployment mounts no results root/reader key PASS
+chaos-worker.yaml OpenAPI field/type PASS 5 resources
+nemesis-deployment.yaml OpenAPI field/type PASS 5 resources
+hephaestus-deployment.yaml OpenAPI field/type PASS 7 resources
+command-guard-config.yaml OpenAPI field/type PASS 1 resources

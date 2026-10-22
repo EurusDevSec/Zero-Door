@@ -1,0 +1,613 @@
+{
+ "abort": "TRIAL_INCOMPLETE (B0-CTRL: PROBE_ENDED:MAX_DURATION)",
+ "approval": "OFFLINE-FAKE (not an approval)",
+ "cap_s": 240,
+ "cleanup": "CLEAN",
+ "cleanup_steps": [
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "pull evidence"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete HPAs"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "cartservice": "UNCHANGED",
+    "frontend": "UNCHANGED"
+   },
+   "status": "DONE",
+   "step": "restore target replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "gaia": "CLEANUP_SCALED 0->1",
+    "hephaestus": "CLEANUP_SCALED 0->1"
+   },
+   "status": "DONE",
+   "step": "restore gaia/hephaestus replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED",
+   "status": "DONE",
+   "step": "delete profiles ConfigMap"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED, read back absent",
+   "status": "DONE",
+   "step": "delete namespace"
+  },
+  {
+   "attempts": 1,
+   "detail": "MATCHES_P0",
+   "status": "DONE",
+   "step": "final diff against P0"
+  }
+ ],
+ "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+ "context": "k3d-zero-door",
+ "created": [
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-600b400e",
+   "namespace": null,
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "b0d1aad6-baac-4ead-99b3-b481a8b9b11b"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "namespace": "zd-zer11-600b400e",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "83bba943-17b1-4ffe-a9f6-e5b9512b4a29"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "namespace": "zd-zer11-600b400e",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "c789da53-ceae-4254-befa-0e1ca5fc0cca"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "namespace": "zero-door",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "2f1e7cd6-5d16-42f2-af1c-017436e2e986"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "namespace": "zd-zer11-600b400e",
+   "phase": "P2",
+   "state": "CREATED",
+   "uid": "e731323b-d32f-4ad7-850a-ddddb0e08601"
+  }
+ ],
+ "elapsed_s": 8.641,
+ "final_diff": {
+  "deployments": {},
+  "hpas_left": [],
+  "namespace_left": false,
+  "profiles_left": []
+ },
+ "image": "zero-door/measurement:zer10-574a0c3a2dad",
+ "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+ "module_sha256": "0e5be095ba92047e772f2755875de0d532ffb3db69c8140c51edadbd44898206",
+ "namespace": "zd-zer11-600b400e",
+ "nonce": "600b400e",
+ "p5": {
+  "errors": {},
+  "exports": {
+   "export-H": {
+    "export_json_sha256": "a8393d6aa2d4768abc8f0e9b225f3d059a0a3ed8d4b95b34c7154795a94f51fe",
+    "raw_sha256": "6a6c3c0b8bb7155a181e7cbf5380be66494c82b358f583a71b2ff1852c458c03",
+    "run_id": "run_0caed733cb82413a87c06f5c750aec54"
+   },
+   "export-O": {
+    "export_json_sha256": "997059adf3c13e740af6d5ed3f9b5c343d868c92f694fcb779de8054f468a2da",
+    "raw_sha256": "b47eb1c49561b91ab1cd243908f3b9ed74073bde3e9806fc5b4c3342928bb127",
+    "run_id": "run_0caed733cb82413a87c06f5c750aec54"
+   },
+   "pc-export-H": {
+    "export_json_sha256": "8cc69e2c07066be9be55bbde353a4f445f38098ff28e7f92a05525ae1000cc5b",
+    "raw_sha256": "dddffe186ae9c88a7f57315e35f86b4f5569e5c780f6649c433a64ceee6a3b2a",
+    "run_id": "run_51b2b8db2a984dfeb2539e54fb0fbc7b"
+   },
+   "pc-export-O": {
+    "export_json_sha256": "28e22e7f2411a5bfb256648a4d577cc045576c284b5543e3796f199e0604324f",
+    "raw_sha256": "dcc51ea90ed2a297a09493c1653a94764b84025a2100ec0e4a445972b485b4eb",
+    "run_id": "run_51b2b8db2a984dfeb2539e54fb0fbc7b"
+   }
+  },
+  "ok": true
+ },
+ "p8": {
+  "directory": "rt1-0caed733cb82",
+  "positive_control_score": {
+   "mode_findings": {
+    "trl_d7d24d33111649f586c65d35a4fe5112": [
+     "quarantined MODE_VIOLATION DECISION"
+    ]
+   },
+   "quarantined_mode_violations": 1
+  },
+  "registered": {
+   "dir": "rt1-0caed733cb82",
+   "group": "B0",
+   "registered_at": "2026-10-21T15:30:35Z",
+   "run_id": "run_0caed733cb82413a87c06f5c750aec54",
+   "sha256": {
+    "incidents.csv": "6890b3cf937605a4956d600ed04f6bce0c42f090b4faf8961f6c429db46032b0",
+    "score.json": "c159ba767b7e45532654d9bfd36f1741a1c2ccf6720fe7a2c3af316b33dcd66d",
+    "usage.csv": "97ee15b1853613e46589be137dcf7c896903ca0c8b806ac3af26a03feeabca1c"
+   },
+   "status": "CLOSED"
+  },
+  "serve": "verify-dashboard-baselines.sh serve-results --root C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpmdrm37pc\\out\\results --reader-key-file <new results-reader key file> --receipt <new file>",
+  "verdicts": {
+   "B0-CTRL": {
+    "absence_audit_complete": false,
+    "claim": "INCOMPLETE:UNKNOWN_EFFECT",
+    "label": "UNKNOWN_EFFECT",
+    "stop_point": "d"
+   }
+  }
+ },
+ "package": "H-RT1 / G-ZER11-RT1",
+ "phases": [
+  {
+   "phase": "P0",
+   "started": "2026-10-21T15:30:27.439Z",
+   "status": "DONE",
+   "t0_s": 0.0,
+   "t1_s": 0.0
+  },
+  {
+   "phase": "P1",
+   "started": "2026-10-21T15:30:27.441Z",
+   "status": "DONE",
+   "t0_s": 0.0,
+   "t1_s": 0.063
+  },
+  {
+   "phase": "P2",
+   "started": "2026-10-21T15:30:27.493Z",
+   "status": "DONE",
+   "t0_s": 0.063,
+   "t1_s": 0.313
+  },
+  {
+   "phase": "P3",
+   "started": "2026-10-21T15:30:27.748Z",
+   "status": "FAILED:TRIAL_INCOMPLETE",
+   "t0_s": 0.313,
+   "t1_s": 8.016
+  },
+  {
+   "phase": "P7",
+   "started": "2026-10-21T15:30:35.692Z",
+   "status": "DONE",
+   "t0_s": 8.25,
+   "t1_s": 8.25
+  }
+ ],
+ "pod_deletes": {
+  "frontend_pod": 1
+ },
+ "reads": 167,
+ "trials": {
+  "B0-CTRL": {
+   "fault": {
+    "delete": "DELETED",
+    "deleted_pod": "frontend-341a2",
+    "deleted_uid": "2d741d11-ecb4-41f6-ae1f-06498f7e52bb",
+    "owner": [
+     "ReplicaSet/frontend-rs"
+    ],
+    "owner_uids": [
+     "8f19a684-f79b-47c3-ae34-5ea84240a0d7"
+    ],
+    "pods_before": [
+     "2d741d11-ecb4-41f6-ae1f-06498f7e52bb"
+    ],
+    "stopped": "EXECUTOR_ENDED",
+    "t_req": "2026-10-21T15:30:28.765Z"
+   },
+   "summary": {
+    "audit_coverage": {
+     "complete": false,
+     "failed_ticks": [],
+     "max_gap_s": 4.732,
+     "o_actions": 0,
+     "ticks": 30
+    },
+    "effect": {
+     "reason": "STOPPED_BEFORE_W_EFF_DECIDED",
+     "status": "UNKNOWN_EFFECT",
+     "t_eff": null
+    },
+    "end_reason": "ABORTED",
+    "incident_id": "inc_2e0255df28b04279902fdc836f32547d",
+    "name": "B0-CTRL",
+    "probe": {
+     "cancelled": 1,
+     "clock_sync_failed": 0,
+     "delivery": {
+      "delivered": 8,
+      "late": 0,
+      "rejected": 0,
+      "retries": 0
+     },
+     "fail": 0,
+     "grace_s": 10,
+     "heartbeats": 4,
+     "max_duration_s": 6.8999999999999995,
+     "pass": 4,
+     "registration": {
+      "clock_id": "clk-rt1",
+      "flow": "checkout",
+      "probe_id": "prb-rt1",
+      "probe_version": "p1"
+     },
+     "requests": 21,
+     "samples": 4,
+     "skipped_slots": 23,
+     "stop_reason": "MAX_DURATION",
+     "undelivered": 0,
+     "unresolved_cleanup": [],
+     "wall_s": 7.487
+    },
+    "recovery_verified": false,
+    "samples": 4,
+    "stop_point": "d",
+    "stop_reason": "PROBE_ENDED:MAX_DURATION",
+    "t_trial_end": "2026-10-21T15:30:35.456Z",
+    "trial_id": "trl_933acc9b44354b77a2b060973550b530",
+    "unrecorded": []
+   },
+   "ticks": [
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 0.5,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 0.609,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 0.703,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 0.813,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 0.906,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 1.016,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 1.125,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 1.219,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 1.328,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.063,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.156,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.266,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.359,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.469,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.578,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.672,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.781,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.875,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 6.984,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.078,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.188,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.297,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.391,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.5,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.703,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.797,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 7.906,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 8.0,
+     "zd_pods": 0
+    }
+   ],
+   "trial_id": "trl_933acc9b44354b77a2b060973550b530"
+  }
+ },
+ "verdict": "ABORTED",
+ "writes": [
+  {
+   "at": "2026-10-21T15:30:27.441Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-600b400e",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:30:27.443Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:30:27.443Z",
+   "exit": 1,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:30:27.445Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:30:27.452Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:30:27.452Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P1",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:30:27.452Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P1",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:30:27.646Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:30:27.647Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:30:27.748Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:30:32.858Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "frontend-341a2",
+   "phase": "P3",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:30:35.692Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:30:35.692Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:30:35.692Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P7",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:30:35.692Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-600b400e",
+   "phase": "P7",
+   "verb": "delete"
+  }
+ ]
+}

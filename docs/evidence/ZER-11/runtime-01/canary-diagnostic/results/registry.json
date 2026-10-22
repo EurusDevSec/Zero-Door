@@ -1,0 +1,17 @@
+{
+ "format": "zd-results-registry/1",
+ "runs": [
+  {
+   "dir": "rt1-73a4a7404dfa",
+   "group": "B0",
+   "registered_at": "2026-10-21T15:58:15Z",
+   "run_id": "run_73a4a7404dfa4e31b2b3f92f5bfdc0de",
+   "sha256": {
+    "incidents.csv": "f128e0dafd76bea1bceb3e68c57c39c5d241c7e9e00f9e12a8a15ca5b84f5041",
+    "score.json": "6a32c436042a3eb51d3ae310fde216dc223133c8a8131f88b9a0d82c04975dee",
+    "usage.csv": "97ee15b1853613e46589be137dcf7c896903ca0c8b806ac3af26a03feeabca1c"
+   },
+   "status": "CLOSED"
+  }
+ ]
+}

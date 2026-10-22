@@ -1,0 +1,42 @@
+[
+  {
+    "path": "AGENTS.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/README.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/SCOPE.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/WORKFLOW.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/WORKING-AGREEMENT.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/README.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/event-contract.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/guards-and-ci.md",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/probes-and-metrics.md",
+    "match": true
+  },
+  {
+    "path": "docs/detail_zero-door.md",
+    "match": true
+  }
+]

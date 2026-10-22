@@ -1,0 +1,62 @@
+[
+  {
+    "path": "AGENTS.md",
+    "baseline": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+    "current": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/README.md",
+    "baseline": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+    "current": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/SCOPE.md",
+    "baseline": "f73c38d9e9658ddbdbf063ab4c94c80f90fce3faa7af4c448f157711fb4d51c2",
+    "current": "f73c38d9e9658ddbdbf063ab4c94c80f90fce3faa7af4c448f157711fb4d51c2",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/WORKFLOW.md",
+    "baseline": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+    "current": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/WORKING-AGREEMENT.md",
+    "baseline": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+    "current": "fc34c9ae5fc3f6edfd1197c79b5bee380c0b9ec1b3a365df363405084264bc87",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/README.md",
+    "baseline": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+    "current": "b86437ac75848ad6b2e11bb83c8e07db121dcb686cff929cca37851aaf359324",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/event-contract.md",
+    "baseline": "9b3fd2be6f3c91eead340898c66df54aef9d2589fa220b06d28fa8f51c23ff99",
+    "current": "9b3fd2be6f3c91eead340898c66df54aef9d2589fa220b06d28fa8f51c23ff99",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/guards-and-ci.md",
+    "baseline": "033baea65de6c7ab2f2fd807b67780a387afd285f15945bcc67412930298ee31",
+    "current": "033baea65de6c7ab2f2fd807b67780a387afd285f15945bcc67412930298ee31",
+    "match": true
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/probes-and-metrics.md",
+    "baseline": "a9123b6a038abe317f1bd3b0a4def2dc609a49c6a0f71c338acdbe73c8622e45",
+    "current": "a9123b6a038abe317f1bd3b0a4def2dc609a49c6a0f71c338acdbe73c8622e45",
+    "match": true
+  },
+  {
+    "path": "docs/detail_zero-door.md",
+    "baseline": "16a4c724aa5f33edcbe789d3671e9687511cf3c17e59b5290015375c59046700",
+    "current": "16a4c724aa5f33edcbe789d3671e9687511cf3c17e59b5290015375c59046700",
+    "match": true
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-10-21T04:17:30.878Z",
+  "verdict": "CHANGES_REQUIRED_OFFLINE",
+  "head": "169413303340fc01eea8597c121ce39455892af0",
+  "source_manifest_sha256": "1f96c80074f2bdaae52b23ad5e411aa70d813306eb0faf4e7afb862dc23c3ec8",
+  "intake_manifest_files": 46,
+  "protected_files": 10,
+  "independent_tests": {
+    "production_nemesis": 51,
+    "production_hephaestus": 51,
+    "profile_openapi": "PASS",
+    "guard_manifests": "PASS",
+    "bandit": {
+      "exit": 0,
+      "findings": 0,
+      "interpreter": "scratch/zer12/test-venv/Scripts/python.exe"
+    },
+    "ui_vm": {
+      "fatal_reproduced": 3,
+      "transient_control": 1
+    },
+    "browser": "SYNTHETIC hash422 retains cached PASS"
+  },
+  "append_only_note_prefix_sha256": "4129757aaecb9c65c555c84aa36b9e50103c0f0f29c057950b24b5f2b6910d2c",
+  "now_preserved_suffix_sha256": "9e5e05407c8be6a9bd9660a4cdc01d54cd089885e410f24681d66173fb9300b0",
+  "evidence_files": {
+    "adapter-probe.py": "1af2c0d154d160d3406ead59614a95aee5cb1af1c85b98e370d1e895a5ff683f",
+    "adapter-results.jsonl": "9e8c3237452618184c705f7017927413f8a4c17f78bd91e206193ee060d32361",
+    "bandit.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hash-intake.json": "9e8c4476bc08490d1ad9785d8cf9a962adf4b9e7c357df2f4cd1275a56fc5eb5",
+    "index.log": "981e179e107bc23e9fb87a64c7f5143f82e0f85823673023d024e2d20fb39775",
+    "protected-check.json": "dc67b5c66ceb0e4ffa0e5498a1c4b2949c7b2986e9b7d7008ee0b42d43505269",
+    "source.diff": "00da29b1c6dbd290d41abb82eb48b0122361d1f4b986eefe527cc072056d2f64",
+    "stale-integrity.png": "8db8bd1d32374a5f1dff147ac1f3272185b0541d817914bc78079b5dc6297780",
+    "tests.log": "c379e5b108d23f54da1580cc17da475a1a1c3d191d6ecef8e32ef76c18bb6586",
+    "ui-counterexample.cjs": "ae8da2f5cf3545379f4ad43f40036f7fee131725184a7a0abce29c10efc16c8c",
+    "ui-counterexample.json": "c303c6ff2de24013bc2865b4e532a3bfe0731c1f8849370c448060bacc50d992",
+    "cleanup.jsonl": "b9257bf59512fceb53581019e77ccf33eb8e2258131ca41004af6ec143afa976",
+    "final.txt": "2609c0f8d46c313cbd4c30feba4ef8ceb8d91dc3a0114481bb9546e9dc3a3957"
+  },
+  "report_sha256": "f9ff0f9c8e5046bd445d0027b0238e1943b0c4b847afb24d6de8feef54b3f65d",
+  "cleanup": {
+    "fixture_port_8721_closed": true,
+    "owned_temp_removed": "C:/Users/ACER/AppData/Local/Temp/zd-zer11-fixture-4zd_i1wa",
+    "source_unchanged_after_review": 44,
+    "protected_unchanged": 10,
+    "staged_empty": true,
+    "head_equals_origin_main_tree": true
+  }
+}

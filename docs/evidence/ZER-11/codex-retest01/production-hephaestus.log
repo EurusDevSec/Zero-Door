@@ -1,0 +1,204 @@
+test_malformed_nonfinite_duplicate_and_schema (test_dashboard_measurement.AdapterIntegrity.test_malformed_nonfinite_duplicate_and_schema) ... ok
+test_register_refuses_an_export_that_differs_from_score_json (test_dashboard_measurement.AdapterIntegrity.test_register_refuses_an_export_that_differs_from_score_json) ... ok
+test_registry_paths_status_and_ids (test_dashboard_measurement.AdapterIntegrity.test_registry_paths_status_and_ids) ... ok
+test_root_configuration (test_dashboard_measurement.AdapterIntegrity.test_root_configuration) ... ok
+test_run_group_and_export_mismatch (test_dashboard_measurement.AdapterIntegrity.test_run_group_and_export_mismatch) ... ok
+test_shape_of_consumed_fields_is_a_reason_code (test_dashboard_measurement.AdapterIntegrity.test_shape_of_consumed_fields_is_a_reason_code) ... ok
+test_symlinked_artifact_outside_root_is_refused (test_dashboard_measurement.AdapterIntegrity.test_symlinked_artifact_outside_root_is_refused) ... ok
+test_tampered_artifact_is_refused (test_dashboard_measurement.AdapterIntegrity.test_tampered_artifact_is_refused) ... ok
+test_unregistered_output_is_never_listed_or_served (test_dashboard_measurement.AdapterIntegrity.test_unregistered_output_is_never_listed_or_served) ... ok
+test_data_time_is_latest_scored_milestone_not_generated_at (test_dashboard_measurement.AdapterValues.test_data_time_is_latest_scored_milestone_not_generated_at) ... ok
+test_e01_matches_hand_values_and_the_export_file (test_dashboard_measurement.AdapterValues.test_e01_matches_hand_values_and_the_export_file) ... ok
+test_empty_run_is_empty_not_pass_or_rate (test_dashboard_measurement.AdapterValues.test_empty_run_is_empty_not_pass_or_rate) ... ok
+test_missing_and_unverified_clock_stay_unknown (test_dashboard_measurement.AdapterValues.test_missing_and_unverified_clock_stay_unknown) ... ok
+test_modes_labels_and_mode_violations (test_dashboard_measurement.AdapterValues.test_modes_labels_and_mode_violations) ... ok
+test_null_stays_empty_and_failure_is_counted (test_dashboard_measurement.AdapterValues.test_null_stays_empty_and_failure_is_counted) ... ok
+test_same_run_inputs_and_options_give_the_same_kpi (test_dashboard_measurement.AdapterValues.test_same_run_inputs_and_options_give_the_same_kpi) ... ok
+test_view_leaks_no_path_and_columns_match_measurement_output (test_dashboard_measurement.AdapterValues.test_view_leaks_no_path_and_columns_match_measurement_output) ... ok
+test_api_view_and_download_are_the_same_artifact (test_dashboard_measurement.Http.test_api_view_and_download_are_the_same_artifact) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-21 12:00:51,453 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:51,453 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<Http.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:417> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.969 seconds
+2026-10-21 12:00:52,118 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<Http.test_api_view_and_download_are_the_same_artifact() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:505> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.656 seconds
+2026-10-21 12:00:52,162 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 200 OK"
+2026-10-21 12:00:52,207 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_f106daab3fb14878a8b25afb4d0ee760?group=B2&run_id=run_ffffffffffffffffffffffffffffffff "HTTP/1.1 200 OK"
+2026-10-21 12:00:52,268 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_f106daab3fb14878a8b25afb4d0ee760/files/score.json "HTTP/1.1 200 OK"
+2026-10-21 12:00:52,306 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_f106daab3fb14878a8b25afb4d0ee760/files/incidents.csv "HTTP/1.1 200 OK"
+2026-10-21 12:00:52,352 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_f106daab3fb14878a8b25afb4d0ee760/files/usage.csv "HTTP/1.1 200 OK"
+ok
+test_bad_requests_return_codes_without_paths (test_dashboard_measurement.Http.test_bad_requests_return_codes_without_paths) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:52,389 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:52,892 - asyncio - [WARNING] - Executing <Task pending name='Task-16' coro=<Http.test_bad_requests_return_codes_without_paths() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:530> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.500 seconds
+2026-10-21 12:00:52,912 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_dab3f64904e941efa5482c6de0b006d6/files/registry.json "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:52,932 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/..%2F..%2Fregistry.json "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:52,952 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_dab3f64904e941efa5482c6de0b006d6/files/..%2Fregistry.json "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:52,972 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_bad "HTTP/1.1 400 Bad Request"
+2026-10-21 12:00:53,002 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_00000000000000000000000000000000 "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:53,042 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_dab3f64904e941efa5482c6de0b006d6 "HTTP/1.1 422 Unprocessable Entity"
+ok
+test_chat_generates_no_reasoning (test_dashboard_measurement.Http.test_chat_generates_no_reasoning) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:53,079 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:53,102 - httpx - [INFO] - HTTP Request: GET http://offline/api/chat "HTTP/1.1 200 OK"
+ok
+test_heal_history_and_logs_report_upstream_failure (test_dashboard_measurement.Http.test_heal_history_and_logs_report_upstream_failure) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:53,127 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:53,132 - nemesis-agent - [WARNING] - Could not proxy Hephaestus heal history: ConnectionError
+2026-10-21 12:00:53,149 - httpx - [INFO] - HTTP Request: GET http://offline/api/heal-history "HTTP/1.1 503 Service Unavailable"
+2026-10-21 12:00:53,154 - nemesis-agent - [WARNING] - Could not fetch Hephaestus logs: ConnectionError
+2026-10-21 12:00:53,168 - httpx - [INFO] - HTTP Request: GET http://offline/api/logs "HTTP/1.1 200 OK"
+ok
+test_results_need_the_reader_key_and_are_read_only (test_dashboard_measurement.Http.test_results_need_the_reader_key_and_are_read_only) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:53,192 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:53,702 - asyncio - [WARNING] - Executing <Task pending name='Task-46' coro=<Http.test_results_need_the_reader_key_and_are_read_only() running at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:487> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.500 seconds
+2026-10-21 12:00:53,702 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 12:00:53,702 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 12:00:53,702 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 12:00:53,708 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/runs/run_0ce435ab4b204214a463b768a41b2184 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,708 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,708 - httpx - [INFO] - HTTP Request: PUT http://offline/api/results/runs/run_0ce435ab4b204214a463b768a41b2184 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,708 - httpx - [INFO] - HTTP Request: PUT http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,708 - httpx - [INFO] - HTTP Request: DELETE http://offline/api/results/runs/run_0ce435ab4b204214a463b768a41b2184 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,712 - httpx - [INFO] - HTTP Request: DELETE http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,712 - httpx - [INFO] - HTTP Request: PATCH http://offline/api/results/runs/run_0ce435ab4b204214a463b768a41b2184 "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,712 - httpx - [INFO] - HTTP Request: PATCH http://offline/api/results/registry "HTTP/1.1 405 Method Not Allowed"
+2026-10-21 12:00:53,712 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 401 Unauthorized"
+2026-10-21 12:00:53,717 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 503 Service Unavailable"
+ok
+test_status_reports_no_data_and_source_error_not_zero (test_dashboard_measurement.Http.test_status_reports_no_data_and_source_error_not_zero) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:53,742 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:53,752 - nemesis-agent - [WARNING] - Error querying Prometheus for dashboard: ConnectionError
+2026-10-21 12:00:53,764 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 200 OK"
+2026-10-21 12:00:53,782 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 200 OK"
+ok
+test_cli_receipt_records_the_root_at_start_and_exit (test_dashboard_measurement.ResultsServer.test_cli_receipt_records_the_root_at_start_and_exit) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:54,832 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:54,832 - asyncio - [WARNING] - Executing <Task finished name='Task-59' coro=<ResultsServer.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:541> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.031 seconds
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:54,953 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:54,992 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+ok
+test_other_routes_and_startup_never_reach_upstreams (test_dashboard_measurement.ResultsServer.test_other_routes_and_startup_never_reach_upstreams) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:56,087 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:56,087 - asyncio - [WARNING] - Executing <Task finished name='Task-63' coro=<ResultsServer.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:541> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.062 seconds
+2026-10-21 12:00:56,092 - httpx - [INFO] - HTTP Request: GET http://offline/api/status "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,094 - httpx - [INFO] - HTTP Request: GET http://offline/api/logs "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,094 - httpx - [INFO] - HTTP Request: GET http://offline/api/heal-history "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,096 - httpx - [INFO] - HTTP Request: POST http://offline/api/chat "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,096 - httpx - [INFO] - HTTP Request: POST http://offline/attack "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,096 - httpx - [INFO] - HTTP Request: GET http://offline/healthz "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,096 - httpx - [INFO] - HTTP Request: GET http://offline/dashboard/index.html "HTTP/1.1 404 Not Found"
+2026-10-21 12:00:56,099 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 404 Not Found"
+ok
+test_refuses_a_root_without_a_registry_or_a_relative_root (test_dashboard_measurement.ResultsServer.test_refuses_a_root_without_a_registry_or_a_relative_root) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:57,472 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:57,472 - asyncio - [WARNING] - Executing <Task finished name='Task-68' coro=<ResultsServer.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:541> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.344 seconds
+ok
+test_serves_exactly_the_given_root_and_leaves_it_unchanged (test_dashboard_measurement.ResultsServer.test_serves_exactly_the_given_root_and_leaves_it_unchanged) ... R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-21 12:00:58,527 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 12:00:58,527 - asyncio - [WARNING] - Executing <Task finished name='Task-72' coro=<ResultsServer.asyncSetUp() done, defined at R:\_Projects\Eurus_Workspace\zero_door\tests\test_dashboard_measurement.py:541> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.032 seconds
+2026-10-21 12:00:58,585 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 200 OK"
+2026-10-21 12:00:58,652 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_e3526fb6aa764823bd63b9bc6cebbe4e "HTTP/1.1 200 OK"
+2026-10-21 12:00:58,722 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_e3526fb6aa764823bd63b9bc6cebbe4e/files/score.json "HTTP/1.1 200 OK"
+2026-10-21 12:00:58,786 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_e3526fb6aa764823bd63b9bc6cebbe4e/files/incidents.csv "HTTP/1.1 200 OK"
+2026-10-21 12:00:58,856 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_92f782a8308e42faad3fde49f9a09a88 "HTTP/1.1 200 OK"
+2026-10-21 12:00:58,921 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_92f782a8308e42faad3fde49f9a09a88/files/score.json "HTTP/1.1 200 OK"
+2026-10-21 12:00:58,987 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs/run_92f782a8308e42faad3fde49f9a09a88/files/incidents.csv "HTTP/1.1 200 OK"
+2026-10-21 12:00:59,111 - httpx - [INFO] - HTTP Request: GET http://offline/dashboard/results.html "HTTP/1.1 200 OK"
+2026-10-21 12:00:59,176 - httpx - [INFO] - HTTP Request: GET http://offline/dashboard/results.js "HTTP/1.1 200 OK"
+2026-10-21 12:00:59,196 - httpx - [INFO] - HTTP Request: GET http://offline/api/results/runs "HTTP/1.1 401 Unauthorized"
+2026-10-21 12:00:59,212 - httpx - [INFO] - HTTP Request: POST http://offline/api/results/runs "HTTP/1.1 405 Method Not Allowed"
+ok
+test_budget_covers_timeout_no_effect_and_verification (test_dashboard_measurement.RuntimePlan.test_budget_covers_timeout_no_effect_and_verification) ... ok
+test_runbook_quotes_the_computed_numbers (test_dashboard_measurement.RuntimePlan.test_runbook_quotes_the_computed_numbers) ... ok
+test_the_reviewed_inconsistencies_are_rejected (test_dashboard_measurement.RuntimePlan.test_the_reviewed_inconsistencies_are_rejected) ... ok
+test_console_has_no_kpi_path_or_synthetic_numbers (test_dashboard_measurement.StaticPages.test_console_has_no_kpi_path_or_synthetic_numbers) ... ok
+test_refresh_keeps_stale_only_for_transient_failures (test_dashboard_measurement.StaticPages.test_refresh_keeps_stale_only_for_transient_failures) ... ok
+test_results_page_is_get_only_text_only_and_self_contained (test_dashboard_measurement.StaticPages.test_results_page_is_get_only_text_only_and_self_contained) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 23.374s
+
+OK

@@ -1,0 +1,3 @@
+n1-final-nemesis: 4 ok / 0 fail
+n1-final-hephaestus: 4 ok / 0 fail
+n1-final-par3: 3 ok / 3 fail

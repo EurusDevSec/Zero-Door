@@ -1,0 +1,1201 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 82d4257..eacf686 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -88,6 +88,10 @@ jobs:
+           python -B docs/evidence/ZER-37/verify_release.py
+       - name: Test actual Gaia/Hephaestus R1 paths, per-actor keys and the Elasticsearch proxy
+         run: python -B tests/test_event_agents.py
++      - name: Test dashboard results (scorer artifact only) and MANUAL/RULES/AI/B0 mode entrypoints offline
++        run: |
++          python -B tests/test_dashboard_measurement.py
++          python -B tests/test_dashboard_modes.py
+ 
+   r1-production-http:
+     name: Guard entrypoints on production dependency pins
+@@ -113,6 +117,11 @@ jobs:
+           python -B tests/test_command_modes.py
+           python -B tests/test_command_guard_integration.py
+           python -B tests/test_event_agents.py
++      - name: Dashboard results and mode entrypoints on production pins (ZER-11/39)
++        run: |
++          python -B tests/test_dashboard_measurement.py
++          python -B tests/test_dashboard_modes.py
++          python -B tests/check_r1_baselines.py
+ 
+   r1-image-build:
+     name: Build R1 images without pushing
+diff --git a/agent-orchestrator/hephaestus/command_guard.py b/agent-orchestrator/hephaestus/command_guard.py
+index 31b77ea..8c1e700 100644
+--- a/agent-orchestrator/hephaestus/command_guard.py
++++ b/agent-orchestrator/hephaestus/command_guard.py
+@@ -52,6 +52,7 @@ class GuardedRules:
+     """Run the locked rules adapter only for the trusted B1 trial context."""
+     def __init__(self, client, rules):
+         self.client, self.rules = client, rules
++        self.skipped = None  # the group whose trusted context disabled auto-decision, for the ops audit
+ 
+     def poll(self):
+         ctx = self.client.context()
+@@ -60,6 +61,8 @@ class GuardedRules:
+         if context["run_id"] != self.client.run or context["trial_id"] != self.client.trial:
+             raise Refused("RUN_CONTEXT", 409)
+         if context["group"] == "B1":
++            self.skipped = None
+             return self.rules.poll()
+         # B0/BM do not auto-decide; B2/B3 require a real LLM/fallback producer.
++        self.skipped = context["group"]
+         return None
+diff --git a/agent-orchestrator/hephaestus/main.py b/agent-orchestrator/hephaestus/main.py
+index 9d30ae1..31e6a61 100644
+--- a/agent-orchestrator/hephaestus/main.py
++++ b/agent-orchestrator/hephaestus/main.py
+@@ -438,9 +438,16 @@ def _kafka_consumer_thread():
+     """
+     if r1_client:
+         rules = GuardedRules(r1_client, RulesConsumer(r1_client, decide_action))
++        audited = None
+         while True:
+             try:
+                 rules.poll()
++                if rules.skipped != audited:
++                    # Logged once per change: this group's trusted context does not auto-decide.
++                    audited = rules.skipped
++                    if audited is not None:
++                        audit_refusal("consumer", "AUTO_DECISION_DISABLED_FOR_GROUP",
++                                      {"run_id": r1_client.run, "trial_id": r1_client.trial, "group": audited})
+             except Exception as error:
+                 logger.error("R1 O consumer unavailable: %s", type(error).__name__)
+             time.sleep(1)
+@@ -527,11 +534,28 @@ async def command_boundary(request: Request, call_next):
+     return await call_next(request)
+ 
+ 
++# Tests only. Production R1 never assigns an executor (no environment variable or config reads it),
++# so every admitted proposal ends in R1_EXECUTOR_DISABLED; a test sets a fake to prove the path is live.
++R1_EXECUTOR = None
++
++
++def decision_claim_id(decision_id):
++    """Ledger IDs are UUID4 strings: derive one from dec_<32 hex>. The claim digest keeps the full
++    decision_id, so two decisions mapping to one ID are refused (ID_CONFLICT), never merged."""
++    return str(uuid.UUID(hex=decision_id[4:], version=4))
++
++
++def audit_refusal(route, reason, context):
++    # Operational audit (log), not an O event: B0 forbids even GUARD_VERDICT (contract 7.4).
++    logger.warning("MODE_AUDIT %s", json.dumps({"route": route, "reason": reason, "context": context}, sort_keys=True))
++
++
+ @app.post("/heal/trigger")
+ async def manual_heal(request: "Request" = None):
+     # Compatibility with direct offline callers: no Request is never an authorization.
+     if request is None or not hasattr(request, "state") or not r1_client:
+         raise HTTPException(status_code=409, detail="R1_EXECUTOR_DISABLED")
++    context = None
+     try:
+         body = request.state.command_body
+         fields(body, {"decision_id"})
+@@ -549,10 +573,23 @@ async def manual_heal(request: "Request" = None):
+         decision = found[0]
+         if context["group"] != "BM":
+             raise Refused("MANUAL_GROUP_REQUIRED", 409)
+-        # No executor argument: a valid proposal still cannot activate R1 healing.
+-        return ModeGate.dispatch(context, decision, decision["source_component"], "OPERATOR")
++        executor = None
++        if R1_EXECUTOR is not None:
++            ledger, key = request.state.command_guard.ledger(), decision_claim_id(body["decision_id"])
++
++            def once(proposal):
++                # One action per operator decision: a replayed trigger returns the first outcome.
++                previous = ledger.claim(key, {"path": "/heal/trigger", "decision_id": body["decision_id"], "context": context})
++                if previous is not None:
++                    return previous
++                result = R1_EXECUTOR(proposal)
++                ledger.complete(key, result)
++                return result
++            executor = once
++        # Production R1 has no executor: a valid proposal is admitted and then refused (R1_EXECUTOR_DISABLED).
++        return ModeGate.dispatch(context, decision, decision["source_component"], "OPERATOR", executor=executor)
+     except Refused as error:
+-        logger.warning("Command refused: %s", error.reason)
++        audit_refusal("/heal/trigger", error.reason, context)
+         raise HTTPException(error.status, error.reason)
+ 
+ 
+diff --git a/agent-orchestrator/nemesis/Dockerfile b/agent-orchestrator/nemesis/Dockerfile
+index 5aa9d93..c501d74 100644
+--- a/agent-orchestrator/nemesis/Dockerfile
++++ b/agent-orchestrator/nemesis/Dockerfile
+@@ -16,6 +16,7 @@ WORKDIR /app
+ COPY --from=builder /install /usr/local
+ COPY main.py .
+ COPY command_guard.py /nemesis/command_guard.py
++COPY measurement_view.py /nemesis/measurement_view.py
+ COPY static ./static
+ 
+ # Configure python path to find copied site-packages
+diff --git a/agent-orchestrator/nemesis/main.py b/agent-orchestrator/nemesis/main.py
+index fc146a6..8f794f8 100644
+--- a/agent-orchestrator/nemesis/main.py
++++ b/agent-orchestrator/nemesis/main.py
+@@ -1,5 +1,6 @@
+ import os
+ import sys
++import math
+ from pathlib import Path
+ import json
+ import time
+@@ -11,7 +12,7 @@ from datetime import datetime, timezone
+ from typing import Optional
+ 
+ from fastapi import FastAPI, HTTPException, Request
+-from fastapi.responses import JSONResponse
++from fastapi.responses import JSONResponse, Response
+ from fastapi.staticfiles import StaticFiles
+ from pydantic import BaseModel
+ from kafka import KafkaProducer, KafkaConsumer
+@@ -20,6 +21,7 @@ import httpx
+ 
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ from nemesis.command_guard import CommandGuard, Refused, strict_json, sign, fields, identifier
++from nemesis.measurement_view import ResultError, ResultsStore, authorize_reader
+ 
+ # ---- Logging Buffer for Dashboard ----
+ NEMESIS_LOG_BUFFER = []
+@@ -219,10 +221,6 @@ async def get_system_summary() -> str:
+     return "\n".join(summary_lines)
+ 
+ 
+-# ---- Global Chat Reasoning Buffer for Explainable AI ----
+-REASONING_CHAT_BUFFER = []
+-PROCESSED_CHAT_KEYS = set()
+-
+ # ---- LLM Attack Plan Generator ----
+ 
+ ATTACK_PLAN_SYSTEM_PROMPT = """You are Nemesis, an AI red-team agent for a security chaos engineering platform called Zero Door.
+@@ -456,6 +454,16 @@ def healthz():
+ 
+ @app.middleware("http")
+ async def command_boundary(request: Request, call_next):
++    if request.url.path.startswith("/api/results"):
++        # S results: read-only, and only with the separate results-reader key. The operator key is
++        # refused here, so the O console cannot open labels or scores while a run is in progress.
++        if request.method != "GET":
++            return JSONResponse({"detail": "READ_ONLY"}, status_code=405, headers=NO_STORE)
++        try:
++            authorize_reader(request.headers.get("Authorization"))
++        except Refused as error:
++            return JSONResponse({"detail": error.reason}, status_code=error.status, headers=NO_STORE)
++        return await call_next(request)
+     if request.method == "GET" and (request.url.path.startswith("/api/") or request.url.path == "/attack/status"):
+         try:
+             CommandGuard.from_env().authorize(request.headers.get("Authorization"))
+@@ -478,7 +486,11 @@ async def command_boundary(request: Request, call_next):
+         except Refused as error:
+             logger.warning("Command refused: %s", error.reason)
+             return JSONResponse({"detail": error.reason}, status_code=error.status)
+-    return await call_next(request)
++    response = await call_next(request)
++    if request.url.path.startswith("/dashboard"):
++        # Revalidate pages/scripts on every load (ETag/304), so a browser never runs an old KPI script.
++        response.headers["Cache-Control"] = "no-cache"
++    return response
+ 
+ 
+ def publish_command(guard, command, key):
+@@ -601,51 +613,65 @@ def get_service_name(pod_name: str) -> str:
+     return pod_name
+ 
+ 
+-@app.get("/api/status", summary="Get status of microservices replicas and CPU utilization")
++DASHBOARD_SERVICES = ("frontend", "cartservice", "productcatalogservice", "currencyservice", "checkoutservice",
++                      "redis-cart", "shippingservice", "paymentservice", "emailservice")
++NO_STORE = {"Cache-Control": "no-store"}
++
++
++def utc_now():
++    return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
++
++
++def sample_value(result):
++    """A finite Prometheus sample value, or None: an unparsable sample is no data, never 0."""
++    try:
++        value = float(result.get("value", [None, None])[1])
++    except (TypeError, ValueError, IndexError, AttributeError):
++        return None
++    return value if math.isfinite(value) else None
++
++
++@app.get("/api/status", summary="Live O telemetry: replicas and CPU per service, with the source state")
+ async def get_api_status():
+-    services_status = {
+-        "frontend": {"replicas": 0, "cpu": 0.0},
+-        "cartservice": {"replicas": 0, "cpu": 0.0},
+-        "productcatalogservice": {"replicas": 0, "cpu": 0.0},
+-        "currencyservice": {"replicas": 0, "cpu": 0.0},
+-        "checkoutservice": {"replicas": 0, "cpu": 0.0},
+-        "redis-cart": {"replicas": 0, "cpu": 0.0},
+-        "shippingservice": {"replicas": 0, "cpu": 0.0},
+-        "paymentservice": {"replicas": 0, "cpu": 0.0},
+-        "emailservice": {"replicas": 0, "cpu": 0.0},
++    # null is no data for that service; 0 is reported only when Prometheus answered 0.
++    services_status = {name: {"replicas": None, "cpu": None} for name in DASHBOARD_SERVICES}
++    errors = []
++    queries = {
++        "replicas": 'kube_deployment_status_replicas{namespace="target-app"}',
++        # include zero-door for stress pods
++        "cpu": 'sum(rate(container_cpu_usage_seconds_total{namespace=~"target-app|zero-door", container!=""}[2m])) by (pod)',
+     }
+-
+-    # Query Replicas and CPU usage from Prometheus
+     try:
+         async with httpx.AsyncClient(timeout=3.0) as client:
+-            # Get Replicas
+-            r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
+-                "query": 'kube_deployment_status_replicas{namespace="target-app"}'
+-            })
+-            if r.status_code == 200:
+-                results = r.json().get("data", {}).get("result", [])
+-                for res in results:
+-                    dep_name = res.get("metric", {}).get("deployment")
+-                    val = int(res.get("value", [0, "0"])[1])
+-                    if dep_name in services_status:
+-                        services_status[dep_name]["replicas"] = val
+-
+-            # Get CPU Usage per pod (include zero-door for stress pods)
+-            r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
+-                "query": 'sum(rate(container_cpu_usage_seconds_total{namespace=~"target-app|zero-door", container!=""}[2m])) by (pod)'
+-            })
+-            if r.status_code == 200:
+-                results = r.json().get("data", {}).get("result", [])
+-                for res in results:
+-                    pod_name = res.get("metric", {}).get("pod")
+-                    cpu_val = float(res.get("value", [0, "0"])[1])
+-                    svc_name = get_service_name(pod_name)
+-                    if svc_name in services_status:
+-                        services_status[svc_name]["cpu"] += cpu_val
++            for name, query in queries.items():
++                r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={"query": query})
++                if r.status_code != 200:
++                    errors.append(f"{name.upper()}_HTTP_{r.status_code}")
++                    continue
++                try:
++                    results = r.json().get("data", {}).get("result", [])
++                except (ValueError, AttributeError):
++                    errors.append(f"{name.upper()}_MALFORMED")
++                    continue
++                for res in results if isinstance(results, list) else []:
++                    value = sample_value(res) if isinstance(res, dict) else None
++                    if value is None:
++                        continue
++                    labels = res.get("metric") if isinstance(res.get("metric"), dict) else {}
++                    if name == "replicas":
++                        if labels.get("deployment") in services_status:
++                            services_status[labels["deployment"]]["replicas"] = int(value)
++                    else:
++                        svc_name = get_service_name(str(labels.get("pod") or ""))
++                        if svc_name in services_status:
++                            services_status[svc_name]["cpu"] = (services_status[svc_name]["cpu"] or 0.0) + value
+     except Exception as e:
+-        logger.warning(f"Error querying Prometheus for dashboard: {e}")
+-
+-    return {"services": services_status}
++        logger.warning("Error querying Prometheus for dashboard: %s", type(e).__name__)
++        errors.append("UPSTREAM_UNREACHABLE")
++    state = "OK" if not errors else "PARTIAL" if len(errors) < len(queries) and "UPSTREAM_UNREACHABLE" not in errors else "ERROR"
++    return {"services": services_status,
++            "source": {"name": "prometheus", "status": state, "errors": errors, "fetched_at": utc_now(),
++                       "note": "live O telemetry, not a KPI"}}
+ 
+ 
+ @app.get("/api/logs", summary="Get combined real-time logs from Nemesis and Hephaestus")
+@@ -660,7 +686,8 @@ async def get_api_logs():
+                 "message": log[24:]
+             })
+ 
+-    # Fetch Hephaestus logs
++    # Fetch Hephaestus logs; a failed fetch is reported, not shown as "no actions".
++    hephaestus_state = "OK"
+     try:
+         async with httpx.AsyncClient(timeout=3.0) as client:
+             r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
+@@ -676,7 +703,7 @@ async def get_api_logs():
+                 for event in heal_history:
+                     if not isinstance(event, dict):
+                         continue
+-                    ts = event.get("timestamp", "")[:19]
++                    ts = str(event.get("timestamp", ""))[:19]
+                     svc = event.get("service", "")
+                     act = event.get("action", "")
+                     status = event.get("status", "")
+@@ -685,105 +712,29 @@ async def get_api_logs():
+                         "timestamp": ts if ts.endswith("Z") else ts + "Z",
+                         "message": msg
+                     })
++            else:
++                hephaestus_state = f"HTTP_{r.status_code}"
+     except Exception as e:
+-        logger.warning(f"Could not fetch Hephaestus logs: {e}")
++        logger.warning("Could not fetch Hephaestus logs: %s", type(e).__name__)
++        hephaestus_state = "UNREACHABLE"
+ 
+     # Sort logs descending (newest first)
+     combined_logs.sort(key=lambda x: x["timestamp"], reverse=True)
+-    return {"logs": combined_logs[:50]}
++    # Operational text only: not KPI evidence and not LLM decisions.
++    return {"logs": combined_logs[:50], "sources": {"nemesis": "OK", "hephaestus": hephaestus_state}, "fetched_at": utc_now()}
+ 
+ 
+-@app.get("/api/chat", summary="Get explainable AI reasoning chat stream")
++@app.get("/api/chat", summary="Decision reasoning stream: unavailable in R1")
+ async def get_api_chat():
+-    # 1. Fetch Hephaestus healing history and parse into chat bubbles
+-    try:
+-        async with httpx.AsyncClient(timeout=3.0) as client:
+-            r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
+-            if r.status_code == 200:
+-                resp_json = r.json()
+-                if isinstance(resp_json, dict):
+-                    heal_history = resp_json.get("history", [])
+-                elif isinstance(resp_json, list):
+-                    heal_history = resp_json
+-                else:
+-                    heal_history = []
+-                for event in heal_history:
+-                    if not isinstance(event, dict):
+-                        continue
+-                    ts = event.get("timestamp", "")
+-                    svc = event.get("service", "")
+-                    act = event.get("action", "")
+-                    status = event.get("status", "")
+-                    
+-                    chat_key = f"hephaestus_{ts}_{svc}_{act}_{status}"
+-                    if chat_key not in PROCESSED_CHAT_KEYS:
+-                        reasoning = "Kích hoạt hành động tự phục hồi để bảo đảm tính ổn định của hệ thống."
+-                        if act == "SCALE_UP":
+-                            reasoning = f"Phát hiện tài nguyên của dịch vụ '{svc}' bị quá tải nghiêm trọng. Thực hiện scale up tăng số lượng Pods lên để phân chia tải, tránh nghẽn luồng và duy trì hoạt động."
+-                        elif act == "RESTART":
+-                            reasoning = f"Dịch vụ '{svc}' bị đơ hoặc không phản hồi các cuộc kiểm tra sức khỏe (Liveness probes). Thực hiện khởi động lại (Restart pod) để giải phóng bộ nhớ đệm và phục hồi trạng thái lành mạnh."
+-                        elif act == "BLOCK_IP":
+-                            reasoning = f"Nhận thấy dấu hiệu tấn công HTTP Flood tràn ngập API. Thực hiện cấu hình chặn IP nguồn tấn công trực tiếp tại ingress controller để bảo vệ băng thông và tài nguyên cụm."
+-                        elif act == "SCALE_DOWN":
+-                            reasoning = f"Hệ thống đã phục hồi trạng thái Steady State bình thường. Tiến hành scale down số lượng Pods của dịch vụ '{svc}' về mức tối thiểu (1 pod) để tối ưu hóa chi phí vận hành."
+-                        
+-                        REASONING_CHAT_BUFFER.append({
+-                            "timestamp": ts if ts.endswith("Z") else ts + "Z",
+-                            "agent": "HEPHAESTUS",
+-                            "message": f"Thực hiện hành động '{act}' cho dịch vụ '{svc}' (Trạng thái: {status}).",
+-                            "reasoning": reasoning
+-                        })
+-                        PROCESSED_CHAT_KEYS.add(chat_key)
+-    except Exception as e:
+-        logger.warning(f"Could not sync Hephaestus actions to chat: {e}")
+-
+-    # 2. Check current CPU stress and inject Gaia warnings
+-    try:
+-        async with httpx.AsyncClient(timeout=3.0) as client:
+-            r = await client.get(f"{PROMETHEUS_URL}/api/v1/query", params={
+-                "query": 'sum(rate(container_cpu_usage_seconds_total{namespace="target-app", container!=""}[2m])) by (pod)'
+-            })
+-            if r.status_code == 200:
+-                results = r.json().get("data", {}).get("result", [])
+-                for res in results:
+-                    pod = res.get("metric", {}).get("pod")
+-                    cpu_val = float(res.get("value", [0, "0"])[1])
+-                    if cpu_val > 0.08:
+-                        if not pod:
+-                            continue
+-                        # Extract service name from pod name (standardize with Gaia's logic)
+-                        if "-stress" in pod:
+-                            svc = pod.split("-stress")[0]
+-                        else:
+-                            parts = pod.split("-")
+-                            if len(parts) > 2:
+-                                svc = "-".join(parts[:-2])
+-                            else:
+-                                svc = parts[0]
+-                                
+-                        current_minute = datetime.now(timezone.utc).strftime("%Y-%m-%d-%H-%M")
+-                        chat_key = f"gaia_stress_{svc}_{current_minute}"
+-                        if chat_key not in PROCESSED_CHAT_KEYS:
+-                            REASONING_CHAT_BUFFER.append({
+-                                "timestamp": datetime.now(timezone.utc).isoformat(),
+-                                "agent": "GAIA",
+-                                "message": f"Phát hiện bất thường hiệu năng (Anomaly Detected) tại dịch vụ '{svc}'.",
+-                                "reasoning": f"Chỉ số CPU usage thực tế đo được từ Prometheus tăng vọt lên {round(cpu_val, 3)} cores, vượt xa ngưỡng cảnh báo an toàn (0.05 cores). Gửi yêu cầu tự phục hồi tới Hephaestus."
+-                             })
+-                            PROCESSED_CHAT_KEYS.add(chat_key)
+-    except Exception as e:
+-        logger.warning(f"Could not check Prometheus CPU for Gaia alerts: {e}")
++    # The former stream wrote fixed sentences from heal history and CPU readings and showed them as
++    # agent reasoning. R1 has no LLM decision producer, so nothing is shown and nothing is generated.
++    return {"chat": [], "status": "UNAVAILABLE", "reason": "NO_DECISION_PRODUCER_IN_R1",
++            "note": "no AI reasoning is generated or replayed; decisions are read from scored results only"}
+ 
+-    # Sort chat list ascending (oldest first for rendering in scroll pane)
+-    REASONING_CHAT_BUFFER.sort(key=lambda x: x["timestamp"])
+-    return {"chat": REASONING_CHAT_BUFFER}
+ 
+-
+-@app.post("/api/chat/clear", summary="Reset reasoning chat history")
++@app.post("/api/chat/clear", summary="Compatibility no-op: there is no reasoning history to clear")
+ def clear_reasoning_chat():
+-    REASONING_CHAT_BUFFER.clear()
+-    PROCESSED_CHAT_KEYS.clear()
+-    return {"status": "SUCCESS", "message": "Reasoning chat history cleared."}
++    return {"status": "UNAVAILABLE", "reason": "NO_DECISION_PRODUCER_IN_R1"}
+ 
+ 
+ @app.post("/api/reset", summary="Reset experiment and clean log buffers")
+@@ -792,17 +743,57 @@ async def api_reset():
+     raise HTTPException(409, "RESET_REQUIRES_HARNESS")
+ 
+ 
+-@app.get("/api/heal-history", summary="Proxy: Get Hephaestus heal history for SRE dashboard")
++@app.get("/api/heal-history", summary="Proxy: Hephaestus heal history (legacy audit, never a KPI source)")
+ async def get_heal_history_proxy():
+-    """Proxy endpoint — fetches heal history from Hephaestus and forwards to frontend."""
++    """Proxy endpoint — an unreachable or failing Hephaestus is an error, not an empty history."""
+     try:
+         async with httpx.AsyncClient(timeout=5.0) as client:
+             r = await client.get(f"{HEPHAESTUS_URL}/heal/history")
+-            if r.status_code == 200:
+-                return r.json()
+     except Exception as e:
+-        logger.warning(f"Could not proxy Hephaestus heal history: {e}")
+-    return {"history": []}
++        logger.warning("Could not proxy Hephaestus heal history: %s", type(e).__name__)
++        raise HTTPException(503, "UPSTREAM_UNAVAILABLE")
++    if r.status_code != 200:
++        raise HTTPException(502, f"UPSTREAM_HTTP_{r.status_code}")
++    try:
++        return r.json()
++    except ValueError:
++        raise HTTPException(502, "UPSTREAM_MALFORMED")
++
++
++# ---- S results: registered runs only, read-only (nemesis/measurement_view.py) ----
++
++def result_error(error):
++    # Reason codes only: no filesystem path, key or exception text leaves the server.
++    return JSONResponse({"detail": error.reason}, status_code=error.status, headers=NO_STORE)
++
++
++@app.get("/api/results/runs", summary="Registered, closed runs with scorer artifacts")
++def results_runs():
++    try:
++        return JSONResponse({"runs": ResultsStore.from_env().runs(), "checked_at": utc_now()}, headers=NO_STORE)
++    except ResultError as error:
++        return result_error(error)
++
++
++@app.get("/api/results/runs/{run_id}", summary="KPI view of one registered run, passed through from score.json")
++def results_run(run_id: str):
++    try:
++        view = ResultsStore.from_env().view(run_id)
++    except ResultError as error:
++        return result_error(error)
++    view["served_at"] = utc_now()
++    return JSONResponse(view, headers=NO_STORE)
++
++
++@app.get("/api/results/runs/{run_id}/files/{name}", summary="The same export files the view was read from")
++def results_file(run_id: str, name: str):
++    try:
++        data, digest = ResultsStore.from_env().file(run_id, name)
++    except ResultError as error:
++        return result_error(error)
++    media = "application/json" if name.endswith(".json") else "text/csv; charset=utf-8"
++    return Response(content=data, media_type=media, headers=dict(NO_STORE, **{
++        "X-ZD-SHA256": digest, "Content-Disposition": f'attachment; filename="{run_id}-{name}"'}))
+ 
+ 
+ # ---- Mount Dashboard Static Files ----
+diff --git a/agent-orchestrator/nemesis/static/app.js b/agent-orchestrator/nemesis/static/app.js
+index baaf14f..d81f75c 100644
+--- a/agent-orchestrator/nemesis/static/app.js
++++ b/agent-orchestrator/nemesis/static/app.js
+@@ -91,65 +91,98 @@ function renderSkeleton() {
+     }
+ }
+ 
++// Live O telemetry state: last good answer and when it was fetched. A failed poll keeps the last
++// good values on screen but marks them stale; it never refreshes their time or shows them as new.
++const telemetry = { lastGood: null, lastGoodAt: null, lastError: null };
++
++function el(tag, className, text) {
++    const node = document.createElement(tag);
++    if (className) node.className = className;
++    if (text !== undefined && text !== null) node.textContent = String(text);
++    return node;
++}
++
++function renderTelemetrySource() {
++    let banner = document.getElementById("telemetry-source");
++    const container = document.getElementById("services-container");
++    if (!container) return;
++    if (!banner) {
++        banner = el("div", "telemetry-source");
++        banner.id = "telemetry-source";
++        container.parentNode.insertBefore(banner, container);
++    }
++    const good = telemetry.lastGood;
++    const parts = [];
++    if (good) {
++        const src = good.source || {};
++        parts.push(`Source: ${src.name || "unknown"} (${src.status || "UNKNOWN"})`);
++        parts.push(`fetched ${formatTimestamp(src.fetched_at) || "?"}`);
++        if (src.errors && src.errors.length) parts.push(`errors: ${src.errors.join(", ")}`);
++    } else {
++        parts.push("Source: no successful fetch yet");
++    }
++    if (telemetry.lastError) parts.push(`STALE — last poll failed (${telemetry.lastError})`);
++    banner.textContent = parts.join(" · ");
++    banner.dataset.state = telemetry.lastError ? "stale" : (good && good.source && good.source.status) || "none";
++}
++
+ // Fetch System Replicas & CPU Metrics
+ async function updateMetrics() {
+     renderSkeleton();
+     try {
+         const response = await fetch(`${API_BASE}/api/status`);
+-        if (!response.ok) throw new Error("Status API returned error");
+-        
++        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+         const data = await response.json();
+-        renderServices(data.services);
+-        updateWorkflowGraph(data.services);
+-        
+-        // Push data to telemetry chart
++        telemetry.lastGood = data;
++        telemetry.lastGoodAt = Date.now();
++        telemetry.lastError = null;
++        renderServices(data.services || {});
++        updateWorkflowGraph(data.services || {});
++
++        // Chart only real readings; a service without data adds a gap, not a zero.
+         const selectedService = document.getElementById("select-service")?.value || "frontend";
+-        const serviceStatus = data.services[selectedService] || { cpu: 0.0 };
+-        const currentCPU = serviceStatus.cpu;
+-        
+-        const now = new Date();
+-        const timeLabel = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+-        
++        const serviceStatus = (data.services || {})[selectedService] || {};
++        const currentCPU = typeof serviceStatus.cpu === "number" ? serviceStatus.cpu : null;
++        const timeLabel = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+         chartData.labels.push(timeLabel);
+         chartData.cpuData.push(currentCPU);
+-        
+         if (chartData.labels.length > chartHistoryLimit) {
+             chartData.labels.shift();
+             chartData.cpuData.shift();
+         }
+-        
+         if (telemetryChart) {
+-            const maxVal = Math.max(...chartData.cpuData, 0.2);
++            const values = chartData.cpuData.filter(v => typeof v === "number");
++            const maxVal = Math.max(...values, 0.2);
+             telemetryChart.options.scales.y.max = maxVal > 0.4 ? maxVal * 1.2 : 0.5;
+             telemetryChart.data.datasets[0].label = `${selectedService} CPU (Cores)`;
+-            telemetryChart.data.datasets[0].borderColor = currentCPU > 0.05 ? '#b50000' : '#6b46c1';
+-            telemetryChart.data.datasets[0].backgroundColor = currentCPU > 0.05 ? 'rgba(181, 0, 0, 0.1)' : 'rgba(107, 70, 193, 0.1)';
++            telemetryChart.data.datasets[0].borderColor = currentCPU !== null && currentCPU > 0.05 ? '#b50000' : '#6b46c1';
+             telemetryChart.update();
+         }
+-
+         consecutiveErrors = 0;
+         hideConnectionWarning();
+     } catch (error) {
+         console.error("Failed to update metrics:", error);
++        telemetry.lastError = error.message || "error";
+         consecutiveErrors++;
+         if (consecutiveErrors >= 2) {
+             showConnectionWarning();
+         }
+     }
++    renderTelemetrySource();
+ }
+ 
+ // Fetch Combined Logs
+ async function updateLogs() {
+     try {
+         const response = await fetch(`${API_BASE}/api/logs`);
+-        if (!response.ok) throw new Error("Logs API returned error");
+-        
++        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+         const data = await response.json();
+-        renderLogs(data.logs);
++        renderLogs(data.logs || [], data.sources || {});
+         consecutiveErrors = 0;
+         hideConnectionWarning();
+     } catch (error) {
+         console.error("Failed to update logs:", error);
++        renderLogsError(error.message || "error");
+         consecutiveErrors++;
+         if (consecutiveErrors >= 2) {
+             showConnectionWarning();
+@@ -157,136 +190,114 @@ async function updateLogs() {
+     }
+ }
+ 
+-// Fetch Agent Reasoning Chat
++// Decision reasoning: unavailable in R1 (no AI decision producer). Nothing is generated here.
+ async function updateAgentChat() {
++    let state = { status: "UNAVAILABLE", reason: "NO_DECISION_PRODUCER_IN_R1" };
+     try {
+         const response = await fetch(`${API_BASE}/api/chat`);
+-        if (!response.ok) throw new Error("Chat API returned error");
+-        
+-        const data = await response.json();
+-        renderAgentChat(data.chat);
++        if (!response.ok) throw new Error(`HTTP ${response.status}`);
++        state = await response.json();
+     } catch (error) {
+-        console.error("Failed to update agent chat:", error);
++        state = { status: "ERROR", reason: error.message || "error" };
+     }
++    renderAgentChat(state);
+ }
+ 
+-// Render Microservices in Grid
++// Render Microservices in Grid. Values are text; null is "no data", never 0.
+ function renderServices(services) {
+     const container = document.getElementById("services-container");
+     if (!container) return;
+-    container.innerHTML = "";
+-    
++    container.textContent = "";
+     let activeStressPod = false;
+ 
+     Object.entries(services).forEach(([name, status]) => {
+-        const replicas = status.replicas;
+-        const cpu = status.cpu;
+-        
++        const replicas = typeof status.replicas === "number" ? status.replicas : null;
++        const cpu = typeof status.cpu === "number" ? status.cpu : null;
+         const cpuLimit = 0.2;
+-        const cpuPercent = Math.min((cpu / cpuLimit) * 100, 300);
+-        
+-        let valClass = "sc-metric-val green";
+-        let cardStyle = "";
+-        
+-        if (cpu > 0.05) {
+-            valClass = "sc-metric-val red";
+-            cardStyle = "border-color: var(--clr-danger-border); background: var(--clr-danger-bg);";
++        const cpuPercent = cpu === null ? null : Math.min((cpu / cpuLimit) * 100, 300);
++
++        const card = el("div", "service-card");
++        if (cpu !== null && cpu > 0.05) {
++            card.style.cssText = "border-color: var(--clr-danger-border); background: var(--clr-danger-bg);";
+             activeStressPod = true;
+-        } else if (replicas > 1) {
+-            valClass = "sc-metric-val";
+-            cardStyle = "border-color: #c5def9; background: #f0f7ff;";
++        } else if (replicas !== null && replicas > 1) {
++            card.style.cssText = "border-color: #c5def9; background: #f0f7ff;";
+         }
+-
+-        const barColor = cpu > 0.05 ? 'var(--clr-danger)' : replicas > 1 ? 'var(--clr-brand-primary)' : 'var(--clr-success)';
+-
+-        const card = document.createElement("div");
+-        card.className = "service-card";
+-        card.style.cssText = cardStyle;
+-        card.innerHTML = `
+-            <div style="display:flex; justify-content:space-between; align-items:center;">
+-                <span class="sc-name">${name}</span>
+-                <span class="sc-pods">${replicas} Pod${replicas !== 1 ? 's' : ''}</span>
+-            </div>
+-            <div class="sc-metrics">
+-                <div class="sc-metric-row">
+-                    <span class="sc-metric-key">CPU Usage</span>
+-                    <span class="${valClass}">${cpu.toFixed(3)} (${cpuPercent.toFixed(0)}%)</span>
+-                </div>
+-            </div>
+-            <div style="width:100%; height:4px; background:var(--clr-border-divider); border-radius:2px; overflow:hidden; margin-top:2px;">
+-                <div style="width:${Math.min(cpuPercent, 100)}%; height:100%; background:${barColor}; border-radius:2px; transition:width 1s;"></div>
+-            </div>
+-        `;
++        const head = el("div");
++        head.style.cssText = "display:flex; justify-content:space-between; align-items:center;";
++        head.appendChild(el("span", "sc-name", name));
++        head.appendChild(el("span", "sc-pods", replicas === null ? "no data" : `${replicas} Pod${replicas !== 1 ? 's' : ''}`));
++        card.appendChild(head);
++
++        const metrics = el("div", "sc-metrics");
++        const row = el("div", "sc-metric-row");
++        row.appendChild(el("span", "sc-metric-key", "CPU Usage"));
++        row.appendChild(el("span", cpu === null ? "sc-metric-val nodata" : cpu > 0.05 ? "sc-metric-val red" : "sc-metric-val green",
++            cpu === null ? "no data" : `${cpu.toFixed(3)} (${cpuPercent.toFixed(0)}%)`));
++        metrics.appendChild(row);
++        card.appendChild(metrics);
++
++        const track = el("div");
++        track.style.cssText = "width:100%; height:4px; background:var(--clr-border-divider); border-radius:2px; overflow:hidden; margin-top:2px;";
++        if (cpu !== null) {
++            const bar = el("div");
++            const barColor = cpu > 0.05 ? 'var(--clr-danger)' : replicas !== null && replicas > 1 ? 'var(--clr-brand-primary)' : 'var(--clr-success)';
++            bar.style.cssText = `width:${Math.min(cpuPercent, 100)}%; height:100%; background:${barColor}; border-radius:2px; transition:width 1s;`;
++            track.appendChild(bar);
++        }
++        card.appendChild(track);
+         container.appendChild(card);
+     });
+ 
+     isAttackInProgress = activeStressPod;
+ }
+ 
+-// Pretty formatting helper for JSON strings inside log console (Light Theme version)
+-function formatLogJson(msg) {
+-    const braceIndex = msg.indexOf("{");
+-    if (braceIndex === -1) return msg;
+-
+-    const prefix = msg.substring(0, braceIndex);
+-    let jsonStr = msg.substring(braceIndex);
++function logLine(time, badge, badgeClass, message) {
++    const line = el("div", "log-line");
++    line.appendChild(el("span", "log-ts", time));
++    line.appendChild(el("span", `log-badge ${badgeClass}`, badge));
++    line.appendChild(el("span", "log-msg", message));
++    return line;
++}
+ 
+-    try {
+-        let validJsonStr = jsonStr
+-            .replace(/'/g, '"')
+-            .replace(/None/g, 'null')
+-            .replace(/True/g, 'true')
+-            .replace(/False/g, 'false');
+-            
+-        const obj = JSON.parse(validJsonStr);
+-        const prettyJson = JSON.stringify(obj, null, 2);
+-        
+-        return `${prefix}<pre class="bg-zinc-50 border border-zinc-200 p-2.5 rounded-lg text-[10px] text-indigo-700 my-2 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed shadow-inner max-w-full block">${prettyJson}</pre>`;
+-    } catch (e) {
+-        return msg;
+-    }
++function renderLogsError(reason) {
++    const consoleLogs = document.getElementById("console-logs");
++    if (!consoleLogs) return;
++    const notice = logLine("", "SYS", "badge-system", `Log poll failed (${reason}); lines below may be stale.`);
++    notice.dataset.state = "stale";
++    const old = consoleLogs.querySelector('[data-state="stale"]');
++    if (old) old.remove();
++    consoleLogs.insertBefore(notice, consoleLogs.firstChild);
+ }
+ 
+-// Render Log List in Console Window
+-function renderLogs(logs) {
++// Render Log List in Console Window. Log text is untrusted: it is set as text, never as HTML.
++function renderLogs(logs, sources) {
+     const consoleLogs = document.getElementById("console-logs");
+     if (!consoleLogs) return;
+-    consoleLogs.innerHTML = "";
+-    
++    consoleLogs.textContent = "";
++    const failed = Object.entries(sources || {}).filter(([, state]) => state !== "OK");
++    if (failed.length) {
++        consoleLogs.appendChild(logLine("", "SYS", "badge-system",
++            `Source error: ${failed.map(([name, state]) => `${name}=${state}`).join(", ")} — missing lines are not "no actions".`));
++    }
+     if (logs.length === 0) {
+-        consoleLogs.innerHTML = `<div class="log-line"><span class="log-badge badge-system">SYS</span><span class="log-msg" style="color:#79c0ff;">Listening for agent logs... Trigger an attack to start.</span></div>`;
++        consoleLogs.appendChild(logLine("", "SYS", "badge-system", "No log lines received."));
+         return;
+     }
+-
+     logs.forEach(log => {
+-        const timeStr = formatTimestamp(log.timestamp);
+-        let rawMsg = log.message;
+-        let sender = "SYS";
+-        let badgeClass = "badge-system";
+-        let cleanMsg = rawMsg;
+-
++        const rawMsg = String(log.message || "");
++        let sender = "SYS", badgeClass = "badge-system", cleanMsg = rawMsg;
+         if (rawMsg.includes("[HEPHAESTUS]")) {
+-            sender = "DEFENDER";
+-            badgeClass = "badge-defender";
++            sender = "DEFENDER"; badgeClass = "badge-defender";
+             cleanMsg = rawMsg.replace("[HEPHAESTUS]", "").trim();
+         } else if (rawMsg.includes("nemesis-agent")) {
+-            sender = "ATTACKER";
+-            badgeClass = "badge-attacker";
+-            cleanMsg = rawMsg.replace(/nemesis-agent\s*-\s*\[INFO\]\s*-\s*/g, "").replace(/nemesis-agent\s*-\s*\[WARNING\]\s*-\s*/g, "").trim();
++            sender = "ATTACKER"; badgeClass = "badge-attacker";
++            cleanMsg = rawMsg.replace(/nemesis-agent\s*-\s*\[(INFO|WARNING|ERROR)\]\s*-\s*/g, "").trim();
+         } else if (rawMsg.includes("[GAIA]")) {
+-            sender = "OBSERVER";
+-            badgeClass = "badge-observer";
++            sender = "OBSERVER"; badgeClass = "badge-observer";
+             cleanMsg = rawMsg.replace("[GAIA]", "").trim();
+         }
+-
+-        const line = document.createElement("div");
+-        line.className = "log-line";
+-        line.innerHTML = `
+-            <span class="log-ts">${timeStr}</span>
+-            <span class="log-badge ${badgeClass}">${sender}</span>
+-            <span class="log-msg">${cleanMsg}</span>
+-        `;
+-        consoleLogs.appendChild(line);
++        consoleLogs.appendChild(logLine(formatTimestamp(log.timestamp), sender, badgeClass, cleanMsg));
+     });
+ }
+ 
+@@ -428,100 +439,22 @@ async function resetSystem() {
+     }
+ }
+ 
+-// // Render Agent Chat Bubbles
+-function renderAgentChat(chatList) {
++// Decision reasoning panel. R1 has no AI decision producer: say so; never write reasoning here.
++function renderAgentChat(state) {
+     const chatBox = document.getElementById("agent-chat-box");
+     const insightsPreview = document.getElementById("agent-insights-preview");
+     if (!chatBox) return;
+-    
+-    if (chatList.length === 0) {
+-        chatBox.innerHTML = `
+-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 16px; color:var(--clr-text-disabled); text-align:center; gap:10px;">
+-                <i class="fa-solid fa-comments" style="font-size:28px; color:#ddd;"></i>
+-                <span style="font-size:11px; line-height:1.6;">No active conversations.<br>Trigger an attack to start AI reasoning.</span>
+-            </div>
+-        `;
+-        if (insightsPreview) {
+-            insightsPreview.innerHTML = `<div class="shimmer" style="height:48px;"></div><div class="shimmer" style="height:60px;"></div>`;
+-        }
+-        return;
+-    }
+-
+-    const isAtBottom = chatBox.scrollHeight - chatBox.clientHeight <= chatBox.scrollTop + 60;
+-    chatBox.innerHTML = "";
+-
+-    chatList.forEach(chat => {
+-        const timeStr = formatTimestamp(chat.timestamp);
+-        const agent = chat.agent;
+-        const msg = chat.message;
+-        const reasoning = chat.reasoning;
+-
+-        let avatarClass = "avatar-system";
+-        let avatarIcon = "fa-solid fa-robot";
+-        let agentLabel = "SYSTEM";
+-        let bubbleClass = "bubble-system";
+-        let reasonClass = "reasoning-system";
+-
+-        if (agent === "NEMESIS") {
+-            avatarClass = "avatar-attacker";
+-            avatarIcon = "fa-solid fa-brain";
+-            agentLabel = "NEMESIS (ATTACKER)";
+-            bubbleClass = "bubble-attacker";
+-            reasonClass = "reasoning-attacker";
+-        } else if (agent === "HEPHAESTUS") {
+-            avatarClass = "avatar-defender";
+-            avatarIcon = "fa-solid fa-shield-halved";
+-            agentLabel = "HEPHAESTUS (DEFENDER)";
+-            bubbleClass = "bubble-defender";
+-            reasonClass = "reasoning-defender";
+-        } else if (agent === "GAIA") {
+-            avatarClass = "avatar-observer";
+-            avatarIcon = "fa-solid fa-eye";
+-            agentLabel = "GAIA (OBSERVER)";
+-            bubbleClass = "bubble-observer";
+-            reasonClass = "reasoning-observer";
+-        }
+-
+-        const msgDiv = document.createElement("div");
+-        msgDiv.className = "chat-entry";
+-        msgDiv.innerHTML = `
+-            <div class="chat-avatar ${avatarClass}"><i class="${avatarIcon}"></i></div>
+-            <div class="chat-bubble-wrap">
+-                <div class="chat-meta">
+-                    <span class="chat-agent-name">${agentLabel}</span>
+-                    <span class="chat-time">${timeStr}</span>
+-                </div>
+-                <div class="chat-bubble ${bubbleClass}">
+-                    <div style="font-weight:700; margin-bottom:6px;">${msg}</div>
+-                    ${reasoning ? `<div class="chat-reasoning ${reasonClass}">
+-                        <div class="reasoning-label"><i class="fa-solid fa-lightbulb"></i> Reasoning &amp; Logic</div>
+-                        ${reasoning}
+-                    </div>` : ''}
+-                </div>
+-            </div>
+-        `;
+-        chatBox.appendChild(msgDiv);
+-    });
+-
+-    // Also update insights preview panel
+-    if (insightsPreview && chatList.length > 0) {
+-        insightsPreview.innerHTML = "";
+-        const last3 = chatList.slice(-3).reverse();
+-        last3.forEach(chat => {
+-            const agent = chat.agent;
+-            let dotColor = '#6b46c1';
+-            if (agent === 'NEMESIS') dotColor = '#c00';
+-            else if (agent === 'HEPHAESTUS') dotColor = '#037f0c';
+-            else if (agent === 'GAIA') dotColor = '#8d6605';
+-            const p = document.createElement('div');
+-            p.style.cssText = `padding:6px 8px; border-radius:4px; border:1px solid var(--clr-border-divider); background:var(--clr-bg-layout); font-size:11px; line-height:1.5; color:var(--clr-text-body);`;
+-            p.innerHTML = `<div style="font-size:9px; font-family:monospace; font-weight:700; color:${dotColor}; text-transform:uppercase; margin-bottom:3px;">${agent}</div>${chat.message}`;
+-            insightsPreview.appendChild(p);
+-        });
+-    }
+-
+-    if (isAtBottom) {
+-        chatBox.scrollTop = chatBox.scrollHeight;
++    const message = state.status === "ERROR"
++        ? `Reasoning status unavailable (${state.reason}).`
++        : "AI decision producer: unavailable in R1. No reasoning is generated or replayed in this console; " +
++          "decisions and their sources are read from scored results only.";
++    chatBox.textContent = "";
++    const box = el("div", "chat-unavailable", message);
++    box.dataset.status = state.status || "UNAVAILABLE";
++    chatBox.appendChild(box);
++    if (insightsPreview) {
++        insightsPreview.textContent = "";
++        insightsPreview.appendChild(el("div", "chat-unavailable", `AI: ${state.status || "UNAVAILABLE"} (${state.reason || "NO_DECISION_PRODUCER_IN_R1"})`));
+     }
+ }
+ 
+@@ -590,132 +523,13 @@ function initChart() {
+     });
+ }
+ 
+-// Helper: set SRE value and remove shimmer
+-function setSREValue(id, text) {
+-    const el = document.getElementById(id);
+-    if (el) el.innerText = text;
+-}
+-
+-// Helper: show shimmer skeleton for an SRE cell
+-function setSREShimmer(id) {
+-    const el = document.getElementById(id);
+-    if (el) el.innerHTML = '<span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span>';
+-}
+-
+-// Fetch SRE SLOs stats — computes real values from heal history + attack logs
+-async function updateSREStats() {
+-    try {
+-        // Fetch both endpoints in parallel
+-        const [histRes, logsRes] = await Promise.all([
+-            fetch(`${API_BASE}/api/heal-history`),
+-            fetch(`${API_BASE}/api/logs`)
+-        ]);
+-
+-        const histData = histRes.ok ? await histRes.json() : { history: [] };
+-        const logsData = logsRes.ok ? await logsRes.json() : { logs: [] };
+-
+-        const history = histData.history || [];
+-        const logs = logsData.logs || [];
+-
+-        if (history.length === 0) {
+-            setSREValue("sre-mttd", "--");
+-            setSREValue("sre-mttr", "--");
+-            setSREValue("sre-uptime", "100.00%");
+-            setSREValue("sre-success", "--");
+-            return;
+-        }
+-
+-        // ── 1. Parse logs to match attacks and heals ──
+-        // Attacker logs look like: "- nemesis-agent - [INFO] - Manual attack command sent: ..."
+-        const attackerLogs = logs.filter(l => l.message && 
+-            (l.message.includes('Manual attack command sent') || l.message.includes('attackType')));
+-
+-        // Hephaestus logs look like: "[HEPHAESTUS] Action=SCALE_UP | Service=X | Status=SUCCESS"
+-        const hepLogs = logs.filter(l => l.message && l.message.includes('[HEPHAESTUS]') && l.message.includes('Status=SUCCESS'));
+-
+-        let totalMTTD = 0, countedMTTD = 0;
+-        let totalMTTR = 0, countedMTTR = 0;
+-
+-        for (const heal of hepLogs) {
+-            const healTime = new Date(heal.timestamp).getTime();
+-            // Find most recent attacker log before this heal
+-            const prior = attackerLogs
+-                .filter(l => new Date(l.timestamp).getTime() < healTime)
+-                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+-                
+-            if (prior.length > 0) {
+-                const attackTime = new Date(prior[0].timestamp).getTime();
+-                const totalIncidentSec = (healTime - attackTime) / 1000;
+-                
+-                if (totalIncidentSec > 0 && totalIncidentSec < 300) {
+-                    // Calculate realistic MTTD based on attack type
+-                    let mttd = 0;
+-                    if (prior[0].message.includes('CPU_STRESS')) {
+-                        // CPU metrics cAdvisor scrape delay: ~15-28s
+-                        mttd = Math.max(12.0, Math.min(28.5, totalIncidentSec - 5.0));
+-                    } else if (prior[0].message.includes('HTTP_FLOOD')) {
+-                        // HTTP flood detection is faster: ~2-5s
+-                        mttd = Math.max(1.0, Math.min(4.5, totalIncidentSec - 2.0));
+-                    } else {
+-                        // Pod kill: ~1-3s
+-                        mttd = Math.max(1.0, Math.min(3.5, totalIncidentSec - 1.5));
+-                    }
+-                    
+-                    // Calculate MTTR (reconciliation time + Pod spinup/readiness delay)
+-                    let mttr = Math.max(1.0, totalIncidentSec - mttd);
+-                    
+-                    // Add actual Kubernetes rollout latency
+-                    if (heal.message.includes('Action=SCALE_UP')) {
+-                        mttr += 8.2 + (Math.random() * 2.0); // 8-10s replica spinup
+-                    } else if (heal.message.includes('Action=RESTART')) {
+-                        mttr += 32.5 + (Math.random() * 5.0); // 32-37s container boot + probe ready
+-                    } else if (heal.message.includes('Action=ROLLBACK')) {
+-                        mttr += 14.3 + (Math.random() * 3.0); // 14-17s rollback
+-                    } else {
+-                        mttr += 1.2 + (Math.random() * 0.5); // firewall block
+-                    }
+-
+-                    totalMTTD += mttd;
+-                    countedMTTD++;
+-                    totalMTTR += mttr;
+-                    countedMTTR++;
+-                }
+-            }
+-        }
+-
+-        // ── 2. Heal Success Rate ──
+-        const totalHeals = history.length;
+-        const successHeals = history.filter(h => h.status === 'SUCCESS' || h.status === 'PARTIAL').length;
+-
+-        // ── 3. Uptime SLO (last 60 minutes approximation) ──
+-        const windowSec = 3600; // 60 min
+-        const estDowntime = countedMTTR > 0 ? (totalMTTR / countedMTTR) * history.length : 0;
+-        const uptimePct = Math.min(100, Math.max(0, ((windowSec - estDowntime) / windowSec) * 100));
+-
+-        // ── Display ──
+-        setSREValue("sre-mttd", countedMTTD > 0 ? `${(totalMTTD / countedMTTD).toFixed(1)}s` : "25.6s");
+-        setSREValue("sre-mttr", countedMTTR > 0 ? `${(totalMTTR / countedMTTR).toFixed(1)}s` : "12.3s");
+-        setSREValue("sre-success", totalHeals > 0 ? `${((successHeals / totalHeals) * 100).toFixed(1)}%` : "100.0%");
+-        setSREValue("sre-uptime", `${uptimePct.toFixed(2)}%`);
+-
+-    } catch (error) {
+-        console.error("SRE stats error:", error);
+-        setSREValue("sre-mttd", "--");
+-        setSREValue("sre-mttr", "--");
+-        setSREValue("sre-uptime", "--");
+-        setSREValue("sre-success", "--");
+-    }
+-}
+-
+ // Polling setup
+ setInterval(updateMetrics, 5000);
+ setInterval(updateLogs, 5000);
+ setInterval(updateAgentChat, 5000);
+-setInterval(updateSREStats, 5000);
+ 
+ // Initial Load
+ initChart();
+ updateMetrics();
+ updateLogs();
+ updateAgentChat();
+-updateSREStats();
+diff --git a/agent-orchestrator/nemesis/static/index.html b/agent-orchestrator/nemesis/static/index.html
+index 585a1cd..20f8aca 100644
+--- a/agent-orchestrator/nemesis/static/index.html
++++ b/agent-orchestrator/nemesis/static/index.html
+@@ -33,7 +33,7 @@
+         <div class="nav-actions">
+             <span class="status-badge">
+                 <span class="status-dot"></span>
+-                System: Active
++                Static page: no live health claim
+             </span>
+             <span class="cluster-badge">
+                 <i class="fa-solid fa-server" style="font-size:9px; margin-right:4px;"></i>Local cluster: zero-door
+@@ -173,7 +173,7 @@
+                                 </div>
+                                 <div class="status-kv">
+                                     <span class="kv-key">Nemesis LLM</span>
+-                                    <span class="kv-val-purple">Active LLM</span>
++                                    <span class="kv-val-purple">Disabled in R1 benchmark</span>
+                                 </div>
+                                 <div class="status-kv">
+                                     <span class="kv-key">Load Balancer</span>
+@@ -259,7 +259,7 @@
+                                     <div class="topo-sub-cell">
+                                         <div id="node-llm" class="topo-node-sub">
+                                             <span class="topo-node-label">AI Model</span>
+-                                            <span class="topo-node-name">✨ Active LLM</span>
++                                            <span class="topo-node-name">Disabled in R1</span>
+                                         </div>
+                                     </div>
+ 
+@@ -317,28 +317,14 @@
+                             </div>
+                         </div>
+                     </div>
+-                    <!-- SRE SLOs Monitor Card -->
+-                    <div class="card" style="flex-shrink: 0; height: 130px;">
++                    <!-- KPI note: the O console computes no KPI (ZER-11) -->
++                    <div class="card" style="flex-shrink: 0;">
+                         <div class="card-header" style="padding: 6px 12px; border-bottom: 1px solid var(--clr-border-divider);">
+-                            <h2 class="card-title" style="font-size: 10px; text-transform: uppercase;"><i class="fa-solid fa-chart-bar" style="color: #6b46c1; margin-right: 5px;"></i> SRE SLOs Monitor</h2>
++                            <h2 class="card-title" style="font-size: 10px; text-transform: uppercase;"><i class="fa-solid fa-chart-bar" style="color: #6b46c1; margin-right: 5px;"></i> KPI (MTTD / MTTR / uptime)</h2>
+                         </div>
+-                        <div class="card-body" style="padding: 8px 12px; font-size: 11px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto;">
+-                            <div class="status-kv">
+-                                <span class="kv-key" style="font-size: 11px;">Avg MTTD (Detect)</span>
+-                                <span id="sre-mttd" class="kv-val-purple" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
+-                            </div>
+-                            <div class="status-kv">
+-                                <span class="kv-key" style="font-size: 11px;">Avg MTTR (Recover)</span>
+-                                <span id="sre-mttr" class="kv-val-blue" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
+-                            </div>
+-                            <div class="status-kv">
+-                                <span class="kv-key" style="font-size: 11px;">Uptime SLO</span>
+-                                <span id="sre-uptime" class="kv-val-green" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
+-                            </div>
+-                            <div class="status-kv">
+-                                <span class="kv-key" style="font-size: 11px;">Heal Success Rate</span>
+-                                <span id="sre-success" class="kv-val-green" style="font-weight: 700;"><span class="shimmer" style="display:inline-block;width:48px;height:13px;border-radius:4px;"></span></span>
+-                            </div>
++                        <div id="kpi-note" class="card-body" style="padding: 8px 12px; font-size: 11px; line-height: 1.5; color: var(--clr-text-secondary);">
++                            No KPI is computed in this operations console. KPIs come only from sealed scorer
++                            results of a closed run (separate results-reader access), never from heal history or logs.
+                         </div>
+                     </div>
+                 </section>
+@@ -387,7 +373,7 @@
+                 </div>
+             </div>
+ 
+-            <!-- Chat messages -->
++            <!-- Chat messages: no reasoning is generated in R1 -->
+             <div id="agent-chat-box" class="chat-messages">
+                 <!-- Skeleton placeholders -->
+                 <div class="chat-entry">
+diff --git a/agent-orchestrator/nemesis/static/style.css b/agent-orchestrator/nemesis/static/style.css
+index 68796cd..b54f0b6 100644
+--- a/agent-orchestrator/nemesis/static/style.css
++++ b/agent-orchestrator/nemesis/static/style.css
+@@ -1013,3 +1013,10 @@ html, body {
+     justify-content: center;
+     gap: 8px;
+ }
++
++/* ZER-11: source/stale state and "no data" are visible, never shown as zero */
++.telemetry-source { font-family: monospace; font-size: 10px; color: var(--clr-text-secondary); padding: 4px 2px; }
++.telemetry-source[data-state="stale"], .telemetry-source[data-state="ERROR"] { color: var(--clr-danger); font-weight: 700; }
++.telemetry-source[data-state="PARTIAL"] { color: var(--clr-warning); font-weight: 700; }
++.sc-metric-val.nodata { color: var(--clr-text-disabled); font-style: italic; }
++.chat-unavailable { padding: 16px; font-size: 11px; line-height: 1.6; color: var(--clr-text-secondary); border: 1px dashed var(--clr-border-divider); border-radius: 6px; }
+diff --git a/tests/test_command_guard_integration.py b/tests/test_command_guard_integration.py
+index 37323bf..f2d4ae0 100644
+--- a/tests/test_command_guard_integration.py
++++ b/tests/test_command_guard_integration.py
+@@ -262,10 +262,11 @@ class EntrypointTests(unittest.IsolatedAsyncioTestCase):
+         self.no_effects()
+ 
+     async def test_reset_never_proxies_or_clears_state(self):
+-        self.nemesis.REASONING_CHAT_BUFFER.append({"keep": True})
++        # ZER-11 removed the synthesized reasoning buffer; the log buffer is the state reset must keep.
++        self.nemesis.NEMESIS_LOG_BUFFER.insert(0, "2026-10-21 00:00:00,000 - keep")
+         response = await self.post(self.nemesis, "/api/reset", {})
+         self.assertEqual(409, response.status_code)
+-        self.assertEqual([{"keep": True}], self.nemesis.REASONING_CHAT_BUFFER)
++        self.assertIn("2026-10-21 00:00:00,000 - keep", self.nemesis.NEMESIS_LOG_BUFFER)  # the refusal may log above it
+         self.no_effects()
+ 
+ 

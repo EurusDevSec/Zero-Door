@@ -1,0 +1,21 @@
+NEMESIS tests/test_dashboard_baseline_runtime.py | exit 0 | Ran 27 tests in 160.989s OK
+NEMESIS tests/test_dashboard_measurement.py | exit 0 | Ran 33 tests in 18.794s OK
+NEMESIS tests/test_dashboard_modes.py | exit 0 | Ran 7 tests in 9.940s OK
+HEPHAESTUS tests/test_dashboard_baseline_runtime.py | exit 0 | Ran 27 tests in 159.428s OK
+HEPHAESTUS tests/test_dashboard_measurement.py | exit 0 | Ran 33 tests in 20.711s OK
+HEPHAESTUS tests/test_dashboard_modes.py | exit 0 | Ran 7 tests in 9.460s OK
+HEPHAESTUS tests/check_r1_baselines.py | exit 0 | HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS Live Nemesis deployment mounts no results root/reader key PASS
+NEMESIS tests/test_command_guard_ci.py | exit 0 | Ran 6 tests in 0.102s OK
+plan-check | exit 0 |  "problems": [],
+rt1 matrix (offline) | exit 0 | 22 writes, zero-door/measurement:zer10-574a0c3a2dad
+rt1 --execute without approval is refused | exit 0 |
+bandit harness + verify | exit 0 |
+diff --check infrastructure/scripts/r1_baseline_runtime.py | exit 0 |
+no CR infrastructure/scripts/r1_baseline_runtime.py | exit 0 |
+diff --check tests/test_dashboard_baseline_runtime.py | exit 0 |
+no CR tests/test_dashboard_baseline_runtime.py | exit 0 |
+diff --check infrastructure/scripts/verify-dashboard-baselines.py | exit 0 |
+no CR infrastructure/scripts/verify-dashboard-baselines.py | exit 0 |
+diff --check docs/runbooks/dashboard-and-baselines.md | exit 0 |
+no CR docs/runbooks/dashboard-and-baselines.md | exit 0 |
+OVERALL exit 0

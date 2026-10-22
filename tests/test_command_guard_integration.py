@@ -262,10 +262,11 @@ class EntrypointTests(unittest.IsolatedAsyncioTestCase):
         self.no_effects()
 
     async def test_reset_never_proxies_or_clears_state(self):
-        self.nemesis.REASONING_CHAT_BUFFER.append({"keep": True})
+        # ZER-11 removed the synthesized reasoning buffer; the log buffer is the state reset must keep.
+        self.nemesis.NEMESIS_LOG_BUFFER.insert(0, "2026-10-21 00:00:00,000 - keep")
         response = await self.post(self.nemesis, "/api/reset", {})
         self.assertEqual(409, response.status_code)
-        self.assertEqual([{"keep": True}], self.nemesis.REASONING_CHAT_BUFFER)
+        self.assertIn("2026-10-21 00:00:00,000 - keep", self.nemesis.NEMESIS_LOG_BUFFER)  # the refusal may log above it
         self.no_effects()
 
 

@@ -1,0 +1,244 @@
+{
+ "counts": {
+  "added": 35,
+  "modified": 11,
+  "unchanged": 0
+ },
+ "files": {
+  ".github/workflows/ci.yml": {
+   "after": "d1d6fb2cadec081dc164908f1b2feeba294de7eab95bffb5e882436ef324b0ee",
+   "before": "e9f8360433e6c5b38037b142a3239bd51988d6dc81c9eee9b77e2688028c4da2",
+   "change": "modified"
+  },
+  "agent-orchestrator/hephaestus/command_guard.py": {
+   "after": "5a1c241619b75f4b70549d788ffa5553add71d08f286a614d926291836809287",
+   "before": "ac2a34efe0d6bcb3751e3e7065b6c39947318835bf82c60896974234ccf4f3f3",
+   "change": "modified"
+  },
+  "agent-orchestrator/hephaestus/main.py": {
+   "after": "d3acc796f6fd2cc8118687d1bf5f85f69fc20b35c698f9c4152e57a49c229e4a",
+   "before": "dc4e14e027aaf3ba118bb6655532534c18d7795219637586160e63a6e9bb1c55",
+   "change": "modified"
+  },
+  "agent-orchestrator/nemesis/Dockerfile": {
+   "after": "f4e7426eab5beef4185822c8073c3d6cc695208dac44f58cff436fc9758345c7",
+   "before": "4c0260e443325fd3a75b2b7f7c9b47c135b8e4a97e24b4525a271a1e66bc0a47",
+   "change": "modified"
+  },
+  "agent-orchestrator/nemesis/main.py": {
+   "after": "0c89f54e37ff29435b842b3863fc9d68d1a90ffe947c3d9c7d05f7c725acf0f5",
+   "before": "e5833758ca2dc41ea56179c41ce5a57f84b007c39a9dd85eec261ce42f3867ef",
+   "change": "modified"
+  },
+  "agent-orchestrator/nemesis/measurement_view.py": {
+   "after": "ab3a2db9576a09f2204dddc781a1a0ba79b07375401c5baaefa30765f3d00804",
+   "before": null,
+   "change": "added"
+  },
+  "agent-orchestrator/nemesis/static/app.js": {
+   "after": "d5e9bdb8f065ce03c9a858155d3bdc5a603eabff711e7af2cbc225289aadbcfc",
+   "before": "d6971f354169088997c8e3de0e19011f69054afd67331899eb71768f6cf9459c",
+   "change": "modified"
+  },
+  "agent-orchestrator/nemesis/static/index.html": {
+   "after": "119cf6096b31af3d878eafbb8e2ce49166f10c6d66f7ac23edee55a08254a8ff",
+   "before": "1ccaedd44944a5e3d2c13d6b0ab09cd555bad81d62a74ba888c23360a9de717e",
+   "change": "modified"
+  },
+  "agent-orchestrator/nemesis/static/results.html": {
+   "after": "02ba52278f938ddd77df9d17595c4edbf57586cdd9dd8a5d0462be1c0eb14c0d",
+   "before": null,
+   "change": "added"
+  },
+  "agent-orchestrator/nemesis/static/results.js": {
+   "after": "a3ea272b09dff3df1b41dd6e7992bef55ed828c5a613da9274b897bcd4e9162c",
+   "before": null,
+   "change": "added"
+  },
+  "agent-orchestrator/nemesis/static/style.css": {
+   "after": "d14bd8241799761925f780eb5d1e062fa118eeed87c4dadbaeb64862f69b4310",
+   "before": "94f517864cb65bd32ff782f59728e3d2d7fe181ddf5613317dbee7fc05ed7f9e",
+   "change": "modified"
+  },
+  "docs/delivery/NOW.md": {
+   "after": "9e5e05407c8be6a9bd9660a4cdc01d54cd089885e410f24681d66173fb9300b0",
+   "before": "4c892a3844885efd2a81669542994e4a40ab0610565487d1ce14b6f4ded67924",
+   "change": "modified"
+  },
+  "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md": {
+   "after": "4129757aaecb9c65c555c84aa36b9e50103c0f0f29c057950b24b5f2b6910d2c",
+   "before": "e23b8d1314b20766621ddc847ee7fbac5ceb707423847a3e65b808ffee9f5397",
+   "change": "modified"
+  },
+  "docs/evidence/ZER-11/README.md": {
+   "after": "5419c84959ae0aae3515da5edf3514dbf6f5540ff36079c57003970f43aea290",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/01-no-access.jpg": {
+   "after": "89ba516bf3525b866dc769aaaa94136f6ee4d6f7c4c6a9d7fd61e00c55b65b56",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/02-loaded-b1.jpg": {
+   "after": "e8d11dd8b551a8b8dd0cc6308a8033c82020e821de96275872895f4c99993a28",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/03-timeout-null-not-zero.jpg": {
+   "after": "cd5646bbd01a3233700440715681f7846e9150fe5e82555e243d715ad99f18ff",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/04-empty.jpg": {
+   "after": "7819659623bad43b79c9a5e023498f2ea11e8e6c6f0da8bf9d32d27f62760f95",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/05-artifact-error.jpg": {
+   "after": "81567a51f2baf01134ac3059998d47f180c9097e06d42d137920e37f38168282",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/06-stale.jpg": {
+   "after": "fdad31ddbe0fabedac2fe77f2a13d2946d793c979b6222c718641b1e5260afad",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/07-b0-mode-violation.jpg": {
+   "after": "480dad6b1a2af1128cacda176aaf3ebb1727583d62de2f2470196f80e2a37639",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/browser/08-console-no-kpi.jpg": {
+   "after": "123a60cc7edf077000dbb83f26021d906e286668742d4520c0ee6cf7de027517",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/check_mutants.py": {
+   "after": "b70944b3e2ebbcdf909247d45d338be6d09e5cf83f712999857421c93ed4b830",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/clean_checkout.sh": {
+   "after": "aaeb9eae55bd3f74edda9a073641b4d0240899ee6d6af738932c412948773fdb",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/fail_before.py": {
+   "after": "672b7e071315986e267d8350c5ac44eb6100abd692efbd5fdc3da5a126cdbbf6",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/clean-checkout.txt": {
+   "after": "f82eb1d8d61584a85391a902a6aadcbfe8a1136f6304f896ce4163d904013a94",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/fail-before-attempt1.json": {
+   "after": "cb3507154072fc9a0c7d0cc8d7f4405f1db06f9db3610042e48389911621f462",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/fail-before-attempt1.txt": {
+   "after": "40b0d9b0ba846653eafe8c7874631e1381332999f9edcf81e8abd24b2ae34eaa",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/fail-before.json": {
+   "after": "cd8e3a4ff0e5b4c781a4c3586f12dc12a3846d35914f29fdc72921dd63793cc1",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/fail-before.txt": {
+   "after": "f5b2abf10e2cba935bd21ffeb78d0ef2b9c6da85d0bb0bbd1144f70d3fb431b0",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/mutants-attempt1.json": {
+   "after": "d59e3f8a359af8fac31f606602107499c84af006c60ce1359c53e0346684aa70",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/mutants-attempt1.txt": {
+   "after": "fa757d63addb8535e99e5d5a6fb3f7d35ead53f6afa1568ebab82e70770b925b",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/mutants.json": {
+   "after": "d51c0c2bc51031cd094d20969e9523766ddbbb27c31d1b3cdd801b25972d4ab9",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/mutants.txt": {
+   "after": "7e2279605fb81f1bdfb9b6d75ddc0a9ecdc6c006d7274793e480c72f1dcbe1e6",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/results/regressions.txt": {
+   "after": "4eb0b8f56a53731b41a17008871234c5c5f607ebb1a8f1c73750688db1c01fb0",
+   "before": null,
+   "change": "added"
+  },
+  "docs/evidence/ZER-11/run_regressions.sh": {
+   "after": "a7ba87bc1bdfd074038462f95996fbc2b40a300eda1420e317320a39241166ae",
+   "before": null,
+   "change": "added"
+  },
+  "docs/runbooks/dashboard-and-baselines.md": {
+   "after": "9e152465dbeecf96e35f4921f5b3351339cbb38a90dcf66fb1324e374677e4f0",
+   "before": null,
+   "change": "added"
+  },
+  "infrastructure/manifests/r1-baselines.yaml": {
+   "after": "b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+   "before": null,
+   "change": "added"
+  },
+  "infrastructure/scripts/verify-dashboard-baselines.py": {
+   "after": "5b1aa2eb8a029f406d3fbb5a6fe9c096b21e9313068102953e801bb6c8549a3e",
+   "before": null,
+   "change": "added"
+  },
+  "infrastructure/scripts/verify-dashboard-baselines.sh": {
+   "after": "de15c727f5b0b0f342aa47c8091f89484d026e6dc5a3ca5f5032424bd3cb4e4b",
+   "before": null,
+   "change": "added"
+  },
+  "tests/check_r1_baselines.py": {
+   "after": "6d1c0fd2c7ca5d02bdb6dea1164a9c923bb74aa9449c403e19ef3137be509784",
+   "before": null,
+   "change": "added"
+  },
+  "tests/fixtures/zer11/cases.py": {
+   "after": "5eb2577ef69e7c7704b351f9f41a0fff11f14cb46176b809913b13c283545fa8",
+   "before": null,
+   "change": "added"
+  },
+  "tests/fixtures/zer11/expected.json": {
+   "after": "985b9437acb0c0d1e53afeae7a25654250d724a903220be2082974be808495aa",
+   "before": null,
+   "change": "added"
+  },
+  "tests/test_command_guard_integration.py": {
+   "after": "f4d28e1440cd3f9ac7d8864419c58422ebe48081772ce4bc3e9c1273935011af",
+   "before": "2e49c599c37de7f3638fdacf44953ac09214d86dfb4a5d7b9e448e34a30716c1",
+   "change": "modified"
+  },
+  "tests/test_dashboard_measurement.py": {
+   "after": "c51e91abbef11c2915b24fb37f24f977711f7fbf48b8f2922422175dbf146428",
+   "before": null,
+   "change": "added"
+  },
+  "tests/test_dashboard_modes.py": {
+   "after": "636fa3a636c7247126462ee3bd49c15506156c9d1991d5311e08be98e2a4286c",
+   "before": null,
+   "change": "added"
+  }
+ },
+ "head": "169413303340fc01eea8597c121ce39455892af0",
+ "package": "ZER-11 + ZER-39 offline (Claude)",
+ "protected_unchanged": true,
+ "snapshot": "scratch/zer11/claude/before.json",
+ "staged": []
+}

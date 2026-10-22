@@ -1,0 +1,42 @@
+[
+ {
+  "run": "n1-after-serial/r3-p1",
+  "test": "Controller.test_hpa_not_activated_is_said_so_and_no_effect_leaves_n",
+  "kind": "FAIL",
+  "message": "AssertionError: 'COMPLETED' != 'ABORTED'",
+  "max_append_fsync_ms": 2378.94,
+  "max_submit_ms": 2656.4,
+  "max_deliver_ms": 2382.97,
+  "retries": 1
+ },
+ {
+  "run": "n1-after-serial/r3-p1",
+  "test": "Findings.test_rt1_01_host_disk_full_in_main_phase_still_runs_every_cleanup_step",
+  "kind": "FAIL",
+  "message": "AssertionError: False is not true : PERSISTENCE (CONTROL_NOT_DURABLE: ATTACK_REQUESTED None after 10016.4 ms, 1 retries)",
+  "max_append_fsync_ms": 10854.08,
+  "max_submit_ms": 10856.65,
+  "max_deliver_ms": 4983.19,
+  "retries": 2
+ },
+ {
+  "run": "n1-after-serial/r4-p1",
+  "test": "Faults.test_interrupt_in_trial_and_in_cleanup",
+  "kind": "FAIL",
+  "message": "AssertionError: Tuples differ: ('ABORTED', 'INTERRUPTED') != ('ABORTED', 'BASELINE_UNHEALTHY (B0-CTRL)')",
+  "max_append_fsync_ms": 807.01,
+  "max_submit_ms": 2870.88,
+  "max_deliver_ms": 2873.27,
+  "retries": 0
+ },
+ {
+  "run": "n1-after-par3/r1-p2",
+  "test": "Controller.test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+  "kind": "FAIL",
+  "message": "AssertionError: 'MISSING_PROBE' != 'UNKNOWN_EFFECT'",
+  "max_append_fsync_ms": 84.44,
+  "max_submit_ms": 85.14,
+  "max_deliver_ms": 87.08,
+  "retries": 0
+ }
+]

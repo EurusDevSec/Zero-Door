@@ -1,0 +1,200 @@
+{
+ "hpa": "MEASURABLE",
+ "load_finished": "Succeeded",
+ "positive_control": {
+  "decision_classification": "MODE_VIOLATION",
+  "decision_state": "REJECTED",
+  "passed": true,
+  "run_id": "run_c5a543374f4342528e0867bbc40bee9f",
+  "scale_attribution": {
+   "event_sources": [
+    "deployment-controller",
+    "replicaset-controller"
+   ],
+   "replica_managers": [
+    {
+     "manager": "kubectl",
+     "operation": "Update",
+     "subresource": "scale"
+    }
+   ],
+   "scale_observations": [
+    {
+     "replica_managers": [
+      {
+       "manager": "kubectl",
+       "operation": "Update",
+       "subresource": "scale"
+      }
+     ],
+     "replicas": 1,
+     "resourceVersion": "100064",
+     "uid": "46e03fb6-070f-4075-ba0d-ca82eb9dc2fe"
+    },
+    {
+     "replica_managers": [],
+     "replicas": 0,
+     "resourceVersion": "100074",
+     "uid": "46e03fb6-070f-4075-ba0d-ca82eb9dc2fe"
+    }
+   ]
+  },
+  "trial_id": "trl_c43e404694624fe480295b6bba67ddfa",
+  "valid_o_event_recorded": true
+ },
+ "trials": {
+  "B0-CTRL": {
+   "events": [
+    {
+     "message": "Successfully assigned target-app/frontend-84b6b4cf7-4vf4x to k3d-zero-door-server-0",
+     "object": "Pod/frontend-84b6b4cf7-4vf4x",
+     "object_uid": "4dfb3692-e372-4f76-a9b7-dbd5a02277ef",
+     "reason": "Scheduled",
+     "source": "default-scheduler",
+     "t_ms": 1792598472293.466
+    },
+    {
+     "message": "Started container server",
+     "object": "Pod/frontend-84b6b4cf7-4vf4x",
+     "object_uid": "4dfb3692-e372-4f76-a9b7-dbd5a02277ef",
+     "reason": "Started",
+     "source": "kubelet",
+     "t_ms": 1792598473000.0
+    },
+    {
+     "message": "Stopping container server",
+     "object": "Pod/frontend-84b6b4cf7-lvd4p",
+     "object_uid": "2c8a6df8-4967-4176-a94c-e1b3bfc20784",
+     "reason": "Killing",
+     "source": "kubelet",
+     "t_ms": 1792598471000.0
+    },
+    {
+     "message": "Created pod: frontend-84b6b4cf7-4vf4x",
+     "object": "ReplicaSet/frontend-84b6b4cf7",
+     "object_uid": "735251fc-2e9b-4996-a810-b9873020187a",
+     "reason": "SuccessfulCreate",
+     "source": "replicaset-controller",
+     "t_ms": 1792598472000.0
+    }
+   ],
+   "frontend_pods_after": [
+    {
+     "name": "frontend-84b6b4cf7-4vf4x",
+     "owner": [
+      {
+       "kind": "ReplicaSet",
+       "uid": "735251fc-2e9b-4996-a810-b9873020187a"
+      }
+     ],
+     "ready": true,
+     "uid": "4dfb3692-e372-4f76-a9b7-dbd5a02277ef"
+    }
+   ],
+   "identity": {
+    "deleted_uid": "2c8a6df8-4967-4176-a94c-e1b3bfc20784",
+    "owner_uids": [
+     "735251fc-2e9b-4996-a810-b9873020187a"
+    ],
+    "pods_before": [
+     "2c8a6df8-4967-4176-a94c-e1b3bfc20784"
+    ],
+    "t_req": "2026-10-21T16:01:11.427Z"
+   }
+  },
+  "B0-HPA": {
+   "events": [
+    {
+     "message": "Successfully assigned target-app/frontend-84b6b4cf7-4vf4x to k3d-zero-door-server-0",
+     "object": "Pod/frontend-84b6b4cf7-4vf4x",
+     "object_uid": "4dfb3692-e372-4f76-a9b7-dbd5a02277ef",
+     "reason": "Scheduled",
+     "source": "default-scheduler",
+     "t_ms": 1792598472293.466
+    },
+    {
+     "message": "Started container server",
+     "object": "Pod/frontend-84b6b4cf7-4vf4x",
+     "object_uid": "4dfb3692-e372-4f76-a9b7-dbd5a02277ef",
+     "reason": "Started",
+     "source": "kubelet",
+     "t_ms": 1792598473000.0
+    },
+    {
+     "message": "Stopping container server",
+     "object": "Pod/frontend-84b6b4cf7-lvd4p",
+     "object_uid": "2c8a6df8-4967-4176-a94c-e1b3bfc20784",
+     "reason": "Killing",
+     "source": "kubelet",
+     "t_ms": 1792598471000.0
+    },
+    {
+     "message": "Created pod: frontend-84b6b4cf7-4vf4x",
+     "object": "ReplicaSet/frontend-84b6b4cf7",
+     "object_uid": "735251fc-2e9b-4996-a810-b9873020187a",
+     "reason": "SuccessfulCreate",
+     "source": "replicaset-controller",
+     "t_ms": 1792598472000.0
+    },
+    {
+     "message": "New size: 2; reason: cpu resource utilization (percentage of request) above target",
+     "object": "HorizontalPodAutoscaler/frontend-hpa-r1",
+     "object_uid": "e4064629-a2eb-474d-9f86-f276996bbd89",
+     "reason": "SuccessfulRescale",
+     "source": "horizontal-pod-autoscaler",
+     "t_ms": 1792598655000.0
+    },
+    {
+     "message": "New size: 3; reason: cpu resource utilization (percentage of request) above target",
+     "object": "HorizontalPodAutoscaler/frontend-hpa-r1",
+     "object_uid": "e4064629-a2eb-474d-9f86-f276996bbd89",
+     "reason": "SuccessfulRescale",
+     "source": "horizontal-pod-autoscaler",
+     "t_ms": 1792598670000.0
+    },
+    {
+     "message": "Scaled up replica set frontend-84b6b4cf7 to 2 from 1",
+     "object": "Deployment/frontend",
+     "object_uid": "b3a696e2-cb3f-4bc3-b807-ace82d3c4f3e",
+     "reason": "ScalingReplicaSet",
+     "source": "deployment-controller",
+     "t_ms": 1792598655000.0
+    },
+    {
+     "message": "Scaled up replica set frontend-84b6b4cf7 to 3 from 2",
+     "object": "Deployment/frontend",
+     "object_uid": "b3a696e2-cb3f-4bc3-b807-ace82d3c4f3e",
+     "reason": "ScalingReplicaSet",
+     "source": "deployment-controller",
+     "t_ms": 1792598670000.0
+    }
+   ],
+   "frontend_pods_after": [
+    {
+     "name": "frontend-84b6b4cf7-4vf4x",
+     "owner": [
+      {
+       "kind": "ReplicaSet",
+       "uid": "735251fc-2e9b-4996-a810-b9873020187a"
+      }
+     ],
+     "ready": true,
+     "uid": "4dfb3692-e372-4f76-a9b7-dbd5a02277ef"
+    }
+   ],
+   "identity": {
+    "frontend_replicas_before": 1,
+    "hpa_uid": "e4064629-a2eb-474d-9f86-f276996bbd89",
+    "t_req": "2026-10-21T16:03:48.786Z"
+   }
+  }
+ },
+ "uid_precondition_selftest": {
+  "configmap_still_present": true,
+  "state": "UID_CHANGED_NOT_DELETED"
+ },
+ "zd_scaled": [
+  "gaia",
+  "hephaestus"
+ ]
+}

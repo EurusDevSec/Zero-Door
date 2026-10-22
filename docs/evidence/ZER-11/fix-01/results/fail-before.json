@@ -1,0 +1,340 @@
+{
+ "control": 24,
+ "negative": 9,
+ "page": [
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_422_ARTIFACT_HASH_MISMATCH_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_422_SCHEMA_UNSUPPORTED_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_422_EXPORT_INCONSISTENT_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_401_UNAUTHORIZED_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_404_RUN_NOT_REGISTERED_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_503_REGISTRY_INVALID_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_503_KEY_SEPARATION_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_500_HTTP_500_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_unrenderable_answer_clears_view"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "good_then_mismatched_answer_clears_view"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "good_then_503_upstream_is_stale_then_good"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "good_then_502_is_stale_then_good"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "good_then_504_is_stale_then_good"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "good_then_network_is_stale_then_good"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "after_fatal_a_later_verified_answer_is_shown_fresh"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "fatal_then_transient_does_not_bring_back_old_view"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "late_answer_of_previous_run_is_dropped"
+  },
+  {
+   "after": true,
+   "before": false,
+   "case": "reconnect_drops_old_view_and_old_inflight_answer"
+  },
+  {
+   "after": true,
+   "before": true,
+   "case": "reconnect_with_valid_key_reloads_selected_run_with_new_key"
+  }
+ ],
+ "page_cases": {
+  "fail_before": 12,
+  "total": 19
+ },
+ "results": [
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_malformed_nonfinite_duplicate_and_schema"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_register_refuses_an_export_that_differs_from_score_json"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_registry_paths_status_and_ids"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_root_configuration"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_run_group_and_export_mismatch"
+  },
+  {
+   "after": "pass",
+   "before": "fail: + ('ALREADY_REGISTERED', 409)",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "AdapterIntegrity.test_shape_of_consumed_fields_is_a_reason_code"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_symlinked_artifact_outside_root_is_refused"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_tampered_artifact_is_refused"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterIntegrity.test_unregistered_output_is_never_listed_or_served"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_data_time_is_latest_scored_milestone_not_generated_at"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_e01_matches_hand_values_and_the_export_file"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_empty_run_is_empty_not_pass_or_rate"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_missing_and_unverified_clock_stay_unknown"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_modes_labels_and_mode_violations"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_null_stays_empty_and_failure_is_counted"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_same_run_inputs_and_options_give_the_same_kpi"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "AdapterValues.test_view_leaks_no_path_and_columns_match_measurement_output"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "Http.test_api_view_and_download_are_the_same_artifact"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "Http.test_bad_requests_return_codes_without_paths"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "Http.test_chat_generates_no_reasoning"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "Http.test_heal_history_and_logs_report_upstream_failure"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "Http.test_results_need_the_reader_key_and_are_read_only"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "Http.test_status_reports_no_data_and_source_error_not_zero"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify' has no attribute 'root_digest'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "ResultsServer.test_cli_receipt_records_the_root_at_start_and_exit"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify' has no attribute 'root_digest'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "ResultsServer.test_other_routes_and_startup_never_reach_upstreams"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify' has no attribute 'root_digest'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "ResultsServer.test_refuses_a_root_without_a_registry_or_a_relative_root"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify' has no attribute 'root_digest'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "ResultsServer.test_serves_exactly_the_given_root_and_leaves_it_unchanged"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify_plan' has no attribute 'plan_matrix'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "RuntimePlan.test_budget_covers_timeout_no_effect_and_verification"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify_plan' has no attribute 'plan_matrix'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "RuntimePlan.test_runbook_quotes_the_computed_numbers"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AttributeError: module 'zer11_verify_plan' has no attribute 'RT1'",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "RuntimePlan.test_the_reviewed_inconsistencies_are_rejected"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "StaticPages.test_console_has_no_kpi_path_or_synthetic_numbers"
+  },
+  {
+   "after": "pass",
+   "before": "fail: AssertionError: False is not true : [{\"state\": \"STALE\", \"kpi\": \"KPIstatusverdictNpassedmissingunobservedrateboundsmean (m\\u0102\\u00b4 t\\u00e1\\u00ba\\u00a3)mean poolghi ch\\u0102\\u00baMTTD < 60 sOKPASS11001 (100.0%)1, 130 s1MTTR < 120 sOKPASS11001 (100.0%)1, 130 s1MTTR < 180 sOKPASS11001 (100.0%)1, 130",
+   "class": "NEGATIVE",
+   "pass": true,
+   "test": "StaticPages.test_refresh_keeps_stale_only_for_transient_failures"
+  },
+  {
+   "after": "pass",
+   "before": "pass",
+   "class": "CONTROL",
+   "pass": true,
+   "test": "StaticPages.test_results_page_is_get_only_text_only_and_self_contained"
+  }
+ ],
+ "snapshot": "scratch/zer11/claude-fix01/before.json",
+ "verdict": "PASS"
+}

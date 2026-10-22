@@ -1,0 +1,36 @@
+{
+  "positive_control_lost_ack": {
+    "handle_response": {
+      "run_id": "run_0b46d5bc9ba04fe582b837548b404804",
+      "trial_id": "trl_8eb3e16d49e8490fa2b62f83164f4a3b",
+      "valid_o_event_recorded": true,
+      "decision_state": null,
+      "decision_classification": null,
+      "ok": true
+    },
+    "agent_saved_pc": {
+      "run_id": "run_0b46d5bc9ba04fe582b837548b404804",
+      "trial_id": "trl_8eb3e16d49e8490fa2b62f83164f4a3b",
+      "valid_o_event_recorded": true,
+      "decision_state": null,
+      "decision_classification": null,
+      "ok": false
+    }
+  },
+  "historical_B0-CTRL": {
+    "B0-CTRL": {
+      "label": "RECOVERED_UNDETECTED",
+      "claim": "CONTROLLER_RECOVERY_OBSERVED",
+      "absence_audit_complete": true,
+      "stop_point": "a"
+    }
+  },
+  "historical_B0-HPA": {
+    "B0-HPA": {
+      "label": "RECOVERED_UNDETECTED",
+      "claim": "HPA_RECOVERY_OBSERVED",
+      "absence_audit_complete": true,
+      "stop_point": "a"
+    }
+  }
+}

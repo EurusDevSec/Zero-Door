@@ -1,0 +1,18 @@
+{
+  "pdg": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"mode\": \"controls\",\n  \"anchor\": {\n    \"file\": \"agent-orchestrator/nemesis/static/results.js\",\n    \"symbol\": \"loadRun\",\n    \"startLine\": 252,\n    \"endLine\": 293\n  },\n  \"results\": [\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 274\n      },\n      \"dependent\": {\n        \"line\": 274,\n        \"text\": \"return;\"\n      },\n      \"label\": \"T\",\n      \"guard\": true\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 274\n      },\n      \"dependent\": {\n        \"line\": 275,\n        \"text\": \"(S.view && refresh && transient(error))\"\n      },\n      \"label\": \"F\"\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 275\n      },\n      \"dependent\": {\n        \"line\": 276,\n        \"text\": \"setState(\\\"STALE\\\", `lần tải gần nhất lỗi (${error.message}); số liệu đang hiện là của lần thành công lúc ${new Date(S.viewAt).toISOString()}`);\"\n      },\n      \"label\": \"T\"\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 275\n      },\n      \"dependent\": {\n        \"line\": 277,\n        \"text\": \"return;\"\n      },\n      \"label\": \"T\",\n      \"guard\": true\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 275\n      },\n      \"dependent\": {\n        \"line\": 279,\n        \"text\": \"dropView();\\nconst state = fatalState(error);\\nsetState(state, error.message);\"\n      },\n      \"label\": \"F\"\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 275\n      },\n      \"dependent\": {\n        \"line\": 282,\n        \"text\": \"(state === \\\"NO_ACCESS\\\")\"\n      },\n      \"label\": \"F\"\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 282\n      },\n      \"dependent\": {\n        \"line\": 283,\n        \"text\": \"endSession();\\nbanner(`Khóa không còn được chấp nhận (${error.message}): đã xóa số liệu, cần kết nối lại.`);\"\n      },\n      \"label\": \"T\"\n    },\n    {\n      \"functionLine\": 252,\n      \"controller\": {\n        \"line\": 282\n      },\n      \"dependent\": {\n        \"line\": 285,\n        \"text\": \"(state === \\\"ARTIFACT_ERROR\\\")\"\n      },\n      \"label\": \"F\"\n    }\n  ],\n  \"total\": 35,\n  \"truncated\": true\n}"
+      }
+    ]
+  },
+  "ex": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"anchor\": {\n    \"file\": \"infrastructure/scripts/verify-dashboard-baselines.py\"\n  },\n  \"findings\": [],\n  \"totalFindings\": 0,\n  \"note\": \"Intra-procedural (TAINTED, statement hops) AND cross-function (TAINT_PATH, function hops, `interprocedural: true`) flows are modeled. Closure/callback, property/field, and implicit flows are NOT modeled; absence of a finding is not proof of safety. Cross-function findings are context-insensitive and may over-attribute among same-named callees. SANITIZES (kill) edges are queryable via cypher.\"\n}"
+      }
+    ]
+  }
+}

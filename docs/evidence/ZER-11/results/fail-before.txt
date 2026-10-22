@@ -1,0 +1,15 @@
+PASS NEGATIVE test_dashboard_measurement.Http.test_status_reports_no_data_and_source_error_not_zero | before: Ran 1 test in 1.186s FAILED (failures=1) | after: Ran 1 test in 1.250s OK
+PASS NEGATIVE test_dashboard_measurement.Http.test_heal_history_and_logs_report_upstream_failure | before: Ran 1 test in 1.182s FAILED (failures=1) | after: Ran 1 test in 1.134s OK
+PASS NEGATIVE test_dashboard_measurement.Http.test_chat_generates_no_reasoning | before: Ran 1 test in 1.094s FAILED (failures=1) | after: Ran 1 test in 1.192s OK
+PASS NEGATIVE test_dashboard_measurement.StaticPages.test_console_has_no_kpi_path_or_synthetic_numbers | before: Ran 1 test in 0.036s FAILED (failures=1) | after: Ran 1 test in 0.033s OK
+PASS NEGATIVE test_dashboard_modes.ConsumerModes.test_only_b1_auto_decides_through_the_real_consumer | before: Ran 1 test in 5.155s FAILED (failures=4) | after: Ran 1 test in 5.161s OK
+PASS NEGATIVE test_dashboard_modes.ManualTrigger.test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled | before: Ran 1 test in 2.832s FAILED (errors=1) | after: Ran 1 test in 2.834s OK
+PASS NEGATIVE test_dashboard_modes.ManualTrigger.test_positive_control_one_action_per_operator_decision | before: Ran 1 test in 2.927s FAILED (failures=1) | after: Ran 1 test in 2.990s OK
+PASS NEGATIVE test_dashboard_modes.ManualTrigger.test_mode_refusals_hold_even_with_an_executor | before: Ran 1 test in 3.083s FAILED (errors=3) | after: Ran 1 test in 3.129s OK
+PASS CONTROL  test_dashboard_modes.ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused | before: Ran 1 test in 2.892s OK | after: Ran 1 test in 2.891s OK
+PASS CONTROL  test_dashboard_modes.ManualTrigger.test_trigger_needs_the_trusted_context_and_heal_operator | before: Ran 1 test in 2.876s OK | after: Ran 1 test in 2.834s OK
+PASS CONTROL  test_command_modes.ModeTests | before: Ran 3 tests in 0.005s OK | after: Ran 3 tests in 0.005s OK
+PASS CONTROL  test_command_guard_integration.EntrypointTests | before: Ran 13 tests in 4.175s OK | after: Ran 13 tests in 4.260s OK
+PASS CONTROL  test_event_agents.AgentHttpTests | before: Ran 4 tests in 6.587s OK | after: Ran 4 tests in 6.512s OK
+VERDICT PASS
+fail-before exit 0

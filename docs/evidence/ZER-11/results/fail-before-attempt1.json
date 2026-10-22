@@ -1,0 +1,190 @@
+{
+ "control": 5,
+ "negative": 8,
+ "results": [
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 1.129s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 1.112s FAILED (failures=1)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "nemesis",
+   "test": "test_dashboard_measurement.Http.test_status_reports_no_data_and_source_error_not_zero"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 1.096s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 1.086s FAILED (failures=1)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "nemesis",
+   "test": "test_dashboard_measurement.Http.test_heal_history_and_logs_report_upstream_failure"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 1.068s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 1.186s FAILED (failures=1)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "nemesis",
+   "test": "test_dashboard_measurement.Http.test_chat_generates_no_reasoning"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 0.031s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 0.032s FAILED (failures=1)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "nemesis",
+   "test": "test_dashboard_measurement.StaticPages.test_console_has_no_kpi_path_or_synthetic_numbers"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 5.156s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 5.131s FAILED (failures=4)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_dashboard_modes.ConsumerModes.test_only_b1_auto_decides_through_the_real_consumer"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 2.826s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 2.827s FAILED (errors=1)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_dashboard_modes.ManualTrigger.test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 3.029s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 3.111s FAILED (failures=1)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_dashboard_modes.ManualTrigger.test_positive_control_one_action_per_operator_decision"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 3.067s OK"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 1 test in 3.084s FAILED (errors=3)"
+   },
+   "class": "NEGATIVE",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_dashboard_modes.ManualTrigger.test_mode_refusals_hold_even_with_an_executor"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 2.902s OK"
+   },
+   "before": {
+    "exit": 0,
+    "summary": "Ran 1 test in 2.892s OK"
+   },
+   "class": "CONTROL",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_dashboard_modes.ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 1 test in 2.902s OK"
+   },
+   "before": {
+    "exit": 0,
+    "summary": "Ran 1 test in 2.866s OK"
+   },
+   "class": "CONTROL",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_dashboard_modes.ManualTrigger.test_trigger_needs_the_trusted_context_and_heal_operator"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 3 tests in 0.004s OK"
+   },
+   "before": {
+    "exit": 0,
+    "summary": "Ran 3 tests in 0.004s OK"
+   },
+   "class": "CONTROL",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_command_modes.ModeTests"
+  },
+  {
+   "after": {
+    "exit": 1,
+    "summary": "Ran 13 tests in 4.148s FAILED (failures=1)"
+   },
+   "before": {
+    "exit": 1,
+    "summary": "Ran 13 tests in 3.968s FAILED (failures=1)"
+   },
+   "class": "CONTROL",
+   "pass": false,
+   "python": "nemesis",
+   "test": "test_command_guard_integration.EntrypointTests"
+  },
+  {
+   "after": {
+    "exit": 0,
+    "summary": "Ran 4 tests in 6.588s OK"
+   },
+   "before": {
+    "exit": 0,
+    "summary": "Ran 4 tests in 6.521s OK"
+   },
+   "class": "CONTROL",
+   "pass": true,
+   "python": "hephaestus",
+   "test": "test_event_agents.AgentHttpTests"
+  }
+ ],
+ "snapshot_head": "169413303340fc01eea8597c121ce39455892af0",
+ "verdict": "FAIL"
+}

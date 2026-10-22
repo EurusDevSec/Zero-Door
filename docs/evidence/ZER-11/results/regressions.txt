@@ -1,0 +1,39 @@
+== NEMESIS: 3.11.9 fastapi 0.111.0 pydantic 2.7.4
+NEMESIS tests/test_dashboard_measurement.py | exit 0 | Ran 24 tests in 14.759s OK
+NEMESIS tests/test_dashboard_modes.py | exit 0 | Ran 7 tests in 8.358s OK
+NEMESIS tests/test_command_guards.py | exit 0 | Ran 7 tests in 0.020s OK
+NEMESIS tests/test_command_modes.py | exit 0 | Ran 3 tests in 0.004s OK
+NEMESIS tests/test_command_guard_integration.py | exit 0 | Ran 13 tests in 4.029s OK
+NEMESIS tests/test_event_agents.py | exit 0 | Ran 4 tests in 6.654s OK
+NEMESIS tests/check_r1_baselines.py | exit 0 | B0 has no ZERO DOOR decision/action/LLM/RBAC; profile adds no workload or RBAC PASS HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS Live Nemesis deployment mounts no results root/reader key PASS
+NEMESIS tests/check_guard_manifests.py | exit 0 |
+NEMESIS tests/test_command_guard_ci.py | exit 0 | Ran 6 tests in 0.091s OK
+== HEPHAESTUS: 3.11.9 fastapi 0.111.0 pydantic 2.7.4
+HEPHAESTUS tests/test_dashboard_measurement.py | exit 0 | Ran 24 tests in 13.853s OK
+HEPHAESTUS tests/test_dashboard_modes.py | exit 0 | Ran 7 tests in 8.423s OK
+HEPHAESTUS tests/test_command_guards.py | exit 0 | Ran 7 tests in 0.060s OK
+HEPHAESTUS tests/test_command_modes.py | exit 0 | Ran 3 tests in 0.004s OK
+HEPHAESTUS tests/test_command_guard_integration.py | exit 0 | Ran 13 tests in 4.069s OK
+HEPHAESTUS tests/test_event_agents.py | exit 0 | Ran 4 tests in 6.540s OK
+HEPHAESTUS tests/check_r1_baselines.py | exit 0 | B0 has no ZERO DOOR decision/action/LLM/RBAC; profile adds no workload or RBAC PASS HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS Live Nemesis deployment mounts no results root/reader key PASS
+HEPHAESTUS tests/check_guard_manifests.py | exit 0 |
+HEPHAESTUS tests/test_command_guard_ci.py | exit 0 | Ran 6 tests in 0.091s OK
+== GUARDS: 3.11.9 fastapi 0.110.0 pydantic 2.6.4
+GUARDS tests/test_dashboard_measurement.py | exit 0 | Ran 24 tests in 14.124s OK
+GUARDS tests/test_dashboard_modes.py | exit 0 | Ran 7 tests in 8.419s OK
+GUARDS tests/test_command_guards.py | exit 0 | Ran 7 tests in 0.050s OK
+GUARDS tests/test_command_modes.py | exit 0 | Ran 3 tests in 0.004s OK
+GUARDS tests/test_command_guard_integration.py | exit 0 | Ran 13 tests in 4.103s OK
+GUARDS tests/test_event_agents.py | exit 0 | Ran 4 tests in 6.422s OK
+GUARDS tests/check_r1_baselines.py | exit 0 | B0 has no ZERO DOOR decision/action/LLM/RBAC; profile adds no workload or RBAC PASS HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS Live Nemesis deployment mounts no results root/reader key PASS
+GUARDS tests/check_guard_manifests.py | exit 0 |
+GUARDS tests/test_command_guard_ci.py | exit 0 | Ran 6 tests in 0.091s OK
+NEMESIS check_agent_dependencies nemesis | exit 0 | {
+HEPHAESTUS check_agent_dependencies hephaestus | exit 0 | {
+measurement offline (ZER-10, unchanged code) | exit 0 | Ran 134 tests in 152.503s OK {"e01_matches_hand_values": true, "e01_recompute": {"label": "RECOVERED", "mttd": 30.0, "mttr": 60.0, "reaction": 19.0, "total": 90.0}, "errors": 0, "failures": 0, "scope": "SYNTHETIC/OFFLINE only; not runtime evidence", "skipped": 0, "tests_run": 134, "verdict": "OFFLINE_PASS"}
+verify-dashboard-baselines --help | exit 0 |
+node --check app.js | exit 0 |
+node --check results.js | exit 0 |
+bandit (changed/new Python) | exit 0 |
+git diff --check | exit 0 |
+OVERALL exit 0

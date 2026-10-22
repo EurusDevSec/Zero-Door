@@ -1,0 +1,34 @@
+[
+ {
+  "case": "current-before-recovery",
+  "event_t_ms": 1800000001000,
+  "t_req": 1800000000000,
+  "t_rec": 1800000020000,
+  "actual": "CONTROLLER_RECOVERY_OBSERVED",
+  "expected": "CONTROLLER_RECOVERY_OBSERVED"
+ },
+ {
+  "case": "created-after-recovery",
+  "event_t_ms": 1800000025000,
+  "t_req": 1800000000000,
+  "t_rec": 1800000020000,
+  "actual": "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+  "expected": "RECOVERED_CONTROLLER_EVIDENCE_MISSING_OR_AMBIGUOUS"
+ },
+ {
+  "case": "missing-time",
+  "event_t_ms": null,
+  "t_req": 1800000000000,
+  "t_rec": 1800000020000,
+  "actual": "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+  "expected": "RECOVERED_CONTROLLER_EVIDENCE_MISSING_OR_AMBIGUOUS"
+ },
+ {
+  "case": "before-trial",
+  "event_t_ms": 1799999940000,
+  "t_req": 1800000000000,
+  "t_rec": 1800000020000,
+  "actual": "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
+  "expected": "RECOVERED_CONTROLLER_EVIDENCE_MISSING_OR_AMBIGUOUS"
+ }
+]

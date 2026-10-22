@@ -1,0 +1,7 @@
+{
+ "trials": {},
+ "uid_precondition_selftest": {
+  "configmap_still_present": true,
+  "state": "UID_CHANGED_NOT_DELETED"
+ }
+}

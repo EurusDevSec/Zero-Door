@@ -1,0 +1,2497 @@
+{
+ "approval": "Hoang-call_84d20afcbd014088a379b9fc172d89da-approved-RT1-shared-deadline",
+ "cap_s": 2901,
+ "cleanup": "CLEAN",
+ "cleanup_steps": [
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "pull evidence"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "cartservice-hpa-r1": "DELETED",
+    "frontend-hpa-r1": "DELETED"
+   },
+   "status": "DONE",
+   "step": "delete HPAs"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "cartservice": "UNCHANGED",
+    "frontend": "CLEANUP_SCALED 3->1"
+   },
+   "status": "DONE",
+   "step": "restore target replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "gaia": "CLEANUP_SCALED 0->1",
+    "hephaestus": "CLEANUP_SCALED 0->1"
+   },
+   "status": "DONE",
+   "step": "restore gaia/hephaestus replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED",
+   "status": "DONE",
+   "step": "delete profiles ConfigMap"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED, read back absent",
+   "status": "DONE",
+   "step": "delete namespace"
+  },
+  {
+   "attempts": 1,
+   "detail": "MATCHES_P0",
+   "status": "DONE",
+   "step": "final diff against P0"
+  }
+ ],
+ "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+ "context": "k3d-zero-door",
+ "created": [
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-5bb9b26c",
+   "namespace": null,
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "32612587-6ad4-430e-83e6-9b6f413d251a"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "namespace": "zd-zer11-5bb9b26c",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "2f6e9e5f-91b4-4c01-b72b-7c979c2c593d"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "namespace": "zd-zer11-5bb9b26c",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "b4b2c48a-6a60-4470-a435-c495b6b3cdea"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "namespace": "zero-door",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "95adce84-cf64-4635-98d1-363323ab47c2"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "namespace": "zd-zer11-5bb9b26c",
+   "phase": "P2",
+   "state": "CREATED",
+   "uid": "46e03fb6-070f-4075-ba0d-ca82eb9dc2fe"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "namespace": "target-app",
+   "phase": "P4",
+   "state": "CREATED",
+   "uid": "e4064629-a2eb-474d-9f86-f276996bbd89"
+  },
+  {
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "namespace": "target-app",
+   "phase": "P4",
+   "state": "CREATED",
+   "uid": "e9e4f046-ba75-490a-8d0e-8826fba560dd"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-load",
+   "namespace": "zd-zer11-5bb9b26c",
+   "phase": "P4",
+   "state": "CREATED",
+   "uid": "ca7c8d04-ffab-42c8-b2d6-ce8da66c096a"
+  }
+ ],
+ "elapsed_s": 606.313,
+ "final_diff": {
+  "deployments": {},
+  "hpas_left": [],
+  "namespace_left": false,
+  "profiles_left": []
+ },
+ "image": "zero-door/measurement:zer10-574a0c3a2dad",
+ "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+ "module_sha256": "3a87989b579023d38aebae8370f68fb16e4ff9d990a5d772bc0b84d7eb52b577",
+ "namespace": "zd-zer11-5bb9b26c",
+ "nonce": "5bb9b26c",
+ "p5": {
+  "errors": {},
+  "exports": {
+   "export-H": {
+    "export_json_sha256": "02f9b5831b9a3219c8107aed0c615361a665edeb84c8a3a116709e9793df9501",
+    "raw_sha256": "8d67525001c926a73135ef3f5b5d0fcce89ae9ed1773813720611f5dd2743da1",
+    "run_id": "run_57384640937b4fedab2e07d588ce46db"
+   },
+   "export-O": {
+    "export_json_sha256": "b14141f171da041ef04d2e9ad8626f8e3ad58a97b052c77daa3f0dc2275cb8a4",
+    "raw_sha256": "191e15d551751e7252d5083cef32a0145e2222b710fc4929bc5e75215a0b0b09",
+    "run_id": "run_57384640937b4fedab2e07d588ce46db"
+   },
+   "pc-export-H": {
+    "export_json_sha256": "2358faf26030eb36960623c00508832845b204a3c235f7259950b86edf6c6b85",
+    "raw_sha256": "abe34b14cb672abd22f59109c088c5c683e64c38d1cf86b58e6afe30c97909a4",
+    "run_id": "run_c5a543374f4342528e0867bbc40bee9f"
+   },
+   "pc-export-O": {
+    "export_json_sha256": "c6626c2ce27eb61bdf9a7f5c8d375683165114e9d89b1c88e44d521e3146b325",
+    "raw_sha256": "9608e7572c569aadcd2b4b95782c486700d779265de07c414e31f969dd8c42c0",
+    "run_id": "run_c5a543374f4342528e0867bbc40bee9f"
+   }
+  },
+  "ok": true
+ },
+ "p8": {
+  "directory": "rt1-57384640937b",
+  "positive_control_score": {
+   "mode_findings": {
+    "trl_c43e404694624fe480295b6bba67ddfa": [
+     "quarantined MODE_VIOLATION DECISION"
+    ]
+   },
+   "quarantined_mode_violations": 1
+  },
+  "registered": {
+   "dir": "rt1-57384640937b",
+   "group": "B0",
+   "registered_at": "2026-10-21T16:09:32Z",
+   "run_id": "run_57384640937b4fedab2e07d588ce46db",
+   "sha256": {
+    "incidents.csv": "3b1c3f7f18fde2181dd55ef596867601afc725a2f092fe408af0472732e2aba4",
+    "score.json": "ee2da9929d681aadb41343f5e3d12f9f1acb796db758e75d6506c7bb5e25ebe5",
+    "usage.csv": "97ee15b1853613e46589be137dcf7c896903ca0c8b806ac3af26a03feeabca1c"
+   },
+   "status": "CLOSED"
+  },
+  "serve": "verify-dashboard-baselines.sh serve-results --root C:\\Users\\ACER\\AppData\\Local\\Packages\\sandbox.{8d72322d-6d76-4dc7-a37f-4d339db38a0f}\\AC\\Temp\\zero-door-rt1-20261021-4d39d9f7-attempt04\\results --reader-key-file <new results-reader key file> --receipt <new file>",
+  "verdicts": {
+   "B0-CTRL": {
+    "absence_audit_complete": true,
+    "claim": "CONTROLLER_RECOVERY_OBSERVED",
+    "label": "RECOVERED_UNDETECTED",
+    "stop_point": "a"
+   },
+   "B0-HPA": {
+    "absence_audit_complete": true,
+    "claim": "NO_EFFECT",
+    "label": "CONFIRMED_NO_EFFECT",
+    "stop_point": "b"
+   }
+  }
+ },
+ "package": "H-RT1 / G-ZER11-RT1",
+ "phases": [
+  {
+   "phase": "P0",
+   "started": "2026-10-21T15:59:26.212Z",
+   "status": "DONE",
+   "t0_s": 0.0,
+   "t1_s": 1.407
+  },
+  {
+   "phase": "P1",
+   "started": "2026-10-21T15:59:27.618Z",
+   "status": "DONE",
+   "t0_s": 1.407,
+   "t1_s": 8.344
+  },
+  {
+   "phase": "P2",
+   "started": "2026-10-21T15:59:34.561Z",
+   "status": "DONE",
+   "t0_s": 8.344,
+   "t1_s": 44.094
+  },
+  {
+   "phase": "P3",
+   "started": "2026-10-21T16:00:10.312Z",
+   "status": "DONE",
+   "t0_s": 44.094,
+   "t1_s": 184.453
+  },
+  {
+   "phase": "P4",
+   "started": "2026-10-21T16:02:30.679Z",
+   "status": "DONE",
+   "t0_s": 184.453,
+   "t1_s": 199.688
+  },
+  {
+   "phase": "P4-trial",
+   "started": "2026-10-21T16:02:45.909Z",
+   "status": "DONE",
+   "t0_s": 199.688,
+   "t1_s": 564.719
+  },
+  {
+   "phase": "P5",
+   "started": "2026-10-21T16:08:50.931Z",
+   "status": "DONE",
+   "t0_s": 564.719,
+   "t1_s": 565.375
+  },
+  {
+   "phase": "P7",
+   "started": "2026-10-21T16:08:51.591Z",
+   "status": "DONE",
+   "t0_s": 565.375,
+   "t1_s": 605.672
+  }
+ ],
+ "pod_deletes": {
+  "frontend_pod": 1
+ },
+ "reads": 1101,
+ "trials": {
+  "B0-CTRL": {
+   "fault": {
+    "delete": "DELETED",
+    "deleted_pod": "frontend-84b6b4cf7-lvd4p",
+    "deleted_uid": "2c8a6df8-4967-4176-a94c-e1b3bfc20784",
+    "owner": [
+     "ReplicaSet/frontend-84b6b4cf7"
+    ],
+    "owner_uids": [
+     "735251fc-2e9b-4996-a810-b9873020187a"
+    ],
+    "pods_before": [
+     "2c8a6df8-4967-4176-a94c-e1b3bfc20784"
+    ],
+    "stopped": "EXECUTOR_ENDED",
+    "t_req": "2026-10-21T16:01:11.427Z"
+   },
+   "summary": {
+    "audit_coverage": {
+     "complete": true,
+     "failed_ticks": [],
+     "max_gap_s": 3.582,
+     "o_actions": 0,
+     "ticks": 53
+    },
+    "effect": {
+     "reason": "FIRST_FAILING_SAMPLE",
+     "status": "CONFIRMED",
+     "t_eff": 1792598471603
+    },
+    "end_reason": "PLANNED",
+    "incident_id": "inc_41344255ba7145b98059843ed3bcb3b5",
+    "name": "B0-CTRL",
+    "probe": {
+     "cancelled": 0,
+     "clock_sync_failed": 0,
+     "delivery": {
+      "delivered": 153,
+      "late": 0,
+      "rejected": 0,
+      "retries": 0
+     },
+     "fail": 34,
+     "grace_s": 10,
+     "heartbeats": 49,
+     "max_duration_s": 995,
+     "pass": 70,
+     "registration": {
+      "clock_id": "clk-rt1",
+      "flow": "checkout",
+      "probe_id": "prb-rt1",
+      "probe_version": "p1"
+     },
+     "requests": 410,
+     "samples": 104,
+     "skipped_slots": 35,
+     "stop_reason": "CANCELLED",
+     "undelivered": 0,
+     "unresolved_cleanup": [
+      {
+       "cancelled": false,
+       "cleanup": {
+        "cart": "CONNECTION_RESET"
+       },
+       "t_start": "2026-10-21T16:01:11.603Z"
+      }
+     ],
+     "wall_s": 138.045
+    },
+    "recovery_verified": true,
+    "samples": 104,
+    "stop_point": "a",
+    "stop_reason": "RECOVERY_VERIFIED",
+    "t_trial_end": "2026-10-21T16:02:30.376Z",
+    "trial_id": "trl_0b7a4c3ea59f4cd5ac15fc11dfc69dd7",
+    "unrecorded": []
+   },
+   "ticks": [
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 44.766,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 47.407,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 50.141,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 52.797,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 55.625,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 58.344,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 60.985,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 63.625,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 66.328,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 68.938,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 71.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 74.25,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 76.875,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 79.735,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 82.391,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 85.032,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 87.672,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 90.61,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 93.391,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 96.094,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 98.766,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 101.797,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 104.485,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 108.063,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 110.735,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 113.453,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 116.125,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 118.922,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 121.563,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 124.282,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 126.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 129.61,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 132.282,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 134.953,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 137.672,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 140.328,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 142.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 145.641,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 148.297,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 150.985,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 153.625,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 156.297,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 159.0,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 161.641,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 164.391,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 167.047,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 169.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 172.641,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 175.282,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 177.922,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 180.563,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 183.188,
+     "zd_pods": 0
+    }
+   ],
+   "trial_id": "trl_0b7a4c3ea59f4cd5ac15fc11dfc69dd7"
+  },
+  "B0-HPA": {
+   "fault": {
+    "frontend_replicas_before": 1,
+    "hpa_uid": "e4064629-a2eb-474d-9f86-f276996bbd89",
+    "load_result": "{\"duration_s\": 180.0, \"error\": 0, \"max_requests\": 3600, \"ok\": 3599, \"sent\": 3599}\n",
+    "load_s": 180,
+    "load_started_s": 48371.718,
+    "load_uid": "ca7c8d04-ffab-42c8-b2d6-ce8da66c096a",
+    "stopped": "EXECUTOR_ENDED",
+    "t_req": "2026-10-21T16:03:48.786Z"
+   },
+   "summary": {
+    "audit_coverage": {
+     "complete": true,
+     "failed_ticks": [],
+     "max_gap_s": 5.196,
+     "o_actions": 0,
+     "ticks": 120
+    },
+    "effect": {
+     "reason": "COVERED_WITHOUT_FAILURE",
+     "status": "CONFIRMED_NO_EFFECT",
+     "t_eff": null
+    },
+    "end_reason": "PLANNED",
+    "incident_id": "inc_f3d1dff7ac49495c9cf442a980337a3c",
+    "name": "B0-HPA",
+    "probe": {
+     "cancelled": 0,
+     "clock_sync_failed": 0,
+     "delivery": {
+      "delivered": 505,
+      "late": 0,
+      "rejected": 0,
+      "retries": 0
+     },
+     "fail": 0,
+     "grace_s": 10,
+     "heartbeats": 141,
+     "max_duration_s": 995,
+     "pass": 364,
+     "registration": {
+      "clock_id": "clk-rt1",
+      "flow": "checkout",
+      "probe_id": "prb-rt1",
+      "probe_version": "p1"
+     },
+     "requests": 1820,
+     "samples": 364,
+     "skipped_slots": 0,
+     "stop_reason": "CANCELLED",
+     "undelivered": 0,
+     "unresolved_cleanup": [],
+     "wall_s": 363.262
+    },
+    "recovery_verified": false,
+    "samples": 364,
+    "stop_point": "b",
+    "stop_reason": "NO_EFFECT_COVERED",
+    "t_trial_end": "2026-10-21T16:08:50.673Z",
+    "trial_id": "trl_a4359478f89a4df5b55f0e8d9915025a",
+    "unrecorded": []
+   },
+   "ticks": [
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 200.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 203.5,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 206.391,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 209.266,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 212.219,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 215.172,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 218.125,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 221.0,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 223.875,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 226.75,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 229.703,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 232.641,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 235.5,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 238.735,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 241.61,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 244.469,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 247.407,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 250.266,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 253.188,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 256.125,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 258.985,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 261.844,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 265.438,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 268.578,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 271.75,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 274.766,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 277.875,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 280.891,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 284.157,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 1,
+      "frontend_replicas": 1,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 287.141,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 2,
+      "frontend_replicas": 2,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 290.203,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 2,
+      "frontend_replicas": 2,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 293.188,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 2,
+      "frontend_replicas": 2,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 296.344,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 2,
+      "frontend_replicas": 2,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 299.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 1,
+      "desired": 2,
+      "frontend_replicas": 2,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 303.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 2,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 307.063,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 2,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 310.282,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 2,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 313.375,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 2,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 316.735,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 2,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 319.86,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 322.922,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 325.907,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 328.891,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 331.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 335.266,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 338.719,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 342.219,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 345.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 350.782,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 354.407,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 358.782,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 362.532,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 365.625,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 368.688,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 371.813,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 374.891,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 378.094,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 381.172,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 384.344,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 387.891,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 391.657,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 394.985,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 398.047,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 401.219,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 404.25,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 407.25,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 410.219,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 413.282,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 416.25,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 419.313,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 422.266,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 425.266,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 428.344,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 431.438,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 434.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 437.75,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 440.75,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 443.766,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 446.735,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 450.125,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 452.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 455.813,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 458.672,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 461.547,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 464.391,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 467.235,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 470.094,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 473.016,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 475.969,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 479.032,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 481.938,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 484.907,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 487.813,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 490.719,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 493.688,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 496.563,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 499.532,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 502.422,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 505.328,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 508.172,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 511.078,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 513.985,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 516.86,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 519.782,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 522.766,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 525.657,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 528.563,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 531.438,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 534.344,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 537.219,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 540.094,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 543.047,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 545.922,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 548.813,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 551.688,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 554.594,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 557.469,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 560.422,
+     "zd_pods": 0
+    },
+    {
+     "errors": [],
+     "hpa": {
+      "current": 3,
+      "desired": 3,
+      "frontend_replicas": 3,
+      "managers": []
+     },
+     "nodes_ready": true,
+     "ok": true,
+     "t_s": 563.313,
+     "zd_pods": 0
+    }
+   ],
+   "trial_id": "trl_a4359478f89a4df5b55f0e8d9915025a"
+  }
+ },
+ "verdict": "COMPLETED",
+ "writes": [
+  {
+   "at": "2026-10-21T15:59:27.768Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-5bb9b26c",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:59:27.925Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:59:28.037Z",
+   "exit": 1,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:59:28.303Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:59:31.232Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:59:31.359Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P1",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:59:31.488Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P1",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:59:35.079Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:59:35.331Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:59:37.961Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T16:01:11.613Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "frontend-84b6b4cf7-lvd4p",
+   "phase": "P3",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T16:02:30.824Z",
+   "exit": 0,
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "phase": "P4",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T16:02:30.954Z",
+   "exit": 0,
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "phase": "P4",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T16:03:48.966Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "zd-rt1-load",
+   "phase": "P4",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T16:08:51.702Z",
+   "exit": 0,
+   "kind": "HorizontalPodAutoscaler",
+   "name": "frontend-hpa-r1",
+   "phase": "P7",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T16:08:51.809Z",
+   "exit": 0,
+   "kind": "HorizontalPodAutoscaler",
+   "name": "cartservice-hpa-r1",
+   "phase": "P7",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T16:08:52.071Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "frontend",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T16:08:52.448Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T16:08:52.703Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T16:08:52.814Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P7",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T16:08:52.934Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-5bb9b26c",
+   "phase": "P7",
+   "verb": "delete"
+  }
+ ]
+}

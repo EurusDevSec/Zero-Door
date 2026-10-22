@@ -1,0 +1,3 @@
+fail-before-isolated exit 1
+fail-before-kubectl-default exit 1
+expected-fixed exit 0

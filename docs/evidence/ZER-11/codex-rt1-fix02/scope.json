@@ -1,0 +1,16 @@
+{
+  "authority": "Hoang: sửa trực tiếp phần còn lại; offline only",
+  "scope": [
+    "infrastructure/scripts/r1_baseline_runtime.py",
+    "tests/test_dashboard_baseline_runtime.py",
+    "docs/runbooks/dashboard-and-baselines.md",
+    "docs/evidence/ZER-11/codex-rt1-fix02.md",
+    "docs/delivery/NOW.md",
+    "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md"
+  ],
+  "hashes": {
+    "infrastructure/scripts/r1_baseline_runtime.py": "0e5be095ba92047e772f2755875de0d532ffb3db69c8140c51edadbd44898206",
+    "tests/test_dashboard_baseline_runtime.py": "c7eeaa5860d7aab34ec56be3d08509b8d5074e68a7bb1624d0709a413b5b9db7",
+    "docs/runbooks/dashboard-and-baselines.md": "1c374cad2039c2109654d39101b76b14608b8d0bfcae72e974293dae3ce40192"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "head": "169413303340fc01eea8597c121ce39455892af0",
+  "changed": {
+    "infrastructure/scripts/r1_baseline_runtime.py": "3a87989b579023d38aebae8370f68fb16e4ff9d990a5d772bc0b84d7eb52b577",
+    "infrastructure/scripts/verify-dashboard-baselines.py": "8f2bff44384ff9638e47d5e751b87dc611358eaefcecdeaa6783878429614be7",
+    "tests/test_dashboard_baseline_runtime.py": "e647f15d033865fa6756df39d1ec76ffeb39233df5cf46ec9166a8cfe43d3d47",
+    "tests/test_dashboard_measurement.py": "14c4f69f6f171eacd6fdd01a2d7ae7b7224d21c82074a1c10791b16a680f4ad8",
+    "docs/runbooks/dashboard-and-baselines.md": "42a059b1d6d6a51c6b9d609e87ef3511909138aead13be3eb0194d16c55b0da1",
+    "docs/delivery/NOW.md": "e6ceb2d92865e6f1a7cc330b3e60e7bb8734897e46993fee28c43bd2004501ea",
+    "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md": "2b63c4d518c1bbd79f204bd64f3ea59a17c09ff86f5d31b51f966903fe209906"
+  },
+  "snapshot_sources": "scratch/zer11/claude-rt1-fix01/before.json",
+  "permission": "Hoang call_84d20afcbd014088a379b9fc172d89da",
+  "protected_checked": 245,
+  "protected_mismatches": []
+}

@@ -1,0 +1,32 @@
+[
+ {
+  "run": "n1-final-par3/r2-p1",
+  "test": "Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete",
+  "kind": "FAIL",
+  "message": "AssertionError: 'FAILED' != 'DONE'",
+  "max_append_fsync_ms": 3705.09,
+  "max_submit_ms": 6387.42,
+  "max_deliver_ms": 4406.51,
+  "retries": 1
+ },
+ {
+  "run": "n1-final-par3/r2-p2",
+  "test": "Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete",
+  "kind": "FAIL",
+  "message": "AssertionError: 'FAILED' != 'DONE'",
+  "max_append_fsync_ms": 3704.85,
+  "max_submit_ms": 6388.99,
+  "max_deliver_ms": 4407.59,
+  "retries": 1
+ },
+ {
+  "run": "n1-final-par3/r2-p3",
+  "test": "Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete",
+  "kind": "FAIL",
+  "message": "AssertionError: 'FAILED' != 'DONE'",
+  "max_append_fsync_ms": 3705.06,
+  "max_submit_ms": 6387.19,
+  "max_deliver_ms": 4406.47,
+  "retries": 1
+ }
+]

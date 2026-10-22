@@ -1,0 +1,414 @@
+{
+  "verdict": "PASS_INDEPENDENT_RAW_AND_CLEANUP",
+  "checks": [
+    {
+      "check": "live read target-app",
+      "pass": true
+    },
+    {
+      "check": "same deployment set target-app",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/cartservice",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/checkoutservice",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/currencyservice",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/emailservice",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/frontend",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/paymentservice",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/productcatalogservice",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/redis-cart",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready target-app/shippingservice",
+      "pass": true
+    },
+    {
+      "check": "live read zero-door",
+      "pass": true
+    },
+    {
+      "check": "same deployment set zero-door",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready zero-door/chaos-worker",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready zero-door/gaia",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready zero-door/hephaestus",
+      "pass": true
+    },
+    {
+      "check": "UID/spec/ready zero-door/nemesis",
+      "pass": true
+    },
+    {
+      "check": "namespace explicitly absent",
+      "pass": true
+    },
+    {
+      "check": "read resourcequota",
+      "pass": true
+    },
+    {
+      "check": "UID/spec unchanged resourcequota",
+      "pass": true
+    },
+    {
+      "check": "read hpa",
+      "pass": true
+    },
+    {
+      "check": "UID/spec unchanged hpa",
+      "pass": true
+    },
+    {
+      "check": "read networkpolicy",
+      "pass": true
+    },
+    {
+      "check": "UID/spec unchanged networkpolicy",
+      "pass": true
+    },
+    {
+      "check": "B1 raw manifest",
+      "pass": true
+    },
+    {
+      "check": "B1 envelope hash 0",
+      "pass": true
+    },
+    {
+      "check": "B1 envelope hash 1",
+      "pass": true
+    },
+    {
+      "check": "B1 envelope hash 2",
+      "pass": true
+    },
+    {
+      "check": "B1 envelope hash 3",
+      "pass": true
+    },
+    {
+      "check": "B1 archive equals summary",
+      "pass": true
+    },
+    {
+      "check": "B1 run group isolation",
+      "pass": true
+    },
+    {
+      "check": "B1 trial isolation",
+      "pass": true
+    },
+    {
+      "check": "B1 events bounded",
+      "pass": true
+    },
+    {
+      "check": "B1 detector attribution",
+      "pass": true
+    },
+    {
+      "check": "B1 decision and causation",
+      "pass": true
+    },
+    {
+      "check": "B1 before real disabled health",
+      "pass": true
+    },
+    {
+      "check": "B1 after real disabled health",
+      "pass": true
+    },
+    {
+      "check": "B2 raw manifest",
+      "pass": true
+    },
+    {
+      "check": "B2 envelope hash 0",
+      "pass": true
+    },
+    {
+      "check": "B2 envelope hash 1",
+      "pass": true
+    },
+    {
+      "check": "B2 envelope hash 2",
+      "pass": true
+    },
+    {
+      "check": "B2 archive equals summary",
+      "pass": true
+    },
+    {
+      "check": "B2 run group isolation",
+      "pass": true
+    },
+    {
+      "check": "B2 trial isolation",
+      "pass": true
+    },
+    {
+      "check": "B2 events bounded",
+      "pass": true
+    },
+    {
+      "check": "B2 detector attribution",
+      "pass": true
+    },
+    {
+      "check": "B2 no AI decision",
+      "pass": true
+    },
+    {
+      "check": "B2 live consumer audit",
+      "pass": true
+    },
+    {
+      "check": "B2 before real disabled health",
+      "pass": true
+    },
+    {
+      "check": "B2 after real disabled health",
+      "pass": true
+    },
+    {
+      "check": "B3 raw manifest",
+      "pass": true
+    },
+    {
+      "check": "B3 envelope hash 0",
+      "pass": true
+    },
+    {
+      "check": "B3 envelope hash 1",
+      "pass": true
+    },
+    {
+      "check": "B3 envelope hash 2",
+      "pass": true
+    },
+    {
+      "check": "B3 archive equals summary",
+      "pass": true
+    },
+    {
+      "check": "B3 run group isolation",
+      "pass": true
+    },
+    {
+      "check": "B3 trial isolation",
+      "pass": true
+    },
+    {
+      "check": "B3 events bounded",
+      "pass": true
+    },
+    {
+      "check": "B3 detector attribution",
+      "pass": true
+    },
+    {
+      "check": "B3 no AI decision",
+      "pass": true
+    },
+    {
+      "check": "B3 live consumer audit",
+      "pass": true
+    },
+    {
+      "check": "B3 before real disabled health",
+      "pass": true
+    },
+    {
+      "check": "B3 after real disabled health",
+      "pass": true
+    },
+    {
+      "check": "BM raw manifest",
+      "pass": true
+    },
+    {
+      "check": "BM envelope hash 0",
+      "pass": true
+    },
+    {
+      "check": "BM envelope hash 1",
+      "pass": true
+    },
+    {
+      "check": "BM envelope hash 2",
+      "pass": true
+    },
+    {
+      "check": "BM envelope hash 3",
+      "pass": true
+    },
+    {
+      "check": "BM archive equals summary",
+      "pass": true
+    },
+    {
+      "check": "BM run group isolation",
+      "pass": true
+    },
+    {
+      "check": "BM trial isolation",
+      "pass": true
+    },
+    {
+      "check": "BM events bounded",
+      "pass": true
+    },
+    {
+      "check": "BM detector attribution",
+      "pass": true
+    },
+    {
+      "check": "BM decision and causation",
+      "pass": true
+    },
+    {
+      "check": "BM live consumer audit",
+      "pass": true
+    },
+    {
+      "check": "manual receipt",
+      "pass": true
+    },
+    {
+      "check": "manual disabled executor audit",
+      "pass": true
+    },
+    {
+      "check": "BM before real disabled health",
+      "pass": true
+    },
+    {
+      "check": "BM after real disabled health",
+      "pass": true
+    },
+    {
+      "check": "unique event IDs",
+      "pass": true
+    },
+    {
+      "check": "source attestation driver",
+      "pass": true
+    },
+    {
+      "check": "source attestation console",
+      "pass": true
+    },
+    {
+      "check": "source attestation bm",
+      "pass": true
+    },
+    {
+      "check": "source attestation b1",
+      "pass": true
+    },
+    {
+      "check": "source attestation b2",
+      "pass": true
+    },
+    {
+      "check": "source attestation b3",
+      "pass": true
+    },
+    {
+      "check": "network boundaries",
+      "pass": true
+    },
+    {
+      "check": "console O only",
+      "pass": true
+    },
+    {
+      "check": "bad operator token refused",
+      "pass": true
+    },
+    {
+      "check": "full 180s and fail preserved",
+      "pass": true
+    },
+    {
+      "check": "healthy before failed GET",
+      "pass": true
+    },
+    {
+      "check": "tight interval and cap",
+      "pass": true
+    },
+    {
+      "check": "warmup separate retained",
+      "pass": true
+    },
+    {
+      "check": "global frontend GET upper bound",
+      "pass": true
+    },
+    {
+      "check": "exactly one frontend deletion all attempts",
+      "pass": true
+    },
+    {
+      "check": "all attempt cleanup clean",
+      "pass": true
+    },
+    {
+      "check": "within single 45min authority",
+      "pass": true
+    },
+    {
+      "check": "OCI digest chain",
+      "pass": true
+    }
+  ],
+  "check_count": 98,
+  "events": {
+    "B1": 4,
+    "B2": 3,
+    "B3": 3,
+    "BM": 4
+  },
+  "monitor_samples": 81,
+  "failed_samples": 14,
+  "monitor_duration_s": 180.3862891270037,
+  "frontend_get_upper_bound_all_attempts": 258,
+  "limitations": [
+    "scripted MANUAL, not human blind BM",
+    "HTTP availability only; not business recovery",
+    "no Gaia/LLM quality or KPI claim",
+    "prior attempt exact request count unknown; conservative bound used"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+ "failed": true,
+ "skipped": [],
+ "result": {
+  "verdict": "ABORTED",
+  "abort": "WRITE_FAILED (create Namespace zd-zer11-5da9a141: Error from server (AlreadyExists): \"zd-zer11-5da9a141\" already exists)",
+  "final_diff": {
+   "deployments": {},
+   "hpas_left": [],
+   "profiles_left": [],
+   "namespace_left": true
+  },
+  "cleanup": "INCOMPLETE",
+  "p8": {
+   "skipped": "MAIN_EXPORTS_MISSING",
+   "exports": []
+  }
+ },
+ "kubectl_calls": 24
+}

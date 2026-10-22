@@ -1,0 +1,128 @@
+[
+  {
+    "path": ".github/workflows/ci.yml",
+    "match": true,
+    "actual": "0d656ef229514b3b2bc9129366de34d2ad06b5275765cb4cf67aa1682844376b",
+    "expected": "0d656ef229514b3b2bc9129366de34d2ad06b5275765cb4cf67aa1682844376b"
+  },
+  {
+    "path": "docs/delivery/NOW.md",
+    "match": true,
+    "actual": "02f35693f183273c581b1eebcc0d6493e97d94e650501830002d1302064e922c",
+    "expected": "02f35693f183273c581b1eebcc0d6493e97d94e650501830002d1302064e922c"
+  },
+  {
+    "path": "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md",
+    "match": true,
+    "actual": "c00bdc843d89a96cbbec505ea6fa6c0303068072a7eab8cb38d2a8383439892b",
+    "expected": "c00bdc843d89a96cbbec505ea6fa6c0303068072a7eab8cb38d2a8383439892b"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/README.md",
+    "match": true,
+    "actual": "4bd46fb74508db3c75d780ed58a6793594efa98deea8fdba647e51ea67766c5a",
+    "expected": "4bd46fb74508db3c75d780ed58a6793594efa98deea8fdba647e51ea67766c5a"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/check_mutants.py",
+    "match": true,
+    "actual": "2b0277b30395ddf3453211c0486c1e29c9ea8046744bfd1c545e08d56e2f6ef5",
+    "expected": "2b0277b30395ddf3453211c0486c1e29c9ea8046744bfd1c545e08d56e2f6ef5"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/clean_checkout.sh",
+    "match": true,
+    "actual": "e03ce27313297b73b1145c5cf50a520bbce668af8f470e5f33e4460b84ddb7a6",
+    "expected": "e03ce27313297b73b1145c5cf50a520bbce668af8f470e5f33e4460b84ddb7a6"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/clean-checkout-attempt1.txt",
+    "match": true,
+    "actual": "449f1c6101f4ec92a593fd03cad7db61550e56ab9a3e810dc10987518d0faa48",
+    "expected": "449f1c6101f4ec92a593fd03cad7db61550e56ab9a3e810dc10987518d0faa48"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/clean-checkout.txt",
+    "match": true,
+    "actual": "224ad9f2560e707089cd7903da1d820585b22170cd8326ebcf1759a5a4b7bc57",
+    "expected": "224ad9f2560e707089cd7903da1d820585b22170cd8326ebcf1759a5a4b7bc57"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/mutants-attempt1.json",
+    "match": true,
+    "actual": "520054a5230ace40e7fa2f53a826468969c8bb0ef8c7af44b5c76888a6fdad6b",
+    "expected": "520054a5230ace40e7fa2f53a826468969c8bb0ef8c7af44b5c76888a6fdad6b"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/mutants-attempt2.json",
+    "match": true,
+    "actual": "a21581edb92f086810f8b4230708cd8c7858066198af15fdd91c66188ec7d603",
+    "expected": "a21581edb92f086810f8b4230708cd8c7858066198af15fdd91c66188ec7d603"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/mutants.json",
+    "match": true,
+    "actual": "9e331e823e9aad5dded5fbda75aee249523cdf669d6950e1560444d6165ee088",
+    "expected": "9e331e823e9aad5dded5fbda75aee249523cdf669d6950e1560444d6165ee088"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/plan-check.json",
+    "match": true,
+    "actual": "2468ed6b153e5b527017efd5e6be0d8ef2cbd91c44d7bee4f85be40350de88fd",
+    "expected": "2468ed6b153e5b527017efd5e6be0d8ef2cbd91c44d7bee4f85be40350de88fd"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/regressions-attempt1.txt",
+    "match": true,
+    "actual": "8e3d0463feee9e7f1f4d4dedf60d799e216074876ef380d536431decc86f5fa3",
+    "expected": "8e3d0463feee9e7f1f4d4dedf60d799e216074876ef380d536431decc86f5fa3"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/regressions-attempt2.txt",
+    "match": true,
+    "actual": "a104e93196c5ad9a539e98f2b8ef6f2bde1903f06906e6c43324bab6d7dd8579",
+    "expected": "a104e93196c5ad9a539e98f2b8ef6f2bde1903f06906e6c43324bab6d7dd8579"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/regressions.txt",
+    "match": true,
+    "actual": "f8e79ff962c687a6516c7674079eefc6ce4fde9c694da732fc2dec548d74c7f1",
+    "expected": "f8e79ff962c687a6516c7674079eefc6ce4fde9c694da732fc2dec548d74c7f1"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/results/rt1-matrix.json",
+    "match": true,
+    "actual": "72f58eabe6cf4378db0eaaf4281a5de8c2ee663f3b8a30721cc18bebcdbce0fe",
+    "expected": "72f58eabe6cf4378db0eaaf4281a5de8c2ee663f3b8a30721cc18bebcdbce0fe"
+  },
+  {
+    "path": "docs/evidence/ZER-11/rt1-preparation/run_regressions.sh",
+    "match": true,
+    "actual": "0e77e09e41feaef2e4cbf73252299fdb10ef9bc35ea62a5be9548b68d1d9ffcc",
+    "expected": "0e77e09e41feaef2e4cbf73252299fdb10ef9bc35ea62a5be9548b68d1d9ffcc"
+  },
+  {
+    "path": "docs/runbooks/dashboard-and-baselines.md",
+    "match": true,
+    "actual": "90a7c690394baae207f450249d203358107560ebd8f599e2f73d009c976a2d85",
+    "expected": "90a7c690394baae207f450249d203358107560ebd8f599e2f73d009c976a2d85"
+  },
+  {
+    "path": "infrastructure/scripts/r1_baseline_runtime.py",
+    "match": true,
+    "actual": "dd0062edea8fc0919717c546b0c2c10b29ec82d9f7048132549cc271d5f0db8e",
+    "expected": "dd0062edea8fc0919717c546b0c2c10b29ec82d9f7048132549cc271d5f0db8e"
+  },
+  {
+    "path": "infrastructure/scripts/verify-dashboard-baselines.py",
+    "match": true,
+    "actual": "72e114fe2d3bb6b88c39e980e9299a15db6e3898caa0340f7598e898f7407f3b",
+    "expected": "72e114fe2d3bb6b88c39e980e9299a15db6e3898caa0340f7598e898f7407f3b"
+  },
+  {
+    "path": "tests/test_dashboard_baseline_runtime.py",
+    "match": true,
+    "actual": "7075498d786d52bb52ddd5c214e7f094cd9360ce4c57b1a39724c5439a928bad",
+    "expected": "7075498d786d52bb52ddd5c214e7f094cd9360ce4c57b1a39724c5439a928bad"
+  }
+]

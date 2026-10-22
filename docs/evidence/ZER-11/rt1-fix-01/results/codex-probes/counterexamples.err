@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-11\codex-rt1-review\counterexamples.py", line 67, in <module>
+    case_managed_fields(); case_create_unknown(); case_disk_error()
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-11\codex-rt1-review\counterexamples.py", line 32, in case_managed_fields
+    assert res.get('abort')=='ATTRIBUTION_CONTROL_FAILED' and not r.orch.trials
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

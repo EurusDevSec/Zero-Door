@@ -1,0 +1,9 @@
+clean tree: git archive 1694133 + 20 package files; scratch/ present: no
+NEMESIS tests/test_dashboard_measurement.py | exit 0 | Ran 24 tests in 16.997s OK
+HEPHAESTUS tests/test_dashboard_modes.py | exit 0 | Ran 7 tests in 8.410s OK
+HEPHAESTUS tests/check_r1_baselines.py | exit 0 | HPA targets ['cartservice', 'frontend'] exist with CPU requests; bounds 1..3 = MAX_REPLICAS PASS Live Nemesis deployment mounts no results root/reader key PASS
+NEMESIS tests/test_command_guard_integration.py | exit 0 | Ran 13 tests in 4.080s OK
+HEPHAESTUS tests/test_event_agents.py | exit 0 | Ran 4 tests in 6.686s OK
+NEMESIS tests/test_command_guard_ci.py | exit 0 | Ran 6 tests in 0.164s OK
+--help | exit 0 | usage: verify-dashboard-baselines [-h]
+OVERALL exit 0

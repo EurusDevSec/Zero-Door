@@ -1,0 +1,314 @@
+{
+ "abort": "ATTRIBUTION_CONTROL_FAILED",
+ "approval": "Hoang RT1 approved; diagnostic canary only, no target fault",
+ "cap_s": 300,
+ "cleanup": "CLEAN",
+ "cleanup_steps": [
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "pull evidence"
+  },
+  {
+   "attempts": 1,
+   "detail": "SKIPPED",
+   "status": "SKIPPED",
+   "step": "delete HPAs"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "cartservice": "UNCHANGED",
+    "frontend": "UNCHANGED"
+   },
+   "status": "DONE",
+   "step": "restore target replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": {
+    "gaia": "CLEANUP_SCALED 0->1",
+    "hephaestus": "CLEANUP_SCALED 0->1"
+   },
+   "status": "DONE",
+   "step": "restore gaia/hephaestus replicas"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED",
+   "status": "DONE",
+   "step": "delete profiles ConfigMap"
+  },
+  {
+   "attempts": 1,
+   "detail": "DELETED, read back absent",
+   "status": "DONE",
+   "step": "delete namespace"
+  },
+  {
+   "attempts": 1,
+   "detail": "MATCHES_P0",
+   "status": "DONE",
+   "step": "final diff against P0"
+  }
+ ],
+ "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+ "context": "k3d-zero-door",
+ "created": [
+  {
+   "kind": "Namespace",
+   "name": "zd-zer11-e68c9994",
+   "namespace": null,
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "5b4eae8d-d32b-4145-8765-c32ca8640e74"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "namespace": "zd-zer11-e68c9994",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "5b4a6c0a-3f92-4962-be8b-77e15079da28"
+  },
+  {
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "namespace": "zd-zer11-e68c9994",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "57c1cb10-cbd2-4fc6-8352-62b15633caa8"
+  },
+  {
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "namespace": "zero-door",
+   "phase": "P1",
+   "state": "CREATED",
+   "uid": "523ca433-0131-4b95-87db-0f4450574db0"
+  },
+  {
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "namespace": "zd-zer11-e68c9994",
+   "phase": "P2",
+   "state": "CREATED",
+   "uid": "d4341bb2-83a7-4812-af20-df09af6e20c0"
+  }
+ ],
+ "elapsed_s": 90.937,
+ "final_diff": {
+  "deployments": {},
+  "hpas_left": [],
+  "namespace_left": false,
+  "profiles_left": []
+ },
+ "image": "zero-door/measurement:zer10-574a0c3a2dad",
+ "image_id": "sha256:baf75538e5b84408f7d53d55b3c8601cb0f6221b3703d3cf05a877dce82d8932",
+ "module_sha256": "9d90d1083bc7f879d16b2426b3b2e292466ca1d8c8617b07da02dc8dbfcd0c7a",
+ "namespace": "zd-zer11-e68c9994",
+ "nonce": "e68c9994",
+ "p5": {
+  "errors": {},
+  "exports": {
+   "export-H": {
+    "export_json_sha256": "cfa4f90aa29d596b85d54a7ed3e3cedb55f54cd1c7a7872db28a759db22f0824",
+    "raw_sha256": "1a51f2699111c51871be80fd9df9564c7a0d2284774c95087f04bac3dc89e583",
+    "run_id": "run_73a4a7404dfa4e31b2b3f92f5bfdc0de"
+   },
+   "export-O": {
+    "export_json_sha256": "f14aea89205e1fa2a6488f6191c1cc9c103e0651eb7b0aef370c925edcbd3273",
+    "raw_sha256": "8afef6c8c3fe59e7f79b47c21b7ab8b15a6b8c1e47fb6d137d16aead431e6f93",
+    "run_id": "run_73a4a7404dfa4e31b2b3f92f5bfdc0de"
+   },
+   "pc-export-H": {
+    "export_json_sha256": "2d66ec3aecaf0f4696c9e3ede893f538edfde58d7d4d03cf6705f97cd4ef52e4",
+    "raw_sha256": "244d2c6a617810bbe27649418850c4dc7d5b268e3fee8c82114ef54997a04420",
+    "run_id": "run_5e18685a97a14e9486ef47ef09386283"
+   },
+   "pc-export-O": {
+    "export_json_sha256": "ee69883deaf1dc47c62e9ac892ac79c5dac1d32c91c6ffa6d90cf87b963a0632",
+    "raw_sha256": "f157d3e50ece5c42710d3a915e07c7c8c1f022f56903851ab9b176f463150f76",
+    "run_id": "run_5e18685a97a14e9486ef47ef09386283"
+   }
+  },
+  "ok": true
+ },
+ "p8": {
+  "directory": "rt1-73a4a7404dfa",
+  "positive_control_score": {
+   "mode_findings": {
+    "trl_f2e9d9f0bc14412ea88355e063643d69": [
+     "quarantined MODE_VIOLATION DECISION"
+    ]
+   },
+   "quarantined_mode_violations": 1
+  },
+  "registered": {
+   "dir": "rt1-73a4a7404dfa",
+   "group": "B0",
+   "registered_at": "2026-10-21T15:58:15Z",
+   "run_id": "run_73a4a7404dfa4e31b2b3f92f5bfdc0de",
+   "sha256": {
+    "incidents.csv": "f128e0dafd76bea1bceb3e68c57c39c5d241c7e9e00f9e12a8a15ca5b84f5041",
+    "score.json": "6a32c436042a3eb51d3ae310fde216dc223133c8a8131f88b9a0d82c04975dee",
+    "usage.csv": "97ee15b1853613e46589be137dcf7c896903ca0c8b806ac3af26a03feeabca1c"
+   },
+   "status": "CLOSED"
+  },
+  "serve": "verify-dashboard-baselines.sh serve-results --root C:\\Users\\ACER\\AppData\\Local\\Packages\\sandbox.{8d72322d-6d76-4dc7-a37f-4d339db38a0f}\\AC\\Temp\\zero-door-rt1-20261021-4d39d9f7-diagnostic\\results --reader-key-file <new results-reader key file> --receipt <new file>",
+  "verdicts": {}
+ },
+ "package": "H-RT1 / G-ZER11-RT1",
+ "phases": [
+  {
+   "phase": "P0",
+   "started": "2026-10-21T15:56:44.532Z",
+   "status": "DONE",
+   "t0_s": 0.0,
+   "t1_s": 1.39
+  },
+  {
+   "phase": "P1",
+   "started": "2026-10-21T15:56:45.927Z",
+   "status": "DONE",
+   "t0_s": 1.39,
+   "t1_s": 8.078
+  },
+  {
+   "phase": "P2",
+   "started": "2026-10-21T15:56:52.605Z",
+   "status": "FAILED:ATTRIBUTION_CONTROL_FAILED",
+   "t0_s": 8.078,
+   "t1_s": 43.109
+  },
+  {
+   "phase": "P7",
+   "started": "2026-10-21T15:57:28.766Z",
+   "status": "DONE",
+   "t0_s": 44.234,
+   "t1_s": 90.437
+  }
+ ],
+ "pod_deletes": {
+  "frontend_pod": 0
+ },
+ "reads": 93,
+ "trials": {},
+ "verdict": "ABORTED",
+ "writes": [
+  {
+   "at": "2026-10-21T15:56:46.082Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-e68c9994",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:56:46.238Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:56:46.349Z",
+   "exit": 1,
+   "kind": "ConfigMap",
+   "name": "zd-rt1-harness",
+   "phase": "P1",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:56:46.623Z",
+   "exit": 0,
+   "kind": "Pod",
+   "name": "zd-rt1-agent",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:56:49.415Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P1",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:56:49.540Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P1",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:56:49.671Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P1",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:56:53.049Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "create"
+  },
+  {
+   "at": "2026-10-21T15:56:53.292Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:56:55.764Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "zd-scale-canary",
+   "phase": "P2",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:57:29.320Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "gaia",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:57:29.576Z",
+   "exit": 0,
+   "kind": "Deployment",
+   "name": "hephaestus",
+   "phase": "P7",
+   "verb": "scale"
+  },
+  {
+   "at": "2026-10-21T15:57:29.688Z",
+   "exit": 0,
+   "kind": "ConfigMap",
+   "name": "zd-r1-baseline-profiles",
+   "phase": "P7",
+   "verb": "delete"
+  },
+  {
+   "at": "2026-10-21T15:57:29.802Z",
+   "exit": 0,
+   "kind": "Namespace",
+   "name": "zd-zer11-e68c9994",
+   "phase": "P7",
+   "verb": "delete"
+  }
+ ]
+}

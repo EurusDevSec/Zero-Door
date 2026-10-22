@@ -1,0 +1,57 @@
+test_rt1_01_host_disk_full_from_cleanup_on_and_a_failing_first_step (test_dashboard_baseline_runtime.Findings.test_rt1_01_host_disk_full_from_cleanup_on_and_a_failing_first_step) ... ok
+test_rt1_01_host_disk_full_in_main_phase_still_runs_every_cleanup_step (test_dashboard_baseline_runtime.Findings.test_rt1_01_host_disk_full_in_main_phase_still_runs_every_cleanup_step) ... ok
+test_rt1_01_unexpected_error_in_a_trial_or_a_cleanup_step_never_skips_the_rest (test_dashboard_baseline_runtime.Findings.test_rt1_01_unexpected_error_in_a_trial_or_a_cleanup_step_never_skips_the_rest) ... ok
+test_rt1_02_ownership_reads_ask_for_managed_fields_and_a_wrong_manager_still_fails (test_dashboard_baseline_runtime.Findings.test_rt1_02_ownership_reads_ask_for_managed_fields_and_a_wrong_manager_still_fails) ... ok
+test_rt1_03_positive_control_failure_is_decided_by_the_host_and_stops_before_the_target (test_dashboard_baseline_runtime.Findings.test_rt1_03_positive_control_failure_is_decided_by_the_host_and_stops_before_the_target) ... ok
+test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete (test_dashboard_baseline_runtime.Findings.test_rt1_04_an_object_that_is_not_ours_is_never_deleted_and_cleanup_says_incomplete) ... ok
+test_rt1_04_lost_create_answers_are_reconciled_by_label_and_removed_by_uid (test_dashboard_baseline_runtime.Findings.test_rt1_04_lost_create_answers_are_reconciled_by_label_and_removed_by_uid) ... ok
+test_rt1_05_controller_and_hpa_claims_need_this_trials_objects (test_dashboard_baseline_runtime.Findings.test_rt1_05_controller_and_hpa_claims_need_this_trials_objects) ... ok
+test_control_ack_later_than_its_deadline_fails_closed (test_dashboard_baseline_runtime.Faults.test_control_ack_later_than_its_deadline_fails_closed)
+N1's signature on purpose: the gateway records ATTACK_REQUESTED but answers after the control deadline ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 63142)
+Traceback (most recent call last):
+  File "C:\Users\ACER\AppData\Local\Temp\tmp.5XJYPuT7oR\after\agent-orchestrator\event_pipeline\gateway.py", line 191, in do_POST
+    return self.reply(202 if gateway.kafka else 201, result)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ACER\AppData\Local\Temp\tmp.5XJYPuT7oR\after\agent-orchestrator\event_pipeline\gateway.py", line 164, in reply
+    self.wfile.write(data)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 834, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ACER\AppData\Local\Temp\tmp.5XJYPuT7oR\after\agent-orchestrator\event_pipeline\gateway.py", line 199, in do_POST
+    return self.reply(503, {"error": "NOT_DURABLE"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ACER\AppData\Local\Temp\tmp.5XJYPuT7oR\after\agent-orchestrator\event_pipeline\gateway.py", line 163, in reply
+    self.end_headers()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 538, in end_headers
+    self.flush_headers()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 542, in flush_headers
+    self.wfile.write(b"".join(self._headers_buffer))
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 834, in write
+    self._sock.sendall(b)
+ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+----------------------------------------
+ok
+test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve (test_dashboard_baseline_runtime.Controller.test_controller_and_hpa_recovery_end_to_end_then_score_register_and_serve) ... 2026-10-21 18:07:29,678 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-21 18:07:29,780 - httpx - [INFO] - HTTP Request: GET http://testserver/api/results/runs/run_dbc76e40f5be42e0bdad0674a7e29acc "HTTP/1.1 200 OK"
+ok
+test_hpa_not_activated_is_said_so_and_no_effect_leaves_n (test_dashboard_baseline_runtime.Controller.test_hpa_not_activated_is_said_so_and_no_effect_leaves_n) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 82.330s
+
+OK

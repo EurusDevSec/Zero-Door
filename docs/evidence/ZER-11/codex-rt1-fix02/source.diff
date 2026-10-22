@@ -1,0 +1,87 @@
+--- before/infrastructure/scripts/r1_baseline_runtime.py
++++ after/infrastructure/scripts/r1_baseline_runtime.py
+@@ -1685,14 +1685,19 @@
+         return None
+ 
+ 
+-def controller_replacement(ev):
++def controller_replacement(ev, t_rec):
+     """A new Ready pod (uid not there before the delete) owned by the deleted pod's ReplicaSet (same uid), and
+-    that ReplicaSet's own SuccessfulCreate event naming it."""
++    that ReplicaSet's own SuccessfulCreate event naming it, within this trial and before recovery.
++    Core Event times are floored to seconds: allow that at T_req, but require a full second before T_rec."""
+     ident = ev["identity"]
++    t_req = stamp_ms(ident.get("t_req"))
++    if t_req is None or t_rec is None:
++        return False
+     owners, before = set(ident.get("owner_uids") or []) - {None}, set(ident.get("pods_before") or [])
+     new = [p for p in ev.get("frontend_pods_after", []) if p.get("ready") and p.get("uid") not in before
+            and owners & {o.get("uid") for o in p.get("owner", []) if isinstance(o, dict)}]
+     return any(e["reason"] == "SuccessfulCreate" and e["source"] == "replicaset-controller" and e.get("object_uid") in owners
++               and e.get("t_ms") is not None and t_req - 1000 < e["t_ms"] and e["t_ms"] + 1000 < t_rec
+                and any(p["name"] in (e.get("message") or "") for p in new) for e in ev.get("events", []))
+ 
+ 
+@@ -1734,7 +1739,8 @@
+         elif label == "RECOVERED_UNDETECTED" and not audit:
+             claim = "RECOVERED_BUT_ABSENCE_AUDIT_INCOMPLETE"
+         elif label == "RECOVERED_UNDETECTED" and name == "B0-CTRL":
+-            claim = "CONTROLLER_RECOVERY_OBSERVED" if known and controller_replacement(ev) else "RECOVERED_CONTROLLER_EVIDENCE_MISSING"
++            t_rec = (inc["milestones"].get("t_rec") or {}).get("t_ms")
++            claim = "CONTROLLER_RECOVERY_OBSERVED" if known and controller_replacement(ev, t_rec) else "RECOVERED_CONTROLLER_EVIDENCE_MISSING"
+         elif label == "RECOVERED_UNDETECTED" and not known:
+             claim = "RECOVERED_HPA_EVIDENCE_MISSING"
+         elif label == "RECOVERED_UNDETECTED":
+--- before/tests/test_dashboard_baseline_runtime.py
++++ after/tests/test_dashboard_baseline_runtime.py
+@@ -950,6 +950,40 @@
+             self.assertEqual("INCOMPLETE", result["cleanup"])
+ 
+     # ---------------------------------------------------------------- RT1-05
++    def test_controller_claim_requires_trial_time_window_before_recovery(self):
++        """A matching replacement seen later cannot explain an earlier business recovery."""
++        t = 1_800_000_000_000
++        base = {"identity": {"t_req": iso(t), "owner_uids": ["rs-1"], "pods_before": ["old"]},
++                "frontend_pods_after": [{"name": "frontend-new", "uid": "new", "ready": True,
++                                         "owner": [{"uid": "rs-1"}]}],
++                "events": [{"reason": "SuccessfulCreate", "source": "replicaset-controller",
++                            "object_uid": "rs-1", "message": "Created pod: frontend-new", "t_ms": t + 1000}]}
++        cases = (("valid", t + 1000, iso(t), t + 20000, True),
++                 ("same second floored", t - 400, iso(t), t + 20000, True),
++                 ("before trial", t - 60000, iso(t), t + 20000, False),
++                 ("full second before trial", t - 1000, iso(t), t + 20000, False),
++                 ("event time missing", None, iso(t), t + 20000, False),
++                 ("request time missing", t + 1000, None, t + 20000, False),
++                 ("request time invalid", t + 1000, "invalid", t + 20000, False),
++                 ("recovery time missing", t + 1000, iso(t), None, False),
++                 ("one second before recovery", t + 19000, iso(t), t + 20000, False),
++                 ("overlaps recovery second", t + 19500, iso(t), t + 20000, False),
++                 ("at recovery", t + 20000, iso(t), t + 20000, False),
++                 ("after recovery", t + 25000, iso(t), t + 20000, False))
++        for why, event_at, requested_at, recovered_at, accepted in cases:
++            with self.subTest(why):
++                ev = copy.deepcopy(base)
++                ev["identity"]["t_req"] = requested_at
++                ev["events"][0]["t_ms"] = event_at
++                run = {"incidents": [{"trial_id": "trl-1", "label": "RECOVERED_UNDETECTED",
++                                      "milestones": {"t_rec": {"t_ms": recovered_at}}}]}
++                receipt = {"trials": {"B0-CTRL": {"trial_id": "trl-1", "audit_coverage": {"complete": True},
++                                                 "stop_point": "a"}}}
++                result = rt.interpret(run, receipt, {"trials": {"B0-CTRL": ev}})["B0-CTRL"]
++                self.assertEqual("RECOVERED_UNDETECTED", result["label"])
++                self.assertEqual("CONTROLLER_RECOVERY_OBSERVED" if accepted else "RECOVERED_CONTROLLER_EVIDENCE_MISSING",
++                                 result["claim"])
++
+     def test_rt1_05_controller_and_hpa_claims_need_this_trials_objects(self):
+         from measurement.clock import stamp
+         t = 1_800_000_000_000
+--- before/docs/runbooks/dashboard-and-baselines.md
++++ after/docs/runbooks/dashboard-and-baselines.md
+@@ -306,6 +306,7 @@
+   - AUDIT_COVERAGE đủ.
+   - Có một pod Ready mới, với UID chưa có trước lúc xóa, thuộc đúng ReplicaSet (cùng UID) của pod đã xóa.
+   - Event `SuccessfulCreate` của chính ReplicaSet đó, do `replicaset-controller` phát, nêu tên pod mới này.
++  - Có đủ T_req, T_rec và thời gian Event. Event phải lớn hơn T_req − 1 s và sớm hơn T_rec quá 1 s; dung sai tại T_req chỉ để bù Event core làm tròn xuống giây, giống nhánh HPA. Thiếu thời gian, chồng lấn độ phân giải hoặc Event sau phục hồi không đủ để quy kết lần phục hồi nghiệp vụ cho controller.
+   - Thiếu một trong các điều trên thì là `RECOVERED_CONTROLLER_EVIDENCE_MISSING`.
+ - B0-HPA được kết luận `HPA_RECOVERY_OBSERVED` chỉ khi có Event `SuccessfulRescale` thỏa cả bốn điều:
+   - Của đúng HPA tạo trong run này (cùng UID), do `horizontal-pod-autoscaler` phát.

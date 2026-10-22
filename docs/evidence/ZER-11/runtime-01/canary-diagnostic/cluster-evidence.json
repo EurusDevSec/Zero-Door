@@ -1,0 +1,26 @@
+{
+ "positive_control": {
+  "decision_classification": "MODE_VIOLATION",
+  "decision_state": "REJECTED",
+  "passed": true,
+  "run_id": "run_5e18685a97a14e9486ef47ef09386283",
+  "scale_attribution": {
+   "event_sources": [
+    "deployment-controller",
+    "replicaset-controller"
+   ],
+   "replica_managers": []
+  },
+  "trial_id": "trl_f2e9d9f0bc14412ea88355e063643d69",
+  "valid_o_event_recorded": true
+ },
+ "trials": {},
+ "uid_precondition_selftest": {
+  "configmap_still_present": true,
+  "state": "UID_CHANGED_NOT_DELETED"
+ },
+ "zd_scaled": [
+  "gaia",
+  "hephaestus"
+ ]
+}

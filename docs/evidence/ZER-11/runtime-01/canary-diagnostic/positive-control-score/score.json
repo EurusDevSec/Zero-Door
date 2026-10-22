@@ -1,0 +1,224 @@
+{
+ "generated_at": "2026-10-21T15:58:15+00:00",
+ "inputs": {
+  "h_export_json_sha256": "2d66ec3aecaf0f4696c9e3ede893f538edfde58d7d4d03cf6705f97cd4ef52e4",
+  "o_export_json_sha256": "ee69883deaf1dc47c62e9ac892ac79c5dac1d32c91c6ffa6d90cf87b963a0632",
+  "other_exports": [],
+  "run_id": "run_5e18685a97a14e9486ef47ef09386283"
+ },
+ "options": {},
+ "runs": [
+  {
+   "cohort": {
+    "complete": true,
+    "problems": []
+   },
+   "f01": {
+    "cap_det_s": 300,
+    "cap_rec_s": 600,
+    "delta_s": 1,
+    "eps_s": 1,
+    "gap_s": 2,
+    "k": 3,
+    "l_ms": 2000,
+    "s_s": 30
+   },
+   "findings": {
+    "ambiguous": [],
+    "archive_scope": 0,
+    "cardinality_violations": [],
+    "duplicates": 0,
+    "foreign_references": [],
+    "integrity_errors": [],
+    "invalid": [],
+    "late_ingest": 0,
+    "link_conflicts": [],
+    "lost_requests": [],
+    "mode_violations": [],
+    "orphans": [],
+    "plane_violations": [],
+    "quarantined": {
+     "MODE_VIOLATION": 1
+    },
+    "quarantined_leaks": [],
+    "quarantined_link_conflicts": [],
+    "quarantined_mode_violations": [
+     {
+      "causation_id": null,
+      "clock": {
+       "clock_id": "clk-rt1",
+       "clock_source": "HOST_SHARED",
+       "resolution_ms": 1.0
+      },
+      "config_ref": "sha256:b0da28293b169cf81ee569d33e7f06e9c91d26af76f1d9ce43c5bc4cf881399d",
+      "decision_id": "dec_6c4cc18b3df14604a0e7393c6734faf2",
+      "event_id": "evt_4a274d2ed9d740daaac79eb8072b1625",
+      "event_type": "DECISION",
+      "group": "B0",
+      "method_version": "zd-rt1/0 B0 baseline (F-01 PILOT inputs)",
+      "payload": {
+       "decision_source": "RULES",
+       "evidence_package_version": "rt1-positive-control",
+       "fallback": false,
+       "fallback_of": null,
+       "inputs": [],
+       "prompt_sha256": null,
+       "prompt_version": null,
+       "proposal": null,
+       "response_kind": "NO_ACTION",
+       "stage": "PROPOSAL"
+      },
+      "plane": "O",
+      "producer_version": "zd-rt1-positive-control",
+      "run_id": "run_5e18685a97a14e9486ef47ef09386283",
+      "schema_version": "zd-event/1.0.0",
+      "seq": 0,
+      "source_component": "decision_rules",
+      "source_instance": "src-dc0ecf45d3194132b70ba30b9938d8b3",
+      "stream": "o.decision",
+      "target": null,
+      "trial_id": "trl_f2e9d9f0bc14412ea88355e063643d69",
+      "ts_event": "2026-10-21T15:56:52.887Z"
+     }
+    ],
+    "source_violations": [],
+    "unattributable_quarantine": 0,
+    "unregistered_probe_samples": 0,
+    "unsupported": 0
+   },
+   "group": "B0",
+   "incidents": [],
+   "leak": {
+    "trl_f2e9d9f0bc14412ea88355e063643d69": {
+     "findings": [],
+     "result": "UNKNOWN",
+     "unknown": [
+      "ACCESS_EVIDENCE_MISSING",
+      "HARNESS_MANIFEST_MISSING"
+     ]
+    }
+   },
+   "metrics": {
+    "M11_usage": {
+     "reason": "group B0 makes no LLM calls",
+     "status": "N/A"
+    },
+    "M12_containment": {
+     "reason": "no C2/C5 incident with ground truth in this run",
+     "status": "EMPTY"
+    },
+    "M2_funnel": {
+     "CONFIRMED": 0,
+     "CONFIRMED_NO_EFFECT": 0,
+     "UNKNOWN_EFFECT": 0,
+     "action_success": 0,
+     "recovered": 0,
+     "requested": 0,
+     "trigger_unknown": 0,
+     "triggered": 0,
+     "valid_response": 0
+    },
+    "M5_M6_benign": {
+     "reason": "C0 designation not provided (H schedule); FPR never defaults to 0",
+     "status": "MISSING"
+    },
+    "cpu_P179": {
+     "reason": "no container CPU usage/limit series in the H/O exports (ZER-38/44)",
+     "status": "MISSING"
+    },
+    "decisions": {
+     "M1": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M10": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M1c": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M3": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     },
+     "M4": {
+      "reason": "B0 has no ZERO DOOR decision",
+      "status": "N/A"
+     }
+    },
+    "kpi": {
+     "counts": {
+      "CONFIRMED": 0,
+      "CONFIRMED_NO_EFFECT": 0,
+      "N": 0,
+      "UNKNOWN_EFFECT": 0,
+      "requested": 0,
+      "status": "EMPTY"
+     },
+     "labels": {},
+     "labels_by_trial": {},
+     "mttd": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 60,
+      "verdict": "EMPTY"
+     },
+     "mttr_120": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 120,
+      "verdict": "EMPTY"
+     },
+     "mttr_180": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 180,
+      "verdict": "EMPTY"
+     },
+     "r_t": {
+      "status": "EMPTY"
+     },
+     "reaction": {
+      "N": 0,
+      "status": "EMPTY",
+      "threshold_s": 60,
+      "verdict": "EMPTY"
+     },
+     "recovered_rate": {
+      "N": 0,
+      "status": "EMPTY"
+     },
+     "resolution": {
+      "delta_s": 1,
+      "k": 3,
+      "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"
+     }
+    },
+    "request_success_rate": {
+     "reason": "benign client request log not in the exports",
+     "status": "MISSING"
+    },
+    "uptime": {
+     "trl_f2e9d9f0bc14412ea88355e063643d69": {
+      "reason": "NO_REQUIRED_FLOWS",
+      "verdict": "UNKNOWN"
+     }
+    }
+   },
+   "mode_findings": {
+    "trl_f2e9d9f0bc14412ea88355e063643d69": [
+     "quarantined MODE_VIOLATION DECISION"
+    ]
+   },
+   "reference_clock_id": "clk-rt1",
+   "run_flags": [
+    "CROSS_RUN_LINKS_UNCHECKED"
+   ],
+   "run_id": "run_5e18685a97a14e9486ef47ef09386283"
+  }
+ ],
+ "schema": "zd-measurement-score/1",
+ "scorer_version": "zd-measurement/0.1.0/scorer"
+}

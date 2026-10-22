@@ -1,0 +1,3 @@
+{"abort": "ATTRIBUTION_CONTROL_FAILED", "attribution": {"event_sources": ["deployment-controller", "replicaset-controller"], "replica_managers": []}, "case": "real_kubectl_default", "cleanup": "CLEAN", "trials": []}
+{"abort": "WRITE_FAILED (create Namespace zd-zer11-99107d4c: TIMEOUT)", "case": "namespace_create_lost_ack", "cleanup": "CLEAN", "created": [], "final_diff": {"deployments": {}, "hpas_left": [], "profiles_left": []}, "namespace_left": true}
+{"case": "host_disk_error", "cleanup_steps": 0, "error": "OSError: [Errno 28] No space left on device", "gaia_replicas": 0, "heph_replicas": 0, "namespace_left": true, "receipt": false}

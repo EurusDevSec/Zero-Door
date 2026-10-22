@@ -1,0 +1,109 @@
+{
+ "control": {
+  "exit": 0,
+  "failed_tests": [],
+  "summary": "Ran 16 tests in 71.784s OK"
+ },
+ "control_ok": true,
+ "fail_before": {
+  "exit": 1,
+  "failed_tests": [],
+  "summary": ""
+ },
+ "fail_before_fails": true,
+ "killed": 10,
+ "mutants": {
+  "ABORT_SKIPS_EXPORT": {
+   "exit": 1,
+   "failed_tests": [
+    "test_h_ack_failure_stops_closes_and_cleans_up_without_scoring",
+    "test_interrupt_in_trial_and_in_cleanup",
+    "test_no_recovery_with_coverage_is_timeout_and_without_coverage_is_missing_probe",
+    "test_probe_sample_cap_stops_at_d_and_scores_missing_probe",
+    "test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 59.867s FAILED (failures=1, errors=4)"
+  },
+  "AUDIT_IGNORES_FAILED_TICKS": {
+   "exit": 1,
+   "failed_tests": [
+    "test_watcher_failure_means_no_audit_coverage_and_no_absence_claim",
+    "test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 71.034s FAILED (failures=2)"
+  },
+  "CLEANUP_STEP_NOT_RETRIED": {
+   "exit": 1,
+   "failed_tests": [
+    "test_interrupt_in_trial_and_in_cleanup"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 71.175s FAILED (failures=1)"
+  },
+  "NO_EFFECT_WITHOUT_COVERAGE": {
+   "exit": 0,
+   "failed_tests": [],
+   "killed": false,
+   "summary": "Ran 16 tests in 71.284s OK"
+  },
+  "PROBE_BUDGET_NOT_PLAN_CHECK": {
+   "exit": 1,
+   "failed_tests": [
+    "test_budgets_match_plan_check_and_pod_delete_cap"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 70.753s FAILED (failures=1)"
+  },
+  "RESTORE_IGNORES_UID": {
+   "exit": 1,
+   "failed_tests": [
+    "test_target_uid_changed_is_never_overwritten"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 71.360s FAILED (failures=1)"
+  },
+  "SCORES_WITHOUT_BOTH_EXPORTS": {
+   "exit": 1,
+   "failed_tests": [
+    "test_h_ack_failure_stops_closes_and_cleans_up_without_scoring"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 71.295s FAILED (errors=1)"
+  },
+  "TOTAL_CAP_NOT_CHECKED_IN_TRIAL": {
+   "exit": 1,
+   "failed_tests": [
+    "test_total_cap_stops_the_run_and_cleanup_fits_in_the_reserve"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 71.275s FAILED (failures=1)"
+  },
+  "UID_SELFTEST_NOT_ENFORCED": {
+   "exit": 1,
+   "failed_tests": [
+    "test_uid_precondition_not_honoured_stops_before_the_target"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 79.444s FAILED (errors=1)"
+  },
+  "WRITES_NOT_GUARDED": {
+   "exit": 1,
+   "failed_tests": [
+    "test_writes_outside_actions_are_refused"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 71.453s FAILED (errors=1)"
+  },
+  "ZERO_DOOR_POD_NOT_ABORTED": {
+   "exit": 1,
+   "failed_tests": [
+    "test_zero_door_pod_in_b0_window_aborts_positive_control_for_absence"
+   ],
+   "killed": true,
+   "summary": "Ran 16 tests in 77.268s FAILED (errors=1)"
+  }
+ },
+ "total": 11
+}

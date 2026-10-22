@@ -1,0 +1,25 @@
+
+  GitNexus Context (1.6.11)
+{
+  "status": "found",
+  "symbol": {
+    "uid": "Function:infrastructure/scripts/r1_baseline_runtime.py:interpret",
+    "name": "interpret",
+    "kind": "Function",
+    "filePath": "infrastructure/scripts/r1_baseline_runtime.py",
+    "startLine": 1558,
+    "endLine": 1597
+  },
+  "epistemic": "exact",
+  "incoming": {
+    "calls": [
+      {
+        "uid": "Function:infrastructure/scripts/r1_baseline_runtime.py:score_and_register",
+        "name": "score_and_register",
+        "filePath": "infrastructure/scripts/r1_baseline_runtime.py"
+      }
+    ]
+  },
+  "outgoing": {},
+  "processes": []
+}
