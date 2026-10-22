@@ -1,0 +1,12 @@
+{
+  "approved_at_context": "2026-10-22 Asia/Saigon",
+  "source": "direct user reply in current chat",
+  "answer": "Cho phép lượt lab private và chốt tiêu chí effect",
+  "scope": "docs/runbooks/sqli-fixture.md section 6",
+  "time_minutes": 30,
+  "cleanup_minutes": 7,
+  "pods_max": 4,
+  "fixture_http_max": 4000,
+  "es_queries_max": 12,
+  "effect": "actual restricted synthetic seed rows, not HTTP 200"
+}

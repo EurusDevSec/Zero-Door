@@ -1,0 +1,27 @@
+deployment.apps/gaia scaled
+deployment.apps/hephaestus scaled
+deployment "gaia" successfully rolled out
+deployment "hephaestus" successfully rolled out
+node/k3d-zero-door-server-0 condition met
+Waiting for deployment "frontend" rollout to finish: 0 of 1 updated replicas are available...
+deployment "frontend" successfully rolled out
+deployment "checkoutservice" successfully rolled out
+Waiting for deployment "elasticsearch" rollout to finish: 0 of 1 updated replicas are available...
+deployment "elasticsearch" successfully rolled out
+PVC_IDENTITY_PASS: three PVC UIDs and bound volume names unchanged
+SERVER_RECOVERY_READY elapsed=46s; starting gated private retest
+Gated private retest passed; restore agents and verify all preserved state.
+
+RESTORE elapsed=277s prior_exit=0
+Error: invalid argument "1\r" for "--replicas" flag: strconv.ParseInt: parsing "1\r": invalid syntax
+See 'kubectl scale --help' for usage.
+Error: invalid argument "1\r" for "--replicas" flag: strconv.ParseInt: parsing "1\r": invalid syntax
+See 'kubectl scale --help' for usage.
+deployment "gaia" successfully rolled out
+deployment "hephaestus" successfully rolled out
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\scratch\zer13\codex-completion\recovery_evidence.py", line 19, in <module>
+    assert desired(load('workloads-before.json'))==desired(load('workloads-final.json')),'REPLICA_DRIFT'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: REPLICA_DRIFT
+{"exit_code":1,"server_restarts":1,"namespace":"CLEAN","restore":"UNRESOLVED","elapsed_seconds":279}

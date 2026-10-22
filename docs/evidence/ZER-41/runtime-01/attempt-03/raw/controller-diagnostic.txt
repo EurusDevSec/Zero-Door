@@ -1,0 +1,1 @@
+I1022 08:58:30.662912      39 controller.go:615] quota admission added evaluator for: networkpolicies.networking.k8s.io

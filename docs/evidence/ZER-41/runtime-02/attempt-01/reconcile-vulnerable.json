@@ -1,0 +1,134 @@
+{
+  "profile": "vulnerable",
+  "verdict": "PASS_ROUTE_SOURCE_EFFECT_CRUD",
+  "matched_samples": 24,
+  "sources": {
+    "sqli-fixture-58c7c77d88-5k7nt": "10.42.1.203",
+    "zer41-private-ingress-54f7cf4bb4-5pxd4": "10.42.1.201",
+    "zer41-source-a": "10.42.1.199",
+    "zer41-source-b": "10.42.1.200"
+  },
+  "matches": [
+    {
+      "request_id": "e0143df666cf462692024372b9ae3cbe",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "867c5ff7651b4781a350c6396f04b410",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "ff38f362bc7643c8be00fd88b59e76a2",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "f62de8e77ecf41f09f35514ffa920c49",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "5dac7c76d43740a2b92e842a2f400a29",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "e1d5f32833834fc5ab8de7974fd47c55",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "f933dd2dfc074942992b78ac3b6b94a9",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "47209552f2644f87ba81adb6c331cf7c",
+      "client_ip": "10.42.1.199",
+      "status": 201
+    },
+    {
+      "request_id": "f6e3947bd71e499b85a85b78dfaa3345",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "db44b7ae268148e895dc1ac91f526c8b",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "42e47945c9b74b98ad4c8efa05799576",
+      "client_ip": "10.42.1.199",
+      "status": 200
+    },
+    {
+      "request_id": "d993565b0bbd4955bf3141837729521a",
+      "client_ip": "10.42.1.199",
+      "status": 404
+    },
+    {
+      "request_id": "a0c4dec1152c42aaa49c2fc2158ef07b",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "4b3eb3d959f54114955904ef49e79928",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "8e41034340654c14935b7f8110732076",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "9bc3638c820a47b59693bd054d55f9cf",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "b2df21a801a945219f9c5004b1ff10a2",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "a6cfaa3627f14657bf54d6fccd45ebe9",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "218ce59a106c4286b3a9ffa164785ba4",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "b2dac141a1d1454a8462c7c6f2e87367",
+      "client_ip": "10.42.1.200",
+      "status": 201
+    },
+    {
+      "request_id": "07afbbe75b604eeda52ffcb9459a3dfb",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "af6abee046ef45bd9db56ba2330ff7ab",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "19bf9caed2f54f34b088b0dfcb23b9e2",
+      "client_ip": "10.42.1.200",
+      "status": 200
+    },
+    {
+      "request_id": "88a86382548846b4a13759c2c0108244",
+      "client_ip": "10.42.1.200",
+      "status": 404
+    }
+  ],
+  "fixture_access_records": 29
+}

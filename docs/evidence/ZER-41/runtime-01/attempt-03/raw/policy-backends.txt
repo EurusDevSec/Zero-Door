@@ -1,0 +1,3 @@
+iptables v1.8.9 (nf_tables)
+iptables-nft-save
+iptables-legacy-save

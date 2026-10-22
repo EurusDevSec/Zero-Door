@@ -1,0 +1,186 @@
+# ZER-41 SQLi catalog fixture — isolated namespace manifest (OFFLINE ONLY, not applied, image NOT_BUILT).
+# Namespace/ServiceAccount/ConfigMap/Deployment/Service/NetworkPolicy/Ingress for the fixture alone. No
+# Secret with a real value; the default profile is safe. Creating these resources and the route still needs
+# a separately approved lab turn. Validated offline by tests/check_guard_manifests.py (pinned OpenAPI models).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zd-sqli-lab
+  labels:
+    kubernetes.io/metadata.name: zd-sqli-lab
+    zero-door.io/purpose: sqli-fixture
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqli-fixture-config
+  namespace: zd-sqli-lab
+data:
+  # Default-safe. The vulnerable profile is NOT set here; a lab run approved for it overrides ZD_SQLI_PROFILE.
+  ZD_SQLI_PROFILE: "safe"
+  ZD_SQLI_HOST: "0.0.0.0"
+  ZD_SQLI_PORT: "9140"
+  # Trust no proxy by default: with an empty list the service records the observed TCP peer and never
+  # believes a client-declared X-Forwarded-For. A lab that proves a narrow proxy chain sets this then.
+  ZD_SQLI_TRUSTED_PROXIES: ""
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    app: sqli-fixture
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqli-fixture
+  template:
+    metadata:
+      labels:
+        app: sqli-fixture
+    spec:
+      serviceAccountName: sqli-fixture
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: sqli-fixture
+          image: sqli-fixture:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9140
+          envFrom:
+            - configMapRef:
+                name: sqli-fixture-config
+          resources:
+            requests:
+              cpu: "25m"
+              memory: "32Mi"
+            limits:
+              cpu: "150m"
+              memory: "96Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        # The only writable path: the SQLite file. The image root filesystem stays read-only. A size limit
+        # caps how much the fixture DB (catalog + accumulated orders) can grow on the node.
+        - name: data
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+spec:
+  type: ClusterIP
+  selector:
+    app: sqli-fixture
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: zd-sqli-lab
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-controller-and-dns
+  namespace: zd-sqli-lab
+spec:
+  podSelector:
+    matchLabels:
+      app: sqli-fixture
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Only the Traefik ingress controller may reach the fixture port: namespaceSelector AND podSelector in
+    # the SAME peer, so an unrelated kube-system pod is not admitted. Verify the controller's actual labels
+    # with a preflight (see docs/runbooks/sqli-fixture.md) before deploying; the chart sets
+    # app.kubernetes.io/name=traefik on its pods.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - protocol: TCP
+          port: 9140
+  egress:
+    # DNS only; the fixture makes no other outbound connection.
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    app: sqli-fixture
+spec:
+  # Served by Traefik, same class as the Boutique route. A distinct /fixture prefix: it does not touch the
+  # Boutique catch-all at / or the shared Traefik values. No middleware CRD is referenced (CRD provider off).
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+          - path: /fixture
+            pathType: Prefix
+            backend:
+              service:
+                name: sqli-fixture
+                port:
+                  number: 80

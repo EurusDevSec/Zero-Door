@@ -1,0 +1,308 @@
+test_bad_trusted_proxy_refuses_start (__main__.ConfigGuards.test_bad_trusted_proxy_refuses_start) ... ok
+test_default_profile_is_safe_and_topology_proxied (__main__.ConfigGuards.test_default_profile_is_safe_and_topology_proxied) ... ERROR
+test_missing_db_dir_refuses_start (__main__.ConfigGuards.test_missing_db_dir_refuses_start) ... ok
+test_missing_seed_refuses_start (__main__.ConfigGuards.test_missing_seed_refuses_start) ... ok
+test_nonexistent_db_dir_refuses_start (__main__.ConfigGuards.test_nonexistent_db_dir_refuses_start) ... ok
+test_out_of_range_port_refuses_start (__main__.ConfigGuards.test_out_of_range_port_refuses_start) ... FAIL
+test_unknown_profile_refuses_start (__main__.ConfigGuards.test_unknown_profile_refuses_start) ... ok
+test_unknown_topology_refuses_start (__main__.ConfigGuards.test_unknown_topology_refuses_start) ... FAIL
+test_delete_is_scoped_to_one_ref_and_is_parameterised (__main__.Crud.test_delete_is_scoped_to_one_ref_and_is_parameterised) ... ok
+test_explicit_reset_removes_orders_only (__main__.Crud.test_explicit_reset_removes_orders_only) ... ERROR
+test_malformed_body_is_refused (__main__.Crud.test_malformed_body_is_refused) ... {"ts":1792650117.3326552,"request_id":"740ce35e312240b28aced7be4f4d741c","method":"POST","path":"/fixture/orders","status":400,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_oversized_body_is_refused (__main__.Crud.test_oversized_body_is_refused) ... {"ts":1792650117.3326552,"request_id":"6812c9f626e946e6a04d22c838cc19cf","method":"POST","path":"/fixture/orders","status":413,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_owned_order_round_trip_then_cleanup (__main__.Crud.test_owned_order_round_trip_then_cleanup) ... ok
+test_unproven_ownership_is_not_cleaned (__main__.Crud.test_unproven_ownership_is_not_cleaned) ... ok
+test_locked_db_on_a_benign_category_is_503_not_a_client_error (__main__.Failures.test_locked_db_on_a_benign_category_is_503_not_a_client_error) ... {"ts":1792650118.5669003,"request_id":"6e5e3258c107476dbdfb0ee5154551b3","method":"GET","path":"/fixture/catalog/search","status":400,"duration_ms":703.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+FAIL
+test_missing_db_is_503_with_a_record_not_a_disconnect (__main__.Failures.test_missing_db_is_503_with_a_record_not_a_disconnect) ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 59770)
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:/_Projects/Eurus_Workspace/zero_door/scratch/zer13/claude-fix01/before/services/sqli-fixture/app.py", line 315, in do_GET
+    rows = store.search(category)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "R:/_Projects/Eurus_Workspace/zero_door/scratch/zer13/claude-fix01/before/services/sqli-fixture/app.py", line 172, in search
+    conn = self._readonly()
+           ^^^^^^^^^^^^^^^^
+  File "R:/_Projects/Eurus_Workspace/zero_door/scratch/zer13/claude-fix01/before/services/sqli-fixture/app.py", line 159, in _readonly
+    conn = sqlite3.connect(uri, uri=True, timeout=0.2)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+----------------------------------------
+ERROR
+test_ill_formed_correlation_ids_are_dropped (__main__.Logs.test_ill_formed_correlation_ids_are_dropped) ... ok
+test_no_container_stream_discloses_the_profile (__main__.Logs.test_no_container_stream_discloses_the_profile) ... {"ts":1792650119.4092672,"request_id":"58444abc91694d488e7ebdbb8f7bb2f1","method":"GET","path":"/fixture/catalog/search","status":400,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+FAIL
+test_health_is_process_only_and_ready_checks_the_db (__main__.Readiness.test_health_is_process_only_and_ready_checks_the_db) ... ok
+test_benign_categories_are_equivalent_on_both_profiles (__main__.Search.test_benign_categories_are_equivalent_on_both_profiles) ... ok
+test_blob_union_result_is_rejected_not_crashed (__main__.Search.test_blob_union_result_is_rejected_not_crashed) ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 59789)
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\socketserver.py", line 755, in __init__
+    self.handle()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "R:/_Projects/Eurus_Workspace/zero_door/scratch/zer13/claude-fix01/before/services/sqli-fixture/app.py", line 319, in do_GET
+    return self.reply(200, {"results": rows, "count": len(rows)}, source=source,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:/_Projects/Eurus_Workspace/zero_door/scratch/zer13/claude-fix01/before/services/sqli-fixture/app.py", line 272, in reply
+    raw = json.dumps(value, separators=(",", ":")).encode("utf-8")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\json\encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+----------------------------------------
+ERROR
+test_category_over_length_is_rejected (__main__.Search.test_category_over_length_is_rejected) ... {"ts":1792650120.4423203,"request_id":"61af4ca331624509a80251cd38d15bb1","method":"GET","path":"/fixture/catalog/search","status":400,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_injection_leaks_restricted_rows_only_on_the_vulnerable_profile (__main__.Search.test_injection_leaks_restricted_rows_only_on_the_vulnerable_profile) ... ok
+test_stacked_statement_injection_is_rejected_not_executed (__main__.Search.test_stacked_statement_injection_is_rejected_not_executed) ... ok
+test_build_db_is_reproducible (__main__.Seed.test_build_db_is_reproducible) ... ok
+test_expected_matches_seed (__main__.Seed.test_expected_matches_seed) ... ok
+test_service_and_test_seed_do_not_drift (__main__.Seed.test_service_and_test_seed_do_not_drift) ... ok
+test_direct_topology_peer_is_source_and_forged_header_ignored (__main__.Source.test_direct_topology_peer_is_source_and_forged_header_ignored) ... ERROR
+test_proxied_all_hops_trusted_is_unknown (__main__.Source.test_proxied_all_hops_trusted_is_unknown) ... ERROR
+test_proxied_ingress_without_trusted_proxy_is_unknown (__main__.Source.test_proxied_ingress_without_trusted_proxy_is_unknown) ... ERROR
+test_proxied_malformed_forward_is_unknown (__main__.Source.test_proxied_malformed_forward_is_unknown) ... ERROR
+test_proxied_multi_hop_takes_first_untrusted_from_the_right (__main__.Source.test_proxied_multi_hop_takes_first_untrusted_from_the_right) ... ERROR
+test_proxied_trusted_proxy_with_forwarded_client (__main__.Source.test_proxied_trusted_proxy_with_forwarded_client) ... ERROR
+test_proxied_trusted_proxy_without_forward_is_unknown (__main__.Source.test_proxied_trusted_proxy_without_forward_is_unknown) ... ERROR
+test_foreign_db_refuses_start_without_erasing (__main__.Startup.test_foreign_db_refuses_start_without_erasing) ... ERROR
+test_invalid_config_refuses_before_any_mutation (__main__.Startup.test_invalid_config_refuses_before_any_mutation) ... FAIL
+test_normal_reopen_preserves_orders (__main__.Startup.test_normal_reopen_preserves_orders) ... FAIL
+
+======================================================================
+ERROR: test_default_profile_is_safe_and_topology_proxied (__main__.ConfigGuards.test_default_profile_is_safe_and_topology_proxied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 345, in test_default_profile_is_safe_and_topology_proxied
+    self.assertEqual((config.profile, config.topology), ("safe", "proxied"))
+                                      ^^^^^^^^^^^^^^^
+AttributeError: 'Config' object has no attribute 'topology'
+
+======================================================================
+ERROR: test_explicit_reset_removes_orders_only (__main__.Crud.test_explicit_reset_removes_orders_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 244, in test_explicit_reset_removes_orders_only
+    before = self.svc.store.search("apparel", time.monotonic() + 2)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Store.search() takes 2 positional arguments but 3 were given
+
+======================================================================
+ERROR: test_missing_db_is_503_with_a_record_not_a_disconnect (__main__.Failures.test_missing_db_is_503_with_a_record_not_a_disconnect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 170, in test_missing_db_is_503_with_a_record_not_a_disconnect
+    urlopen(svc.origin + "/fixture/catalog/search?category=home", timeout=5)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 519, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 536, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 1377, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 1352, in do_open
+    r = h.getresponse()
+        ^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 1395, in getresponse
+    response.begin()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+======================================================================
+ERROR: test_blob_union_result_is_rejected_not_crashed (__main__.Search.test_blob_union_result_is_rejected_not_crashed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 154, in test_blob_union_result_is_rejected_not_crashed
+    urlopen(self.vuln.origin + "/fixture/catalog/search?category="
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 216, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 519, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 536, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 496, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 1377, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py", line 1352, in do_open
+    r = h.getresponse()
+        ^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 1395, in getresponse
+    response.begin()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\http\client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+======================================================================
+ERROR: test_direct_topology_peer_is_source_and_forged_header_ignored (__main__.Source.test_direct_topology_peer_is_source_and_forged_header_ignored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 300, in test_direct_topology_peer_is_source_and_forged_header_ignored
+    record = app.resolve_source("203.0.113.9", "192.0.2.10", [], "direct")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_proxied_all_hops_trusted_is_unknown (__main__.Source.test_proxied_all_hops_trusted_is_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 328, in test_proxied_all_hops_trusted_is_unknown
+    record = app.resolve_source("10.42.1.1", "10.42.1.2, 10.42.1.3", self.LAB, "proxied")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_proxied_ingress_without_trusted_proxy_is_unknown (__main__.Source.test_proxied_ingress_without_trusted_proxy_is_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 307, in test_proxied_ingress_without_trusted_proxy_is_unknown
+    record = app.resolve_source("10.42.0.7", "198.51.100.9", [], "proxied")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_proxied_malformed_forward_is_unknown (__main__.Source.test_proxied_malformed_forward_is_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 323, in test_proxied_malformed_forward_is_unknown
+    record = app.resolve_source("10.42.1.1", "not-an-ip", self.LAB, "proxied")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_proxied_multi_hop_takes_first_untrusted_from_the_right (__main__.Source.test_proxied_multi_hop_takes_first_untrusted_from_the_right)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 333, in test_proxied_multi_hop_takes_first_untrusted_from_the_right
+    record = app.resolve_source("10.42.1.1", "198.51.100.7, 10.42.1.9", self.LAB, "proxied")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_proxied_trusted_proxy_with_forwarded_client (__main__.Source.test_proxied_trusted_proxy_with_forwarded_client)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 313, in test_proxied_trusted_proxy_with_forwarded_client
+    record = app.resolve_source("10.42.1.1", "198.51.100.7", self.LAB, "proxied")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_proxied_trusted_proxy_without_forward_is_unknown (__main__.Source.test_proxied_trusted_proxy_without_forward_is_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 318, in test_proxied_trusted_proxy_without_forward_is_unknown
+    record = app.resolve_source("10.42.1.1", None, self.LAB, "proxied")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resolve_source() takes 3 positional arguments but 4 were given
+
+======================================================================
+ERROR: test_foreign_db_refuses_start_without_erasing (__main__.Startup.test_foreign_db_refuses_start_without_erasing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 289, in test_foreign_db_refuses_start_without_erasing
+    app.open_or_create(config)
+    ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'zer41_app_under_test' has no attribute 'open_or_create'
+
+======================================================================
+FAIL: test_out_of_range_port_refuses_start (__main__.ConfigGuards.test_out_of_range_port_refuses_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 370, in test_out_of_range_port_refuses_start
+    with self.assertRaises(app.ConfigError):
+AssertionError: ConfigError not raised
+
+======================================================================
+FAIL: test_unknown_topology_refuses_start (__main__.ConfigGuards.test_unknown_topology_refuses_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 352, in test_unknown_topology_refuses_start
+    with self.assertRaises(app.ConfigError):
+AssertionError: ConfigError not raised
+
+======================================================================
+FAIL: test_locked_db_on_a_benign_category_is_503_not_a_client_error (__main__.Failures.test_locked_db_on_a_benign_category_is_503_not_a_client_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 183, in test_locked_db_on_a_benign_category_is_503_not_a_client_error
+    self.assertEqual(caught.exception.code, 503)  # availability failure, not bad client SQL
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 400 != 503
+
+======================================================================
+FAIL: test_no_container_stream_discloses_the_profile (__main__.Logs.test_no_container_stream_discloses_the_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 392, in test_no_container_stream_discloses_the_profile
+    self.assertNotIn("vulnerable", streams)
+AssertionError: 'vulnerable' unexpectedly found in '{"ts":1792650119.4092672,"request_id":"704d9fde457144cc9785cd59bf2cca67","method":"GET","path":"/fixture/catalog/search","status":200,"duration_ms":16.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":"trace-123","rows":2,"restricted_rows":0}\nzd-sqli-fixture up on 127.0.0.1:59771 profile=vulnerable seed=zer41-catalog/1 catalog_rows=8 db=C:\\Users\\ACER\\AppData\\Local\\Temp\\tmplsrze8f6\\fixture.sqlite\n'
+
+======================================================================
+FAIL: test_invalid_config_refuses_before_any_mutation (__main__.Startup.test_invalid_config_refuses_before_any_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 273, in test_invalid_config_refuses_before_any_mutation
+    with self.assertRaises(app.ConfigError):
+AssertionError: ConfigError not raised
+
+======================================================================
+FAIL: test_normal_reopen_preserves_orders (__main__.Startup.test_normal_reopen_preserves_orders)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 263, in test_normal_reopen_preserves_orders
+    self.assertIsNotNone(two.store.read_order(order["order_ref"]))
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 37 tests in 5.267s
+
+FAILED (failures=6, errors=12)

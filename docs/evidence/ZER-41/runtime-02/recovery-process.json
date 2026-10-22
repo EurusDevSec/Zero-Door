@@ -1,0 +1,9 @@
+{
+  "verdict": "PASS_PRIVATE_RUNTIME_AND_RESTORE",
+  "server_restarts": 1,
+  "namespace": "CLEAN",
+  "restore": "RESTORE_PASS",
+  "initial_restore_failure": "CRLF replica input, preserved in recovery-process-initial.json; corrected from captured baseline",
+  "last_verification_elapsed_seconds": 849,
+  "time_limit_seconds": 2100
+}

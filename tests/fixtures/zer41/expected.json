@@ -1,0 +1,48 @@
+{
+ "seed_id": "zer41-catalog/1",
+ "catalog_rows": 8,
+ "public_rows": 5,
+ "restricted_rows": 3,
+ "by_category": {
+  "apparel": {
+   "public": 2,
+   "restricted": 1
+  },
+  "home": {
+   "public": 2,
+   "restricted": 0
+  },
+  "electronics": {
+   "public": 1,
+   "restricted": 0
+  },
+  "internal": {
+   "public": 0,
+   "restricted": 2
+  }
+ },
+ "benign": {
+  "apparel": [
+   "PUB-APP-001",
+   "PUB-APP-002"
+  ],
+  "home": [
+   "PUB-HOM-001",
+   "PUB-HOM-002"
+  ],
+  "electronics": [
+   "PUB-ELE-001"
+  ],
+  "internal": [],
+  "nonexistent": []
+ },
+ "injection": {
+  "category": "zzz' OR visibility='restricted' --",
+  "vulnerable_returns_restricted": [
+   "RES-APP-900",
+   "RES-INT-001",
+   "RES-INT-002"
+  ],
+  "safe_returns": []
+ }
+}

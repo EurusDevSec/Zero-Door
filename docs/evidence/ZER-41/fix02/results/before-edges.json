@@ -1,0 +1,38 @@
+{
+ "app": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py",
+ "dribbling_body": {
+  "elapsed_s": 12.0,
+  "request_budget_s": 3.0,
+  "status_line": "<no answer within 12s>",
+  "records": []
+ },
+ "unhandled_method": {
+  "status_line": "HTTP/1.1 501 Unsupported method ('TRACE')",
+  "has_request_id": false,
+  "html": false,
+  "new_records": [
+   {
+    "ts": 1792655243.6458867,
+    "request_id": "0e6375bb274f469eb5a8b6f862044fc0",
+    "method": "POST",
+    "path": "/fixture/orders",
+    "status": 400,
+    "duration_ms": 12000.0,
+    "tcp_peer": "127.0.0.1",
+    "source_method": "DIRECT_PEER",
+    "source_confidence": "OBSERVED_PEER",
+    "client_ip": "127.0.0.1",
+    "correlation_id": null,
+    "delivered": false
+   }
+  ]
+ },
+ "startup_failure_process": {
+  "returncode": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py\", line 600, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py\", line 589, in main\n    httpd, _store, _seed, _rows = build_server(config)\n                                  ^^^^^^^^^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py\", line 572, in build_server\n    seed_id, rows, reused = open_or_create(config)\n                            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py\", line 204, in open_or_create\n    raise ConfigError(f\"{config.db_path} has seed_id {stored and stored[0]!r}, \"\nConfigError: C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp2d_w6vy2\\fixture.sqlite has seed_id 'hidden-seed-canary', expected 'zer41-catalog/1'; refusing to overwrite\n",
+  "canary_on_streams": true,
+  "traceback_on_streams": true,
+  "db_path_on_streams": true,
+  "db_kept": true
+ }
+}

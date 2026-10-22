@@ -1,0 +1,119 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-1226f00a"},"name":"sqli-fixture","namespace":"zd-sqli-lab"},"spec":{"ports":[{"name":"http","port":9140,"targetPort":"http"}],"selector":{"app":"sqli-fixture"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-10-22T09:03:29Z"
+    labels:
+      zero-door.io/run: zer41-20261022-1226f00a
+    name: sqli-fixture
+    namespace: zd-sqli-lab
+    resourceVersion: "117812"
+    uid: 14f6f0ba-0f03-4f79-80a9-0544d5cebdb9
+  spec:
+    clusterIP: 10.43.158.254
+    clusterIPs:
+    - 10.43.158.254
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 9140
+      protocol: TCP
+      targetPort: http
+    selector:
+      app: sqli-fixture
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-1226f00a"},"name":"zer41-private-ingress","namespace":"zd-sqli-lab"},"spec":{"ports":[{"name":"web","port":8000,"targetPort":"web"}],"selector":{"app":"zer41-private-ingress"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-10-22T09:03:29Z"
+    labels:
+      zero-door.io/run: zer41-20261022-1226f00a
+    name: zer41-private-ingress
+    namespace: zd-sqli-lab
+    resourceVersion: "117824"
+    uid: 29a19f24-ece1-446a-8bd0-d1859f540529
+  spec:
+    clusterIP: 10.43.204.252
+    clusterIPs:
+    - 10.43.204.252
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: web
+      port: 8000
+      protocol: TCP
+      targetPort: web
+    selector:
+      app: zer41-private-ingress
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-22T09:03:49Z"
+    creationTimestamp: "2026-10-22T09:03:29Z"
+    labels:
+      zero-door.io/run: zer41-20261022-1226f00a
+    name: sqli-fixture
+    namespace: zd-sqli-lab
+    resourceVersion: "117896"
+    uid: fe0bff1a-6dc1-4085-9cc0-f5be3ba1f821
+  subsets:
+  - addresses:
+    - ip: 10.42.1.191
+      nodeName: k3d-zero-door-server-0
+      targetRef:
+        kind: Pod
+        name: sqli-fixture-755485fc74-ndcrx
+        namespace: zd-sqli-lab
+        uid: 6da80f56-4cd6-4506-b4bb-7ab64c129231
+    ports:
+    - name: http
+      port: 9140
+      protocol: TCP
+- apiVersion: v1
+  kind: Endpoints
+  metadata:
+    annotations:
+      endpoints.kubernetes.io/last-change-trigger-time: "2026-10-22T09:03:38Z"
+    creationTimestamp: "2026-10-22T09:03:29Z"
+    labels:
+      zero-door.io/run: zer41-20261022-1226f00a
+    name: zer41-private-ingress
+    namespace: zd-sqli-lab
+    resourceVersion: "117866"
+    uid: 445d81c4-cdca-4175-a597-f96a14eb166a
+  subsets:
+  - addresses:
+    - ip: 10.42.1.190
+      nodeName: k3d-zero-door-server-0
+      targetRef:
+        kind: Pod
+        name: zer41-private-ingress-998cd8fbb-cfkkl
+        namespace: zd-sqli-lab
+        uid: 341f772b-cef9-4f4d-8814-ff2bab0af854
+    ports:
+    - name: web
+      port: 8000
+      protocol: TCP
+kind: List
+metadata:
+  resourceVersion: ""

@@ -1,0 +1,3 @@
+BEFORE: deterministic delayed emit reproduces StopIteration
+AFTER: exact test passes delayed emit, preserves 200/400 cardinality and leakage assertions
+AFTER: exact test passes delayed emit, preserves 200/400 cardinality and leakage assertions

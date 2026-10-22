@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-22 Asia/Saigon",
+  "source": "direct user reply in current chat",
+  "answer": "Cho phép recovery và retest trong phạm vi trên",
+  "total_minutes": 35,
+  "cleanup_restore_minutes": 10,
+  "pause": [
+    "gaia",
+    "hephaestus"
+  ],
+  "restart_once": "k3d-zero-door-server-0",
+  "fixture_pods_max": 4,
+  "fixture_http_max": 4000,
+  "es_queries_max": 12,
+  "no": [
+    "cluster recreation",
+    "PVC/volume deletion",
+    "manual firewall changes",
+    "paid API",
+    "Git publication",
+    "Linear writes"
+  ]
+}

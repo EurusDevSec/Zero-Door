@@ -1,0 +1,1499 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/restartedAt: "2026-10-22T16:33:41+07:00"
+    creationTimestamp: "2026-10-22T09:34:12Z"
+    generateName: sqli-fixture-58c7c77d88-
+    labels:
+      app: sqli-fixture
+      pod-template-hash: 58c7c77d88
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: sqli-fixture-58c7c77d88-5k7nt
+    namespace: zd-sqli-lab
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: sqli-fixture-58c7c77d88
+      uid: a62bcc2c-651f-419d-963b-08d79f4f0bb8
+    resourceVersion: "119761"
+    uid: 2a0ad025-a0bc-4767-911a-8c0bdadef17e
+  spec:
+    automountServiceAccountToken: false
+    containers:
+    - envFrom:
+      - configMapRef:
+          name: sqli-fixture-config
+      image: zer41-fixture:37c7a045e098
+      imagePullPolicy: Never
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /health
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: sqli-fixture
+      ports:
+      - containerPort: 9140
+        name: http
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /ready
+          port: http
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 150m
+          memory: 96Mi
+        requests:
+          cpu: 25m
+          memory: 32Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    initContainers:
+    - command:
+      - /usr/bin/python3
+      - -c
+      - 'import time; from pathlib import Path; p=Path("/data/.policy-release"); exec("while
+        not p.exists(): time.sleep(0.2)")'
+      image: zer41-fixture:37c7a045e098
+      imagePullPolicy: Never
+      name: policy-gate
+      resources:
+        limits:
+          cpu: 50m
+          memory: 32Mi
+        requests:
+          cpu: 5m
+          memory: 8Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    nodeName: k3d-zero-door-server-0
+    nodeSelector:
+      kubernetes.io/hostname: k3d-zero-door-server-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 65532
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: sqli-fixture
+    serviceAccountName: sqli-fixture
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - emptyDir:
+        sizeLimit: 64Mi
+      name: data
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:34:14Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:34:19Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:34:21Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:34:21Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:34:12Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://66d951232c660b30d4ad311aa3cbed966b7fc597cb5111b7edf12cacfccdc69f
+      image: docker.io/library/zer41-fixture:37c7a045e098
+      imageID: sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f
+      lastState: {}
+      name: sqli-fixture
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-10-22T09:34:19Z"
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    hostIP: 172.19.0.3
+    hostIPs:
+    - ip: 172.19.0.3
+    initContainerStatuses:
+    - containerID: containerd://f9025fde6ec25e605839d2fbd53b6712905df1280b461b12582539e1d46fb011
+      image: docker.io/library/zer41-fixture:37c7a045e098
+      imageID: sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f
+      lastState: {}
+      name: policy-gate
+      ready: true
+      restartCount: 0
+      started: false
+      state:
+        terminated:
+          containerID: containerd://f9025fde6ec25e605839d2fbd53b6712905df1280b461b12582539e1d46fb011
+          exitCode: 0
+          finishedAt: "2026-10-22T09:34:19Z"
+          reason: Completed
+          startedAt: "2026-10-22T09:34:14Z"
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    phase: Running
+    podIP: 10.42.1.203
+    podIPs:
+    - ip: 10.42.1.203
+    qosClass: Burstable
+    startTime: "2026-10-22T09:34:12Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generateName: zer41-private-ingress-54f7cf4bb4-
+    labels:
+      app: zer41-private-ingress
+      pod-template-hash: 54f7cf4bb4
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-private-ingress-54f7cf4bb4-5pxd4
+    namespace: zd-sqli-lab
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: zer41-private-ingress-54f7cf4bb4
+      uid: 9dba4efd-0c0f-4d0c-9caf-3c40aa328651
+    resourceVersion: "119139"
+    uid: 1183cbd4-00e8-416d-b348-15117ae00e82
+  spec:
+    automountServiceAccountToken: false
+    containers:
+    - args:
+      - --global.checkNewVersion=false
+      - --global.sendAnonymousUsage=false
+      - --entrypoints.web.address=:8000
+      - --providers.file.filename=/config/dynamic.yaml
+      - --accesslog=true
+      - --accesslog.format=json
+      - --log.format=json
+      - --log.level=ERROR
+      image: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+      imagePullPolicy: IfNotPresent
+      name: traefik
+      ports:
+      - containerPort: 8000
+        name: web
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 1
+        periodSeconds: 2
+        successThreshold: 1
+        tcpSocket:
+          port: web
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 150m
+          memory: 96Mi
+        requests:
+          cpu: 25m
+          memory: 32Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: config
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-zero-door-server-0
+    nodeSelector:
+      kubernetes.io/hostname: k3d-zero-door-server-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: zer41-private-ingress
+      name: config
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:36Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:36Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://30f196d8bb68e3dcf8660a76a4925ae6e29533faf75a90d523d9de12acd44031
+      image: docker.io/library/traefik:v3.7.14
+      imageID: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+      lastState: {}
+      name: traefik
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-10-22T09:31:40Z"
+      volumeMounts:
+      - mountPath: /config
+        name: config
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 172.19.0.3
+    hostIPs:
+    - ip: 172.19.0.3
+    phase: Running
+    podIP: 10.42.1.201
+    podIPs:
+    - ip: 10.42.1.201
+    qosClass: Burstable
+    startTime: "2026-10-22T09:31:36Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"zer41-source","zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"zer41-source-a","namespace":"zd-sqli-lab"},"spec":{"activeDeadlineSeconds":1500,"automountServiceAccountToken":false,"containers":[{"command":["/usr/bin/python3","-c","import time; time.sleep(1500)"],"image":"zer41-fixture:37c7a045e098","imagePullPolicy":"Never","name":"source","resources":{"limits":{"cpu":"50m","memory":"48Mi"},"requests":{"cpu":"5m","memory":"16Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true}}],"nodeSelector":{"kubernetes.io/hostname":"k3d-zero-door-server-0"},"restartPolicy":"Never","securityContext":{"runAsGroup":65532,"runAsNonRoot":true,"runAsUser":65532,"seccompProfile":{"type":"RuntimeDefault"}}}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    labels:
+      app: zer41-source
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-source-a
+    namespace: zd-sqli-lab
+    resourceVersion: "119143"
+    uid: 8a4930ff-dd23-44b7-837d-0bd23b016f49
+  spec:
+    activeDeadlineSeconds: 1500
+    automountServiceAccountToken: false
+    containers:
+    - command:
+      - /usr/bin/python3
+      - -c
+      - import time; time.sleep(1500)
+      image: zer41-fixture:37c7a045e098
+      imagePullPolicy: Never
+      name: source
+      resources:
+        limits:
+          cpu: 50m
+          memory: 48Mi
+        requests:
+          cpu: 5m
+          memory: 16Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-zero-door-server-0
+    nodeSelector:
+      kubernetes.io/hostname: k3d-zero-door-server-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:36Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:36Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://4cbfecc4c4e64a05f2b96d3c1f0c32d6c638b0d0591cfde2aea2c18af395c48c
+      image: docker.io/library/zer41-fixture:37c7a045e098
+      imageID: sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f
+      lastState: {}
+      name: source
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-10-22T09:31:41Z"
+    hostIP: 172.19.0.3
+    hostIPs:
+    - ip: 172.19.0.3
+    phase: Running
+    podIP: 10.42.1.199
+    podIPs:
+    - ip: 10.42.1.199
+    qosClass: Burstable
+    startTime: "2026-10-22T09:31:36Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"zer41-source","zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"zer41-source-b","namespace":"zd-sqli-lab"},"spec":{"activeDeadlineSeconds":1500,"automountServiceAccountToken":false,"containers":[{"command":["/usr/bin/python3","-c","import time; time.sleep(1500)"],"image":"zer41-fixture:37c7a045e098","imagePullPolicy":"Never","name":"source","resources":{"limits":{"cpu":"50m","memory":"48Mi"},"requests":{"cpu":"5m","memory":"16Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true}}],"nodeSelector":{"kubernetes.io/hostname":"k3d-zero-door-server-0"},"restartPolicy":"Never","securityContext":{"runAsGroup":65532,"runAsNonRoot":true,"runAsUser":65532,"seccompProfile":{"type":"RuntimeDefault"}}}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    labels:
+      app: zer41-source
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-source-b
+    namespace: zd-sqli-lab
+    resourceVersion: "119138"
+    uid: 4c9e33ea-4b3f-4677-ab9e-c60597e6594e
+  spec:
+    activeDeadlineSeconds: 1500
+    automountServiceAccountToken: false
+    containers:
+    - command:
+      - /usr/bin/python3
+      - -c
+      - import time; time.sleep(1500)
+      image: zer41-fixture:37c7a045e098
+      imagePullPolicy: Never
+      name: source
+      resources:
+        limits:
+          cpu: 50m
+          memory: 48Mi
+        requests:
+          cpu: 5m
+          memory: 16Mi
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: k3d-zero-door-server-0
+    nodeSelector:
+      kubernetes.io/hostname: k3d-zero-door-server-0
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext:
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:36Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:41Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-22T09:31:36Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://7cbdfc6a03b8ebaab43232d38a74a39429986124a09e202abc16df671da26f18
+      image: docker.io/library/zer41-fixture:37c7a045e098
+      imageID: sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f
+      lastState: {}
+      name: source
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-10-22T09:31:41Z"
+    hostIP: 172.19.0.3
+    hostIPs:
+    - ip: 172.19.0.3
+    phase: Running
+    podIP: 10.42.1.200
+    podIPs:
+    - ip: 10.42.1.200
+    qosClass: Burstable
+    startTime: "2026-10-22T09:31:36Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"sqli-fixture","namespace":"zd-sqli-lab"},"spec":{"ports":[{"name":"http","port":9140,"targetPort":"http"}],"selector":{"app":"sqli-fixture"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: sqli-fixture
+    namespace: zd-sqli-lab
+    resourceVersion: "119082"
+    uid: be24b172-c9a5-4227-a3e4-6b9c2462c91e
+  spec:
+    clusterIP: 10.43.112.87
+    clusterIPs:
+    - 10.43.112.87
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 9140
+      protocol: TCP
+      targetPort: http
+    selector:
+      app: sqli-fixture
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"zer41-private-ingress","namespace":"zd-sqli-lab"},"spec":{"ports":[{"name":"web","port":8000,"targetPort":"web"}],"selector":{"app":"zer41-private-ingress"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-private-ingress
+    namespace: zd-sqli-lab
+    resourceVersion: "119094"
+    uid: 5841d798-2ff1-436a-b117-3a6e362af687
+  spec:
+    clusterIP: 10.43.211.90
+    clusterIPs:
+    - 10.43.211.90
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: web
+      port: 8000
+      protocol: TCP
+      targetPort: web
+    selector:
+      app: zer41-private-ingress
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2026-10-22T09:31:42Z"
+    generation: 2
+    labels:
+      app: sqli-fixture
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: sqli-fixture
+    namespace: zd-sqli-lab
+    resourceVersion: "119765"
+    uid: 47195262-fac4-4aa8-a331-66809c79e1c5
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: sqli-fixture
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-10-22T16:33:41+07:00"
+        creationTimestamp: null
+        labels:
+          app: sqli-fixture
+          zero-door.io/run: zer41-20261022-9ad4b1e6
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: sqli-fixture-config
+          image: zer41-fixture:37c7a045e098
+          imagePullPolicy: Never
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: sqli-fixture
+          ports:
+          - containerPort: 9140
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 96Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - /usr/bin/python3
+          - -c
+          - 'import time; from pathlib import Path; p=Path("/data/.policy-release");
+            exec("while not p.exists(): time.sleep(0.2)")'
+          image: zer41-fixture:37c7a045e098
+          imagePullPolicy: Never
+          name: policy-gate
+          resources:
+            limits:
+              cpu: 50m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 8Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+        nodeSelector:
+          kubernetes.io/hostname: k3d-zero-door-server-0
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 65532
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: sqli-fixture
+        serviceAccountName: sqli-fixture
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir:
+            sizeLimit: 64Mi
+          name: data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-10-22T09:34:21Z"
+      lastUpdateTime: "2026-10-22T09:34:21Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-10-22T09:31:42Z"
+      lastUpdateTime: "2026-10-22T09:34:21Z"
+      message: ReplicaSet "sqli-fixture-58c7c77d88" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"zer41-private-ingress","namespace":"zd-sqli-lab"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"zer41-private-ingress"}},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"zer41-private-ingress","zero-door.io/run":"zer41-20261022-9ad4b1e6"}},"spec":{"automountServiceAccountToken":false,"containers":[{"args":["--global.checkNewVersion=false","--global.sendAnonymousUsage=false","--entrypoints.web.address=:8000","--providers.file.filename=/config/dynamic.yaml","--accesslog=true","--accesslog.format=json","--log.format=json","--log.level=ERROR"],"image":"docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c","imagePullPolicy":"IfNotPresent","name":"traefik","ports":[{"containerPort":8000,"name":"web"}],"readinessProbe":{"initialDelaySeconds":1,"periodSeconds":2,"tcpSocket":{"port":"web"}},"resources":{"limits":{"cpu":"150m","memory":"96Mi"},"requests":{"cpu":"25m","memory":"32Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true},"volumeMounts":[{"mountPath":"/config","name":"config","readOnly":true}]}],"nodeSelector":{"kubernetes.io/hostname":"k3d-zero-door-server-0"},"securityContext":{"runAsGroup":65532,"runAsNonRoot":true,"runAsUser":65532,"seccompProfile":{"type":"RuntimeDefault"}},"volumes":[{"configMap":{"name":"zer41-private-ingress"},"name":"config"}]}}}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generation: 1
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-private-ingress
+    namespace: zd-sqli-lab
+    resourceVersion: "119144"
+    uid: 938e2ddc-42c4-40bc-8cfe-f5f4fd91a744
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: zer41-private-ingress
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: zer41-private-ingress
+          zero-door.io/run: zer41-20261022-9ad4b1e6
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - args:
+          - --global.checkNewVersion=false
+          - --global.sendAnonymousUsage=false
+          - --entrypoints.web.address=:8000
+          - --providers.file.filename=/config/dynamic.yaml
+          - --accesslog=true
+          - --accesslog.format=json
+          - --log.format=json
+          - --log.level=ERROR
+          image: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+          imagePullPolicy: IfNotPresent
+          name: traefik
+          ports:
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 1
+            periodSeconds: 2
+            successThreshold: 1
+            tcpSocket:
+              port: web
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 96Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/hostname: k3d-zero-door-server-0
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: zer41-private-ingress
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-10-22T09:31:41Z"
+      lastUpdateTime: "2026-10-22T09:31:41Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-10-22T09:31:36Z"
+      lastUpdateTime: "2026-10-22T09:31:41Z"
+      message: ReplicaSet "zer41-private-ingress-54f7cf4bb4" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2026-10-22T09:34:12Z"
+    generation: 1
+    labels:
+      app: sqli-fixture
+      pod-template-hash: 58c7c77d88
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: sqli-fixture-58c7c77d88
+    namespace: zd-sqli-lab
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: sqli-fixture
+      uid: 47195262-fac4-4aa8-a331-66809c79e1c5
+    resourceVersion: "119764"
+    uid: a62bcc2c-651f-419d-963b-08d79f4f0bb8
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: sqli-fixture
+        pod-template-hash: 58c7c77d88
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2026-10-22T16:33:41+07:00"
+        creationTimestamp: null
+        labels:
+          app: sqli-fixture
+          pod-template-hash: 58c7c77d88
+          zero-door.io/run: zer41-20261022-9ad4b1e6
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: sqli-fixture-config
+          image: zer41-fixture:37c7a045e098
+          imagePullPolicy: Never
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: sqli-fixture
+          ports:
+          - containerPort: 9140
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 96Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - /usr/bin/python3
+          - -c
+          - 'import time; from pathlib import Path; p=Path("/data/.policy-release");
+            exec("while not p.exists(): time.sleep(0.2)")'
+          image: zer41-fixture:37c7a045e098
+          imagePullPolicy: Never
+          name: policy-gate
+          resources:
+            limits:
+              cpu: 50m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 8Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+        nodeSelector:
+          kubernetes.io/hostname: k3d-zero-door-server-0
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 65532
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: sqli-fixture
+        serviceAccountName: sqli-fixture
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir:
+            sizeLimit: 64Mi
+          name: data
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-10-22T09:31:42Z"
+    generation: 2
+    labels:
+      app: sqli-fixture
+      pod-template-hash: 759596847d
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: sqli-fixture-759596847d
+    namespace: zd-sqli-lab
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: sqli-fixture
+      uid: 47195262-fac4-4aa8-a331-66809c79e1c5
+    resourceVersion: "119709"
+    uid: 6835b41c-0d92-4a7f-b437-0cee0d30648c
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: sqli-fixture
+        pod-template-hash: 759596847d
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: sqli-fixture
+          pod-template-hash: 759596847d
+          zero-door.io/run: zer41-20261022-9ad4b1e6
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - envFrom:
+          - configMapRef:
+              name: sqli-fixture-config
+          image: zer41-fixture:37c7a045e098
+          imagePullPolicy: Never
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: sqli-fixture
+          ports:
+          - containerPort: 9140
+            name: http
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 96Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+        dnsPolicy: ClusterFirst
+        initContainers:
+        - command:
+          - /usr/bin/python3
+          - -c
+          - 'import time; from pathlib import Path; p=Path("/data/.policy-release");
+            exec("while not p.exists(): time.sleep(0.2)")'
+          image: zer41-fixture:37c7a045e098
+          imagePullPolicy: Never
+          name: policy-gate
+          resources:
+            limits:
+              cpu: 50m
+              memory: 32Mi
+            requests:
+              cpu: 5m
+              memory: 8Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /data
+            name: data
+        nodeSelector:
+          kubernetes.io/hostname: k3d-zero-door-server-0
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 65532
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+        serviceAccount: sqli-fixture
+        serviceAccountName: sqli-fixture
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir:
+            sizeLimit: 64Mi
+          name: data
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generation: 1
+    labels:
+      app: zer41-private-ingress
+      pod-template-hash: 54f7cf4bb4
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-private-ingress-54f7cf4bb4
+    namespace: zd-sqli-lab
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: zer41-private-ingress
+      uid: 938e2ddc-42c4-40bc-8cfe-f5f4fd91a744
+    resourceVersion: "119142"
+    uid: 9dba4efd-0c0f-4d0c-9caf-3c40aa328651
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: zer41-private-ingress
+        pod-template-hash: 54f7cf4bb4
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: zer41-private-ingress
+          pod-template-hash: 54f7cf4bb4
+          zero-door.io/run: zer41-20261022-9ad4b1e6
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - args:
+          - --global.checkNewVersion=false
+          - --global.sendAnonymousUsage=false
+          - --entrypoints.web.address=:8000
+          - --providers.file.filename=/config/dynamic.yaml
+          - --accesslog=true
+          - --accesslog.format=json
+          - --log.format=json
+          - --log.level=ERROR
+          image: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+          imagePullPolicy: IfNotPresent
+          name: traefik
+          ports:
+          - containerPort: 8000
+            name: web
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 1
+            periodSeconds: 2
+            successThreshold: 1
+            tcpSocket:
+              port: web
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 150m
+              memory: 96Mi
+            requests:
+              cpu: 25m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/hostname: k3d-zero-door-server-0
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: zer41-private-ingress
+          name: config
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"allow-ingress-controller-and-dns","namespace":"zd-sqli-lab"},"spec":{"egress":[{"ports":[{"port":53,"protocol":"UDP"},{"port":53,"protocol":"TCP"}],"to":[{"namespaceSelector":{}}]}],"ingress":[{"from":[{"podSelector":{"matchLabels":{"app":"zer41-private-ingress"}}}],"ports":[{"port":9140,"protocol":"TCP"}]}],"podSelector":{"matchLabels":{"app":"sqli-fixture"}},"policyTypes":["Ingress","Egress"]}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generation: 1
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: allow-ingress-controller-and-dns
+    namespace: zd-sqli-lab
+    resourceVersion: "119086"
+    uid: 9af955d8-58bd-494e-b5aa-f337a029e245
+  spec:
+    egress:
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+      to:
+      - namespaceSelector: {}
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: zer41-private-ingress
+      ports:
+      - port: 9140
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: sqli-fixture
+    policyTypes:
+    - Ingress
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"default-deny","namespace":"zd-sqli-lab"},"spec":{"podSelector":{},"policyTypes":["Ingress","Egress"]}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generation: 1
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: default-deny
+    namespace: zd-sqli-lab
+    resourceVersion: "119084"
+    uid: 1ad40e24-18d4-4f96-8fb2-024f899ba363
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Ingress
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"private-ingress","namespace":"zd-sqli-lab"},"spec":{"egress":[{"ports":[{"port":9140,"protocol":"TCP"}],"to":[{"podSelector":{"matchLabels":{"app":"sqli-fixture"}}}]},{"ports":[{"port":53,"protocol":"UDP"},{"port":53,"protocol":"TCP"}],"to":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"kube-system"}},"podSelector":{"matchLabels":{"k8s-app":"kube-dns"}}}]}],"ingress":[{"from":[{"podSelector":{"matchLabels":{"app":"zer41-source"}}}],"ports":[{"port":8000,"protocol":"TCP"}]}],"podSelector":{"matchLabels":{"app":"zer41-private-ingress"}},"policyTypes":["Ingress","Egress"]}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generation: 1
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: private-ingress
+    namespace: zd-sqli-lab
+    resourceVersion: "119111"
+    uid: 7f0a1487-ff53-4477-8d80-c1af56dc6e54
+  spec:
+    egress:
+    - ports:
+      - port: 9140
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app: sqli-fixture
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: zer41-source
+      ports:
+      - port: 8000
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: zer41-private-ingress
+    policyTypes:
+    - Ingress
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"private-sources","namespace":"zd-sqli-lab"},"spec":{"egress":[{"ports":[{"port":8000,"protocol":"TCP"}],"to":[{"podSelector":{"matchLabels":{"app":"zer41-private-ingress"}}}]},{"ports":[{"port":9140,"protocol":"TCP"}],"to":[{"podSelector":{"matchLabels":{"app":"sqli-fixture"}}}]},{"ports":[{"port":53,"protocol":"UDP"},{"port":53,"protocol":"TCP"}],"to":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"kube-system"}},"podSelector":{"matchLabels":{"k8s-app":"kube-dns"}}}]}],"podSelector":{"matchLabels":{"app":"zer41-source"}},"policyTypes":["Egress"]}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    generation: 1
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: private-sources
+    namespace: zd-sqli-lab
+    resourceVersion: "119114"
+    uid: fc6ce191-252a-485f-9ec8-a2192038cdf1
+  spec:
+    egress:
+    - ports:
+      - port: 8000
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app: zer41-private-ingress
+    - ports:
+      - port: 9140
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app: sqli-fixture
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+    podSelector:
+      matchLabels:
+        app: zer41-source
+    policyTypes:
+    - Egress
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIBeDCCAR2gAwIBAgIBADAKBggqhkjOPQQDAjAjMSEwHwYDVQQDDBhrM3Mtc2Vy
+      dmVyLWNhQDE3OTIyOTIwOTMwHhcNMjYxMDE4MDI1NDUzWhcNMzYxMDE1MDI1NDUz
+      WjAjMSEwHwYDVQQDDBhrM3Mtc2VydmVyLWNhQDE3OTIyOTIwOTMwWTATBgcqhkjO
+      PQIBBggqhkjOPQMBBwNCAATiMTqutp3uYbMLXQa+y6czm4rYPGjIok/elx5HZiNd
+      kGRm/H/iXTLZlLVK/PjNCCXQU8etj9u+3bcd87/CBaYao0IwQDAOBgNVHQ8BAf8E
+      BAMCAqQwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUL5rsCPDmwx45gsf9r6Tz
+      86rU+TswCgYIKoZIzj0EAwIDSQAwRgIhAIubIcNIGd1kVcWiJ9HIm8cTQ2qdtaBY
+      qObHOXdRV22RAiEAgQWA1q+GBbx4ZJk2c0ETmA32Ke1aqcHvYKRqvX81CSI=
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2026-10-22T09:31:35Z"
+    name: kube-root-ca.crt
+    namespace: zd-sqli-lab
+    resourceVersion: "119077"
+    uid: aa97d28a-bfee-48fa-90bc-07582dbd8d55
+- apiVersion: v1
+  data:
+    ZD_SQLI_HOST: 0.0.0.0
+    ZD_SQLI_PORT: "9140"
+    ZD_SQLI_PROFILE: vulnerable
+    ZD_SQLI_TOPOLOGY: proxied
+    ZD_SQLI_TRUSTED_PROXIES: 10.42.1.201/32
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"ZD_SQLI_HOST":"0.0.0.0","ZD_SQLI_PORT":"9140","ZD_SQLI_PROFILE":"safe","ZD_SQLI_TOPOLOGY":"proxied","ZD_SQLI_TRUSTED_PROXIES":""},"kind":"ConfigMap","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"sqli-fixture-config","namespace":"zd-sqli-lab"}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: sqli-fixture-config
+    namespace: zd-sqli-lab
+    resourceVersion: "119699"
+    uid: 956c9ee9-fa36-4cb2-ad0e-3028405651ed
+- apiVersion: v1
+  data:
+    dynamic.yaml: |
+      http:
+        routers:
+          fixture:
+            entryPoints:
+            - web
+            rule: PathPrefix(`/fixture`)
+            service: fixture
+        services:
+          fixture:
+            loadBalancer:
+              servers:
+              - url: http://sqli-fixture:9140
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"dynamic.yaml":"http:\n  routers:\n    fixture:\n      entryPoints:\n      - web\n      rule: PathPrefix(`/fixture`)\n      service: fixture\n  services:\n    fixture:\n      loadBalancer:\n        servers:\n        - url: http://sqli-fixture:9140\n"},"kind":"ConfigMap","metadata":{"annotations":{},"labels":{"zero-door.io/run":"zer41-20261022-9ad4b1e6"},"name":"zer41-private-ingress","namespace":"zd-sqli-lab"}}
+    creationTimestamp: "2026-10-22T09:31:36Z"
+    labels:
+      zero-door.io/run: zer41-20261022-9ad4b1e6
+    name: zer41-private-ingress
+    namespace: zd-sqli-lab
+    resourceVersion: "119087"
+    uid: 287458ca-160a-4053-a010-05a72dd0a5d9
+kind: List
+metadata:
+  resourceVersion: ""

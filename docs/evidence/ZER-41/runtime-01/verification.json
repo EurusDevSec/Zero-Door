@@ -1,0 +1,47 @@
+{
+  "verdict": "BLOCKED_RUNTIME_ISOLATION",
+  "effect_criterion": "owner approved synthetic restricted seed rows; not runtime demonstrated",
+  "attempts": [
+    {
+      "attempt": "01",
+      "run": "zer41-20261022-e926f5e8",
+      "cleanup": "CLEAN",
+      "exit_code": 1,
+      "elapsed_seconds": 103,
+      "fixture_access_records_observed": 4,
+      "manual_http_samples_completed": 0,
+      "vulnerable_started": false
+    },
+    {
+      "attempt": "02",
+      "run": "zer41-20261022-1226f00a",
+      "cleanup": "CLEAN",
+      "exit_code": 1,
+      "elapsed_seconds": 393,
+      "fixture_access_records_observed": 19,
+      "manual_http_samples_completed": 12,
+      "vulnerable_started": false
+    },
+    {
+      "attempt": "03",
+      "run": "zer41-20261022-249a0cc6",
+      "cleanup": "CLEAN",
+      "exit_code": 1,
+      "elapsed_seconds": 827,
+      "fixture_access_records_observed": 0,
+      "manual_http_samples_completed": 0,
+      "vulnerable_started": false
+    }
+  ],
+  "manual_http_attempts": 13,
+  "completed_manual_http": 12,
+  "elasticsearch_queries": 0,
+  "fixture_image_built_once": true,
+  "no_source_app_change": true,
+  "stock_manifest_not_applied": true,
+  "shared_ingress_not_created": true,
+  "all_owned_namespaces_clean": true,
+  "time_to_last_cleanup_seconds": 827,
+  "budget_exact_total_http": "UNKNOWN: first log stream timed out; no passing budget/AC claim",
+  "next": "read-only diagnosis of policy reconciliation; any extended lab or node/controller restart needs a new concrete grant"
+}

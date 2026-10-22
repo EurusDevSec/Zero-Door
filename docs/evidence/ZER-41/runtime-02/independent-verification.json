@@ -1,0 +1,63 @@
+{
+  "safe": {
+    "sources": [
+      {
+        "source": "a",
+        "requests": 12,
+        "client_ip": "10.42.1.199",
+        "effect_rows": [],
+        "owned_order_deleted": "3817bf3c5b87464c84454a0236da73e2",
+        "spoof_not_accepted": true
+      },
+      {
+        "source": "b",
+        "requests": 12,
+        "client_ip": "10.42.1.200",
+        "effect_rows": [],
+        "owned_order_deleted": "ce19dff8eeeb4e6aa01dca30ddfa41b2",
+        "spoof_not_accepted": true
+      }
+    ],
+    "fixture_access_records": 44
+  },
+  "vulnerable": {
+    "sources": [
+      {
+        "source": "a",
+        "requests": 12,
+        "client_ip": "10.42.1.199",
+        "effect_rows": [
+          "RES-APP-900",
+          "RES-INT-001",
+          "RES-INT-002"
+        ],
+        "owned_order_deleted": "ea3e197994964788bdbab30d9d8b0032",
+        "spoof_not_accepted": true
+      },
+      {
+        "source": "b",
+        "requests": 12,
+        "client_ip": "10.42.1.200",
+        "effect_rows": [
+          "RES-APP-900",
+          "RES-INT-001",
+          "RES-INT-002"
+        ],
+        "owned_order_deleted": "f2bcf1c68dc44f939c3ce3a324a16954",
+        "spoof_not_accepted": true
+      }
+    ],
+    "fixture_access_records": 34
+  },
+  "summary": {
+    "verdict": "INDEPENDENT_RAW_PASS_PRIVATE_PROFILE",
+    "matched_requests": 48,
+    "unique_request_ids": 48,
+    "unique_correlations": 48,
+    "owned_orders_deleted": 4,
+    "fixture_access_records_seen": 78,
+    "es_queries": 2,
+    "namespace_absent": true,
+    "restoration": "RESTORE_PASS"
+  }
+}

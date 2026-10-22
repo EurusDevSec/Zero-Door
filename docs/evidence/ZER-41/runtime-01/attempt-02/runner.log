@@ -1,0 +1,19 @@
+
+PHASE P0 elapsed=322s cap=180s
+Reuse the one already-built/imported fixture image; no second image build.
+
+PHASE P2_SAFE_ROLLOUT elapsed=323s cap=180s
+Waiting for deployment "zer41-private-ingress" rollout to finish: 0 of 1 updated replicas are available...
+deployment "zer41-private-ingress" successfully rolled out
+pod/zer41-source-a condition met
+pod/zer41-source-b condition met
+configmap/sqli-fixture-config patched
+deployment.apps/sqli-fixture created
+Waiting for deployment "sqli-fixture" rollout to finish: 0 of 1 updated replicas are available...
+deployment "sqli-fixture" successfully rolled out
+
+PHASE P3_SAFE elapsed=344s cap=240s
+command terminated with exit code 1
+
+CLEANUP elapsed=354s exit=1
+{"run":"zer41-20261022-1226f00a","cleanup":"CLEAN","exit_code":1,"elapsed_seconds":393}

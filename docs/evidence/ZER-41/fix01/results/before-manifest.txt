@@ -1,0 +1,11 @@
+OpenAPI field/type PASS 8 resources
+default profile safe PASS
+read-only root, DB-only writable volume, non-root PASS
+ClusterIP, selector and port match PASS
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-41\check_manifest.py", line 88, in <module>
+    main(manifest=sys.argv[1] if len(sys.argv) > 1 else MANIFEST)
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-41\check_manifest.py", line 57, in main
+    assert volume.get("sizeLimit"), "the DB emptyDir must declare a sizeLimit"
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: the DB emptyDir must declare a sizeLimit

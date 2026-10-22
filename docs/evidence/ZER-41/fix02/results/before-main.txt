@@ -1,0 +1,130 @@
+test_bad_trusted_proxy_refuses_start (__main__.ConfigGuards.test_bad_trusted_proxy_refuses_start) ... ok
+test_default_profile_is_safe_and_topology_proxied (__main__.ConfigGuards.test_default_profile_is_safe_and_topology_proxied) ... ok
+test_missing_db_dir_refuses_start (__main__.ConfigGuards.test_missing_db_dir_refuses_start) ... ok
+test_missing_seed_refuses_start (__main__.ConfigGuards.test_missing_seed_refuses_start) ... ok
+test_nonexistent_db_dir_refuses_start (__main__.ConfigGuards.test_nonexistent_db_dir_refuses_start) ... ok
+test_out_of_range_port_refuses_start (__main__.ConfigGuards.test_out_of_range_port_refuses_start) ... ok
+test_unknown_profile_refuses_start (__main__.ConfigGuards.test_unknown_profile_refuses_start) ... ok
+test_unknown_topology_refuses_start (__main__.ConfigGuards.test_unknown_topology_refuses_start) ... ok
+test_delete_is_scoped_to_one_ref_and_is_parameterised (__main__.Crud.test_delete_is_scoped_to_one_ref_and_is_parameterised) ... ok
+test_explicit_reset_removes_orders_only (__main__.Crud.test_explicit_reset_removes_orders_only) ... ok
+test_malformed_body_is_refused (__main__.Crud.test_malformed_body_is_refused) ... {"ts":1792655192.5519722,"request_id":"cbfcecf8783d4ba19912d262ef9a9d8f","method":"POST","path":"/fixture/orders","status":400,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_oversized_body_is_refused (__main__.Crud.test_oversized_body_is_refused) ... {"ts":1792655192.5519722,"request_id":"53a2b30f2f014d77bd0e86570ab4d3b8","method":"POST","path":"/fixture/orders","status":413,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_owned_order_round_trip_then_cleanup (__main__.Crud.test_owned_order_round_trip_then_cleanup) ... ok
+test_unproven_ownership_is_not_cleaned (__main__.Crud.test_unproven_ownership_is_not_cleaned) ... ok
+test_locked_db_on_a_benign_category_is_503_not_a_client_error (__main__.Failures.test_locked_db_on_a_benign_category_is_503_not_a_client_error) ... {"ts":1792655193.7517877,"request_id":"289f2a9b205443a38a385516500d5bd1","method":"GET","path":"/fixture/catalog/search","status":503,"duration_ms":671.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_missing_db_is_503_with_a_record_not_a_disconnect (__main__.Failures.test_missing_db_is_503_with_a_record_not_a_disconnect) ... {"ts":1792655194.1283956,"request_id":"832e29646b5b400cb93fc50542daa5ac","method":"GET","path":"/fixture/catalog/search","status":503,"duration_ms":15.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_ill_formed_correlation_ids_are_dropped (__main__.Logs.test_ill_formed_correlation_ids_are_dropped) ... ok
+test_no_container_stream_discloses_the_profile (__main__.Logs.test_no_container_stream_discloses_the_profile) ... {"ts":1792655194.629595,"request_id":"4227d0ddd7f84aaab738ef9e8797c325","method":"GET","path":"/fixture/catalog/search","status":400,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_health_is_process_only_and_ready_checks_the_db (__main__.Readiness.test_health_is_process_only_and_ready_checks_the_db) ... ok
+test_benign_categories_are_equivalent_on_both_profiles (__main__.Search.test_benign_categories_are_equivalent_on_both_profiles) ... ok
+test_blob_union_result_is_rejected_not_crashed (__main__.Search.test_blob_union_result_is_rejected_not_crashed) ... {"ts":1792655195.7856615,"request_id":"e87bfc742d1e4ca3a09accf2db121656","method":"GET","path":"/fixture/catalog/search","status":422,"duration_ms":16.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_category_over_length_is_rejected (__main__.Search.test_category_over_length_is_rejected) ... {"ts":1792655195.7856615,"request_id":"b61d1675abb642af8b589a707909cec9","method":"GET","path":"/fixture/catalog/search","status":400,"duration_ms":0.0,"tcp_peer":"127.0.0.1","source_method":"DIRECT_PEER","source_confidence":"OBSERVED_PEER","client_ip":"127.0.0.1","correlation_id":null}
+ok
+test_injection_leaks_restricted_rows_only_on_the_vulnerable_profile (__main__.Search.test_injection_leaks_restricted_rows_only_on_the_vulnerable_profile) ... ok
+test_stacked_statement_injection_is_rejected_not_executed (__main__.Search.test_stacked_statement_injection_is_rejected_not_executed) ... ok
+test_build_db_is_reproducible (__main__.Seed.test_build_db_is_reproducible) ... ok
+test_expected_matches_seed (__main__.Seed.test_expected_matches_seed) ... ok
+test_service_and_test_seed_do_not_drift (__main__.Seed.test_service_and_test_seed_do_not_drift) ... ok
+test_direct_topology_peer_is_source_and_forged_header_ignored (__main__.Source.test_direct_topology_peer_is_source_and_forged_header_ignored) ... ok
+test_proxied_all_hops_trusted_is_unknown (__main__.Source.test_proxied_all_hops_trusted_is_unknown) ... ok
+test_proxied_ingress_without_trusted_proxy_is_unknown (__main__.Source.test_proxied_ingress_without_trusted_proxy_is_unknown) ... ok
+test_proxied_malformed_forward_is_unknown (__main__.Source.test_proxied_malformed_forward_is_unknown) ... ok
+test_proxied_multi_hop_takes_first_untrusted_from_the_right (__main__.Source.test_proxied_multi_hop_takes_first_untrusted_from_the_right) ... ok
+test_proxied_trusted_proxy_with_forwarded_client (__main__.Source.test_proxied_trusted_proxy_with_forwarded_client) ... ok
+test_proxied_trusted_proxy_without_forward_is_unknown (__main__.Source.test_proxied_trusted_proxy_without_forward_is_unknown) ... ok
+test_foreign_db_refuses_start_without_erasing (__main__.Startup.test_foreign_db_refuses_start_without_erasing) ... ok
+test_invalid_config_refuses_before_any_mutation (__main__.Startup.test_invalid_config_refuses_before_any_mutation) ... ok
+test_normal_reopen_preserves_orders (__main__.Startup.test_normal_reopen_preserves_orders) ... ok
+test_foreign_file_fails_neutrally_and_is_kept (__main__.StartupFailure.test_foreign_file_fails_neutrally_and_is_kept) ... FAIL
+test_handler_error_writes_no_traceback (__main__.StartupFailure.test_handler_error_writes_no_traceback) ... FAIL
+test_ill_formed_seed_fails_neutrally (__main__.StartupFailure.test_ill_formed_seed_fails_neutrally) ... FAIL
+test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) ... 
+  test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) (setting='ZD_SQLI_PROFILE') ... FAIL
+  test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) (setting='ZD_SQLI_TRUSTED_PROXIES') ... FAIL
+  test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) (setting='ZD_SQLI_SEED') ... FAIL
+test_mismatched_seed_db_fails_neutrally_and_is_kept (__main__.StartupFailure.test_mismatched_seed_db_fails_neutrally_and_is_kept) ... FAIL
+
+======================================================================
+FAIL: test_foreign_file_fails_neutrally_and_is_kept (__main__.StartupFailure.test_foreign_file_fails_neutrally_and_is_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 428, in test_foreign_file_fails_neutrally_and_is_kept
+    self.assert_neutral(result, self.CANARY, tmp)
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 397, in assert_neutral
+    self.assertNotIn("Traceback", streams)
+AssertionError: 'Traceback' unexpectedly found in 'Traceback (most recent call last):\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 600, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 589, in main\n    httpd, _store, _seed, _rows = build_server(config)\n                                  ^^^^^^^^^^^^^^^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 572, in build_server\n    seed_id, rows, reused = open_or_create(config)\n                            ^^^^^^^^^^^^^^^^^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 199, in open_or_create\n    tables = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type=\'table\'")}\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsqlite3.DatabaseError: file is not a database\n'
+
+======================================================================
+FAIL: test_handler_error_writes_no_traceback (__main__.StartupFailure.test_handler_error_writes_no_traceback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 458, in test_handler_error_writes_no_traceback
+    self.assertNotIn("Traceback", err.getvalue())
+AssertionError: 'Traceback' unexpectedly found in '----------------------------------------\nException occurred during processing of request from (\'127.0.0.1\', 1)\nTraceback (most recent call last):\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\tests\\test_sqli_fixture.py", line 455, in test_handler_error_writes_no_traceback\n    raise RuntimeError("secret detail " + self.CANARY)\nRuntimeError: secret detail hidden-seed-canary-zr41\n----------------------------------------\n'
+
+======================================================================
+FAIL: test_ill_formed_seed_fails_neutrally (__main__.StartupFailure.test_ill_formed_seed_fails_neutrally)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 436, in test_ill_formed_seed_fails_neutrally
+    record = self.assert_neutral(result, self.CANARY, tmp)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 397, in assert_neutral
+    self.assertNotIn("Traceback", streams)
+AssertionError: 'Traceback' unexpectedly found in 'Traceback (most recent call last):\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 600, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 589, in main\n    httpd, _store, _seed, _rows = build_server(config)\n                                  ^^^^^^^^^^^^^^^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 572, in build_server\n    seed_id, rows, reused = open_or_create(config)\n                            ^^^^^^^^^^^^^^^^^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 193, in open_or_create\n    seed = json.loads(config.seed_path.read_text(encoding="utf-8"))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\Lib\\json\\__init__.py", line 346, in loads\n    return _default_decoder.decode(s)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\Lib\\json\\decoder.py", line 337, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\Lib\\json\\decoder.py", line 353, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ^^^^^^^^^^^^^^^^^^^^^^\njson.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)\n'
+
+======================================================================
+FAIL: test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) (setting='ZD_SQLI_PROFILE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 446, in test_invalid_settings_fail_neutrally_without_echoing_values
+    record = self.assert_neutral(self.run_cli(dict(base, **{key: value})), self.CANARY, tmp)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 399, in assert_neutral
+    self.assertNotIn(secret, streams)
+AssertionError: 'hidden-seed-canary-zr41' unexpectedly found in "config error: ZD_SQLI_PROFILE must be 'safe' or 'vulnerable', got 'variant-hidden-seed-canary-zr41'\n"
+
+======================================================================
+FAIL: test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) (setting='ZD_SQLI_TRUSTED_PROXIES')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 446, in test_invalid_settings_fail_neutrally_without_echoing_values
+    record = self.assert_neutral(self.run_cli(dict(base, **{key: value})), self.CANARY, tmp)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 399, in assert_neutral
+    self.assertNotIn(secret, streams)
+AssertionError: 'hidden-seed-canary-zr41' unexpectedly found in "config error: ZD_SQLI_TRUSTED_PROXIES entry 'cidr-hidden-seed-canary-zr41' is not a valid IP/CIDR\n"
+
+======================================================================
+FAIL: test_invalid_settings_fail_neutrally_without_echoing_values (__main__.StartupFailure.test_invalid_settings_fail_neutrally_without_echoing_values) (setting='ZD_SQLI_SEED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 446, in test_invalid_settings_fail_neutrally_without_echoing_values
+    record = self.assert_neutral(self.run_cli(dict(base, **{key: value})), self.CANARY, tmp)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 399, in assert_neutral
+    self.assertNotIn(secret, streams)
+AssertionError: 'hidden-seed-canary-zr41' unexpectedly found in 'config error: seed file C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpw9sy_ust\\missing-hidden-seed-canary-zr41 not found\n'
+
+======================================================================
+FAIL: test_mismatched_seed_db_fails_neutrally_and_is_kept (__main__.StartupFailure.test_mismatched_seed_db_fails_neutrally_and_is_kept)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 418, in test_mismatched_seed_db_fails_neutrally_and_is_kept
+    record = self.assert_neutral(result, self.CANARY, EXPECTED["seed_id"], tmp, "vulnerable")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_fixture.py", line 397, in assert_neutral
+    self.assertNotIn("Traceback", streams)
+AssertionError: 'Traceback' unexpectedly found in 'Traceback (most recent call last):\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 600, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 589, in main\n    httpd, _store, _seed, _rows = build_server(config)\n                                  ^^^^^^^^^^^^^^^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 572, in build_server\n    seed_id, rows, reused = open_or_create(config)\n                            ^^^^^^^^^^^^^^^^^^^^^^\n  File "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer13\\codex-retest01\\before\\app.py", line 204, in open_or_create\n    raise ConfigError(f"{config.db_path} has seed_id {stored and stored[0]!r}, "\nConfigError: C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp3gsibxam\\fixture.sqlite has seed_id \'hidden-seed-canary-zr41\', expected \'zer41-catalog/1\'; refusing to overwrite\n'
+
+----------------------------------------------------------------------
+Ran 42 tests in 6.307s
+
+FAILED (failures=7)

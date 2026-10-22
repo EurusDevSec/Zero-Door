@@ -1,0 +1,4 @@
+k3d-zero-door-server-0
+{"network_policy_flags": [], "network_policy_env": []}
+k3d-zero-door-agent-0
+{"network_policy_flags": [], "network_policy_env": []}

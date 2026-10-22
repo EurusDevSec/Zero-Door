@@ -1,0 +1,23 @@
+ZER-41 fix01 verification — 2026-10-22T06:17:56Z
+== main suite NEMESIS
+Ran 37 tests in 5.316s
+
+OK
+== main suite HEPHAESTUS
+Ran 37 tests in 5.443s
+
+OK
+== http suite NEMESIS
+Ran 8 tests in 11.426s
+
+OK
+== http suite HEPHAESTUS
+Ran 8 tests in 11.405s
+
+OK
+== manifest check
+OVERALL PASS
+== flows consumers
+test_measurement_probe OK
+test_measurement_boundaries OK
+test_measurement_recovery OK

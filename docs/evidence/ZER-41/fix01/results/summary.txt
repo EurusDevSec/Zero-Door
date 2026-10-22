@@ -1,0 +1,8 @@
+== fail-before (pre-fix snapshot: expect FAILED) ==
+before-main | exit 1 | Ran 37 tests in 5.267s FAILED (failures=6, errors=12) 
+before-http | exit 1 | Ran 8 tests in 11.745s FAILED (failures=5, errors=3) 
+before-manifest | failed as expected
+== after (fixed service: expect OK / OVERALL PASS) ==
+after-main | exit 0 | Ran 37 tests in 5.796s OK 
+after-http | exit 0 | Ran 8 tests in 11.332s OK 
+after-manifest | OVERALL PASS

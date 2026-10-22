@@ -1,0 +1,38 @@
+k3d-zero-door-server-0
+time="2026-10-19T00:42:28Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1019 00:42:28.197038      38 network_policy_controller.go:164] Starting network policy controller
+I1019 00:42:29.106852      38 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-19T22:55:17Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1019 22:55:17.923490      39 network_policy_controller.go:164] Starting network policy controller
+I1019 22:55:22.797638      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-20T02:17:53Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1020 02:17:53.583785      39 network_policy_controller.go:164] Starting network policy controller
+I1020 02:17:57.022551      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-20T11:55:50Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1020 11:55:50.108278      39 network_policy_controller.go:164] Starting network policy controller
+I1020 11:55:53.403986      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-21T02:39:11Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1021 02:39:11.236178      38 network_policy_controller.go:164] Starting network policy controller
+I1021 02:39:14.096046      38 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-22T01:32:29Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1022 01:32:29.124923      39 network_policy_controller.go:164] Starting network policy controller
+I1022 01:32:32.074123      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+k3d-zero-door-agent-0
+time="2026-10-18T02:55:01Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1018 02:55:01.139495      87 network_policy_controller.go:164] Starting network policy controller
+I1018 02:55:06.787035      87 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-19T00:42:37Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1019 00:42:37.161870      38 network_policy_controller.go:164] Starting network policy controller
+I1019 00:42:47.643340      38 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-19T22:55:26Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1019 22:55:26.583166      39 network_policy_controller.go:164] Starting network policy controller
+I1019 22:55:38.809603      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-20T11:56:00Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1020 11:56:00.738060      39 network_policy_controller.go:164] Starting network policy controller
+I1020 11:56:11.082742      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-21T02:39:21Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1021 02:39:21.337182      39 network_policy_controller.go:164] Starting network policy controller
+I1021 02:39:37.626035      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
+time="2026-10-22T01:32:36Z" level=info msg="Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10"
+I1022 01:32:36.868559      39 network_policy_controller.go:164] Starting network policy controller
+I1022 01:32:52.217312      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine
