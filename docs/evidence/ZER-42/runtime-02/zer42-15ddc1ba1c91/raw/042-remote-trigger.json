@@ -1,0 +1,22 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "-i",
+    "zer42-nemesis",
+    "--",
+    "/usr/bin/python3",
+    "-",
+    "trigger",
+    "46687218-9112-4e1a-a137-05ed8e05572a",
+    "invalid-control"
+  ],
+  "returncode": 0,
+  "stdout": "{\"status\": 400, \"request_id\": null, \"body\": {\"detail\": \"SQLI_TEMPLATE\"}}\n",
+  "stderr": ""
+}

@@ -1,0 +1,30 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zero-door",
+    "exec",
+    "kafka-controller-0",
+    "-c",
+    "kafka",
+    "--",
+    "env",
+    "-u",
+    "JMX_PORT",
+    "-u",
+    "KAFKA_JMX_OPTS",
+    "/opt/bitnami/kafka/bin/kafka-consumer-groups.sh",
+    "--bootstrap-server",
+    "localhost:9092",
+    "--describe",
+    "--state",
+    "--group",
+    "zer42-159121a614e0.worker"
+  ],
+  "returncode": 0,
+  "stdout": "\nGROUP                                                                              COORDINATOR (ID)          ASSIGNMENT-STRATEGY  STATE           #MEMBERS\nzer42-159121a614e0.worker                                                          kafka-controller-0.kafka-controller-headless.zero-door.svc.cluster.local:9092  (0) range                Stable          1\n",
+  "stderr": ""
+}

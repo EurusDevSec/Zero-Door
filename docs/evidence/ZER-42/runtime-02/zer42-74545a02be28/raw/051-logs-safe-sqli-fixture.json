@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "-l",
+    "app=sqli-fixture",
+    "--tail=500",
+    "--prefix=false",
+    "--timestamps=false"
+  ],
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793094960.8862357,\"request_id\":\"000b9ec029f445bda96ba424aed46ff3\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.804,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.145\",\"correlation_id\":\"35be932505b74c4680918d75b6586715\",\"rows\":2,\"restricted_rows\":0}\n{\"ts\":1793094970.2726321,\"request_id\":\"5244f1ea492b43fcb69ac6fb8a996f0b\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.643,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.146\",\"correlation_id\":\"3b9d417346c24ac1b76c308b534ae528\",\"rows\":2,\"restricted_rows\":0}\n{\"ts\":1793094998.5761817,\"request_id\":\"9e60435eadc24072b0168ba88f42dab2\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.927,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.149\",\"correlation_id\":\"efdff591-a95d-49e5-b692-fe17c833ffde/1\",\"rows\":0,\"restricted_rows\":0}\n{\"ts\":1793094999.5738947,\"request_id\":\"877efaff68fb475a9f876069ac17ad0c\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.72,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.149\",\"correlation_id\":\"efdff591-a95d-49e5-b692-fe17c833ffde/2\",\"rows\":0,\"restricted_rows\":0}\n{\"ts\":1793095000.5749881,\"request_id\":\"7be23076c3d24441b72522c20b156584\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.707,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.149\",\"correlation_id\":\"efdff591-a95d-49e5-b692-fe17c833ffde/3\",\"rows\":0,\"restricted_rows\":0}\n{\"ts\":1793095007.5698345,\"request_id\":\"15cfe24c4f7549449dc5ffad1d55b9d5\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.638,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.149\",\"correlation_id\":\"6b037ba2-31a6-47cd-bc1b-54c4560df780/1\",\"rows\":2,\"restricted_rows\":0}\n{\"ts\":1793095008.5704637,\"request_id\":\"cd244af7467d4fe09e2bed832c212734\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.603,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.149\",\"correlation_id\":\"6b037ba2-31a6-47cd-bc1b-54c4560df780/2\",\"rows\":2,\"restricted_rows\":0}\n{\"ts\":1793095009.5720398,\"request_id\":\"2e2311458808448e9c7ad611254e5db6\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.959,\"tcp_peer\":\"10.42.0.147\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.149\",\"correlation_id\":\"6b037ba2-31a6-47cd-bc1b-54c4560df780/3\",\"rows\":2,\"restricted_rows\":0}\n",
+  "stderr": ""
+}

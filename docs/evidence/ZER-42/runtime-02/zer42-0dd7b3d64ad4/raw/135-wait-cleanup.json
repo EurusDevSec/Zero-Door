@@ -1,0 +1,15 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "wait",
+    "--for=delete",
+    "namespace/zd-sqli-lab",
+    "--timeout=180s"
+  ],
+  "returncode": 0,
+  "stdout": "namespace/zd-sqli-lab condition met\n",
+  "stderr": ""
+}

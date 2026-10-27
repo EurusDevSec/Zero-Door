@@ -146,11 +146,16 @@ jobs:
           python -B tests/test_sqli_fixture.py
           python -B tests/test_sqli_fixture_http.py
           python -B docs/evidence/ZER-41/check_manifest.py
-      - name: Scan fixture source with existing pinned security tools
+      - name: Verify SQLi executor admission, effect evaluator and guard parity offline
+        run: |
+          python -B tests/test_sqli_executor.py
+          python -B tests/test_sqli_runtime_packaging.py
+      - name: Scan fixture source and SQLi executor harness with existing pinned security tools
         if: matrix.agent == 'nemesis'
         run: |
           python -m pip install --require-hashes -r tests/requirements-command-tools.lock
           bandit -r services/sqli-fixture -lll -iii
+          bandit infrastructure/scripts/sqli_executor_runtime.py -lll -iii
       - name: Set up image builder once
         if: matrix.agent == 'nemesis'
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
@@ -328,6 +333,13 @@ jobs:
         run: |
           cd chaos-worker
           go test -race ./...
+
+      - name: Verify actual Go SQLi result through evaluator and scorer
+        run: |
+          cd chaos-worker
+          ZD_SQLI_RESULT_PATH="${RUNNER_TEMP}/zer42-go-result.json" go test ./internal/attack -run '^TestSQLiActualResultBridge$' -count=1
+          cd ..
+          python -B tests/test_sqli_executor.py --verify-go-result "${RUNNER_TEMP}/zer42-go-result.json"
 
       - name: Vet
         run: |

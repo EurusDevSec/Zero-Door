@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "patch",
+    "cm",
+    "sqli-fixture-config",
+    "--type=merge",
+    "-p",
+    "{\"data\": {\"ZD_SQLI_TRUSTED_PROXIES\": \"10.42.1.244/32\"}}"
+  ],
+  "returncode": 0,
+  "stdout": "configmap/sqli-fixture-config patched\n",
+  "stderr": ""
+}

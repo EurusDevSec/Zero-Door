@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-27T15:41:30+07:00",
+  "observer": "Codex",
+  "status": "INTERRUPTED_EXTERNAL_CLUSTER_STOP",
+  "facts": {
+    "safe_phase_results_present": true,
+    "failure_trace_present": true,
+    "process_receipt_present": false,
+    "after_snapshot_present": false,
+    "api_probe": "connection refused at https://127.0.0.1:7356",
+    "containers": {
+      "k3d-zero-door-serverlb": "Exited (255), reported 5 hours ago",
+      "k3d-zero-door-agent-0": "Exited (255), reported 5 hours ago",
+      "k3d-zero-door-server-0": "Exited (255), reported 5 hours ago"
+    }
+  },
+  "verdict": "NOT_ACCEPTANCE_EVIDENCE",
+  "cleanup": "UNKNOWN_WHILE_CLUSTER_STOPPED",
+  "next_action": "Restart requires a new bounded authorization because the single approved restart was already used and its 35-minute window expired. After restart, verify and remove only the owned namespace/topics before any retest."
+}

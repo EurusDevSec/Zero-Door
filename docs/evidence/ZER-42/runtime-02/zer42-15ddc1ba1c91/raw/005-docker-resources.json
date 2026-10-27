@@ -1,0 +1,12 @@
+{
+  "args": [
+    "docker",
+    "stats",
+    "--no-stream",
+    "--format",
+    "{{.Name}} {{.MemUsage}} {{.CPUPerc}}"
+  ],
+  "returncode": 0,
+  "stdout": "k3d-zero-door-tools 5.348MiB / 5.788GiB 0.00%\nk3d-zero-door-serverlb 10.35MiB / 5.788GiB 0.00%\nk3d-zero-door-agent-0 1.723GiB / 5.788GiB 43.14%\nk3d-zero-door-server-0 1.415GiB / 5.788GiB 5.55%\n",
+  "stderr": ""
+}

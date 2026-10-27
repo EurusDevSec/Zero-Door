@@ -1,0 +1,9 @@
+{
+  "user_approval": "Cho ph\u00e9p recovery/retest trong ph\u1ea1m vi n\u00e0y",
+  "maximum_seconds": 2100,
+  "cleanup_reserve_seconds": 600,
+  "context": "k3d-zero-door",
+  "run": "zer42-d8a9fdfc9122",
+  "authorization_start_epoch": 1793032707.9739597,
+  "resume_from": "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-42\\runtime-01\\zer42-d042c1ab05f1"
+}

@@ -1,0 +1,17 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "rollout",
+    "status",
+    "deployment/sqli-fixture",
+    "--timeout=100s"
+  ],
+  "returncode": 0,
+  "stdout": "deployment \"sqli-fixture\" successfully rolled out\n",
+  "stderr": ""
+}

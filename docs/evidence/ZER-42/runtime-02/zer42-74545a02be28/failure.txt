@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\infrastructure\scripts\sqli_executor_runtime.py", line 279, in prepare_bundle
+    saved = json.loads(path.read_bytes())
+                       ^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\pathlib.py", line 1050, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-42\\runtime-02\\zer42-74545a02be28\\efdff591-a95d-49e5-b692-fe17c833ffde-bundle.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 450, in <module>
+    main()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 390, in main
+    bundle = runtime.prepare_bundle(result, context, OUT / (result["commandId"] + "-bundle.json"), w_eff_s=5)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\infrastructure\scripts\sqli_executor_runtime.py", line 281, in prepare_bundle
+    events = list(emit_evidence(result, context, oracle=oracle, min_clean_sends=min_clean_sends,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\infrastructure\scripts\sqli_executor_runtime.py", line 210, in emit_evidence
+    fault = build_fault_result(context, result, clock)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\infrastructure\scripts\sqli_executor_runtime.py", line 188, in build_fault_result
+    return producer.event(context, "FAULT_EXECUTOR_RESULT", payload, stream="h-fault")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\agent-orchestrator\event_pipeline\contract.py", line 263, in event
+    raise ValueError(error)
+ValueError: INVALID_ID
+

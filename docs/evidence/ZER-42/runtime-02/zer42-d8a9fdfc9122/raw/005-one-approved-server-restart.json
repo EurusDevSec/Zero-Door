@@ -1,0 +1,12 @@
+{
+  "args": [
+    "docker",
+    "restart",
+    "--timeout",
+    "30",
+    "k3d-zero-door-server-0"
+  ],
+  "returncode": 0,
+  "stdout": "k3d-zero-door-server-0\n",
+  "stderr": ""
+}

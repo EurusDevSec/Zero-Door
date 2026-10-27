@@ -1,0 +1,19 @@
+{
+  "verdict": "API_NODES_WORKLOADS_READY_PVC_REPLICA_MATCH",
+  "restart_count": 1,
+  "container": "k3d-zero-door-server-0",
+  "pvcs": {
+    "monitoring/elasticsearch-data": {
+      "uid": "77dd28b6-44e0-402f-aca3-0f2c8dee3b79",
+      "volume": "pvc-77dd28b6-44e0-402f-aca3-0f2c8dee3b79"
+    },
+    "monitoring/prometheus-prometheus-kube-prometheus-prometheus-db-prometheus-prometheus-kube-prometheus-prometheus-0": {
+      "uid": "ae141e1f-312f-40c3-9efd-6a69801e4848",
+      "volume": "pvc-ae141e1f-312f-40c3-9efd-6a69801e4848"
+    },
+    "zero-door/data-kafka-controller-0": {
+      "uid": "26544729-8428-47ee-a197-7448e1f3ac78",
+      "volume": "pvc-26544729-8428-47ee-a197-7448e1f3ac78"
+    }
+  }
+}

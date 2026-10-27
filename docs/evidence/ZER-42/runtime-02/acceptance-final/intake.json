@@ -1,0 +1,28 @@
+{
+  "head": "7db9d9f9bc265b07a4cb361923ee535f707adeda",
+  "branch": "zer-41-sqli-fixture",
+  "at": "2026-10-27T10:12:28.415Z",
+  "scope": [
+    "docs/evidence/ZER-42/runtime-prep/render.py",
+    "docs/evidence/ZER-42/runtime-02/reconcile.py",
+    "docs/evidence/ZER-42/runtime-02/acceptance-final/",
+    "docs/evidence/ZER-42/runtime-02/README.md",
+    "docs/delivery/milestones/R2-chaos-scenarios/sqli-fixture.md",
+    "docs/delivery/NOW.md",
+    "docs/evidence/ZER-42/runtime-prep/run.py",
+    "tests/test_sqli_runtime_packaging.py",
+    "docs/evidence/ZER-42/runtime-02/acceptance_cleanup.py",
+    ".github/workflows/ci.yml",
+    "docs/evidence/ZER-42/runtime-02/check_acceptance.py"
+  ],
+  "actions": "offline ID packaging correction and immutable raw reconciliation; read-only local cleanup verification; no new traffic, topics, restart, publication or Linear mutation",
+  "before": {
+    "docs/evidence/ZER-42/runtime-prep/render.py": "76c10985b69d946b1e0536aef0c9a68584ef8bb329176c81a7d656416465ab5d",
+    "tests/test_sqli_executor.py": "f2f8831242366a5dad2af2113cf50ea230e8c6c6e7bd6cfbc4ef103d2aa688d3",
+    "docs/evidence/ZER-42/runtime-02/README.md": "aaff79dbd94292d8eb6838987a06ad2bc6941811c0d679e9171fb564bbf0b5ff",
+    "docs/delivery/milestones/R2-chaos-scenarios/sqli-fixture.md": "b6d21765014d7ef20a75fc5529058bd8f2100da119ff24347a4837aa93dd4de3",
+    "docs/delivery/NOW.md": "ef86a4af57402d9b40fc696490d7ccab18b0b39d7aea36c5d259cbf3c496cb4c",
+    "docs/evidence/ZER-42/runtime-prep/run.py": "458b35cf36a4af9d6acaf55d4ea3993594a3d93e0feedca4715276211d4d6fb8",
+    ".github/workflows/ci.yml": "0892639e5daedd79b94cf4ccc52cfae917b90e8281e3ef1db013c59aace5a7ce"
+  }
+}

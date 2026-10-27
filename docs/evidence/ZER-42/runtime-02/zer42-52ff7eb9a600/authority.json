@@ -1,0 +1,9 @@
+{
+  "user_approval": "\u0110\u01b0\u1ee3c h\u00e3y ho\u00e0n th\u00e0nh ph\u1ea7n c\u00f2n l\u1ea1i cho xong",
+  "maximum_seconds": 1800,
+  "cleanup_reserve_seconds": 600,
+  "context": "k3d-zero-door",
+  "run": "zer42-52ff7eb9a600",
+  "authorization_start_epoch": 1793092974.8944237,
+  "resume_from": "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-42\\runtime-02\\zer42-c2d30a7145ff"
+}

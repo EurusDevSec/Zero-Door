@@ -1,0 +1,114 @@
+[
+  {
+    "topic": "zer42-c2d30a7145ff.results",
+    "partition": 0,
+    "offset": 0,
+    "value": {
+      "resultId": "bcfdd00a-e801-4f3d-8f90-30789e3118ca",
+      "commandId": "efdff591-a95d-49e5-b692-fe17c833ffde",
+      "timestamp": "2026-10-27T09:56:38.568435749Z",
+      "source": "chaos-worker",
+      "status": "SUCCESS",
+      "attackType": "SQLI",
+      "duration": 2006,
+      "details": {
+        "requestsSent": 3,
+        "sqli": {
+          "templateId": "disclose-restricted",
+          "kind": "injection",
+          "clockId": "chaos-worker-local",
+          "clockSource": "UNKNOWN",
+          "windowStart": "2026-10-27T09:56:38.568Z",
+          "sends": [
+            {
+              "seq": 1,
+              "startedAt": "2026-10-27T09:56:38.570Z",
+              "observedAt": "2026-10-27T09:56:38.576Z",
+              "requestId": "efdff591-a95d-49e5-b692-fe17c833ffde/1",
+              "responseId": "9e60435eadc24072b0168ba88f42dab2",
+              "status": 200,
+              "rows": 0,
+              "restrictedRows": 0
+            },
+            {
+              "seq": 2,
+              "startedAt": "2026-10-27T09:56:39.571Z",
+              "observedAt": "2026-10-27T09:56:39.574Z",
+              "requestId": "efdff591-a95d-49e5-b692-fe17c833ffde/2",
+              "responseId": "877efaff68fb475a9f876069ac17ad0c",
+              "status": 200,
+              "rows": 0,
+              "restrictedRows": 0
+            },
+            {
+              "seq": 3,
+              "startedAt": "2026-10-27T09:56:40.572Z",
+              "observedAt": "2026-10-27T09:56:40.575Z",
+              "requestId": "efdff591-a95d-49e5-b692-fe17c833ffde/3",
+              "responseId": "7be23076c3d24441b72522c20b156584",
+              "status": 200,
+              "rows": 0,
+              "restrictedRows": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "topic": "zer42-c2d30a7145ff.results",
+    "partition": 0,
+    "offset": 1,
+    "value": {
+      "resultId": "2030bdea-d2ce-4cbb-a938-5824e91719f5",
+      "commandId": "6b037ba2-31a6-47cd-bc1b-54c4560df780",
+      "timestamp": "2026-10-27T09:56:47.566387845Z",
+      "source": "chaos-worker",
+      "status": "SUCCESS",
+      "attackType": "SQLI",
+      "duration": 2006,
+      "details": {
+        "requestsSent": 3,
+        "sqli": {
+          "templateId": "benign-apparel",
+          "kind": "benign",
+          "clockId": "chaos-worker-local",
+          "clockSource": "UNKNOWN",
+          "windowStart": "2026-10-27T09:56:47.566Z",
+          "sends": [
+            {
+              "seq": 1,
+              "startedAt": "2026-10-27T09:56:47.567Z",
+              "observedAt": "2026-10-27T09:56:47.570Z",
+              "requestId": "6b037ba2-31a6-47cd-bc1b-54c4560df780/1",
+              "responseId": "15cfe24c4f7549449dc5ffad1d55b9d5",
+              "status": 200,
+              "rows": 2,
+              "restrictedRows": 0
+            },
+            {
+              "seq": 2,
+              "startedAt": "2026-10-27T09:56:48.568Z",
+              "observedAt": "2026-10-27T09:56:48.570Z",
+              "requestId": "6b037ba2-31a6-47cd-bc1b-54c4560df780/2",
+              "responseId": "cd244af7467d4fe09e2bed832c212734",
+              "status": 200,
+              "rows": 2,
+              "restrictedRows": 0
+            },
+            {
+              "seq": 3,
+              "startedAt": "2026-10-27T09:56:49.568Z",
+              "observedAt": "2026-10-27T09:56:49.572Z",
+              "requestId": "6b037ba2-31a6-47cd-bc1b-54c4560df780/3",
+              "responseId": "2e2311458808448e9c7ad611254e5db6",
+              "status": 200,
+              "rows": 2,
+              "restrictedRows": 0
+            }
+          ]
+        }
+      }
+    }
+  }
+]

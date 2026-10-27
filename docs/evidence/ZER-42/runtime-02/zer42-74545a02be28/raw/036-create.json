@@ -1,0 +1,14 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "create",
+    "-f",
+    "-"
+  ],
+  "returncode": 0,
+  "stdout": "secret/zer42-fault created\nsecret/zer42-operator created\n",
+  "stderr": ""
+}

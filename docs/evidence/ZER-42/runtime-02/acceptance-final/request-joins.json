@@ -1,0 +1,216 @@
+{
+  "joins": [
+    {
+      "command_id": "efdff591-a95d-49e5-b692-fe17c833ffde",
+      "profile": "safe",
+      "sequence": 1,
+      "correlation_id": "efdff591-a95d-49e5-b692-fe17c833ffde/1",
+      "response_id": "9e60435eadc24072b0168ba88f42dab2",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 0,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "efdff591-a95d-49e5-b692-fe17c833ffde",
+      "profile": "safe",
+      "sequence": 2,
+      "correlation_id": "efdff591-a95d-49e5-b692-fe17c833ffde/2",
+      "response_id": "877efaff68fb475a9f876069ac17ad0c",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 0,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "efdff591-a95d-49e5-b692-fe17c833ffde",
+      "profile": "safe",
+      "sequence": 3,
+      "correlation_id": "efdff591-a95d-49e5-b692-fe17c833ffde/3",
+      "response_id": "7be23076c3d24441b72522c20b156584",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 0,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "6b037ba2-31a6-47cd-bc1b-54c4560df780",
+      "profile": "safe",
+      "sequence": 1,
+      "correlation_id": "6b037ba2-31a6-47cd-bc1b-54c4560df780/1",
+      "response_id": "15cfe24c4f7549449dc5ffad1d55b9d5",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 2,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "6b037ba2-31a6-47cd-bc1b-54c4560df780",
+      "profile": "safe",
+      "sequence": 2,
+      "correlation_id": "6b037ba2-31a6-47cd-bc1b-54c4560df780/2",
+      "response_id": "cd244af7467d4fe09e2bed832c212734",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 2,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "6b037ba2-31a6-47cd-bc1b-54c4560df780",
+      "profile": "safe",
+      "sequence": 3,
+      "correlation_id": "6b037ba2-31a6-47cd-bc1b-54c4560df780/3",
+      "response_id": "2e2311458808448e9c7ad611254e5db6",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 2,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "a49df9a0-fab2-455e-8624-558fa6fc7b95",
+      "profile": "vulnerable",
+      "sequence": 1,
+      "correlation_id": "a49df9a0-fab2-455e-8624-558fa6fc7b95/1",
+      "response_id": "40a1221bb6f64da2852812d560d3be7c",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 3,
+      "restricted_rows": 3
+    },
+    {
+      "command_id": "a49df9a0-fab2-455e-8624-558fa6fc7b95",
+      "profile": "vulnerable",
+      "sequence": 2,
+      "correlation_id": "a49df9a0-fab2-455e-8624-558fa6fc7b95/2",
+      "response_id": "6f2960a558334f399f67ca750c7684c4",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 3,
+      "restricted_rows": 3
+    },
+    {
+      "command_id": "a49df9a0-fab2-455e-8624-558fa6fc7b95",
+      "profile": "vulnerable",
+      "sequence": 3,
+      "correlation_id": "a49df9a0-fab2-455e-8624-558fa6fc7b95/3",
+      "response_id": "ef339ee8f2fe4add83f92e057d924c7b",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 3,
+      "restricted_rows": 3
+    },
+    {
+      "command_id": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe",
+      "profile": "vulnerable",
+      "sequence": 1,
+      "correlation_id": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe/1",
+      "response_id": "0bc276ef79d243719194bd298b3677db",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 2,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe",
+      "profile": "vulnerable",
+      "sequence": 2,
+      "correlation_id": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe/2",
+      "response_id": "4914b6ed391349498f94d8b7e5dd2335",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 2,
+      "restricted_rows": 0
+    },
+    {
+      "command_id": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe",
+      "profile": "vulnerable",
+      "sequence": 3,
+      "correlation_id": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe/3",
+      "response_id": "5b2fa856bac94adf9c16a5d82a49c269",
+      "fixture_client_ip": "10.42.0.149",
+      "proxy_client_ip": "10.42.0.149",
+      "rows": 2,
+      "restricted_rows": 0
+    }
+  ],
+  "controls": [
+    {
+      "profile": "safe",
+      "source": "a",
+      "client_ip": "10.42.0.145",
+      "request_id": "000b9ec029f445bda96ba424aed46ff3",
+      "forged_xff_rejected": true
+    },
+    {
+      "profile": "safe",
+      "source": "b",
+      "client_ip": "10.42.0.146",
+      "request_id": "5244f1ea492b43fcb69ac6fb8a996f0b",
+      "forged_xff_rejected": true
+    },
+    {
+      "profile": "vulnerable",
+      "source": "a",
+      "client_ip": "10.42.0.145",
+      "request_id": "204157e4673346b49f42c1aebefe614f",
+      "forged_xff_rejected": true
+    },
+    {
+      "profile": "vulnerable",
+      "source": "b",
+      "client_ip": "10.42.0.146",
+      "request_id": "49045b42bed647d3809880810a184d5c",
+      "forged_xff_rejected": true
+    }
+  ],
+  "policy_gates": [
+    {
+      "profile": "safe",
+      "pod": "sqli-fixture-7c6f7b4bb7-v9x9w",
+      "policy_observed": true
+    },
+    {
+      "profile": "vulnerable",
+      "pod": "sqli-fixture-6876b74478-9gnjm",
+      "policy_observed": true
+    }
+  ],
+  "observed_ips": {
+    "zer41-private-ingress": "10.42.0.147",
+    "zer42-source-a": "10.42.0.145",
+    "zer42-source-b": "10.42.0.146",
+    "sqli-fixture": "10.42.0.151",
+    "executor_observed_from_correlated_requests": "10.42.0.149"
+  },
+  "actor_image_provenance": {
+    "worker": {
+      "rendered_tag": "zer42-worker:e80bc554b7ef",
+      "host_image_id": "sha256:250be486034d652fc74e0e15d6c7c61bc4f54e826ffcbb54b8803153c9e5cace",
+      "ready_wait_passed": true,
+      "runtime_container_image_id": "NOT_RETAINED"
+    },
+    "nemesis": {
+      "rendered_tag": "zer42-nemesis:e80bc554b7ef",
+      "host_image_id": "sha256:d1896d5e4e9f1ea2b97e33fab518f3718b40525ff87ae12b5b511ae0ba07f199",
+      "ready_wait_passed": true,
+      "runtime_container_image_id": "NOT_RETAINED"
+    }
+  },
+  "observed_image_ids": {
+    "zer41-private-ingress": [
+      "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c"
+    ],
+    "zer42-source-a": [
+      "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f"
+    ],
+    "zer42-source-b": [
+      "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f"
+    ],
+    "sqli-fixture": [
+      "",
+      "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f"
+    ]
+  },
+  "replay_extra_commands": 0,
+  "replay_extra_http_requests_in_retained_logs": 0
+}

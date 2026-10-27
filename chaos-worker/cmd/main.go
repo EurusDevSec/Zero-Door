@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log/slog"
+	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -57,6 +58,14 @@ func runWithContext(ctx context.Context) int {
 		<-ctx.Done()
 		return 0
 	}
+	var sqliIP net.IP
+	if policy.SQLi != nil && policy.SQLi.Enabled {
+		sqliIP = net.ParseIP(os.Getenv("ZD_SQLI_INGRESS_IP"))
+		if sqliIP == nil || !sqliIP.IsPrivate() || sqliIP.IsLoopback() || sqliIP.IsLinkLocalUnicast() {
+			slog.Error("SQLI enabled without a valid operator-pinned private ingress Service IP")
+			return 1
+		}
+	}
 	key, err := guard.LoadKey(cfg.SignerFile)
 	if err != nil {
 		slog.Error("Signer configuration unavailable")
@@ -110,6 +119,11 @@ func runWithContext(ctx context.Context) int {
 			KubeClient:   kubeClient,
 			GlobalMaxSec: policy.MaxDurationSec,
 		},
+	}
+	// The SQLi executor is registered only when the opt-in capability is enabled. It sends HTTP to the fixture
+	// endpoint and needs no Kubernetes client; admission already refuses SQLI when the capability is absent.
+	if policy.SQLi != nil && policy.SQLi.Enabled {
+		executors["SQLI"] = &attack.SQLIExecutor{MaxSends: policy.SQLi.MaxSends, MaxCommandSec: policy.SQLi.MaxCommandSec, ApprovedIP: sqliIP}
 	}
 
 	slog.Info("Chaos Worker is ready. Listening for attack commands on Kafka...",

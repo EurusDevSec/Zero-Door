@@ -1,0 +1,14 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "create",
+    "-f",
+    "-"
+  ],
+  "returncode": 0,
+  "stdout": "pod/zer42-worker created\npod/zer42-nemesis created\n",
+  "stderr": ""
+}

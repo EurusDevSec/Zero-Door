@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-27T10:17:00.991628+00:00",
+  "args": [
+    "docker",
+    "context",
+    "show"
+  ],
+  "returncode": 0,
+  "stdout": "desktop-linux\n",
+  "stderr": ""
+}

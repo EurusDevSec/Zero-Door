@@ -7,6 +7,28 @@ import (
 	"strings"
 )
 
+// sqliSearchPath must match attack.SQLiSearchPath; the SQLi executor's only reachable path.
+const sqliSearchPath = "/fixture/catalog/search"
+
+// ZER-41 runtime-02 verified this dedicated private Traefik Service profile. Admission accepts no other
+// service/namespace/port; the executor separately binds it to the operator-pinned Service IP.
+const sqliIngressAuthority = "zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000"
+
+// ValidateSQLiEndpoint accepts only the approved in-cluster ingress profile for the fixture search path: http,
+// no credentials/query/fragment and the exact Service DNS authority/port/path. It returns the canonical base
+// URL (the executor appends the single `category` query parameter it builds from the catalog). It validates both
+// the configured policy endpoint and a command's target URL; admission then requires the two to be identical.
+func ValidateSQLiEndpoint(raw string) (string, error) {
+	u, err := url.Parse(raw)
+	if err != nil || u == nil || u.Scheme != "http" || u.User != nil || u.Opaque != "" ||
+		u.RawQuery != "" || u.ForceQuery || u.Fragment != "" || u.RawPath != "" ||
+		strings.ContainsAny(raw, "\\%\r\n\t ?#") || strings.ToLower(raw) != raw ||
+		u.Host != sqliIngressAuthority || u.Path != sqliSearchPath {
+		return "", fmt.Errorf("SQLI_ENDPOINT")
+	}
+	return u.String(), nil
+}
+
 type Target struct {
 	Namespace string `json:"namespace"`
 	Service   string `json:"service"`

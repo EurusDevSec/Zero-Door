@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 450, in <module>
+    main()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 295, in main
+    fixture_gate("safe")
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 200, in fixture_gate
+    raise RuntimeError("POLICY_RULE_MISSING")
+RuntimeError: POLICY_RULE_MISSING
+

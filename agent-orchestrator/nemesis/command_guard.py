@@ -79,6 +79,33 @@ def context_valid(context):
 
 SERVICES = {"frontend", "cartservice", "productcatalogservice", "currencyservice", "checkoutservice", "redis-cart", "shippingservice", "paymentservice", "emailservice"}
 
+# ZER-42 SQLi executor admission (parity with chaos-worker internal/attack/sqli.go and guard/policy.go).
+SQLI_SEARCH_PATH = "/fixture/catalog/search"
+SQLI_NAMESPACE = "zd-sqli-lab"
+SQLI_SERVICE = "sqli-fixture"
+SQLI_MAX_SENDS = 20
+SQLI_PER_COMMAND_SEC = 30
+SQLI_CONCURRENCY = 1
+# The locked catalog ids. The single source of truth is tests/fixtures/zer42/catalog-ids.json, which both the
+# Go and Python suites assert against so a cross-language drift fails a test rather than admitting a mismatch.
+SQLI_TEMPLATE_IDS = frozenset({"disclose-restricted", "benign-apparel", "benign-home", "benign-electronics"})
+# Exact private-ingress profile verified by ZER-41 runtime-02; no other service/namespace/port is admitted.
+SQLI_INGRESS_AUTHORITY = "zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000"
+
+
+def sqli_endpoint_valid(raw):
+    """Mirror of validation.ValidateSQLiEndpoint: exact private ingress authority and search path only."""
+    try:
+        u = urlsplit(raw)
+        if (not isinstance(raw, str) or raw != raw.lower() or any(c in raw for c in "\\%\r\n\t ?#") or u.scheme != "http" or
+                u.username is not None or u.password is not None or not u.hostname or
+                u.netloc != SQLI_INGRESS_AUTHORITY or
+                u.path != SQLI_SEARCH_PATH or u.query or u.fragment):
+            raise ValueError()
+        return raw
+    except (ValueError, TypeError, AttributeError):
+        raise Refused("SQLI_ENDPOINT")
+
 
 def url_valid(raw):
     try:
@@ -180,7 +207,7 @@ class Ledger:
 
 class CommandGuard:
     def __init__(self, policy):
-        fields(policy, {"version", "enabled", "context", "targets", "maxDurationSec", "maxConcurrency", "rps"})
+        fields(policy, {"version", "enabled", "context", "targets", "maxDurationSec", "maxConcurrency", "rps"}, {"sqli"})
         if policy["version"] != "zd-guard/1" or type(policy["enabled"]) is not bool:
             raise Refused("POLICY_CONFIG", 503)
         context_valid(policy["context"])
@@ -197,6 +224,14 @@ class CommandGuard:
             seen.add(target["service"])
             if target["url"] and (target["service"] != "frontend" or url_valid(target["url"]) != target["url"]):
                 raise Refused("POLICY_TARGETS", 503)
+        if "sqli" in policy:
+            sqli = policy["sqli"]
+            fields(sqli, {"enabled", "endpoint", "maxSends", "maxCommandSec"})
+            if type(sqli["enabled"]) is not bool:
+                raise Refused("SQLI_POLICY", 503)
+            sqli_endpoint_valid(sqli["endpoint"])
+            integer(sqli["maxSends"], 1, SQLI_MAX_SENDS)
+            integer(sqli["maxCommandSec"], 1, SQLI_PER_COMMAND_SEC)
         self.policy = policy
 
     @classmethod
@@ -235,6 +270,8 @@ class CommandGuard:
         raise Refused("BENCHMARK_SCENARIO_LLM_DISABLED", 409)
 
     def command(self, body, request_id):
+        if type(body) is dict and body.get("attackType") == "SQLI":
+            return self.sqli_command(body, request_id)
         fields(body, {"attackType", "targetService"}, {"targetNamespace", "targetURL", "durationSec", "intensity", "concurrency"})
         if type(body["attackType"]) is not str or body["attackType"] not in {"HTTP_FLOOD", "CPU_STRESS", "MEMORY_STRESS", "POD_KILL"}:
             raise Refused("COMMAND_TYPE")
@@ -264,6 +301,30 @@ class CommandGuard:
                 "parameters": {"duration": min(duration, self.policy["maxDurationSec"]), "intensity": intensity,
                                "concurrency": min(concurrency, self.policy["maxConcurrency"]), "customParams": {}},
                 "safetyLimits": {"maxDuration": self.policy["maxDurationSec"], "allowedNamespaces": ["target-app"]}}
+
+    def sqli_command(self, body, request_id):
+        """Admit one SQLI operator request into a signed command. The operator chooses only a locked template
+        id (and optionally a shorter duration); namespace, service and endpoint come from the opt-in policy
+        capability, never the operator, so this cannot be pointed anywhere but the configured fixture endpoint.
+        Produces the same command shape the Go guard re-admits, with customParams carrying only the template."""
+        sqli = self.policy.get("sqli")
+        if not sqli or not sqli["enabled"]:
+            raise Refused("SQLI_DISABLED", 409)
+        fields(body, {"attackType", "template"}, {"durationSec"})
+        if body["attackType"] != "SQLI":
+            raise Refused("COMMAND_TYPE")
+        template = body["template"]
+        if type(template) is not str or template not in SQLI_TEMPLATE_IDS:
+            raise Refused("SQLI_TEMPLATE")
+        endpoint = sqli_endpoint_valid(sqli["endpoint"])
+        max_sec = integer(sqli["maxCommandSec"], 1, SQLI_PER_COMMAND_SEC)
+        duration = integer(body.get("durationSec", max_sec), 1, max_sec)
+        return {"commandId": identifier(request_id), "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "source": "nemesis", "context": dict(self.policy["context"]), "attackType": "SQLI",
+                "target": {"namespace": SQLI_NAMESPACE, "service": SQLI_SERVICE, "url": endpoint},
+                "parameters": {"duration": duration, "intensity": "LOW", "concurrency": SQLI_CONCURRENCY,
+                               "customParams": {"template": template}},
+                "safetyLimits": {"maxDuration": max_sec, "allowedNamespaces": [SQLI_NAMESPACE]}}
 
     def signer(self):
         key = read_key(os.environ.get("ZD_COMMAND_SIGNER_FILE", ""), "fault")

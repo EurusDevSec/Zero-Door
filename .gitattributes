@@ -23,3 +23,16 @@ docs/evidence/ZER-41/**/*.txt -whitespace
 docs/evidence/ZER-41/**/*.diff -whitespace
 docs/evidence/ZER-41/runtime-02/raw/*.html -whitespace
 docs/evidence/ZER-41/**/*.log -whitespace
+
+# ZER-42: preserve reviewed executor source and immutable raw/export evidence bytes.
+docs/evidence/ZER-42/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+docs/evidence/ZER-42/**/*.txt -whitespace
+docs/evidence/ZER-42/**/*.diff -whitespace
+docs/evidence/ZER-42/**/*.log -whitespace
+docs/evidence/ZER-42/**/before/** -whitespace
+chaos-worker/internal/attack/sqli*.go -text
+chaos-worker/internal/guard/sqli_test.go -text
+chaos-worker/internal/validation/sqli_target_test.go -text
+infrastructure/scripts/sqli_executor_runtime.py -text
+tests/test_sqli*.py -text
+tests/fixtures/zer42/** -text

@@ -1,0 +1,29 @@
+test_actual_rendered_context_round_trips_archive (packaging_tests.Packaging.test_actual_rendered_context_round_trips_archive) ... FAIL
+
+======================================================================
+FAIL: test_actual_rendered_context_round_trips_archive (packaging_tests.Packaging.test_actual_rendered_context_round_trips_archive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_runtime_packaging.py", line 28, in test_actual_rendered_context_round_trips_archive
+    self.assertTrue(contract.valid_id(context["run_id"], "run"))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 1.367s
+
+FAILED (failures=1)
+test_owned_consumers_stop_before_topic_deletion (packaging_tests.Packaging.test_owned_consumers_stop_before_topic_deletion) ... FAIL
+
+======================================================================
+FAIL: test_owned_consumers_stop_before_topic_deletion (packaging_tests.Packaging.test_owned_consumers_stop_before_topic_deletion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_runtime_packaging.py", line 70, in test_owned_consumers_stop_before_topic_deletion
+    self.assertLess(seen.index("kube-wait"), seen.index("topic-delete"))
+AssertionError: 6 not less than 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)
+FAIL_BEFORE_CONFIRMED: unchanged snapshots reproduce both regressions; working source untouched

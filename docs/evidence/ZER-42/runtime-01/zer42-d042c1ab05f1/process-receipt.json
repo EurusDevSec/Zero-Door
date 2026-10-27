@@ -1,0 +1,7 @@
+{
+  "status": "FAILED",
+  "error": "TimeoutExpired: Command '['docker', 'exec', 'k3d-zero-door-server-0', 'iptables-save']' timed out after 15 seconds",
+  "cleanup_problems": [],
+  "elapsed_seconds": 250.01499999999942,
+  "run": "zer42-d042c1ab05f1"
+}

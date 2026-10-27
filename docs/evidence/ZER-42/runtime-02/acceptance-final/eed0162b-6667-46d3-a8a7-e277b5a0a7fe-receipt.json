@@ -1,0 +1,13 @@
+{
+  "run_id": "run_17b0e620027f4852a3b1c838a48e53a2",
+  "export_sha256": "34742608c73f05f286592741743190c0f7a118e903e7fcff5600b69c57f04381",
+  "checked": [
+    {
+      "command_ref": "eed0162b-6667-46d3-a8a7-e277b5a0a7fe",
+      "event_id": "evt_f6806ac2cb814dd1803e2ece861d7c65",
+      "raw_result_sha256": "2ab79d46ed067c37fe273de37c8612c2e68c7896a83a02af584000387b0778e2",
+      "status": "UNKNOWN_EFFECT"
+    }
+  ],
+  "scope": "executor-result/H-export only; independent probe coverage and runtime pending"
+}

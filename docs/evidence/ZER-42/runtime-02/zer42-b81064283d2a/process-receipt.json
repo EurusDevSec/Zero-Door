@@ -1,0 +1,8 @@
+{
+  "status": "FAILED",
+  "error": "RuntimeError: topic-list exit 1: ... 3 more\nCaused by: java.net.BindException: Address already in use\n\tat java.base/sun.nio.ch.Net.bind0(Native Method)\n\tat java.base/sun.nio.ch.Net.bind(Net.java:555)\n\tat java.base/sun.nio.ch.Net.bind(Net.java:544)\n\tat java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:648)\n\tat java.base/java.net.ServerSocket.bind(ServerSocket.java:388)\n\tat java.base/java.net.ServerSocket.<init>(ServerSocket.java:274)\n\tat java.base/java.net.ServerSocket.<init>(ServerSocket.java:167)\n\tat java.rmi/sun.rmi.transport.tcp.TCPDirectSocketFactory.createServerSocket(TCPDirectSocketFactory.java:45)\n\tat java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:673)\n\tat java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:335)\n\t... 12 more\ncommand terminated with exit code 1\n",
+  "cleanup_problems": [],
+  "elapsed_seconds": 83.40699999999924,
+  "authorization_elapsed_seconds": 341.54921317100525,
+  "run": "zer42-b81064283d2a"
+}

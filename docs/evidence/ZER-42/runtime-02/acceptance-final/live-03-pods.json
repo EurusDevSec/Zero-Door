@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-27T10:17:01.252362+00:00",
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "get",
+    "pods",
+    "-A",
+    "-o",
+    "json"
+  ],
+  "returncode": 0,
+  "stdout": "{\"items\": [{\"namespace\": \"kube-system\", \"name\": \"coredns-ccb96694c-drjgp\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"kube-system\", \"name\": \"local-path-provisioner-5cf85fd84d-mb74p\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"kube-system\", \"name\": \"metrics-server-5985cbc9d7-s6h86\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"kube-system\", \"name\": \"svclb-traefik-2aaf11e4-6ktqh\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"kube-system\", \"name\": \"svclb-traefik-2aaf11e4-bsq7z\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"kube-system\", \"name\": \"traefik-75bb84786-v4rz5\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"elasticsearch-77f775cbbd-llqsj\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"fluent-bit-65b2j\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"fluent-bit-ccs6v\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"prometheus-kube-prometheus-operator-6484987889-6mtzh\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"prometheus-kube-state-metrics-c86b89bdf-6gkcs\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"prometheus-prometheus-kube-prometheus-prometheus-0\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"prometheus-prometheus-node-exporter-5vjcw\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"monitoring\", \"name\": \"prometheus-prometheus-node-exporter-7rmk6\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"cartservice-56b9fb479f-ppsgd\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"checkoutservice-7cdb898bbb-qqhsp\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"currencyservice-6b7ffcdb66-8tdq9\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"emailservice-574b6fbcc9-p6gtx\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"frontend-84b6b4cf7-sqw5l\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"paymentservice-7f8b7fd8d8-26f7p\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"productcatalogservice-5cc4fdfd64-c7wdg\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"redis-cart-558f8d8d44-kz7kj\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"target-app\", \"name\": \"shippingservice-7bf88f7cd4-5tp7g\", \"phase\": \"Running\", \"run\": null}, {\"namespace\": \"zero-door\", \"name\": \"kafka-controller-0\", \"phase\": \"Running\", \"run\": null}]}",
+  "stderr": ""
+}

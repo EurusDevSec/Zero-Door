@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-27T10:43:51.212Z",
+  "authority": "Direct Hoang user request in ZD2-CODEX verified from source chat: commit/push, PR, CI, merge, final ZER-42 acceptance",
+  "branch": "zer-42-bounded-sqli",
+  "base": "ab1003bd3bbba5684fccd34dfe6e9d68c0fe898f",
+  "runtime_base": "7db9d9f9bc265b07a4cb361923ee535f707adeda",
+  "base_tree_identical": true,
+  "status": "AUTHORIZED_PUBLICATION_PENDING_CI_MERGE",
+  "independent_reviews": [
+    "Claude full offline cross-review: no P1/P2",
+    "ZD2-CODEX final delta/retest/read-only lab confirmation: no blocking finding,26/26 tests per pin"
+  ],
+  "secret_scan": {
+    "credential_patterns": 0,
+    "literal_sensitive_env_values": 0,
+    "files": 1977
+  },
+  "preserved_protected_files": {
+    "AGENTS.md": "fe18d0003c865a021eb7eb8a2432ea290b034deec5cad3cb5c1cd338be88d50e",
+    "docs/delivery/README.md": "c7b9f0f8673359cce4be9d3bb0a4517925060b4b98345de1d8f5edc3f0a220b4",
+    "docs/delivery/WORKFLOW.md": "ded0fdee2473ce8cac32f994f4139ee59e241e13fc48528b0fe42c026ef15ffb",
+    "docs/delivery/milestones/R0-foundations/local-lab.md": "de50480bed53f0d2de3ff69aeae1b012b229b7f95acdaeab781a381c24c45c56",
+    "docs/delivery/milestones/R1-measurement/README.md": "01f7ba9fcf329e5788788266287cddf0002661aa0c7f772354d1186105d74000",
+    "docs/delivery/milestones/R1-measurement/dashboard-and-baselines.md": "9fc33139747b77a4340f81436e3ea880f2fcc45c5edf01369094a73c0386f52a",
+    "docs/delivery/milestones/R1-measurement/event-contract.md": "9b3fd2be6f3c91eead340898c66df54aef9d2589fa220b06d28fa8f51c23ff99",
+    "docs/delivery/milestones/R1-measurement/guards-and-ci.md": "033baea65de6c7ab2f2fd807b67780a387afd285f15945bcc67412930298ee31",
+    "docs/delivery/milestones/R1-measurement/probes-and-metrics.md": "a9123b6a038abe317f1bd3b0a4def2dc609a49c6a0f71c338acdbe73c8622e45",
+    "docs/runbooks/bash-tooling.md": "40b86f751dae06030e8a01145ec09092b4a98a062141213df6d7c0f191364d5b",
+    "infrastructure/k3d-config.yaml": "87be8f75d45d033d287b8ff6f1f96420f99694ddd0cdfb3f3d58feb64708491c"
+  },
+  "lab_changes_this_publication": 0
+}

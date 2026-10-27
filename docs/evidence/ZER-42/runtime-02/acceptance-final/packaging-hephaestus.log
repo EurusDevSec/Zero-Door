@@ -1,0 +1,7 @@
+test_actual_rendered_context_round_trips_archive (test_sqli_runtime_packaging.Packaging.test_actual_rendered_context_round_trips_archive) ... ok
+test_owned_consumers_stop_before_topic_deletion (test_sqli_runtime_packaging.Packaging.test_owned_consumers_stop_before_topic_deletion) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.613s
+
+OK

@@ -1,0 +1,12 @@
+{
+  "docs/evidence/ZER-42/runtime-prep/render.py": "fb484b089ab3ede3edb84aa356dd0867e51c98e04ac3122a205ffb3b9171d8e1",
+  "docs/evidence/ZER-42/runtime-prep/run.py": "ab95647de41278a0c84afe8edd56a45aeb9c3269ed4dc14133db11b423775ded",
+  "tests/test_sqli_runtime_packaging.py": "be99e673cef240708b3c3bfa79e9c793db335507840d807cd5e5a6a498355c62",
+  "docs/evidence/ZER-42/runtime-02/reconcile.py": "fdd545de800d65be1272a1b5c9ec9b51addea6e55474203dfc237b2461bd70a3",
+  "docs/evidence/ZER-42/runtime-02/acceptance_cleanup.py": "68977671d0aef58bd9235de94e43cd02d62e6d42e473b775204392339e7e719d",
+  "docs/evidence/ZER-42/runtime-02/check_acceptance.py": "6e27b9b048b94f9f633b110804b20420b56529bbbdbac6fa49fef73aeae1e16c",
+  ".github/workflows/ci.yml": "d2ecbb569cc92d4cac10dd29fdf9bdbf3adfa4405065a63ea7441d041a3e3e0c",
+  "docs/evidence/ZER-42/runtime-02/README.md": "3472ffc2e2d1a0f20cc4c4cfe0d120057de6793467a24dc08fd00216d1340782",
+  "docs/delivery/milestones/R2-chaos-scenarios/sqli-fixture.md": "39a89baec4ed1985b4e542d747eb91729ea59e6fa01c0844fdf566c02b1fe711",
+  "docs/delivery/NOW.md": "ecef17c9e915b587bf50a5438527ced9a24d6f368ca99415e5dea5e090b961d9"
+}

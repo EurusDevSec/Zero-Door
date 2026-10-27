@@ -1,0 +1,56 @@
+[
+  {
+    "source": "zer42-source-a",
+    "value": {
+      "status": 200,
+      "request_id": "b52cbf9cbdd546829890625695dee6be",
+      "body": {
+        "results": [
+          {
+            "sku": "PUB-APP-001",
+            "name": "Canvas Tote",
+            "category": "apparel",
+            "visibility": "public",
+            "price_cents": 1800
+          },
+          {
+            "sku": "PUB-APP-002",
+            "name": "Knit Scarf",
+            "category": "apparel",
+            "visibility": "public",
+            "price_cents": 2400
+          }
+        ],
+        "count": 2
+      },
+      "correlation_id": "91912489c10e41c9b801a9ea8e64a8c9"
+    }
+  },
+  {
+    "source": "zer42-source-b",
+    "value": {
+      "status": 200,
+      "request_id": "7b5d5ec1c25b405e9ed1a9f527a640b0",
+      "body": {
+        "results": [
+          {
+            "sku": "PUB-APP-001",
+            "name": "Canvas Tote",
+            "category": "apparel",
+            "visibility": "public",
+            "price_cents": 1800
+          },
+          {
+            "sku": "PUB-APP-002",
+            "name": "Knit Scarf",
+            "category": "apparel",
+            "visibility": "public",
+            "price_cents": 2400
+          }
+        ],
+        "count": 2
+      },
+      "correlation_id": "76d354c2ce044b6494bd4e50a97a35e3"
+    }
+  }
+]

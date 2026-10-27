@@ -1,3 +1,74 @@
+## Con trỏ mới — Publication ZER-42 đã được duyệt — 27/10/2026
+
+Hoàng đã cấp quyền commit/push, PR, CI, merge và nghiệm thu cuối qua ZD2-CODEX. Review độc lập của ZD2 xác
+nhận không có finding chặn; 26/26 test mỗi production pin và raw/export/cleanup read-back đạt. Nhánh
+`zer-42-bounded-sqli` từ main `ab1003b` (tree giống base runtime `7db9d9f`). Đang publication gói bounded
+executor/evidence, chưa coi CI/merge/Linear Done là hoàn tất. Không thêm lab/model; giữ dirty ngoài gói.
+
+## Con trỏ mới — ZER-42 technical PASS, sẵn sàng publication — 27/10/2026
+
+[Receipt cuối](../evidence/ZER-42/runtime-02/acceptance-final/README.md): đã tái kiểm bốn case có sẵn, 12/12
+request join độc lập, bốn benign control/IP/XFF, replay không thêm request trong log và bốn H export. Sửa
+renderer INVALID_ID + thứ tự cleanup; raw160 file và FAILED receipt nguyên byte. Cleanup live sạch bốn topic,
+namespace vắng, replicas/generation/PVC3 khớp baseline. Không phát lại traffic; formal safe/benign vẫn UNKNOWN
+đúng contract. Offline 2+24 test mỗi production pin; CI gate đã thêm. Chưa Git/Linear/CI remote/merge/Done;
+bước tiếp theo là publication/review trong quyền được Hoàng cấp. Các checkpoint chặn bên dưới là lịch sử.
+
+## Con trỏ mới — ZER-42 bị chặn bởi kube-router dataplane — 27/10/2026
+
+[Runtime-02](../evidence/ZER-42/runtime-02/README.md): full stop/start giữ nguyên PVC3 và replicas, nhưng pod mới
+trên cả server/agent không nhận per-pod NetworkPolicy hook kể cả chờ420s. Các run fail closed trước topic/lệnh/
+vulnerable, namespace và topic tạm đã dọn sạch. Offline vẫn đạt; cần quyền riêng để sửa dataplane hoặc dựng lại
+lab, rồi chạy bốn case + reconcile. Chưa Git/Linear/Done; không được bỏ policy gate để ép PASS.
+
+## Con trỏ mới — ZER-42 runtime-02 bị gián đoạn; cần cleanup/retest mới — 27/10/2026
+
+[Runtime-02](../evidence/ZER-42/runtime-02/README.md): recovery đã khôi phục cụm và đạt safe phase một phần,
+nhưng cụm k3d sau đó bị tắt nên không có receipt/after snapshot; cleanup attempt cuối UNKNOWN và partial safe
+không được tính nghiệm thu. Harness-only DNS/JMX/nftables đã sửa, kiểm offline đạt. Quyền restart đã dùng và
+cửa sổ35 phút hết; cần quyền mới để bật cụm, cleanup ownership, retest bốn case và reconcile. Chưa Git/Linear/Done.
+
+## Con trỏ mới — ZER-42 runtime bị chặn ở policy; cleanup sạch — 26/10/2026
+
+[Runtime-01](../evidence/ZER-42/runtime-01/README.md): hai actor image đã build/import; hai attempt dừng trước
+fixture release vì không xác minh được Pod policy hooks. Không vulnerable/topic/lệnh SQLi; namespace cleanup
+đúng UID và replicas/PVC3 không đổi. Code offline vẫn qua cross-review. Đề xuất recovery server một lần trong
+receipt cần quyền riêng; chưa restart/publication/Linear, ZER-42/13 chưa Done.
+
+## Con trỏ mới — ZER-42 cross-review đạt; runtime đã chuẩn bị — 26/10/2026
+
+Claude không còn P1/P2 offline. [Gói runtime](../evidence/ZER-42/runtime-prep/README.md) đã đối chiếu AC sống và
+cluster/image chỉ đọc, renderer OpenAPI đạt 21 resource/sáu pod; đề xuất 45 phút gồm cleanup10, hai image actor
+và hai Kafka topic riêng. Chưa chạy lab/build/publication/Linear. Chờ Hoàng duyệt scope runtime này.
+
+## Con trỏ mới — Codex fix-02 ZER-42 chờ Claude cross-review — 26/10/2026
+
+[Receipt](../evidence/ZER-42/codex-fix02/README.md): đã sửa `FX42-R1…R4` về timestamp/consumer, raw UNKNOWN,
+exact private ingress + pinned peer và bundle H archive/export; offline đạt hai pin Python, Go/vet/gofmt,
+Bandit, fail-before và JSON Go → scorer. ZER-41/dirty ngoài gói giữ nguyên; chưa lab/build/publication/Linear.
+Claude review độc lập gói này trước khi xin quyền lab riêng; ZER-42/ZER-13 chưa Done.
+
+## Con trỏ mới — Codex retest ZER-42: còn sửa gom trước lab — 26/10/2026
+
+[Báo cáo retest](../evidence/ZER-42/codex-retest.md): schema/nhịp gửi đã đạt; timestamp → scorer, raw thiếu dữ liệu, peer thực và export/envelope còn FX42-R1…R4. Gói sửa ở cuối report; chưa source edit/lab/build/publication/Linear. Giữ ZER-41 và profile tài nguyên 6GB.
+
+## Con trỏ mới — Claude đã sửa gom Codex ZER-42 — READY_FOR_CODEX_RETEST_OFFLINE — 26/10/2026
+
+Đã sửa cả 5 finding P2 (ZR42-01…05: t_eff/phủ cửa sổ, schema response, nhịp gửi, ranh giới ingress + preflight private, trace/event H) trong một lượt. Báo cáo cập nhật [verification.md](../evidence/ZER-42/verification.md); thiết kế [decision-note.md](../evidence/ZER-42/decision-note.md) §9; snapshot trước sửa `scratch/zer42/codex-fix/before/`. Offline đạt: Go `go test ./...`+`vet`+`gofmt` sạch; Python `test_sqli_executor` 21 cả hai pin, guard cũ 7/13/6 không regress; fail-before 11 mutant OVERALL PASS. Giữ checkout `zer-41-sqli-fixture`, ZER-41 khóa nguyên hash, dirty ngoài gói nguyên; chưa lab/build/publication/Linear. Codex retest các ranh giới đã sửa rồi mới chuẩn bị lượt lab xin quyền riêng.
+
+## Con trỏ trước — Codex review ZER-42 cần sửa gom — 26/10/2026
+
+[Báo cáo](../evidence/ZER-42/codex-review.md): 5 finding P2; đường valid/signed/replay đã đạt offline, phần effect/budget/endpoint/trace cần sửa trước runtime. Gói sửa ở cuối report và [note](milestones/R2-chaos-scenarios/sqli-fixture.md); chưa lab/build/publication/Linear. Review không đổi source ZER-42 hoặc cấu hình lab 6GB bên dưới.
+
+## Con trỏ mới — Claude ZER-42 SQLi executor offline — READY_FOR_CODEX_REVIEW_OFFLINE — 26/10/2026
+
+Executor SQLi hữu hạn + admission opt-in parity Python↔Go + H-plane evaluator tách riêng + CI/fail-before, tất cả offline. **PARTIAL**: ZER-42 AC-01 = ZER-13 AC-03 đạt offline; ZER-13 AC-04 chuẩn bị, chưa chạy; image NOT_BUILT, manifest NOT_APPLIED. Chưa lab/build/commit/Linear; giữ checkout `zer-41-sqli-fixture`, dirty ngoài gói nguyên, ZER-41 nguyên hash. Báo cáo [verification](../evidence/ZER-42/verification.md); bàn giao cuối [note](milestones/R2-chaos-scenarios/sqli-fixture.md). Codex review độc lập sau bàn giao.
+
+## Con trỏ mới — Gói Claude ZER-42 đã chuẩn bị offline — 22/10/2026
+
+ZER-41 đã Done qua PR #29. Gói executor SQLi cùng tích hợp ZER-13 AC-03/04 nằm cuối [note](milestones/R2-chaos-scenarios/sqli-fixture.md), mục “Gói tiếp theo cho Claude — ZER-42 và tích hợp ZER-13 AC-03/04”. Claude làm nguồn/guard/integration, tự kiểm gom và chuẩn bị runtime; chưa lab/model/publication/Linear. Codex nhận review sau bàn giao, không viết song song.
+
+<!-- checkpoint 2026-10-22T11:19Z: ZER-41 Done; PR #29 merged ab1003b after 18 CI successes. Private ingress profile accepted. ZER-13/ZER-42 remain In Progress; no further lab/model authorized. See final handoff in R2-chaos-scenarios/sqli-fixture.md and Linear acceptance comment. -->
 ## Con trỏ mới — Publication ZER-11/39 đã được duyệt — 22/10/2026
 
 Nhánh `zer-11-dashboard-baselines`, gói dashboard/mode/B0 cùng RT1/RT2 đã kiểm. Hoàng cho commit/push và mở PR để chạy CI; chưa merge/Linear. Giữ dirty ngoài allowlist và hash raw bằng thuộc tính evidence riêng. Runtime [RT1](../evidence/ZER-11/runtime-01/README.md), [RT2](../evidence/ZER-11/runtime-02/README.md); handoff cuối [note](milestones/R1-measurement/dashboard-and-baselines.md).

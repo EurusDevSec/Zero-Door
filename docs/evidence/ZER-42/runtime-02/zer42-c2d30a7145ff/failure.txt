@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 406, in <module>
+    main()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 302, in main
+    raise RuntimeError("WORKER_CONSUMER_NOT_ASSIGNED")
+RuntimeError: WORKER_CONSUMER_NOT_ASSIGNED
+

@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-27T10:17:10.834572+00:00",
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zero-door",
+    "exec",
+    "kafka-controller-0",
+    "-c",
+    "kafka",
+    "--",
+    "env",
+    "-u",
+    "JMX_PORT",
+    "-u",
+    "KAFKA_JMX_OPTS",
+    "/opt/bitnami/kafka/bin/kafka-topics.sh",
+    "--bootstrap-server",
+    "localhost:9092",
+    "--delete",
+    "--topic",
+    "zer42-15ddc1ba1c91.commands"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

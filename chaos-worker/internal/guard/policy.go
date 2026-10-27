@@ -19,6 +19,19 @@ type Policy struct {
 	MaxDurationSec int                 `json:"maxDurationSec"`
 	MaxConcurrency int                 `json:"maxConcurrency"`
 	RPS            int                 `json:"rps"`
+	// SQLi is an opt-in capability, absent (nil) by default so SQLI commands are refused unless a policy
+	// explicitly enables it and locks the single fixture endpoint. It never widens the legacy targets above.
+	SQLi *SQLiCapability `json:"sqli,omitempty"`
+}
+
+// SQLiCapability pins the SQLi executor to one fixture endpoint. Endpoint is the exact base search URL; the
+// executor only appends the `category` parameter it builds from the locked catalog. MaxSends/MaxCommandSec may
+// lower the design ceilings (attack.SQLiMaxSends / attack.SQLiPerCommandSec), never raise them.
+type SQLiCapability struct {
+	Enabled       bool   `json:"enabled"`
+	Endpoint      string `json:"endpoint"`
+	MaxSends      int    `json:"maxSends"`
+	MaxCommandSec int    `json:"maxCommandSec"`
 }
 
 var uuidID = regexp.MustCompile(`^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`)
@@ -59,6 +72,15 @@ func (p Policy) Validate() error {
 			}
 		}
 	}
+	if p.SQLi != nil {
+		if _, err := validation.ValidateSQLiEndpoint(p.SQLi.Endpoint); err != nil {
+			return err
+		}
+		if p.SQLi.MaxSends < 1 || p.SQLi.MaxSends > attack.SQLiMaxSends ||
+			p.SQLi.MaxCommandSec < 1 || p.SQLi.MaxCommandSec > attack.SQLiPerCommandSec {
+			return fmt.Errorf("SQLI_POLICY")
+		}
+	}
 	return nil
 }
 
@@ -74,6 +96,11 @@ func (p Policy) Admit(cmd attack.AttackCommand) (attack.AttackCommand, error) {
 	}
 	if !uuidID.MatchString(cmd.CommandID) || cmd.Source != "nemesis" {
 		return cmd, fmt.Errorf("COMMAND_ID_OR_SOURCE")
+	}
+	// SQLI is admitted on a separate, additive branch so the legacy checks below (target-app resolution,
+	// empty customParams) stay exactly as they were for the four original command types.
+	if cmd.AttackType == "SQLI" {
+		return p.admitSQLi(cmd)
 	}
 	if !slices.Contains([]string{"HTTP_FLOOD", "CPU_STRESS", "MEMORY_STRESS", "POD_KILL"}, cmd.AttackType) {
 		return cmd, fmt.Errorf("COMMAND_TYPE")
@@ -104,4 +131,69 @@ func (p Policy) Admit(cmd attack.AttackCommand) (attack.AttackCommand, error) {
 	}
 	// B0 permits planned harness faults; this purpose grants no healing or LLM authority.
 	return cmd, nil
+}
+
+// admitSQLi admits one SQLI command. It requires the opt-in capability, locks the target to the single
+// configured fixture endpoint, fixes concurrency to one, clamps the duration to the capability ceiling, and
+// accepts customParams holding exactly {"template": "<known catalog id>"}. The legacy executors can never be
+// routed to the fixture, because they resolve targets through validation.New (target-app only) and are never
+// reached from this branch.
+func (p Policy) admitSQLi(cmd attack.AttackCommand) (attack.AttackCommand, error) {
+	if p.SQLi == nil || !p.SQLi.Enabled {
+		return cmd, fmt.Errorf("SQLI_DISABLED")
+	}
+	if cmd.Target.Namespace != attack.SQLiNamespace || cmd.Target.Service != attack.SQLiService {
+		return cmd, fmt.Errorf("SQLI_TARGET")
+	}
+	endpoint, err := validation.ValidateSQLiEndpoint(cmd.Target.URL)
+	if err != nil {
+		return cmd, err
+	}
+	allowed, err := validation.ValidateSQLiEndpoint(p.SQLi.Endpoint)
+	if err != nil || endpoint != allowed {
+		return cmd, fmt.Errorf("SQLI_ENDPOINT_NOT_ALLOWED")
+	}
+	cmd.Target.URL = endpoint
+	if cmd.Parameters.Concurrency != attack.SQLiConcurrency {
+		return cmd, fmt.Errorf("SQLI_CONCURRENCY")
+	}
+	if cmd.Parameters.Intensity != "LOW" {
+		return cmd, fmt.Errorf("SQLI_INTENSITY")
+	}
+	maxSec := min(p.SQLi.MaxCommandSec, attack.SQLiPerCommandSec)
+	if cmd.Parameters.DurationSec < 1 || cmd.Parameters.DurationSec > maxSec {
+		return cmd, fmt.Errorf("SQLI_DURATION")
+	}
+	if len(cmd.SafetyLimits.AllowedNamespaces) != 1 || cmd.SafetyLimits.AllowedNamespaces[0] != attack.SQLiNamespace {
+		return cmd, fmt.Errorf("SQLI_NAMESPACE_LIMIT")
+	}
+	if cmd.SafetyLimits.MaxDurationSec < 1 || cmd.SafetyLimits.MaxDurationSec > attack.SQLiPerCommandSec {
+		return cmd, fmt.Errorf("SQLI_SAFETY_LIMIT")
+	}
+	if _, err := sqliTemplateParam(cmd.Parameters.CustomParams); err != nil {
+		return cmd, err
+	}
+	return cmd, nil
+}
+
+// sqliTemplateParam accepts customParams holding exactly one key "template" whose string value is a known
+// catalog id. Any other key, a missing key, a non-string value, or an unknown id is refused. Legacy command
+// types keep rejecting customParams entirely (the CUSTOM_PARAMETER check on the legacy branch is unchanged).
+func sqliTemplateParam(cp map[string]any) (attack.SQLiTemplate, error) {
+	if len(cp) != 1 {
+		return attack.SQLiTemplate{}, fmt.Errorf("SQLI_CUSTOM_PARAM")
+	}
+	raw, ok := cp["template"]
+	if !ok {
+		return attack.SQLiTemplate{}, fmt.Errorf("SQLI_CUSTOM_PARAM")
+	}
+	id, ok := raw.(string)
+	if !ok {
+		return attack.SQLiTemplate{}, fmt.Errorf("SQLI_TEMPLATE_TYPE")
+	}
+	tmpl, ok := attack.LookupSQLiTemplate(id)
+	if !ok {
+		return attack.SQLiTemplate{}, fmt.Errorf("SQLI_TEMPLATE_UNKNOWN")
+	}
+	return tmpl, nil
 }

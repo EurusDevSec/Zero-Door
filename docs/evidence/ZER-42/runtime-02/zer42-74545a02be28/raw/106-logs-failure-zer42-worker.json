@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "-l",
+    "app=zer42-worker",
+    "--tail=500",
+    "--prefix=false",
+    "--timestamps=false"
+  ],
+  "returncode": 0,
+  "stdout": "{\"time\":\"2026-10-27T09:56:26.394944079Z\",\"level\":\"INFO\",\"msg\":\"Zero Door Chaos Worker starting up...\"}\n{\"time\":\"2026-10-27T09:56:26.396359295Z\",\"level\":\"INFO\",\"msg\":\"Using in-cluster Kubernetes config\"}\n{\"time\":\"2026-10-27T09:56:26.397969713Z\",\"level\":\"INFO\",\"msg\":\"Kafka consumer initialized\",\"topic\":\"zer42-c2d30a7145ff.commands\",\"group\":\"zer42-74545a02be28.worker\",\"broker\":\"kafka.zero-door.svc.cluster.local:9092\"}\n{\"time\":\"2026-10-27T09:56:26.398035822Z\",\"level\":\"INFO\",\"msg\":\"Kafka producer initialized\",\"topic\":\"zer42-c2d30a7145ff.results\",\"broker\":\"kafka.zero-door.svc.cluster.local:9092\"}\n{\"time\":\"2026-10-27T09:56:26.398054071Z\",\"level\":\"INFO\",\"msg\":\"Chaos Worker is ready. Listening for attack commands on Kafka...\",\"topic\":\"zer42-c2d30a7145ff.commands\"}\n",
+  "stderr": ""
+}
