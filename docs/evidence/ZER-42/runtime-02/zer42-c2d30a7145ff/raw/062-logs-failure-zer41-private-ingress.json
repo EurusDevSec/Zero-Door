@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "-l",
+    "app=zer41-private-ingress",
+    "--tail=500",
+    "--prefix=false",
+    "--timestamps=false"
+  ],
+  "returncode": 0,
+  "stdout": "{\"ClientAddr\":\"10.42.1.250:45986\",\"ClientHost\":\"10.42.1.250\",\"ClientPort\":\"45986\",\"ClientUsername\":\"-\",\"DownstreamContentSize\":232,\"DownstreamStatus\":200,\"Duration\":5081866,\"OriginContentSize\":232,\"OriginDuration\":4949931,\"OriginStatus\":200,\"Overhead\":131935,\"RequestAddr\":\"zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000\",\"RequestContentSize\":0,\"RequestCount\":1,\"RequestHost\":\"zer41-private-ingress.zd-sqli-lab.svc.cluster.local\",\"RequestMethod\":\"GET\",\"RequestPath\":\"/fixture/catalog/search?category=apparel\",\"RequestPort\":\"8000\",\"RequestProtocol\":\"HTTP/1.1\",\"RequestScheme\":\"http\",\"RetryAttempts\":0,\"RouterName\":\"fixture@file\",\"ServiceAddr\":\"sqli-fixture:9140\",\"ServiceName\":\"fixture@file\",\"ServiceURL\":\"http://sqli-fixture:9140\",\"StartLocal\":\"2026-10-26T16:50:23.162470013Z\",\"StartUTC\":\"2026-10-26T16:50:23.162470013Z\",\"downstream_X-Request-Id\":\"b52cbf9cbdd546829890625695dee6be\",\"entryPointName\":\"web\",\"level\":\"info\",\"msg\":\"\",\"origin_X-Request-Id\":\"b52cbf9cbdd546829890625695dee6be\",\"request_X-Correlation-Id\":\"91912489c10e41c9b801a9ea8e64a8c9\",\"time\":\"2026-10-26T16:50:23Z\"}\n{\"ClientAddr\":\"10.42.1.251:33582\",\"ClientHost\":\"10.42.1.251\",\"ClientPort\":\"33582\",\"ClientUsername\":\"-\",\"DownstreamContentSize\":232,\"DownstreamStatus\":200,\"Duration\":3346176,\"OriginContentSize\":232,\"OriginDuration\":3293685,\"OriginStatus\":200,\"Overhead\":52491,\"RequestAddr\":\"zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000\",\"RequestContentSize\":0,\"RequestCount\":2,\"RequestHost\":\"zer41-private-ingress.zd-sqli-lab.svc.cluster.local\",\"RequestMethod\":\"GET\",\"RequestPath\":\"/fixture/catalog/search?category=apparel\",\"RequestPort\":\"8000\",\"RequestProtocol\":\"HTTP/1.1\",\"RequestScheme\":\"http\",\"RetryAttempts\":0,\"RouterName\":\"fixture@file\",\"ServiceAddr\":\"sqli-fixture:9140\",\"ServiceName\":\"fixture@file\",\"ServiceURL\":\"http://sqli-fixture:9140\",\"StartLocal\":\"2026-10-26T16:50:32.453538584Z\",\"StartUTC\":\"2026-10-26T16:50:32.453538584Z\",\"downstream_X-Request-Id\":\"7b5d5ec1c25b405e9ed1a9f527a640b0\",\"entryPointName\":\"web\",\"level\":\"info\",\"msg\":\"\",\"origin_X-Request-Id\":\"7b5d5ec1c25b405e9ed1a9f527a640b0\",\"request_X-Correlation-Id\":\"76d354c2ce044b6494bd4e50a97a35e3\",\"time\":\"2026-10-26T16:50:32Z\"}\n",
+  "stderr": ""
+}

@@ -1,0 +1,17 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "wait",
+    "--for=condition=Ready",
+    "pod/zer42-source-b",
+    "--timeout=90s"
+  ],
+  "returncode": 0,
+  "stdout": "pod/zer42-source-b condition met\n",
+  "stderr": ""
+}

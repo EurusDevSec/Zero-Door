@@ -1,0 +1,15 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "get",
+    "nodes",
+    "-o",
+    "json"
+  ],
+  "returncode": 1,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"items\": [],\n    \"kind\": \"List\",\n    \"metadata\": {\n        \"resourceVersion\": \"\"\n    }\n}\n",
+  "stderr": "Error from server (ServiceUnavailable): the server is currently unable to handle the request (get nodes)\n"
+}

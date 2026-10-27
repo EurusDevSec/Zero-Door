@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 344, in <module>
+    main()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 200, in main
+    fixture_gate("safe")
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 129, in fixture_gate
+    raw = command(["docker", "exec", "k3d-zero-door-server-0", "iptables-save"], label="policy", timeout=15)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 54, in command
+    result = subprocess.run(args, input=stdin, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\subprocess.py", line 1630, in _communicate
+    raise TimeoutExpired(self.args, orig_timeout)
+subprocess.TimeoutExpired: Command '['docker', 'exec', 'k3d-zero-door-server-0', 'iptables-save']' timed out after 15 seconds
+

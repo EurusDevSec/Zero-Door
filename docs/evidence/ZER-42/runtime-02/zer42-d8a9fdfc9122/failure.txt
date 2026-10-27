@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 402, in <module>
+    main()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 259, in main
+    value = remote(source, "control")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 117, in remote
+    result = kube("-n", NS, "exec", "-i", pod, "--", "/usr/bin/python3", "-", mode, *args,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 89, in kube
+    return command(K + list(args), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 84, in command
+    raise RuntimeError(f"{label} exit {result.returncode}: {result.stderr.decode('utf8', 'replace')[-800:]}")
+RuntimeError: remote-control exit 1:           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/urllib/request.py", line 1352, in do_open
+    r = h.getresponse()
+        ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/http/client.py", line 1374, in getresponse
+    response.begin()
+  File "/usr/lib/python3.11/http/client.py", line 318, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/http/client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/socket.py", line 706, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: timed out
+command terminated with exit code 1
+
+

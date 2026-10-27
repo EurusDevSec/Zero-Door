@@ -243,3 +243,185 @@ CIđãchuẩnbịjobr2-fixturehai productionpins+SAST/imagebuildsmokekhôngpush;
 Phê duyệt trực tiếp: “Nghiệm thu và cho phép chốt ZER-41 khi CI đạt”. Commit/push đúng fixture, test, CI, runbook/evidence và note trên nhánh zer-41-sqli-fixture; mở PR, chỉ merge sau khi toàn bộ CI bắt buộc đạt, rồi cập nhật riêng ZER-41 Done kèm receipt. Giữ dirty ngoài gói. Không đóng ZER-13/ZER-42, không chạy thêm lab/model. Runtime-02 private profile là phạm vi nghiệm thu; stock shared Ingress chưa được kiểm runtime.
 
 Publication thêm .gitattributes với pattern chỉ ZER-41, theo quy ước ZER-9/10 hiện có: giữ nguyên byte source đã build và raw evidence/checksum; whitespace trong output gốc được giữ, không sửa lịch sử để làm sạch diff.
+
+
+## Gói tiếp theo cho Claude — ZER-42 và tích hợp ZER-13 AC-03/04 — 22/10/2026
+
+### Kết quả và ranh giới
+
+Hoàng yêu cầu giao issue tiếp theo cho Claude. Đã đọc AC sống ZER-42 và cha ZER-13, rà cả R2 trên Linear Zero Door: ZER-41 Done; ZER-13/42 In Progress; ZER-14/43/44/45/15 Todo. Ưu tiên khép nhánh SQLi vì fixture đã nghiệm thu, thay vì mở đồng thời ba vector. G2 vẫn cần ba vector và phối hợp/cleanup. Snapshot này không thay board.
+
+Làm trọn executor SQLi hữu hạn, tích hợp admission/signing/dispatch/result và chuẩn bị phép kiểm độc lập cho effect/benign/trace/IP. ZER-42 AC-01 = ZER-13 AC-03: template hợp lệ chạy, ngoài phạm vi bị từ chối. AC-04 của cha cần bằng chứng trước/sau, traffic đối chứng và IP đáng tin: trong gói này triển khai đường kiểm và kiểm offline, chuẩn bị runtime; chưa tuyên bố đạt runtime hoặc Done. AC-01/02 của cha đối chiếu lại thiết kế/evidence ZER-41, không làm lại fixture đã đạt.
+
+Claude là writer duy nhất từ khi Hoàng chuyển prompt; Codex chỉ review sau bàn giao. Quyền: sửa nguồn/test/tài liệu trong allowlist dưới đây và chạy kiểm offline bằng fake/loopback. Không Docker build/import/run, kubectl/Helm, broker thật, phát lệnh agent thật, lab, model/API trả phí, cloud, cài công cụ toàn máy, commit/push/PR/merge, đổi Linear hoặc nhắn bên khác. Quyền runtime ZER-41 đã dùng xong, không chuyển sang ZER-42.
+
+Baseline Codex đọc hiện tại: HEAD 7db9d9f9bc265b07a4cb361923ee535f707adeda, nhánh zer-41-sqli-fixture; origin/main ab1003bd3bbba5684fccd34dfe6e9d68c0fe898f. PR #29 đã merge, 18 CI SUCCESS; ZER-41 Done được read-back. Có dirty ngoài gói (AGENTS, delivery README/NOW/WORKFLOW, năm ghi chú R1, note SQLi, WORKING-AGREEMENT/detail/learning). Đọc lại Git trước khi viết và chụp intake vào scratch/zer42/claude/. Nhánh mới zer-42-sqli-executor từ main đã xác minh nếu chuyển an toàn; không reset/stash/xóa dirty để đổi nhánh. Nếu phải giữ checkout cũ, ghi rõ; không để baseline cũ ngăn phần offline độc lập.
+
+### Nguồn và điểm nối đã khảo sát
+
+Đọc có trọng tâm: AGENTS; delivery README/NOW/WORKING-AGREEMENT/WORKFLOW/SCOPE; Linear ZER-42 và ZER-13; note này; docs/runbooks/sqli-fixture.md; docs/evidence/ZER-41/runtime-02/README.md và scripts thực chạy; services/sqli-fixture/app.py + seed; event contract mục H/O, EFFECT_EVALUATED và stop; định nghĩa SQLi trong ZER-32 và ZER-8 liên quan.
+
+Nguồn triển khai: chaos-worker/cmd/main.go, internal/attack/executor.go, internal/guard/{policy,dispatch,auth,ledger}.go, internal/validation/target.go; agent-orchestrator/nemesis/{main,command_guard}.py; event_pipeline/{client,contract,adapters}.py; test guard/integration và CI hiện hành. GitNexus dùng để điều hướng rồi đọc source: resource ghi index commit trùng HEAD local nhưng tool báo commitsBehind=6, nên freshness chưa nhất quán; không dùng graph làm căn cứ completeness. Refresh theo quy ước nếu cần; không sửa file hướng dẫn do analyzer sinh.
+
+Hiện Python/Go chỉ chấp nhận HTTP_FLOOD/CPU_STRESS/MEMORY_STRESS/POD_KILL; target validator chỉ target-app/frontend; customParams luôn bị từ chối. Vì vậy không chỉ viết một sqli.go rồi bỏ phần production admission không chạy được. Không thêm namespace fixture vào mọi executor hoặc nới URL parser chung thành nhận URL tùy ý.
+
+### Thiết kế đủ nhỏ để triển khai
+
+1. Ghi quyết định ngắn trước sửa: so adapter công cụ có sẵn với replay template tối thiểu theo tính xác định, tích hợp Go/guard, budget và đóng gói. Không mặc định custom bảo mật hơn hoặc công cụ ngoài không có giới hạn. Mục tiêu AC là tập template đã khóa trên fixture giả, không cần bộ dò/quét tổng quát. Có thể chọn replay HTTP tối thiểu bằng thư viện chuẩn Go nếu đáp ứng với ít code hơn; giải thích giới hạn kết luận. Không tự cài sqlmap/Burp hoặc thêm framework; adapter cần dependency/kiến trúc vượt gói thì bàn giao quyết định, làm tiếp phần độc lập.
+2. Luồng thật cần chuẩn bị: request operator hợp lệ → Nemesis guard/claim/sign → Kafka attack.commands → Go authenticate/admit/ledger → executor SQLi → result bền → Kafka attack.results. Kiểm xuyên entrypoint bằng fake, không bypass guard bằng gọi trực tiếp executor rồi coi đã tích hợp. Giữ replay/dedup sau restart và expired redelivery, UNKNOWN sau mất ack, fail-closed và mode semantics ZER-12. Fault schedule giống nhau giữa các nhóm; llm-plan vẫn đóng.
+3. Loại lệnh SQLi riêng, template ID enum được tra trong catalog nội bộ versioned. Chỉ catalog/search chỉ đọc trên seed giả; benign controls cùng route. Không nhận arbitrary SQL, raw payload tùy ý, arbitrary method/path/headers/URL, filesystem/shell command, quét host/schema, ghi/xóa DB hay kỹ thuật ngoài fixture. Nếu dùng trường customParams hiện có, chỉ nhận đúng bộ khóa SQLi đã định kiểu; các loại lệnh cũ vẫn từ chối customParams. Dùng các mẫu seed/expected đã kiểm ở ZER-41; không mở rộng kỹ thuật khai thác.
+4. Policy SQLi opt-in riêng, mặc định disabled. Khóa namespace/service cùng endpoint private ingress cụ thể lấy từ profile runtime đã nghiệm thu, path duy nhất /fixture/catalog/search. Không đi thẳng service fixture bỏ proxy vì sẽ mất nguồn IP/điểm quan sát. Cấm endpoint công khai, userinfo, fragment, host/port/path biến thể và redirect/proxy môi trường; query chỉ được executor dựng từ catalog qua URL encoding. DNS/address thực dùng phải nằm trong ranh giới được cấu hình hẹp; không dựa vào contains/prefix host. Loopback test có transport/fixture test riêng, không thêm localhost/public URL vào policy production. Hợp đồng Python/Go phải cùng chấp nhận/từ chối. Các executor cũ không được quyền nhắm fixture chỉ vì SQLi được bật.
+5. Trần thiết kế offline cho SQLi: một command hoạt động, concurrency 1, tối đa 1 request/giây, 20 lần gửi tổng cộng, 30 giây/command; timeout request không quá 3 giây và bị chặn bởi deadline còn lại, response tối đa 256 KiB. Trần thực = min cấu hình đáng tin + command + context; giá trị SQLi ngoài khoảng từ chối, không âm thầm tăng. Đếm mọi lần gửi/retry/redirect nếu có; ưu tiên không retry ngầm. Đây là giới hạn của code/plan đề xuất, chưa cho phép phát request lab. Chuẩn bị rõ stop/cancel/SIGTERM, ngừng tạo request mới, đóng body/connection, chờ goroutine hữu hạn; không để timeout/run cap bị kéo dài bởi đọc chậm.
+6. Executor result chỉ là kết quả thực thi, không là effect. Giữ request/correlation/command/run/trial IDs trung tính và raw có giới hạn, lỗi/timeout/mất dữ liệu không biến thành no-effect. Bộ đánh giá H tách khỏi executor kết luận EFFECT_EVALUATED theo contract; tiêu chí Hoàng đã chốt là đúng hàng restricted trong seed giả thực sự được trả, không HTTP 200 hoặc log có từ SQL. Đồng hồ/t_eff và bằng chứng theo nguồn thật; CONFIRMED_NO_EFFECT phải đủ phủ cửa sổ, thiếu phủ → UNKNOWN_EFFECT. Không đưa seed/variant/expected/template label/lịch onset vào O; tín hiệu truy vấn/log thực quan sát được không được xóa để làm detector thuận lợi. Không để evaluator H đọc thông tin đáp án rồi phát kết luận hộ detector.
+7. Chuẩn bị runtime AC-04 sử dụng private profile ZER-41: safe/vulnerable cùng seed, benign và mẫu hợp lệ, hai nguồn tách biệt, chống XFF giả, nối requestID giữa response/proxy/fixture/log. Chứng minh effect và traffic benign riêng; không claim containment/block IP/R3 hoặc vulnerability Boutique. Dùng lại topology và cleanup theo UID/nhãn đã kiểm, không sao chép cả archive cũ. Đề xuất một envelope runtime cụ thể (thời gian gồm cleanup, pod/image, tổng mọi HTTP + health, ES chỉ đọc, các thay đổi và khôi phục), nhưng chưa chạy. Trạng thái lab hiện tại chưa kiểm; kết quả ZER-41 là lịch sử trong profile được chấp nhận.
+
+### File/action scope
+
+Được sửa có trọng tâm:
+- chaos-worker/cmd/main.go; internal/attack/executor.go; thêm internal/attack/sqli.go và sqli_test.go; thêm catalog/fixture test data chỉ trong internal/attack/testdata/zer42/.
+- chaos-worker/internal/guard/policy.go, guard_test.go, review_regression_test.go; thêm sqli_test.go trong guard; internal/validation/target.go, target_test.go. Giữ auth/ledger/dispatch read-only trừ khi chứng minh tích hợp SQLi không thể dùng contract hiện có; trường hợp đó ghi điểm cần quyết, không vá vòng ngoài bỏ guard.
+- agent-orchestrator/nemesis/command_guard.py, main.py; tests/test_command_guards.py, test_command_guard_integration.py, test_command_guard_ci.py; thêm tests/test_sqli_executor.py và tests/fixtures/zer42/ cho parity/signed command/gateway-independent evidence.
+- infrastructure/manifests/command-guard-config.yaml (sample mặc định disabled, chỉ capability SQLi cần thiết); thêm infrastructure/manifests/sqli-executor-lab.yaml dạng render-only; không sửa live Secret/policy/RBAC của lab. Không nới quyền Kubernetes cho executor chỉ gửi HTTP.
+- Thêm infrastructure/scripts/verify-sqli-executor.sh và sqli_executor_runtime.py cho offline/chuẩn bị runtime; --help không side effect, live phải explicit opt-in/preflight/authorization, chưa được chạy ở gói này.
+- .github/workflows/ci.yml: thêm đúng kiểm SQLi vào job phù hợp, giữ gate/test/matrix cũ; không thêm dependency nếu stdlib đủ. Nếu thật sự cần lock/dependency mới, ghi đề xuất trước, không cài toàn máy.
+- Thêm docs/runbooks/sqli-executor.md; docs/evidence/ZER-42/verification.md và raw/log kiểm cần thiết; scratch/zer42/claude/; nối handoff vào note này, prepend một pointer NOW. Không sửa workflow/agreement/AGENTS, contract khóa, evidence ZER-41/R1, fixture app/seed/image để làm executor qua test. Measurement/scorer, Gaia/Hephaestus, dashboard và executor CPU/flood/kill ngoài scope.
+
+Trước ghi, liệt kê chính xác file thực sự cần đổi trong tập trên; không phải chạm hết allowlist. Chụp baseline và bản sao các nguồn sẽ sửa để có fail-before thật khi phát hiện defect. Hash tập nguồn liên quan và dirty cần bảo vệ; không lặp hash toàn repo mỗi sửa nhỏ. Thêm file phụ trợ mới ngoài tên trên chỉ khi nằm trong testdata/evidence/scratch đã cho; thay đổi sản phẩm ngoài allowlist phải nêu rõ trước.
+
+### Kiểm và bàn giao một gói
+
+Lập bảng expected trước assertion. Kiểm tối thiểu:
+- Valid template qua cả Python admission và signed Go Dispatcher với fake broker/loopback fixture; safe không trả restricted, vulnerable trả đúng seed IDs; kiểm raw independent với expected, không dùng PASS của executor làm oracle.
+- Reject trước I/O: template/param/attackType sai; URL, namespace/service/route ngoài scope; credentials/context/envelope sai; disabled; JSON key trùng/case/Unicode và kiểu số không hợp lệ. Cùng case cho Python/Go để bắt lệch admission. Legacy commands giữ kết quả cũ, không được gọi fixture.
+- Budget tổng, request không retry ẩn, response quá lớn/đọc chậm, lỗi HTTP/network/parse; cancel trước send/đang chờ/đang đọc, SIGTERM và drain. Counter fake chứng minh không gửi mới sau stop, không rò goroutine. Replay completed/UNKNOWN/restart không thêm effect.
+- Event H qua validator hiện có, không phát từ sai role; NO_EFFECT thiếu phủ thành UNKNOWN; raw IDs ghép được, canary không lọt O. Nếu định dạng hiện có không biểu diễn được chứng cứ SQLi, mô tả khoảng trống thay vì sửa schema/scorer tùy tiện.
+- Go test/vet; race trên CI Linux có CGO, không coi thiếu race local là PASS. Python trên hai production lock hiện có; SAST ngưỡng hiện hành; manifest effective-env/render, --help và clean checkout một lần ở cuối gói nếu thêm runtime entrypoint. Kiểm tỷ lệ với thay đổi, không đặt mục tiêu số test/mutant. Mutant/fail-before chỉ cho ranh giới dễ lọt, không dựng thêm framework.
+
+Tự review cả gói và consumer trực tiếp, sửa gom các lỗi cùng nguyên nhân rồi mới bàn giao. Một verification.md ghi AC → case → expected/actual → command/output, baseline/delta, failure/UNKNOWN, runtime chưa chạy, giới hạn và quyết định còn thiếu. Không lặp toàn báo cáo trong manifest/note/NOW. Handoff ngắn chỉ trỏ report và file đổi; kết luận READY_FOR_CODEX_REVIEW_OFFLINE nếu đủ, nếu không ghi PARTIAL đúng lý do. Không Done. Codex sẽ review độc lập guard parity/target thực dùng, budget/cancel/replay và tách effect/H/O; sau sửa gom mới chuẩn bị một lượt lab xin quyền riêng.
+
+
+## Bàn giao Claude ZER-42 — READY_FOR_CODEX_REVIEW_OFFLINE — 26/10/2026
+
+HEAD `7db9d9f`, giữ checkout `zer-41-sqli-fixture` (không đổi nhánh; dirty ngoài gói nguyên; ZER-41 khóa nguyên hash). Chưa lab/build/model/commit/push/PR/Linear.
+
+Báo cáo đầy đủ (danh sách file đổi, case → expected/actual, kết quả, hash, residual, quyết định chờ Hoàng): [verification.md](../../../evidence/ZER-42/verification.md) — kết luận **PARTIAL** (ZER-42 AC-01 = ZER-13 AC-03 đạt offline; ZER-13 AC-04 chuẩn bị, chưa chạy; image NOT_BUILT, manifest NOT_APPLIED). Thiết kế: [decision-note.md](../../../evidence/ZER-42/decision-note.md). Runbook: [sqli-executor.md](../../../runbooks/sqli-executor.md). Fail-before: `docs/evidence/ZER-42/fail_before.py` (OVERALL PASS).
+
+Kiểm offline đạt: Go `go test ./...` + `vet` (race hoãn CI Linux/CGO); Python `test_sqli_executor` 14 cả hai pin, guard cũ 7/13/6 không regress; manifest disabled qua OpenAPI + cả hai guard. Codex review độc lập theo các mục trong verification.md; chưa Done.
+
+
+## Codex review ZER-42 — CHANGES_REQUIRED_OFFLINE — 26/10/2026
+
+Đã đối chiếu AC sống ZER-42/13 và toàn gói nguồn/consumer. [Báo cáo gom](../../../evidence/ZER-42/codex-review.md): 5 finding P2 về thời gian/phủ effect, schema response, nhịp gửi, ranh giới private ingress và trace/event H còn thiếu. Valid ASGI → signed Go Dispatcher → executor fake và replay sau expiry/restart đã xác nhận đúng. [Raw và hash](../../../evidence/ZER-42/codex-review-results.json).
+
+Python SQLi 14 test mỗi production pin, guard 26, Go 6 package + vet, SAST/help đạt; phản ví dụ vẫn tái hiện lỗi. Không sửa source, không lab/build/publication/Linear; ZER-41 và phần sửa tài nguyên giữ nguyên. Gói sửa gom/retest và file scope ở cuối báo cáo; Claude giữ report Codex chỉ đọc, chụp snapshot trước sửa, xử lý cả lỗi cùng nguyên nhân rồi trả một gói. Chưa Done; runtime cần quyền riêng sau retest.
+
+
+## Bàn giao Claude ZER-42 sửa gom Codex — READY_FOR_CODEX_RETEST_OFFLINE — 26/10/2026
+
+HEAD `7db9d9f`, giữ checkout `zer-41-sqli-fixture` (không đổi nhánh; dirty ngoài gói nguyên; ZER-41 khóa nguyên hash app `37c7a045`/seed `ec9f818b`/expected `a626930d`). Chưa lab/build/model/commit/push/PR/Linear.
+
+Sửa cả 5 finding P2 trong một lượt: **ZR42-01** t_eff bám mẫu disclosure thật + phủ cửa sổ (soi gương `scorer.no_effect`); **ZR42-02** HTTP 200 sai schema → lỗi `SCHEMA`, không coi sạch; **ZR42-03** nhịp gửi tính từ mốc phát thực tế, không burst sau response chậm; **ZR42-04** profile endpoint in-cluster ingress (từ chối IP/loopback/đi thẳng fixture) + preflight resolver địa chỉ private; **ZR42-05** trace `X-Correlation-Id`/`responseId` + `emit_evidence` nối FAULT_EXECUTOR_RESULT → EFFECT_EVALUATED qua sink giả. Thiết kế ở [decision-note.md](../../../evidence/ZER-42/decision-note.md) §9; báo cáo cập nhật [verification.md](../../../evidence/ZER-42/verification.md).
+
+Kiểm offline: Go `go test ./...` + `vet` + `gofmt -l` sạch; Python `test_sqli_executor` 21 cả hai pin, guard cũ 7/13/6 không regress; `check_guard_manifests` PASS; fail-before 11 mutant đều RED, khôi phục byte-identical, OVERALL PASS. Giữ report Codex chỉ đọc; snapshot trước sửa ở `scratch/zer42/codex-fix/before/`. Kết luận **READY_FOR_CODEX_RETEST_OFFLINE** — chưa runtime (image NOT_BUILT, manifest NOT_APPLIED, AC-04 chỉ chuẩn bị), chưa Done.
+
+
+## Codex retest ZER-42 — CHANGES_REQUIRED_OFFLINE — 26/10/2026
+
+[Báo cáo gom](../../../evidence/ZER-42/codex-retest.md): ZR42-02/03 đã đóng offline; ZR42-01/04/05 còn phần FX42-R1…R4 về timestamp/consumer, raw thiếu dữ liệu, peer thực và export evidence. JSON Go thật qua evaluator bị scorer INVALID; không nâng test xanh thành nghiệm thu. Gói sửa/retest ở cuối report, raw/hash tại [kết quả](../../../evidence/ZER-42/codex-retest-results.json).
+
+SQLi 21 test mỗi pin, guard 26, Go 6 package/vet/SAST/gofmt đạt; signed/restart replay giữ 1 send và Dispatcher deadline đã kiểm nên không ghi false positive từ direct-call. 21 nguồn intake giữ nguyên, ZER-41 app/seed/expected và cấu hình tài nguyên không đổi. Không source edit/lab/build/model/publication/Linear; staged rỗng. Chưa Done, chưa runtime-ready.
+
+
+## Bàn giao Codex fix-02 ZER-42 — READY_FOR_CLAUDE_REVIEW_OFFLINE — 26/10/2026
+
+Đã sửa gom `FX42-R1…R4`: timestamp sau body + `.mmmZ`, raw thiếu/mâu thuẫn giữ UNKNOWN, khóa đúng Service
+runtime-02 và dial peer theo IP operator pin, lưu raw+hash qua bundle bất biến → H Archive → export/recheck. Đề
+xuất envelope lab cụ thể đã ghi ở runbook §6 nhưng chưa cấp quyền chạy. Báo cáo và fail-before/bridge:
+[codex-fix02](../../../evidence/ZER-42/codex-fix02/README.md).
+
+Offline đạt: SQLi 24/24 trên hai production pin, legacy guard 7/7 mỗi pin, Go 6 package + vet + gofmt, Bandit
+0, `git diff --check`; JSON Go thật qua evaluator/event/scorer đạt. ZER-41 giữ nguyên hash; dirty ngoài gói giữ
+nguyên. Chưa lab/build/publication/Linear, chưa Done. Writer trả Claude chỉ để cross-review; không sửa song song.
+
+## Codex chuẩn bị runtime sau cross-review ZER-42 — 26/10/2026
+
+Đã đọc report Claude (không còn P1/P2 offline), read-back AC sống ZER-42/13 và kiểm Docker/Kubernetes chỉ đọc.
+Hai node Ready, namespace tạm vắng, bốn actor đang ở 0 replica; image actor cũ chưa chứa mã SQLi vừa review.
+Gói [runtime-prep](../../../evidence/ZER-42/runtime-prep/README.md) và renderer OpenAPI đạt 21 resource/sáu pod
+đề xuất 45 phút gồm cleanup10, build/import hai actor image, hai topic riêng; giữ target/tổng traffic private.
+Chỉ chuẩn bị offline, chưa build/apply/request/topic/Git/Linear. Chờ quyền runtime cụ thể theo runbook §7.
+
+## Codex runtime-01 ZER-42 — BLOCKED_PREFLIGHT, cleanup verified — 26/10/2026
+
+Hoàng duyệt gói runtime45 phút. Đã build/import đúng hai image hiện hành, giữ failure và retest dùng lại image
+trong cùng deadline. Cả hai dừng trước release fixture: lần đầu đọc firewall timeout, lần sau không thấy hook
+Pod của namespace mới sau150s dù policy chains tồn tại. Không vulnerable/topic/lệnh SQLi. Hai namespace đã xóa
+đúng UID/nhãn; replicas/generation/PVC3 so baseline không đổi. [Receipt và đề xuất recovery](../../../evidence/ZER-42/runtime-01/README.md).
+
+Không restart node/firewall/PVC/model/publication/Linear. Cần Hoàng duyệt riêng một server restart + bounded
+retest vì gói vừa duyệt loại trừ restart. Chưa chứng minh nguyên nhân controller; chưa ZER-42/13 Done.
+
+## Codex runtime-02 ZER-42 — RETEST_REQUIRED — 27/10/2026
+
+Recovery một restart đã khôi phục API/workload/PVC3 và đi tới safe phase, nhưng chưa tạo được receipt nghiệm
+thu đầy đủ. Ba lỗi harness-only đã được sửa: DNS egress của proxy, Kafka CLI kế thừa JMX port và retry snapshot
+nftables thoáng qua. Attempt cuối có direct-deny, hai source control, consumer Stable, Nemesis healthy và hai
+kết quả safe; trước khi hoàn tất vulnerable, cụm k3d bị tắt và runner kết thúc không có receipt/after snapshot.
+
+Kết luận và raw: [runtime-02](../../../evidence/ZER-42/runtime-02/README.md). Cleanup attempt cuối UNKNOWN khi API
+không truy cập được; partial safe không phải acceptance evidence. Quyền restart đã dùng và cửa sổ35 phút hết;
+cần quyền mới để bật cụm, cleanup đúng ownership, retest bốn case và đối chiếu độc lập. Chưa Git/Linear/Done.
+
+## Codex runtime-02 final recovery — BLOCKED_DATAPLANE — 27/10/2026
+
+Hoàng duyệt full stop/start cụm hiện có và lượt cuối30 phút. Recovery giữ nguyên ba PVC UID/volume, hai node
+Ready và replicas trở lại baseline. Đã bỏ deadlock init-container của harness: pod được Running nhưng app chưa
+bind cho tới khi policy hook xuất hiện. Dù thử cả server/agent và chờ tới420s, kube-router không tạo per-pod
+hook cho fixture mới; mọi run dừng `POLICY_RULE_MISSING` trước topic/lệnh/vulnerable và cleanup namespace đúng
+UID, không có cleanup problem. Topic ZER-42 còn sót từ lượt bị ngắt đã xóa và xác minh vắng.
+
+Evidence cập nhật tại [runtime-02](../../../evidence/ZER-42/runtime-02/README.md). Offline package vẫn đứng vững,
+nhưng AC-04 runtime chưa đạt. Cần quyền riêng để sửa dataplane k3s/kube-router (hoặc dựng lại lab) rồi mới chạy
+bốn case và reconcile; không tắt NetworkPolicy/bỏ gate để ép nghiệm thu. Chưa Git/Linear/Done.
+
+
+## Codex khép evidence ZER-42 — TECHNICAL_PASS_READY_FOR_PUBLICATION — 27/10/2026
+
+Hoàng yêu cầu hoàn tất phần còn thiếu trong local lab: sửa INVALID_ID, ưu tiên kiểm dữ liệu đã có và xác minh
+cleanup/AC, không payload/target mới. AC live ZER-42/13 đã đọc lại đúng connection Zero Door; HEAD
+`7db9d9f9bc265b07a4cb361923ee535f707adeda`, nhánh `zer-41-sqli-fixture`, giữ dirty/staging ngoài phạm vi.
+[Scope/before hashes](../../../evidence/ZER-42/runtime-02/acceptance-final/intake.json) và
+[receipt đầy đủ](../../../evidence/ZER-42/runtime-02/acceptance-final/README.md).
+
+Attempt `zer42-74545a02be28` đã có bốn command/result trước lỗi đóng gói. Đối chiếu đạt 12/12 request qua
+executor–fixture–proxy, bốn control từ hai nguồn có chống XFF giả, direct-deny, replay và expected restricted
+SKUs. Đã sửa renderer tạo ID đúng UUIDv4 bit layout và cleanup dừng namespace/consumer trước xóa topic; không
+đổi event contract/scorer/oracle/fixture/executor. Gói H mới ghi mapping post-collection minh bạch, bốn export
+recompute đạt; formal safe/benign vẫn UNKNOWN_EFFECT đúng thiết kế, không suy thành NO_EFFECT/KPI nghiên cứu.
+
+Đã dọn live đúng bốn topic có ownership và xác minh namespace vắng; toàn bộ replicas/generation và ba PVC
+UID/volume khớp snapshot cũ + before hiện tại. Không chạy lại traffic, build/import/restart hay đổi workload.
+Raw160 file và FAILED receipt cũ giữ nguyên; bảy source hash khớp. Actor final imageID/PodIP snapshot không
+được giữ; tag/host digest/Ready wait và IP quan sát qua request được trình bày đúng mức bằng chứng.
+
+Fail-before tái hiện hai lỗi từ snapshot thật, 2 packaging/cleanup +24 SQLi regression mỗi production pin đạt;
+CI matrix hiện có đã thêm test mới, SAST đạt ngưỡng hiện hành, artifact recheck đạt. Không code Go đổi nên
+không lặp Go suite. Gói kỹ thuật đủ chuyển publication/review; independent delta review/CI remote/merge/
+Hoàng acceptance vẫn là gate trước Done. Chưa commit/push/PR/Linear hoặc gửi tin sang chat khác.
+
+
+## Publication ZER-42 được Hoàng duyệt — 27/10/2026
+
+Đã xác minh yêu cầu trực tiếp của Hoàng trong ZD2-CODEX: commit/push, PR, CI, merge và nghiệm thu cuối ZER-42.
+ZD2 review độc lập delta cuối, tự chạy 26/26 test mỗi production pin, recheck raw160/source7/export4/join12/
+control4, đọc live namespace/topic vắng và Boutique9 Available; không finding chặn. Review Claude toàn gói
+offline ở [cross-review](../../../evidence/ZER-42/claude-crossreview-fix02.md). Graph chưa bao phủ mã mới;
+không claim full graph-backed/taint review.
+
+Nhánh publication `zer-42-bounded-sqli` từ origin/main `ab1003bd3bbba5684fccd34dfe6e9d68c0fe898f`,
+tree giống base runtime `7db9d9f`. Chỉ stage nguồn/test/config/evidence ZER-42 và các phần ZER-42 của note/NOW;
+dirty tài nguyên/R1/AGENTS/learning giữ nguyên. Secret scan candidate không thấy credential pattern hay
+literal sensitive environment value. Thêm .gitattributes chỉ scope ZER-42 để raw/hash giữ nguyên byte.
+
+Gates còn thực hiện: commit/push → PR/CI Linux/race → merge read-back → nghiệm thu và ZER-42 Done trên
+Linear Zero Door. ZER-13 đối chiếu AC-01..04 riêng; chưa suy Done từ con. Không chạy thêm lab.

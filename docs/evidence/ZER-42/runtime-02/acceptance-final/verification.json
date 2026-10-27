@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-27T10:28:38.522Z",
+  "base_head": "7db9d9f9bc265b07a4cb361923ee535f707adeda",
+  "staged_empty": true,
+  "checks": [
+    {
+      "command": "production-nemesis python -B scratch/zer42/acceptance-final/fail_before.py",
+      "exit_code": 0,
+      "result": "Both exact before snapshots fail their respective regression; expected failures confirmed"
+    },
+    {
+      "command": "Both production pins: unittest test_sqli_runtime_packaging.py",
+      "exit_code": 0,
+      "result": "2/2 per pin"
+    },
+    {
+      "command": "Both production pins: unittest test_sqli_executor.py",
+      "exit_code": 0,
+      "result": "24/24 per pin"
+    },
+    {
+      "command": "production-hephaestus python -B docs/evidence/ZER-42/runtime-02/check_acceptance.py",
+      "exit_code": 0,
+      "result": "original160 unchanged; source7 match; exports4 valid; joins12; controls4; cleanup CLEAN"
+    },
+    {
+      "command": "production-nemesis python -B tests/test_sqli_runtime_packaging.py",
+      "exit_code": 0,
+      "result": "2/2; direct CI entrypoint"
+    },
+    {
+      "command": "bandit changed harness files -lll -iii",
+      "exit_code": 0,
+      "result": "978 lines; Low101 Medium0 High0; no files skipped"
+    },
+    {
+      "command": "final_check.py exact CI replacement / YAML / Python AST",
+      "exit_code": 0,
+      "result": "Passed; closure source hashes recorded"
+    },
+    {
+      "command": "git diff --check; git diff --cached --quiet",
+      "exit_code": 0,
+      "result": "Clean diff formatting; staging empty"
+    },
+    {
+      "command": "gitnexus analyze",
+      "result": "Timeout after180s; graph freshness not confirmed"
+    }
+  ],
+  "new_application_test_requests": 0,
+  "publication_performed": false,
+  "linear_mutated": false
+}

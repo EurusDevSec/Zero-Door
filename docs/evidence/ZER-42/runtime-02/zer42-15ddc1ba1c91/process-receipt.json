@@ -1,0 +1,11 @@
+{
+  "status": "FAILED",
+  "error": "AssertionError: (0, 0)",
+  "cleanup_problems": [
+    "zer42-c2d30a7145ff.commands: TOPIC_STILL_PRESENT",
+    "zer42-c2d30a7145ff.results: TOPIC_STILL_PRESENT"
+  ],
+  "elapsed_seconds": 379.3910000000001,
+  "authorization_elapsed_seconds": 379.3969690799713,
+  "run": "zer42-15ddc1ba1c91"
+}

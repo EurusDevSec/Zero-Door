@@ -1,0 +1,21 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "-c",
+    "policy-gate",
+    "sqli-fixture-78c6db4dd4-c2lfx",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "from pathlib import Path; Path('/data/.policy-release').write_text('policy observed')"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

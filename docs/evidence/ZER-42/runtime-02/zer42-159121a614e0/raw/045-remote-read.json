@@ -1,0 +1,21 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "-i",
+    "zer42-nemesis",
+    "--",
+    "/usr/bin/python3",
+    "-",
+    "read",
+    "zer42-159121a614e0.results"
+  ],
+  "returncode": 0,
+  "stdout": "[]\n",
+  "stderr": ""
+}

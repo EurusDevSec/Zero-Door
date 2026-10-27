@@ -1,0 +1,24 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zero-door",
+    "exec",
+    "kafka-controller-0",
+    "-c",
+    "kafka",
+    "--",
+    "/opt/bitnami/kafka/bin/kafka-topics.sh",
+    "--bootstrap-server",
+    "localhost:9092",
+    "--list",
+    "--topic",
+    "zer42-b81064283d2a.commands"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Error: JMX connector server communication error: service:jmx:rmi://kafka-controller-0:5555\njdk.internal.agent.AgentConfigurationError: java.rmi.server.ExportException: Port already in use: 5555; nested exception is: \n\tjava.net.BindException: Address already in use\n\tat jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap.exportMBeanServer(ConnectorBootstrap.java:843)\n\tat jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap.startRemoteConnectorServer(ConnectorBootstrap.java:480)\n\tat jdk.management.agent/jdk.internal.agent.Agent.startAgent(Agent.java:447)\n\tat jdk.management.agent/jdk.internal.agent.Agent.startAgent(Agent.java:599)\nCaused by: java.rmi.server.ExportException: Port already in use: 5555; nested exception is: \n\tjava.net.BindException: Address already in use\n\tat java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:346)\n\tat java.rmi/sun.rmi.transport.tcp.TCPTransport.exportObject(TCPTransport.java:243)\n\tat java.rmi/sun.rmi.transport.tcp.TCPEndpoint.exportObject(TCPEndpoint.java:415)\n\tat java.rmi/sun.rmi.transport.LiveRef.exportObject(LiveRef.java:147)\n\tat java.rmi/sun.rmi.server.UnicastServerRef.exportObject(UnicastServerRef.java:235)\n\tat jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap$PermanentExporter.exportObject(ConnectorBootstrap.java:205)\n\tat java.management.rmi/javax.management.remote.rmi.RMIJRMPServerImpl.export(RMIJRMPServerImpl.java:153)\n\tat java.management.rmi/javax.management.remote.rmi.RMIJRMPServerImpl.export(RMIJRMPServerImpl.java:138)\n\tat java.management.rmi/javax.management.remote.rmi.RMIConnectorServer.start(RMIConnectorServer.java:453)\n\tat jdk.management.agent/sun.management.jmxremote.ConnectorBootstrap.exportMBeanServer(ConnectorBootstrap.java:839)\n\t... 3 more\nCaused by: java.net.BindException: Address already in use\n\tat java.base/sun.nio.ch.Net.bind0(Native Method)\n\tat java.base/sun.nio.ch.Net.bind(Net.java:555)\n\tat java.base/sun.nio.ch.Net.bind(Net.java:544)\n\tat java.base/sun.nio.ch.NioSocketImpl.bind(NioSocketImpl.java:648)\n\tat java.base/java.net.ServerSocket.bind(ServerSocket.java:388)\n\tat java.base/java.net.ServerSocket.<init>(ServerSocket.java:274)\n\tat java.base/java.net.ServerSocket.<init>(ServerSocket.java:167)\n\tat java.rmi/sun.rmi.transport.tcp.TCPDirectSocketFactory.createServerSocket(TCPDirectSocketFactory.java:45)\n\tat java.rmi/sun.rmi.transport.tcp.TCPEndpoint.newServerSocket(TCPEndpoint.java:673)\n\tat java.rmi/sun.rmi.transport.tcp.TCPTransport.listen(TCPTransport.java:335)\n\t... 12 more\ncommand terminated with exit code 1\n"
+}

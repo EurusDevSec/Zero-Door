@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "patch",
+    "cm",
+    "zer42-policy",
+    "--type=merge",
+    "-p",
+    "{\"data\": {\"policy.json\": \"{\\\"version\\\": \\\"zd-guard/1\\\", \\\"enabled\\\": true, \\\"context\\\": {\\\"run_id\\\": \\\"run_c2d30a7145ff00000000000000000000\\\", \\\"trial_id\\\": \\\"trl_c2d30a7145ff00000000000000000000\\\", \\\"group\\\": \\\"B0\\\"}, \\\"targets\\\": [{\\\"namespace\\\": \\\"target-app\\\", \\\"service\\\": \\\"frontend\\\", \\\"url\\\": \\\"http://frontend.target-app.svc.cluster.local/\\\"}], \\\"maxDurationSec\\\": 60, \\\"maxConcurrency\\\": 2, \\\"rps\\\": 5, \\\"sqli\\\": {\\\"enabled\\\": true, \\\"endpoint\\\": \\\"http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search\\\", \\\"maxSends\\\": 3, \\\"maxCommandSec\\\": 5}}\"}}"
+  ],
+  "returncode": 0,
+  "stdout": "configmap/zer42-policy patched\n",
+  "stderr": ""
+}

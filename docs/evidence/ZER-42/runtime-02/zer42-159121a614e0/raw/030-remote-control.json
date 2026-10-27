@@ -1,0 +1,20 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "-i",
+    "zer42-source-b",
+    "--",
+    "/usr/bin/python3",
+    "-",
+    "control"
+  ],
+  "returncode": 0,
+  "stdout": "{\"status\": 200, \"request_id\": \"91d090f41233468d994e72516f2ed82c\", \"body\": {\"results\": [{\"sku\": \"PUB-APP-001\", \"name\": \"Canvas Tote\", \"category\": \"apparel\", \"visibility\": \"public\", \"price_cents\": 1800}, {\"sku\": \"PUB-APP-002\", \"name\": \"Knit Scarf\", \"category\": \"apparel\", \"visibility\": \"public\", \"price_cents\": 2400}], \"count\": 2}, \"correlation_id\": \"32b0af28977d4032a1142e9ce935dd39\"}\n",
+  "stderr": ""
+}

@@ -1,0 +1,809 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zd-sqli-lab
+  labels:
+    kubernetes.io/metadata.name: zd-sqli-lab
+    zero-door.io/purpose: sqli-fixture
+    zero-door.io/run: zer42-b81064283d2a
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqli-fixture-config
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+data:
+  ZD_SQLI_PROFILE: safe
+  ZD_SQLI_HOST: 0.0.0.0
+  ZD_SQLI_PORT: '9140'
+  ZD_SQLI_TRUSTED_PROXIES: ''
+  ZD_SQLI_TOPOLOGY: proxied
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    app: sqli-fixture
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqli-fixture
+  template:
+    metadata:
+      labels:
+        app: sqli-fixture
+        zero-door.io/run: zer42-b81064283d2a
+    spec:
+      serviceAccountName: sqli-fixture
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: sqli-fixture
+        image: zer41-fixture:37c7a045e098
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 9140
+        envFrom:
+        - configMapRef:
+            name: sqli-fixture-config
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 150m
+            memory: 96Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        emptyDir:
+          sizeLimit: 64Mi
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-server-0
+      initContainers:
+      - name: policy-gate
+        image: zer41-fixture:37c7a045e098
+        imagePullPolicy: Never
+        command:
+        - /usr/bin/python3
+        - -c
+        - 'import time; from pathlib import Path; p=Path(''/data/.policy-release'');
+          exec(''while not p.exists(): time.sleep(0.2)'')'
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: 5m
+            memory: 8Mi
+          limits:
+            cpu: 50m
+            memory: 32Mi
+        volumeMounts:
+        - name: data
+          mountPath: /data
+  strategy:
+    type: Recreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  type: ClusterIP
+  selector:
+    app: sqli-fixture
+  ports:
+  - name: http
+    port: 9140
+    targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-controller-and-dns
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector:
+    matchLabels:
+      app: sqli-fixture
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 9140
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zer41-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+data:
+  dynamic.yaml: "http:\n  routers:\n    fixture:\n      entryPoints:\n      - web\n\
+    \      rule: PathPrefix(`/fixture`)\n      service: fixture\n  services:\n   \
+    \ fixture:\n      loadBalancer:\n        servers:\n        - url: http://sqli-fixture:9140\n"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zer41-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zer41-private-ingress
+  template:
+    metadata:
+      labels:
+        app: zer41-private-ingress
+        zero-door.io/run: zer42-b81064283d2a
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-server-0
+      containers:
+      - name: traefik
+        image: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+        imagePullPolicy: Never
+        args:
+        - --global.checkNewVersion=false
+        - --global.sendAnonymousUsage=false
+        - --entrypoints.web.address=:8000
+        - --providers.file.filename=/config/dynamic.yaml
+        - --accesslog.fields.headers.defaultmode=drop
+        - --accesslog.fields.headers.names.X-Correlation-Id=keep
+        - --accesslog.fields.headers.names.X-Request-Id=keep
+        - --accesslog=true
+        - --accesslog.format=json
+        - --log.format=json
+        - --log.level=ERROR
+        ports:
+        - name: web
+          containerPort: 8000
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 150m
+            memory: 96Mi
+        volumeMounts:
+        - name: config
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: zer41-private-ingress
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zer41-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  type: ClusterIP
+  selector:
+    app: zer41-private-ingress
+  ports:
+  - name: web
+    port: 8000
+    targetPort: web
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer42-worker
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+    app: zer42-worker
+spec:
+  restartPolicy: Never
+  activeDeadlineSeconds: 2100
+  automountServiceAccountToken: true
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-server-0
+  containers:
+  - name: main
+    image: zer42-worker:e80bc554b7ef
+    imagePullPolicy: Never
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+    env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: kafka.zero-door.svc.cluster.local:9092
+    - name: KAFKA_COMMANDS_TOPIC
+      value: zer42-b81064283d2a.commands
+    - name: KAFKA_RESULTS_TOPIC
+      value: zer42-b81064283d2a.results
+    - name: KAFKA_GROUP_ID
+      value: zer42-b81064283d2a.worker
+    - name: ZD_COMMAND_POLICY_FILE
+      value: /policy/policy.json
+    - name: ZD_COMMAND_SIGNER_FILE
+      value: /fault/key.json
+    - name: ZD_COMMAND_LEDGER_DIR
+      value: /ledger
+    - name: ZD_SQLI_INGRESS_IP
+      value: ''
+    volumeMounts:
+    - name: policy
+      mountPath: /policy
+      readOnly: true
+    - name: fault
+      mountPath: /fault
+      readOnly: true
+    - name: ledger
+      mountPath: /ledger
+  volumes:
+  - name: policy
+    configMap:
+      name: zer42-policy
+  - name: fault
+    secret:
+      secretName: zer42-fault
+      defaultMode: 288
+  - name: ledger
+    emptyDir:
+      sizeLimit: 16Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer42-nemesis
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+    app: zer42-nemesis
+spec:
+  restartPolicy: Never
+  activeDeadlineSeconds: 2100
+  automountServiceAccountToken: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-server-0
+  containers:
+  - name: main
+    image: zer42-nemesis:e80bc554b7ef
+    imagePullPolicy: Never
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 192Mi
+    env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: kafka.zero-door.svc.cluster.local:9092
+    - name: KAFKA_COMMANDS_TOPIC
+      value: zer42-b81064283d2a.commands
+    - name: KAFKA_RESULTS_TOPIC
+      value: zer42-b81064283d2a.results
+    - name: KAFKA_GROUP_ID
+      value: zer42-b81064283d2a.nemesis
+    - name: ZD_COMMAND_POLICY_FILE
+      value: /policy/policy.json
+    - name: ZD_COMMAND_SIGNER_FILE
+      value: /fault/key.json
+    - name: ZD_COMMAND_LEDGER_DIR
+      value: /ledger
+    - name: ZD_OPERATOR_TOKEN_FILE
+      value: /operator/key.json
+    - name: ZD_COMMAND_LEDGER_FILE
+      value: /ledger/nemesis.sqlite3
+    volumeMounts:
+    - name: policy
+      mountPath: /policy
+      readOnly: true
+    - name: fault
+      mountPath: /fault
+      readOnly: true
+    - name: ledger
+      mountPath: /ledger
+    - name: operator
+      mountPath: /operator
+      readOnly: true
+  volumes:
+  - name: policy
+    configMap:
+      name: zer42-policy
+  - name: fault
+    secret:
+      secretName: zer42-fault
+      defaultMode: 288
+  - name: ledger
+    emptyDir:
+      sizeLimit: 16Mi
+  - name: operator
+    secret:
+      secretName: zer42-operator
+      defaultMode: 288
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer42-source-a
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+    app: zer42-source-a
+spec:
+  restartPolicy: Never
+  activeDeadlineSeconds: 2100
+  automountServiceAccountToken: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-server-0
+  containers:
+  - name: main
+    image: zer41-fixture:37c7a045e098
+    imagePullPolicy: Never
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 5m
+        memory: 16Mi
+      limits:
+        cpu: 50m
+        memory: 48Mi
+    command:
+    - /usr/bin/python3
+    - -c
+    - import time; time.sleep(2100)
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer42-source-b
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+    app: zer42-source-b
+spec:
+  restartPolicy: Never
+  activeDeadlineSeconds: 2100
+  automountServiceAccountToken: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-server-0
+  containers:
+  - name: main
+    image: zer41-fixture:37c7a045e098
+    imagePullPolicy: Never
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 5m
+        memory: 16Mi
+      limits:
+        cpu: 50m
+        memory: 48Mi
+    command:
+    - /usr/bin/python3
+    - -c
+    - import time; time.sleep(2100)
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zer42-policy
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+data:
+  policy.json: "{\n  \"version\": \"zd-guard/1\",\n  \"enabled\": false,\n  \"context\"\
+    : {\n    \"run_id\": \"run_b81064283d2a00000000000000000000\",\n    \"trial_id\"\
+    : \"trl_b81064283d2a00000000000000000000\",\n    \"group\": \"B0\"\n  },\n  \"\
+    targets\": [\n    {\n      \"namespace\": \"target-app\",\n      \"service\":\
+    \ \"frontend\",\n      \"url\": \"http://frontend.target-app.svc.cluster.local/\"\
+    \n    }\n  ],\n  \"maxDurationSec\": 60,\n  \"maxConcurrency\": 2,\n  \"rps\"\
+    : 5,\n  \"sqli\": {\n    \"enabled\": false,\n    \"endpoint\": \"http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search\"\
+    ,\n    \"maxSends\": 3,\n    \"maxCommandSec\": 5\n  }\n}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zer42-nemesis
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  type: ClusterIP
+  selector:
+    app: zer42-nemesis
+  ports:
+  - port: 8000
+    targetPort: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: private-proxy
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector:
+    matchLabels:
+      app: zer41-private-ingress
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: zer42-source-a
+    - podSelector:
+        matchLabels:
+          app: zer42-source-b
+    - podSelector:
+        matchLabels:
+          app: zer42-worker
+    ports:
+    - protocol: TCP
+      port: 8000
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sqli-fixture
+    ports:
+    - protocol: TCP
+      port: 9140
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zer42-source-a
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector:
+    matchLabels:
+      app: zer42-source-a
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 8000
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sqli-fixture
+    ports:
+    - protocol: TCP
+      port: 9140
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer42-nemesis
+    ports:
+    - protocol: TCP
+      port: 8000
+  ingress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zer42-source-b
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector:
+    matchLabels:
+      app: zer42-source-b
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 8000
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sqli-fixture
+    ports:
+    - protocol: TCP
+      port: 9140
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer42-nemesis
+    ports:
+    - protocol: TCP
+      port: 8000
+  ingress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zer42-worker
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector:
+    matchLabels:
+      app: zer42-worker
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 8000
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: zero-door
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: kafka
+          app.kubernetes.io/instance: kafka
+    ports:
+    - protocol: TCP
+      port: 9092
+  ingress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zer42-nemesis
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-b81064283d2a
+spec:
+  podSelector:
+    matchLabels:
+      app: zer42-nemesis
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: zero-door
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: kafka
+          app.kubernetes.io/instance: kafka
+    ports:
+    - protocol: TCP
+      port: 9092
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: zer42-source-a
+    - podSelector:
+        matchLabels:
+          app: zer42-source-b
+    ports:
+    - protocol: TCP
+      port: 8000
+

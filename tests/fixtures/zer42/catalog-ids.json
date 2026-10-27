@@ -1,0 +1,11 @@
+{
+  "notice": "Canonical locked SQLi catalog ids for ZER-42. Both the Go (internal/attack) and Python (nemesis) test suites assert their catalog against this file so a cross-language drift fails a test instead of silently diverging.",
+  "catalog_version": "zd-sqli-catalog/1",
+  "injection_id": "disclose-restricted",
+  "template_ids": [
+    "benign-apparel",
+    "benign-electronics",
+    "benign-home",
+    "disclose-restricted"
+  ]
+}

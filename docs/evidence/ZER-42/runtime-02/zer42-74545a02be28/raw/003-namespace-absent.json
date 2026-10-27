@@ -1,0 +1,17 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "get",
+    "ns",
+    "zd-sqli-lab",
+    "--ignore-not-found",
+    "-o",
+    "name"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

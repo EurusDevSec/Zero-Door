@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 421, in <module>
+    main()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 331, in main
+    fixture_gate(profile)
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 162, in fixture_gate
+    raw = command(["docker", "exec", "k3d-zero-door-server-0", "iptables-save", "-t", "filter"],
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-42\runtime-prep\run.py", line 97, in command
+    raise RuntimeError(f"{label} exit {result.returncode}: {result.stderr.decode('utf8', 'replace')[-800:]}")
+RuntimeError: policy exit 2: iptables-save v1.8.9 (nf_tables): Set with index 37 in kernel doesn't exist.
+
+Try `iptables-save -h' or 'iptables-save --help' for more information.
+
+

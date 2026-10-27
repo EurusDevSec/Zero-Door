@@ -1,0 +1,13 @@
+{
+  "args": [
+    "k3d",
+    "image",
+    "import",
+    "-c",
+    "zero-door",
+    "zer42-worker:e80bc554b7ef"
+  ],
+  "returncode": 0,
+  "stdout": "\u001b[36mINFO\u001b[0m[0000] Importing image(s) into cluster 'zero-door'  \n\u001b[36mINFO\u001b[0m[0001] Starting new tools node...                   \n\u001b[36mINFO\u001b[0m[0001] Starting node 'k3d-zero-door-tools'          \n\u001b[36mINFO\u001b[0m[0002] Saving 1 image(s) from runtime...            \n\u001b[36mINFO\u001b[0m[0003] Importing images into nodes...               \n\u001b[36mINFO\u001b[0m[0003] Importing images from tarball '/k3d/images/k3d-zero-door-images-20261026232143.tar' into node 'k3d-zero-door-agent-0'... \n\u001b[36mINFO\u001b[0m[0003] Importing images from tarball '/k3d/images/k3d-zero-door-images-20261026232143.tar' into node 'k3d-zero-door-server-0'... \n\u001b[36mINFO\u001b[0m[0006] Removing the tarball(s) from image volume... \n\u001b[36mINFO\u001b[0m[0007] Removing k3d-tools node...                   \n\u001b[36mINFO\u001b[0m[0008] Successfully imported image(s)               \n\u001b[36mINFO\u001b[0m[0008] Successfully imported 1 image(s) into 1 cluster(s) \n",
+  "stderr": ""
+}

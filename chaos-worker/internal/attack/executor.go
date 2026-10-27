@@ -71,6 +71,9 @@ type ResultDetails struct {
 	RequestsSent int    `json:"requestsSent,omitempty"`
 	PodsKilled   int    `json:"podsKilled,omitempty"`
 	ErrorMessage string `json:"errorMessage,omitempty"`
+	// SQLi carries the SQLi executor's bounded raw observation (plane F). It is never an effect verdict; the
+	// H-plane evaluator decides EFFECT_EVALUATED from it. omitempty keeps every legacy result byte-identical.
+	SQLi *SQLiObservation `json:"sqli,omitempty"`
 }
 
 // ---- Executor Interface ----

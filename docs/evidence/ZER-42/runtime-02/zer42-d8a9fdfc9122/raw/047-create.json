@@ -1,0 +1,14 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "create",
+    "-f",
+    "-"
+  ],
+  "returncode": 0,
+  "stdout": "deployment.apps/sqli-fixture created\n",
+  "stderr": ""
+}

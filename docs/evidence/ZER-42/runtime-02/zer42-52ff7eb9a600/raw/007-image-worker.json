@@ -1,0 +1,13 @@
+{
+  "args": [
+    "docker",
+    "image",
+    "inspect",
+    "zer42-worker:e80bc554b7ef",
+    "--format",
+    "{{.Id}}"
+  ],
+  "returncode": 0,
+  "stdout": "sha256:250be486034d652fc74e0e15d6c7c61bc4f54e826ffcbb54b8803153c9e5cace\n",
+  "stderr": ""
+}

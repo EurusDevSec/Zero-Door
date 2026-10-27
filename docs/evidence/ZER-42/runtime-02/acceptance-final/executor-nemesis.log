@@ -1,0 +1,29 @@
+test_template_ids_match_canonical_source (test_sqli_executor.CatalogParity.test_template_ids_match_canonical_source) ... ok
+test_all_errored_is_unknown (test_sqli_executor.EffectEvaluator.test_all_errored_is_unknown) ... ok
+test_confirmed_no_effect_needs_full_window_coverage (test_sqli_executor.EffectEvaluator.test_confirmed_no_effect_needs_full_window_coverage) ... ok
+test_confirmed_stamps_the_disclosing_send_not_command_start (test_sqli_executor.EffectEvaluator.test_confirmed_stamps_the_disclosing_send_not_command_start) ... ok
+test_disclosure_without_time_or_clock_is_unknown (test_sqli_executor.EffectEvaluator.test_disclosure_without_time_or_clock_is_unknown) ... ok
+test_error_inside_window_contradicts_no_effect (test_sqli_executor.EffectEvaluator.test_error_inside_window_contradicts_no_effect) ... ok
+test_evidence_carries_no_oracle_or_seed_keys (test_sqli_executor.EffectEvaluator.test_evidence_carries_no_oracle_or_seed_keys) ... ok
+test_invalid_eval_params_never_become_no_effect (test_sqli_executor.EffectEvaluator.test_invalid_eval_params_never_become_no_effect) ... ok
+test_malformed_200_in_window_is_not_clean (test_sqli_executor.EffectEvaluator.test_malformed_200_in_window_is_not_clean) ... ok
+test_missing_clock_is_unknown (test_sqli_executor.EffectEvaluator.test_missing_clock_is_unknown) ... ok
+test_missing_or_contradictory_raw_is_unknown (test_sqli_executor.EffectEvaluator.test_missing_or_contradictory_raw_is_unknown) ... ok
+test_oracle_matches_zer41 (test_sqli_executor.EffectEvaluator.test_oracle_matches_zer41) ... ok
+test_restricted_outside_oracle_is_unknown (test_sqli_executor.EffectEvaluator.test_restricted_outside_oracle_is_unknown) ... ok
+test_single_clean_sample_does_not_cover_a_long_window (test_sqli_executor.EffectEvaluator.test_single_clean_sample_does_not_cover_a_long_window) ... ok
+test_archive_no_effect_remains_unknown_without_probe_samples (test_sqli_executor.EmitEvidence.test_archive_no_effect_remains_unknown_without_probe_samples) ... ok
+test_bundle_archive_export_replay_and_recheck (test_sqli_executor.EmitEvidence.test_bundle_archive_export_replay_and_recheck) ... ok
+test_entrypoint_emits_two_linked_events (test_sqli_executor.EmitEvidence.test_entrypoint_emits_two_linked_events) ... ok
+test_entrypoint_leaks_no_seed (test_sqli_executor.EmitEvidence.test_entrypoint_leaks_no_seed) ... ok
+test_exact_endpoint_only (test_sqli_executor.EndpointValidation.test_exact_endpoint_only) ... ok
+test_duration_clamped_to_capability (test_sqli_executor.SqliCommand.test_duration_clamped_to_capability) ... ok
+test_legacy_still_rejects_customparams_and_sqli_target (test_sqli_executor.SqliCommand.test_legacy_still_rejects_customparams_and_sqli_target) ... ok
+test_rejections (test_sqli_executor.SqliCommand.test_rejections) ... ok
+test_valid_command_shape (test_sqli_executor.SqliCommand.test_valid_command_shape) ... ok
+test_invalid_sqli_policy_fails_closed (test_sqli_executor.SqliPolicyValidation.test_invalid_sqli_policy_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.122s
+
+OK

@@ -1,0 +1,8 @@
+{
+  "status": "FAILED",
+  "error": "RuntimeError: remote-control exit 1:           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 1352, in do_open\n    r = h.getresponse()\n        ^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/http/client.py\", line 1374, in getresponse\n    response.begin()\n  File \"/usr/lib/python3.11/http/client.py\", line 318, in begin\n    version, status, reason = self._read_status()\n                              ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/http/client.py\", line 279, in _read_status\n    line = str(self.fp.readline(_MAXLINE + 1), \"iso-8859-1\")\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/socket.py\", line 706, in readinto\n    return self._sock.recv_into(b)\n           ^^^^^^^^^^^^^^^^^^^^^^^\nTimeoutError: timed out\ncommand terminated with exit code 1\n",
+  "cleanup_problems": [],
+  "elapsed_seconds": 184.57800000000134,
+  "authorization_elapsed_seconds": 184.5675950050354,
+  "run": "zer42-d8a9fdfc9122"
+}

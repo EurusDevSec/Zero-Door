@@ -1,5 +1,8 @@
 # Render-only template. Disabled, neutral sample IDs; not an approved run context.
 # Apply/provisioning/secrets/runtime require a separate authorized operation.
+# The optional "sqli" block is the opt-in ZER-42 executor capability, shipped disabled; its endpoint goes
+# through the Traefik ingress (never straight to the fixture ClusterIP, which would lose the source-IP point).
+# An approved SQLi lab run uses infrastructure/manifests/sqli-executor-lab.yaml, not this default config.
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -64,5 +67,11 @@ data:
       ],
       "maxDurationSec": 60,
       "maxConcurrency": 2,
-      "rps": 5
+      "rps": 5,
+      "sqli": {
+        "enabled": false,
+        "endpoint": "http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search",
+        "maxSends": 20,
+        "maxCommandSec": 30
+      }
     }

@@ -1,0 +1,23 @@
+{
+  "format": "zer42-h-repack/1",
+  "at": "2026-10-27T10:22:05.391241+00:00",
+  "original_context": {
+    "run_id": "run_74545a02be2800000000000000000000",
+    "trial_id": "trl_74545a02be2800000000000000000000",
+    "group": "B0"
+  },
+  "mapped_context": {
+    "run_id": "run_17b0e620027f4852a3b1c838a48e53a2",
+    "trial_id": "trl_cb247b004b024001ae8f4750f4a15ea4"
+  },
+  "reason": "renderer padded a 12-hex label; zd-event/1 requires UUIDv4 version/variant bits",
+  "raw_changed": false,
+  "harness_attempt": "zer42-74545a02be28",
+  "command_envelopes_sha256": "58fc7cbdf853ffc482782a555ab79c9b8d6919e125fef0ff3bcedc4d5e95d849",
+  "incidents": {
+    "efdff591-a95d-49e5-b692-fe17c833ffde": "inc_a2c0869016764572b01d22b593b7959f",
+    "6b037ba2-31a6-47cd-bc1b-54c4560df780": "inc_b47501d4abef4a43a8e0a5e7ffa91b16",
+    "a49df9a0-fab2-455e-8624-558fa6fc7b95": "inc_f7699446a7e54dfa979f544dd26e52bb",
+    "eed0162b-6667-46d3-a8a7-e277b5a0a7fe": "inc_16caceeec4864c5eaaeb2c3259313557"
+  }
+}

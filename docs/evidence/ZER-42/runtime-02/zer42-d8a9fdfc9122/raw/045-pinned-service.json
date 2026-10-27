@@ -1,0 +1,18 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "get",
+    "svc",
+    "zer41-private-ingress",
+    "-o",
+    "json"
+  ],
+  "returncode": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"kind\": \"Service\",\n    \"metadata\": {\n        \"creationTimestamp\": \"2026-10-26T16:39:12Z\",\n        \"labels\": {\n            \"zero-door.io/run\": \"zer42-d8a9fdfc9122\"\n        },\n        \"name\": \"zer41-private-ingress\",\n        \"namespace\": \"zd-sqli-lab\",\n        \"resourceVersion\": \"144025\",\n        \"uid\": \"983f8f2d-b245-4ee6-8ab1-d7cec437fae2\"\n    },\n    \"spec\": {\n        \"clusterIP\": \"10.43.26.149\",\n        \"clusterIPs\": [\n            \"10.43.26.149\"\n        ],\n        \"internalTrafficPolicy\": \"Cluster\",\n        \"ipFamilies\": [\n            \"IPv4\"\n        ],\n        \"ipFamilyPolicy\": \"SingleStack\",\n        \"ports\": [\n            {\n                \"name\": \"web\",\n                \"port\": 8000,\n                \"protocol\": \"TCP\",\n                \"targetPort\": \"web\"\n            }\n        ],\n        \"selector\": {\n            \"app\": \"zer41-private-ingress\"\n        },\n        \"sessionAffinity\": \"None\",\n        \"type\": \"ClusterIP\"\n    },\n    \"status\": {\n        \"loadBalancer\": {}\n    }\n}\n",
+  "stderr": ""
+}

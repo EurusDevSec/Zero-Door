@@ -1,0 +1,123 @@
+{
+  "deployments": {
+    "kube-system/coredns": {
+      "uid": "964cf239-8ad0-4089-bcd3-eda1e0b6a60e",
+      "generation": 1,
+      "replicas": 1
+    },
+    "kube-system/local-path-provisioner": {
+      "uid": "0a3c55a5-003c-41fe-85fd-31091148a8ad",
+      "generation": 1,
+      "replicas": 1
+    },
+    "kube-system/metrics-server": {
+      "uid": "99215ea8-ebc4-49fd-8373-3d04e732623a",
+      "generation": 1,
+      "replicas": 1
+    },
+    "kube-system/traefik": {
+      "uid": "3f28613b-94ea-45b5-ac42-aa016c562d60",
+      "generation": 1,
+      "replicas": 1
+    },
+    "monitoring/elasticsearch": {
+      "uid": "4f2cb705-d8d6-4278-90bc-ceefd54d23c1",
+      "generation": 1,
+      "replicas": 1
+    },
+    "monitoring/prometheus-grafana": {
+      "uid": "5c0415f6-597f-49d1-8faf-54364b08bc9e",
+      "generation": 4,
+      "replicas": 0
+    },
+    "monitoring/prometheus-kube-prometheus-operator": {
+      "uid": "7877a1c6-7594-44a9-9118-075d5bc48204",
+      "generation": 1,
+      "replicas": 1
+    },
+    "monitoring/prometheus-kube-state-metrics": {
+      "uid": "31028e81-20df-4104-b5ea-85a80ff84e78",
+      "generation": 1,
+      "replicas": 1
+    },
+    "target-app/cartservice": {
+      "uid": "8cd9e24f-05b8-45bb-a842-f66ae2420d0f",
+      "generation": 1,
+      "replicas": 1
+    },
+    "target-app/checkoutservice": {
+      "uid": "5c1f8e0f-abe9-4a82-a76d-f84ac0744cf7",
+      "generation": 6,
+      "replicas": 1
+    },
+    "target-app/currencyservice": {
+      "uid": "dd585d53-0398-45fb-b514-dc8239252e7a",
+      "generation": 4,
+      "replicas": 1
+    },
+    "target-app/emailservice": {
+      "uid": "d0e90b18-0d2e-4fd0-89c4-0e33e4c762f7",
+      "generation": 4,
+      "replicas": 1
+    },
+    "target-app/frontend": {
+      "uid": "b3a696e2-cb3f-4bc3-b807-ace82d3c4f3e",
+      "generation": 6,
+      "replicas": 1
+    },
+    "target-app/paymentservice": {
+      "uid": "a0847341-2bc0-445d-b12f-627bb2989449",
+      "generation": 2,
+      "replicas": 1
+    },
+    "target-app/productcatalogservice": {
+      "uid": "7431191e-ea13-4338-aba6-17e83172d56a",
+      "generation": 1,
+      "replicas": 1
+    },
+    "target-app/redis-cart": {
+      "uid": "9c4ab813-a90d-4140-b09a-d45f6f1055a1",
+      "generation": 1,
+      "replicas": 1
+    },
+    "target-app/shippingservice": {
+      "uid": "6b4cd4fd-f099-4261-888b-d349a8d70d41",
+      "generation": 1,
+      "replicas": 1
+    },
+    "zero-door/chaos-worker": {
+      "uid": "f3e16900-b585-486a-84c1-10bb66cec4f0",
+      "generation": 5,
+      "replicas": 0
+    },
+    "zero-door/gaia": {
+      "uid": "e00d21d9-bdd5-4820-84a1-4b93b081b959",
+      "generation": 16,
+      "replicas": 0
+    },
+    "zero-door/hephaestus": {
+      "uid": "898a458b-26a9-485d-a50e-bdf352736790",
+      "generation": 18,
+      "replicas": 0
+    },
+    "zero-door/nemesis": {
+      "uid": "d8ca18f4-904b-4cd2-8c43-950e7af6f390",
+      "generation": 6,
+      "replicas": 0
+    }
+  },
+  "pvcs": {
+    "monitoring/elasticsearch-data": {
+      "uid": "77dd28b6-44e0-402f-aca3-0f2c8dee3b79",
+      "volume": "pvc-77dd28b6-44e0-402f-aca3-0f2c8dee3b79"
+    },
+    "monitoring/prometheus-prometheus-kube-prometheus-prometheus-db-prometheus-prometheus-kube-prometheus-prometheus-0": {
+      "uid": "ae141e1f-312f-40c3-9efd-6a69801e4848",
+      "volume": "pvc-ae141e1f-312f-40c3-9efd-6a69801e4848"
+    },
+    "zero-door/data-kafka-controller-0": {
+      "uid": "26544729-8428-47ee-a197-7448e1f3ac78",
+      "volume": "pvc-26544729-8428-47ee-a197-7448e1f3ac78"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "-l",
+    "app=sqli-fixture",
+    "--tail=500",
+    "--prefix=false",
+    "--timestamps=false"
+  ],
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793033423.1673913,\"request_id\":\"b52cbf9cbdd546829890625695dee6be\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":2.815,\"tcp_peer\":\"10.42.1.252\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.1.250\",\"correlation_id\":\"91912489c10e41c9b801a9ea8e64a8c9\",\"rows\":2,\"restricted_rows\":0}\n{\"ts\":1793033432.456769,\"request_id\":\"7b5d5ec1c25b405e9ed1a9f527a640b0\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":2.172,\"tcp_peer\":\"10.42.1.252\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.1.251\",\"correlation_id\":\"76d354c2ce044b6494bd4e50a97a35e3\",\"rows\":2,\"restricted_rows\":0}\n",
+  "stderr": "Defaulted container \"sqli-fixture\" out of: sqli-fixture, policy-gate (init)\n"
+}

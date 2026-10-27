@@ -1,0 +1,8 @@
+{
+  "status": "FAILED",
+  "error": "RuntimeError: POLICY_RULE_MISSING",
+  "cleanup_problems": [],
+  "elapsed_seconds": 204.01600000000008,
+  "authorization_elapsed_seconds": 204.01610398292542,
+  "run": "zer42-d0f4f3858e99"
+}

@@ -1,0 +1,22 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "-i",
+    "zer42-nemesis",
+    "--",
+    "/usr/bin/python3",
+    "-",
+    "trigger",
+    "eed0162b-6667-46d3-a8a7-e277b5a0a7fe",
+    "benign-apparel"
+  ],
+  "returncode": 0,
+  "stdout": "{\"status\": 200, \"request_id\": null, \"body\": {\"status\": \"PUBLISHED\", \"commandId\": \"eed0162b-6667-46d3-a8a7-e277b5a0a7fe\"}}\n",
+  "stderr": ""
+}

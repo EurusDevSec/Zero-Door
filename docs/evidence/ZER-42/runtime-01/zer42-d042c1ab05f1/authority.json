@@ -1,0 +1,7 @@
+{
+  "user_approval": "Cho ph\u00e9p l\u01b0\u1ee3t lab trong ph\u1ea1m vi n\u00e0y",
+  "maximum_seconds": 2700,
+  "cleanup_reserve_seconds": 600,
+  "context": "k3d-zero-door",
+  "run": "zer42-d042c1ab05f1"
+}

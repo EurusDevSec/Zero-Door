@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-27T10:17:34.046526+00:00",
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zero-door",
+    "exec",
+    "kafka-controller-0",
+    "-c",
+    "kafka",
+    "--",
+    "env",
+    "-u",
+    "JMX_PORT",
+    "-u",
+    "KAFKA_JMX_OPTS",
+    "/opt/bitnami/kafka/bin/kafka-topics.sh",
+    "--bootstrap-server",
+    "localhost:9092",
+    "--list"
+  ],
+  "returncode": 0,
+  "stdout": "__consumer_offsets\nattack.commands\nattack.results\nhealing.actions\nmonitoring.alerts\nsystem.logs\nzd.verify.restore\n",
+  "stderr": ""
+}

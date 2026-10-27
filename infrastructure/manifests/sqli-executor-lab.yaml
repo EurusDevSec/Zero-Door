@@ -1,0 +1,46 @@
+# ZER-42 SQLi executor — render-only lab overlay. OFFLINE ONLY, NOT_APPLIED.
+#
+# This is the example chaos-worker policy an APPROVED SQLi lab run would mount in place of the default
+# command-guard-config.yaml. It is shipped default-safe: top-level "enabled" and "sqli.enabled" are both
+# false, so applying it by accident runs nothing. An approved run flips both to true, confirms the endpoint
+# below is the accepted private-ingress address from the runtime-02 profile, and sets a real run/trial context.
+#
+# It adds no Kubernetes RBAC and no new API permission: the executor only sends HTTP to the fixture ingress.
+# The one network path it needs (chaos-worker egress -> Traefik ingress -> zd-sqli-lab /fixture) is described in
+# docs/runbooks/sqli-executor.md; it is a lab-topology decision, not provisioned here. Secrets (operator token,
+# command signer, ledger) and the fixture itself (infrastructure/manifests/sqli-fixture.yaml, image NOT_BUILT)
+# stay separate and also require a separately authorized operation.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zd-command-policy-sqli-lab
+  namespace: zero-door
+  labels:
+    zero-door.io/purpose: sqli-executor-lab
+data:
+  policy.json: |
+    {
+      "version": "zd-guard/1",
+      "enabled": false,
+      "context": {
+        "run_id": "run_00000000000000000000000000000000",
+        "trial_id": "trl_00000000000000000000000000000000",
+        "group": "B0"
+      },
+      "targets": [
+        {
+          "namespace": "target-app",
+          "service": "frontend",
+          "url": "http://frontend.target-app.svc.cluster.local/"
+        }
+      ],
+      "maxDurationSec": 60,
+      "maxConcurrency": 2,
+      "rps": 5,
+      "sqli": {
+        "enabled": false,
+        "endpoint": "http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search",
+        "maxSends": 20,
+        "maxCommandSec": 30
+      }
+    }

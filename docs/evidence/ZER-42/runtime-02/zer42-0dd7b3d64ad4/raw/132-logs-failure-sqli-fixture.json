@@ -1,0 +1,19 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "-l",
+    "app=sqli-fixture",
+    "--tail=500",
+    "--prefix=false",
+    "--timestamps=false"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Defaulted container \"sqli-fixture\" out of: sqli-fixture, policy-gate (init)\nError from server (BadRequest): container \"sqli-fixture\" in pod \"sqli-fixture-7867ff7d8f-b2v7t\" is waiting to start: PodInitializing\n"
+}

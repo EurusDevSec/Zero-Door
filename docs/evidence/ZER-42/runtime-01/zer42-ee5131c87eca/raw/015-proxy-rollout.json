@@ -1,0 +1,17 @@
+{
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=15s",
+    "-n",
+    "zd-sqli-lab",
+    "rollout",
+    "status",
+    "deployment/zer41-private-ingress",
+    "--timeout=90s"
+  ],
+  "returncode": 0,
+  "stdout": "Waiting for deployment \"zer41-private-ingress\" rollout to finish: 0 of 1 updated replicas are available...\ndeployment \"zer41-private-ingress\" successfully rolled out\n",
+  "stderr": ""
+}
