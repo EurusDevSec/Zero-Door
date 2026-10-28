@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-28T07:12:05.581Z",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "issue": "ZER-46",
+  "offlineTests": 68,
+  "labMutations": 0,
+  "appHttp": 0,
+  "readOnlySamples": 25,
+  "readOnlySeconds": 120.11,
+  "maxPsi": 0,
+  "nativeHelperSeconds": 3.1181888580322266,
+  "realWriterStarted": false,
+  "confirmedRunnerDefects": 2,
+  "correctedHashes": {
+    "docs/evidence/ZER-46/runtime-prep/run_component.py": "85461213fe5f09c04cfcedac25643c0e42730a17b8c93807c48b4d63047a201c",
+    "docs/evidence/ZER-46/runtime-prep/writer_worker.py": "04b68c7b3a3ad1c522952e243ddd6584a028b640221959828df7c3ad421cf2ee",
+    "docs/evidence/ZER-46/runtime-prep/writer_process.py": "e8aa36e18da87c6608a4a8b37bd63ece8fb0638f180432a3bb84d46f474c997d",
+    "docs/evidence/ZER-46/runtime-prep/reconcile_completed_protocol.py": "72b5d6282affc2f7e718191a1bddc98f3062212d1fdf84d7f4e92184a05a80c0",
+    "docs/evidence/ZER-46/runtime-prep/check_complete_runner.py": "1a84a93cf6f217af2eb9fbd5d4531fb1197234495796df2aa2ab0f15980e9564",
+    "docs/evidence/ZER-46/runtime-prep/check_psi_resolution.py": "3d252680fbf9fbc3570d08f784350d20dcf0ecead61c5e87b0b8b2ad4f325348"
+  },
+  "independentReview": "READY_TO_REQUEST_ONE_APPROVED_AC_RUN; two fixes + admission/source-lock reviewed",
+  "historicalChromeCausality": "NOT_ESTABLISHED; not added to product AC",
+  "fullRuntimeStatus": "RUNTIME09_COMPLETED_TECHNICAL_COMPONENT_ACCEPTED",
+  "verdict": "RESOLUTION_CONFIRMED_BY_ONE_APPROVED_FULL_AC_RUN",
+  "acceptanceLockedFiles": 38,
+  "sast": "NO_FINDINGS_AT_HIGH_SEVERITY_HIGH_CONFIDENCE_THRESHOLD",
+  "git": {
+    "headStable": true,
+    "staging": "EMPTY",
+    "diffCheck": "PASS",
+    "publication": "NOT_AUTHORIZED_NOT_DONE"
+  },
+  "closedEvidencePreservation": {
+    "at": "2026-10-28T07:17:26.188Z",
+    "closedEvidenceFiles": 1084,
+    "changedClosed": [],
+    "unrelatedFiles": 4657,
+    "changedOutside": []
+  },
+  "runtimeOutcome": "runtime-09/technical-acceptance.json"
+}

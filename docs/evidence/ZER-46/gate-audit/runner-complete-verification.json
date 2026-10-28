@@ -1,0 +1,68 @@
+{
+  "at": "2026-10-28T06:27:18.184Z",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "boundary": "OFFLINE_CORRECTION_AND_ONE_SEPARATELY_APPROVED_CLOSED_DIAGNOSTIC",
+  "tests": {
+    "existing": 38,
+    "new": 21,
+    "total": 59,
+    "status": "PASS_OFFLINE",
+    "newFailBefore": {
+      "cases": 21,
+      "failures": 4,
+      "errors": 10,
+      "remaining": 7,
+      "note": "Original runner/verifier baseline plus pre-UTF8 diagnostic; absent helpers cause errors, not live failures"
+    }
+  },
+  "bandit": "NO_FINDINGS_AT_HIGH_SEVERITY_HIGH_CONFIDENCE; low-severity assertions/subprocess uses reported in log",
+  "sourceHashes": {
+    "run_component.py": "2b1f90e3af03f33cb5c648987c6bc78849534eb70ad0ae38767a91b71654b940",
+    "run_fixture_only.py": "7d69cfccebb898f96e7a421b48d65526130dd37be74bf3d504316b568f622c90",
+    "writer_worker.py": "fd596868ad1ac18bd6a1785f44ff62a36d01e8162a08d0216a4279436bf23e62",
+    "writer_process.py": "c8e2945c2fb67be7f543f13ad6358c19e2af2769e502dcedf6b6df932dad0483",
+    "reconcile_completed_protocol.py": "b4cfb5bef6cd07051ff95c6228fc54a47e27da44e859b278c1083d19ced23852",
+    "client_diagnostic.py": "a93feb00f3ea4b3f12f2a4253043af0699439340f5143e0b06e515f570e3dc78",
+    "check_complete_runner.py": "0f9bbff30d388b897ceb9686a551752309bcaf2548e060fc267bc66a6411120c"
+  },
+  "preservation": {
+    "at": "2026-10-28T06:29:34.660Z",
+    "protectedFiles": 4657,
+    "protectedChanged": [],
+    "closedRuntimeFiles": 914,
+    "closedChanged": []
+  },
+  "closed08": "READ_ONLY_RECONCILIATION_MATCHES; HTTP UNKNOWN and owned cleanup CLEAN retained",
+  "diagnostic": {
+    "status": "CLOSED_NOT_REPRODUCED_ONE_SAMPLE",
+    "artifact": "client-diagnostic-01/raw-verification.json",
+    "attempts": 1,
+    "elapsedSeconds": 234.89218926429749,
+    "fixtureHttp": 1,
+    "boutiqueHttp": 9,
+    "guardSamples": 39,
+    "psiMax": 0.12,
+    "ownedCleanup": "CLEAN",
+    "rootCauseProven": false,
+    "currentSourceDriftAfterClosedRun": [
+      "docs/evidence/ZER-46/runtime-prep/check_complete_runner.py",
+      "docs/evidence/ZER-46/runtime-prep/client_diagnostic.py",
+      "docs/evidence/ZER-46/runtime-prep/reconcile_completed_protocol.py",
+      "docs/evidence/ZER-46/runtime-prep/run_component.py",
+      "docs/evidence/ZER-46/runtime-prep/run_fixture_only.py",
+      "docs/evidence/ZER-46/runtime-prep/writer_worker.py"
+    ],
+    "authorizationDisplayEncoding": "UTF8_READ_AS_CP1258; OPERATIVE_FIELDS_AND_HASHES_IDENTICAL"
+  },
+  "decision": "STOP_RUNTIME; OFFLINE_RUNNER_FIXED; SINGLE_DIAGNOSTIC_CLOSED; NO_GO_FULL_CONTAINMENT",
+  "independentHumanOrAgentReview": "PENDING",
+  "ac": "PARTIAL",
+  "publication": "NOT_READY",
+  "offlineCorrectionRuntimeCalls": 0,
+  "remaining": [
+    "intermittent client PSI causal readiness not demonstrated",
+    "full AC runtime in one valid run",
+    "independent review",
+    "merge and owner acceptance"
+  ]
+}

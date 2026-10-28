@@ -1,0 +1,17 @@
+{
+  "at": 1793168325.6288896,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "apply",
+    "-f",
+    "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-46\\client-diagnostic-01\\bootstrap-proxy.yaml"
+  ],
+  "pid": 2832,
+  "returncode": 0,
+  "stdout": "deployment.apps/zer46-private-ingress created\n",
+  "stderr": "",
+  "ended_at": 1793168325.835082
+}

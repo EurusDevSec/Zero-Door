@@ -1,0 +1,80 @@
+{
+  "at": 1793168433.631378,
+  "error": null,
+  "dispatches": 1,
+  "diagnostic_receipts_complete": true,
+  "client_stages": [
+    {
+      "stages": [
+        {
+          "stage": "interpreter",
+          "at": 1793168348.0414743
+        },
+        {
+          "stage": "imports",
+          "at": 1793168351.2368407
+        },
+        {
+          "stage": "request_ready",
+          "at": 1793168351.2376707
+        },
+        {
+          "stage": "headers",
+          "at": 1793168351.343234
+        },
+        {
+          "stage": "response_end",
+          "at": 1793168351.3435166
+        }
+      ],
+      "cancelled": false,
+      "returncode": 0,
+      "phase_deltas": [
+        {
+          "from": "interpreter",
+          "to": "imports",
+          "elapsed_seconds": 3.195366382598877,
+          "memory_some_stall_us": 1710,
+          "cpu_throttled_us": 2269039,
+          "oom_kill": 0,
+          "memory_max_events": 0
+        },
+        {
+          "from": "imports",
+          "to": "request_ready",
+          "elapsed_seconds": 0.0008299350738525391,
+          "memory_some_stall_us": 0,
+          "cpu_throttled_us": 0,
+          "oom_kill": 0,
+          "memory_max_events": 0
+        },
+        {
+          "from": "request_ready",
+          "to": "headers",
+          "elapsed_seconds": 0.10556340217590332,
+          "memory_some_stall_us": 0,
+          "cpu_throttled_us": 94511,
+          "oom_kill": 0,
+          "memory_max_events": 0
+        },
+        {
+          "from": "headers",
+          "to": "response_end",
+          "elapsed_seconds": 0.00028252601623535156,
+          "memory_some_stall_us": 0,
+          "cpu_throttled_us": 0,
+          "oom_kill": 0,
+          "memory_max_events": 0
+        }
+      ],
+      "http_result": "SEE_HTTP_AND_JOIN"
+    }
+  ],
+  "cleanup": "CLEAN",
+  "guard_failures": [],
+  "status": "NOT_REPRODUCED_ONE_SAMPLE",
+  "root_cause_proven": false,
+  "containment_run_authorized": false,
+  "ac_pass": false,
+  "issue_done": false
+}

@@ -1,0 +1,15 @@
+{
+  "node": "k3d-zero-door-agent-0",
+  "node_internal_ips": [
+    "172.19.0.4"
+  ],
+  "existing_pod": {
+    "namespace": "kube-system",
+    "name": "coredns-ccb96694c-drjgp",
+    "uid": "13658da4-fc08-4575-9cd6-bd2f8da12802",
+    "host_ip": "172.19.0.4",
+    "pod_ip": "10.42.0.155"
+  },
+  "hooked_policy_observed": true,
+  "fixture_policy_still_required": true
+}

@@ -1,0 +1,106 @@
+{
+  "status": "NOT_MET_GUARD_STOP",
+  "attempt_ended": true,
+  "elapsed_seconds": 203.05315160751343,
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixture_ready": true,
+  "fixture_counter_admission_attempts": 1,
+  "remote_client_dispatches": 1,
+  "fixture_client_receipts": 0,
+  "first_http_result": "UNKNOWN_GUARD_CANCELLED_EXEC; no matching server record in collected cleanup log",
+  "first_correlation_id": "e29ae6606f7c46a0b0ebbf9c4bb16408",
+  "writer_processes": 0,
+  "containment_rule_created": false,
+  "boutique_script_http": 15,
+  "post_observer_function_active_time_health": [
+    true,
+    true,
+    true
+  ],
+  "formal_r1_or_kpi_pass": false,
+  "guard_samples": 33,
+  "violation": {
+    "at": 1793165110.2671375,
+    "hostAvailable": 3533672448,
+    "wslAvailableKiB": 2339372,
+    "memoryPsiAvg10": 16.37
+  },
+  "host_and_wsl_available_above_minimum_all_samples": true,
+  "owned_cgroup_snapshot": [
+    {
+      "name": "sqli-fixture-5bd7f99cfc-cvh9d",
+      "uid": "21af647a-09ab-43cd-af00-deef0cfae790",
+      "some_avg10": 0.0,
+      "memory_current_bytes": 22327296,
+      "memory_max_bytes": 100663296,
+      "events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "cpu_stat": "usage_usec 381930\nuser_usec 315827\nsystem_usec 66103\nnice_usec 0\nnr_periods 44\nnr_throttled 22\nthrottled_usec 1288996\nnr_bursts 0\nburst_usec 0"
+    },
+    {
+      "name": "zer46-private-ingress-769dd694bf-2fqwf",
+      "uid": "e393da10-8e69-43bb-88e7-6edc14a202b8",
+      "some_avg10": 0.0,
+      "memory_current_bytes": 20283392,
+      "memory_max_bytes": 100663296,
+      "events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "cpu_stat": "usage_usec 186029\nuser_usec 136118\nsystem_usec 49910\nnice_usec 0\nnr_periods 23\nnr_throttled 11\nthrottled_usec 911287\nnr_bursts 0\nburst_usec 0"
+    },
+    {
+      "name": "zer46-source-a",
+      "uid": "70f07803-a5fa-4a2e-8d3a-1e0a9d464d16",
+      "some_avg10": 48.64,
+      "memory_current_bytes": 17530880,
+      "memory_max_bytes": 50331648,
+      "events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "cpu_stat": "usage_usec 212213\nuser_usec 156980\nsystem_usec 55233\nnice_usec 0\nnr_periods 56\nnr_throttled 44\nthrottled_usec 3954362\nnr_bursts 0\nburst_usec 0"
+    },
+    {
+      "name": "zer46-source-b",
+      "uid": "e005b8b8-e11d-47a7-b201-1e674427d788",
+      "some_avg10": 0.0,
+      "memory_current_bytes": 3764224,
+      "memory_max_bytes": 50331648,
+      "events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      },
+      "cpu_stat": "usage_usec 61773\nuser_usec 49418\nsystem_usec 12354\nnice_usec 0\nnr_periods 16\nnr_throttled 12\nthrottled_usec 1142939\nnr_bursts 0\nburst_usec 0"
+    }
+  ],
+  "diagnosis": "Source A memory PSI concentrated at client execution; no OOM/max event. CPU throttling co-observed; no single causal root proven.",
+  "namespace_uid": "096728fe-7e47-497b-bf01-bb2a8043a548",
+  "namespace_uid_delete_verified_absent": true,
+  "shared_spec_uid_restart_pvc_preserved": true,
+  "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+  "ac01": "NO_COMPLETED_REQUEST_JOIN_IN08",
+  "ac02": "NOT_EXERCISED_IN08",
+  "publication": "NOT_READY",
+  "issue_done": false
+}

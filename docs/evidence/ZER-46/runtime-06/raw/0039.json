@@ -1,0 +1,16 @@
+{
+  "at": 1793163537.3861854,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "image",
+    "inspect",
+    "zer46-fixture:24662046a33f",
+    "--format",
+    "{{.Id}}"
+  ],
+  "returncode": 0,
+  "stdout": "sha256:d85043c06db6a60c98cddb53a1545f6e053b6def409d43b156179a625df55274\n",
+  "stderr": ""
+}

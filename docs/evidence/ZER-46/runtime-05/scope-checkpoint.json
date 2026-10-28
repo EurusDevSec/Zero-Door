@@ -1,0 +1,29 @@
+{
+  "issue": "ZER-46",
+  "writer": "Codex one writer",
+  "authorization": {
+    "at": "2026-10-28T04:20:38.051Z",
+    "status": "APPROVED",
+    "source": "Hoang direct reply in current chat",
+    "answer": "Duyệt gói cached-only đã chuẩn bị",
+    "proposal": "docs/evidence/ZER-46/runtime-prep/cached-fixture-proposal.md",
+    "proposalSha256": "00bcf11a59d8d5656864f5aa0a531c83b053aac6813f25c6e8969b988f501ce3",
+    "maximumSeconds": 1200,
+    "cleanupSeconds": 300,
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixtureHttpMax": 120,
+    "boutiqueHttpMax": 32,
+    "ttlSeconds": 180,
+    "fixturePodReplacements": 1,
+    "writerRestarts": 1
+  },
+  "namespace": "zd-sqli-lab",
+  "node": "k3d-zero-door-server-0",
+  "startup": "sequential proxy, sourceA, sourceB, fixture",
+  "imagePullPolicy": "Never",
+  "boutique": "observer only, no KPI pass",
+  "guard": "host/WSL>=1GiB; memoryPSIavg10<=5;120s preflight/5s samples",
+  "stop": "close attempt after cleanup, no automatic retries"
+}

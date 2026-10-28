@@ -1,0 +1,59 @@
+FFFE
+======================================================================
+ERROR: test_worker_stop_error_does_not_skip_owned_namespace_delete_or_receipt (__main__.StopAudit.test_worker_stop_error_does_not_skip_owned_namespace_delete_or_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_stop_audit.py", line 62, in test_worker_stop_error_does_not_skip_owned_namespace_delete_or_receipt
+    report = lab.cleanup()
+             ^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\run_component.py", line 522, in cleanup
+    finally: self.stop_worker()
+             ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1183, in _execute_mock_call
+    raise effect
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\run_component.py", line 515, in cleanup
+    self.stop_worker()
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1183, in _execute_mock_call
+    raise effect
+RuntimeError: WRITER_EXIT_UNKNOWN
+
+======================================================================
+FAIL: test_cancel_preserves_partial_streams_and_terminal_status (__main__.StopAudit.test_cancel_preserves_partial_streams_and_terminal_status)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_stop_audit.py", line 41, in test_cancel_preserves_partial_streams_and_terminal_status
+    self.assertEqual(receipt.get('stdout'), 'client-imported\n')
+AssertionError: None != 'client-imported\n'
+
+======================================================================
+FAIL: test_late_guard_failure_vetoes_completed_protocol_in_both_entrypoints (__main__.StopAudit.test_late_guard_failure_vetoes_completed_protocol_in_both_entrypoints) (module='zer46_stop_check')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_stop_audit.py", line 83, in test_late_guard_failure_vetoes_completed_protocol_in_both_entrypoints
+    self.assertEqual(result, 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_late_guard_failure_vetoes_completed_protocol_in_both_entrypoints (__main__.StopAudit.test_late_guard_failure_vetoes_completed_protocol_in_both_entrypoints) (module='zer46_fixture_parent')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_stop_audit.py", line 83, in test_late_guard_failure_vetoes_completed_protocol_in_both_entrypoints
+    self.assertEqual(result, 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.017s
+
+FAILED (failures=3, errors=1)

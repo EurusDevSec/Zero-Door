@@ -1,0 +1,18 @@
+{
+  "at": 1793165110.4967027,
+  "errors": [],
+  "namespace_created": true,
+  "namespace_absent": true,
+  "specs_preserved": true,
+  "restarts_preserved": true,
+  "business_2_of_2": true,
+  "formal_r1_health_claim": false,
+  "fixture_http": 1,
+  "boutique_http": 15,
+  "tcp_checks": 0,
+  "writer_processes": 0,
+  "verdict": "CLEAN_OWNED_RESOURCES_ONLY",
+  "component_resource_verdict": "CLEAN",
+  "lab_readiness": "NOT_VERIFIED",
+  "boutique_recovery_claim": false
+}

@@ -1,0 +1,60 @@
+{
+  "at": 1793159058.7449908,
+  "result": {
+    "at": 1793159058.7434373,
+    "healthy": false,
+    "health_kind": "COMPONENT_FUNCTION_AND_ACTIVE_TIME_ONLY_NOT_FORMAL_R1_HEALTH",
+    "wall_reference_slo_met": false,
+    "scheduler_idle_ms": 2499.0000000007058,
+    "active_ms": null,
+    "result": {
+      "ok": false,
+      "detail": "TIMEOUT",
+      "reason": "STEP_DEADLINE",
+      "interrupted": false,
+      "stopped_ns": null,
+      "elapsed_ms": 4545.3201,
+      "cleanup": {
+        "cart": "DONE"
+      },
+      "steps": [
+        {
+          "name": "home",
+          "status": 200,
+          "ok": true,
+          "ms": 16.102
+        },
+        {
+          "name": "product",
+          "status": 200,
+          "ok": true,
+          "ms": 511.74
+        },
+        {
+          "name": "add_to_cart",
+          "status": 302,
+          "ok": true,
+          "ms": 503.537
+        },
+        {
+          "name": "cart",
+          "status": 200,
+          "ok": true,
+          "ms": 504.124
+        },
+        {
+          "name": "checkout",
+          "status": null,
+          "ok": false,
+          "ms": 3009.73
+        }
+      ],
+      "requests": 6,
+      "captures": {
+        "cart_quantity_sha256_16": "6b86b273ff34fce1"
+      }
+    }
+  },
+  "is_fixture_admission_gate": false,
+  "formal_r1_health_claim": false
+}

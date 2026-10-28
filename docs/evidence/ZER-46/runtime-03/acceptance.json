@@ -1,0 +1,8 @@
+{
+  "component_observed": false,
+  "error": "BUSINESS_WARMUP_FAILED",
+  "cleanup": "INCOMPLETE",
+  "status": "NOT_MET",
+  "issue_done": false,
+  "elapsed_seconds": 147.89541125297546
+}

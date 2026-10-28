@@ -1,0 +1,20 @@
+{
+  "at": 1793176825.4975207,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "wait",
+    "--for=condition=Ready",
+    "pod/sqli-fixture-678f64c5d5-mq5tn",
+    "--timeout=30s"
+  ],
+  "pid": 19280,
+  "returncode": 0,
+  "stdout": "pod/sqli-fixture-678f64c5d5-mq5tn condition met\n",
+  "stderr": "",
+  "ended_at": 1793176831.2278383
+}

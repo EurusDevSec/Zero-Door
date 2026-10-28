@@ -1,0 +1,22 @@
+{
+  "at": 1793176863.1477594,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer46-source-b",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import socket,json\ns=socket.socket(); s.settimeout(2)\ntry:\n s.connect(('10.42.0.191',9140)); denied=False\nexcept OSError:\n denied=True\nprint(json.dumps({'denied':denied})); s.close()\n"
+  ],
+  "pid": 11248,
+  "returncode": 0,
+  "stdout": "{\"denied\": true}\n",
+  "stderr": "",
+  "ended_at": 1793176864.762019
+}

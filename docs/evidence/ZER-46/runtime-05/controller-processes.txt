@@ -1,0 +1,24 @@
+PID                 COMMAND
+663                 /sbin/docker-init -- /bin/k3d-entrypoint.sh server --disable=traefik --tls-san host.docker.internal --tls-san k3d-zero-door-serverlb
+699                 /bin/sh /bin/k3d-entrypoint.sh server --disable=traefik --tls-san host.docker.internal --tls-san k3d-zero-door-serverlb
+781                 containerd
+1186                /bin/containerd-shim-runc-v2 -namespace k8s.io -id 22740dc65d11a460f9a222744eb272cab0baadf8406edf68c5f064ab2df11b15 -address /run/k3s/containerd/containerd.sock
+4929                /bin/containerd-shim-runc-v2 -namespace k8s.io -id afd681ef4fadaec60974c813c2958e7f819154cc0535ff59a1c397be5a8fc1d1 -address /run/k3s/containerd/containerd.sock
+7044                /bin/containerd-shim-runc-v2 -namespace k8s.io -id 6ce5842a18795ad4e07043658cc5fb7fcc9f94db5286a18254b61f9e22a8b018 -address /run/k3s/containerd/containerd.sock
+7086                /bin/containerd-shim-runc-v2 -namespace k8s.io -id b147862420d58ab2c4bfc5be1dcc9d1d8626049f777045ff19b0a56482969f2b -address /run/k3s/containerd/containerd.sock
+8541                /bin/containerd-shim-runc-v2 -namespace k8s.io -id 9611a921fca132ab8413b8031522b1e43bdf0f410ee868ac966503029a02be13 -address /run/k3s/containerd/containerd.sock
+731                 /bin/k3s server
+8610                /bin/sh /usr/bin/entry
+8565                /pause
+8667                /bin/sh /usr/bin/entry
+7069                /pause
+8147                /bin/tini -- /usr/local/bin/docker-entrypoint.sh eswrapper
+8210                /usr/share/elasticsearch/jdk/bin/java -Xms4m -Xmx64m -XX:+UseSerialGC -Dcli.name=server -Dcli.script=/usr/share/elasticsearch/bin/elasticsearch -Dcli.libs=lib/tools/server-cli -Des.path.home=/usr/share/elasticsearch -Des.path.conf=/usr/share/elasticsearch/config -Des.distribution.type=docker -cp /usr/share/elasticsearch/lib/*:/usr/share/elasticsearch/lib/cli-launcher/* org.elasticsearch.launcher.CliToolLauncher
+8993                /usr/share/elasticsearch/jdk/bin/java -Des.networkaddress.cache.ttl=60 -Des.networkaddress.cache.negative.ttl=10 -Djava.security.manager=allow -XX:+AlwaysPreTouch -Xss1m -Djava.awt.headless=true -Dfile.encoding=UTF-8 -Djna.nosys=true -XX:-OmitStackTraceInFastThrow -Dio.netty.noUnsafe=true -Dio.netty.noKeySetOptimization=true -Dio.netty.recycler.maxCapacityPerThread=0 -Dlog4j.shutdownHookEnabled=false -Dlog4j2.disable.jmx=true -Dlog4j2.formatMsgNoLookups=true -Djava.locale.providers=SPI,COMPAT --add-opens=java.base/java.io=org.elasticsearch.preallocate --enable-native-access=org.elasticsearch.nativeaccess -Des.cgroups.hierarchy.override=/ -XX:ReplayDataFile=logs/replay_pid%p.log -Des.distribution.type=docker -XX:+UseG1GC -Djava.io.tmpdir=/tmp/elasticsearch-7526354378325872943 --add-modules=jdk.incubator.vector -XX:+HeapDumpOnOutOfMemoryError -XX:+ExitOnOutOfMemoryError -XX:HeapDumpPath=data -XX:ErrorFile=logs/hs_err_pid%p.log -Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,level,pid,tags:filecount=32,filesize=64m -Xms256m -Xmx512m -XX:MaxDirectMemorySize=268435456 -XX:G1HeapRegionSize=4m -XX:InitiatingHeapOccupancyPercent=30 -XX:G1ReservePercent=15 --module-path /usr/share/elasticsearch/lib --add-modules=jdk.net --add-modules=ALL-MODULE-PATH -m org.elasticsearch.server/org.elasticsearch.bootstrap.Elasticsearch
+9472                /usr/share/elasticsearch/modules/x-pack-ml/platform/linux-x86_64/bin/controller
+4952                /pause
+4996                /src/server
+1209                /pause
+1269                /bin/node_exporter --path.procfs=/host/proc --path.sysfs=/host/sys --path.rootfs=/host/root --path.udev.data=/host/root/run/udev/data --web.listen-address=[0.0.0.0]:9100 --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run/containerd/.+|var/lib/docker/.+|var/lib/kubelet/.+)($|/) --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs|erofs)$
+7113                /pause
+7373                /fluent-bit/bin/fluent-bit /fluent-bit/bin/fluent-bit -c /fluent-bit/etc/fluent-bit.conf

@@ -1,0 +1,1 @@
+PREFLIGHT_STOP COMMAND_FAILED:kubectl --context k3d-zero-door --request-timeout=12s get nodes -o CLEANUP INCOMPLETE

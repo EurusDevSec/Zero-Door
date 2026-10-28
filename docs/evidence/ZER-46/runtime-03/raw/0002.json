@@ -1,0 +1,11 @@
+{
+  "at": 1793157662.1690848,
+  "args": [
+    "docker",
+    "context",
+    "show"
+  ],
+  "returncode": 0,
+  "stdout": "desktop-linux\n",
+  "stderr": ""
+}

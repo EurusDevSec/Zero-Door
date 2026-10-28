@@ -1,0 +1,58 @@
+EEFFE
+======================================================================
+ERROR: test_current_kernel_image_uses_self_native_handle_not_python_alias (__main__.Resolution.test_current_kernel_image_uses_self_native_handle_not_python_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_psi_resolution.py", line 85, in test_current_kernel_image_uses_self_native_handle_not_python_alias
+    self.assertEqual(p.current_image(),'C:/Physical/python3.11.exe')
+                     ^^^^^^^^^^^^^^^
+AttributeError: module 'zer46_process' has no attribute 'current_image'
+
+======================================================================
+ERROR: test_foreground_deadline_and_global_guard_remain_enforced (__main__.Resolution.test_foreground_deadline_and_global_guard_remain_enforced)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_psi_resolution.py", line 48, in test_foreground_deadline_and_global_guard_remain_enforced
+    lab.check()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\run_component.py", line 109, in check
+    raise RuntimeError("TTL_PHASE_TIMEOUT:" + self.phase_name)
+RuntimeError: TTL_PHASE_TIMEOUT:projection
+
+======================================================================
+ERROR: test_watchdog_read_survives_foreground_phase_transition_and_log_deadline (__main__.Resolution.test_watchdog_read_survives_foreground_phase_transition_and_log_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_psi_resolution.py", line 39, in test_watchdog_read_survives_foreground_phase_transition_and_log_deadline
+    result=lab.command(['FAKE_READ_ONLY_RESOURCE'],timeout=4)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\run_component.py", line 131, in command
+    raise RuntimeError("COMMAND_TIMEOUT")
+RuntimeError: COMMAND_TIMEOUT
+
+======================================================================
+FAIL: test_unpinned_logical_path_or_drifted_native_image_is_rejected (__main__.Resolution.test_unpinned_logical_path_or_drifted_native_image_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_psi_resolution.py", line 73, in test_unpinned_logical_path_or_drifted_native_image_is_rejected
+    with self.assertRaisesRegex(RuntimeError,'WRITER_LOGICAL_EXECUTABLE_PIN'):lab.rpc('hello')
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_venv_logical_path_and_native_image_are_both_validated (__main__.Resolution.test_venv_logical_path_and_native_image_are_both_validated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_psi_resolution.py", line 66, in test_venv_logical_path_and_native_image_are_both_validated
+    native.assert_called_once_with(22,'C:/Python/python.exe',1)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 951, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 939, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: WriterProcess(22, 'C:/Python/python.exe', 1)
+  Actual: WriterProcess(22, 'R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer12\\production-nemesis\\Scripts\\python.exe', 1)
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.014s
+
+FAILED (failures=2, errors=3)

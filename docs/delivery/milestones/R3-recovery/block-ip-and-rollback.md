@@ -44,3 +44,10 @@ Danh tính trước/sau và dịch vụ hồi phục; thay annotation riêng l�
 ## Bàn giao kỹ thuật
 
 Chưa có bàn giao thực thi mới. Khi thực hiện, ghi issue Linear và thời điểm đọc AC, HEAD/dirty, phạm vi file/thao tác, kiểm tra/kết quả, evidence, giới hạn và bước tiếp theo. Theo [WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); trạng thái, lịch và phân công cập nhật trên Linear.
+
+
+### ZER-46 technical acceptance and publication — 28/10/2026
+
+[Runtime09](../../../evidence/ZER-46/runtime-09/README.md) completed one approved cached-only attempt in517.68s. Raw verification and independent source/raw review satisfy component AC01/02: correct trusted source/anti-spoof and4TCP controls; A blocked/Bcatalog+CRUD preserved before/after fixtureUIDreplacement and writerrestart; replay preserves rule/CM/revision; original180s expiry unblocks A; API and mounted policy cleanup empty; two native writer handles EXITED/launcher0.29HTTP/29joined,83guard samples/PSImax0.36, ownednamespaceUIDabsent/sharedspec+UID/restart/3PVCpreserved. Boutique business remains unhealthy; no formalR1/KPI/productionhealing/LLM/end-to-end claim.
+
+[Publication scope](../../../evidence/ZER-46/publication-package.md) is owner-authorized for commit/push/PR/CI/merge and Done after gates. Preserve all failed/UNKNOWN history and as-executed source snapshots; no new lab run or parentZER17closure follows automatically. This package adds only ZER46 code/evidence and one CI test invocation, preserving unrelated dirty work in the primary checkout.

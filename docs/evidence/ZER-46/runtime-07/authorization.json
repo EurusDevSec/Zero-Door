@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/agent-retry-proposal.md",
+  "proposalSha256": "8812198119ea049f23d3ed70e05c9483d762a0d52d2cd06c4fdf9fcd96c372cc",
+  "sourceManifestSha256": "c2b882fa1046fe22ff6006018f69e18713f4251fa561a3d4b294f592cb9410ea",
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "node": "k3d-zero-door-agent-0",
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "ttlSeconds": 180,
+  "fixturePodReplacements": 1,
+  "writerRestarts": 1,
+  "at": "2026-10-28T05:06:17.812Z",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duy\u00e1\u00bb\u2021t to\u0102\u00a0n b\u00e1\u00bb\u2122 g\u0102\u00b3i ti\u00e1\u00ba\u00bfp n\u00e1\u00bb\u2018i sau s\u00e1\u00bb\u00ada collector"
+}

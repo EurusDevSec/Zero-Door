@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-28T05:06:17.822Z",
+  "issue": "ZER-46",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "writer": "Codex one writer",
+  "authorization": {
+    "status": "APPROVED",
+    "proposal": "docs/evidence/ZER-46/runtime-prep/agent-retry-proposal.md",
+    "proposalSha256": "8812198119ea049f23d3ed70e05c9483d762a0d52d2cd06c4fdf9fcd96c372cc",
+    "sourceManifestSha256": "c2b882fa1046fe22ff6006018f69e18713f4251fa561a3d4b294f592cb9410ea",
+    "maximumSeconds": 1200,
+    "cleanupSeconds": 300,
+    "node": "k3d-zero-door-agent-0",
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixtureHttpMax": 120,
+    "boutiqueHttpMax": 32,
+    "ttlSeconds": 180,
+    "fixturePodReplacements": 1,
+    "writerRestarts": 1,
+    "at": "2026-10-28T05:06:17.812Z",
+    "source": "Hoang direct reply in current chat",
+    "answer": "Duyệt toàn bộ gói tiếp nối sau sửa collector"
+  },
+  "node": "k3d-zero-door-agent-0",
+  "namespace": "zd-sqli-lab",
+  "changeFrom06": "collector -eo pid,args; immutable output/authorization/source manifest wrapper07",
+  "guard": "120s preflight;host/WSL>=1GiB;memoryPSIavg10<=5;5s watcher",
+  "boutique": "observer only; no R1/KPI/end-to-end claim",
+  "stop": "close after cleanup; no retry"
+}

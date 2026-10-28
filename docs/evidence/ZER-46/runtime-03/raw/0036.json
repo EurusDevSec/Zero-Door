@@ -1,0 +1,16 @@
+{
+  "at": 1793157785.496268,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "image",
+    "inspect",
+    "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+    "--format",
+    "{{.Id}}"
+  ],
+  "returncode": 1,
+  "stdout": "\n",
+  "stderr": "Error response from daemon: No such image: traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\n"
+}

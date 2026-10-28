@@ -1,0 +1,35 @@
+{
+  "target": {
+    "uid": "900f3759-a94e-495a-8abd-e92c7c3a665c",
+    "scope": "zer46-b7cb40ec036e",
+    "run_id": "run_a9e1306f74354f4c84af49e55509989e",
+    "trial_id": "trl_a4b9d400dc434f069b37cda7f92a81c8",
+    "attacker_ip": "10.42.0.188",
+    "benign_ip": "10.42.0.189",
+    "proxy_cidrs": [
+      "10.42.0.187/32"
+    ]
+  },
+  "action_id": "act_534429e95d8142bc9eacf1cc422367e7",
+  "evidence": {
+    "ts": 1793176744.6182592,
+    "request_id": "7e856f80c68143748fbe6ce341d9f8c1",
+    "method": "GET",
+    "path": "/fixture/catalog/search",
+    "status": 200,
+    "duration_ms": 0.716,
+    "tcp_peer": "10.42.0.187",
+    "source_method": "XFF_AFTER_TRUSTED",
+    "source_confidence": "PROXY_CHAIN",
+    "client_ip": "10.42.0.188",
+    "correlation_id": "54d677d0255c423fa47c420629a73af1",
+    "enforcement_point": "sqli-fixture/trusted-client",
+    "policy_sha256": "2587cdb10fd3b0eaf1e0159c4b8a185ece67161a6904c2438285e49117d1ab2a",
+    "blocked": false,
+    "action_ids": [],
+    "rows": 1,
+    "restricted_rows": 0,
+    "run_id": "run_a9e1306f74354f4c84af49e55509989e",
+    "trial_id": "trl_a4b9d400dc434f069b37cda7f92a81c8"
+  }
+}

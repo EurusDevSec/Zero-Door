@@ -1,0 +1,19 @@
+{
+  "at": 1793161245.5452318,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "target-app",
+    "get",
+    "ingress",
+    "frontend-ingress",
+    "-o",
+    "json"
+  ],
+  "returncode": 0,
+  "stdout": "{\n    \"apiVersion\": \"networking.k8s.io/v1\",\n    \"kind\": \"Ingress\",\n    \"metadata\": {\n        \"annotations\": {\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"networking.k8s.io/v1\\\",\\\"kind\\\":\\\"Ingress\\\",\\\"metadata\\\":{\\\"annotations\\\":{},\\\"labels\\\":{\\\"app\\\":\\\"frontend\\\"},\\\"name\\\":\\\"frontend-ingress\\\",\\\"namespace\\\":\\\"target-app\\\"},\\\"spec\\\":{\\\"ingressClassName\\\":\\\"traefik\\\",\\\"rules\\\":[{\\\"http\\\":{\\\"paths\\\":[{\\\"backend\\\":{\\\"service\\\":{\\\"name\\\":\\\"frontend\\\",\\\"port\\\":{\\\"number\\\":80}}},\\\"path\\\":\\\"/\\\",\\\"pathType\\\":\\\"Prefix\\\"}]}}]}}\\n\"\n        },\n        \"creationTimestamp\": \"2026-10-18T10:18:06Z\",\n        \"generation\": 1,\n        \"labels\": {\n            \"app\": \"frontend\"\n        },\n        \"name\": \"frontend-ingress\",\n        \"namespace\": \"target-app\",\n        \"resourceVersion\": \"164356\",\n        \"uid\": \"cfde1f78-5af3-4d96-bcaf-21dfe813c6be\"\n    },\n    \"spec\": {\n        \"ingressClassName\": \"traefik\",\n        \"rules\": [\n            {\n                \"http\": {\n                    \"paths\": [\n                        {\n                            \"backend\": {\n                                \"service\": {\n                                    \"name\": \"frontend\",\n                                    \"port\": {\n                                        \"number\": 80\n                                    }\n                                }\n                            },\n                            \"path\": \"/\",\n                            \"pathType\": \"Prefix\"\n                        }\n                    ]\n                }\n            }\n        ]\n    },\n    \"status\": {\n        \"loadBalancer\": {\n            \"ingress\": [\n                {\n                    \"ip\": \"172.19.0.4\"\n                },\n                {\n                    \"ip\": \"172.19.0.5\"\n                }\n            ]\n        }\n    }\n}\n",
+  "stderr": ""
+}

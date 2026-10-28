@@ -1,0 +1,16 @@
+{
+  "at": 1793165093.2984555,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "cat",
+    "/proc/meminfo",
+    "/proc/pressure/memory"
+  ],
+  "returncode": 0,
+  "stdout": "MemTotal:        6068844 kB\nMemFree:           77208 kB\nMemAvailable:    2385868 kB\nBuffers:          314496 kB\nCached:          2110096 kB\nSwapCached:          328 kB\nActive:          1540408 kB\nInactive:        3997112 kB\nActive(anon):      11036 kB\nInactive(anon):  3136144 kB\nActive(file):    1529372 kB\nInactive(file):   860968 kB\nUnevictable:         292 kB\nMlocked:               0 kB\nSwapTotal:       2097152 kB\nSwapFree:        2078060 kB\nDirty:              3104 kB\nWriteback:             4 kB\nAnonPages:       3112916 kB\nMapped:          1157300 kB\nShmem:             34192 kB\nKReclaimable:     101192 kB\nSlab:             193272 kB\nSReclaimable:     101192 kB\nSUnreclaim:        92080 kB\nKernelStack:       19360 kB\nPageTables:        28140 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     5131572 kB\nCommitted_AS:    8018356 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       30920 kB\nVmallocChunk:          0 kB\nPercpu:             3408 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:     20480 kB\nFilePmdMapped:     18432 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       76800 kB\nDirectMap2M:     6213632 kB\nDirectMap1G:     9437184 kB\nsome avg10=0.00 avg60=0.00 avg300=0.00 total=4906314\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=4715613\n",
+  "stderr": ""
+}

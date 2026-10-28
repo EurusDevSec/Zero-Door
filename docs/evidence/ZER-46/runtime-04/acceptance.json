@@ -1,0 +1,11 @@
+{
+  "component_observed": false,
+  "error": "GUARD_OR_CLEANUP_RESERVE:['MEMORY_STOP']",
+  "component_resource_cleanup": "INCOMPLETE",
+  "lab_readiness": "NOT_VERIFIED",
+  "status": "NOT_MET",
+  "boutique_pass": false,
+  "formal_kpi_pass": false,
+  "issue_done": false,
+  "elapsed_seconds": 204.48101234436035
+}

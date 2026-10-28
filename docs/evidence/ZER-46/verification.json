@@ -1,0 +1,643 @@
+{
+  "at": "2026-10-28T08:55:39.769Z",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "dirty": true,
+  "boundary": "RUNTIME09_CLOSED_FULL_COMPONENT_AC_ACCEPTED_RAW_AND_INDEPENDENT_REVIEW; NO_NEW_RUNTIME",
+  "matrices": {
+    "hephaestus": {
+      "suites": [
+        {
+          "suite": "test_sqli_containment",
+          "cases": 23,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_sqli_fixture",
+          "cases": 42,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_sqli_fixture_http",
+          "cases": 15,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_command_guard_integration",
+          "cases": 13,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_command_modes",
+          "cases": 3,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_command_guard_ci",
+          "cases": 6,
+          "verdict": "PASS"
+        }
+      ],
+      "total": 102
+    },
+    "nemesis": {
+      "suites": [
+        {
+          "suite": "test_sqli_containment",
+          "cases": 23,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_sqli_fixture",
+          "cases": 42,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_sqli_fixture_http",
+          "cases": 15,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_command_guard_integration",
+          "cases": 13,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_command_modes",
+          "cases": 3,
+          "verdict": "PASS"
+        },
+        {
+          "suite": "test_command_guard_ci",
+          "cases": 6,
+          "verdict": "PASS"
+        }
+      ],
+      "total": 102
+    }
+  },
+  "totalTests": 204,
+  "failBefore": {
+    "httpCases": 6,
+    "expectedFailures": 4,
+    "errors": 0
+  },
+  "sast": "PASS_ZERO_ISSUES",
+  "render": {
+    "status": "OFFLINE_VALID_NOT_APPLIED",
+    "resources": 17,
+    "publicRoutes": 0,
+    "deployments": 2,
+    "sourcePods": 2,
+    "gateCompiledNotExecuted": true
+  },
+  "protected": {
+    "count": 4657,
+    "changed": []
+  },
+  "sourceHashCheck": "PASS",
+  "git": {
+    "headStable": true,
+    "diffCheck": "PASS",
+    "staging": "EMPTY",
+    "publication": "NOT_AUTHORIZED_NOT_DONE"
+  },
+  "index": {
+    "status": "STALE_FTS_MISSING",
+    "reason": "query returned no matches; earlier 256MiB refresh failure; direct source verification used"
+  },
+  "runtime": "RUNTIME09_COMPONENT_AC_OBSERVED_AND_INDEPENDENTLY_ACCEPTED",
+  "ac01": "TECHNICALLY_SATISFIED_RUNTIME09_RAW_RECONCILED_AND_INDEPENDENTLY_REVIEWED",
+  "ac02": "TECHNICALLY_SATISFIED_RUNTIME09_RAW_RECONCILED_AND_INDEPENDENTLY_REVIEWED",
+  "verdict": "READY_FOR_PUBLICATION_REVIEW_COMPONENT",
+  "runtime01": {
+    "artifact": "runtime-01/acceptance.json",
+    "stage": "PREFLIGHT",
+    "reason": "Kubernetes API TCP refused; read-only Docker ps timeout12s",
+    "fixtureHttp": 0,
+    "boutiqueHttp": 0,
+    "builds": 0,
+    "mutations": 0,
+    "resourceCleanup": "NO_OWNED_RESOURCES_CREATED",
+    "liveReadback": "INCOMPLETE",
+    "attemptEnded": true
+  },
+  "additionalPreflightOfflineTests": {
+    "pin": "nemesis",
+    "cases": 4,
+    "verdict": "PASS"
+  },
+  "runtime02": {
+    "humanSteering": "do tôi tắt các container , tôi bật lại rồi",
+    "reason": "Pinned fixture base not cached; cleanup host memory guard <1GiB",
+    "nodesReady": 2,
+    "fixtureHttp": 0,
+    "boutiqueHttp": 0,
+    "builds": 0,
+    "mutations": 0,
+    "sharedSpecsPreserved": true,
+    "sharedRestartsPreserved": true,
+    "pvcCount": 3,
+    "hostAvailableBytes": 455815168,
+    "wslAvailableKiB": 2857460,
+    "memoryPsiAvg10": 0.08,
+    "cleanup": "INCOMPLETE_MEMORY_STOP_NO_OWNED_RESOURCES_CREATED",
+    "attemptEnded": true
+  },
+  "finalPreservation": {
+    "at": "2026-10-28T08:57:00.000Z",
+    "unrelatedFiles": 4657,
+    "unrelatedChanged": [],
+    "historicalClosedFiles": 1084,
+    "historicalChanged": [],
+    "approvedSourceFiles": 38,
+    "currentAndFrozenSourceDrift": [],
+    "rawCommandFiles": 324
+  },
+  "pendingScope": "PUBLICATION_GIT_CI_MERGE_AND_OWNER_ACCEPTANCE; NO_LAB_RETRY_NEEDED",
+  "historicalFullMatrix": {
+    "at": "before runtime03",
+    "casesPerPin": 102,
+    "total": 204,
+    "retained": true
+  },
+  "currentContainmentDelta": {
+    "casesPerPin": 24,
+    "pins": [
+      "nemesis",
+      "hephaestus"
+    ],
+    "logs": [
+      "results/nemesis-containment-runtime03.log",
+      "results/hephaestus-containment-runtime03.log"
+    ],
+    "verdict": "PASS"
+  },
+  "currentHarness": {
+    "component": 12,
+    "fixtureOnly": 5,
+    "cached": 5,
+    "agent": 9,
+    "preflight": 4,
+    "stopAudit": 3,
+    "completeRunner": 21,
+    "total": 68,
+    "verdict": "PASS_OFFLINE; RUNTIME09_COMPONENT_AC_ACCEPTED_INDEPENDENTLY",
+    "logs": "gate-audit/psi-resolution-*.log",
+    "sast": "NO_FINDINGS_AT_HIGH_HIGH_THRESHOLD",
+    "psiResolution": 5,
+    "acceptanceAdmission": 4
+  },
+  "runtime03": {
+    "status": "NOT_MET",
+    "component": "NOT_STARTED",
+    "reconciled_from_raw": true,
+    "guard": {
+      "samples": 28,
+      "preflight_seconds": 119.9927270412445,
+      "host_min_bytes": 4241891328,
+      "wsl_min_kib": 2534196,
+      "max_memory_psi": 0
+    },
+    "pinned_pulls": [
+      {
+        "ref": "gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61",
+        "returncode": 0
+      },
+      {
+        "ref": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+        "returncode": 0
+      }
+    ],
+    "resource_mutation_commands": 0,
+    "fixture_http": 0,
+    "boutique_http": 9,
+    "business_timeouts": [
+      {
+        "wall_ms": 3012.2332,
+        "last_step": "home"
+      },
+      {
+        "wall_ms": 4285.0354,
+        "last_step": "product"
+      },
+      {
+        "wall_ms": 7621.6913,
+        "last_step": "checkout"
+      }
+    ],
+    "owned_cart_cleanup": "helper reported DONE; no independent after-delete cart GET in this attempt",
+    "shared_spec_uid_restart_preserved": true,
+    "pvc_count": 3,
+    "namespace_absent": true,
+    "owned_resource_cleanup": "CLEAN_NO_RESOURCES_CREATED",
+    "overall_lab_readback": "INCOMPLETE_BUSINESS_NOT_HEALTHY",
+    "kpi_claim": false,
+    "publication": "NOT_READY"
+  },
+  "runtime04": {
+    "status": "NOT_MET_GUARD_STOP",
+    "fixture_component": "NOT_STARTED",
+    "fixture_http": 0,
+    "boutique_http": 16,
+    "successful_builds": 1,
+    "successful_imports": 1,
+    "namespace_uid": "177e52c7-d129-4785-83fc-5085fbeaa5ea",
+    "namespace_uid_delete_verified_absent": true,
+    "shared_spec_uid_restart_pvc_preserved": true,
+    "pvc_count": 3,
+    "guard_violation": {
+      "at": 1793159083.596733,
+      "hostAvailable": 3989307392,
+      "wslAvailableKiB": 2490616,
+      "memoryPsiAvg10": 15.02
+    },
+    "memory_capacity_below_minimum": false,
+    "owned_resource_cleanup": "CLEAN_INDEPENDENT_RAW_READBACK",
+    "original_cleanup_verdict": "INCOMPLETE_RETAINED",
+    "collector_defect": "attempted log of fixture Deployment before creation; NotFound was diagnostic, not an orphan",
+    "cache_confirmed_server0_after_stop": true,
+    "node_side_pulls_at_start": "NOT_INDEPENDENTLY_AUDITED; old proxy IfNotPresent corrected to Never for future",
+    "boutique_functional_results": [
+      false,
+      true,
+      true
+    ],
+    "boutique_wall_reference_slo": [
+      false,
+      false,
+      false
+    ],
+    "formal_r1_or_kpi_pass": false,
+    "publication": "NOT_READY"
+  },
+  "runtime05": {
+    "status": "NOT_MET_POLICY_GATE",
+    "reconciled_from_raw": true,
+    "fixture_http": 0,
+    "boutique_http": 9,
+    "writer_processes": 0,
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixture_application_released": false,
+    "policy_gate_polls": 32,
+    "namespace_uid": "45a7bd82-9c56-4d02-948a-a06f7d8f6293",
+    "namespace_uid_delete_verified_absent": true,
+    "shared_spec_uid_restart_pvc_preserved": true,
+    "pvc_count": 3,
+    "guard": {
+      "samples": 52,
+      "host_min_bytes": 4139417600,
+      "wsl_min_kib": 2398732,
+      "max_psi_avg10": 0
+    },
+    "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+    "boutique_health": "NOT_MET",
+    "ac01": "NOT_VERIFIED_IN_THIS_ATTEMPT",
+    "ac02": "NOT_EXERCISED",
+    "kpi_pass": false,
+    "issue_done": false
+  },
+  "gateAudit": "gate-audit/README.md",
+  "pendingSourceManifest": "runtime-prep/logs-retry-source-manifest.json (consumed by08; immutable snapshot retained)",
+  "runtime06": {
+    "status": "NOT_MET_COLLECTOR_FAILURE",
+    "reconciled_from_raw": true,
+    "fixture_http": 0,
+    "boutique_http": 9,
+    "writer_processes": 0,
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixture_application_released": true,
+    "fixture_ready": true,
+    "policy_hook_tables": 1,
+    "collector_error": "docker top output omitted PID",
+    "namespace_uid": "e658fcc5-9387-4407-8a92-e57613dce054",
+    "namespace_uid_delete_verified_absent": true,
+    "shared_spec_uid_restart_pvc_preserved": true,
+    "pvc_count": 3,
+    "guard": {
+      "samples": 31,
+      "host_min_bytes": 3576000512,
+      "wsl_min_kib": 2385776,
+      "max_psi_avg10": 0
+    },
+    "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+    "boutique_health": "NOT_MET",
+    "ac01": "NOT_VERIFIED_IN_THIS_ATTEMPT",
+    "ac02": "NOT_EXERCISED",
+    "kpi_pass": false,
+    "issue_done": false
+  },
+  "runtime07": {
+    "status": "NOT_MET_POST_REPLACEMENT_ACCESS_JOIN",
+    "reconciled_from_raw": true,
+    "fixture_http": 16,
+    "joined": 15,
+    "boutique_http": 16,
+    "writer_processes": 1,
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixture_application_released": true,
+    "fixture_ready": true,
+    "policy_hook_tables": 3,
+    "collector_error": "deployment log selector chose old terminating Pod; request16 unjoined",
+    "namespace_uid": "75a8d78d-6722-4862-96b4-1760d776d4ff",
+    "namespace_uid_delete_verified_absent": true,
+    "shared_spec_uid_restart_pvc_preserved": true,
+    "pvc_count": 3,
+    "guard": {
+      "samples": 55,
+      "host_min_bytes": 3314962432,
+      "wsl_min_kib": 2327556,
+      "max_psi_avg10": 0
+    },
+    "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+    "boutique_health": "NOT_MET",
+    "ac01": "BASELINE_IP_SPOOF_ISOLATION_OBSERVED; POST_REPLACEMENT_TRACE_MISSING",
+    "ac02": "BLOCK_AND_BENIGN_BEFORE_REPLACEMENT_OBSERVED; WRITER_REPLAY_EXPIRY_NOT_EXERCISED",
+    "kpi_pass": false,
+    "issue_done": false,
+    "writerExit": {
+      "status": "NO_OWNED_WRITER_ALIVE",
+      "writers": [
+        {
+          "pid": 17444,
+          "status": "ABSENT",
+          "windows_error": 87
+        },
+        {
+          "pid": 21076,
+          "status": "ABSENT",
+          "windows_error": 87
+        }
+      ]
+    }
+  },
+  "runtime08": {
+    "status": "NOT_MET_GUARD_STOP",
+    "attempt_ended": true,
+    "elapsed_seconds": 203.05315160751343,
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixture_ready": true,
+    "fixture_counter_admission_attempts": 1,
+    "remote_client_dispatches": 1,
+    "fixture_client_receipts": 0,
+    "first_http_result": "UNKNOWN_GUARD_CANCELLED_EXEC; no matching server record in collected cleanup log",
+    "first_correlation_id": "e29ae6606f7c46a0b0ebbf9c4bb16408",
+    "writer_processes": 0,
+    "containment_rule_created": false,
+    "boutique_script_http": 15,
+    "post_observer_function_active_time_health": [
+      true,
+      true,
+      true
+    ],
+    "formal_r1_or_kpi_pass": false,
+    "guard_samples": 33,
+    "violation": {
+      "at": 1793165110.2671375,
+      "hostAvailable": 3533672448,
+      "wslAvailableKiB": 2339372,
+      "memoryPsiAvg10": 16.37
+    },
+    "host_and_wsl_available_above_minimum_all_samples": true,
+    "owned_cgroup_snapshot": [
+      {
+        "name": "sqli-fixture-5bd7f99cfc-cvh9d",
+        "uid": "21af647a-09ab-43cd-af00-deef0cfae790",
+        "some_avg10": 0,
+        "memory_current_bytes": 22327296,
+        "memory_max_bytes": 100663296,
+        "events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "cpu_stat": "usage_usec 381930\nuser_usec 315827\nsystem_usec 66103\nnice_usec 0\nnr_periods 44\nnr_throttled 22\nthrottled_usec 1288996\nnr_bursts 0\nburst_usec 0"
+      },
+      {
+        "name": "zer46-private-ingress-769dd694bf-2fqwf",
+        "uid": "e393da10-8e69-43bb-88e7-6edc14a202b8",
+        "some_avg10": 0,
+        "memory_current_bytes": 20283392,
+        "memory_max_bytes": 100663296,
+        "events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "cpu_stat": "usage_usec 186029\nuser_usec 136118\nsystem_usec 49910\nnice_usec 0\nnr_periods 23\nnr_throttled 11\nthrottled_usec 911287\nnr_bursts 0\nburst_usec 0"
+      },
+      {
+        "name": "zer46-source-a",
+        "uid": "70f07803-a5fa-4a2e-8d3a-1e0a9d464d16",
+        "some_avg10": 48.64,
+        "memory_current_bytes": 17530880,
+        "memory_max_bytes": 50331648,
+        "events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "cpu_stat": "usage_usec 212213\nuser_usec 156980\nsystem_usec 55233\nnice_usec 0\nnr_periods 56\nnr_throttled 44\nthrottled_usec 3954362\nnr_bursts 0\nburst_usec 0"
+      },
+      {
+        "name": "zer46-source-b",
+        "uid": "e005b8b8-e11d-47a7-b201-1e674427d788",
+        "some_avg10": 0,
+        "memory_current_bytes": 3764224,
+        "memory_max_bytes": 50331648,
+        "events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        },
+        "cpu_stat": "usage_usec 61773\nuser_usec 49418\nsystem_usec 12354\nnice_usec 0\nnr_periods 16\nnr_throttled 12\nthrottled_usec 1142939\nnr_bursts 0\nburst_usec 0"
+      }
+    ],
+    "diagnosis": "Source A memory PSI concentrated at client execution; no OOM/max event. CPU throttling co-observed; no single causal root proven.",
+    "namespace_uid": "096728fe-7e47-497b-bf01-bb2a8043a548",
+    "namespace_uid_delete_verified_absent": true,
+    "shared_spec_uid_restart_pvc_preserved": true,
+    "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+    "ac01": "NO_COMPLETED_REQUEST_JOIN_IN08",
+    "ac02": "NOT_EXERCISED_IN08",
+    "publication": "NOT_READY",
+    "issue_done": false
+  },
+  "boundedAttemptExecuted": true,
+  "nextAction": "Publish scoped ZER-46 package only when authorized; preserve mixed dirty baseline/CI hunk; no new lab or next issue",
+  "runtime08SourceManifestCheck": {
+    "files": 23,
+    "changed": [],
+    "scope": "HISTORICAL_AS_EXECUTED_SNAPSHOT; current candidate deliberately differs; no approval reuse"
+  },
+  "stopAudit": {
+    "report": "gate-audit/stop-audit.md",
+    "verification": "gate-audit/stop-audit-verification.json",
+    "decision": "NO_GO_RUNTIME",
+    "fixedDefects": 3,
+    "remaining": "client PSI causal evidence; TTL phase budget; full verifier failure and actual writer exit checks",
+    "runtimeCalls": 0,
+    "supersededBy": "runtime09 technical acceptance; historical raw/failures retained"
+  },
+  "runnerCorrection": {
+    "report": "gate-audit/runner-complete.md",
+    "verification": "gate-audit/runner-complete-verification.json",
+    "offlineCases": 59,
+    "status": "FIXED_VERIFIED_OFFLINE",
+    "remaining": "Closed for component by runtime09 evidence/review; Git/CI/merge and owner acceptance remain"
+  },
+  "clientDiagnostic01": {
+    "status": "DIAGNOSTIC_RAW_RECONCILED",
+    "diagnostic_status": "NOT_REPRODUCED_ONE_SAMPLE",
+    "elapsed_seconds": 234.89218926429749,
+    "at": 1793168433.631378,
+    "source_snapshot_files_verified": 32,
+    "current_source_drift_after_run": [
+      "docs/evidence/ZER-46/runtime-prep/check_complete_runner.py",
+      "docs/evidence/ZER-46/runtime-prep/client_diagnostic.py",
+      "docs/evidence/ZER-46/runtime-prep/reconcile_completed_protocol.py",
+      "docs/evidence/ZER-46/runtime-prep/run_component.py",
+      "docs/evidence/ZER-46/runtime-prep/run_fixture_only.py",
+      "docs/evidence/ZER-46/runtime-prep/writer_worker.py"
+    ],
+    "authorization_display_encoding": "UTF8_READ_AS_CP1258; OPERATIVE_FIELDS_AND_HASHES_IDENTICAL",
+    "dispatches": 1,
+    "http_result": 200,
+    "joined": true,
+    "phase_deltas": [
+      {
+        "from": "interpreter",
+        "to": "imports",
+        "elapsed_seconds": 3.195366382598877,
+        "memory_some_stall_us": 1710,
+        "cpu_throttled_us": 2269039,
+        "oom_kill": 0,
+        "memory_max_events": 0
+      },
+      {
+        "from": "imports",
+        "to": "request_ready",
+        "elapsed_seconds": 0.0008299350738525391,
+        "memory_some_stall_us": 0,
+        "cpu_throttled_us": 0,
+        "oom_kill": 0,
+        "memory_max_events": 0
+      },
+      {
+        "from": "request_ready",
+        "to": "headers",
+        "elapsed_seconds": 0.10556340217590332,
+        "memory_some_stall_us": 0,
+        "cpu_throttled_us": 94511,
+        "oom_kill": 0,
+        "memory_max_events": 0
+      },
+      {
+        "from": "headers",
+        "to": "response_end",
+        "elapsed_seconds": 0.00028252601623535156,
+        "memory_some_stall_us": 0,
+        "cpu_throttled_us": 0,
+        "oom_kill": 0,
+        "memory_max_events": 0
+      }
+    ],
+    "guard_samples": 39,
+    "violations": [],
+    "namespace_uid": "05ed21d1-8292-49c9-a8bf-3bbd65987557",
+    "namespace_uid_delete_verified_absent": true,
+    "shared_spec_uid_restart_preserved": true,
+    "pvc_count": 3,
+    "fixture_http": 1,
+    "boutique_http": 9,
+    "owned_cleanup": "CLEAN",
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "writers": 0,
+    "rules": 0,
+    "root_cause_proven": false,
+    "full_containment_authorized": false,
+    "ac_pass": false,
+    "issue_done": false
+  },
+  "psiResolution": {
+    "report": "gate-audit/psi-resolution.md",
+    "verification": "gate-audit/psi-resolution-verification.json",
+    "independentReview": "gate-audit/psi-resolution-independent-review.json",
+    "confirmedRunnerDefects": 2,
+    "currentReadOnlySamples": 25,
+    "currentPsiMax": 0,
+    "offlineTests": 68,
+    "status": "CLOSED; AUTHORIZED_RUNTIME09_SUCCEEDED_WITH_UNCHANGED_GUARDS"
+  },
+  "runtime09": {
+    "at": "2026-10-28T08:52:08.341Z",
+    "status": "TECHNICAL_COMPONENT_ACCEPTED_READY_FOR_PUBLICATION_REVIEW",
+    "runtime": "runtime-09",
+    "elapsedSeconds": 517.6769111156464,
+    "ac01": "OBSERVED_RAW_RECONCILED_INDEPENDENTLY_REVIEWED",
+    "ac02": "OBSERVED_RAW_RECONCILED_INDEPENDENTLY_REVIEWED",
+    "fixtureHttp": 29,
+    "joined": 29,
+    "tcpControls": 4,
+    "boutiqueHttp": 7,
+    "writerProcesses": 2,
+    "actualWriterPids": [
+      17952,
+      10876
+    ],
+    "launcherPids": [
+      19064,
+      18848
+    ],
+    "bothActualExitConfirmed": true,
+    "fixtureUidBefore": "d7f4cd47-ae74-4cf3-ac0c-8ff10eff5d49",
+    "fixtureUidAfter": "9ff0d676-9263-4663-8f20-c1bf7869bdc9",
+    "ttlSeconds": 180,
+    "replayChangedState": false,
+    "expiryObserved": true,
+    "policyApiAndMountEmpty": true,
+    "namespaceUid": "cede07df-cf17-4eb4-a3df-528efc96ad1b",
+    "namespaceUidDeleteAbsent": true,
+    "sharedSpecUidRestartPvcPreserved": true,
+    "guardSamples": 83,
+    "maxPsi": 0.36,
+    "ownedResourceCleanup": "CLEAN",
+    "boutiqueHealth": "NOT_MET",
+    "originalAggregateCleanup": "INCOMPLETE_RETAINED",
+    "formalKpiPass": false,
+    "endToEndPass": false,
+    "independentReview": "runtime-09/independent-review.md",
+    "machineRawVerification": "independent-verification.json",
+    "activeActors": 0,
+    "retryAuthorized": false,
+    "publication": "NOT_DONE",
+    "merge": "NOT_DONE",
+    "issueDone": false,
+    "artifact": "runtime-09/",
+    "approvedSourceFiles": 38,
+    "rawVerification": "runtime-09/independent-verification.json"
+  },
+  "publicationReadiness": "READY_FOR_PUBLICATION_REVIEW",
+  "sourceSnapshotVerifiedFiles": 38
+}

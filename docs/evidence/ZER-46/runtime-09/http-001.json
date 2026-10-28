@@ -1,0 +1,28 @@
+{
+  "who": "a",
+  "request": {
+    "path": "/fixture/catalog/search?category=electronics",
+    "method": "GET",
+    "body": null,
+    "headers": {},
+    "correlation": "00c6b117081e46f9b06d54afcce9b834"
+  },
+  "response": {
+    "begin": 1793176703.188503,
+    "end": 1793176703.2909026,
+    "status": 200,
+    "request_id": "36d7ea125224476e87bce5c412a68804",
+    "body": {
+      "results": [
+        {
+          "sku": "PUB-ELE-001",
+          "name": "Desk Lamp",
+          "category": "electronics",
+          "visibility": "public",
+          "price_cents": 3900
+        }
+      ],
+      "count": 1
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "op": "block",
+  "pid": 17952,
+  "result": {
+    "status": "API_ACCEPTED",
+    "replay": false,
+    "rule": {
+      "action_id": "act_534429e95d8142bc9eacf1cc422367e7",
+      "client_ip": "10.42.0.188",
+      "created_at": 1793176744,
+      "expires_at": 1793176924,
+      "request_id": "7e856f80c68143748fbe6ce341d9f8c1"
+    },
+    "containment_verified": false
+  },
+  "instance": "f6142b5c3808491ab8b15981b0ea0c52",
+  "executable": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer12\\production-nemesis\\Scripts\\python.exe",
+  "kernel_executable": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\python3.11.exe"
+}

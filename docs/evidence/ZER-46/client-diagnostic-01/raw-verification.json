@@ -1,0 +1,75 @@
+{
+  "status": "DIAGNOSTIC_RAW_RECONCILED",
+  "diagnostic_status": "NOT_REPRODUCED_ONE_SAMPLE",
+  "elapsed_seconds": 234.89218926429749,
+  "at": 1793168433.631378,
+  "source_snapshot_files_verified": 32,
+  "current_source_drift_after_run": [
+    "docs/evidence/ZER-46/runtime-prep/check_complete_runner.py",
+    "docs/evidence/ZER-46/runtime-prep/client_diagnostic.py",
+    "docs/evidence/ZER-46/runtime-prep/reconcile_completed_protocol.py",
+    "docs/evidence/ZER-46/runtime-prep/run_component.py",
+    "docs/evidence/ZER-46/runtime-prep/run_fixture_only.py",
+    "docs/evidence/ZER-46/runtime-prep/writer_worker.py"
+  ],
+  "authorization_display_encoding": "UTF8_READ_AS_CP1258; OPERATIVE_FIELDS_AND_HASHES_IDENTICAL",
+  "dispatches": 1,
+  "http_result": 200,
+  "joined": true,
+  "phase_deltas": [
+    {
+      "from": "interpreter",
+      "to": "imports",
+      "elapsed_seconds": 3.195366382598877,
+      "memory_some_stall_us": 1710,
+      "cpu_throttled_us": 2269039,
+      "oom_kill": 0,
+      "memory_max_events": 0
+    },
+    {
+      "from": "imports",
+      "to": "request_ready",
+      "elapsed_seconds": 0.0008299350738525391,
+      "memory_some_stall_us": 0,
+      "cpu_throttled_us": 0,
+      "oom_kill": 0,
+      "memory_max_events": 0
+    },
+    {
+      "from": "request_ready",
+      "to": "headers",
+      "elapsed_seconds": 0.10556340217590332,
+      "memory_some_stall_us": 0,
+      "cpu_throttled_us": 94511,
+      "oom_kill": 0,
+      "memory_max_events": 0
+    },
+    {
+      "from": "headers",
+      "to": "response_end",
+      "elapsed_seconds": 0.00028252601623535156,
+      "memory_some_stall_us": 0,
+      "cpu_throttled_us": 0,
+      "oom_kill": 0,
+      "memory_max_events": 0
+    }
+  ],
+  "guard_samples": 39,
+  "violations": [],
+  "namespace_uid": "05ed21d1-8292-49c9-a8bf-3bbd65987557",
+  "namespace_uid_delete_verified_absent": true,
+  "shared_spec_uid_restart_preserved": true,
+  "pvc_count": 3,
+  "fixture_http": 1,
+  "boutique_http": 9,
+  "owned_cleanup": "CLEAN",
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "writers": 0,
+  "rules": 0,
+  "root_cause_proven": false,
+  "full_containment_authorized": false,
+  "ac_pass": false,
+  "issue_done": false
+}

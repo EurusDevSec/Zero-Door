@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-28T08:54:14.413Z",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "status": "AUTHORIZED_PUBLICATION_IN_PROGRESS",
+  "sourceAndHandoffAllowlist": [
+    "services/sqli-fixture/app.py",
+    "services/sqli-fixture/containment.py",
+    "services/sqli-fixture/Dockerfile",
+    "services/sqli-fixture/README.md",
+    "agent-orchestrator/hephaestus/sqli_containment.py",
+    "tests/test_sqli_containment.py",
+    "infrastructure/manifests/sqli-containment-lab.yaml",
+    "docs/delivery/NOW.md",
+    "docs/delivery/milestones/R3-recovery/block-ip-and-rollback.md",
+    ".github/workflows/ci.yml",
+    ".gitattributes"
+  ],
+  "evidenceRoot": "docs/evidence/ZER-46/",
+  "ci": {
+    "stageMode": "ONLY_ZER46_ADDITION_NOT_ENTIRE_DIRTY_FILE",
+    "invocation": "python -B tests/test_sqli_containment.py",
+    "beforeScopeSha256": "9089087b1de0cdaebb9c5aeafe6ba4f282e36eb68da208f5cafc34ef5d8c0519",
+    "currentWorkingSha256": "b36b58a23e751a472522f25702d41ade2123a841cb1afb2cfa584fb085b28bff",
+    "exactSingleAddedLineVerified": true
+  },
+  "excluded": [
+    "scratch/",
+    "unrelated ZER-43 changes",
+    "other delivery issues",
+    "git add ."
+  ],
+  "technicalAcceptance": "runtime-09/technical-acceptance.json",
+  "independentReview": "runtime-09/independent-review.md",
+  "runtimeRetryNeeded": false,
+  "gitPublicationAuthorized": true,
+  "authorization": "Hoang: Duyet publication va dong Done khi du gate",
+  "publicationBase": "26872976813c83699973d9e42235c2e985175d76",
+  "publicationBranch": "zer-46-containment-evidence",
+  "packaging": "Scoped EOL attributes preserve evidence bytes; CI contains only ZER46 invocation; current pins distinguish packaging from immutable as-executed snapshots."
+}

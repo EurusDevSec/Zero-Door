@@ -1,0 +1,18 @@
+{
+  "at": 1793155940.778234,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "get",
+    "deploy,pod,pvc",
+    "-A",
+    "-o",
+    "json"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "E1028 09:52:20.887435    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nE1028 09:52:20.889421    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nE1028 09:52:20.891470    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nE1028 09:52:20.893603    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nE1028 09:52:20.895614    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nE1028 09:52:20.897179    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nE1028 09:52:20.898710    7272 memcache.go:265] \"Unhandled Error\" err=\"couldn't get current server API group list: Get \\\"https://127.0.0.1:7356/api?timeout=12s\\\": dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\"\nUnable to connect to the server: dial tcp 127.0.0.1:7356: connectex: No connection could be made because the target machine actively refused it.\n",
+  "error": "RuntimeError:COMMAND_FAILED:kubectl --context k3d-zero-door --request-timeout=12s get deploy,pod,pvc -A"
+}

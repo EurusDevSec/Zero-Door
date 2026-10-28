@@ -1,0 +1,9 @@
+{
+  "verdict": "NOT_MET",
+  "stage": "PREFLIGHT",
+  "runtime_component": "NOT_STARTED",
+  "cleanup": "INCOMPLETE",
+  "publication": "NOT_READY",
+  "attempt_ended": true,
+  "elapsed_seconds": 2.350252628326416
+}

@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "op": "hello",
+  "pid": 17952,
+  "result": {
+    "identity_only": true
+  },
+  "instance": "f6142b5c3808491ab8b15981b0ea0c52",
+  "executable": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer12\\production-nemesis\\Scripts\\python.exe",
+  "kernel_executable": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\python3.11.exe"
+}

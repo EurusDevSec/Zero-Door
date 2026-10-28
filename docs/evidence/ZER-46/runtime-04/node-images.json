@@ -1,0 +1,523 @@
+{
+  "images": [
+    {
+      "id": "sha256:ae392eae31033af3d9105f095dedcad2762e804a9bbafe4218e906e87df42c1b",
+      "repoTags": [
+        "docker.elastic.co/elasticsearch/elasticsearch:8.13.0"
+      ],
+      "repoDigests": [
+        "docker.elastic.co/elasticsearch/elasticsearch@sha256:fcf6b29cb00f1db56921e6cb47b506e6a207fcaeae777765dfa733dc007513a6"
+      ],
+      "size": "636397673",
+      "uid": {
+        "value": "1000"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:9e5bc9c6667fe85ab874997d4aca70275f31a69af9520acb5b4f764d88ca170a",
+      "repoTags": [
+        "docker.io/fluent/fluent-bit:3.0"
+      ],
+      "repoDigests": [
+        "docker.io/fluent/fluent-bit@sha256:121fd619dd74825408006dd894cf9e20952069ad68956a95bfb9debc35959352"
+      ],
+      "size": "37734053",
+      "uid": {
+        "value": "0"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:b116e155074440ffd9e449559433feb4cd2341eb3554b1da1c638c976e56451d",
+      "repoTags": [
+        "docker.io/library/busybox:1.36"
+      ],
+      "repoDigests": [
+        "docker.io/library/busybox@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
+      ],
+      "size": "2217006",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:e9048f9fd238b88a7fa9cc043692b931b60e2972f58004652f7cad757d69c599",
+      "repoTags": [
+        "docker.io/library/chaos-worker:latest"
+      ],
+      "repoDigests": [],
+      "size": "12090397",
+      "username": "nonroot",
+      "pinned": false
+    },
+    {
+      "id": "sha256:61dd9756affc0b19dc65d3a7284870f94145f98ce1a8b6b65d26467023397843",
+      "repoTags": [
+        "docker.io/library/hephaestus:latest"
+      ],
+      "repoDigests": [],
+      "size": "48709460",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:af23763b636f78930b73440c625ef36a400fd2bba171238be02ef5cd07030258",
+      "repoTags": [
+        "docker.io/library/nemesis:latest"
+      ],
+      "repoDigests": [],
+      "size": "38747708",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:15f5a4aad4c3ba34b9874ddbc7f755b469dbd7b8a9e88c12690c52ef6c72465c",
+      "repoTags": [
+        "docker.io/library/redis:alpine"
+      ],
+      "repoDigests": [
+        "docker.io/library/redis@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0"
+      ],
+      "size": "39122324",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:5a93040e5abdf181145d7c242964eca7999ffd700e0447b242ef212f3ee44d55",
+      "repoTags": [
+        "docker.io/library/traefik:v3.7.14"
+      ],
+      "repoDigests": [
+        "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c"
+      ],
+      "size": "55397211",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f",
+      "repoTags": [
+        "docker.io/library/zer41-fixture:37c7a045e098"
+      ],
+      "repoDigests": [],
+      "size": "19702252",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:050153eb4b84703b6f882e46901c51586c1d4b58a6acab5615f841bb209ec86b",
+      "repoTags": [
+        "docker.io/library/zer42-nemesis:e80bc554b7ef"
+      ],
+      "repoDigests": [],
+      "size": "38760251",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:b2c1437752969102794e92251b7a3b0fb8652a7b8a2e89b62d7ffd079afeac24",
+      "repoTags": [
+        "docker.io/library/zer42-worker:e80bc554b7ef"
+      ],
+      "repoDigests": [],
+      "size": "12135616",
+      "username": "nonroot",
+      "pinned": false
+    },
+    {
+      "id": "sha256:d85cb46078ed6e928af880acb2e1927056783ad03a1d18b30a69b8de2a922a16",
+      "repoTags": [
+        "docker.io/library/zer46-fixture:24662046a33f"
+      ],
+      "repoDigests": [],
+      "size": "19704851",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:11a5d8a9f31aad9a53ff4d20939a81ccd42fa1a47f4e52aac9ae34731d9553ee",
+      "repoTags": [
+        "docker.io/rancher/klipper-lb:v0.4.9"
+      ],
+      "repoDigests": [
+        "docker.io/rancher/klipper-lb@sha256:dd380f5d89a52f2a07853ff17a6048f805c1f8113b50578f3efc3efb9bcf670a"
+      ],
+      "size": "4990278",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:9f6f8ff949ba1cfcd951282f38706b47d4fa572fb7c4a0d713a8974bde6b49fe",
+      "repoTags": [],
+      "repoDigests": [],
+      "size": "38746964",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:b580d47bc23ddb098539b3728b09b6f6329889e068b7a62b581f49d8ed0d8f79",
+      "repoTags": [
+        "docker.io/rancher/local-path-provisioner:v0.0.30"
+      ],
+      "repoDigests": [
+        "docker.io/rancher/local-path-provisioner@sha256:9b914881170048f80ae9302f36e5b99b4a6b18af73a38adc1c66d12f65d360be"
+      ],
+      "size": "18584855",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:1cf5f116067c67da67f97bff78c4bbc76913f59057c18627b96facaced73ea0b",
+      "repoTags": [
+        "docker.io/rancher/mirrored-coredns-coredns:1.12.0"
+      ],
+      "repoDigests": [
+        "docker.io/rancher/mirrored-coredns-coredns@sha256:82979ddf442c593027a57239ad90616deb874e90c365d1a96ad508c2104bdea5"
+      ],
+      "size": "20938299",
+      "username": "nonroot",
+      "pinned": false
+    },
+    {
+      "id": "sha256:2d61ae04c2b80e5421b176b2bb550daab8c4e78e007ea65c9695f55102a3495e",
+      "repoTags": [
+        "docker.io/rancher/mirrored-library-busybox:1.36.1"
+      ],
+      "repoDigests": [
+        "docker.io/rancher/mirrored-library-busybox@sha256:8a45424ddf949bbe9bb3231b05f9032a45da5cd036eb4867b511b00734756d6f"
+      ],
+      "size": "2147340",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:6270bb605e12e581514ada5fd5b3216f727db55dc87d5889c790e4c760683fee",
+      "repoTags": [
+        "docker.io/rancher/mirrored-pause:3.6"
+      ],
+      "repoDigests": [
+        "docker.io/rancher/mirrored-pause@sha256:74c4244427b7312c5b901fe0f67cbc53683d06f4f24c6faee65d4182bf0fa893"
+      ],
+      "size": "301463",
+      "uid": {
+        "value": "65535"
+      },
+      "username": "",
+      "pinned": true
+    },
+    {
+      "id": "sha256:d7789b6a877a8e08ed573c745786a49bf9fc535cd94357a36fcbf0ffad1e8185",
+      "repoTags": [
+        "docker.io/zero-door/events:zer-9-cd87da425168"
+      ],
+      "repoDigests": [],
+      "size": "50312856",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:4a181a73a77b6394ccb2eaf7c58f4e7dffe906f913f5cb4da2af89c4d2304550",
+      "repoTags": [
+        "docker.io/zero-door/events:zer9-ed9c82bb75aeb1d8"
+      ],
+      "repoDigests": [],
+      "size": "28836684",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:010f4ec9d4082cb7d11e61d3594a272e8f10c39e8ceed61992d67eaf89a4e51e",
+      "repoTags": [
+        "docker.io/zero-door/gaia:latest"
+      ],
+      "repoDigests": [],
+      "size": "28821479",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:45b5a96af2dfd16971e78ab35a75c01d7bc2c4c717450d38380fd48c2925d15b",
+      "repoTags": [
+        "docker.io/zero-door/gaia:zer-9-cd87da425168"
+      ],
+      "repoDigests": [],
+      "size": "28845627",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:965df86308fb09c776c9f36a7702b2ed8823872c5a5be48816f49bd0bc93c557",
+      "repoTags": [
+        "docker.io/zero-door/hephaestus:baseline-7db9d9f9bc26-2205e294287d",
+        "docker.io/zero-door/hephaestus:zer11-rt2-2a1c52cf8a7b41e8"
+      ],
+      "repoDigests": [],
+      "size": "48740922",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:ca5cb29341d466b189f52dfed9c7cdda00850e2bac393c486201d240488d7308",
+      "repoTags": [
+        "docker.io/zero-door/hephaestus:zer-9-cd87da425168"
+      ],
+      "repoDigests": [],
+      "size": "48733727",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:825a40e766bc154e617db36cdfadec90ca6d4ce6f99df0e9d3232c8c3cabe696",
+      "repoTags": [
+        "docker.io/zero-door/measurement:zer10-53cdc11ad1a9"
+      ],
+      "repoDigests": [],
+      "size": "50380386",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:e23e0702473dbfa1f7c18bd6e55ae6228ae605ac5c2c879795368b39b84a6931",
+      "repoTags": [
+        "docker.io/zero-door/measurement:zer10-574a0c3a2dad"
+      ],
+      "repoDigests": [],
+      "size": "50380028",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:f887161bb17764455ff6cd459195134191c80c48b3901cecfe528435b005484e",
+      "repoTags": [
+        "docker.io/zero-door/measurement:zer10-574a0c3a2dad-p2"
+      ],
+      "repoDigests": [],
+      "size": "50380180",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:834c2a8831cc05fa1d3edd0461489613b98e929638c23c90cba3cf31e3374867",
+      "repoTags": [
+        "ghcr.io/jkroepke/kube-webhook-certgen:1.11.0"
+      ],
+      "repoDigests": [
+        "ghcr.io/jkroepke/kube-webhook-certgen@sha256:778d97dc3986355625e14392419b3364c487a7c807d4d86ddad1df369129b082"
+      ],
+      "size": "9490613",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:188fd82d15647b4edd2ab805a3094e92150048bffa8d5aec73c2432e72306a40",
+      "repoTags": [
+        "quay.io/prometheus-operator/prometheus-operator:v0.94.1"
+      ],
+      "repoDigests": [
+        "quay.io/prometheus-operator/prometheus-operator@sha256:7c88d4e7bae63bd8d0f8da986054337c23b4472fa8d3c6817f5bc4b8407a2d6a"
+      ],
+      "size": "22572616",
+      "uid": {
+        "value": "65534"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:6ce127b25a483f9181abc5205a5967b65427ec43f0aa38eb69c5768db42ca634",
+      "repoTags": [
+        "quay.io/prometheus/node-exporter:v1.12.1-distroless"
+      ],
+      "repoDigests": [
+        "quay.io/prometheus/node-exporter@sha256:8c9bac11973b94b59be88d6e11fee4429aa743c8846cdc75d65b18db33f6a106"
+      ],
+      "size": "13123706",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:a635e3d8e1a4f75a18349bdea3fccfcf84ac6da920eeed1eb3313d8065ab7bdd",
+      "repoTags": [
+        "registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.20.0"
+      ],
+      "repoDigests": [
+        "registry.k8s.io/kube-state-metrics/kube-state-metrics@sha256:42cfe3723a5f058171c627537fb57a3ea0f26e4380fa18555a95cb1a1b4cfc5b"
+      ],
+      "size": "19261896",
+      "username": "nobody",
+      "pinned": false
+    },
+    {
+      "id": "sha256:3cb4686ead0a487b559abd79307acfebf187de5dc4a12b8351e6838c177c9fe8",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/checkoutservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/checkoutservice@sha256:403f4056479bcf2d36a865bf037ba2de0f84a60408519cee1b80e705e99f622a"
+      ],
+      "size": "7224710",
+      "uid": {
+        "value": "0"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:7bb7ea1a2621dc6ebd34b67831929120e7a54c1c5ca304ffbeabf666e0dc5dfc",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/currencyservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/currencyservice@sha256:1ced46aa236c5093a3cc6642f67edf50e0deccdc07262871ffacf6173fc8c6fa"
+      ],
+      "size": "50190091",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:739abb661d82030728854b48fdad639a3b4a3cab1897c7e0b77ac7cedc2dacb7",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/emailservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/emailservice@sha256:c6de94237cad0708ec674085a54a52d9856be37d9bf2d6ec2ddfe7b725d02bb2"
+      ],
+      "size": "40546260",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:617f67583367584c8b0c145cc8ecf2e769c7b2db039899a6acdfea4e25c2a9ce",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend@sha256:50ca57c513de1ef22a97b6ef76989a73878d4a3873f85b5314bfc207853d5475"
+      ],
+      "size": "11928584",
+      "uid": {
+        "value": "0"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:40687dd7516a5d83972a213216b7cf0b15d430f642c7e8765c7235c61816ad7b",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice@sha256:d9bc5e83c671660ce825420fea552b0ab067f441e6387607091fa35b15dc1e1f"
+      ],
+      "size": "48558727",
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:cac32c0796fea071563aab53d45ca5b7df1c1e0b6cab02c50f758ee177fc0f99",
+      "repoTags": [],
+      "repoDigests": [],
+      "size": "28821378",
+      "uid": {
+        "value": "65532"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:d68196222df4ff7e3be980403e98fa10360aa540e0143b42d70bc22aa9f5c01c",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice@sha256:85c4fee0ddb6eada076003abcbff17ac3daf8e18dde68c7bde03b15fc8e17417"
+      ],
+      "size": "17870219",
+      "uid": {
+        "value": "1000"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:e597b4441870abb6839f2c365ba6ea42a084b0e4f705d158af5fea299c1203c2",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/productcatalogservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/productcatalogservice@sha256:6e0d2218e0edecf671230d54cbbb565209d3a7592215d9167aca918dcb251e14"
+      ],
+      "size": "9432829",
+      "uid": {
+        "value": "0"
+      },
+      "username": "",
+      "pinned": false
+    },
+    {
+      "id": "sha256:9de12fb3b880e1802514c69b3eb5d335849118dd61bbb43e44dfeaa4958d13a9",
+      "repoTags": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice:v0.10.5"
+      ],
+      "repoDigests": [
+        "us-central1-docker.pkg.dev/google-samples/microservices-demo/shippingservice@sha256:0d2be86f0280a0a5594de9593eecd47ca2380e90946a3434b30d956373599b44"
+      ],
+      "size": "7012732",
+      "uid": {
+        "value": "0"
+      },
+      "username": "",
+      "pinned": false
+    }
+  ]
+}

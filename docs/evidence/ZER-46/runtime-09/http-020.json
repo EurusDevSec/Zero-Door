@@ -1,0 +1,19 @@
+{
+  "who": "b",
+  "request": {
+    "path": "/fixture/orders/6ff159a48865480b8e5c5f028e858cbe",
+    "method": "DELETE",
+    "body": null,
+    "headers": {},
+    "correlation": "34edeee0e39843df8a69bface8c8aedf"
+  },
+  "response": {
+    "begin": 1793176855.9127302,
+    "end": 1793176856.0200942,
+    "status": 200,
+    "request_id": "cee6af2db5ea468883d45a65bf016e05",
+    "body": {
+      "deleted": 1
+    }
+  }
+}

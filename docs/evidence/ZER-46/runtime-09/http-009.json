@@ -1,0 +1,19 @@
+{
+  "who": "a",
+  "request": {
+    "path": "/fixture/catalog/search?category=electronics",
+    "method": "GET",
+    "body": null,
+    "headers": {},
+    "correlation": "2e9703d30c4246ca824214e6852d60a5"
+  },
+  "response": {
+    "begin": 1793176786.014941,
+    "end": 1793176786.1180046,
+    "status": 403,
+    "request_id": "cfc70c7641744c9cb385c59e65f8dc2d",
+    "body": {
+      "error": "SOURCE_BLOCKED"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "at": 1793163560.0624666,
+  "errors": [],
+  "namespace_created": true,
+  "namespace_absent": true,
+  "specs_preserved": true,
+  "restarts_preserved": true,
+  "business_2_of_2": false,
+  "formal_r1_health_claim": false,
+  "fixture_http": 0,
+  "boutique_http": 9,
+  "tcp_checks": 0,
+  "writer_processes": 0,
+  "verdict": "INCOMPLETE"
+}

@@ -1,0 +1,17 @@
+{
+  "at": 1793163560.2712648,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "deployment/sqli-fixture",
+    "--tail=500"
+  ],
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793163558.8744597,\"request_id\":\"2610c119f4504751b3c9d05d2f43605b\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.6,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793163559.7191427,\"request_id\":\"26cd867c6e0841a599bc38bcd99e0a67\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.085,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n",
+  "stderr": ""
+}

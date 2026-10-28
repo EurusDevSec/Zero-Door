@@ -1,0 +1,13 @@
+{
+  "at": 1793168198.8501294,
+  "args": [
+    "docker",
+    "context",
+    "show"
+  ],
+  "pid": 21112,
+  "returncode": 0,
+  "stdout": "desktop-linux\n",
+  "stderr": "",
+  "ended_at": 1793168198.9590015
+}

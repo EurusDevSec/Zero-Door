@@ -1,0 +1,17 @@
+{
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "k3s",
+    "crictl",
+    "images",
+    "-o",
+    "json"
+  ],
+  "returncode": 3,
+  "stdout": "",
+  "stderr": "No help topic for 'crictl'\n"
+}

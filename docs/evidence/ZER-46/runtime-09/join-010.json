@@ -1,0 +1,19 @@
+{
+  "ts": 1793176790.918408,
+  "request_id": "5eeb0b42155349919b1ecce4f4edeb4e",
+  "method": "GET",
+  "path": "/fixture/catalog/search",
+  "status": 200,
+  "duration_ms": 0.752,
+  "tcp_peer": "10.42.0.187",
+  "source_method": "XFF_AFTER_TRUSTED",
+  "source_confidence": "PROXY_CHAIN",
+  "client_ip": "10.42.0.189",
+  "correlation_id": "f4343a19b3a940448116da07688afb49",
+  "enforcement_point": "sqli-fixture/trusted-client",
+  "policy_sha256": "d92ba649004aa9a0254178bbdb87093ccd7a9ed7efb865b71c496182779c191f",
+  "blocked": false,
+  "action_ids": [],
+  "rows": 1,
+  "restricted_rows": 0
+}

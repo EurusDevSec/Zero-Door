@@ -1,0 +1,165 @@
+EFEFE..EEEEFEEE.....F
+======================================================================
+ERROR: test_actual_rpc_exit_proof_handles_distinct_launcher_pid (__main__.Complete.test_actual_rpc_exit_proof_handles_distinct_launcher_pid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 118, in test_actual_rpc_exit_proof_handles_distinct_launcher_pid
+    receipt=lab.writer_exits[0]
+            ^^^^^^^^^^^^^^^^
+AttributeError: 'Lab' object has no attribute 'writer_exits'
+
+======================================================================
+ERROR: test_delayed_log_delivery_reads_same_pod_without_http_replay (__main__.Complete.test_delayed_log_delivery_reads_same_pod_without_http_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 97, in test_delayed_log_delivery_reads_same_pod_without_http_replay
+    result=lab.join_access(pod,'r')
+           ^^^^^^^^^^^^^^^
+AttributeError: 'Lab' object has no attribute 'join_access'
+
+======================================================================
+ERROR: test_missing_duplicate_or_uid_drift_log_never_joins (__main__.Complete.test_missing_duplicate_or_uid_drift_log_never_joins)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 106, in test_missing_duplicate_or_uid_drift_log_never_joins
+    with self.assertRaises(RuntimeError): lab.join_access({'metadata':{'uid':'pinned'}},'r')
+                                          ^^^^^^^^^^^^^^^
+AttributeError: 'Lab' object has no attribute 'join_access'
+
+======================================================================
+ERROR: test_no_restart_phase_admission_after_budget_expired (__main__.Complete.test_no_restart_phase_admission_after_budget_expired)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 52, in test_no_restart_phase_admission_after_budget_expired
+    with self.assertRaisesRegex(RuntimeError,'TTL_PHASE_NO_BUDGET'): lab.begin_phase('projection')
+                                                                     ^^^^^^^^^^^^^^^
+AttributeError: 'Lab' object has no attribute 'begin_phase'
+
+======================================================================
+ERROR: test_phase_overrun_cannot_be_erased_by_entering_next_phase (__main__.Complete.test_phase_overrun_cannot_be_erased_by_entering_next_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 60, in test_phase_overrun_cannot_be_erased_by_entering_next_phase
+    lab.begin_phase('projection'); clock[0] = lab.phase_end
+    ^^^^^^^^^^^^^^^
+AttributeError: 'Lab' object has no attribute 'begin_phase'
+
+======================================================================
+ERROR: test_protocol_enters_restart_budget_before_uid_delete_and_keeps_expiry (__main__.Complete.test_protocol_enters_restart_budget_before_uid_delete_and_keeps_expiry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 90, in test_protocol_enters_restart_budget_before_uid_delete_and_keeps_expiry
+    lab.run_fixture_protocol()
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\run_component.py", line 467, in run_fixture_protocol
+    elif result["pid"] != self.writer_identity["pid"] or result["executable"] != self.writer_identity["executable"]:
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1189, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 86, in expect
+    if status==200 and lab.phase_index==5: self.assertGreaterEqual(1000+clock[0]-10,1180)
+                       ^^^^^^^^^^^^^^^
+AttributeError: 'Lab' object has no attribute 'phase_index'
+
+======================================================================
+ERROR: test_raw_join_requires_record_in_correct_pod_not_just_join_artifact (__main__.Complete.test_raw_join_requires_record_in_correct_pod_not_just_join_artifact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 196, in test_raw_join_requires_record_in_correct_pod_not_just_join_artifact
+    self.assertFalse(v.log_contains(raw,'new',record))
+                     ^^^^^^^^^^^^^^
+AttributeError: module 'complete_verifier_test' has no attribute 'log_contains'
+
+======================================================================
+ERROR: test_terminal_verifier_accepts_complete_proofs_without_claiming_runtime (__main__.Complete.test_terminal_verifier_accepts_complete_proofs_without_claiming_runtime)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 190, in test_terminal_verifier_accepts_complete_proofs_without_claiming_runtime
+    root=Path(tmp); raw=self.terminal_fixture(root)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 180, in terminal_fixture
+    for i,(name,budget) in enumerate(m.TTL_PHASES):
+                                     ^^^^^^^^^^^^
+AttributeError: module 'complete_runner_test' has no attribute 'TTL_PHASES'
+
+======================================================================
+ERROR: test_terminal_verifier_vetoes_failure_guard_unknown_exit_and_missing_proof (__main__.Complete.test_terminal_verifier_vetoes_failure_guard_unknown_exit_and_missing_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 211, in test_terminal_verifier_vetoes_failure_guard_unknown_exit_and_missing_proof
+    root=Path(tmp); raw=self.terminal_fixture(root); mutate(root,raw)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 180, in terminal_fixture
+    for i,(name,budget) in enumerate(m.TTL_PHASES):
+                                     ^^^^^^^^^^^^
+AttributeError: module 'complete_runner_test' has no attribute 'TTL_PHASES'
+
+======================================================================
+ERROR: test_ttl_schedule_reserves_successors_and_original_expiry (__main__.Complete.test_ttl_schedule_reserves_successors_and_original_expiry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 39, in test_ttl_schedule_reserves_successors_and_original_expiry
+    for name, budget in m.TTL_PHASES:
+                        ^^^^^^^^^^^^
+AttributeError: module 'complete_runner_test' has no attribute 'TTL_PHASES'
+
+======================================================================
+FAIL: test_cancel_check_prevents_inflight_command_after_phase_deadline (__main__.Complete.test_cancel_check_prevents_inflight_command_after_phase_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 66, in test_cancel_check_prevents_inflight_command_after_phase_deadline
+    with self.assertRaisesRegex(RuntimeError,'TTL_PHASE_TIMEOUT'): lab.command(['FAKE'])
+                                                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\run_component.py", line 96, in command
+    self.fixture_http, self.tcp_checks, self.last_http, self.pacing_idle = 0, 0, 0.0, 0.0
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1124, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1128, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\mock.py", line 1183, in _execute_mock_call
+    raise effect
+AssertionError: OFFLINE_NO_PROCESS
+
+======================================================================
+FAIL: test_missing_alive_or_unknown_rpc_exit_fails_even_if_launcher_exits (__main__.Complete.test_missing_alive_or_unknown_rpc_exit_fails_even_if_launcher_exits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 128, in test_missing_alive_or_unknown_rpc_exit_fails_even_if_launcher_exits
+    with self.assertRaisesRegex(RuntimeError,'WRITER_'): lab.stop_worker()
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_rpc_nonce_or_pid_drift_rejected_before_action_success (__main__.Complete.test_rpc_nonce_or_pid_drift_rejected_before_action_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 136, in test_rpc_nonce_or_pid_drift_rejected_before_action_success
+    with self.assertRaisesRegex(RuntimeError,'WRITER_RPC_ASSOCIATION'): lab.rpc('block')
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_utf8_authorization_is_lossless_on_windows_cp1258_locale (__main__.DiagnosticChecks.test_utf8_authorization_is_lossless_on_windows_cp1258_locale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\docs\evidence\ZER-46\runtime-prep\check_complete_runner.py", line 254, in test_utf8_authorization_is_lossless_on_windows_cp1258_locale
+    self.assertEqual(self.d.admission(),auth)
+AssertionError: {'sta[26 chars] 'Duyệt gói chẩn đoán một lần', 'pr[219 chars]e5f'} != {'sta[26 chars] 'Duy\u1ec7t g�i ch\u1ea9n �o�n m\u1ed9t l\u1ea7n', 'proposal': 'p[208 chars]e5f'}
+  {'proposal': 'prep/client-diagnostic-proposal.md',
+   'proposalSha256': 'e4f934f321eb76c9bf8b5103e0a0d9afe72d6e62ace3d3ea849790619bf7487a',
+-  'reply': 'Duyệt gói chẩn đoán một lần',
++  'reply': 'Duy\u1ec7t g�i ch\u1ea9n �o�n m\u1ed9t l\u1ea7n',
+   'sourceManifestSha256': '4a2014a2dcd7189c41f221906495976dd4e782bf835d79ad2575848558bdae5f',
+   'status': 'APPROVED'}
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.079s
+
+FAILED (failures=4, errors=10)

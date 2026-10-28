@@ -1,0 +1,22 @@
+{
+  "at": 1793168342.606857,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "sqli-fixture-78bdcc8c9c-5vf4s",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "from pathlib import Path; Path('/data/.policy-release').write_text('observed-policy-rule')"
+  ],
+  "pid": 5444,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "ended_at": 1793168343.3138285
+}

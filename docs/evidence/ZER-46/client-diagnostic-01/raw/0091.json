@@ -1,0 +1,19 @@
+{
+  "at": 1793168383.2848325,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "deployment/zer46-private-ingress",
+    "--tail=500"
+  ],
+  "pid": 14008,
+  "returncode": 0,
+  "stdout": "{\"ClientAddr\":\"10.42.0.184:60494\",\"ClientHost\":\"10.42.0.184\",\"ClientPort\":\"60494\",\"ClientUsername\":\"-\",\"DownstreamContentSize\":130,\"DownstreamStatus\":200,\"Duration\":3570426,\"OriginContentSize\":130,\"OriginDuration\":3448581,\"OriginStatus\":200,\"Overhead\":121845,\"RequestAddr\":\"zer46-private-ingress.zd-sqli-lab.svc.cluster.local:8000\",\"RequestContentSize\":0,\"RequestCount\":1,\"RequestHost\":\"zer46-private-ingress.zd-sqli-lab.svc.cluster.local\",\"RequestMethod\":\"GET\",\"RequestPath\":\"/fixture/catalog/search?category=electronics\",\"RequestPort\":\"8000\",\"RequestProtocol\":\"HTTP/1.1\",\"RequestScheme\":\"http\",\"RetryAttempts\":0,\"RouterName\":\"fixture@file\",\"ServiceAddr\":\"sqli-fixture:9140\",\"ServiceName\":\"fixture@file\",\"ServiceURL\":\"http://sqli-fixture:9140\",\"StartLocal\":\"2026-10-28T06:19:11.339302492Z\",\"StartUTC\":\"2026-10-28T06:19:11.339302492Z\",\"entryPointName\":\"web\",\"level\":\"info\",\"msg\":\"\",\"time\":\"2026-10-28T06:19:11Z\"}\n",
+  "stderr": "",
+  "ended_at": 1793168383.4904203
+}

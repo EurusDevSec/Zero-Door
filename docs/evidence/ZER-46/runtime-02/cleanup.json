@@ -1,0 +1,16 @@
+{
+  "at": 1793156254.2584224,
+  "namespace_created": false,
+  "image_built": false,
+  "mutations": 0,
+  "fixture_http": 0,
+  "errors": [
+    "MEMORY_STOP"
+  ],
+  "resource_cleanup": "CLEAN_NO_OWNED_LAB_RESOURCES_CREATED",
+  "specs_preserved": true,
+  "restarts_preserved": true,
+  "namespace_absent": true,
+  "boutique_http": 0,
+  "verdict": "INCOMPLETE"
+}

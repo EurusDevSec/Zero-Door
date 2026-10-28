@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "op": "block",
+  "pid": 17444,
+  "result": {
+    "status": "API_ACCEPTED",
+    "replay": false,
+    "rule": {
+      "action_id": "act_e63c9fea4b844b4c9d9731ff0c026819",
+      "client_ip": "10.42.0.175",
+      "created_at": 1793164172,
+      "expires_at": 1793164352,
+      "request_id": "116162104fa942e1b1e3e3ffee208b25"
+    },
+    "containment_verified": false
+  }
+}

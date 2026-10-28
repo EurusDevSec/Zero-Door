@@ -1,0 +1,17 @@
+{
+  "at": 1793168382.450485,
+  "errors": [],
+  "namespace_created": true,
+  "namespace_absent": true,
+  "specs_preserved": true,
+  "restarts_preserved": true,
+  "business_2_of_2": false,
+  "formal_r1_health_claim": false,
+  "writer_exit_proofs": [],
+  "guard_failures": [],
+  "fixture_http": 1,
+  "boutique_http": 9,
+  "tcp_checks": 0,
+  "writer_processes": 0,
+  "verdict": "INCOMPLETE"
+}

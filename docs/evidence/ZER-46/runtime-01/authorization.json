@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-28T02:52:16.036Z",
+  "source": "Hoang direct reply to approval question in current chat",
+  "answer": "Duyệt toàn bộ gói ZER-46 đã chuẩn bị",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/next-run-proposal.md",
+  "proposalSha256": "49efeba5c82187b05014564b94536bd9749a4f63acaf08d4d0c2c53278502363",
+  "maximumSeconds": 1200,
+  "cleanupReserveSeconds": 300,
+  "maximumFixtureHttp": 120,
+  "maximumBoutiqueHttp": 32,
+  "maxTtlSecondsThisRun": 180,
+  "maxFixturePodReplacements": 1,
+  "maxFixtureBuilds": 1,
+  "scope": "one approved private component attempt; no shared infrastructure changes"
+}

@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-28T03:42:06.706Z",
+  "issue": "ZER-46",
+  "scope": "approved fixture-only protocol",
+  "writer": "Codex one writer",
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "ttlSeconds": 180,
+  "fixturePodReplacements": 1,
+  "writerRestarts": 1,
+  "pullsAllowed": 0,
+  "importMode": "direct",
+  "importModeSource": "https://k3d.io/stable/usage/importing_images/",
+  "noBoutiqueKpiClaim": true,
+  "noPublication": true
+}

@@ -36,3 +36,9 @@ chaos-worker/internal/validation/sqli_target_test.go -text
 infrastructure/scripts/sqli_executor_runtime.py -text
 tests/test_sqli*.py -text
 tests/fixtures/zer42/** -text
+
+# ZER-46: preserve immutable raw receipts and as-executed source bytes.
+docs/evidence/ZER-46/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+docs/evidence/ZER-46/**/*.txt -whitespace
+docs/evidence/ZER-46/**/*.diff -whitespace
+docs/evidence/ZER-46/**/*.log -whitespace

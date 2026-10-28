@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-28T05:47:45.313Z",
+  "verdict": "NO_GO_FOR_RUNTIME; OFFLINE_AUDIT_AND_BOUNDED_FIXES_COMPLETE",
+  "runtimeCalls": 0,
+  "newRuntimeAttempt": false,
+  "closed08RawReconciliation": "MATCHES_UNCHANGED_RECEIPT",
+  "fixed": [
+    "partial stdout/stderr lost on cancelled command",
+    "writer stop exception bypasses namespace deletion and final receipt",
+    "late watchdog failure omitted from terminal verdict"
+  ],
+  "failBefore": {
+    "testMethods": 3,
+    "failures": 3,
+    "errors": 1,
+    "note": "late guard scenario exercised two entrypoints"
+  },
+  "after": {
+    "tests": 38,
+    "pass": 38,
+    "sast": "NO_FINDINGS_AT_HIGH_SEVERITY_HIGH_CONFIDENCE"
+  },
+  "openBlockers": [
+    "client memory PSI causal root not demonstrated",
+    "TTL phase budget not reconciled with worst permitted waits",
+    "full verifier lacks explicit failure-history veto and actual writer exit evidence"
+  ],
+  "runtime08": "CLOSED_NOT_MET",
+  "scope": "SQLi-only; ZER-46 only; no scope or AC reduction",
+  "preparedForRuntime": false,
+  "sourceManifest": {
+    "docs/evidence/ZER-46/runtime-prep/run_component.py": "4ff0d21c29677269bdcaf26e0e110b64687c06005ee8b03eb6a24f8d1b0ecd2f",
+    "docs/evidence/ZER-46/runtime-prep/preflight.py": "c3e7726bf38c1863e9f0948c9b28fb9b45e400f8d0e2829961b6dfb13b7f4aa4",
+    "docs/evidence/ZER-46/runtime-prep/render.py": "44cb280912f18cb874fdd3a5ed098f8406976bd85031486045c9b92560633b18",
+    "docs/evidence/ZER-46/runtime-prep/run_fixture_only.py": "bafa2878e54f759521b5554d7c842ee1f1dc39b2a681ad1de57c0afd7be46ee1",
+    "docs/evidence/ZER-46/runtime-prep/run_cached_fixture.py": "451b6de34a5b256d4bc71d777229db23506e48798d120867f237164a8fdd45aa",
+    "docs/evidence/ZER-46/runtime-prep/run_agent_fixture.py": "48e34cc21dd7a273684b60da8ea65c4a90ed22b4cedd2f9d0ebba0ca02f1a2e4",
+    "docs/evidence/ZER-46/runtime-prep/run_agent_retry.py": "0813e7ddf0beef690b8bda75ad1fba1279ddcf3c1c5d2150287c2fd4cce3528f",
+    "docs/evidence/ZER-46/runtime-prep/run_agent_fixture.sh": "5d1069e7c066a025f4a1a22742e2c857a0b0c27464fd8df28dbae1c7af6192d4",
+    "docs/evidence/ZER-46/runtime-prep/run_agent_retry.sh": "0b7a783b9c6c6ac2b62a46bf57f87dbcae7b1cf768353f06a246f6ae50f52474",
+    "docs/evidence/ZER-46/runtime-prep/writer_worker.py": "3162f4edb4a4fc4891d41d8df32d0bd4efc5d1affc706dd886cc9c7a599fb58d",
+    "docs/evidence/ZER-46/runtime-prep/reconcile_completed_protocol.py": "a0b4f44467e59603abd9789931c3456de6061f6b0f5274f5d727514d14b0c0ee",
+    "docs/evidence/ZER-46/runtime-prep/reconcile_runtime08_stop.py": "c0b99537c74749f60fdcbdbd55924d2b188bc65ad3acaf591289a533b4367ced",
+    "docs/evidence/ZER-46/runtime-prep/check_component.py": "cf16df7cb6e78844295ddbd292085d47a68143863b5fea42d9e3a18e5948aefa",
+    "docs/evidence/ZER-46/runtime-prep/check_fixture_only.py": "d3a9ce43c37e0ea6af7b4aaff702864aca67978059b105dfb84dd634bbcacf19",
+    "docs/evidence/ZER-46/runtime-prep/check_cached_fixture.py": "ac599a8a051875b6a553b6dd4396f7dcf2c10814281922373e6cd38b9e5a27ac",
+    "docs/evidence/ZER-46/runtime-prep/check_agent_fixture.py": "40a8b566f2b467218d2ed8942519a1a048e2a5ac15dbbb750e1ddf0f73e63e48",
+    "docs/evidence/ZER-46/runtime-prep/check_preflight.py": "95ab8db95c7b22ee8da4fab1a053f0c09ad51bd6cd8fa4cb8d110340ee7b9d06",
+    "docs/evidence/ZER-46/runtime-prep/check_stop_audit.py": "f1e4081597c52eb917e5b4f21f13cfc792a244a29bdf04da5f96f66337ba0fba"
+  },
+  "preservation": {
+    "at": "2026-10-28T05:49:41.418Z",
+    "protectedFiles": 4657,
+    "protectedChanged": [],
+    "closedRuntimeFiles": 914,
+    "closedChanged": []
+  },
+  "consumed08Manifest": {
+    "unchanged": true,
+    "currentSourceDrift": [
+      "docs/evidence/ZER-46/runtime-prep/run_component.py",
+      "docs/evidence/ZER-46/runtime-prep/run_fixture_only.py"
+    ],
+    "newPatchCoveredByOldApproval": false
+  }
+}

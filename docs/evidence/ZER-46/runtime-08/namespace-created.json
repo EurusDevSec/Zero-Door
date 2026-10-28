@@ -1,0 +1,24 @@
+{
+  "apiVersion": "v1",
+  "kind": "Namespace",
+  "metadata": {
+    "creationTimestamp": "2026-10-28T05:24:37Z",
+    "labels": {
+      "kubernetes.io/metadata.name": "zd-sqli-lab",
+      "zero-door.io/containment-scope": "zer46-d050f8410a4d",
+      "zero-door.io/purpose": "sqli-fixture",
+      "zero-door.io/run": "zer46-d050f8410a4d"
+    },
+    "name": "zd-sqli-lab",
+    "resourceVersion": "169003",
+    "uid": "096728fe-7e47-497b-bf01-bb2a8043a548"
+  },
+  "spec": {
+    "finalizers": [
+      "kubernetes"
+    ]
+  },
+  "status": {
+    "phase": "Active"
+  }
+}

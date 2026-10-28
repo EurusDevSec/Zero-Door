@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqli-fixture-config
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer46-7c4c40d6ad18
+data:
+  ZD_SQLI_PROFILE: safe
+  ZD_SQLI_HOST: 0.0.0.0
+  ZD_SQLI_PORT: '9140'
+  ZD_SQLI_TRUSTED_PROXIES: 10.42.1.39/32
+  ZD_SQLI_TOPOLOGY: proxied
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    app: sqli-fixture
+    zero-door.io/run: zer46-7c4c40d6ad18
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqli-fixture
+  template:
+    metadata:
+      labels:
+        app: sqli-fixture
+        zero-door.io/run: zer46-7c4c40d6ad18
+    spec:
+      serviceAccountName: sqli-fixture
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: sqli-fixture
+        image: zer46-fixture:24662046a33f
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 9140
+        envFrom:
+        - configMapRef:
+            name: sqli-fixture-config
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 150m
+            memory: 96Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 2
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 2
+          periodSeconds: 10
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: containment
+          mountPath: /containment
+          readOnly: true
+        command:
+        - /usr/bin/python3
+        - -c
+        - import time,runpy; from pathlib import Path; end=time.monotonic()+120; exec('while
+          not Path("/data/.policy-release").exists():\n assert time.monotonic()<end,
+          "POLICY_GATE_TIMEOUT"; time.sleep(0.2)'); runpy.run_path('/app/app.py',run_name='__main__')
+        startupProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 30
+        env:
+        - name: ZD_SQLI_CONTAINMENT_FILE
+          value: /containment/policy.json
+        - name: ZD_SQLI_CONTAINMENT_SCOPE
+          value: zer46-7c4c40d6ad18
+      volumes:
+      - name: data
+        emptyDir:
+          sizeLimit: 64Mi
+      - name: containment
+        configMap:
+          name: zer46-sqli-containment
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-server-0
+  strategy:
+    type: Recreate

@@ -1,0 +1,1 @@
+PREFLIGHT_STOP COMMAND_FAILED:docker --context desktop-linux image inspect gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61 --format CLEANUP INCOMPLETE

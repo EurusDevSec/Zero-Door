@@ -1,0 +1,16 @@
+{
+  "at": 1793159084.656989,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "wait",
+    "--for=delete",
+    "namespace/zd-sqli-lab",
+    "--timeout=150s"
+  ],
+  "returncode": 0,
+  "stdout": "namespace/zd-sqli-lab condition met\n",
+  "stderr": ""
+}

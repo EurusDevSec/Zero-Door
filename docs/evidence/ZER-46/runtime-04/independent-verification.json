@@ -1,0 +1,36 @@
+{
+  "status": "NOT_MET_GUARD_STOP",
+  "fixture_component": "NOT_STARTED",
+  "fixture_http": 0,
+  "boutique_http": 16,
+  "successful_builds": 1,
+  "successful_imports": 1,
+  "namespace_uid": "177e52c7-d129-4785-83fc-5085fbeaa5ea",
+  "namespace_uid_delete_verified_absent": true,
+  "shared_spec_uid_restart_pvc_preserved": true,
+  "pvc_count": 3,
+  "guard_violation": {
+    "at": 1793159083.596733,
+    "hostAvailable": 3989307392,
+    "wslAvailableKiB": 2490616,
+    "memoryPsiAvg10": 15.02
+  },
+  "memory_capacity_below_minimum": false,
+  "owned_resource_cleanup": "CLEAN_INDEPENDENT_RAW_READBACK",
+  "original_cleanup_verdict": "INCOMPLETE_RETAINED",
+  "collector_defect": "attempted log of fixture Deployment before creation; NotFound was diagnostic, not an orphan",
+  "cache_confirmed_server0_after_stop": true,
+  "node_side_pulls_at_start": "NOT_INDEPENDENTLY_AUDITED; old proxy IfNotPresent corrected to Never for future",
+  "boutique_functional_results": [
+    false,
+    true,
+    true
+  ],
+  "boutique_wall_reference_slo": [
+    false,
+    false,
+    false
+  ],
+  "formal_r1_or_kpi_pass": false,
+  "publication": "NOT_READY"
+}

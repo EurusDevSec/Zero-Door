@@ -1,0 +1,14 @@
+{
+ "seed_id": "zer41-catalog/1",
+ "note": "Fully synthetic e-commerce catalog for the ZER-41 SQLi fixture. visibility=public rows are the only rows a correct search may return for a category; visibility=restricted rows must never appear through a benign query and are the evidence target for an injection on the vulnerable profile.",
+ "catalog": [
+  {"sku": "PUB-APP-001", "name": "Canvas Tote", "category": "apparel", "visibility": "public", "price_cents": 1800},
+  {"sku": "PUB-APP-002", "name": "Knit Scarf", "category": "apparel", "visibility": "public", "price_cents": 2400},
+  {"sku": "PUB-HOM-001", "name": "Ceramic Mug", "category": "home", "visibility": "public", "price_cents": 1200},
+  {"sku": "PUB-HOM-002", "name": "Linen Napkin Set", "category": "home", "visibility": "public", "price_cents": 2600},
+  {"sku": "PUB-ELE-001", "name": "Desk Lamp", "category": "electronics", "visibility": "public", "price_cents": 3900},
+  {"sku": "RES-INT-001", "name": "Unreleased Prototype Watch", "category": "internal", "visibility": "restricted", "price_cents": 0},
+  {"sku": "RES-INT-002", "name": "Staff Pricing Sheet", "category": "internal", "visibility": "restricted", "price_cents": 0},
+  {"sku": "RES-APP-900", "name": "Embargoed Jacket", "category": "apparel", "visibility": "restricted", "price_cents": 9900}
+ ]
+}

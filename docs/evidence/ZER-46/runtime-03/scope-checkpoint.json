@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-28T03:20:57.005Z",
+  "issue": "ZER-46",
+  "owner": "Codex one writer",
+  "readinessReply": "tôi giải phóng ram rồi",
+  "hostMemoryReadinessBytes": 3459821568,
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "fixturePodReplacementMax": 1,
+  "writerProcessRestartMax": 1,
+  "pinnedImagePullMax": 2,
+  "purpose": "trusted-source component containment only; no SQLi payload, load, Kafka, model, shared lifecycle or Git publication",
+  "healthBoundary": "Ordinary full purchase flow is rate limited <=2RPS; retain raw wall time/reference L=2000 verdict and explicit client pacing separately. Component operational gate uses functional flow+active time; no R1/KPI/recovery equivalence claim."
+}

@@ -1,0 +1,15 @@
+{
+  "at": 1793157785.608384,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "pull",
+    "--platform",
+    "linux/amd64",
+    "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c"
+  ],
+  "returncode": 0,
+  "stdout": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c: Pulling from library/traefik\n180b1d300e74: Pulling fs layer\n4fd8a8e2424e: Pulling fs layer\n0636b0e13742: Pulling fs layer\n180b1d300e74: Download complete\n4fd8a8e2424e: Download complete\n4fd8a8e2424e: Pull complete\n4ae4fef5ab2e: Download complete\nab42dc032dbc: Download complete\n0636b0e13742: Download complete\n180b1d300e74: Pull complete\n0636b0e13742: Pull complete\nDigest: sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\nStatus: Downloaded newer image for traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\ndocker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\n",
+  "stderr": ""
+}

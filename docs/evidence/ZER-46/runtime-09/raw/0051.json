@@ -1,0 +1,20 @@
+{
+  "at": 1793176684.3716428,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "wait",
+    "--for=condition=Ready",
+    "pod/zer46-source-b",
+    "--timeout=60s"
+  ],
+  "pid": 12224,
+  "returncode": 0,
+  "stdout": "pod/zer46-source-b condition met\n",
+  "stderr": "",
+  "ended_at": 1793176686.1852844
+}

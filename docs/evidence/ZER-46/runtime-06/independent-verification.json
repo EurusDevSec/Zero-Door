@@ -1,0 +1,30 @@
+{
+  "status": "NOT_MET_COLLECTOR_FAILURE",
+  "reconciled_from_raw": true,
+  "fixture_http": 0,
+  "boutique_http": 9,
+  "writer_processes": 0,
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixture_application_released": true,
+  "fixture_ready": true,
+  "policy_hook_tables": 1,
+  "collector_error": "docker top output omitted PID",
+  "namespace_uid": "e658fcc5-9387-4407-8a92-e57613dce054",
+  "namespace_uid_delete_verified_absent": true,
+  "shared_spec_uid_restart_pvc_preserved": true,
+  "pvc_count": 3,
+  "guard": {
+    "samples": 31,
+    "host_min_bytes": 3576000512,
+    "wsl_min_kib": 2385776,
+    "max_psi_avg10": 0.0
+  },
+  "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+  "boutique_health": "NOT_MET",
+  "ac01": "NOT_VERIFIED_IN_THIS_ATTEMPT",
+  "ac02": "NOT_EXERCISED",
+  "kpi_pass": false,
+  "issue_done": false
+}

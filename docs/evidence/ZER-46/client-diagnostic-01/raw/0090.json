@@ -1,0 +1,21 @@
+{
+  "at": 1793168383.0762594,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "pod/sqli-fixture-78bdcc8c9c-5vf4s",
+    "-c",
+    "sqli-fixture",
+    "--tail=500"
+  ],
+  "pid": 9204,
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793168345.8356466,\"request_id\":\"8143e4833f844c498670a26a128635d1\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":1.132,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168346.7014832,\"request_id\":\"48094e6164eb47059da1bc5fee135885\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":0.883,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168351.3427403,\"request_id\":\"324d47e65680400b9b07ded0db482a61\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":1.26,\"tcp_peer\":\"10.42.0.183\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.184\",\"correlation_id\":\"9e1cb6c4c3294727bd35592896fe7449\",\"enforcement_point\":\"sqli-fixture/trusted-client\",\"policy_sha256\":\"87d65366fd255fb0d68ea56b0eccd7dd800322bbbab2278deeae400cdf3dd79a\",\"blocked\":false,\"action_ids\":[],\"rows\":1,\"restricted_rows\":0}\n{\"ts\":1793168355.8338635,\"request_id\":\"3f2971587b7c46aca4c7e8f216ecd217\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":1.034,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168355.834197,\"request_id\":\"0e1ae1596df945778e98ae629a9b8a11\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.005,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168365.8343637,\"request_id\":\"1a08184abb2c435086911b065395d7d2\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":1.32,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168365.8368757,\"request_id\":\"5144cfb515bf4f99b964afa701327d7e\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.995,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168375.8332124,\"request_id\":\"581e98ad8d074c2d9b00ff79ef18f1e3\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.5,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793168375.8339388,\"request_id\":\"f191b36447034c9dade1ae15ef1992df\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":0.497,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n",
+  "stderr": "",
+  "ended_at": 1793168383.2837486
+}

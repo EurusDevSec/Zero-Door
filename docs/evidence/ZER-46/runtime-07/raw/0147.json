@@ -1,0 +1,21 @@
+{
+  "at": 1793164227.6164737,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer46-source-b",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import json,sys,time,urllib.request,urllib.error\np=json.loads(sys.argv[1]);url=\"http://zer46-private-ingress.zd-sqli-lab.svc.cluster.local:8000\"+p[\"path\"]\nclass NoRedirect(urllib.request.HTTPRedirectHandler):\n def redirect_request(self,*a,**k):return None\nopener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())\ndata=json.dumps(p[\"body\"]).encode() if p.get(\"body\") is not None else None\nheaders={\"X-Correlation-Id\":p[\"correlation\"],**p.get(\"headers\",{})}\nif data is not None:headers[\"Content-Type\"]=\"application/json\"\nrequest=urllib.request.Request(url,data=data,headers=headers,method=p[\"method\"])\nbegin=time.time()\ntry:\n try:r=opener.open(request,timeout=3)\n except urllib.error.HTTPError as e:r=e\n with r:\n  raw=r.read(262145)\n  if len(raw)>262144:raise ValueError(\"RESPONSE_SIZE\")\n  print(json.dumps({\"begin\":begin,\"end\":time.time(),\"status\":r.status,\"request_id\":r.headers.get(\"X-Request-Id\"),\"body\":json.loads(raw)}))\nexcept Exception as e:print(json.dumps({\"begin\":begin,\"end\":time.time(),\"error\":type(e).__name__}))\n",
+    "{\"path\": \"/fixture/orders/7b71fb351cf741608284c8d6860f6233\", \"method\": \"GET\", \"body\": null, \"headers\": {}, \"correlation\": \"dfde9de1b7c84bc0a5b0d31cbf98d8ff\"}"
+  ],
+  "returncode": 0,
+  "stdout": "{\"begin\": 1793164231.8622239, \"end\": 1793164231.96601, \"status\": 404, \"request_id\": \"265b6b97a5da4eb5bc2a7682ed25d776\", \"body\": {\"error\": \"NOT_FOUND\"}}\n",
+  "stderr": ""
+}

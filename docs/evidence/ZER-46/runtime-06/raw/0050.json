@@ -1,0 +1,15 @@
+{
+  "at": 1793163545.725718,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "apply",
+    "-f",
+    "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-46\\runtime-06\\zer46-source-b.yaml"
+  ],
+  "returncode": 0,
+  "stdout": "pod/zer46-source-b created\n",
+  "stderr": ""
+}

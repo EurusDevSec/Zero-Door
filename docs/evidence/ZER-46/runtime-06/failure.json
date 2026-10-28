@@ -1,0 +1,4 @@
+{
+  "at": 1793163560.0624666,
+  "reason": "COMMAND_FAILED:docker --context desktop-linux top k3d-zero-door-agent-0 -eo args"
+}

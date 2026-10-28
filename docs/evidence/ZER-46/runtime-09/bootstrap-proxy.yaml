@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zer46-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer46-b7cb40ec036e
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zer46-private-ingress
+  template:
+    metadata:
+      labels:
+        app: zer46-private-ingress
+        zero-door.io/run: zer46-b7cb40ec036e
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-agent-0
+      containers:
+      - name: traefik
+        image: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+        imagePullPolicy: Never
+        args:
+        - --global.checkNewVersion=false
+        - --global.sendAnonymousUsage=false
+        - --entrypoints.web.address=:8000
+        - --providers.file.filename=/config/dynamic.yaml
+        - --accesslog=true
+        - --accesslog.format=json
+        - --log.format=json
+        - --log.level=ERROR
+        ports:
+        - name: web
+          containerPort: 8000
+        readinessProbe:
+          tcpSocket:
+            port: web
+          initialDelaySeconds: 1
+          periodSeconds: 2
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 150m
+            memory: 96Mi
+        volumeMounts:
+        - name: config
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: zer46-private-ingress

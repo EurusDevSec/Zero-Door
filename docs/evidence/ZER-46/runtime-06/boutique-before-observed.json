@@ -1,0 +1,32 @@
+{
+  "at": 1793163537.1594899,
+  "result": {
+    "at": 1793163537.158698,
+    "healthy": false,
+    "health_kind": "COMPONENT_FUNCTION_AND_ACTIVE_TIME_ONLY_NOT_FORMAL_R1_HEALTH",
+    "wall_reference_slo_met": false,
+    "scheduler_idle_ms": 0.0,
+    "active_ms": null,
+    "result": {
+      "ok": false,
+      "detail": "TIMEOUT",
+      "reason": "STEP_DEADLINE",
+      "interrupted": false,
+      "stopped_ns": null,
+      "elapsed_ms": 3008.2876,
+      "cleanup": {},
+      "steps": [
+        {
+          "name": "home",
+          "status": null,
+          "ok": false,
+          "ms": 3008.272
+        }
+      ],
+      "requests": 1,
+      "captures": {}
+    }
+  },
+  "is_fixture_admission_gate": false,
+  "formal_r1_health_claim": false
+}

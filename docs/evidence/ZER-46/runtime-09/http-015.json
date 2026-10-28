@@ -1,0 +1,22 @@
+{
+  "who": "a",
+  "request": {
+    "path": "/fixture/orders",
+    "method": "POST",
+    "body": {
+      "item": "benign-lab-item",
+      "note": "blocked-control"
+    },
+    "headers": {},
+    "correlation": "b9ab334afcba4c02a1ce4ac14f53ec8d"
+  },
+  "response": {
+    "begin": 1793176814.8148656,
+    "end": 1793176814.9169452,
+    "status": 403,
+    "request_id": "d459a10a236047ccbd64645c2932dca2",
+    "body": {
+      "error": "SOURCE_BLOCKED"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "apiVersion": "v1",
+  "kind": "DeleteOptions",
+  "preconditions": {
+    "uid": "d7f4cd47-ae74-4cf3-ac0c-8ff10eff5d49"
+  }
+}
