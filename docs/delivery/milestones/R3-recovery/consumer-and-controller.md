@@ -53,3 +53,7 @@ Gói sửa: durable decision outbox tùy cấu hình path, trần retry/age/cool
 Amendment trước sửa: thêm verify-event-actors.py và test_event_actor_verifier.py để cấp state path bắt buộc trong verifier hiện có; chỉ render emptyDir16Mi, khôngapply/PVC. Scope snapshot ở docs/evidence/ZER-18/scope.json.
 
 149 lượt test Python,3Go packages đạt; review độc lậpREADY sau sửa poisonrecord. Expected/actual/hash/giới hạn ở docs/evidence/ZER-18/. Local-race chưa chạy doCGOdisabled, gateLinuxCI giữ nguyên. Worker effect làcounterlocal; healer process/outbox dùngfake transport; khôngclaim deployedbroker/PVC/recovery. Khônglab/traffic/model; chưaGitpublication/merge/owneracceptance/Done/G3PASS. Bước cuối cần duyệt publication-package.md; không mởR4 tronggói này.
+
+### CI publication correction — 2026-10-28T12:31:55.221030+00:00
+
+PR33 firstheadc676c7a failed2jobs sharing test_dashboard_modes caller missing mandatory statepath andoldone-tick hook; one matrixjobcanceled. Scope amendedbeforeedit with test_dashboard_modes.py,test_dashboard_mode_runtime.py,r1_mode_runtime.py. Migratedcallers/bundle and requiredDockerCOPYmodules; keptallassertions,main/guardsunchanged.22additional localtests passed,171total. See docs/evidence/ZER-18/ci-fix.md. RemoteCI/review/merge stillrequired; noDone/lab/G3claim.

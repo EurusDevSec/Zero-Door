@@ -28,3 +28,7 @@ Stage only the allowlist. ForNOW, publish only the newZER-18 prefix on cleanbase
 Commit/push this package, create onePR, run requiredCI includingLinuxGo-race/image import/production pins, consolidate in-scope review fixes, merge only when gates pass, then obtain/read back owner acceptance and update namedZeroDoorLinear. Owner may accept documented componentAC01/03; any stricter deployed criterion must remain open, never silently checkedPASS. Publication is separate from deployedPVC/broker/G3/end-to-end proof.
 
 No new local lab/deploy/PVC/image operation/model/payload/cloud/other issue is included. FailedCI/review gates stop merge; no bypass. ZER-16 publication permission does not coverZER-18; noZER-18 publication action has been taken.
+
+## In-scope CI correction after approval
+
+The approved consolidated review/CI-fix authority includes these direct callers: tests/test_dashboard_modes.py, tests/test_dashboard_mode_runtime.py, infrastructure/scripts/r1_mode_runtime.py. Scope was recorded before edits. ci-fix.md documents two failed jobs and22 passing retests; guard/AC/acceptance limits remain unchanged. Original approved proposal snapshot and reply stay immutable.

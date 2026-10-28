@@ -5,7 +5,7 @@
   "head": "b60cc55c693a462909b7b3c70edcadf344019b72",
   "verdict": "PUBLICATION_AUTHORIZED_PENDING_CI_MERGE",
   "review": "READY; independent-review.md",
-  "python_test_runs": 149,
+  "python_test_runs": 171,
   "suites": {
     "consumer-hephaestus.log": {
       "tests": 15,
@@ -76,6 +76,34 @@
       "sha256": "c34404c2b75ec58f2ebf861c94baa742c7899b5e5036a7f8a482c690967ff377",
       "captured_log_sha256": "f0fdd750513892332374838eeaa4aacdc79f41af97a4c85b382777ce48e94bb0",
       "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "ci-fix-test_dashboard_mode_runtime-hephaestus.log": {
+      "tests": 4,
+      "result": "PASS",
+      "captured_log_sha256": "b2a50f3cb2f45a3decd4847ad03ceeb382a0cfb80f6f60f044bc9388f2da7115",
+      "sha256": "ed7f0f25e96fdb97d7abd85716be2801db2bf8e0a93811362eb7dd60e17bc608",
+      "committed_log_canonicalization": "CRLF to LF; trim trailing space/tab only"
+    },
+    "ci-fix-test_dashboard_mode_runtime-nemesis.log": {
+      "tests": 4,
+      "result": "PASS",
+      "captured_log_sha256": "e91344139b0cbe6edd436c5e6b56947fb802c359fcbcc04c7807b0366784dd1b",
+      "sha256": "bd813e3a63ca92461dd00a7c7361ce2f592291cfb0430a72507da11325987500",
+      "committed_log_canonicalization": "CRLF to LF; trim trailing space/tab only"
+    },
+    "ci-fix-test_dashboard_modes-hephaestus.log": {
+      "tests": 7,
+      "result": "PASS",
+      "captured_log_sha256": "0481ac76391968b4826f39d44eb57767c8467a29c902354a03e7b0c1b901b3dd",
+      "sha256": "74b8e8f15c3720d104442bcfe1c46f78974e3fe1a7f28420ad21c66e138b1196",
+      "committed_log_canonicalization": "CRLF to LF; trim trailing space/tab only"
+    },
+    "ci-fix-test_dashboard_modes-nemesis.log": {
+      "tests": 7,
+      "result": "PASS",
+      "captured_log_sha256": "9e50e234e29e4b028901c76311d5a1fac005de9115c5c5d0b971f2012ce80d12",
+      "sha256": "93bb214736004670d50e8279df7a0e75273e4acb97e49eb03efaf38c4a7cec33",
+      "committed_log_canonicalization": "CRLF to LF; trim trailing space/tab only"
     }
   },
   "go_components": {
@@ -119,5 +147,19 @@
     "Publication/remoteCI/merge/owneracceptance pending"
   ],
   "publication_authorized": true,
-  "conditional_owner_acceptance": "Duyệt publication ZER-18 và nghiệm thu component khi đủ gate"
+  "conditional_owner_acceptance": "Duyệt publication ZER-18 và nghiệm thu component khi đủ gate",
+  "ci_fix": {
+    "at": "2026-10-28T12:31:55.221030+00:00",
+    "failed_head": "c676c7a3763a6770f60f138419adedb44a0d04e4",
+    "failed_run": 40680244467,
+    "jobs": [
+      122788841416,
+      122788841558
+    ],
+    "cancelled_matrix_job": 122788841470,
+    "root_cause": "Dashboard mode fixture omitted new required state path and patched obsolete time.sleep rather than stop.wait.",
+    "fix": "Migrate exact direct callers and process fixture/bundle; preserve all mode/guard assertions. Include required existing Docker COPY source files in generated bundle.",
+    "local_retest": "7 dashboard_modes+4 dashboard_mode_runtime tests on each production pin;22 passes",
+    "required_remote_retest": "PENDING_NEW_COMMIT_CI"
+  }
 }

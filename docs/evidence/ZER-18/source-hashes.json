@@ -12,6 +12,10 @@
     ".github/workflows/ci.yml": "1a01bf6e9b282bcabd6ca0498636bd696ad0aaf0f8e6c465239f8aadeeae079f",
     "tests/test_event_pipeline.py": "c919e32949c03908f937e7c73fd58f84c46ce6ccf67087d4bd217e5cb670294a",
     "infrastructure/scripts/verify-event-actors.py": "fc771680ac05cab2b8d55d0f561c706dfaa92a110fbc10dcbc78ec2b459b343b",
-    "tests/test_event_actor_verifier.py": "9388a072e91115feaae23015ee50e51cd609ef2447d4673e1c023625c2b305d0"
-  }
+    "tests/test_event_actor_verifier.py": "9388a072e91115feaae23015ee50e51cd609ef2447d4673e1c023625c2b305d0",
+    "tests/test_dashboard_modes.py": "6c5767df7dfd55ee722bf3d66bab4e627f05aa9c43422c9ab2229302630852ad",
+    "tests/test_dashboard_mode_runtime.py": "c3709a661fb2c8b423c60730783d795344c6f928e47ba6550deb9226d20b2808",
+    "infrastructure/scripts/r1_mode_runtime.py": "6f8674bbd0ee708deefa17f427fee6c80598a02231714ab7c171e4d743fd4643"
+  },
+  "ci_fix_at": "2026-10-28T12:31:55.221030+00:00"
 }

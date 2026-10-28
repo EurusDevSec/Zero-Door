@@ -28,3 +28,7 @@ Component evidence supports SQLi-only AC01/03 behavior with configured single-ow
 [Publication package](publication-package.md) is ready for owner approval. No commit/push/PR/remoteCI/merge/Done has been performed forZER-18. Do not infer G3 from issue counts or use this component checkpoint as deployed acceptance.
 
 Rendered test logs normalize CRLF and trailing whitespace only; captured originals remain in ignored scratch/zer18/results and verification retains their original SHA256. No result/timestamp/message is removed.
+
+## CI caller migration
+
+First PR33 CI exposed an incomplete dashboard fixture migration, fixed without weakening mode/guard assertions. [CI correction](ci-fix.md) preserves failure run/job IDs, cause and retest.22 additional tests passed (171 applicable total); first149 results remain historical. Remote CI on the corrected commit is still pending.
