@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-28T10:54:46.565412+00:00",
+  "outside_allowlist_files_unchanged": 5415,
+  "primary_head_status_unchanged": true,
+  "preexisting_dirty": " M docs/delivery/NOW.md\n M docs/delivery/milestones/R3-recovery/block-ip-and-rollback.md\n M docs/delivery/milestones/R3-recovery/recovery-state-and-scaling.md\n M docs/evidence/ZER-16/README.md\n M docs/evidence/ZER-16/artifact-sha256.json\n M docs/evidence/ZER-16/verification.json\n?? docs/evidence/ZER-16/publication.json\n?? docs/evidence/ZER-17/\n",
+  "test_temp_cleanup": [
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp0z4tu7kw",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp1mbs5duo",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp35q0qux7",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmp7x3w893b",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpk8d5es80",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpkt7jc7nv",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmppozx0hx4",
+      "existed_before_check": true,
+      "absent_after": true
+    },
+    {
+      "path": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpw6sa4guw",
+      "existed_before_check": true,
+      "absent_after": true
+    }
+  ],
+  "lab_contacted": false
+}

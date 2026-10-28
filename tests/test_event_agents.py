@@ -71,6 +71,7 @@ class AgentHttpTests(unittest.TestCase):
             self.key_files[actor].write_text(json.dumps({k: self.keys[k] for k in roles}))
         self.environment = patch.dict(os.environ, {"ZD_EVENT_URL": "http://127.0.0.1:" + str(self.http.server_port),
             "ZD_RUN_ID": self.ctx["run_id"], "ZD_TRIAL_ID": self.ctx["trial_id"],
+            "ZD_RULES_STATE_FILE": str(self.directory / "decisions.sqlite"),
             "ZD_PRODUCER_VERSION": "source-http-test", "ZD_CLOCK_ID": "clk_test", "ZD_CLOCK_SOURCE": "UNKNOWN"})
         self.environment.start()
         self.gaia, self.healer = self.load("gaia"), self.load("hephaestus")
@@ -105,10 +106,12 @@ class AgentHttpTests(unittest.TestCase):
         self.gaia.publish_alert("HIGH_CPU", "frontend", "fixture", 90.0, 80.0, "Synthetic transport only", "WARNING")
         class TickComplete(Exception):
             pass
-        with patch.object(self.healer.time, "sleep", side_effect=TickComplete), \
+        stop = threading.Event()
+        stop.wait = lambda *_: (_ for _ in ()).throw(TickComplete())
+        with \
              patch.object(self.healer, "action_scale_up", side_effect=AssertionError("must not heal")):
             with self.assertRaises(TickComplete):
-                self.healer._kafka_consumer_thread()
+                self.healer._kafka_consumer_thread(stop)
         events = self.events()
         detection = next(e for e in events if e["event_type"] == "DETECTED")
         decision = next(e for e in events if e["event_type"] == "DECISION")

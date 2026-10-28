@@ -354,6 +354,7 @@ class BoundaryTests(unittest.TestCase):
                     return self.rows
                 def publish(self, event):
                     self.rows.append({"envelope": event})
+                    return {"status": "RECORDED", "event_id": event["event_id"]}
             fake = Fake()
             RulesConsumer(fake, lambda *_: "SCALE_UP").poll()
             RulesConsumer(fake, lambda *_: "SCALE_UP").poll()

@@ -4,6 +4,7 @@ import time
 import uuid
 import asyncio
 import logging
+import threading
 import sys
 from pathlib import Path
 from datetime import datetime, timezone
@@ -431,36 +432,66 @@ def process_alert(alert: dict):
 # Kafka Consumer Loop
 # ============================================================
 
-def _kafka_consumer_thread():
+consumer_task = None
+consumer_state = {"status": "NOT_STARTED", "durability": "NOT_CONFIGURED"}
+
+
+def _kafka_consumer_thread(stop=None):
     """
-    Kafka consumer runs in a daemon thread so it never blocks the asyncio
-    event loop — uvicorn can always serve /healthz while this runs.
+    One owner constructs, polls and closes the decision outbox off the event loop.
+    No action executor is enabled here.
     """
     if r1_client:
-        rules = GuardedRules(r1_client, RulesConsumer(r1_client, decide_action))
+        state_path = os.getenv("ZD_RULES_STATE_FILE")
+        if not state_path or state_path == ":memory:":
+            consumer_state.update(status="FAILED", last_error="DECISION_STATE_REQUIRED", durability="NOT_CONFIGURED")
+            logger.error("Decision consumer requires an explicit mounted ZD_RULES_STATE_FILE; not started.")
+            return
+        try:
+            adapter = RulesConsumer(r1_client, decide_action, journal_path=state_path)
+        except Exception as error:
+            consumer_state.update(status="FAILED", last_error=type(error).__name__)
+            logger.error("Decision state unavailable: %s", type(error).__name__)
+            return
+        rules = GuardedRules(r1_client, adapter)
         audited = None
-        while True:
-            try:
-                rules.poll()
-                if rules.skipped != audited:
-                    # Logged once per change: this group's trusted context does not auto-decide.
-                    audited = rules.skipped
-                    if audited is not None:
-                        audit_refusal("consumer", "AUTO_DECISION_DISABLED_FOR_GROUP",
-                                      {"run_id": r1_client.run, "trial_id": r1_client.trial, "group": audited})
-            except Exception as error:
-                logger.error("R1 O consumer unavailable: %s", type(error).__name__)
-            time.sleep(1)
+        stop = stop or threading.Event()
+        try:
+            while not stop.is_set():
+                try:
+                    rules.poll()
+                    consumer_state.update(status="RUNNING", last_error=None, **adapter.journal.summary())
+                    if rules.skipped != audited:
+                        audited = rules.skipped
+                        if audited is not None:
+                            audit_refusal("consumer", "AUTO_DECISION_DISABLED_FOR_GROUP",
+                                          {"run_id": r1_client.run, "trial_id": r1_client.trial, "group": audited})
+                except Exception as error:
+                    consumer_state.update(status="UNAVAILABLE", last_error=type(error).__name__,
+                                          **adapter.journal.summary())
+                    logger.error("R1 O consumer unavailable: %s", type(error).__name__)
+                stop.wait(1)
+        finally:
+            adapter.close()
+            consumer_state["status"] = "STOPPED"
+        return
     logger.warning("Legacy Kafka healing disabled; no authenticated R1 client configured.")
     return
 
 
 async def alert_consumer_loop():
-    """Launch Kafka consumer in a background daemon thread."""
-    import threading
-    t = threading.Thread(target=_kafka_consumer_thread, daemon=True)
+    """Cancel cooperatively and join the owner before FastAPI shutdown completes."""
+    stop = threading.Event()
+    t = threading.Thread(target=_kafka_consumer_thread, args=(stop,))
     t.start()
-    logger.info("Kafka consumer daemon thread launched.")
+    try:
+        while t.is_alive():
+            await asyncio.sleep(0.05)
+    finally:
+        stop.set()
+        while t.is_alive():
+            await asyncio.sleep(0.05)
+        t.join()
 
 
 # ============================================================
@@ -469,11 +500,22 @@ async def alert_consumer_loop():
 
 @app.on_event("startup")
 async def startup_event():
+    global consumer_task
     if r1_client:
-        asyncio.create_task(alert_consumer_loop())
+        consumer_task = asyncio.create_task(alert_consumer_loop())
         logger.info("R1 O decision transport started; guard/executor not enabled.")
         return
     logger.warning("Legacy startup disabled; no Kubernetes or Kafka client initialized.")
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    if consumer_task is not None:
+        consumer_task.cancel()
+        try:
+            await consumer_task
+        except asyncio.CancelledError:
+            pass
 
 
 @app.get("/")
@@ -489,7 +531,8 @@ def root():
 def healthz():
     if r1_client:
         return {"status": "UP", "transport": "r1-o-gateway", "kafka_connected": None,
-                "k8s_connected": False, "execution": "DISABLED_PENDING_GUARD"}
+                "k8s_connected": False, "execution": "DISABLED_PENDING_GUARD",
+                "consumer": dict(consumer_state)}
     k8s_ok = core_v1 is not None
     kafka_ok = get_kafka_producer() is not None
     return {

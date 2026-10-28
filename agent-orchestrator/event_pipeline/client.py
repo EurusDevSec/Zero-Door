@@ -54,12 +54,21 @@ class Client:
 
     def records(self):
         cursor = 0
-        while True:
+        deadline = time.monotonic() + 10
+        for _ in range(20):
+            if time.monotonic() >= deadline:
+                raise TimeoutError("EVENT_READ_BUDGET")
             page = self.request(f"/events?run_id={self.run}&after={cursor}&limit=500")
+            if (not isinstance(page, dict) or not isinstance(page.get("records"), list)
+                    or type(page.get("next")) is not int or len(page["records"]) > 500):
+                raise ValueError("EVENT_PAGE_INVALID")
             yield from page["records"]
-            if page["next"] == cursor or len(page["records"]) < 500:
-                break
+            if len(page["records"]) < 500:
+                return
+            if page["next"] <= cursor:
+                raise ValueError("EVENT_CURSOR_STALLED")
             cursor = page["next"]
+        raise TimeoutError("EVENT_PAGE_BUDGET")
 
     def context(self):
         matches = [r["envelope"] for r in self.records() if r["envelope"]["event_type"] == "TRIAL_CONTEXT" and r["envelope"]["trial_id"] == self.trial]
@@ -71,6 +80,9 @@ class Client:
     def publish(self, event):
         """Caller retains this SAME event on timeout. A Kafka ack isn't a durable receipt."""
         result = self.request("/events", event)
+        if (not isinstance(result, dict) or result.get("event_id") != event["event_id"] or
+                result.get("status") not in {"RECORDED", "DUPLICATE", "SEALED_DUPLICATE", "KAFKA_ACKNOWLEDGED"}):
+            raise TimeoutError("PUBLISH_RECEIPT_UNKNOWN")
         if result["status"] == "KAFKA_ACKNOWLEDGED":
             until = time.monotonic() + 10
             while time.monotonic() < until:

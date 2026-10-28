@@ -1,3 +1,7 @@
+## ZER-18 - component reviewed; publication awaiting approval - 28/10/2026
+
+[Evidence](../evidence/ZER-18/README.md):149 Python test runs,3 Go component packages pass; independent review READY. Persistent bounded outbox, failclosed config, poison/receipt handling, owned shutdown and native local process/ledger restart checks. No lab/deploy/LLM/action/G3 PASS. Local Go race unavailable (CGO disabled), Linux CI gate preserved. [Publication package](../evidence/ZER-18/publication-package.md) needs separate owner approval before Git/merge/Done. Preserve existing ZER-16/17 dirty and primaryR. Earlier checkpoints are historical.
+
 ## ZER-16 — component đã review, sẵn sàng publication — 28/10/2026
 
 [AC/evidence](../evidence/ZER-16/README.md): state API_ACCEPTED→ACTION_COMPLETED sau block/benign CRUD; timeout/FAILED/PARTIAL không tự recovery, replacement có UID/absence/probes.131test lượt đạt, raw09 replay45input hashes, review độc lập READY; không cần lab mới. [Gói publication](../evidence/ZER-16/publication-package.md) đã chuẩn bị, chưa được duyệt/commit/push/CIremote/merge/Done. Branchcodex/zer-16-recovery-state/base6bf7d55; dirtyZER17 vàprimaryR giữ nguyên. BoutiqueNOT_MET, không production/LLM/end-to-end/KPI/gateR3PASS; chưa mởZER18. Checkpoint dưới là lịch sử.

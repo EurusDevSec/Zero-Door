@@ -1,0 +1,123 @@
+{
+  "at": "2026-10-28T10:54:46.565412+00:00",
+  "timezone": "UTC; Vietnam=UTC+07:00",
+  "issue": "ZER-18",
+  "head": "b60cc55c693a462909b7b3c70edcadf344019b72",
+  "verdict": "PUBLICATION_AUTHORIZED_PENDING_CI_MERGE",
+  "review": "READY; independent-review.md",
+  "python_test_runs": 149,
+  "suites": {
+    "consumer-hephaestus.log": {
+      "tests": 15,
+      "result": "PASS",
+      "sha256": "a326982003f309da2426249f1fc019bdd74788399f593eaeae5dfdba936c91f2",
+      "captured_log_sha256": "ff1b19229d124f46e14be1316cf1d85a38bdad6f6b57a238ffef2221c8d576ec",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "consumer-nemesis.log": {
+      "tests": 15,
+      "result": "PASS",
+      "sha256": "756688d421cf67a6c5527d15172d13f36a5727f5cecaf09d8208809478945bae",
+      "captured_log_sha256": "7ac59c104b7f6e6987e9aef92a1245c0dae25a0ebf428748594aea70ea93c880",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_command_guard_ci.log": {
+      "tests": 6,
+      "result": "PASS",
+      "sha256": "982b4c7667dc05eebbc39a2585b5b09efb8bfe285f60f2517b5f7b932e71bc34",
+      "captured_log_sha256": "3b4ec6d4371f3fca87a9fd3c0971f00e7f86047ce675f2dd396db8f5b13fb363",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_command_modes.log": {
+      "tests": 3,
+      "result": "PASS",
+      "sha256": "ab1d7495dd3a0e2035c3d008b76d2d53d6032a7bb0c23d183f65e27eefd27561",
+      "captured_log_sha256": "9c71980ffa9cbaea086390a81666d663827f10a7102217dae63c174e58f76ced",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_event_actor_verifier.log": {
+      "tests": 4,
+      "result": "PASS",
+      "sha256": "5cf7ae3a9f355b9103e822df18178877eb2fc3456ba56a88be3704fc043c2a98",
+      "captured_log_sha256": "792d491075c305da7f6ad8b5cd9476ab168a4683d94b6b6b9443e1576cfdebc6",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_event_agents.log": {
+      "tests": 4,
+      "result": "PASS",
+      "sha256": "7955f8f6683cad95e2b4c9cd045eba0de4ed5fe4c8ff2ffd1342f4af35fb67b8",
+      "captured_log_sha256": "dc1eb8c6ea77d5d59288cd9c2ef057afbb45845f173294b9eb85cfb5b32f609a",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_event_pipeline.log": {
+      "tests": 22,
+      "result": "PASS",
+      "sha256": "378dcded6c3c74827f653806d8a1ad3fbe233bc68163148dceadd6de00c692d5",
+      "captured_log_sha256": "a3fbcb7a7fb0da528d3d16f66143874404fc754e7dcd906add53c17b2591458f",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_event_pipeline_regressions.log": {
+      "tests": 42,
+      "result": "PASS",
+      "sha256": "4c80a239c704a417dbf5bd6d75204ef0dd75d46fd173a593f3fb5f93cf9df416",
+      "captured_log_sha256": "ec368cd9e0670b16a73c8569e815833a6d140d5a4111b9bc416fc28aa963c66d",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_sqli_action_state.log": {
+      "tests": 14,
+      "result": "PASS",
+      "sha256": "7066c0f75a6c6d848b6aa413102ffc77f94f706234a0c9e1e9c65a3d929e3152",
+      "captured_log_sha256": "359087219c9cd80ed0cbae2e7d3876d237a8383be1f1ba0cc5bb9a4af4329e74",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    },
+    "test_sqli_containment.log": {
+      "tests": 24,
+      "result": "PASS",
+      "sha256": "c34404c2b75ec58f2ebf861c94baa742c7899b5e5036a7f8a482c690967ff377",
+      "captured_log_sha256": "f0fdd750513892332374838eeaa4aacdc79f41af97a4c85b382777ce48e94bb0",
+      "committed_log_canonicalization": "CRLF to LF; strip trailing space/tab only. Original captured hash retained."
+    }
+  },
+  "go_components": {
+    "result": "PASS",
+    "packages": [
+      "internal/guard",
+      "internal/kafka",
+      "cmd"
+    ],
+    "real_process_restart": true,
+    "effect": "LOCAL_COUNTER_ONLY_NO_TRAFFIC"
+  },
+  "go_local_race": {
+    "result": "UNAVAILABLE_CGO_DISABLED",
+    "required_linux_ci_gate_preserved": true
+  },
+  "bandit": {
+    "high_severity_high_confidence_findings": 0,
+    "coverage": "three changed event_pipeline source files"
+  },
+  "AC-01": {
+    "component": "SUPPORTED",
+    "expected": "bounded nonblocking transport, durable ack/dedup/cooldown, one worker effect per admitted command",
+    "observed": "exact persisted envelope; maximum3 sends/30s/cooldown90s; poison skips; receipts checked; worker ledger reopens with one fake effect; owner shutdown joins",
+    "deployed_acceptance": "NOT_EXECUTED"
+  },
+  "AC-03": {
+    "component": "SUPPORTED",
+    "expected": "restart preserves attempts/IDs/failure; missing telemetry cannot produce recovery",
+    "observed": "four Python child processes retain one envelope and three attempts thenUNKNOWN; Go child restart preservesTIMEOUT or claim-onlyUNKNOWN; existing state/probe regression remains strict",
+    "deployed_acceptance": "NOT_EXECUTED"
+  },
+  "limits": [
+    "Single owner only; supplementalAC02 not accepted",
+    "Application requires explicitZD_RULES_STATE_FILE; no memory fallback",
+    "Verifier emptyDir16Mi lasts only for itsPod; no Pod replacement/PVC durability claim",
+    "No new lab/broker/deployed-healer/traffic/build/model/cloud execution",
+    "Action execution remains disabled; integration is ZER-50/R5",
+    "No RECOVERY_VERIFIED/Boutique recovery/KPI/end-to-end/G3PASS",
+    "GitNexus index points other checkout/incomplete; no graph/PDG/taint coverage",
+    "Publication/remoteCI/merge/owneracceptance pending"
+  ],
+  "publication_authorized": true,
+  "conditional_owner_acceptance": "Duyệt publication ZER-18 và nghiệm thu component khi đủ gate"
+}

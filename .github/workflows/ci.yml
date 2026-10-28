@@ -147,6 +147,7 @@ jobs:
           python -B tests/test_sqli_fixture_http.py
           python -B tests/test_sqli_containment.py
           python -B tests/test_sqli_action_state.py
+          python -B tests/test_hephaestus_consumer.py
           python -B docs/evidence/ZER-41/check_manifest.py
       - name: Verify SQLi executor admission, effect evaluator and guard parity offline
         run: |

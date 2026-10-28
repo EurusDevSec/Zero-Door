@@ -1,0 +1,27 @@
+test_conflict_durable_quarantine (__main__.ArchiveTests.test_conflict_durable_quarantine) ... ok
+test_duplicate_reopen_and_export_preserve_raw (__main__.ArchiveTests.test_duplicate_reopen_and_export_preserve_raw) ... ok
+test_partial_record_and_hash_tamper_fail_closed (__main__.ArchiveTests.test_partial_record_and_hash_tamper_fail_closed) ... ok
+test_second_writer_and_path_escape_rejected (__main__.ArchiveTests.test_second_writer_and_path_escape_rejected) ... ok
+test_actual_healer_r1_entrypoints_cannot_execute_legacy_actions (__main__.BoundaryTests.test_actual_healer_r1_entrypoints_cannot_execute_legacy_actions) ... ok
+test_detector_retry_preserves_envelope (__main__.BoundaryTests.test_detector_retry_preserves_envelope) ... ok
+test_metrics_allowlist_and_log_filter_cannot_be_removed (__main__.BoundaryTests.test_metrics_allowlist_and_log_filter_cannot_be_removed) ... ok
+test_rules_dedup_and_mode_boundary (__main__.BoundaryTests.test_rules_dedup_and_mode_boundary) ... ok
+test_action_does_not_imply_recovery (__main__.ContractTests.test_action_does_not_imply_recovery) ... ok
+test_b0_blocks_actions (__main__.ContractTests.test_b0_blocks_actions) ... ok
+test_b2_rules_requires_a_real_fallback_reference (__main__.ContractTests.test_b2_rules_requires_a_real_fallback_reference) ... ok
+test_malformed_input_never_crashes (__main__.ContractTests.test_malformed_input_never_crashes) ... ok
+test_missing_or_forged_id_not_repaired (__main__.ContractTests.test_missing_or_forged_id_not_repaired) ... ok
+test_nested_answer_rejected_but_observed_ip_preserved (__main__.ContractTests.test_nested_answer_rejected_but_observed_ip_preserved) ... ok
+test_neutral_ids_and_timestamp (__main__.ContractTests.test_neutral_ids_and_timestamp) ... ok
+test_source_plane_version (__main__.ContractTests.test_source_plane_version) ... ok
+test_context_before_detector_and_immutable (__main__.HttpTests.test_context_before_detector_and_immutable) ... ok
+test_h_token_does_not_work_at_o_and_h_has_no_read (__main__.HttpTests.test_h_token_does_not_work_at_o_and_h_has_no_read) ... ok
+test_http_id_chain_and_no_h_api (__main__.HttpTests.test_http_id_chain_and_no_h_api) ... ok
+test_canary_prompt_and_revealing_resource (__main__.LeakTests.test_canary_prompt_and_revealing_resource) ... ok
+test_clean_vs_unknown (__main__.LeakTests.test_clean_vs_unknown) ... ok
+test_natural_ip_allowlist (__main__.LeakTests.test_natural_ip_allowlist) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 2.231s
+
+OK
