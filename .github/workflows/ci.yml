@@ -146,6 +146,7 @@ jobs:
           python -B tests/test_sqli_fixture.py
           python -B tests/test_sqli_fixture_http.py
           python -B tests/test_sqli_containment.py
+          python -B tests/test_sqli_action_state.py
           python -B docs/evidence/ZER-41/check_manifest.py
       - name: Verify SQLi executor admission, effect evaluator and guard parity offline
         run: |
@@ -203,7 +204,7 @@ jobs:
           - image: hephaestus
             context: ./agent-orchestrator
             file: ./agent-orchestrator/hephaestus/Dockerfile
-            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import hephaestus.sqli_action_state"'
             entrypoint: '--entrypoint /usr/bin/python3'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

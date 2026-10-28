@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-28T10:14:56.339588+00:00",
+  "issue": "ZER-16",
+  "status": "PUBLICATION_AUTHORIZED_PENDING_CI_MERGE",
+  "base": "6bf7d558d569b75af8d85ab108984d1ecd96623d",
+  "branch": "codex/zer-16-recovery-state",
+  "ac01": "COMPONENT_TECHNICALLY_VERIFIED_REVIEWED_PENDING_PUBLICATION_ACCEPTANCE",
+  "test_runs": {
+    "action-state-nemesis": 14,
+    "action-state-hephaestus": 14,
+    "containment-nemesis": 24,
+    "containment-hephaestus": 24,
+    "recovery": 12,
+    "scorer": 37,
+    "ci-guard": 6
+  },
+  "total_final_test_runs": 131,
+  "review": "READY_NO_BLOCKING_FINDING",
+  "reviewer": "/root/zer46_independent_review",
+  "packaging": {
+    "ci_test_wired": true,
+    "image_import_smoke_wired": true,
+    "isolated_packaged_module_import": "PASS",
+    "production_executor": "DISABLED",
+    "docker_image_built": false
+  },
+  "bandit_high_severity_high_confidence_findings": 0,
+  "raw_replay_inputs": 45,
+  "zer46_artifact_hashes_preserved": 1795,
+  "preserved_before_files_checked": 5402,
+  "unexpected_changes": [],
+  "primary_status_unchanged": true,
+  "index_empty": true,
+  "new_lab_requests": 0,
+  "new_deployment": false,
+  "remote_ci": "NOT_RUN",
+  "merge": "NOT_DONE",
+  "issue_done": false,
+  "graph_pdg_coverage": false,
+  "limits": [
+    "Derived replay is not historical events",
+    "API ack timestamp is a readback upper bound",
+    "Boutique NOT_MET",
+    "No formal recovery/production/LLM/end-to-end/KPI/G3 claim"
+  ],
+  "publication_authorized": true,
+  "conditional_owner_acceptance": "Duyệt publication ZER-16 và Done khi đủ gate"
+}

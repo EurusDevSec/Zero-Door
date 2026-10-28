@@ -1,0 +1,1 @@
+{"ci_test_wired": true, "image_import_smoke_wired": true, "isolated_packaged_module_import": "PASS", "production_executor": "DISABLED", "docker_image_built": false}

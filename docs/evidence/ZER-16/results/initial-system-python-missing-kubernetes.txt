@@ -1,0 +1,15 @@
+.......................E
+======================================================================
+ERROR: test_candidate_is_named_resource_rbac_and_default_fixture_stays_disabled (__main__.Packaging.test_candidate_is_named_resource_rbac_and_default_fixture_stays_disabled)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_sqli_containment.py", line 371, in test_candidate_is_named_resource_rbac_and_default_fixture_stays_disabled
+    from check_guard_manifests import check
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\check_guard_manifests.py", line 9, in <module>
+    from kubernetes.client import models
+ModuleNotFoundError: No module named 'kubernetes'
+
+----------------------------------------------------------------------
+Ran 24 tests in 4.866s
+
+FAILED (errors=1)

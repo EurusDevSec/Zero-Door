@@ -1,0 +1,153 @@
+{
+  "kind": "DERIVED_OFFLINE_REPLAY_NOT_HISTORICAL_EVENTS",
+  "source_run": "ZER-46/runtime-09",
+  "api_accepted_time_kind": "UPPER_BOUND_FROM_API_READBACK_NOT_EXACT_RPC_ACK",
+  "api_only": {
+    "action_id": "act_534429e95d8142bc9eacf1cc422367e7",
+    "phase": "API_ACCEPTED",
+    "api_accepted_at": 1793176747.1176815,
+    "deadline": 1793176867.1176815,
+    "terminal": null,
+    "completed_at": null,
+    "restart": null,
+    "recovery_verification": "EXTERNAL_PROBE_REQUIRED",
+    "causal_attribution": "UNPROVEN"
+  },
+  "action_completed": {
+    "action_id": "act_534429e95d8142bc9eacf1cc422367e7",
+    "phase": "ACTION_COMPLETED",
+    "api_accepted_at": 1793176747.1176815,
+    "deadline": 1793176867.1176815,
+    "terminal": {
+      "status": "SUCCESS",
+      "postcondition": {
+        "name": "SQLI_SOURCE_CONTAINMENT",
+        "checked": true,
+        "satisfied": true,
+        "observed": {
+          "pod_uid": "d7f4cd47-ae74-4cf3-ac0c-8ff10eff5d49",
+          "policy_uid": "900f3759-a94e-495a-8abd-e92c7c3a665c",
+          "policy_sha256": "d92ba649004aa9a0254178bbdb87093ccd7a9ed7efb865b71c496182779c191f",
+          "rule_expires_at": 1793176924,
+          "probe_refs": [
+            "runtime-09/http-009.json",
+            "runtime-09/http-010.json",
+            "runtime-09/http-011.json",
+            "runtime-09/http-012.json",
+            "runtime-09/http-013.json",
+            "runtime-09/http-014.json"
+          ]
+        }
+      },
+      "error": null
+    },
+    "completed_at": 1793176810.122979,
+    "restart": null,
+    "recovery_verification": "EXTERNAL_PROBE_REQUIRED",
+    "causal_attribution": "UNPROVEN"
+  },
+  "after_replacement": {
+    "action_id": "act_534429e95d8142bc9eacf1cc422367e7",
+    "phase": "ACTION_COMPLETED",
+    "api_accepted_at": 1793176747.1176815,
+    "deadline": 1793176867.1176815,
+    "terminal": {
+      "status": "SUCCESS",
+      "postcondition": {
+        "name": "SQLI_SOURCE_CONTAINMENT",
+        "checked": true,
+        "satisfied": true,
+        "observed": {
+          "pod_uid": "d7f4cd47-ae74-4cf3-ac0c-8ff10eff5d49",
+          "policy_uid": "900f3759-a94e-495a-8abd-e92c7c3a665c",
+          "policy_sha256": "d92ba649004aa9a0254178bbdb87093ccd7a9ed7efb865b71c496182779c191f",
+          "rule_expires_at": 1793176924,
+          "probe_refs": [
+            "runtime-09/http-009.json",
+            "runtime-09/http-010.json",
+            "runtime-09/http-011.json",
+            "runtime-09/http-012.json",
+            "runtime-09/http-013.json",
+            "runtime-09/http-014.json"
+          ]
+        }
+      },
+      "error": null
+    },
+    "completed_at": 1793176810.122979,
+    "restart": {
+      "old_uid": "d7f4cd47-ae74-4cf3-ac0c-8ff10eff5d49",
+      "new_uid": "9ff0d676-9263-4663-8f20-c1bf7869bdc9",
+      "old_absent": true,
+      "verified_at": 1793176866.810481,
+      "postcondition": {
+        "pod_uid": "9ff0d676-9263-4663-8f20-c1bf7869bdc9",
+        "policy_uid": "900f3759-a94e-495a-8abd-e92c7c3a665c",
+        "policy_sha256": "d92ba649004aa9a0254178bbdb87093ccd7a9ed7efb865b71c496182779c191f",
+        "rule_expires_at": 1793176924,
+        "probe_refs": [
+          "runtime-09/http-016.json",
+          "runtime-09/http-017.json",
+          "runtime-09/http-018.json",
+          "runtime-09/http-019.json",
+          "runtime-09/http-020.json",
+          "runtime-09/http-021.json"
+        ]
+      }
+    },
+    "recovery_verification": "EXTERNAL_PROBE_REQUIRED",
+    "causal_attribution": "UNPROVEN"
+  },
+  "boutique_business_healthy": false,
+  "recovery_verified": false,
+  "recovery_reason": "NO_FORMAL_CONTINUOUS_RECOVERY_PROBE_STREAM",
+  "causal_attribution": "UNPROVEN",
+  "new_lab_requests": 0,
+  "hash_verified_inputs": [
+    "business-01.json",
+    "business-03.json",
+    "business-07.json",
+    "fixture-after-replacement.json",
+    "fixture-initial.json",
+    "http-009.json",
+    "http-010.json",
+    "http-011.json",
+    "http-012.json",
+    "http-013.json",
+    "http-014.json",
+    "http-016.json",
+    "http-017.json",
+    "http-018.json",
+    "http-019.json",
+    "http-020.json",
+    "http-021.json",
+    "join-009.json",
+    "join-010.json",
+    "join-011.json",
+    "join-012.json",
+    "join-013.json",
+    "join-014.json",
+    "join-016.json",
+    "join-017.json",
+    "join-018.json",
+    "join-019.json",
+    "join-020.json",
+    "join-021.json",
+    "log-pod-target-009.json",
+    "log-pod-target-010.json",
+    "log-pod-target-011.json",
+    "log-pod-target-012.json",
+    "log-pod-target-013.json",
+    "log-pod-target-014.json",
+    "log-pod-target-016.json",
+    "log-pod-target-017.json",
+    "log-pod-target-018.json",
+    "log-pod-target-019.json",
+    "log-pod-target-020.json",
+    "log-pod-target-021.json",
+    "raw/0116.json",
+    "raw/0241.json",
+    "writer-1-block.json",
+    "writer-pins.json"
+  ]
+}
