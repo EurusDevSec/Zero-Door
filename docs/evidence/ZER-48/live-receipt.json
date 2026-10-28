@@ -1,0 +1,262 @@
+{
+  "evidence_kind": "LIVE_PROVIDER_SYNTHETIC_INPUT",
+  "started_at": "2026-10-28T14:06:22.675318+00:00",
+  "context": {
+    "run_id": "run_719a8f23a8534ff3a7657fe245e2dbdf",
+    "trial_id": "trl_46e5c9561b09484281123e36c82f722e",
+    "group": "B2",
+    "method_version": "zer48-adapter-smoke/1",
+    "config_ref": "sha256:5068f8fc6dab3b0a85f95c6bca2a5af434bf4a85c686ebdcdee923f2cce17de0"
+  },
+  "config": {
+    "model": "gpt-6-luna",
+    "endpoint": "https://api.openai.com/v1/responses",
+    "calls": 1,
+    "attempts": 1,
+    "max_output_tokens": 256,
+    "max_request_bytes": 8192,
+    "max_reserved_tokens": 9472,
+    "max_estimated_usd": "0.005",
+    "attempt_timeout_s": 20,
+    "call_deadline_s": 25,
+    "process_deadline_s": 30,
+    "new_lab_requests": 0,
+    "cost_limit_kind": "RESERVATION_ESTIMATE_NOT_PROVIDER_BILLING_CAP"
+  },
+  "input": {
+    "data_origin": "SYNTHETIC_ADAPTER_HEALTH_NOT_LAB",
+    "service": "sqli-fixture",
+    "observed_health": "healthy",
+    "evidence_ids": [
+      "health-01"
+    ]
+  },
+  "prompt_version": "zer48-health/1",
+  "source_sha256": {
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "infrastructure/scripts/verify_llm_adapter.py": "234738282d9b1aaf32d9d5be463c35b57dad01122f325c9ee7266bc509c788ef"
+  },
+  "outcome": "OK",
+  "decision_source": "LLM",
+  "value": {
+    "classification": "NORMAL",
+    "evidence_ids": [
+      "health-01"
+    ]
+  },
+  "verdict": "PASS_ADAPTER_SYNTHETIC",
+  "reason": null,
+  "events": [
+    {
+      "run_id": "run_719a8f23a8534ff3a7657fe245e2dbdf",
+      "trial_id": "trl_46e5c9561b09484281123e36c82f722e",
+      "group": "B2",
+      "method_version": "zer48-adapter-smoke/1",
+      "config_ref": "sha256:5068f8fc6dab3b0a85f95c6bca2a5af434bf4a85c686ebdcdee923f2cce17de0",
+      "schema_version": "zd-event/1.0.0",
+      "event_id": "evt_268e21d36f634fb5917743d7c8cd0de3",
+      "event_type": "LLM_CALL",
+      "plane": "O",
+      "causation_id": null,
+      "source_component": "decision_llm",
+      "source_instance": "src-365fd8a6d02149f19ab9db40b0b3561f",
+      "producer_version": "zer48/1",
+      "stream": "o.decision",
+      "seq": 0,
+      "target": null,
+      "clock": {
+        "clock_id": "llm-host",
+        "clock_source": "UNKNOWN",
+        "resolution_ms": null
+      },
+      "ts_event": "2026-10-28T14:06:27.312Z",
+      "payload": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "prompt_version": "zer48-health/1",
+        "prompt_sha256": "sha256:41eb866867715ee3b6cd4fc7d247cb1e64997537c412597dcc59aca69a33a2ec",
+        "latency_ms": 4625.0,
+        "outcome": "OK",
+        "usage": {
+          "input_tokens": 162,
+          "output_tokens": 22,
+          "total_tokens": 184,
+          "status": "COMPLETE"
+        },
+        "cost": {
+          "usd": 2.72e-05,
+          "status": "ESTIMATE",
+          "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing"
+        },
+        "attempt_no": 1,
+        "retry_reason": null,
+        "request_id": "req_94202bcdbe4f43c1a56339f4debd4b19",
+        "response_id": "resp_009ecfccb7daca0c016ae20160e57887d0a661ea6d7e272492",
+        "model_returned": "gpt-6-luna",
+        "model_revision": "UNKNOWN_NOT_INDEPENDENTLY_VERIFIED",
+        "reason_code": null
+      },
+      "decision_id": "dec_ac694083a6854d53ab9930ff73c67403",
+      "call_id": "cal_2c219394ea1e4ef7801f55731b6678ce"
+    }
+  ],
+  "budget": {
+    "run_id": "run_719a8f23a8534ff3a7657fe245e2dbdf",
+    "attempts_dispatched": 1,
+    "reserved_tokens": 2253,
+    "reserved_estimate_usd": 0.0003277,
+    "known_input_tokens": 162,
+    "known_output_tokens": 22,
+    "known_cost_estimate_usd": 2.72e-05,
+    "unknown_usage_attempts": 0,
+    "cost_estimate_complete": true,
+    "blocked": false,
+    "accounting_scope": "PROCESS_SINGLE_SHARED_RUN_BUDGET",
+    "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing",
+    "price_checked": "2026-10-28",
+    "price_basis": "UNCACHED_STANDARD_ESTIMATE_NOT_BILLING",
+    "reservation_basis": "request_utf8_bytes_plus_1024_overhead_not_tokenizer_guarantee"
+  },
+  "replies": [
+    {
+      "status": 200,
+      "body": {
+        "id": "resp_009ecfccb7daca0c016ae20160e57887d0a661ea6d7e272492",
+        "object": "response",
+        "created_at": 1793196384,
+        "status": "completed",
+        "access_programs": null,
+        "background": false,
+        "billing": {
+          "payer": "developer"
+        },
+        "completed_at": 1793196387,
+        "error": null,
+        "frequency_penalty": 0.0,
+        "incomplete_details": null,
+        "instructions": "Summarize only supplied synthetic service health evidence. Return NORMAL for observed healthy, UNKNOWN for insufficient evidence. Cite only supplied evidence IDs. No cause attribution, tools, actions or recovery claims are available.",
+        "max_output_tokens": 256,
+        "max_tool_calls": null,
+        "model": "gpt-6-luna",
+        "moderation": null,
+        "output": [
+          {
+            "id": "msg_009ecfccb7daca0c016ae2016373c087d0aa8d453ac42691a5",
+            "type": "message",
+            "status": "completed",
+            "content": [
+              {
+                "type": "output_text",
+                "annotations": [],
+                "logprobs": [],
+                "text": "{\"classification\":\"NORMAL\",\"evidence_ids\":[\"health-01\"]}"
+              }
+            ],
+            "phase": "final_answer",
+            "role": "assistant"
+          }
+        ],
+        "parallel_tool_calls": true,
+        "presence_penalty": 0.0,
+        "previous_response_id": null,
+        "prompt_cache_key": null,
+        "prompt_cache_retention": "24h",
+        "reasoning": {
+          "context": "all_turns",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "safety_identifier": null,
+        "service_tier": "default",
+        "store": false,
+        "temperature": 1.0,
+        "text": {
+          "format": {
+            "type": "json_schema",
+            "description": null,
+            "name": "zd_output",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "classification": {
+                  "enum": [
+                    "NORMAL",
+                    "UNKNOWN"
+                  ],
+                  "title": "Classification",
+                  "type": "string"
+                },
+                "evidence_ids": {
+                  "items": {
+                    "const": "health-01",
+                    "enum": [
+                      "health-01"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "title": "Evidence Ids",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "classification",
+                "evidence_ids"
+              ],
+              "title": "HealthSummary",
+              "type": "object"
+            },
+            "strict": true
+          },
+          "verbosity": "medium"
+        },
+        "tool_choice": "auto",
+        "tool_usage": {
+          "image_gen": {
+            "input_tokens": 0,
+            "input_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "output_tokens": 0,
+            "output_tokens_details": {
+              "image_tokens": 0,
+              "text_tokens": 0
+            },
+            "total_tokens": 0
+          },
+          "web_search": {
+            "num_requests": 0
+          }
+        },
+        "tools": [],
+        "top_logprobs": 0,
+        "top_p": 0.98,
+        "truncation": "disabled",
+        "usage": {
+          "input_tokens": 162,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 0
+          },
+          "output_tokens": 22,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 184
+        },
+        "user": null,
+        "metadata": {}
+      },
+      "request_id": "req_94202bcdbe4f43c1a56339f4debd4b19"
+    }
+  ],
+  "finished_at": "2026-10-28T14:06:27.312161+00:00",
+  "limits": [
+    "No lab or agent decision integration",
+    "Alias does not prove immutable revision",
+    "Process-local budget; no restart durability claim",
+    "Cost is an estimate, not billing"
+  ]
+}

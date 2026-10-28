@@ -1,0 +1,251 @@
+{
+  "at": "2026-10-28 14:12:05 UTC",
+  "issue": "ZER-48",
+  "verdict": "LIVE_ADAPTER_VERIFIED_PUBLICATION_AUTHORIZED_PENDING_CI_MERGE",
+  "ac01": "TECHNICALLY_SATISFIED_PENDING_REMOTE_GATES",
+  "base": "0b72eddff03e86fea0d19ac593da34c59479aaaa",
+  "branch": "codex/zer-48-llm-adapter",
+  "source_files": {
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "tests/test_llm_adapter.py": "c4fe742935e0bcbf7b4a0e3bc2e5e13050c0ec72c9b1b82877f95769af19ecb4",
+    "infrastructure/scripts/verify_llm_adapter.py": "234738282d9b1aaf32d9d5be463c35b57dad01122f325c9ee7266bc509c788ef",
+    "infrastructure/scripts/verify-llm-adapter.sh": "f922eb819f21b61002e707e435be9d1c40363f679050ef7dca71b56e001799a9",
+    ".github/workflows/ci.yml": "23a92a8aa8026915e53ca67d6fc3e72161416c103927008bf787bbc0b07c5532"
+  },
+  "python_test_runs": 144,
+  "focused_per_production_pin": 22,
+  "related_regressions": 100,
+  "independent_reviewer_test_runs": 22,
+  "review": "READY_FOR_PUBLICATION_TECHNICAL_AC01",
+  "reviewer": "/root/zer48_review",
+  "findings_closed": [
+    "shared run deadline must bound retry backoff",
+    "finite JSON parser must reject exponent overflow",
+    "forbidden H keys rechecked after canonical normalization"
+  ],
+  "history": {
+    "review_regression_before": "Two failures observed on old source; retained",
+    "normalization_before": "Root launch/import raced with edit; test passed fixed source and is NOT before-fix proof. Reviewer probe proves original defect.",
+    "windows_deadline_initial": "Platform-sensitive 20ms assertion failed; deterministic fake run clock fixes test, product caps unchanged",
+    "scanner_initial": "Production runtime lacks bandit; reused existing test-venv scanner, no install"
+  },
+  "live_provider_calls": 1,
+  "lab_requests": 0,
+  "new_dependency_install": false,
+  "executor_enabled": false,
+  "new_model_or_provider": false,
+  "git_publication": false,
+  "linear_writes": false,
+  "source_snapshot_is_dirty": true,
+  "offline_receipt_captured_sha256": "fd12d0d0a75177733ba97c46ffbffd4435568774dd2bfcfb8fda7448835bbc55",
+  "results": {
+    "adapter-hephaestus.log": {
+      "captured_sha256": "f0b5b21c5c33288ab9eefb558a9a5592bb470db6276616212ac6c66813dda167",
+      "published_sha256": "8977cd683c049f09752966717813eb8e99629eac5eba32e7d439d442b085f0a7",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 22,
+      "test_ok": true
+    },
+    "adapter-nemesis.log": {
+      "captured_sha256": "5bf3ebb8ae7ab6c755a83d791f250392dee60fab9d31ecebe463a051fe358a61",
+      "published_sha256": "b4a9067e3ea355779c46527a2e7d7fdf9e80eca453b9ecbf04cb59d3f0d099c2",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 22,
+      "test_ok": true
+    },
+    "bandit-final.json": {
+      "captured_sha256": "d81e6ce0135adbfca88c4d9232f9d7002fa4bffc4f744636b733c4d6977c1b81",
+      "published_sha256": "cd6baee9a0bfab5f7d39d6ffcf0a6766c57500073385ac55ffb421f7994f6b71",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "bandit.json": {
+      "captured_sha256": "c933b4d96c2fe248c0dac5d3b70c60a6f1bbcaadcc1fd36d761c507ca39c0aaa",
+      "published_sha256": "b19936e78778ea7f9d688287cb7db91981ae9e4ea5b1a101a375ae36af8bdad8",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "bandit.log": {
+      "captured_sha256": "8ea00490bd310ba22c4bef31b265c8bfa4043ff90083391441de490225bbdcaf",
+      "published_sha256": "68bbe70d3ca9576b02217657018f1d4540d04ab0c578ae88d5f3593ba660609c",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "bash-offline.log": {
+      "captured_sha256": "d00689010bb51006eec68692fb88d539f17bc2137a7aed1dc375d2e820e49d00",
+      "published_sha256": "66578e39f9503ac14a1bf57a8379653083ea8bd0652dbfb2d068345970fad6b1",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "bash-plan.log": {
+      "captured_sha256": "13b8050e9ba97692cff7e4673ba4f27e689d0167c1445bce1d7c45119d58c8f8",
+      "published_sha256": "2e73f9aca8f3119e775fdcc4f41e6dba36e52f53d7e913c036262a9626665b28",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "final-offline-probe.log": {
+      "captured_sha256": "43ca6a7e963d26f88bba4d263861c0fdb2201940156305cec9f555e8f2ef58fb",
+      "published_sha256": "b403e385a6d39e020a9da8ea1386b3e70bda9db1bef15cabe4c8b1aff8e71689",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "missing-key.log": {
+      "captured_sha256": "df8695fd9dfe6b229b3ac20283f07775cace1faed9675b5e4a2ff6386b38ec48",
+      "published_sha256": "37bc5e8b25aad1a6b665e4df6d4c67f9734114be655279a4fe9951e395467ab9",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "offline-probe.log": {
+      "captured_sha256": "50fdd9768f584ea009fddbbeaef2f040cc317326e36e87ca54526276beccac10",
+      "published_sha256": "57f5f0e4cc3198c6e93de22b9527754c24439ca57ef09eb033b36f0b2f6c7649",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "plan.log": {
+      "captured_sha256": "13b8050e9ba97692cff7e4673ba4f27e689d0167c1445bce1d7c45119d58c8f8",
+      "published_sha256": "2e73f9aca8f3119e775fdcc4f41e6dba36e52f53d7e913c036262a9626665b28",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 0,
+      "test_ok": false
+    },
+    "review-normalization-before.log": {
+      "captured_sha256": "eb16a878d8d8afe8689bb3417e1c87ab4c31fe8962660a1fc3a0a764013c3084",
+      "published_sha256": "a75d5a91a411eeced9e6131248a85982b358c592dc17ed1f73ccacc7565157fc",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 1,
+      "test_ok": true
+    },
+    "review-regression-before.log": {
+      "captured_sha256": "0151e022d198063a6297e916b6fc5cd2e4ef186c87ea9c09bd4a3d903bfe448c",
+      "published_sha256": "94fb9cb5f80515480a9efb14d75a234c750f7985677e7d7ec2f190534f32bd5f",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 2,
+      "test_ok": false
+    },
+    "test_command_guard_ci.log": {
+      "captured_sha256": "3b4ec6d4371f3fca87a9fd3c0971f00e7f86047ce675f2dd396db8f5b13fb363",
+      "published_sha256": "982b4c7667dc05eebbc39a2585b5b09efb8bfe285f60f2517b5f7b932e71bc34",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 6,
+      "test_ok": true
+    },
+    "test_dashboard_modes.log": {
+      "captured_sha256": "d8fbf0e59ac27e07ac062b1485600ae66e23d1a1764f6f80ec19262b1ce40f31",
+      "published_sha256": "eb049f0389a7c201cb79f488a2e722531a3265ae7cc661244b0b30ec0fcfc7c1",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 7,
+      "test_ok": true
+    },
+    "test_dashboard_mode_runtime.log": {
+      "captured_sha256": "f1be52237a09a2d805215c23059486f11531a3347f7aef4de5e6f1dad1ecdcad",
+      "published_sha256": "bb9a029c30f12e2bee357e2c14a894030349d4c3b55b825bc4c602b5996fac30",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 4,
+      "test_ok": true
+    },
+    "test_event_agents.log": {
+      "captured_sha256": "7940b181f0fc070c3c76906278e1c66ad9fa15bfd3d6c315c2d8b6acefefa6b2",
+      "published_sha256": "377519b5a70be92a03e810bdeebd58dfa27f89262d99a3273a84cd71a4659864",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 4,
+      "test_ok": true
+    },
+    "test_event_pipeline.log": {
+      "captured_sha256": "2f61020fb4094202abba8e0b2ebc43dd3b09ed8a04188652c496cc695616d25f",
+      "published_sha256": "de34e99b778856719bcfad1b5df00440c53921837e0b3f9034c02f0a49fd7af3",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 22,
+      "test_ok": true
+    },
+    "test_event_pipeline_regressions.log": {
+      "captured_sha256": "e87458c88e7401804cf00bb9076d40aba984c6044f45708010d2b59e6a6c3695",
+      "published_sha256": "47329b046fe5d3486409077051498132b8da1b5830a347e0060e50f037fc963e",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 42,
+      "test_ok": true
+    },
+    "test_hephaestus_consumer.log": {
+      "captured_sha256": "9e431682723e094fd9f384231c17515e61dd5b9f1d0540138f0bd737285a885a",
+      "published_sha256": "e2f77ed044316ea4ae69f8347f8167fbdc39becfea1e586f519ad0ab2c4e0234",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 15,
+      "test_ok": true
+    },
+    "windows-deadline-test-initial.log": {
+      "captured_sha256": "6418d11f6130ff09a41814118b54b3b6d0f0defea5a6ce898dd118bd5aec73d6",
+      "published_sha256": "dd80556a61c627ff8c7ab6ff40ac0f35b7b33f34d272d349934afcd90e282858",
+      "normalization": "CRLF to LF and trailing whitespace only",
+      "tests": 22,
+      "test_ok": false
+    }
+  },
+  "bandit": "0 HIGH_SEVERITY_HIGH_CONFIDENCE_FINDINGS",
+  "graph": {
+    "index_commit": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+    "incomplete": true,
+    "fts_missing": true,
+    "changed_files_detected": 15,
+    "mapped_symbols": 0,
+    "fresh_pdg_or_taint_coverage": false
+  },
+  "limits": [
+    "One actual synthetic-health adapter inference only; no deployed agent inference",
+    "No deployment or new Docker build; remote CI pending",
+    "No authenticated event recorder delivery or agent consumer integration",
+    "Nemesis runtime packaging remains ZER-19",
+    "Process-local budget only; reservation assumption not tokenizer or billing guarantee",
+    "No G3/G4/KPI/end-to-end acceptance"
+  ],
+  "automation_id": "b-o-k-t-qu-zer-48-cho-ho-ng",
+  "preservation": {
+    "checkout": {
+      "baseline_files_checked": 5461,
+      "unexpected_changed_or_missing": [],
+      "unexpected_added": [],
+      "head_unchanged": true
+    },
+    "primary": {
+      "baseline_files_checked": 6527,
+      "unexpected_changed_or_missing": [],
+      "unexpected_added": [],
+      "head_unchanged": true
+    },
+    "primary_status_unchanged": true,
+    "prior_metadata_bytes_preserved": true,
+    "index_empty": true,
+    "diff_check": "PASS"
+  },
+  "finalized_at": "2026-10-28T13:48:24.607674+00:00",
+  "publication_authorized": true,
+  "conditional_owner_acceptance": "Duyệt toàn bộ gói hoàn tất ZER-48",
+  "live": {
+    "run_id": "run_719a8f23a8534ff3a7657fe245e2dbdf",
+    "call_id": "cal_2c219394ea1e4ef7801f55731b6678ce",
+    "event_id": "evt_268e21d36f634fb5917743d7c8cd0de3",
+    "request_id": "req_94202bcdbe4f43c1a56339f4debd4b19",
+    "started_at": "2026-10-28T14:06:22.675318+00:00",
+    "finished_at": "2026-10-28T14:06:27.312161+00:00",
+    "latency_ms": 4625,
+    "input_tokens": 162,
+    "output_tokens": 22,
+    "known_cost_estimate_usd": 0.0000272,
+    "unknown_usage_attempts": 0,
+    "attempts": 1,
+    "capture_provenance": "live-capture.json"
+  },
+  "publication_base": {
+    "reviewed_head": "0b72eddff03e86fea0d19ac593da34c59479aaaa",
+    "base": "33001a34e4e0283fee4c2b710ab3abb4a4bd0a94",
+    "trees_equal": true,
+    "reason": "Avoid reintroducing previously squashed ZER-18 history"
+  },
+  "live_evidence_independent_review": "READY; actual recorded reply replayed offline, no new request"
+}

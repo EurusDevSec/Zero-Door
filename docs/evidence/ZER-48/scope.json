@@ -1,0 +1,26 @@
+{
+  "issue": "ZER-48",
+  "owner": "Codex after direct owner takeover; Claude not writing",
+  "base": "0b72eddff03e86fea0d19ac593da34c59479aaaa",
+  "files": [
+    "agent-orchestrator/event_pipeline/llm.py",
+    "tests/test_llm_adapter.py",
+    ".github/workflows/ci.yml",
+    "infrastructure/scripts/verify_llm_adapter.py",
+    "infrastructure/scripts/verify-llm-adapter.sh",
+    "docs/evidence/ZER-48/",
+    "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md",
+    "docs/delivery/NOW.md"
+  ],
+  "actions": [
+    "source/tests/offline fake transport",
+    "packaging/CI wiring offline",
+    "prepare bounded live adapter proposal"
+  ],
+  "not_authorized": [
+    "new provider inference until exact budget approval",
+    "Kubernetes or SQLi lab",
+    "publication/Done",
+    "next issue"
+  ]
+}

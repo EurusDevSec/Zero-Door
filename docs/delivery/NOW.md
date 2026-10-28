@@ -1,3 +1,11 @@
+## ZER-48 — một inference thật đạt; đang publication — 28/10/2026
+
+Hoàng duyệt toàn bộ [gói hoàn tất](../evidence/ZER-48/completion-proposal.md). [Receipt](../evidence/ZER-48/live-receipt.json):1attempt/0retry, NORMAL,162+22tokens,4.625s,0.0000272USDestimate; module sourcepins không đổi.144test lượt và review đạt; đang chốt review live/scoped publication/CI/merge trước Done. Không lab/deploy/issue tiếp theo; G3/G4 giữ kết luận riêng. Branchcodex/zer-48-llm-adapter/base33001a3 tree bằng reviewed0b72edd, dirty cũ giữ nguyên. Checkpoint dưới là lịch sử.
+
+## ZER-48 — Codex đã hoàn tất gói offline, chờ quyền inference/publication — 28/10/2026
+
+Hoàng giao Codex tiếp nhận từ Claude. [Evidence](../evidence/ZER-48/README.md):144lượt test áp dụng đạt, independent reviewREADY trên5sourcepins sau3finding đã sửa; branchcodex/zer-48-llm-adapter/base0b72edd. **Chưa Done/AC01 chưa nghiệm thu:** mới OFFLINE_SIMULATED,0provider/lab calls; [gói hoàn tất](../evidence/ZER-48/completion-proposal.md) cần duyệt đúng1call và publication có điều kiện. Giữ dirty cũ/primaryR, G3NOT_VERIFIED; không tự mở issue sau hoặc retry. Notification qua app đã đặt; không bảo đảm đánh thức máy ngủ. Checkpoint dưới là lịch sử.
+
 ## ZER-18 - component reviewed; publication awaiting approval - 28/10/2026
 
 [Evidence](../evidence/ZER-18/README.md):149 Python test runs,3 Go component packages pass; independent review READY. Persistent bounded outbox, failclosed config, poison/receipt handling, owned shutdown and native local process/ledger restart checks. No lab/deploy/LLM/action/G3 PASS. Local Go race unavailable (CGO disabled), Linux CI gate preserved. [Publication package](../evidence/ZER-18/publication-package.md) needs separate owner approval before Git/merge/Done. Preserve existing ZER-16/17 dirty and primaryR. Earlier checkpoints are historical.

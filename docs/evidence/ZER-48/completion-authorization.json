@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-28T14:05:51.934Z",
+  "issue": "ZER-48",
+  "questionItemId": "[\"request_user_input_async\",\"call_49ca9b43ed8d41dab026a3edc2149077\",0]",
+  "answer": "Duyệt toàn bộ gói hoàn tất ZER-48",
+  "proposal_sha256": "74e8e78f49086cc39e299d5ca06b1866898990ba416914d740e9491f4c0ed8c2",
+  "source_pins": {
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "tests/test_llm_adapter.py": "c4fe742935e0bcbf7b4a0e3bc2e5e13050c0ec72c9b1b82877f95769af19ecb4",
+    "infrastructure/scripts/verify_llm_adapter.py": "234738282d9b1aaf32d9d5be463c35b57dad01122f325c9ee7266bc509c788ef",
+    "infrastructure/scripts/verify-llm-adapter.sh": "f922eb819f21b61002e707e435be9d1c40363f679050ef7dca71b56e001799a9",
+    ".github/workflows/ci.yml": "23a92a8aa8026915e53ca67d6fc3e72161416c103927008bf787bbc0b07c5532"
+  },
+  "authorization": "One bounded live inference; conditional scoped publication/CI/review/merge/Done only when all gates pass; no retry/lab/next issue"
+}
