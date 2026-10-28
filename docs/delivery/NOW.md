@@ -1,3 +1,7 @@
+## ZER-16 — component đã review, sẵn sàng publication — 28/10/2026
+
+[AC/evidence](../evidence/ZER-16/README.md): state API_ACCEPTED→ACTION_COMPLETED sau block/benign CRUD; timeout/FAILED/PARTIAL không tự recovery, replacement có UID/absence/probes.131test lượt đạt, raw09 replay45input hashes, review độc lập READY; không cần lab mới. [Gói publication](../evidence/ZER-16/publication-package.md) đã chuẩn bị, chưa được duyệt/commit/push/CIremote/merge/Done. Branchcodex/zer-16-recovery-state/base6bf7d55; dirtyZER17 vàprimaryR giữ nguyên. BoutiqueNOT_MET, không production/LLM/end-to-end/KPI/gateR3PASS; chưa mởZER18. Checkpoint dưới là lịch sử.
+
 ## ZER-46 — technical AC accepted; publication in progress — 28/10/2026
 
 [Runtime09](../evidence/ZER-46/runtime-09/README.md) and its independent review verify both component AC:29HTTP/29joins,4TCP controls, block/benign across fixture and writer restarts, unchanged180sTTL/replay/expiry, API+mount cleanup and actual writer exits. Owned namespace absent; shared spec/UID/restart/3PVC preserved;83guard samples/PSImax0.36. No further lab retry is needed.

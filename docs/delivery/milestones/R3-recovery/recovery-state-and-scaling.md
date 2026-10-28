@@ -39,3 +39,14 @@ Không dao động; phục hồi replica baseline không bị tính thành heal 
 ## Bàn giao kỹ thuật
 
 Chưa có bàn giao thực thi mới. Khi thực hiện, ghi issue Linear và thời điểm đọc AC, HEAD/dirty, phạm vi file/thao tác, kiểm tra/kết quả, evidence, giới hạn và bước tiếp theo. Theo [WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); trạng thái, lịch và phân công cập nhật trên Linear.
+
+
+## Phiên ZER-16 — component state đã review, 28/10/2026
+
+Hoàng giao chốt ZER17 và làm riêng ZER16. AC01 sống đã đọc cùng prerequisite ZER10 Done, gateR3 SQLi-only; scale/HPA nguồn giữ ngoài đợt và chưa nghiệm thu. Intake HEAD73ebead/dirtyZER17; tạo branch codex/zer-16-recovery-state từ PR31 merge6bf7d55 có cùng tree, giữ dirty. Phạm vi/hash tại scratch/zer16/scope.json; chỉ state module/test, Docker/CI, evidenceZER16, note này và NOW. PrimaryR/writer/fixture/raw09/guard giữ nguyên; không lab/model/build/pull/import/Gitpublication.
+
+Đã bổ sung SqliActionState: API ack riêng; ACTION_COMPLETED/SUCCESS sau joined blockA403 và Bcatalog+CRUD content/identity/timestamp/Pod UID. Deadline giới hạn TTL, FAILED/PARTIAL/TIMEOUT không bị late proof đổi thành SUCCESS; replacement đòi newUID+oldabsence+fresh probes. Healer không phát RECOVERY_VERIFIED, giữ evaluator/scorer H độc lập và attributionUNPROVEN. Docker/CI copy/import component nhưng không bật production executor. Consumer integration thuộcZER18/R5.
+
+[Evidence và AC map](../../../evidence/ZER-16/README.md):14state+24containment trên mỗi productionpin, 12recovery+37scorer+6CIguard=131lượt đạt; packaged import simulation đạt, chưa Dockerbuild. Replay45hash-verified raw09inputs phân biệt API-only/completion/restart và giữ Boutique false/noformalrecovery. APIack chỉ cận trên từ raw0116, derived assessment không là event lịch sử/KPI. Review độc lập READY trên5sourcehash; Bandit high/high không finding. GitNexus incomplete/FTSmissing/oldprimary index, không graph/PDGcoverage.
+
+Kết luận READY_FOR_PUBLICATION_REVIEW ở mức component, chưa commit/push/remoteCI/merge/Hoàngacceptance/Done. [Gói publication](../../../evidence/ZER-16/publication-package.md) đã cụ thể; cần quyền riêng vì quyềnZER46 đã dùng. Không thêm runtime hoặc mởZER18. BoutiqueNOT_MET, production/LLM/end-to-end/KPI và gateR3 chưaPASS.

@@ -1,0 +1,20 @@
+{
+  "base": "6bf7d558d569b75af8d85ab108984d1ecd96623d",
+  "branch": "codex/zer-16-recovery-state",
+  "dirty": true,
+  "source": {
+    "agent-orchestrator/hephaestus/sqli_action_state.py": "91accb364d36757cf226e6e258d2e32a0a81288be71b7e1a9c1ae5c7d02832d2",
+    "tests/test_sqli_action_state.py": "ef54dc91c3eba560303d55b943e9f6a6eb4558223141d4714d75649e21243620",
+    "docs/evidence/ZER-16/reconcile.py": "67c5cda02add38da0837cefc0a70844025889bc773418d2f1c4fa839f6ff3dbc",
+    "agent-orchestrator/hephaestus/Dockerfile": "b2725a31f150bd17a93b51e9f4dff34aeca404d36ed5495fc723869807c32908",
+    ".github/workflows/ci.yml": "bba2596962e6203e001a757779f50f471c9399b51595708231d1c887bdd9b40d"
+  },
+  "unchanged_dependencies": {
+    "agent-orchestrator/hephaestus/sqli_containment.py": "85be039617014b0ea0ed9136771aad5d99c404bf424b0f0aec78bf55bd192744",
+    "agent-orchestrator/hephaestus/main.py": "d3acc796f6fd2cc8118687d1bf5f85f69fc20b35c698f9c4152e57a49c229e4a",
+    "agent-orchestrator/measurement/recovery.py": "866770559d89535a3949bde65a1d60facf8ccd54479beb632e646b67869eadd0",
+    "agent-orchestrator/measurement/scorer.py": "cb23bda65d52675fe4930f92af133aff0361c2d6d6c161f6642602144c749ca7"
+  },
+  "review": "independent-review.md",
+  "new_lab_runtime": false
+}

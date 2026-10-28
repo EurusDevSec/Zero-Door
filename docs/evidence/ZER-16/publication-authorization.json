@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-28T10:18:19.011013+00:00",
+  "human_reply": "Duyệt publication ZER-16 và Done khi đủ gate",
+  "proposal_sha256": "5b17e989ddc69d7319137140b04f41a5b5b61b34572dd4804e715160c15d58be",
+  "proposal_snapshot": "approved-publication-proposal.md",
+  "scope": "Scoped commit/push/PR/CI/review/merge and ZER-16 Done only when gates pass; no lab/deploy/next issue",
+  "conditional_owner_acceptance": true
+}

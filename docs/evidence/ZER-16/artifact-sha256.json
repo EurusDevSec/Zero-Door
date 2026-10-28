@@ -1,0 +1,27 @@
+{
+  "algorithm": "SHA-256",
+  "excludes": [
+    "artifact-sha256.json"
+  ],
+  "files": {
+    "approved-publication-proposal.md": "5b17e989ddc69d7319137140b04f41a5b5b61b34572dd4804e715160c15d58be",
+    "independent-review.md": "62a92d35d3e31a3def075bca61f97544891bfd5e3742d0fbb41dcfa3d7ca42e4",
+    "publication-authorization.json": "07bebafcea8e5de3858d51afb57de550b3ececa61c0071ad2aa7ebba8bf773e2",
+    "publication-package.md": "5b17e989ddc69d7319137140b04f41a5b5b61b34572dd4804e715160c15d58be",
+    "README.md": "5e5a925f186adcb0d799f239461efd8a9d1abf20d9c30a9849eb08cac462ab2d",
+    "reconcile.py": "67c5cda02add38da0837cefc0a70844025889bc773418d2f1c4fa839f6ff3dbc",
+    "replay.json": "7ec1410586097c657d5ef765b6ff63d8a12a658c1a909eeff5359189ffc7f94d",
+    "results/action-state-hephaestus.txt": "a8bd00c9cba87f09c3945cb02be0e8ca19feadde270e9fe9453a97e1c0a1c9e0",
+    "results/action-state-nemesis.txt": "7619adf08deb962c380f8c328bca4f84c77b1a3a62146d2972b15d167c7b18d7",
+    "results/bandit.json": "2c634e684fd90a5bb6a18460f8a05c352f130c6d1dd9bba019cdab4fba0dc5a7",
+    "results/ci-guard.txt": "8c0bbc238a33e72f062fad7ad97a8e87959f1dae327fed73e90a64d8bb34b5e8",
+    "results/containment-hephaestus.txt": "d2abd2afdec604bb9b8724e01803ea72d3a0e8ff63016cb31317f9a7e8d3c525",
+    "results/containment-nemesis.txt": "ef3b25bb27a658748c7778dcc7925a40e24298a52f108824933157516034f269",
+    "results/initial-system-python-missing-kubernetes.txt": "0ff3b33d236752a4509276e465ff599692de9de0c1811d6e43da6494ef1647a7",
+    "results/packaging.json": "e0e42d3aafa6313c3867c7e937f0f9b327659ac104c83117ad1cea4939b8d885",
+    "results/recovery.txt": "d14fea084e0de5b0c969f88ba78e4412a2d53c7f5c985f884a1dd11b182c4263",
+    "results/scorer.txt": "12a13e2df3d76be309ddb087a7536f12cf2c26d85bca95c45a1453ca9b3bd16c",
+    "source-hashes.json": "81d7e11065eb1a46b18e26cafec3ec44d9db701f16b8ea6fcd82cdbfe59ad65e",
+    "verification.json": "2a64f083ce9fca8144d6b3d933b3f3e9d1da49f70cc492d1c99c5f00bb648b07"
+  }
+}

@@ -16,6 +16,9 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 COPY hephaestus/main.py .
 COPY hephaestus/command_guard.py /hephaestus/command_guard.py
+# Prepared components only; this does not enable production execution.
+COPY hephaestus/sqli_containment.py /hephaestus/sqli_containment.py
+COPY hephaestus/sqli_action_state.py /hephaestus/sqli_action_state.py
 COPY nemesis/command_guard.py /nemesis/command_guard.py
 COPY event_pipeline /event_pipeline
 
