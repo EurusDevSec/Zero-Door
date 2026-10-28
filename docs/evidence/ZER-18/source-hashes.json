@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-28T10:54:46.565412+00:00",
+  "head": "b60cc55c693a462909b7b3c70edcadf344019b72",
+  "files": {
+    "agent-orchestrator/event_pipeline/adapters.py": "83895229f3967339ab3fcb8d767f7ee300a451358198de1dd70b3a552c840e11",
+    "agent-orchestrator/event_pipeline/client.py": "d19ad91c057941e199d1089159694b9f534a6468f16b08273a9ac8b8356c2cd3",
+    "agent-orchestrator/event_pipeline/decision_journal.py": "1270d6a698fef3eab4511f1f6921d1733ef84d13ffc6b8dcd2a8414dc0a037f3",
+    "agent-orchestrator/hephaestus/main.py": "575234405834008e0ac824e8fc4d20e78ff30b68a09fa11338349b28507ab33c",
+    "tests/test_hephaestus_consumer.py": "19180409d5c703a5560b2a23b757fcca6e4c3fccb2cc79517ec46ef75db00f9b",
+    "tests/test_event_agents.py": "950c78627e0e82f528d4e8102591266835c9ea0fd2751e826d30b3e149368580",
+    "chaos-worker/internal/guard/sqli_restart_test.go": "b32f9b2e67fa40ae4a9acad302fa6b19a7b3fecfa11d17d4394057a329bc9b89",
+    ".github/workflows/ci.yml": "1a01bf6e9b282bcabd6ca0498636bd696ad0aaf0f8e6c465239f8aadeeae079f",
+    "tests/test_event_pipeline.py": "c919e32949c03908f937e7c73fd58f84c46ce6ccf67087d4bd217e5cb670294a",
+    "infrastructure/scripts/verify-event-actors.py": "fc771680ac05cab2b8d55d0f561c706dfaa92a110fbc10dcbc78ec2b459b343b",
+    "tests/test_event_actor_verifier.py": "9388a072e91115feaae23015ee50e51cd609ef2447d4673e1c023625c2b305d0",
+    "tests/test_dashboard_modes.py": "6c5767df7dfd55ee722bf3d66bab4e627f05aa9c43422c9ab2229302630852ad",
+    "tests/test_dashboard_mode_runtime.py": "c3709a661fb2c8b423c60730783d795344c6f928e47ba6550deb9226d20b2808",
+    "infrastructure/scripts/r1_mode_runtime.py": "6f8674bbd0ee708deefa17f427fee6c80598a02231714ab7c171e4d743fd4643"
+  },
+  "ci_fix_at": "2026-10-28T12:31:55.221030+00:00"
+}

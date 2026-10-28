@@ -42,6 +42,17 @@ class VerifierTests(unittest.TestCase):
             self.assertFalse(any('persistentVolumeClaim' in x for x in s['volumes']))
             self.assertEqual(s['initContainers'][0]['command'],['/usr/bin/python3','/verify/gate.py'])
             self.assertEqual(s['containers'][0]['image'],images[name])
+            actor=s['containers'][0]
+            env={e['name']:e['value'] for e in actor['env']}
+            if name=='hephaestus':
+                self.assertEqual(env['ZD_RULES_STATE_FILE'],'/state/decisions.sqlite')
+                self.assertEqual(s['securityContext']['fsGroup'],65532)
+                self.assertIn({'name':'decisions','emptyDir':{'sizeLimit':'16Mi'}},s['volumes'])
+                self.assertIn({'name':'decisions','mountPath':'/state'},actor['volumeMounts'])
+                self.assertFalse(any(m['name']=='decisions' for m in s['initContainers'][0]['volumeMounts']))
+            else:
+                self.assertNotIn('ZD_RULES_STATE_FILE',env)
+                self.assertFalse(any(m['name']=='decisions' for m in actor['volumeMounts']))
         policy=next(d for d in overlay if d['metadata']['name']=='actors-to-o')
         self.assertEqual(policy['spec']['egress'],[{'to':[{'podSelector':{'matchLabels':{'app':'events-o'}}}],'ports':[{'port':8000,'protocol':'TCP'}]}])
 

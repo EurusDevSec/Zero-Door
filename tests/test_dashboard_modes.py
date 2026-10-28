@@ -69,7 +69,8 @@ class Lab:
             "ZD_EVENT_URL": "http://127.0.0.1:" + str(self.http.server_port), "ZD_RUN_ID": self.ctx["run_id"],
             "ZD_TRIAL_ID": self.ctx["trial_id"], "ZD_PRODUCER_VERSION": "zer11-modes", "ZD_CLOCK_ID": "clk_test",
             "ZD_CLOCK_SOURCE": "UNKNOWN", "ZD_COMMAND_POLICY_FILE": str(d / "policy.json"),
-            "ZD_OPERATOR_TOKEN_FILE": str(d / "heal-operator.json"), "ZD_COMMAND_LEDGER_FILE": str(d / "claims.sqlite")}
+            "ZD_OPERATOR_TOKEN_FILE": str(d / "heal-operator.json"), "ZD_COMMAND_LEDGER_FILE": str(d / "claims.sqlite"),
+            "ZD_RULES_STATE_FILE": str(d / "decisions.sqlite")}
         self.environment = patch.dict(os.environ, self.env)
         self.environment.start()
         self.gaia = self.load("gaia", files["gaia"])
@@ -106,9 +107,11 @@ class Lab:
 
     def consumer_tick(self):
         """One iteration of Hephaestus' actual R1 consumer loop."""
-        with patch.object(self.healer.time, "sleep", side_effect=TickComplete):
+        stop = threading.Event()
+        stop.wait = lambda *_: (_ for _ in ()).throw(TickComplete())
+        with patch.dict(os.environ, self.env):
             try:
-                self.healer._kafka_consumer_thread()
+                self.healer._kafka_consumer_thread(stop)
             except TickComplete:
                 pass
 

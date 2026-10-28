@@ -4,7 +4,8 @@ No R1 action is executed until a separate approved guard/executor is wired in.
 No action status is synthesized from the legacy API-only success messages.
 """
 from .client import permanent
-from .contract import new_id, now, validate
+from .contract import canonical, new_id, now, validate
+from .decision_journal import DecisionJournal
 
 
 class Detector:
@@ -33,32 +34,48 @@ class Detector:
 
 
 class RulesConsumer:
-    def __init__(self, client, decide):
+    def __init__(self, client, decide, *, journal_path=None, clock=None):
         self.client, self.decide = client, decide
-        self.pending, self.refused = {}, set()
+        self.journal = DecisionJournal(journal_path, **({"clock": clock} if clock else {}))
+
+    def close(self):
+        self.journal.close()
 
     def poll(self):
         records = list(self.client.records())
-        events = [record["envelope"] for record in records]
+        events, errors = [], []
+        for record in records:
+            event = record.get("envelope") if isinstance(record, dict) else None
+            if not isinstance(event, dict) or validate(event, "O"):
+                errors.append(ValueError("invalid archive envelope"))
+                continue
+            events.append(event)
         # Durable dedup survives consumer restarts. This adapter emits decisions only.
-        done = {item["event_id"] for event in events if event["event_type"] == "DECISION"
-                for item in event["payload"]["inputs"] if event["source_component"] == "decision_rules"}
-        for event_id in done:
-            self.pending.pop(event_id, None)
+        completed = [event for event in events if event.get("event_type") == "DECISION"
+                and event.get("trial_id") == self.client.trial and event.get("group") == "B1"
+                and not validate(event, "O", "decision_rules") and event["payload"]["stage"] == "PROPOSAL"]
+        done = {item["event_id"] for event in completed for item in event["payload"]["inputs"]}
+        for event in completed:
+            for item in event["payload"]["inputs"]:
+                row = self.journal.get(item["event_id"])
+                if row and canonical(event).decode() == row["envelope"]:
+                    self.journal.finish(item["event_id"], "RECORDED")
+        sent = False  # One bounded HTTP publish per tick; no batch can monopolize the owner.
         for event in events:
             if event["event_type"] != "DETECTED" or event["trial_id"] != self.client.trial \
-                    or event["event_id"] in done or event["event_id"] in self.refused:
+                    or event["event_id"] in done:
                 continue
             if validate(event, "O", "detector"):
-                raise ValueError("invalid detector envelope")
+                errors.append(ValueError("invalid detector envelope"))
+                continue
             if event["group"] != "B1":
                 continue  # B2/B3 need a genuine LLM result/fallback; B0/BM never auto-decide.
-            if event["event_id"] not in self.pending:
+            def build():
                 received_at = now()
                 p = event["payload"]
                 action = self.decide(p["rule_id"], p["severity"])
                 ctx = {key: event[key] for key in ("run_id", "trial_id", "group", "method_version", "config_ref", "incident_id") if key in event}
-                self.pending[event["event_id"]] = self.client.producer.event(ctx, "DECISION", {
+                return self.client.producer.event(ctx, "DECISION", {
                     "stage": "PROPOSAL", "decision_source": "RULES",
                     "inputs": [{"event_id": event["event_id"], "received_at": received_at}],
                     "response_kind": "ACTION" if action else "NO_ACTION",
@@ -67,12 +84,29 @@ class RulesConsumer:
                     "evidence_package_version": "o-envelope/1.0.0",
                 }, "o.decision", target=event["target"], decision_id=new_id("dec"), causation_id=event["event_id"])
             try:
-                self.client.publish(self.pending[event["event_id"]])
+                row = self.journal.reserve(event, build)
+            except ValueError as error:
+                errors.append(error)
+                continue
+            if sent:
+                continue
+            pending = self.journal.attempt(event["event_id"])
+            if pending is None:
+                continue
+            sent = True
+            try:
+                receipt = self.client.publish(pending)
+                if (not isinstance(receipt, dict) or receipt.get("status") not in {"RECORDED", "DUPLICATE", "SEALED_DUPLICATE"}
+                        or receipt.get("event_id") != pending["event_id"]):
+                    raise TimeoutError("DECISION_RECEIPT_UNKNOWN")
             except Exception as error:
                 if permanent(error):
-                    # Quarantined by the gateway; do not regenerate a new DECISION every poll.
-                    del self.pending[event["event_id"]]
-                    self.refused.add(event["event_id"])
-                raise
-            del self.pending[event["event_id"]]
-            done.add(event["event_id"])
+                    self.journal.finish(event["event_id"], "REFUSED", str(error.code))
+                elif row["attempts"] + 1 >= self.journal.MAX_ATTEMPTS:
+                    self.journal.finish(event["event_id"], "UNKNOWN", type(error).__name__)
+                errors.append(error)
+            else:
+                self.journal.finish(event["event_id"], "RECORDED")
+                done.add(event["event_id"])
+        if errors:
+            raise errors[0]

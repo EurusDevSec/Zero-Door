@@ -85,7 +85,8 @@ def specification():
 
 def source_files():
     base = ROOT / "agent-orchestrator"
-    files = [base / "hephaestus" / name for name in ("Dockerfile", "requirements.lock", "main.py", "command_guard.py")]
+    files = [base / "hephaestus" / name for name in ("Dockerfile", "requirements.lock", "main.py", "command_guard.py",
+                                                    "sqli_containment.py", "sqli_action_state.py")]
     files += [base / "nemesis" / "command_guard.py"]
     files += sorted(p for p in (base / "event_pipeline").rglob("*.py") if "__pycache__" not in p.parts)
     return base, files
@@ -168,11 +169,12 @@ def prepare(output, namespace):
         # ZD_OPERATOR_TOKEN_FILE below is a mounted path; the random token is never in an env value.
         env = dict(python_env, ZD_EVENT_URL="http://rt2-o:9141", ZD_O_KEYS_FILE="/keys/rules.json",  # nosec B106
                    ZD_COMMAND_POLICY_FILE="/keys/policy.json", ZD_OPERATOR_TOKEN_FILE="/keys/heal-operator.json",
-                   ZD_COMMAND_LEDGER_FILE="/work/claims.sqlite", ZD_PRODUCER_VERSION="rt2-image-" + source_hash[:16],
+                   ZD_COMMAND_LEDGER_FILE="/work/claims.sqlite", ZD_RULES_STATE_FILE="/work/decisions.sqlite",
+                   ZD_PRODUCER_VERSION="rt2-image-" + source_hash[:16],
                    ZD_CLOCK_ID="clk-rt2-heph", ZD_CLOCK_SOURCE="UNKNOWN",
                    ZD_RUN_ID=cfg["contexts"][group]["run_id"], ZD_TRIAL_ID=cfg["contexts"][group]["trial_id"])
         docs.append(pod("rt2-" + group.lower(), namespace, image, "actor", [code_mount, work_mount, key_mount],
-                        [cm, work, secret([("rules.json", "rules.json"), ("policy-" + group + ".json", "policy.json"),
+                        [cm, {"name": "work", "emptyDir": {"sizeLimit": "16Mi"}}, secret([("rules.json", "rules.json"), ("policy-" + group + ".json", "policy.json"),
                                        ("heal-operator.json", "heal-operator.json")])], env))
     docs.append(pod("rt2-console", namespace, image, "console", [code_mount, work_mount, key_mount],
                     [cm, work, secret([("operator.json", "operator.json"), ("heal-operator.json", "heal-operator.json")])],

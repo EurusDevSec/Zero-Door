@@ -44,6 +44,10 @@ class Bundle(unittest.TestCase):
                 self.assertEqual({"rules.json", "policy-" + group + ".json", "heal-operator.json"}, {i["key"] for i in projection})
                 self.assertEqual({"reader", "decision_rules"}, set(json.loads(secret["rules.json"])))
                 self.assertNotIn("EXECUTOR", " ".join(e["name"] for e in container["env"]))
+                env = {e["name"]: e["value"] for e in container["env"]}
+                self.assertEqual("/work/decisions.sqlite", env["ZD_RULES_STATE_FILE"])
+                self.assertIn({"name": "work", "mountPath": "/work"}, container["volumeMounts"])
+                self.assertIn({"name": "work", "emptyDir": {"sizeLimit": "16Mi"}}, pod["spec"]["volumes"])
             console = by_name["Pod", "rt2-console"]
             projection = next(v["secret"]["items"] for v in console["spec"]["volumes"] if "secret" in v)
             self.assertEqual({"operator.json", "heal-operator.json"}, {i["key"] for i in projection})
@@ -51,6 +55,9 @@ class Bundle(unittest.TestCase):
             for rel, digest in source["files"].items():
                 self.assertEqual(digest, rt2.digest((out / "build" / rel).read_bytes()))
             self.assertEqual((ROOT / "agent-orchestrator/hephaestus/Dockerfile").read_bytes(), (out / "build/hephaestus/Dockerfile").read_bytes())
+            for name in ("sqli_containment.py", "sqli_action_state.py"):
+                self.assertEqual((ROOT / "agent-orchestrator/hephaestus" / name).read_bytes(),
+                                 (out / "build/hephaestus" / name).read_bytes())
             self.assertEqual(1, rt2.specification()["limits"]["frontend_pod_deletes"])
             self.assertNotIn("HorizontalPodAutoscaler", {d["kind"] for d in docs})
 
@@ -96,7 +103,8 @@ class RealProductionProcesses(unittest.TestCase):
                         ZD_RUN_ID=cfg["contexts"][group]["run_id"], ZD_TRIAL_ID=cfg["contexts"][group]["trial_id"],
                         ZD_PRODUCER_VERSION="rt2-offline", ZD_CLOCK_ID="clk-offline", ZD_CLOCK_SOURCE="UNKNOWN",
                         ZD_COMMAND_POLICY_FILE=str(actor / "policy.json"), ZD_OPERATOR_TOKEN_FILE=str(actor / "heal-operator.json"),
-                        ZD_COMMAND_LEDGER_FILE=str(actor / "claims.sqlite"))
+                        ZD_COMMAND_LEDGER_FILE=str(actor / "claims.sqlite"),
+                        ZD_RULES_STATE_FILE=str(actor / "decisions.sqlite"))
                     logs[group] = actor / "uvicorn.log"
                     handle = logs[group].open("wb")
                     handles.append(handle)

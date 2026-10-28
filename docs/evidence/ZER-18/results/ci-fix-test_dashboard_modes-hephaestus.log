@@ -1,0 +1,294 @@
+test_only_b1_auto_decides_through_the_real_consumer (__main__.ConsumerModes.test_only_b1_auto_decides_through_the_real_consumer) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-hephaestus\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  return self.router.on_event(event_type)
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+ok
+test_b0_with_a_forged_operator_decision_is_still_refused (__main__.ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+2026-10-28 19:29:49,567 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<ManualTrigger.test_b0_with_a_forged_operator_decision_is_still_refused() running at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:249> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.125 seconds
+2026-10-28 19:29:49,572 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B0", "run_id": "run_38121ec3e5be434c870c6bf3fb3ad069", "trial_id": "trl_29589887909641bd969a203152c0169e"}, "reason": "DECISION_MISSING_OR_AMBIGUOUS", "route": "/heal/trigger"}
+2026-10-28 19:29:49,599 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 19:29:50,078 - asyncio - [WARNING] - Executing <Task finished name='Task-3' coro=<ManualTrigger.asyncTearDown() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:188> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.469 seconds
+ok
+test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled (__main__.ManualTrigger.test_bm_operator_decision_is_admitted_but_production_executor_stays_disabled) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+2026-10-28 19:29:50,168 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 19:29:50,657 - asyncio - [WARNING] - Executing <Task finished name='Task-9' coro=<ManualTrigger.asyncTearDown() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:188> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.469 seconds
+ok
+test_mode_refusals_hold_even_with_an_executor (__main__.ManualTrigger.test_mode_refusals_hold_even_with_an_executor) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+2026-10-28 19:29:50,883 - asyncio - [WARNING] - Executing <Task pending name='Task-14' coro=<ManualTrigger.test_mode_refusals_hold_even_with_an_executor() running at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:234> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.219 seconds
+2026-10-28 19:29:50,924 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 19:29:50,973 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 19:29:51,023 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 19:29:51,512 - asyncio - [WARNING] - Executing <Task finished name='Task-15' coro=<ManualTrigger.asyncTearDown() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:188> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+ok
+test_positive_control_one_action_per_operator_decision (__main__.ManualTrigger.test_positive_control_one_action_per_operator_decision) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+2026-10-28 19:29:51,659 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 200 OK"
+2026-10-28 19:29:51,703 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 200 OK"
+2026-10-28 19:29:52,189 - asyncio - [WARNING] - Executing <Task finished name='Task-23' coro=<ManualTrigger.asyncTearDown() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:188> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+ok
+test_trigger_needs_the_trusted_context_and_heal_operator (__main__.ManualTrigger.test_trigger_needs_the_trusted_context_and_heal_operator) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:392: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("shutdown")
+2026-10-28 19:29:52,235 - hephaestus-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 19:29:52,235 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-28 19:29:52,250 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "BM", "run_id": "run_76495fd32f2e4a68ac8b406124da9892", "trial_id": "trl_957c3faff8b24d2faed4879724886004"}, "reason": "RUN_CONTEXT", "route": "/heal/trigger"}
+2026-10-28 19:29:52,262 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 19:29:52,744 - asyncio - [WARNING] - Executing <Task finished name='Task-30' coro=<ManualTrigger.asyncTearDown() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_dashboard_modes.py:188> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 0.484 seconds
+ok
+test_executor_seam_is_never_configured_in_production (__main__.ProductionWiring.test_executor_seam_is_never_configured_in_production) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 10.949s
+
+OK

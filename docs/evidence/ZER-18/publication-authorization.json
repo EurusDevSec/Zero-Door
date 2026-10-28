@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-28T11:26:12.942453+00:00",
+  "human_reply": "Duyệt publication ZER-18 và nghiệm thu component khi đủ gate",
+  "proposal_snapshot": "approved-publication-proposal.md",
+  "proposal_snapshot_sha256": "4e39dd75788109b83ed413be860caa3177d63b362b52dfd823190b41ad19ad7d",
+  "captured_proposal_sha256": "c99b096c7966bd3da4b7e2234315ed6c8838fa10ffd40bf39d33041ac6e0ae5e",
+  "snapshot_canonicalization": "CRLF to LF only; original captured bytes retained in ignored scratch",
+  "scope": "Scoped commit/push/PR/CI/review/merge and conditional component AC01/03 acceptance/Done; no lab/deploy or G3 claim",
+  "conditional_owner_acceptance": true
+}

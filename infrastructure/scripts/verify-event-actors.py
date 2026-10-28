@@ -92,6 +92,14 @@ def render(namespace, images, ctx, version):
                     'ZD_PRODUCER_VERSION':version, 'ZD_CLOCK_ID':'clk_actor_transport',
                     'ZD_CLOCK_SOURCE':'UNKNOWN', 'PYTHONDONTWRITEBYTECODE':'1',
                 }.items()]
+            if name == 'hephaestus':
+                # Transport-only fixture: persists across process/container restart,
+                # NOT Pod replacement. Production integration must provide a durable volume.
+                doc['spec']['securityContext']['fsGroup'] = 65532
+                doc['spec']['volumes'].append({'name': 'decisions', 'emptyDir': {'sizeLimit': '16Mi'}})
+                actor = doc['spec']['containers'][0]
+                actor['env'].append({'name': 'ZD_RULES_STATE_FILE', 'value': '/state/decisions.sqlite'})
+                actor['volumeMounts'] = [*actor['volumeMounts'], {'name': 'decisions', 'mountPath': '/state'}]
     return base, overlay
 
 
