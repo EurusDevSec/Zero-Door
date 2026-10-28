@@ -1,0 +1,54 @@
+{
+  "at": 1793159136.6238701,
+  "healthy": true,
+  "health_kind": "COMPONENT_FUNCTION_AND_ACTIVE_TIME_ONLY_NOT_FORMAL_R1_HEALTH",
+  "wall_reference_slo_met": false,
+  "scheduler_idle_ms": 2500.0,
+  "active_ms": 61.75,
+  "result": {
+    "ok": true,
+    "detail": null,
+    "reason": null,
+    "interrupted": false,
+    "stopped_ns": null,
+    "elapsed_ms": 2561.75,
+    "cleanup": {},
+    "steps": [
+      {
+        "name": "home",
+        "status": 200,
+        "ok": true,
+        "ms": 513.209
+      },
+      {
+        "name": "product",
+        "status": 200,
+        "ok": true,
+        "ms": 508.21
+      },
+      {
+        "name": "add_to_cart",
+        "status": 302,
+        "ok": true,
+        "ms": 506.181
+      },
+      {
+        "name": "cart",
+        "status": 200,
+        "ok": true,
+        "ms": 510.958
+      },
+      {
+        "name": "checkout",
+        "status": 200,
+        "ok": true,
+        "ms": 523.151
+      }
+    ],
+    "requests": 5,
+    "captures": {
+      "cart_quantity_sha256_16": "6b86b273ff34fce1",
+      "order_id_sha256_16": "c8ea50d27c0878d1"
+    }
+  }
+}

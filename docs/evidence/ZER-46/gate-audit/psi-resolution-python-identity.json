@@ -1,0 +1,9 @@
+{
+  "pid": 6628,
+  "sys_executable": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer12\\production-nemesis\\Scripts\\python.exe",
+  "base_executable": "C:\\Users\\ACER\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+  "kernel_image": "C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\\python3.11.exe",
+  "lab_calls": 0,
+  "writer_started": false,
+  "candidate_check": "WRITER_EXECUTABLE_MISMATCH"
+}

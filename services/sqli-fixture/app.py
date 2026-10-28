@@ -34,6 +34,8 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from containment import FilePolicy, PolicyError  # noqa: E402
 MAX_BODY = 4096            # request body cap for the order probe
 MAX_RESPONSE = 256 * 1024  # serialized response cap
 MAX_ROWS = 200             # catalog rows returned at most (injection cannot raise this; we fetch MAX_ROWS+1)
@@ -99,6 +101,16 @@ class Config:
         if not 0 <= self.port <= 65535:
             raise ConfigError("CONFIG_INVALID", "ZD_SQLI_PORT", f"{self.port} out of range 0..65535")
         self.trusted_proxies = parse_networks(env.get("ZD_SQLI_TRUSTED_PROXIES", ""))
+        self.containment = None
+        policy_path = env.get("ZD_SQLI_CONTAINMENT_FILE", "")
+        policy_scope = env.get("ZD_SQLI_CONTAINMENT_SCOPE", "")
+        if policy_path or policy_scope:
+            if not policy_path or not policy_scope or not Path(policy_path).is_absolute():
+                raise ConfigError("CONFIG_INVALID", "ZD_SQLI_CONTAINMENT_FILE")
+            try:
+                self.containment = FilePolicy(policy_path, policy_scope)
+            except PolicyError:
+                raise ConfigError("CONFIG_INVALID", "ZD_SQLI_CONTAINMENT_SCOPE")
 
 
 def parse_networks(raw):
@@ -396,6 +408,7 @@ def make_handler(store):
             self.read_deadline = self.deadline = self.started + REQUEST_BUDGET_S
             self.transport_deadline = self.started + TRANSPORT_DEADLINE_S
             self.correlation_id, self._source, self._emitted = None, None, False
+            self.containment_record = {}
             # Defaults stdlib only sets inside parse_request, so a reply to a request cut mid-line still works.
             self.command, self.path, self.headers, self.requestline = None, "", None, ""
             self.request_version = "HTTP/1.1"
@@ -444,7 +457,7 @@ def make_handler(store):
                       "duration_ms": round((time.monotonic() - self.started) * 1000, 3),
                       "tcp_peer": source.get("tcp_peer"), "source_method": source.get("method"),
                       "source_confidence": source.get("confidence"), "client_ip": source.get("client_ip"),
-                      "correlation_id": self.correlation_id, **extra}
+                      "correlation_id": self.correlation_id, **self.containment_record, **extra}
             sink = LOG if LOG is not None else sys.stdout
             sink.write(json.dumps(record, separators=(",", ":")) + "\n")
             sink.flush()
@@ -520,6 +533,16 @@ def make_handler(store):
             """Run one request handler, guaranteeing a single terminal record even on unexpected errors."""
             self.correlation_id = self.client_correlation()
             try:
+                if config.containment and self.route().path.startswith("/fixture"):
+                    self._source = self.source()
+                    try:
+                        verdict = config.containment.check(self._source)
+                    except PolicyError as error:
+                        raise Failure(503, str(error))
+                    self.containment_record = verdict
+                    if verdict["blocked"]:
+                        self.drain(self.declared_length())
+                        raise Failure(403, "SOURCE_BLOCKED")
                 handler()
             except Failure as failure:
                 self.respond(failure.status, {"error": failure.reason}, source=self._source)
@@ -543,11 +566,15 @@ def make_handler(store):
                 return self.respond(200, {"http_process": "UP"})
             if route.path == "/ready":
                 try:
+                    if config.containment:
+                        config.containment.snapshot()
                     db = self.store_ready()
                     db.close()
                     return self.respond(200, {"db": "READY"})
                 except sqlite3.Error:
                     return self.respond(503, {"db": "NOT_READY"})
+                except PolicyError:
+                    return self.respond(503, {"error": "CONTAINMENT_STATE_UNAVAILABLE"})
             if route.path == "/fixture/catalog/search":
                 category = (parse_qs(route.query).get("category") or [""])[0]
                 rows = store.search(category, self.deadline)

@@ -1,0 +1,15 @@
+{
+  "status": "NO_OWNED_WRITER_ALIVE",
+  "writers": [
+    {
+      "pid": 17444,
+      "status": "ABSENT",
+      "windows_error": 87
+    },
+    {
+      "pid": 21076,
+      "status": "ABSENT",
+      "windows_error": 87
+    }
+  ]
+}

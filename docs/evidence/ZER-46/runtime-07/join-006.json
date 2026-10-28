@@ -1,0 +1,17 @@
+{
+  "ts": 1793164159.9018018,
+  "request_id": "078342909c25406c87fca963771aa790",
+  "method": "GET",
+  "path": "/fixture/orders/5b14cbf67e8e4f4c94ae4aa65430539d",
+  "status": 404,
+  "duration_ms": 0.834,
+  "tcp_peer": "10.42.0.174",
+  "source_method": "XFF_AFTER_TRUSTED",
+  "source_confidence": "PROXY_CHAIN",
+  "client_ip": "10.42.0.176",
+  "correlation_id": "bc8f35ef43e541618f0ca709cfd989fb",
+  "enforcement_point": "sqli-fixture/trusted-client",
+  "policy_sha256": "f8eec25ca0ed7beeb39aae02810f1ac438f7cc5282e4de215f4336869ab30f05",
+  "blocked": false,
+  "action_ids": []
+}

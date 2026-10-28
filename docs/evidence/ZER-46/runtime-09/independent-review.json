@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-28T08:52:08.340Z",
+  "reviewer": "/root/zer46_independent_review",
+  "readOnly": true,
+  "sourceFilesVerified": 38,
+  "rawCommandsVerified": 324,
+  "fixtureHttpVerified": 29,
+  "joinsVerified": 29,
+  "tcpControlsVerified": 4,
+  "guardSamples": 83,
+  "maxPsi": 0.36,
+  "ac01": "TECHNICALLY_SATISFIED",
+  "ac02": "TECHNICALLY_SATISFIED",
+  "verdict": "READY_FOR_PUBLICATION_REVIEW",
+  "remainingComponentBlockers": [],
+  "furtherLabRetryNeeded": false,
+  "boutiqueHealthPass": false,
+  "formalKpiPass": false,
+  "endToEndPass": false,
+  "publication": "NOT_DONE",
+  "merge": "NOT_DONE",
+  "issueDone": false
+}

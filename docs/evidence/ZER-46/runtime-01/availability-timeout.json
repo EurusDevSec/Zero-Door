@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-28T02:54:55.812Z",
+  "source": "exec session 2725 returned TimeoutExpired",
+  "command": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "ps",
+    "-a",
+    "--format",
+    "{{json .}}"
+  ],
+  "timeoutSeconds": 12,
+  "outcome": "TIMEOUT",
+  "readOnly": true,
+  "mutations": 0,
+  "conclusion": "Docker daemon responsiveness not verified; do not infer cluster stopped from API refusal"
+}

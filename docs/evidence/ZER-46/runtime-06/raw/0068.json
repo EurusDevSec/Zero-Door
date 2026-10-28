@@ -1,0 +1,16 @@
+{
+  "at": 1793163559.9560573,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "top",
+    "k3d-zero-door-agent-0",
+    "-eo",
+    "args"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Error response from daemon: Couldn't find PID field in ps output\n",
+  "error": "COMMAND_FAILED:docker --context desktop-linux top k3d-zero-door-agent-0 -eo args"
+}

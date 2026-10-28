@@ -1,0 +1,17 @@
+{
+  "at": 1793176551.6443615,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "cat",
+    "/proc/1/cmdline"
+  ],
+  "pid": 20748,
+  "returncode": 0,
+  "stdout": "/sbin/docker-init -- /bin/k3d-entrypoint.sh server --disable=traefik --tls-san host.docker.internal --tls-san k3d-zero-door-serverlb ",
+  "stderr": "",
+  "ended_at": 1793176551.8553054
+}

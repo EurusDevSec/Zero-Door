@@ -1,0 +1,9 @@
+usage: client_diagnostic.py [-h] [--execute]
+
+One separately approved benign client-readiness diagnostic. Inert import, no
+containment. Never promotes a non-reproduced stall to a root-cause fix or full
+acceptance.
+
+options:
+  -h, --help  show this help message and exit
+  --execute

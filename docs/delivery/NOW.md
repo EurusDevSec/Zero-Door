@@ -1,3 +1,9 @@
+## ZER-46 — technical AC accepted; publication in progress — 28/10/2026
+
+[Runtime09](../evidence/ZER-46/runtime-09/README.md) and its independent review verify both component AC:29HTTP/29joins,4TCP controls, block/benign across fixture and writer restarts, unchanged180sTTL/replay/expiry, API+mount cleanup and actual writer exits. Owned namespace absent; shared spec/UID/restart/3PVC preserved;83guard samples/PSImax0.36. No further lab retry is needed.
+
+Hoang authorized scoped commit/push/PR/CI/merge and Done when gates pass. Track live PR/merge and final acceptance in Linear ZER-46; this checkpoint is not a live board. Boutique business remains unhealthy, with no whole-lab/R1/KPI/LLM/end-to-end claim. Keep unrelated ZER-43 changes and scratch out of this publication. Earlier checkpoints below are historical.
+
 ## Con trỏ mới — Publication ZER-42 đã được duyệt — 27/10/2026
 
 Hoàng đã cấp quyền commit/push, PR, CI, merge và nghiệm thu cuối qua ZD2-CODEX. Review độc lập của ZD2 xác

@@ -1,0 +1,13 @@
+{
+  "at": 1793168198.740189,
+  "args": [
+    "git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "pid": 7500,
+  "returncode": 0,
+  "stdout": "9567830020954bf3f30fd5a74240747be0c8ec1c\n",
+  "stderr": "",
+  "ended_at": 1793168198.8462522
+}

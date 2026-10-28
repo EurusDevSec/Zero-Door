@@ -1,0 +1,11 @@
+{
+  "component_observed": false,
+  "error": "ACCESS_JOIN",
+  "component_resource_cleanup": "CLEAN",
+  "lab_readiness": "NOT_MET_BOUTIQUE_NOT_HEALTHY",
+  "status": "NOT_MET",
+  "boutique_pass": false,
+  "formal_kpi_pass": false,
+  "issue_done": false,
+  "elapsed_seconds": 320.295951128006
+}

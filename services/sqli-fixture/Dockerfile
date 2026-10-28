@@ -6,6 +6,7 @@ FROM gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445
 WORKDIR /app
 
 COPY app.py .
+COPY containment.py .
 COPY seed.json .
 
 # /data is the only writable path (the SQLite file), supplied as a volume; the image root stays read-only.

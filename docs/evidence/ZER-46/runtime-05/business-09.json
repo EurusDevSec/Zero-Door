@@ -1,0 +1,55 @@
+{
+  "at": 1793161548.6658013,
+  "healthy": false,
+  "health_kind": "COMPONENT_FUNCTION_AND_ACTIVE_TIME_ONLY_NOT_FORMAL_R1_HEALTH",
+  "wall_reference_slo_met": false,
+  "scheduler_idle_ms": 3000.0,
+  "active_ms": null,
+  "result": {
+    "ok": false,
+    "detail": "TIMEOUT",
+    "reason": "STEP_DEADLINE",
+    "interrupted": false,
+    "stopped_ns": null,
+    "elapsed_ms": 7589.2566,
+    "cleanup": {
+      "cart": "DONE"
+    },
+    "steps": [
+      {
+        "name": "home",
+        "status": 200,
+        "ok": true,
+        "ms": 622.719
+      },
+      {
+        "name": "product",
+        "status": 200,
+        "ok": true,
+        "ms": 1869.225
+      },
+      {
+        "name": "add_to_cart",
+        "status": 302,
+        "ok": true,
+        "ms": 507.383
+      },
+      {
+        "name": "cart",
+        "status": 200,
+        "ok": true,
+        "ms": 1585.673
+      },
+      {
+        "name": "checkout",
+        "status": null,
+        "ok": false,
+        "ms": 3004.199
+      }
+    ],
+    "requests": 6,
+    "captures": {
+      "cart_quantity_sha256_16": "6b86b273ff34fce1"
+    }
+  }
+}

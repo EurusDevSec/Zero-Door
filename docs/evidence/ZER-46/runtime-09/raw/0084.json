@@ -1,0 +1,21 @@
+{
+  "at": 1793176716.0907934,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "pod/sqli-fixture-678f64c5d5-f72hf",
+    "-c",
+    "sqli-fixture",
+    "--tail=500"
+  ],
+  "pid": 8056,
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793176697.3332458,\"request_id\":\"95cd67c5c1244b0cb1d947ea78e47255\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.474,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793176698.1808565,\"request_id\":\"b8045c945b204f8380ab9c4929950e1b\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":0.911,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793176703.2893238,\"request_id\":\"36d7ea125224476e87bce5c412a68804\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":1.205,\"tcp_peer\":\"10.42.0.187\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.188\",\"correlation_id\":\"00c6b117081e46f9b06d54afcce9b834\",\"enforcement_point\":\"sqli-fixture/trusted-client\",\"policy_sha256\":\"2587cdb10fd3b0eaf1e0159c4b8a185ece67161a6904c2438285e49117d1ab2a\",\"blocked\":false,\"action_ids\":[],\"rows\":1,\"restricted_rows\":0}\n{\"ts\":1793176707.334758,\"request_id\":\"7f406f50879b4ec5915969dbe9a7d107\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.524,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793176707.3348687,\"request_id\":\"0a6fdb8bcf2c4a749bf72d960ce814f2\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.373,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793176710.5229692,\"request_id\":\"bb9a1d1997ab459eb14f01bf62e236b5\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.886,\"tcp_peer\":\"10.42.0.187\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.189\",\"correlation_id\":\"5c7fd0f2c19c4a1485e0a0217da4cc31\",\"enforcement_point\":\"sqli-fixture/trusted-client\",\"policy_sha256\":\"2587cdb10fd3b0eaf1e0159c4b8a185ece67161a6904c2438285e49117d1ab2a\",\"blocked\":false,\"action_ids\":[],\"rows\":1,\"restricted_rows\":0}\n{\"ts\":1793176715.7342632,\"request_id\":\"d9ab175118804e238f826afc81e2eca4\",\"method\":\"POST\",\"path\":\"/fixture/orders\",\"status\":201,\"duration_ms\":7.863,\"tcp_peer\":\"10.42.0.187\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.189\",\"correlation_id\":\"9527e37978ad4e5699fccbb132b2d9de\",\"enforcement_point\":\"sqli-fixture/trusted-client\",\"policy_sha256\":\"2587cdb10fd3b0eaf1e0159c4b8a185ece67161a6904c2438285e49117d1ab2a\",\"blocked\":false,\"action_ids\":[]}\n",
+  "stderr": "",
+  "ended_at": 1793176716.3004365
+}

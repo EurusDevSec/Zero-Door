@@ -1,0 +1,17 @@
+{
+  "at": 1793159083.7009375,
+  "errors": [
+    "POLICY_OR_LOG_READBACK:COMMAND_FAILED:kubectl --context k3d-zero-door --request-timeout=12s -n zd-sqli-lab logs"
+  ],
+  "namespace_created": true,
+  "namespace_absent": true,
+  "specs_preserved": true,
+  "restarts_preserved": true,
+  "business_2_of_2": true,
+  "formal_r1_health_claim": false,
+  "fixture_http": 0,
+  "boutique_http": 16,
+  "tcp_checks": 0,
+  "writer_processes": 0,
+  "verdict": "INCOMPLETE"
+}

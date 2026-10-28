@@ -1,0 +1,38 @@
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "name": "sqli-fixture",
+            "env": [
+              {
+                "name": "ZD_SQLI_CONTAINMENT_FILE",
+                "value": "/containment/policy.json"
+              },
+              {
+                "name": "ZD_SQLI_CONTAINMENT_SCOPE",
+                "value": "REPLACE_WITH_APPROVED_UNIQUE_SCOPE"
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "containment",
+                "mountPath": "/containment",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "containment",
+            "configMap": {
+              "name": "zer46-sqli-containment"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

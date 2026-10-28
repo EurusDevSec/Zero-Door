@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-28T06:16:34.249Z",
+  "issue": "ZER-46",
+  "status": "APPROVED",
+  "source": "direct human reply in current chat",
+  "reply": "Duy\u00e1\u00bb\u2021t g\u0102\u00b3i ch\u00e1\u00ba\u00a9n \u00c4\u2018o\u0102\u00a1n m\u00e1\u00bb\u2122t l\u00e1\u00ba\u00a7n",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/client-diagnostic-proposal.md",
+  "proposalSha256": "ea5d73f9ee95fa477d69c498f912d9760fbefa1bdb3d4d5d4988eea1f4def566",
+  "sourceManifestSha256": "28ee1a8e22faf4961480e17c1bd9be66f8654ef447ac18c8ad7b7130685870c7",
+  "attempts": 1,
+  "maximumSeconds": 1200,
+  "cleanupReserveSeconds": 300,
+  "fixtureHttp": 1,
+  "boutiqueHttp": 32,
+  "rps": 2,
+  "concurrency": 1,
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "writers": 0,
+  "containmentRuns": 0
+}

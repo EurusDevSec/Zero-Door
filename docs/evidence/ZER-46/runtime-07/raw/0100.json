@@ -1,0 +1,19 @@
+{
+  "at": 1793164175.072204,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "get",
+    "cm",
+    "zer46-sqli-containment",
+    "-o",
+    "json"
+  ],
+  "returncode": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"data\": {\n        \"policy.json\": \"{\\\"rules\\\":[{\\\"action_id\\\":\\\"act_e63c9fea4b844b4c9d9731ff0c026819\\\",\\\"client_ip\\\":\\\"10.42.0.175\\\",\\\"created_at\\\":1793164172,\\\"expires_at\\\":1793164352,\\\"request_id\\\":\\\"116162104fa942e1b1e3e3ffee208b25\\\"}],\\\"run_id\\\":\\\"run_f6abc6e9307f45dd89944c5b2c43c92a\\\",\\\"scope\\\":\\\"zer46-6ce751e95411\\\",\\\"trial_id\\\":\\\"trl_51edff71e31e4cdb82af93a74328eaee\\\",\\\"version\\\":\\\"zer46-containment/1\\\"}\"\n    },\n    \"kind\": \"ConfigMap\",\n    \"metadata\": {\n        \"annotations\": {\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"v1\\\",\\\"data\\\":{\\\"policy.json\\\":\\\"{\\\\\\\"version\\\\\\\":\\\\\\\"zer46-containment/1\\\\\\\",\\\\\\\"scope\\\\\\\":\\\\\\\"zer46-6ce751e95411\\\\\\\",\\\\\\\"run_id\\\\\\\":\\\\\\\"run_f6abc6e9307f45dd89944c5b2c43c92a\\\\\\\",\\\\\\\"trial_id\\\\\\\":\\\\\\\"trl_51edff71e31e4cdb82af93a74328eaee\\\\\\\",\\\\\\\"rules\\\\\\\":[]}\\\"},\\\"kind\\\":\\\"ConfigMap\\\",\\\"metadata\\\":{\\\"annotations\\\":{},\\\"labels\\\":{\\\"zero-door.io/containment-scope\\\":\\\"zer46-6ce751e95411\\\",\\\"zero-door.io/run\\\":\\\"zer46-6ce751e95411\\\"},\\\"name\\\":\\\"zer46-sqli-containment\\\",\\\"namespace\\\":\\\"zd-sqli-lab\\\"}}\\n\"\n        },\n        \"creationTimestamp\": \"2026-10-28T05:08:31Z\",\n        \"labels\": {\n            \"zero-door.io/containment-scope\": \"zer46-6ce751e95411\",\n            \"zero-door.io/run\": \"zer46-6ce751e95411\"\n        },\n        \"name\": \"zer46-sqli-containment\",\n        \"namespace\": \"zd-sqli-lab\",\n        \"resourceVersion\": \"168535\",\n        \"uid\": \"3f8343e9-840d-497e-a36d-ab1e23815b76\"\n    }\n}\n",
+  "stderr": ""
+}

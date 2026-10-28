@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-28T02:57:25.923Z",
+  "scope": "Same approved ZER-46 envelope; human resumed after manually enabling containers. Prior zero-mutation preflight failure retained unchanged.",
+  "originalApproval": "Duyệt toàn bộ gói ZER-46 đã chuẩn bị",
+  "userFollowup": "do tôi tắt các container , tôi bật lại rồi",
+  "proposalSha256": "49efeba5c82187b05014564b94536bd9749a4f63acaf08d4d0c2c53278502363",
+  "maximumSeconds": 1200,
+  "cleanupReserveSeconds": 300,
+  "maxFixtureHttp": 120,
+  "maxBoutiqueHttp": 32,
+  "maxBuilds": 1,
+  "maxFixturePodReplacements": 1,
+  "maxTtlSeconds": 180,
+  "noSharedRestart": true
+}

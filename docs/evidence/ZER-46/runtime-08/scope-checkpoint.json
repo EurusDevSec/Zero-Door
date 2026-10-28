@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-28T05:22:28.024Z",
+  "issue": "ZER-46",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "writer": "Codex one writer",
+  "authorization": {
+    "status": "APPROVED",
+    "proposal": "docs/evidence/ZER-46/runtime-prep/logs-retry-proposal.md",
+    "proposalSha256": "2c484d9359d9b02d703b2c8c416a8feab7525ba12b3b19ce8d0092354319f7d2",
+    "sourceManifestSha256": "7fa3f09433edb30511a4e73c7df2a61d5c82de807e6a7e7573bc9b5a9c44d442",
+    "maximumSeconds": 1200,
+    "cleanupSeconds": 300,
+    "node": "k3d-zero-door-agent-0",
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "fixtureHttpMax": 120,
+    "boutiqueHttpMax": 32,
+    "ttlSeconds": 180,
+    "fixturePodReplacements": 1,
+    "writerRestarts": 1,
+    "at": "2026-10-28T05:22:28.014Z",
+    "source": "Hoang direct reply in current chat",
+    "answer": "Duyệt toàn bộ gói sửa collector Pod/UID"
+  },
+  "node": "k3d-zero-door-agent-0",
+  "namespace": "zd-sqli-lab",
+  "changeFrom07": "exact Pod UID log collector; owned old Pod UID-pinned readback absent<=45s",
+  "guard": "120s preflight;host/WSL>=1GiB;memoryPSIavg10<=5;5s watcher",
+  "boutique": "observer only; no R1/KPI/end-to-end claim",
+  "stop": "close after cleanup; no retry"
+}

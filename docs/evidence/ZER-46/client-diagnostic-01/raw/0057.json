@@ -1,0 +1,17 @@
+{
+  "at": 1793168335.3518178,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "apply",
+    "-f",
+    "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-46\\client-diagnostic-01\\fixture.yaml"
+  ],
+  "pid": 12564,
+  "returncode": 0,
+  "stdout": "configmap/sqli-fixture-config created\ndeployment.apps/sqli-fixture created\n",
+  "stderr": "",
+  "ended_at": 1793168335.576308
+}

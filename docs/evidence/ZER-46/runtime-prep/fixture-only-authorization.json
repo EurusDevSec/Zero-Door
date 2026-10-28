@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-28T03:40:21.241Z",
+  "status": "APPROVED",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duyệt gói fixture-only đã chuẩn bị",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/fixture-only-proposal.md",
+  "proposalSha256": "7e66c07e74d6f44529b305e9fd787329a895e76fbf3e7a679d34272d0ee91e4b",
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "ttlSeconds": 180,
+  "fixturePodReplacementMax": 1,
+  "writerRestartMax": 1,
+  "pullsAllowed": 0
+}

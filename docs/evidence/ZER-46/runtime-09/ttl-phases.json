@@ -1,0 +1,50 @@
+[
+  {
+    "phase": "projection",
+    "at": 1793176746.908128,
+    "monotonic": 23449.578,
+    "deadline_monotonic": 23489.578,
+    "future_reserved_seconds": 120,
+    "expiry": 1793176924
+  },
+  {
+    "phase": "blocked_before",
+    "at": 1793176781.7962117,
+    "monotonic": 23484.468,
+    "deadline_monotonic": 23519.468,
+    "future_reserved_seconds": 85,
+    "expiry": 1793176924
+  },
+  {
+    "phase": "writer_stop",
+    "at": 1793176815.6155863,
+    "monotonic": 23518.296,
+    "deadline_monotonic": 23528.296,
+    "future_reserved_seconds": 75,
+    "expiry": 1793176924
+  },
+  {
+    "phase": "replacement",
+    "at": 1793176815.6911652,
+    "monotonic": 23518.359,
+    "deadline_monotonic": 23548.359,
+    "future_reserved_seconds": 45,
+    "expiry": 1793176924
+  },
+  {
+    "phase": "blocked_after",
+    "at": 1793176831.4396744,
+    "monotonic": 23534.109,
+    "deadline_monotonic": 23569.109,
+    "future_reserved_seconds": 10,
+    "expiry": 1793176924
+  },
+  {
+    "phase": "writer_replay",
+    "at": 1793176864.762019,
+    "monotonic": 23567.437,
+    "deadline_monotonic": 23577.437,
+    "future_reserved_seconds": 0,
+    "expiry": 1793176924
+  }
+]

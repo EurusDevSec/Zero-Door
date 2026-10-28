@@ -1,0 +1,16 @@
+{
+  "at": 1793159053.5821517,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "image",
+    "inspect",
+    "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+    "--format",
+    "{{.Id}}"
+  ],
+  "returncode": 0,
+  "stdout": "sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\n",
+  "stderr": ""
+}

@@ -1,0 +1,37 @@
+F..FFF
+======================================================================
+FAIL: test_blocks_all_fixture_verbs_keeps_benign_and_health (__main__.HTTPBoundary.test_blocks_all_fixture_verbs_keeps_benign_and_health)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_containment.py", line 305, in test_blocks_all_fixture_verbs_keeps_benign_and_health
+    self.assertEqual(self.request()[0], 403)
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_forged_leftmost_forward_does_not_switch_blocked_source (__main__.HTTPBoundary.test_forged_leftmost_forward_does_not_switch_blocked_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_containment.py", line 327, in test_forged_leftmost_forward_does_not_switch_blocked_source
+    self.assertEqual(self.request(address=BENIGN + ", " + ATTACKER)[0], 403)
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_process_restart_retains_policy_and_order_reset_does_not_clear_it (__main__.HTTPBoundary.test_process_restart_retains_policy_and_order_reset_does_not_clear_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_containment.py", line 335, in test_process_restart_retains_policy_and_order_reset_does_not_clear_it
+    self.assertEqual(self.request()[0], 403)
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_unknown_and_bad_state_are_503_not_block_or_success (__main__.HTTPBoundary.test_unknown_and_bad_state_are_503_not_block_or_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "R:\_Projects\Eurus_Workspace\zero_door\tests\test_sqli_containment.py", line 318, in test_unknown_and_bad_state_are_503_not_block_or_success
+    self.assertEqual(self.request(address=None)[0], 503)
+AssertionError: 200 != 503
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.693s
+
+FAILED (failures=4)

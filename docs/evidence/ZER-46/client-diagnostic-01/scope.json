@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-28T06:16:34.290Z",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "issue": "ZER-46",
+  "writer": "Codex only",
+  "boundary": "APPROVED_SINGLE_DIAGNOSTIC; NOT_FULL_CONTAINMENT",
+  "authorization": {
+    "at": "2026-10-28T06:16:34.249Z",
+    "issue": "ZER-46",
+    "status": "APPROVED",
+    "source": "direct human reply in current chat",
+    "reply": "Duyệt gói chẩn đoán một lần",
+    "proposal": "docs/evidence/ZER-46/runtime-prep/client-diagnostic-proposal.md",
+    "proposalSha256": "ea5d73f9ee95fa477d69c498f912d9760fbefa1bdb3d4d5d4988eea1f4def566",
+    "sourceManifestSha256": "28ee1a8e22faf4961480e17c1bd9be66f8654ef447ac18c8ad7b7130685870c7",
+    "attempts": 1,
+    "maximumSeconds": 1200,
+    "cleanupReserveSeconds": 300,
+    "fixtureHttp": 1,
+    "boutiqueHttp": 32,
+    "rps": 2,
+    "concurrency": 1,
+    "builds": 0,
+    "imports": 0,
+    "pulls": 0,
+    "writers": 0,
+    "containmentRuns": 0
+  },
+  "writeAllowlist": [
+    "docs/evidence/ZER-46/client-diagnostic-01/",
+    "docs/evidence/ZER-46/runtime-prep/client-diagnostic-authorization.json",
+    "docs/evidence/ZER-46/gate-audit/",
+    "docs/evidence/ZER-46/README.md",
+    "docs/evidence/ZER-46/verification.json",
+    "docs/evidence/ZER-46/artifact-sha256.json",
+    "docs/delivery/NOW.md",
+    "docs/delivery/milestones/R3-recovery/block-ip-and-rollback.md",
+    "scratch/zer46/runner-complete/"
+  ],
+  "actions": "Read-only admission/cache checks; create private four-workload namespace sequentially; one safe GET; bounded owned cgroup reads; UID cleanup/shared readback; no shared writes"
+}

@@ -1,0 +1,19 @@
+{
+  "who": "b",
+  "request": {
+    "path": "/fixture/orders/6ff159a48865480b8e5c5f028e858cbe",
+    "method": "GET",
+    "body": null,
+    "headers": {},
+    "correlation": "061abecdef014c2dba02f58d18f4e975"
+  },
+  "response": {
+    "begin": 1793176860.8170865,
+    "end": 1793176861.0129309,
+    "status": 404,
+    "request_id": "5bd85fcf86bb4ff691e8362a031ca79b",
+    "body": {
+      "error": "NOT_FOUND"
+    }
+  }
+}

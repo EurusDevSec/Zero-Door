@@ -1,0 +1,19 @@
+{
+  "at": 1793164393.0837135,
+  "pod_uid": "6d130751-84e5-425d-b13b-9ad8a8e53cee",
+  "container_id": "313b85aea57e19c154cb0fae122d914f81832dbe9374656176bde9a7661f9d56",
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-agent-0",
+    "crictl",
+    "logs",
+    "--tail=200",
+    "313b85aea57e19c154cb0fae122d914f81832dbe9374656176bde9a7661f9d56"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "E1028 05:13:13.070416   56236 log.go:32] \"ContainerStatus from runtime service failed\" err=\"rpc error: code = NotFound desc = an error occurred when try to find container \\\"313b85aea57e19c154cb0fae122d914f81832dbe9374656176bde9a7661f9d56\\\": not found\" containerID=\"313b85aea57e19c154cb0fae122d914f81832dbe9374656176bde9a7661f9d56\"\ntime=\"2026-10-28T05:13:13Z\" level=fatal msg=\"rpc error: code = NotFound desc = an error occurred when try to find container \\\"313b85aea57e19c154cb0fae122d914f81832dbe9374656176bde9a7661f9d56\\\": not found\"\n"
+}

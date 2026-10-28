@@ -1,0 +1,22 @@
+{
+  "at": 1793176753.0264971,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "sqli-fixture-678f64c5d5-f72hf",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import json,hashlib; r=open('/containment/policy.json','rb').read(32769); print(json.dumps({'sha256':hashlib.sha256(r).hexdigest(),'policy':json.loads(r)}))"
+  ],
+  "pid": 16096,
+  "returncode": 0,
+  "stdout": "{\"sha256\": \"2587cdb10fd3b0eaf1e0159c4b8a185ece67161a6904c2438285e49117d1ab2a\", \"policy\": {\"version\": \"zer46-containment/1\", \"scope\": \"zer46-b7cb40ec036e\", \"run_id\": \"run_a9e1306f74354f4c84af49e55509989e\", \"trial_id\": \"trl_a4b9d400dc434f069b37cda7f92a81c8\", \"rules\": []}}\n",
+  "stderr": "",
+  "ended_at": 1793176753.6357546
+}

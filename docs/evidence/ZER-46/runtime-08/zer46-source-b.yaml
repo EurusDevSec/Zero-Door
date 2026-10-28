@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer46-source-b
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer46-d050f8410a4d
+    app: zer46-source
+spec:
+  automountServiceAccountToken: false
+  restartPolicy: Never
+  activeDeadlineSeconds: 900
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-agent-0
+  containers:
+  - name: source
+    image: zer46-fixture:24662046a33f
+    imagePullPolicy: Never
+    command:
+    - /usr/bin/python3
+    - -c
+    - import time; time.sleep(900)
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 5m
+        memory: 16Mi
+      limits:
+        cpu: 50m
+        memory: 48Mi

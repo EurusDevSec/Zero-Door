@@ -1,0 +1,19 @@
+{
+  "at": 1793165111.1221974,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "pod/sqli-fixture-5bd7f99cfc-cvh9d",
+    "-c",
+    "sqli-fixture",
+    "--tail=500"
+  ],
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793165098.4333599,\"request_id\":\"9bc245dec786495790f8e46e0a5494a0\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.611,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793165099.220071,\"request_id\":\"d2ddce7203224cce9eecba0dfb48e4d4\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.181,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793165108.432297,\"request_id\":\"ecc4b7bd96ee4e4fa8c1936e5d176e79\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.652,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793165108.4333045,\"request_id\":\"d241d7e283504385b248765dfbf67bb8\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.069,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n",
+  "stderr": ""
+}

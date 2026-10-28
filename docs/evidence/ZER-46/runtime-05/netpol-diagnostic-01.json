@@ -1,0 +1,16 @@
+{
+  "at": 1793162026.2958593,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "sh",
+    "-c",
+    "for x in /bin/aux/iptables-legacy-save /bin/aux/iptables-nft-save; do echo BACKEND:$x; \"$x\" 2>&1 | grep -c KUBE-POD-FW || true; done; command -v ipset; ipset save"
+  ],
+  "returncode": 0,
+  "stdout": "BACKEND:/bin/aux/iptables-legacy-save\n0\nBACKEND:/bin/aux/iptables-nft-save\n0\n/bin/ipset\ncreate KUBE-DST-NAVAJLAQR4L7DNA5 hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0x67b7968a\ncreate KUBE-DST-NEADIWFKRCQYVXAV hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0xc1cfa7de\nadd KUBE-DST-NEADIWFKRCQYVXAV 10.42.1.33 timeout 0\ncreate KUBE-DST-OB2ZCOT6YGUDGMN2 hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0x5a1540ea\nadd KUBE-DST-OB2ZCOT6YGUDGMN2 10.42.0.163 timeout 0\ncreate KUBE-SRC-5CGNHGM2C2FVMP5Y hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0x1d473f86\nadd KUBE-SRC-5CGNHGM2C2FVMP5Y 10.42.0.161 timeout 0\ncreate KUBE-SRC-OB2ZCOT6YGUDGMN2 hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0x68f59cb4\nadd KUBE-SRC-OB2ZCOT6YGUDGMN2 10.42.0.163 timeout 0\ncreate KUBE-SRC-OYN3SYTQNPYOOL42 hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0x9098c004\nadd KUBE-SRC-OYN3SYTQNPYOOL42 10.42.0.163 timeout 0\ncreate KUBE-SRC-PHAH4LNPOWVIC6Q2 hash:ip family inet hashsize 1024 maxelem 65536 timeout 0 bucketsize 12 initval 0x6c2a17fc\nadd KUBE-SRC-PHAH4LNPOWVIC6Q2 10.42.1.34 timeout 0\nadd KUBE-SRC-PHAH4LNPOWVIC6Q2 10.42.0.169 timeout 0\n",
+  "stderr": ""
+}

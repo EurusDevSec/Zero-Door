@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/agent-fixture-proposal.md",
+  "proposalSha256": "c3eeca91909014d2b5cd4cd2226fc58bf53a4e18f60088b68cbeb8ff667dd95e",
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "node": "k3d-zero-door-agent-0",
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "ttlSeconds": 180,
+  "fixturePodReplacements": 1,
+  "writerRestarts": 1,
+  "sourceManifestSha256": "03a9a87fc88afb35ae96c854e72fdee18dd2f9ac6e95e8ebb26d75798c8643aa",
+  "at": "2026-10-28T04:56:47.627Z",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duyệt toàn bộ gói agent cached-only đã chuẩn bị"
+}

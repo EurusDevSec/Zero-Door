@@ -1,0 +1,28 @@
+{
+  "status": "NOT_MET_POLICY_GATE",
+  "reconciled_from_raw": true,
+  "fixture_http": 0,
+  "boutique_http": 9,
+  "writer_processes": 0,
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixture_application_released": false,
+  "policy_gate_polls": 32,
+  "namespace_uid": "45a7bd82-9c56-4d02-948a-a06f7d8f6293",
+  "namespace_uid_delete_verified_absent": true,
+  "shared_spec_uid_restart_pvc_preserved": true,
+  "pvc_count": 3,
+  "guard": {
+    "samples": 52,
+    "host_min_bytes": 4139417600,
+    "wsl_min_kib": 2398732,
+    "max_psi_avg10": 0.0
+  },
+  "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+  "boutique_health": "NOT_MET",
+  "ac01": "NOT_VERIFIED_IN_THIS_ATTEMPT",
+  "ac02": "NOT_EXERCISED",
+  "kpi_pass": false,
+  "issue_done": false
+}

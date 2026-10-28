@@ -1,0 +1,21 @@
+{
+  "apiVersion": "v1",
+  "data": {
+    "policy.json": "{\"rules\":[{\"action_id\":\"act_534429e95d8142bc9eacf1cc422367e7\",\"client_ip\":\"10.42.0.188\",\"created_at\":1793176744,\"expires_at\":1793176924,\"request_id\":\"7e856f80c68143748fbe6ce341d9f8c1\"}],\"run_id\":\"run_a9e1306f74354f4c84af49e55509989e\",\"scope\":\"zer46-b7cb40ec036e\",\"trial_id\":\"trl_a4b9d400dc434f069b37cda7f92a81c8\",\"version\":\"zer46-containment/1\"}"
+  },
+  "kind": "ConfigMap",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"data\":{\"policy.json\":\"{\\\"version\\\":\\\"zer46-containment/1\\\",\\\"scope\\\":\\\"zer46-b7cb40ec036e\\\",\\\"run_id\\\":\\\"run_a9e1306f74354f4c84af49e55509989e\\\",\\\"trial_id\\\":\\\"trl_a4b9d400dc434f069b37cda7f92a81c8\\\",\\\"rules\\\":[]}\"},\"kind\":\"ConfigMap\",\"metadata\":{\"annotations\":{},\"labels\":{\"zero-door.io/containment-scope\":\"zer46-b7cb40ec036e\",\"zero-door.io/run\":\"zer46-b7cb40ec036e\"},\"name\":\"zer46-sqli-containment\",\"namespace\":\"zd-sqli-lab\"}}\n"
+    },
+    "creationTimestamp": "2026-10-28T08:37:57Z",
+    "labels": {
+      "zero-door.io/containment-scope": "zer46-b7cb40ec036e",
+      "zero-door.io/run": "zer46-b7cb40ec036e"
+    },
+    "name": "zer46-sqli-containment",
+    "namespace": "zd-sqli-lab",
+    "resourceVersion": "174913",
+    "uid": "900f3759-a94e-495a-8abd-e92c7c3a665c"
+  }
+}

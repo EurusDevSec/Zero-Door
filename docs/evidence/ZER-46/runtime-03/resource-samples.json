@@ -1,0 +1,170 @@
+[
+  {
+    "at": 1793157663.3640525,
+    "hostAvailable": 4606296064,
+    "wslAvailableKiB": 2567308,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157668.3485863,
+    "hostAvailable": 4623183872,
+    "wslAvailableKiB": 2589648,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157673.369469,
+    "hostAvailable": 4618035200,
+    "wslAvailableKiB": 2586088,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157678.3614972,
+    "hostAvailable": 4612255744,
+    "wslAvailableKiB": 2552864,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157683.3574157,
+    "hostAvailable": 4589514752,
+    "wslAvailableKiB": 2562980,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157688.3563783,
+    "hostAvailable": 4583178240,
+    "wslAvailableKiB": 2549960,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157693.356928,
+    "hostAvailable": 4621369344,
+    "wslAvailableKiB": 2565200,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157698.3558733,
+    "hostAvailable": 4617007104,
+    "wslAvailableKiB": 2559508,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157703.35724,
+    "hostAvailable": 4605247488,
+    "wslAvailableKiB": 2556384,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157708.3548625,
+    "hostAvailable": 4610777088,
+    "wslAvailableKiB": 2545568,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157713.3562548,
+    "hostAvailable": 4576403456,
+    "wslAvailableKiB": 2547844,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157718.3528304,
+    "hostAvailable": 4560183296,
+    "wslAvailableKiB": 2560244,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157723.358456,
+    "hostAvailable": 4568027136,
+    "wslAvailableKiB": 2573024,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157728.3606536,
+    "hostAvailable": 4556599296,
+    "wslAvailableKiB": 2561200,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157733.3535883,
+    "hostAvailable": 4545921024,
+    "wslAvailableKiB": 2557960,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157738.353411,
+    "hostAvailable": 4531404800,
+    "wslAvailableKiB": 2550680,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157743.3601418,
+    "hostAvailable": 4522541056,
+    "wslAvailableKiB": 2546844,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157748.3525412,
+    "hostAvailable": 4521013248,
+    "wslAvailableKiB": 2552560,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157753.3574514,
+    "hostAvailable": 4522995712,
+    "wslAvailableKiB": 2560240,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157758.3623815,
+    "hostAvailable": 4526444544,
+    "wslAvailableKiB": 2551072,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157763.3594086,
+    "hostAvailable": 4505739264,
+    "wslAvailableKiB": 2544132,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157768.3633792,
+    "hostAvailable": 4504080384,
+    "wslAvailableKiB": 2534196,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157773.3573546,
+    "hostAvailable": 4511105024,
+    "wslAvailableKiB": 2557108,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157778.3546576,
+    "hostAvailable": 4486090752,
+    "wslAvailableKiB": 2568844,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157783.3567796,
+    "hostAvailable": 4505255936,
+    "wslAvailableKiB": 2561532,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157788.470454,
+    "hostAvailable": 4460789760,
+    "wslAvailableKiB": 2561800,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157793.5766716,
+    "hostAvailable": 4334776320,
+    "wslAvailableKiB": 2604288,
+    "memoryPsiAvg10": 0.0
+  },
+  {
+    "at": 1793157797.519526,
+    "hostAvailable": 4241891328,
+    "wslAvailableKiB": 2603300,
+    "memoryPsiAvg10": 0.0
+  }
+]

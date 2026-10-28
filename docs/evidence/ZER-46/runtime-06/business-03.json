@@ -1,0 +1,33 @@
+{
+  "at": 1793163602.6913874,
+  "healthy": false,
+  "health_kind": "COMPONENT_FUNCTION_AND_ACTIVE_TIME_ONLY_NOT_FORMAL_R1_HEALTH",
+  "wall_reference_slo_met": false,
+  "scheduler_idle_ms": 500.0,
+  "active_ms": null,
+  "result": {
+    "ok": false,
+    "detail": "TIMEOUT",
+    "reason": "STEP_DEADLINE",
+    "interrupted": false,
+    "stopped_ns": null,
+    "elapsed_ms": 3121.5991,
+    "cleanup": {},
+    "steps": [
+      {
+        "name": "home",
+        "status": 200,
+        "ok": true,
+        "ms": 115.044
+      },
+      {
+        "name": "product",
+        "status": null,
+        "ok": false,
+        "ms": 3006.526
+      }
+    ],
+    "requests": 2,
+    "captures": {}
+  }
+}

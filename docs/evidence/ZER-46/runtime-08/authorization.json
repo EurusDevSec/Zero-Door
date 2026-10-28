@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/logs-retry-proposal.md",
+  "proposalSha256": "2c484d9359d9b02d703b2c8c416a8feab7525ba12b3b19ce8d0092354319f7d2",
+  "sourceManifestSha256": "7fa3f09433edb30511a4e73c7df2a61d5c82de807e6a7e7573bc9b5a9c44d442",
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "node": "k3d-zero-door-agent-0",
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "ttlSeconds": 180,
+  "fixturePodReplacements": 1,
+  "writerRestarts": 1,
+  "at": "2026-10-28T05:22:28.014Z",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duy\u00e1\u00bb\u2021t to\u0102\u00a0n b\u00e1\u00bb\u2122 g\u0102\u00b3i s\u00e1\u00bb\u00ada collector Pod/UID"
+}

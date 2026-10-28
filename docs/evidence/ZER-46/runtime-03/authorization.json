@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-28T03:03:09.144Z",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duy\u00e1\u00bb\u2021t g\u0102\u00b3i; t\u0102\u00b4i s\u00e1\u00ba\u00bd gi\u00e1\u00ba\u00a3i ph\u0102\u00b3ng RAM r\u00e1\u00bb\u201ci b\u0102\u00a1o l\u00e1\u00ba\u00a1i",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/readiness-and-retry.md",
+  "proposalSha256": "234b55db8e6c2563deb73d2180b447ea624d0bd5a4bab65a2278afca600f5e9b",
+  "status": "APPROVED_WAITING_FOR_USER_RAM_READINESS_CONFIRMATION",
+  "runtimeStarted": false,
+  "condition": "Do not start new runtime/cache prep before Hoang reports RAM freed; then independently verify guard before actions",
+  "maximumSeconds": 1200,
+  "cleanupReserveSeconds": 300,
+  "maxPinnedImagePulls": 2,
+  "readiness_reply": "t\u00f4i gi\u1ea3i ph\u00f3ng ram r\u1ed3i"
+}

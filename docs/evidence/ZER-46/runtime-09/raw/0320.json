@@ -1,0 +1,19 @@
+{
+  "at": 1793177005.2536886,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "delete",
+    "--raw",
+    "/api/v1/namespaces/zd-sqli-lab",
+    "-f",
+    "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-46\\runtime-09\\namespace-delete-options.json"
+  ],
+  "pid": 3264,
+  "returncode": 0,
+  "stdout": "{\"kind\":\"Namespace\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"zd-sqli-lab\",\"uid\":\"cede07df-cf17-4eb4-a3df-528efc96ad1b\",\"resourceVersion\":\"175049\",\"creationTimestamp\":\"2026-10-28T08:37:57Z\",\"deletionTimestamp\":\"2026-10-28T08:43:25Z\",\"labels\":{\"kubernetes.io/metadata.name\":\"zd-sqli-lab\",\"zero-door.io/containment-scope\":\"zer46-b7cb40ec036e\",\"zero-door.io/purpose\":\"sqli-fixture\",\"zero-door.io/run\":\"zer46-b7cb40ec036e\"},\"managedFields\":[{\"manager\":\"kubectl-create\",\"operation\":\"Update\",\"apiVersion\":\"v1\",\"time\":\"2026-10-28T08:37:57Z\",\"fieldsType\":\"FieldsV1\",\"fieldsV1\":{\"f:metadata\":{\"f:labels\":{\".\":{},\"f:kubernetes.io/metadata.name\":{},\"f:zero-door.io/containment-scope\":{},\"f:zero-door.io/purpose\":{},\"f:zero-door.io/run\":{}}}}}]},\"spec\":{\"finalizers\":[\"kubernetes\"]},\"status\":{\"phase\":\"Terminating\"}}\n",
+  "stderr": "",
+  "ended_at": 1793177005.4626672
+}

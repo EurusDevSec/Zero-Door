@@ -1,0 +1,20 @@
+test_search_fails_fast_when_all_db_slots_are_busy (__main__.Admission.test_search_fails_fast_when_all_db_slots_are_busy) ... ok
+test_embedded_request_in_a_body_is_not_smuggled (__main__.Framing.test_embedded_request_in_a_body_is_not_smuggled) ... ok
+test_one_request_one_response_then_close (__main__.Framing.test_one_request_one_response_then_close) ... ok
+test_pipelined_second_request_is_not_served (__main__.Framing.test_pipelined_second_request_is_not_served) ... ok
+test_separate_connections_get_distinct_request_ids (__main__.Framing.test_separate_connections_get_distinct_request_ids) ... ok
+test_head_is_rejected_without_a_body (__main__.Methods.test_head_is_rejected_without_a_body) ... ok
+test_malformed_request_line_is_structured_400 (__main__.Methods.test_malformed_request_line_is_structured_400) ... ok
+test_too_many_headers_is_structured_431 (__main__.Methods.test_too_many_headers_is_structured_431) ... ok
+test_unsupported_http_version_is_structured_505 (__main__.Methods.test_unsupported_http_version_is_structured_505) ... ok
+test_unsupported_methods_listed_or_not_are_structured_405 (__main__.Methods.test_unsupported_methods_listed_or_not_are_structured_405) ... ok
+test_connection_admission_limit_refuses_excess_fast (__main__.Transport.test_connection_admission_limit_refuses_excess_fast) ... ok
+test_dribbled_body_is_cut_at_the_request_budget (__main__.Transport.test_dribbled_body_is_cut_at_the_request_budget) ... ok
+test_dribbled_headers_are_cut_at_the_request_budget (__main__.Transport.test_dribbled_headers_are_cut_at_the_request_budget) ... ok
+test_dribbled_request_line_is_cut_at_the_request_budget (__main__.Transport.test_dribbled_request_line_is_cut_at_the_request_budget) ... ok
+test_idle_connection_is_closed_at_the_budget_without_a_record (__main__.Transport.test_idle_connection_is_closed_at_the_budget_without_a_record) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 22.971s
+
+OK

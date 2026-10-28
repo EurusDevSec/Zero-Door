@@ -1,0 +1,17 @@
+{
+  "at": 1793162026.4175646,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "logs",
+    "--since",
+    "4h",
+    "--tail",
+    "5000",
+    "k3d-zero-door-server-0"
+  ],
+  "returncode": 0,
+  "stdout": "time=\"2026-10-28T02:56:15Z\" level=info msg=\"Running kube-proxy --cluster-cidr=10.42.0.0/16 --conntrack-max-per-core=0 --conntrack-tcp-timeout-close-wait=0s --conntrack-tcp-timeout-established=0s --healthz-bind-address=127.0.0.1 --hostname-override=k3d-zero-door-server-0 --kubeconfig=/var/lib/rancher/k3s/agent/kubeproxy.kubeconfig --proxy-mode=iptables\"\nI1028 02:56:15.930670      39 server_linux.go:169] \"Using iptables Proxier\"\nI1028 02:56:15.950824      39 proxier.go:255] \"Setting route_localnet=1 to allow node-ports on localhost; to change this either disable iptables.localhostNodePorts (--iptables-localhost-nodeports) or set nodePortAddresses (--nodeport-addresses) to filter loopback addresses\"\ntime=\"2026-10-28T02:56:17Z\" level=info msg=\"Starting network policy controller version v2.2.1, built on 2025-01-28T17:45:21Z, go1.22.10\"\nI1028 02:56:17.952763      39 network_policy_controller.go:164] Starting network policy controller\nI1028 02:56:18.160612      39 kubelet_network_linux.go:50] \"Initialized iptables rules.\" protocol=\"IPv4\"\nI1028 02:56:18.211229      39 kubelet_network_linux.go:50] \"Initialized iptables rules.\" protocol=\"IPv6\"\nI1028 02:56:19.362744      39 iptables.go:51] Starting flannel in iptables mode...\nI1028 02:56:19.362825      39 iptables.go:115] Current network or subnet (10.42.0.0/16, 10.42.1.0/24) is not equal to previous one (0.0.0.0/0, 0.0.0.0/0), trying to recycle old iptables rules\nI1028 02:56:20.312606      39 iptables.go:125] Setting up masking rules\nI1028 02:56:20.479424      39 iptables.go:226] Changing default FORWARD chain policy to ACCEPT\nI1028 02:56:21.414815      39 iptables.go:372] bootstrap done\nI1028 02:56:21.703323      39 network_policy_controller.go:176] Starting network policy controller full sync goroutine\nI1028 02:56:21.794549      39 iptables.go:372] bootstrap done",
+  "stderr": ""
+}

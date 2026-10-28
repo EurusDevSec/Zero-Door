@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-28T03:40:21.241Z",
+  "status": "APPROVED",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duy\u00e1\u00bb\u2021t g\u0102\u00b3i fixture-only \u00c4\u2018\u0102\u00a3 chu\u00e1\u00ba\u00a9n b\u00e1\u00bb\u2039",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/fixture-only-proposal.md",
+  "proposalSha256": "7e66c07e74d6f44529b305e9fd787329a895e76fbf3e7a679d34272d0ee91e4b",
+  "maximumSeconds": 1200,
+  "cleanupSeconds": 300,
+  "fixtureHttpMax": 120,
+  "boutiqueHttpMax": 32,
+  "ttlSeconds": 180,
+  "fixturePodReplacementMax": 1,
+  "writerRestartMax": 1,
+  "pullsAllowed": 0
+}

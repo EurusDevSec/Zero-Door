@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-28T04:20:38.068Z",
+  "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+  "scripts": {
+    "docs/evidence/ZER-46/runtime-prep/preflight.py": "c3e7726bf38c1863e9f0948c9b28fb9b45e400f8d0e2829961b6dfb13b7f4aa4",
+    "docs/evidence/ZER-46/runtime-prep/run_component.py": "59b8151e85b6b8cd9b47b83bda5ae675da81111f5beb43eed446b67f67dfe30d",
+    "docs/evidence/ZER-46/runtime-prep/run_fixture_only.py": "6c8f0ea040942114b2cb05a0ed3c186d8aae87b62e186c710db41d0f8f3d1be5",
+    "docs/evidence/ZER-46/runtime-prep/run_cached_fixture.py": "1c1f34a529c066b77231378b7cbe6136fadf09a763977520d75e41627c414fea",
+    "docs/evidence/ZER-46/runtime-prep/writer_worker.py": "3162f4edb4a4fc4891d41d8df32d0bd4efc5d1affc706dd886cc9c7a599fb58d",
+    "docs/evidence/ZER-46/runtime-prep/render.py": "283b7f24652cac297b3bd1ea8dc20c8ccd048c76ec927d8685e525b55196aa34",
+    "docs/evidence/ZER-46/runtime-prep/check_cached_fixture.py": "ac599a8a051875b6a553b6dd4396f7dcf2c10814281922373e6cd38b9e5a27ac"
+  },
+  "componentSource": {
+    "head": "9567830020954bf3f30fd5a74240747be0c8ec1c",
+    "dirty": true,
+    "source": {
+      "services/sqli-fixture/app.py": "f187074b6ea6519bd10ad8d3ab285262fa5a00e12afa71993a2fa3a50a7a7a3e",
+      "services/sqli-fixture/containment.py": "d54284a2871d967906b5c675af7ba708efd26ed993e4bef73e9d645fd99e8e89",
+      "services/sqli-fixture/Dockerfile": "5fb3345371ff51e204cc67e8d4b75ce47e6a136b028b96bc8f9bc9210756b1a6",
+      "services/sqli-fixture/README.md": "5bdc8ac75ccbc477501be69ea27f1f959ab27915f6b2a2e0844e56f6a49cc704",
+      "agent-orchestrator/hephaestus/sqli_containment.py": "85be039617014b0ea0ed9136771aad5d99c404bf424b0f0aec78bf55bd192744",
+      "tests/test_sqli_containment.py": "3e2a17723a0422d9df4d351dba84ac42b4891ac314b5b36ed236a1ef07d658c4",
+      "infrastructure/manifests/sqli-containment-lab.yaml": "0c4f63ccd572ea8c22b55b35ecc34aa5bfe1457b139816619518b21ff49779c6",
+      ".github/workflows/ci.yml": "b36b58a23e751a472522f25702d41ade2123a841cb1afb2cfa584fb085b28bff",
+      "services/sqli-fixture/seed.json": "ec9f818b85a3dce1dbe4b7d87572890b6bbf244ffaea33df549f6079612af90b",
+      "docs/evidence/ZER-46/runtime-prep/render.py": "283b7f24652cac297b3bd1ea8dc20c8ccd048c76ec927d8685e525b55196aa34",
+      "docs/evidence/ZER-41/runtime-02/scripts/runtime-recovered.yaml": "2496320bb45471fac8ccd5e2eecac8558b7efb1262c24ba34ebd5471ac4ba720",
+      "tests/check_guard_manifests.py": "0f1000cf5b2594a2054f6d5cc7c164b6ae668282c1a78ba242759c0013ddfd5e"
+    },
+    "fixtureCandidateTag": "zer46-fixture:24662046a33f",
+    "buildStatus": "BUILT_AND_IMPORTED_RUNTIME04",
+    "runtime": "NOT_RUN",
+    "builtArtifact": {
+      "hostIndex": "sha256:d85043c06db6a60c98cddb53a1545f6e053b6def409d43b156179a625df55274",
+      "nodeConfig": "sha256:d85cb46078ed6e928af880acb2e1927056783ad03a1d18b30a69b8de2a922a16",
+      "tag": "zer46-fixture:24662046a33f"
+    }
+  }
+}

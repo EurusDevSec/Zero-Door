@@ -1,0 +1,68 @@
+{
+ "plan_version": "zd-measurement-plan/0",
+ "provenance": "SYNTHETIC",
+ "_note": "SYNTHETIC offline plan for tests and plan-check. Not a runtime approval; values are illustrative (ZER-32 3.6), L/timeouts UNKNOWN until pilot.",
+ "f01": {
+  "delta_s": 1,
+  "k": 3,
+  "s_s": 30,
+  "l_ms": 2000,
+  "gap_s": 2,
+  "eps_s": 1,
+  "cap_det_s": 300,
+  "cap_rec_s": 600
+ },
+ "probe": {
+  "probe_id": "prb-0",
+  "probe_version": "p0",
+  "flow": "checkout",
+  "clock_id": "clk_probe_ext",
+  "clock_source": "OFF_HOST"
+ },
+ "clock_sync": {
+  "method": "cristian-http/0",
+  "interval_s": 60,
+  "reference_url": "http://127.0.0.1:9/clock"
+ },
+ "timeouts": {
+  "step_s": 5,
+  "transaction_s": 10
+ },
+ "budget": {
+  "max_duration_s": 900,
+  "max_samples": 900,
+  "max_requests": 9000,
+  "grace_s": 10
+ },
+ "heartbeat_s": 5,
+ "target": {
+  "origin": "http://127.0.0.1:18080",
+  "allowed_origins": [
+   "http://127.0.0.1:18080"
+  ]
+ },
+ "observed_target": {
+  "namespace": "target-app",
+  "service": "frontend",
+  "flow": "checkout"
+ },
+ "flow_spec": {
+  "builtin": "boutique-checkout",
+  "args": {
+   "product_id": "OLJCESPC7Z",
+   "product_marker": null,
+   "checkout_form": {
+    "email": "probe@example.invalid",
+    "street_address": "1 Lab Road",
+    "zip_code": "10000",
+    "city": "Local",
+    "state": "LC",
+    "country": "Lab",
+    "credit_card_number": "4432801561520454",
+    "credit_card_expiration_month": "1",
+    "credit_card_expiration_year": "2030",
+    "credit_card_cvv": "672"
+   }
+  }
+ }
+}

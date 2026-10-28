@@ -1,0 +1,25 @@
+{
+  "who": "b",
+  "request": {
+    "path": "/fixture/orders",
+    "method": "POST",
+    "body": {
+      "item": "benign-lab-item",
+      "note": "efd40591a572475e807b9812fe6013e5"
+    },
+    "headers": {},
+    "correlation": "06520360addd4de89b6f59608680cb73"
+  },
+  "response": {
+    "begin": 1793164217.2690458,
+    "end": 1793164217.4706242,
+    "status": 201,
+    "request_id": "5a63d6ca46da45e3a754956a36b2fa84",
+    "body": {
+      "order_ref": "7b71fb351cf741608284c8d6860f6233",
+      "item": "benign-lab-item",
+      "note": "efd40591a572475e807b9812fe6013e5",
+      "status": "STORED"
+    }
+  }
+}

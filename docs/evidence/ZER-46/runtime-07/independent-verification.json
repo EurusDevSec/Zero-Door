@@ -1,0 +1,31 @@
+{
+  "status": "NOT_MET_POST_REPLACEMENT_ACCESS_JOIN",
+  "reconciled_from_raw": true,
+  "fixture_http": 16,
+  "joined": 15,
+  "boutique_http": 16,
+  "writer_processes": 1,
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0,
+  "fixture_application_released": true,
+  "fixture_ready": true,
+  "policy_hook_tables": 3,
+  "collector_error": "deployment log selector chose old terminating Pod; request16 unjoined",
+  "namespace_uid": "75a8d78d-6722-4862-96b4-1760d776d4ff",
+  "namespace_uid_delete_verified_absent": true,
+  "shared_spec_uid_restart_pvc_preserved": true,
+  "pvc_count": 3,
+  "guard": {
+    "samples": 55,
+    "host_min_bytes": 3314962432,
+    "wsl_min_kib": 2327556,
+    "max_psi_avg10": 0.0
+  },
+  "owned_resource_cleanup": "CLEAN_RAW_READBACK",
+  "boutique_health": "NOT_MET",
+  "ac01": "BASELINE_IP_SPOOF_ISOLATION_OBSERVED; POST_REPLACEMENT_TRACE_MISSING",
+  "ac02": "BLOCK_AND_BENIGN_BEFORE_REPLACEMENT_OBSERVED; WRITER_REPLAY_EXPIRY_NOT_EXERCISED",
+  "kpi_pass": false,
+  "issue_done": false
+}

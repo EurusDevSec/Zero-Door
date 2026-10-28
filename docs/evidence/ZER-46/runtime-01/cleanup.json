@@ -1,0 +1,13 @@
+{
+  "at": 1793155940.778234,
+  "namespace_created": false,
+  "image_built": false,
+  "mutations": 0,
+  "fixture_http": 0,
+  "errors": [
+    "COMMAND_FAILED:kubectl --context k3d-zero-door --request-timeout=12s get deploy,pod,pvc -A"
+  ],
+  "resource_cleanup": "CLEAN_NO_OWNED_LAB_RESOURCES_CREATED",
+  "boutique_http": 0,
+  "verdict": "INCOMPLETE"
+}

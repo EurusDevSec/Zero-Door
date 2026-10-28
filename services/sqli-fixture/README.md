@@ -76,6 +76,40 @@ An invalid profile or topology, a missing/unwritable DB dir, a bad proxy CIDR, a
 missing seed all refuse startup. On startup an existing compatible DB (matching seed id) is reused so order
 state survives a restart; a foreign or incompatible DB refuses startup instead of being erased.
 
+## ZER-46 containment candidate (offline, opt-in)
+
+The default behavior above is unchanged. Supplying **both** `ZD_SQLI_CONTAINMENT_FILE` (absolute path to a
+read-only projected ConfigMap file) and `ZD_SQLI_CONTAINMENT_SCOPE` opts into source containment. A partial
+configuration refuses startup. There is no management HTTP endpoint or new payload. All supported
+`/fixture` operations check the existing trusted-source resolver **before** running queries or writes.
+An active rule for that attributed client returns403 `SOURCE_BLOCKED`, while another client behind the
+same proxy remains allowed. UNKNOWN/unusable source or missing/corrupt/wrong-scope policy returns503;
+these are not evidence of successful containment. `/health` remains liveness; `/ready` also validates
+the policy when opted in. Logs carry the policy SHA256, enforcement point and matching action IDs.
+
+State lives in a dedicated ConfigMap outside the fixture/healer Pods, not the fixture's ephemeral SQLite
+volume. Mount the whole ConfigMap directory, never `subPath`, so projected replacements can be observed.
+The file is opened afresh per request, capped32KiB/32rules. Each rule expires at an absolute UTC epoch
+deadline, at most300s from its joined source observation; the request check ignores it at that exact
+deadline even if the healer is stopped. Expiry unblocks traffic but does not erase the stored rule.
+Explicit owned runner cleanup removes rules by compare-and-swap; resetting order data does not.
+
+The prepared writer is `agent-orchestrator/hephaestus/sqli_containment.py`: namespace/name/UID/scope and
+run/trial pins, distinct approved attacker/benign addresses, exact proxy `/32`, bounded TTL/CAS retries.
+It never initializes a client, creates/deletes resources, or enables production R1 execution. Its input
+must be a source record independently joined to the trusted observation and authenticated decision;
+model/HTTP-supplied source labels alone are insufficient. A replace response is only `API_ACCEPTED`.
+The existing production ModeGate/executor-disabled boundary is retained; this is a prepared component,
+not a completed Gaia→healer integration. Future integration must retain the durable decision ledger.
+
+The candidate RBAC/ConfigMap is `infrastructure/manifests/sqli-containment-lab.yaml`, **NOT_APPLIED**.
+Projection delay, real source/benign separation, Pod/healer restart, independent probes and observed
+cleanup still require an approved bounded private-lab run. Unit/loopback tests cannot prove them.
+
+```bash
+python3 -B tests/test_sqli_containment.py
+```
+
 ## Run locally (offline)
 
 ```bash

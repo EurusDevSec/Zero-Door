@@ -1,0 +1,15 @@
+{
+  "at": 1793165077.696004,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "apply",
+    "-f",
+    "R:\\_Projects\\Eurus_Workspace\\zero_door\\docs\\evidence\\ZER-46\\runtime-08\\bootstrap-static.yaml"
+  ],
+  "returncode": 0,
+  "stdout": "serviceaccount/sqli-fixture created\nservice/sqli-fixture created\nnetworkpolicy.networking.k8s.io/default-deny created\nnetworkpolicy.networking.k8s.io/allow-ingress-controller-and-dns created\nconfigmap/zer46-private-ingress created\nservice/zer46-private-ingress created\nnetworkpolicy.networking.k8s.io/private-ingress created\nnetworkpolicy.networking.k8s.io/private-sources created\nconfigmap/zer46-sqli-containment created\nrole.rbac.authorization.k8s.io/zer46-containment-writer created\nrolebinding.rbac.authorization.k8s.io/zer46-containment-writer created\n",
+  "stderr": ""
+}

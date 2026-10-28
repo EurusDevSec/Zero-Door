@@ -1,0 +1,114 @@
+{
+  "status": "PASS_EXISTING_RULE_STRUCTURE_ONLY",
+  "pods": [
+    {
+      "namespace": "kube-system",
+      "name": "coredns-ccb96694c-drjgp",
+      "uid": "13658da4-fc08-4575-9cd6-bd2f8da12802",
+      "hooked": true
+    },
+    {
+      "namespace": "kube-system",
+      "name": "local-path-provisioner-5cf85fd84d-mb74p",
+      "uid": "5de5bc6c-6510-4d98-8f46-aa7e5c046a21",
+      "hooked": true
+    },
+    {
+      "namespace": "kube-system",
+      "name": "metrics-server-5985cbc9d7-s6h86",
+      "uid": "f9611f33-ea86-4b18-992c-0d3c14bb900e",
+      "hooked": true
+    },
+    {
+      "namespace": "kube-system",
+      "name": "svclb-traefik-2aaf11e4-bsq7z",
+      "uid": "6a3b0d0a-bcaa-4f67-8703-74facf72a3c3",
+      "hooked": true
+    },
+    {
+      "namespace": "kube-system",
+      "name": "traefik-75bb84786-v4rz5",
+      "uid": "2ad61597-f36d-4c09-909a-40114fecfa36",
+      "hooked": true
+    },
+    {
+      "namespace": "monitoring",
+      "name": "fluent-bit-ccs6v",
+      "uid": "c07f9724-b8c5-4216-bd3e-8d68c712870e",
+      "hooked": true
+    },
+    {
+      "namespace": "monitoring",
+      "name": "prometheus-kube-prometheus-operator-6484987889-6mtzh",
+      "uid": "80a35c08-3314-4f73-a433-0cb14e89a75f",
+      "hooked": true
+    },
+    {
+      "namespace": "monitoring",
+      "name": "prometheus-kube-state-metrics-c86b89bdf-6gkcs",
+      "uid": "6be0271d-8087-42c5-9897-f7ec8fb26de8",
+      "hooked": true
+    },
+    {
+      "namespace": "monitoring",
+      "name": "prometheus-prometheus-kube-prometheus-prometheus-0",
+      "uid": "2b1aa73a-9921-4a5b-ab6e-b94307706b3f",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "cartservice-56b9fb479f-ppsgd",
+      "uid": "1d6d204d-d075-45df-9972-3b98cd3231be",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "checkoutservice-7cdb898bbb-qqhsp",
+      "uid": "fb463f0d-89d8-439b-b867-2bdc301f5fd0",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "currencyservice-6b7ffcdb66-8tdq9",
+      "uid": "b8e29bff-e62a-406b-8f24-d1f66bb29bbd",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "emailservice-574b6fbcc9-p6gtx",
+      "uid": "6e693828-25f9-4b86-b834-432b0984a909",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "paymentservice-7f8b7fd8d8-26f7p",
+      "uid": "edcb2568-6db2-4751-a4e0-bdf14a6ee1f8",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "productcatalogservice-5cc4fdfd64-c7wdg",
+      "uid": "a305bd08-03e6-4de0-b4cb-d77919a20773",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "redis-cart-558f8d8d44-kz7kj",
+      "uid": "0d48a827-b652-46f6-9a71-69f04b9d072a",
+      "hooked": true
+    },
+    {
+      "namespace": "target-app",
+      "name": "shippingservice-7bf88f7cd4-5tp7g",
+      "uid": "33dff777-8682-43ee-90d8-6e4a8706c34d",
+      "hooked": true
+    },
+    {
+      "namespace": "zero-door",
+      "name": "kafka-controller-0",
+      "uid": "73f060b2-7a66-48ac-a8a9-b1bb5ec628f9",
+      "hooked": true
+    }
+  ],
+  "fixture_runtime": "NOT_RUN"
+}

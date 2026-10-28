@@ -1,0 +1,15 @@
+{
+  "at": 1793157783.4692605,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "pull",
+    "--platform",
+    "linux/amd64",
+    "gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61"
+  ],
+  "returncode": 0,
+  "stdout": "gcr.io/distroless/python3-debian12@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61: Pulling from distroless/python3-debian12\nDigest: sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61\nStatus: Downloaded newer image for gcr.io/distroless/python3-debian12@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61\ngcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61\n",
+  "stderr": ""
+}

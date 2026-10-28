@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-28T03:03:09.144Z",
+  "source": "Hoang direct reply in current chat",
+  "answer": "Duyệt gói; tôi sẽ giải phóng RAM rồi báo lại",
+  "proposal": "docs/evidence/ZER-46/runtime-prep/readiness-and-retry.md",
+  "proposalSha256": "234b55db8e6c2563deb73d2180b447ea624d0bd5a4bab65a2278afca600f5e9b",
+  "status": "APPROVED_WAITING_FOR_USER_RAM_READINESS_CONFIRMATION",
+  "runtimeStarted": false,
+  "condition": "Do not start new runtime/cache prep before Hoang reports RAM freed; then independently verify guard before actions",
+  "maximumSeconds": 1200,
+  "cleanupReserveSeconds": 300,
+  "maxPinnedImagePulls": 2
+}

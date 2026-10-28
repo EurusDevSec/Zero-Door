@@ -1,0 +1,130 @@
+{
+  "runtime08": {
+    "dispatchAt": 1793165099.8488665,
+    "guardSnapshotAt": 1793165110.495148,
+    "window": [
+      {
+        "at": 1793165093.404645,
+        "hostAvailable": 3767476224,
+        "wslAvailableKiB": 2385868,
+        "memoryPsiAvg10": 0
+      },
+      {
+        "at": 1793165098.4060295,
+        "hostAvailable": 3602812928,
+        "wslAvailableKiB": 2347008,
+        "memoryPsiAvg10": 0.18
+      },
+      {
+        "at": 1793165104.7722187,
+        "hostAvailable": 3556376576,
+        "wslAvailableKiB": 2319504,
+        "memoryPsiAvg10": 4.08
+      },
+      {
+        "at": 1793165110.2671375,
+        "hostAvailable": 3533672448,
+        "wslAvailableKiB": 2339372,
+        "memoryPsiAvg10": 16.37
+      },
+      {
+        "at": 1793165150.4326284,
+        "hostAvailable": 3580456960,
+        "wslAvailableKiB": 2375108,
+        "memoryPsiAvg10": 0.33
+      }
+    ],
+    "hostMin": 3533672448,
+    "wslMin": 2319504,
+    "psiMax": 16.37
+  },
+  "current": {
+    "samples": 25,
+    "firstAt": 1793170299.0503068,
+    "lastAt": 1793170419.0376573,
+    "hostMin": 4206899200,
+    "wslMin": 2278748,
+    "psiMax": 0,
+    "vmstatDeltas": {
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 879,
+      "pswpin": 0,
+      "pswpout": 14,
+      "allocstall_dma32": 0,
+      "allocstall_normal": 0,
+      "allocstall_movable": 0,
+      "allocstall_device": 0,
+      "pgmajfault": 3,
+      "pgsteal_kswapd": 1203,
+      "pgsteal_direct": 0,
+      "pgsteal_khugepaged": 0,
+      "pgsteal_proactive": 0,
+      "pgscan_kswapd": 3158,
+      "pgscan_direct": 0,
+      "pgscan_khugepaged": 0,
+      "pgscan_proactive": 0,
+      "pgscan_direct_throttle": 0,
+      "pgscan_anon": 927,
+      "pgscan_file": 2231,
+      "pgsteal_anon": 28,
+      "pgsteal_file": 1175,
+      "oom_kill": 0,
+      "compact_stall": 0
+    },
+    "selectedChromeCounts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "selectedClaudeCounts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "note": "Node.exe purpose not collected; no historical per-process samples/timestamp for user app activity"
+  }
+}

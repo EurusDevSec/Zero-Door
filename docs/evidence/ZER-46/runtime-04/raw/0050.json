@@ -1,0 +1,18 @@
+{
+  "at": 1793159083.913154,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "deployment/sqli-fixture",
+    "--tail=500"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "error: error from server (NotFound): deployments.apps \"sqli-fixture\" not found in namespace \"zd-sqli-lab\"\n",
+  "error": "COMMAND_FAILED:kubectl --context k3d-zero-door --request-timeout=12s -n zd-sqli-lab logs"
+}

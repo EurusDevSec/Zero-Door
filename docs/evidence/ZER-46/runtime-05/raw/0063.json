@@ -1,0 +1,16 @@
+{
+  "at": 1793161392.1942348,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "sh",
+    "-c",
+    "iptables-save | grep -F 'POD name:sqli-fixture-79797875f9-4xq2x namespace: zd-sqli-lab'"
+  ],
+  "returncode": 1,
+  "stdout": "",
+  "stderr": ""
+}

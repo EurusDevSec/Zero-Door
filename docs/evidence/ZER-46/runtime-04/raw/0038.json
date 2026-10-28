@@ -1,0 +1,15 @@
+{
+  "at": 1793159061.8962507,
+  "args": [
+    "k3d",
+    "image",
+    "import",
+    "zer46-fixture:24662046a33f",
+    "-c",
+    "zero-door",
+    "--mode=direct"
+  ],
+  "returncode": 0,
+  "stdout": "\u001b[36mINFO\u001b[0m[0000] Importing image(s) into cluster 'zero-door'  \n\u001b[36mINFO\u001b[0m[0000] Loading 1 image(s) from runtime into nodes... \n\u001b[36mINFO\u001b[0m[0000] Importing images '[zer46-fixture:24662046a33f]' into node 'k3d-zero-door-server-0'... \n\u001b[36mINFO\u001b[0m[0000] Importing images '[zer46-fixture:24662046a33f]' into node 'k3d-zero-door-agent-0'... \n\u001b[36mINFO\u001b[0m[0002] Successfully imported image(s)               \n\u001b[36mINFO\u001b[0m[0002] Successfully imported 1 image(s) into 1 cluster(s) \n",
+  "stderr": ""
+}
