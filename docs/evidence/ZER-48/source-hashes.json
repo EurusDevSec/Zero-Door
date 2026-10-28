@@ -1,0 +1,12 @@
+{
+  "base": "0b72eddff03e86fea0d19ac593da34c59479aaaa",
+  "branch": "codex/zer-48-llm-adapter",
+  "review": "READY_OFFLINE_PACKAGE_ONLY",
+  "files": {
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "tests/test_llm_adapter.py": "c4fe742935e0bcbf7b4a0e3bc2e5e13050c0ec72c9b1b82877f95769af19ecb4",
+    "infrastructure/scripts/verify_llm_adapter.py": "234738282d9b1aaf32d9d5be463c35b57dad01122f325c9ee7266bc509c788ef",
+    "infrastructure/scripts/verify-llm-adapter.sh": "f922eb819f21b61002e707e435be9d1c40363f679050ef7dca71b56e001799a9",
+    ".github/workflows/ci.yml": "23a92a8aa8026915e53ca67d6fc3e72161416c103927008bf787bbc0b07c5532"
+  }
+}

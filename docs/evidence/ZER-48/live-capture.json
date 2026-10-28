@@ -1,0 +1,17 @@
+{
+  "captured_path": "C:\\Users\\ACER\\.codex\\worktrees\\zer-46-publication\\zero_door\\scratch\\zer48\\runs\\run_719a8f23a8534ff3a7657fe245e2dbdf\\receipt.json",
+  "captured_sha256": "d669d6e4e6d3caa4cf35992b22bf057ea2d2901f93da2eb6baeea275c2a36aee",
+  "captured_bytes": 8750,
+  "published_sha256": "ce6cb2a65bcf8faf4b68d07a1729bf8030cda708305bd3d933866ef91a7688c1",
+  "published_bytes": 8488,
+  "canonicalization": "CRLF to LF only for committed copy; original capture remains immutable in scratch",
+  "helper_exit_code": 0,
+  "attempt_started": {
+    "started_at": "2026-10-28T14:06:20.959329+00:00",
+    "authorized_attempts": 1,
+    "retry": false
+  },
+  "provider_calls": 1,
+  "retry": false,
+  "cleanup": "OWNED_HTTP_CLIENT_SCOPE_FINISHED_HELPER_EXIT_0_NO_LAB_RESOURCES"
+}

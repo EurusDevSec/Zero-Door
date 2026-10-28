@@ -126,6 +126,8 @@ jobs:
           python -B tests/test_dashboard_baseline_runtime.py
           python -B tests/test_dashboard_mode_runtime.py
           python -B tests/check_r1_baselines.py
+      - name: Shared async LLM adapter offline (ZER-48; no provider or lab)
+        run: python -B tests/test_llm_adapter.py
 
   r2-fixture:
     name: R2 fixture offline (${{ matrix.agent }})
@@ -200,12 +202,12 @@ jobs:
           - image: gaia
             context: ./agent-orchestrator
             file: ./agent-orchestrator/gaia/Dockerfile
-            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main"'
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import event_pipeline.llm"'
             entrypoint: '--entrypoint /usr/bin/python3'
           - image: hephaestus
             context: ./agent-orchestrator
             file: ./agent-orchestrator/hephaestus/Dockerfile
-            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import hephaestus.sqli_action_state"'
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import hephaestus.sqli_action_state; import event_pipeline.llm"'
             entrypoint: '--entrypoint /usr/bin/python3'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

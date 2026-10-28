@@ -1,0 +1,55 @@
+FF
+======================================================================
+FAIL: test_retry_backoff_cannot_outlive_shared_run_deadline (__main__.AdapterCases.test_retry_backoff_cannot_outlive_shared_run_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 90, in _callTestMethod
+    if self._callMaybeAsync(method) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 112, in _callMaybeAsync
+    return self._asyncioRunner.run(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_llm_adapter.py", line 217, in test_retry_backoff_cannot_outlive_shared_run_deadline
+    self.assertEqual(sleeps, [])
+AssertionError: Lists differ: [0.5] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+0.5
+
+- [0.5]
++ []
+
+======================================================================
+FAIL: test_exponent_overflow_is_not_valid_model_output (__main__.AdapterCases.test_exponent_overflow_is_not_valid_model_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 90, in _callTestMethod
+    if self._callMaybeAsync(method) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\unittest\async_case.py", line 112, in _callMaybeAsync
+    return self._asyncioRunner.run(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_llm_adapter.py", line 228, in test_exponent_overflow_is_not_valid_model_output
+    self.assertEqual(result.outcome, "SCHEMA_INVALID")
+AssertionError: 'OK' != 'SCHEMA_INVALID'
+- OK
++ SCHEMA_INVALID
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.038s
+
+FAILED (failures=2)

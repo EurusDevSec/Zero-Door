@@ -1,0 +1,40 @@
+{
+  "algorithm": "SHA-256",
+  "excludes": [
+    "artifact-sha256.json"
+  ],
+  "files": {
+    "approved-completion-proposal.md": "74e8e78f49086cc39e299d5ca06b1866898990ba416914d740e9491f4c0ed8c2",
+    "completion-authorization.json": "730abbfd0473e8ffbd963437113df6450f4009259ace15b0a25f2f2d3c0d8220",
+    "completion-proposal.md": "74e8e78f49086cc39e299d5ca06b1866898990ba416914d740e9491f4c0ed8c2",
+    "independent-review.md": "8c08b11139b0061fb58bbac1c3c9782a26aa4c0bb66711fa704974f132bf75c5",
+    "live-capture.json": "0053f356e5a00677068cfc6555616493c5350dcbfbd91c1e54f1846e6e2750ba",
+    "live-receipt.json": "ce6cb2a65bcf8faf4b68d07a1729bf8030cda708305bd3d933866ef91a7688c1",
+    "offline-receipt.json": "75279a5b06a1049fa126938159eccc08c71fa4c550eaf1b295467b08e7bd913e",
+    "README.md": "ebcc134c22f3400de8214bfdc4d58ac1268d7bd7e8c13633f1d02c0cb9352349",
+    "scope.json": "e702752c31d5699c00977e307892b5abf0cc0c0759f98bb31713483402162419",
+    "source-hashes.json": "5bcb758252b8b32294335138d62a6ebe01d169429b8c29896df7aeea7e342874",
+    "verification.json": "4a2e5b23931112f78ee6cfbb3708cab490d312928130fdce0b76a241240c0814",
+    "results/adapter-hephaestus.log": "8977cd683c049f09752966717813eb8e99629eac5eba32e7d439d442b085f0a7",
+    "results/adapter-nemesis.log": "b4a9067e3ea355779c46527a2e7d7fdf9e80eca453b9ecbf04cb59d3f0d099c2",
+    "results/bandit-final.json": "cd6baee9a0bfab5f7d39d6ffcf0a6766c57500073385ac55ffb421f7994f6b71",
+    "results/bandit.json": "b19936e78778ea7f9d688287cb7db91981ae9e4ea5b1a101a375ae36af8bdad8",
+    "results/bandit.log": "68bbe70d3ca9576b02217657018f1d4540d04ab0c578ae88d5f3593ba660609c",
+    "results/bash-offline.log": "66578e39f9503ac14a1bf57a8379653083ea8bd0652dbfb2d068345970fad6b1",
+    "results/bash-plan.log": "2e73f9aca8f3119e775fdcc4f41e6dba36e52f53d7e913c036262a9626665b28",
+    "results/final-offline-probe.log": "b403e385a6d39e020a9da8ea1386b3e70bda9db1bef15cabe4c8b1aff8e71689",
+    "results/missing-key.log": "37bc5e8b25aad1a6b665e4df6d4c67f9734114be655279a4fe9951e395467ab9",
+    "results/offline-probe.log": "57f5f0e4cc3198c6e93de22b9527754c24439ca57ef09eb033b36f0b2f6c7649",
+    "results/plan.log": "2e73f9aca8f3119e775fdcc4f41e6dba36e52f53d7e913c036262a9626665b28",
+    "results/review-normalization-before.log": "a75d5a91a411eeced9e6131248a85982b358c592dc17ed1f73ccacc7565157fc",
+    "results/review-regression-before.log": "94fb9cb5f80515480a9efb14d75a234c750f7985677e7d7ec2f190534f32bd5f",
+    "results/test_command_guard_ci.log": "982b4c7667dc05eebbc39a2585b5b09efb8bfe285f60f2517b5f7b932e71bc34",
+    "results/test_dashboard_modes.log": "eb049f0389a7c201cb79f488a2e722531a3265ae7cc661244b0b30ec0fcfc7c1",
+    "results/test_dashboard_mode_runtime.log": "bb9a029c30f12e2bee357e2c14a894030349d4c3b55b825bc4c602b5996fac30",
+    "results/test_event_agents.log": "377519b5a70be92a03e810bdeebd58dfa27f89262d99a3273a84cd71a4659864",
+    "results/test_event_pipeline.log": "de34e99b778856719bcfad1b5df00440c53921837e0b3f9034c02f0a49fd7af3",
+    "results/test_event_pipeline_regressions.log": "47329b046fe5d3486409077051498132b8da1b5830a347e0060e50f037fc963e",
+    "results/test_hephaestus_consumer.log": "e2f77ed044316ea4ae69f8347f8167fbdc39becfea1e586f519ad0ab2c4e0234",
+    "results/windows-deadline-test-initial.log": "dd80556a61c627ff8c7ab6ff40ac0f35b7b33f34d272d349934afcd90e282858"
+  }
+}
