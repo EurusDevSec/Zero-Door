@@ -1,0 +1,292 @@
+{
+  "issue": "ZER-20",
+  "started_utc": "2026-10-29T16:43:27.335155+00:00",
+  "finished_utc": "2026-10-29T16:43:27.705766+00:00",
+  "python": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer12\\production-hephaestus\\Scripts\\python.exe",
+  "version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "tests_run": 63,
+  "success": false,
+  "failures": 60,
+  "errors": 0,
+  "skipped": 0,
+  "results": [
+    {
+      "test": "test_gaia_diagnosis.Cases.test_actual_log_poll_retains_log_input_and_disabled_path_stays_model_free",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_actual_poll_does_not_wait_for_model_or_move_detection_timestamp",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_adapter_timeout_is_finite",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_cancellation_retains_unknown_trace_and_never_reports_success",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_cli_live_path_uses_saved_observation_and_exclusive_receipts_with_fake_model",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_context_and_B1_never_call_model",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_missing_log_mismatched_metric_and_hidden_fields_refuse_before_call",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_model_failures_are_not_diagnosis_or_fallback_success",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_no_repeat_after_unknown_and_no_reset_budget_per_alert",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_shutdown_drains_cancelled_model_before_closing_journal",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_sink_failure_stops_before_provider",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_slow_evidence_disk_does_not_block_detection_and_cancel_drains_writer",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_startup_default_has_no_model_client_and_stops_owned_loop",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_success_has_metric_input_diagnosis_latency_and_join",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.Cases.test_unknown_is_abstain_not_success",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_gaia_diagnosis.CliCases.test_config_caps_modes_and_context_are_validated",
+      "result": "PASS"
+    },
+    {
+      "test": "test_gaia_diagnosis.CliCases.test_default_is_plan_only_and_does_not_construct_transport",
+      "result": "PASS"
+    },
+    {
+      "test": "test_gaia_diagnosis.CliCases.test_exclusive_journal_prevents_restart_replay",
+      "result": "PASS"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_ambiguous_api_result_is_unknown_and_never_retried",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_api_ack_with_invalid_benign_content_is_not_completion",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_benign_guard_blocks_even_erroneous_model_action",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_budget_shared_not_reset_and_exhaustion_no_dispatch",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_cancel_during_api_drains_owner_and_does_not_claim_undo",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_expired_source_after_model_is_refused_before_write",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_foreign_policy_uid_fails_closed",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_missing_access_abstains_without_provider",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_model_cancel_has_no_effect_and_durable_receipt",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_model_cannot_block_benign_source_even_with_disclosure",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_model_failures_refusals_reference_and_enum_never_dispatch",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_no_action_benign_and_abstain_never_touch_api_or_probes",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_probe_timeout_is_terminal_and_not_success",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_projection_probe_timeout_bound",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_real_product_chain_mode_guard_backend_and_postconditions",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_record_failure_before_model_or_dispatch_stops_effect",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_same_instance_and_directory_cannot_replay",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_same_journal_cannot_be_reused_by_a_second_engine",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_shared_adapter_trace_does_not_claim_another_decision",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_sink_failure_before_model_is_not_silently_ignored",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_untrusted_stale_nonfinite_or_extra_access_refuses_before_model",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_worker_api_does_not_block_event_loop",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_hephaestus_recovery.Recovery.test_wrong_mode_context_target_or_h_plane_refuse_before_model",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_call_token_and_estimated_cost_limits_reserve_before_dispatch",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_context_is_pinned_before_await",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_exponent_overflow_is_not_valid_model_output",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_fatal_errors_do_not_retry_or_invent_llm_success",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_invalid_limit_numbers_are_rejected",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_invalid_mode_context_hidden_input_and_size_fail_before_dispatch",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_invalid_or_missing_usage_remains_unknown_without_refund",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_json_normalized_observation_is_checked_for_hidden_fields",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_loose_or_optional_default_output_schema_is_rejected",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_nonblocking_and_cancel_propagates_with_unknown_attempt_trace",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_observed_usage_over_reservation_blocks_next_dispatch",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_retry_backoff_cannot_outlive_shared_run_deadline",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_retry_keeps_call_decision_and_prompt_identity",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_run_deadline_bounds_a_pending_request",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_schema_refusal_incomplete_and_wrong_model_are_final",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_shared_budget_applies_across_adapters_and_concurrent_calls",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_success_is_structured_trace_and_accumulated_run_usage",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.AdapterCases.test_timeout_is_bounded_to_two_attempts",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.ProbeCases.test_probe_uses_actual_adapter_and_marks_fake_receipt",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.TransportCases.test_real_httpx_request_shape_and_only_allowlisted_response_fields",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.TransportCases.test_redirect_is_not_followed_and_body_is_bounded",
+      "result": "FAIL"
+    },
+    {
+      "test": "test_llm_adapter.TransportCases.test_response_and_client_close_when_outer_task_is_cancelled",
+      "result": "FAIL"
+    }
+  ],
+  "source_sha256": {
+    "agent-orchestrator/event_pipeline/__init__.py": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+    "agent-orchestrator/event_pipeline/adapters.py": "83895229f3967339ab3fcb8d767f7ee300a451358198de1dd70b3a552c840e11",
+    "agent-orchestrator/event_pipeline/audit.py": "b7ebc3195cd72c424e95f35f326fbab117dabc11ba319064305869720c5eb369",
+    "agent-orchestrator/event_pipeline/client.py": "d19ad91c057941e199d1089159694b9f534a6468f16b08273a9ac8b8356c2cd3",
+    "agent-orchestrator/event_pipeline/contract.py": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+    "agent-orchestrator/event_pipeline/decision_journal.py": "1270d6a698fef3eab4511f1f6921d1733ef84d13ffc6b8dcd2a8414dc0a037f3",
+    "agent-orchestrator/event_pipeline/gateway.py": "74fef63be94c571b9f033bf9717931b1b2fe429b1c1e4bd8552c4e3eac93b4d9",
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "agent-orchestrator/event_pipeline/store.py": "de30c0acd10679da38b3864c562e184fa4cddb16ee3c3a3d2befd31d68f157c6",
+    "agent-orchestrator/event_pipeline/telemetry.py": "d0cfcb9cf6d85c6109dabd86f396e76784443b1232db4510ac3bd7e247735fb3",
+    "agent-orchestrator/gaia/diagnosis.py": "2331fa3e3b45f0dcdf5b03be3138bab6b1689cec8e11bf4b25302a34675842aa",
+    "agent-orchestrator/gaia/diagnosis_cli.py": "a4fbd862d106d95cd8d025a67a135d0a6ed93304aa208deb9dcd0c5cc4e6cb32",
+    "agent-orchestrator/gaia/main.py": "ad25d846bacab6168007fb471593049115cf1d9304616d4b86e1df900ea501b1",
+    "agent-orchestrator/hephaestus/command_guard.py": "5a1c241619b75f4b70549d788ffa5553add71d08f286a614d926291836809287",
+    "agent-orchestrator/hephaestus/main.py": "575234405834008e0ac824e8fc4d20e78ff30b68a09fa11338349b28507ab33c",
+    "agent-orchestrator/hephaestus/recovery.py": "035b63f63ff8aac15a7c2f477cbc9d0a80e28a07f61eae8feb2f317eb098f00d",
+    "agent-orchestrator/hephaestus/sqli_action_state.py": "91accb364d36757cf226e6e258d2e32a0a81288be71b7e1a9c1ae5c7d02832d2",
+    "agent-orchestrator/hephaestus/sqli_containment.py": "85be039617014b0ea0ed9136771aad5d99c404bf424b0f0aec78bf55bd192744",
+    "agent-orchestrator/nemesis/command_guard.py": "b966f60a4bd3dbd9cc93a6ed0b7b068848408f6c6d801283e0f92c5b34c1bcdd",
+    "tests/test_gaia_diagnosis.py": "963458d6f54caec90977cf17b339f115ed251cb1490a56c51cf63aaa1ebef76d",
+    "tests/test_hephaestus_recovery.py": "6feeed899ecf65ea6f84cd5c607f64dbca920f834524b9df18ddaa7ed62bfc3f",
+    "tests/test_llm_adapter.py": "c4fe742935e0bcbf7b4a0e3bc2e5e13050c0ec72c9b1b82877f95769af19ecb4",
+    "tests/test_sqli_action_state.py": "ef54dc91c3eba560303d55b943e9f6a6eb4558223141d4714d75649e21243620"
+  },
+  "boundary": "Existing suites; fake model/API/probes; socket.connect blocked; no provider/lab calls."
+}

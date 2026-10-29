@@ -1,0 +1,18 @@
+{
+  "issue": "ZER-20",
+  "timestamp_utc": "2026-10-29T16:59:29.403546+00:00",
+  "state": "OWNER_ACCEPTED_AUTHORIZED_PENDING_PUBLICATION",
+  "owner_reply": "được",
+  "authorization_context": "Direct reply accepting the reviewed parent functional result and approving commit/PR, CI, conditional merge and Done for ZER-20 only.",
+  "owner_acceptance": true,
+  "commit_push_pr": true,
+  "merge_if_ci_and_final_review_pass": true,
+  "linear_done_after_merge": true,
+  "base": "a917843ff38e6a207539d98c9ba46e4f7f688eaa",
+  "branch": "zer-20-gaia-hephaestus-acceptance",
+  "extra_model_lab_runs": 0,
+  "scope": "Parent functional AC acceptance only; no integrated SQLi/G3/G4/H/KPI claim.",
+  "independent_review": "independent-review.md",
+  "preserved_dirty_paths": 38,
+  "credential_pattern_scan_hits": 0
+}

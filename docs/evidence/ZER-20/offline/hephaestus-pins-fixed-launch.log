@@ -1,0 +1,14 @@
+2026-10-29 23:44:13,550 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-29 23:44:13,551 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+2026-10-29 23:44:13,553 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<Cases.test_actual_log_poll_retains_log_input_and_disabled_path_stays_model_free() running at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_gaia_diagnosis.py:227> wait_for=<_GatheringFuture pending cb=[Task.task_wakeup()] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py:709> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.484 seconds
+2026-10-29 23:44:13,597 - gaia-agent - [INFO] - Starting Prometheus metrics polling...
+2026-10-29 23:44:13,858 - asyncio - [WARNING] - Executing <Task finished name='Task-12' coro=<poll_prometheus_metrics() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:194> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py:680> took 0.266 seconds
+2026-10-29 23:44:13,869 - gaia-agent - [INFO] - Gaia diagnosis run limit reached; detection remains recorded.
+2026-10-29 23:44:14,228 - gaia-agent - [INFO] - Gaia diagnosis run limit reached; detection remains recorded.
+2026-10-29 23:44:16,009 - httpx - [INFO] - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+2026-10-29 23:44:16,019 - httpx - [INFO] - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 302 Found"
+2026-10-29 23:44:16,020 - httpx - [INFO] - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+2026-10-29 23:44:16,034 - httpx - [INFO] - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+{"status": "OK", "receipt": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpyu4cvvh3\\run_1b0e5c36ff0c4743aec9e239a95c281a\\receipt.json"}
+{"status": "PLAN_ONLY", "provider_calls": 0, "executor_dispatches": 0}
+{"tests_run": 63, "success": true, "failures": 0, "errors": 0, "skipped": 0}
