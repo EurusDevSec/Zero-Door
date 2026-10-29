@@ -1,0 +1,31 @@
+{
+  "at": 1793202787.5855637,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zero-door",
+    "exec",
+    "kafka-controller-0",
+    "-c",
+    "kafka",
+    "--",
+    "env",
+    "-u",
+    "JMX_PORT",
+    "-u",
+    "KAFKA_JMX_OPTS",
+    "/opt/bitnami/kafka/bin/kafka-topics.sh",
+    "--bootstrap-server",
+    "localhost:9092",
+    "--list",
+    "--topic",
+    "^zer19\\-e0e0aea10613\\.results$"
+  ],
+  "label": "topic-list",
+  "returncode": 0,
+  "stdout": "\n",
+  "stderr": ""
+}

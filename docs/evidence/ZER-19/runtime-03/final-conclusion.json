@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-29T03:27:56.471Z",
+  "attempt": "runtime-03",
+  "verdict": "BLOCKED_NOT_MET_POLICY_HOOK_MISSING_CLEANUP_CLEAN_NO_AUTOMATIC_RETRY",
+  "technical_ac": "AC02_AC03_NOT_ACCEPTED",
+  "elapsed_s": 357.2011282444,
+  "activity": {
+    "private_workloads_started": [
+      "proxy Deployment",
+      "gated safe fixture Deployment"
+    ],
+    "worker_nemesis_started": false,
+    "provider_attempts": 0,
+    "fixture_http": 0,
+    "tcp_denial_controls": 0,
+    "topics_created": 0,
+    "private_secrets_created": 0,
+    "build_import_pull": 0
+  },
+  "cleanup": {
+    "verdict": "CLEAN",
+    "namespace_uid": "7cda8172-90b2-469d-8f55-ba99452cad6e",
+    "uid_delete_returned_zero": true,
+    "namespace_absent_receipts": [
+      "0196-namespace-absence.json",
+      "0197-final-namespace.json"
+    ],
+    "shared_spec_uid_unchanged": true,
+    "shared_pod_restarts_unchanged": true,
+    "bound_pvc_count": 3,
+    "topics_created": 0,
+    "private_secrets_created": 0
+  },
+  "source": {
+    "invocation_pins_verified": 27,
+    "product_pins_unchanged": 9,
+    "proposal_authorization_manifest_hashes_match": true
+  },
+  "root_cause": "Fixture-specific dataplane hook not observed in required node firewall gate; underlying controller/programming cause unresolved. Current Docker/Kube node IPs match.",
+  "publication": "BLOCKED_NOT_STARTED",
+  "issue_done": false,
+  "next": "Resolve NetworkPolicy/node-agent dataplane in a separately scoped infrastructure package before any future acceptance proposal; no automatic runtime04",
+  "analysis": "analysis.json",
+  "previous_attempts": "UNCHANGED",
+  "independent_review": "REVIEW_CONFIRMS_NOT_MET_CLEANUP_CLEAN",
+  "independent_review_artifact": "independent-review.md",
+  "independent_review_sha256": "46a381a3acafec06ced2719c982c001016aaf0a889ec02eb0aa30d2a0d17aa07"
+}

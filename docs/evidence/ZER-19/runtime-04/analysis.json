@@ -1,0 +1,60 @@
+{
+  "verdict": "TECHNICAL_PASS_VERIFIED_SAVED_EVIDENCE",
+  "elapsed_s": 229.58138513565063,
+  "raw_receipts": 132,
+  "provider": {
+    "calls": 1,
+    "model": "gpt-6-luna",
+    "input_tokens": 216,
+    "output_tokens": 26,
+    "latency_ms": 3210.9108439999545,
+    "cost_estimate_usd": 3.46e-05,
+    "billing_cost_verified": false
+  },
+  "functional": {
+    "template": "benign-apparel",
+    "command_id": "ed1b8005-0c3a-499a-b3f1-a68a30501b92",
+    "executor_sends": 1,
+    "fixture_http_total": 3,
+    "http_statuses": [
+      200,
+      200,
+      200
+    ],
+    "restricted_rows": [
+      0,
+      0,
+      0
+    ],
+    "direct_tcp": "DENIED",
+    "raw_join": "MATCH",
+    "stop_reason": "MAX_ROUNDS",
+    "completed_rounds": 1
+  },
+  "resources": {
+    "samples": 33,
+    "min_windows_available_bytes": 1370882048,
+    "min_wsl_available_kib": 2320236,
+    "max_memory_psi_avg10": 0.29,
+    "guard_failures": []
+  },
+  "cleanup": {
+    "verdict": "CLEAN",
+    "namespace_uid": "025ef705-eb14-471b-8c53-6da69ae838e7",
+    "namespace_absent": true,
+    "topics_deleted_and_absent": 2,
+    "shared_spec_uid_restart_unchanged": true,
+    "bound_pvcs": 3
+  },
+  "source": {
+    "invocation_pins": 43,
+    "product_pins": 9,
+    "approval_hashes_match": true
+  },
+  "limits": [
+    "Functional ZER19 acceptance only; not SQLi effect/healing/KPI/G3/G4/formal benchmark",
+    "No live cancel claim; bounded cancellation behavior covered offline",
+    "Older runtime01-03 failures/UNKNOWN unchanged",
+    "Publication/CI/merge/Done remain separate gates"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "at": 1793246198.9849615,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "sqli-fixture-69db7c8d8b-qwlcc",
+    "-c",
+    "sqli-fixture",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "from pathlib import Path; Path('/data/.policy-release').write_text('policy observed')"
+  ],
+  "label": "release-fixture",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.7340000000003783
+}

@@ -1,0 +1,1648 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zd-sqli-lab
+  labels:
+    kubernetes.io/metadata.name: zd-sqli-lab
+    zero-door.io/purpose: sqli-fixture
+    zero-door.io/run: zer42-e0e0aea10613
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sqli-fixture-config
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+data:
+  ZD_SQLI_PROFILE: safe
+  ZD_SQLI_HOST: 0.0.0.0
+  ZD_SQLI_PORT: '9140'
+  ZD_SQLI_TRUSTED_PROXIES: ''
+  ZD_SQLI_TOPOLOGY: proxied
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    app: sqli-fixture
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqli-fixture
+  template:
+    metadata:
+      labels:
+        app: sqli-fixture
+        zero-door.io/run: zer42-e0e0aea10613
+    spec:
+      serviceAccountName: sqli-fixture
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: sqli-fixture
+        image: zer41-fixture:37c7a045e098
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 9140
+        envFrom:
+        - configMapRef:
+            name: sqli-fixture-config
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 150m
+            memory: 96Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        command:
+        - /usr/bin/python3
+        - -c
+        - 'import os,time; from pathlib import Path; p=Path(''/data/.policy-release'');
+          exec("while not p.exists(): time.sleep(0.2)"); os.execv(''/usr/bin/python3'',[''/usr/bin/python3'',''/app/app.py''])'
+      volumes:
+      - name: data
+        emptyDir:
+          sizeLimit: 64Mi
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-agent-0
+  strategy:
+    type: Recreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqli-fixture
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  type: ClusterIP
+  selector:
+    app: sqli-fixture
+  ports:
+  - name: http
+    port: 9140
+    targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-controller-and-dns
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  podSelector:
+    matchLabels:
+      app: sqli-fixture
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 9140
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zer41-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+data:
+  dynamic.yaml: "http:\n  routers:\n    fixture:\n      entryPoints:\n      - web\n\
+    \      rule: PathPrefix(`/fixture`)\n      service: fixture\n  services:\n   \
+    \ fixture:\n      loadBalancer:\n        servers:\n        - url: http://sqli-fixture:9140\n"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zer41-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zer41-private-ingress
+  template:
+    metadata:
+      labels:
+        app: zer41-private-ingress
+        zero-door.io/run: zer42-e0e0aea10613
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      nodeSelector:
+        kubernetes.io/hostname: k3d-zero-door-agent-0
+      containers:
+      - name: traefik
+        image: docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c
+        imagePullPolicy: Never
+        args:
+        - --global.checkNewVersion=false
+        - --global.sendAnonymousUsage=false
+        - --entrypoints.web.address=:8000
+        - --providers.file.filename=/config/dynamic.yaml
+        - --accesslog.fields.headers.defaultmode=drop
+        - --accesslog.fields.headers.names.X-Correlation-Id=keep
+        - --accesslog.fields.headers.names.X-Request-Id=keep
+        - --accesslog=true
+        - --accesslog.format=json
+        - --log.format=json
+        - --log.level=ERROR
+        ports:
+        - name: web
+          containerPort: 8000
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 150m
+            memory: 96Mi
+        volumeMounts:
+        - name: config
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: zer41-private-ingress
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zer41-private-ingress
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  type: ClusterIP
+  selector:
+    app: zer41-private-ingress
+  ports:
+  - name: web
+    port: 8000
+    targetPort: web
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer42-worker
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+    app: zer42-worker
+spec:
+  restartPolicy: Never
+  activeDeadlineSeconds: 900
+  automountServiceAccountToken: true
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-agent-0
+  containers:
+  - name: main
+    image: zer42-worker:e80bc554b7ef
+    imagePullPolicy: Never
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+    env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: kafka.zero-door.svc.cluster.local:9092
+    - name: KAFKA_COMMANDS_TOPIC
+      value: zer19-e0e0aea10613.commands
+    - name: KAFKA_RESULTS_TOPIC
+      value: zer19-e0e0aea10613.results
+    - name: KAFKA_GROUP_ID
+      value: zer42-e0e0aea10613.worker
+    - name: ZD_COMMAND_POLICY_FILE
+      value: /policy/policy.json
+    - name: ZD_COMMAND_SIGNER_FILE
+      value: /fault/key.json
+    - name: ZD_COMMAND_LEDGER_DIR
+      value: /ledger
+    - name: ZD_SQLI_INGRESS_IP
+      value: ''
+    volumeMounts:
+    - name: policy
+      mountPath: /policy
+      readOnly: true
+    - name: fault
+      mountPath: /fault
+      readOnly: true
+    - name: ledger
+      mountPath: /ledger
+  volumes:
+  - name: policy
+    configMap:
+      name: zer42-policy
+  - name: fault
+    secret:
+      secretName: zer42-fault
+      defaultMode: 288
+  - name: ledger
+    emptyDir:
+      sizeLimit: 16Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zer42-nemesis
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+    app: zer42-nemesis
+spec:
+  restartPolicy: Never
+  activeDeadlineSeconds: 900
+  automountServiceAccountToken: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    kubernetes.io/hostname: k3d-zero-door-agent-0
+  containers:
+  - name: main
+    image: zer42-nemesis:e80bc554b7ef
+    imagePullPolicy: Never
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 192Mi
+    env:
+    - name: KAFKA_BOOTSTRAP_SERVERS
+      value: kafka.zero-door.svc.cluster.local:9092
+    - name: KAFKA_COMMANDS_TOPIC
+      value: zer19-e0e0aea10613.commands
+    - name: KAFKA_RESULTS_TOPIC
+      value: zer19-e0e0aea10613.results
+    - name: KAFKA_GROUP_ID
+      value: zer42-e0e0aea10613.nemesis
+    - name: ZD_COMMAND_POLICY_FILE
+      value: /policy/policy.json
+    - name: ZD_COMMAND_SIGNER_FILE
+      value: /fault/key.json
+    - name: ZD_COMMAND_LEDGER_DIR
+      value: /ledger
+    - name: ZD_OPERATOR_TOKEN_FILE
+      value: /operator/key.json
+    - name: ZD_COMMAND_LEDGER_FILE
+      value: /ledger/nemesis.sqlite3
+    - name: PYTHONPATH
+      value: /run-source:/usr/local/lib/python3.11/site-packages
+    - name: OPENAI_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: zer19-provider
+          key: api-key
+    volumeMounts:
+    - name: policy
+      mountPath: /policy
+      readOnly: true
+    - name: fault
+      mountPath: /fault
+      readOnly: true
+    - name: ledger
+      mountPath: /ledger
+    - name: operator
+      mountPath: /operator
+      readOnly: true
+    - name: session-source
+      mountPath: /run-source
+      readOnly: true
+    command:
+    - /usr/bin/python3
+    - -c
+    - import time; time.sleep(900)
+  volumes:
+  - name: policy
+    configMap:
+      name: zer42-policy
+  - name: fault
+    secret:
+      secretName: zer42-fault
+      defaultMode: 288
+  - name: ledger
+    emptyDir:
+      sizeLimit: 16Mi
+  - name: operator
+    secret:
+      secretName: zer42-operator
+      defaultMode: 288
+  - name: session-source
+    configMap:
+      name: zer19-session-source
+      items:
+      - key: 0.py
+        path: nemesis/session.py
+      - key: 1.py
+        path: nemesis/session_cli.py
+      - key: 2.py
+        path: nemesis/command_guard.py
+      - key: 3.py
+        path: event_pipeline/__init__.py
+      - key: 4.py
+        path: event_pipeline/contract.py
+      - key: 5.py
+        path: event_pipeline/llm.py
+      - key: config.json
+        path: config.json
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zer42-policy
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+data:
+  policy.json: "{\n  \"version\": \"zd-guard/1\",\n  \"enabled\": false,\n  \"context\"\
+    : {\n    \"run_id\": \"run_e0e0aea106134a6bae270af8ec29c298\",\n    \"trial_id\"\
+    : \"trl_6f7b7b54f4c943dabdda1b8a4d65563b\",\n    \"group\": \"B2\"\n  },\n  \"\
+    targets\": [\n    {\n      \"namespace\": \"target-app\",\n      \"service\":\
+    \ \"frontend\",\n      \"url\": \"http://frontend.target-app.svc.cluster.local/\"\
+    \n    }\n  ],\n  \"maxDurationSec\": 60,\n  \"maxConcurrency\": 2,\n  \"rps\"\
+    : 5,\n  \"sqli\": {\n    \"enabled\": false,\n    \"endpoint\": \"http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search\"\
+    ,\n    \"maxSends\": 1,\n    \"maxCommandSec\": 1\n  }\n}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zer42-nemesis
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  type: ClusterIP
+  selector:
+    app: zer42-nemesis
+  ports:
+  - port: 8000
+    targetPort: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: private-proxy
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  podSelector:
+    matchLabels:
+      app: zer41-private-ingress
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: zer42-worker
+    - podSelector:
+        matchLabels:
+          app: zer42-nemesis
+    ports:
+    - protocol: TCP
+      port: 8000
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: sqli-fixture
+    ports:
+    - protocol: TCP
+      port: 9140
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zer42-worker
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  podSelector:
+    matchLabels:
+      app: zer42-worker
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 8000
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: zero-door
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: kafka
+          app.kubernetes.io/instance: kafka
+    ports:
+    - protocol: TCP
+      port: 9092
+  ingress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zer42-nemesis
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+spec:
+  podSelector:
+    matchLabels:
+      app: zer42-nemesis
+  policyTypes:
+  - Ingress
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: zero-door
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: kafka
+          app.kubernetes.io/instance: kafka
+    ports:
+    - protocol: TCP
+      port: 9092
+  - to:
+    - podSelector:
+        matchLabels:
+          app: zer41-private-ingress
+    ports:
+    - protocol: TCP
+      port: 8000
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+        except:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        - 127.0.0.0/8
+        - 169.254.0.0/16
+    ports:
+    - protocol: TCP
+      port: 443
+  ingress: []
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zer19-session-source
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/run: zer42-e0e0aea10613
+data:
+  0.py: "\"\"\"Bounded FUNCTIONAL_ONLY Nemesis sessions; never a recovery benchmark\
+    \ driver.\n\nOnly registry IDs leave the model. The existing CommandGuard constructs\
+    \ targets,\nduration and concurrency; the existing signed worker remains the executor.\n\
+    Nothing opens a client, spends tokens or starts a session at import.\n\"\"\"\n\
+    import asyncio\nfrom copy import deepcopy\nfrom dataclasses import dataclass\n\
+    from datetime import datetime, timezone\nimport hashlib\nimport json\nimport math\n\
+    import re\nimport time\nfrom typing import Literal\nimport uuid\n\nfrom pydantic\
+    \ import BaseModel, ConfigDict, Field\n\nfrom event_pipeline.contract import new_id\n\
+    from event_pipeline.llm import BudgetExceeded\nfrom nemesis.command_guard import\
+    \ CommandGuard, Refused, SQLI_TEMPLATE_IDS\n\nPURPOSE = \"FUNCTIONAL_ONLY_NOT_BENCHMARK\"\
+    \nPROMPT_VERSION = \"zer19-registry-selector/1\"\nINSTRUCTIONS = \"\"\"Select\
+    \ one existing ZERO DOOR local fixture template ID, or STOP.\nUse only the supplied\
+    \ health observations and previous execution status. Cite\nexisting evidence IDs.\
+    \ Never invent a payload, target, command, intensity or URL.\nSTOP when health\
+    \ is unknown or unhealthy, or when another round is unnecessary.\nThis is a separate\
+    \ functional session, not a recovery comparison benchmark.\"\"\"\n\n\nclass Plan(BaseModel):\n\
+    \    model_config = ConfigDict(extra=\"forbid\", strict=True)\n    template: Literal[\"\
+    STOP\", \"disclose-restricted\", \"benign-apparel\", \"benign-home\", \"benign-electronics\"\
+    ]\n    evidence_ids: list[str] = Field(min_length=1, max_length=8)\n\n\ndef digest(value):\n\
+    \    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(\",\"\
+    , \":\"),\n                                     allow_nan=False).encode()).hexdigest()\n\
+    \n\ndef observation_valid(value, *, now=None):\n    \"\"\"A deliberately small\
+    \ O projection. No raw result, H oracle or free text.\"\"\"\n    if type(value)\
+    \ is not dict or set(value) != {\"observed_at\", \"evidence\"}:\n        raise\
+    \ ValueError(\"OBSERVATION_SCHEMA\")\n    try:\n        stamp = datetime.fromisoformat(value[\"\
+    observed_at\"].replace(\"Z\", \"+00:00\"))\n        age = ((now or datetime.now(timezone.utc))\
+    \ - stamp).total_seconds()\n    except (ValueError, TypeError, AttributeError):\n\
+    \        raise ValueError(\"OBSERVATION_TIME\") from None\n    if stamp.tzinfo\
+    \ is None or not 0 <= age <= 60:\n        raise ValueError(\"OBSERVATION_STALE\"\
+    )\n    evidence = value[\"evidence\"]\n    if type(evidence) is not list or not\
+    \ 1 <= len(evidence) <= 8:\n        raise ValueError(\"OBSERVATION_EVIDENCE\"\
+    )\n    ids = set()\n    for item in evidence:\n        if (type(item) is not dict\
+    \ or set(item) != {\"id\", \"health\"}\n                or type(item[\"id\"])\
+    \ is not str or not re.fullmatch(r\"ev-[a-z0-9-]{1,48}\", item[\"id\"])\n    \
+    \            or item[\"id\"] in ids or item[\"health\"] not in (\"HEALTHY\", \"\
+    UNHEALTHY\", \"UNKNOWN\")):\n            raise ValueError(\"OBSERVATION_EVIDENCE\"\
+    )\n        ids.add(item[\"id\"])\n    return deepcopy(value), ids\n\n\n@dataclass(frozen=True)\n\
+    class SessionLimits:\n    max_rounds: int = 1\n    duration_s: int = 120\n   \
+    \ command_s: int = 1\n    allowed_templates: tuple = tuple(sorted(SQLI_TEMPLATE_IDS))\n\
+    \n    def __post_init__(self):\n        for value, high in ((self.max_rounds,\
+    \ 3), (self.duration_s, 180), (self.command_s, 5)):\n            if type(value)\
+    \ is not int or not 1 <= value <= high:\n                raise ValueError(\"SESSION_LIMITS\"\
+    )\n        if (type(self.allowed_templates) is not tuple or not self.allowed_templates\n\
+    \                or any(type(x) is not str or x not in SQLI_TEMPLATE_IDS for x\
+    \ in self.allowed_templates)\n                or len(set(self.allowed_templates))\
+    \ != len(self.allowed_templates)):\n            raise ValueError(\"SESSION_TEMPLATES\"\
+    )\n\n\ndef result_valid(raw, command, max_sends):\n    \"\"\"Join the worker receipt,\
+    \ without interpreting disclosure as effect/recovery.\"\"\"\n    if (type(raw)\
+    \ is not dict or raw.get(\"commandId\") != command[\"commandId\"]\n          \
+    \  or raw.get(\"source\") != \"chaos-worker\" or raw.get(\"attackType\") != \"\
+    SQLI\"\n            or raw.get(\"status\") not in (\"SUCCESS\", \"FAILED\", \"\
+    REJECTED\", \"TIMEOUT\")\n            or type(raw.get(\"duration\")) is not int\
+    \ or not 0 <= raw[\"duration\"] <= 60_000):\n        raise ValueError(\"EXECUTOR_RESULT_INVALID\"\
+    )\n    if raw[\"status\"] != \"SUCCESS\":\n        return deepcopy(raw)\n    detail\
+    \ = raw.get(\"details\")\n    sql = detail.get(\"sqli\") if type(detail) is dict\
+    \ else None\n    if (type(sql) is not dict or sql.get(\"templateId\") != command[\"\
+    parameters\"][\"customParams\"][\"template\"]\n            or type(sql.get(\"\
+    sends\")) is not list or not 1 <= len(sql[\"sends\"]) <= max_sends):\n       \
+    \ raise ValueError(\"EXECUTOR_RESULT_INVALID\")\n    for seq, item in enumerate(sql[\"\
+    sends\"], 1):\n        if (type(item) is not dict or type(item.get(\"seq\")) is\
+    \ not int or item[\"seq\"] != seq\n                or item.get(\"requestId\")\
+    \ != command[\"commandId\"] + \"/\" + str(seq)\n                or type(item.get(\"\
+    status\")) is not int or item[\"status\"] != 200\n                or type(item.get(\"\
+    rows\")) is not int or type(item.get(\"restrictedRows\")) is not int\n       \
+    \         or not 0 <= item[\"restrictedRows\"] <= item[\"rows\"]):\n         \
+    \   raise ValueError(\"EXECUTOR_RESULT_INVALID\")\n    return deepcopy(raw)\n\n\
+    \nclass Session:\n    \"\"\"One owner, one task and one shared RunBudget; no retry/restart\
+    \ of sessions.\n\n    stop() cancels observation/inference. Once an external command\
+    \ is dispatched,\n    its existing worker deadline bounds it; stop never claims\
+    \ remote cancellation.\n    No next command is sent while a previous outcome is\
+    \ unknown.\n    \"\"\"\n    def __init__(self, *, purpose, guard, adapter, observe,\
+    \ execute, context,\n                 limits=SessionLimits(), sink=None, clock=time.monotonic):\n\
+    \        if purpose != PURPOSE or not isinstance(guard, CommandGuard):\n     \
+    \       raise ValueError(\"FUNCTIONAL_SESSION_REQUIRED\")\n        self.guard\
+    \ = CommandGuard(deepcopy(guard.policy))\n        self.guard.enabled()\n     \
+    \   self.context = deepcopy(context)\n        if (self.context.get(\"group\")\
+    \ != \"B2\" or adapter.budget.run_id != self.context.get(\"run_id\")\n       \
+    \         or any(self.context.get(k) != self.guard.policy[\"context\"].get(k)\n\
+    \                       for k in (\"run_id\", \"trial_id\", \"group\"))):\n  \
+    \          raise ValueError(\"SESSION_CONTEXT\")\n        # Validate the opt-in\
+    \ fixture capability without dispatching a command.\n        for template in limits.allowed_templates:\n\
+    \            self.guard.command({\"attackType\": \"SQLI\", \"template\": template,\n\
+    \                                \"durationSec\": limits.command_s}, str(uuid.uuid4()))\n\
+    \        self.adapter, self.observe, self.execute = adapter, observe, execute\n\
+    \        self.limits, self.clock, self.sink = limits, clock, sink\n        self.started\
+    \ = None\n        self.task = None\n        self.stopping = False\n        self.phase\
+    \ = \"NEW\"\n        self.records, self.rounds = [], 0\n\n    def record(self,\
+    \ event, **data):\n        item = dict(event=event, at=datetime.now(timezone.utc).isoformat(),\
+    \ **deepcopy(data))\n        self.records.append(item)\n        if self.sink is\
+    \ not None:\n            self.sink(deepcopy(item))  # Recording failure stops\
+    \ before further effects.\n\n    def remaining(self):\n        elapsed = self.clock()\
+    \ - self.started\n        return min(self.limits.duration_s - elapsed, self.adapter.budget.remaining())\
+    \ if math.isfinite(elapsed) and elapsed >= 0 else 0\n\n    def start(self):\n\
+    \        if self.task is not None:\n            raise ValueError(\"SESSION_ALREADY_STARTED\"\
+    )\n        self.started = self.clock()\n        self.task = asyncio.create_task(self.run())\n\
+    \        return self.task\n\n    def stop(self):\n        self.stopping = True\n\
+    \        request_stop = getattr(self.execute, \"request_stop\", None)\n      \
+    \  if request_stop is not None:\n            request_stop()  # Prevent publication\
+    \ while the executor is still setting up.\n        if self.task is not None and\
+    \ not self.task.done() and self.phase not in {\"NEW\", \"EXECUTING\"}:\n     \
+    \       self.task.cancel()\n\n    async def bounded(self, operation):\n      \
+    \  remaining = self.remaining()\n        if remaining <= 0:\n            raise\
+    \ asyncio.TimeoutError\n        return await asyncio.wait_for(operation(), timeout=remaining)\n\
+    \n    async def run(self):\n        reason = \"MAX_ROUNDS\"\n        previous\
+    \ = None\n        try:\n            self.record(\"SESSION_STARTED\", purpose=PURPOSE,\
+    \ benchmark_eligible=False)\n            for number in range(1, self.limits.max_rounds\
+    \ + 1):\n                if self.stopping:\n                    reason = \"CANCELLED\"\
+    \n                    break\n                if self.adapter.budget.calls >= self.adapter.budget.max_calls:\n\
+    \                    reason = \"CALL_BUDGET\"\n                    break\n   \
+    \             if number > 1:\n                    # The existing durable admission\
+    \ ledger has a six-second\n                    # minimum interval. Preserve it;\
+    \ don't turn fast results into\n                    # immediate redispatch or\
+    \ relax the ledger for this caller.\n                    self.phase = \"PACING\"\
+    \n                    await self.bounded(lambda: asyncio.sleep(6))\n         \
+    \       self.phase = \"OBSERVING\"\n                observation, ids = observation_valid(await\
+    \ self.bounded(self.observe))\n                self.record(\"OBSERVATION\", round=number,\
+    \ observation=observation, sha256=digest(observation))\n                if any(e[\"\
+    health\"] != \"HEALTHY\" for e in observation[\"evidence\"]):\n              \
+    \      reason = \"UNHEALTHY_OR_UNKNOWN\"\n                    break\n        \
+    \        self.phase = \"PLANNING\"\n                decision = new_id(\"dec\"\
+    )\n                before = len(self.adapter.events)\n                try:\n \
+    \                   response = await self.bounded(lambda: self.adapter.call(self.context,\n\
+    \                        decision_id=decision, instructions=INSTRUCTIONS,\n  \
+    \                      observation=dict(observation, previous_execution_status=previous,\n\
+    \                                         allowed_templates=list(self.limits.allowed_templates)),\n\
+    \                        output_model=Plan, prompt_version=PROMPT_VERSION))\n\
+    \                finally:\n                    for event in self.adapter.events[before:]:\n\
+    \                        self.record(\"MODEL_TRACE\", trace=event)\n         \
+    \       if response.outcome != \"OK\":\n                    reason = \"MODEL_\"\
+    \ + response.outcome\n                    break\n                if not response.budget[\"\
+    cost_estimate_complete\"]:\n                    reason = \"MODEL_USAGE_UNKNOWN\"\
+    \n                    break\n                plan = response.value\n         \
+    \       if (not plan.evidence_ids or len(set(plan.evidence_ids)) != len(plan.evidence_ids)\n\
+    \                        or not set(plan.evidence_ids) <= ids):\n            \
+    \        raise ValueError(\"PLAN_EVIDENCE\")\n                self.record(\"PLAN\"\
+    , round=number, decision_id=decision,\n                            decision_source=\"\
+    LLM\", plan=plan.model_dump())\n                if plan.template == \"STOP\":\n\
+    \                    reason = \"MODEL_STOP\"\n                    break\n    \
+    \            if plan.template not in self.limits.allowed_templates:\n        \
+    \            raise ValueError(\"PLAN_NOT_ALLOWED\")\n                command =\
+    \ self.guard.command({\"attackType\": \"SQLI\", \"template\": plan.template,\n\
+    \                    \"durationSec\": self.limits.command_s}, str(uuid.uuid4()))\n\
+    \                # Reserve enough time for the existing worker deadline and its\
+    \ result.\n                if self.remaining() < self.limits.command_s + 15:\n\
+    \                    reason = \"INSUFFICIENT_EXECUTION_WINDOW\"\n            \
+    \        break\n                if self.stopping:\n                    reason\
+    \ = \"CANCELLED\"\n                    break\n                self.record(\"GUARD_ACCEPTED\"\
+    , command_id=command[\"commandId\"], decision_id=decision)\n                self.record(\"\
+    DISPATCH_INTENT\", round=number, command=command, decision_id=decision)\n    \
+    \            self.phase = \"EXECUTING\"\n                raw = await self.bounded(lambda:\
+    \ self.execute(command))\n                raw = result_valid(raw, command, self.guard.policy[\"\
+    sqli\"][\"maxSends\"])\n                self.rounds += 1\n                previous\
+    \ = raw[\"status\"]\n                self.record(\"EXECUTOR_RESULT\", round=number,\
+    \ raw=raw, sha256=digest(raw),\n                            effect=\"NOT_EVALUATED\"\
+    , remote_cancel_confirmed=False)\n                if self.stopping or previous\
+    \ != \"SUCCESS\":\n                    reason = \"CANCELLED\" if self.stopping\
+    \ else \"EXECUTOR_\" + previous\n                    break\n        except asyncio.CancelledError:\n\
+    \            reason = \"CANCELLED\"\n        except asyncio.TimeoutError:\n  \
+    \          reason = \"SESSION_DEADLINE_OUTCOME_UNKNOWN\" if self.phase == \"EXECUTING\"\
+    \ else \"SESSION_DEADLINE\"\n        except BudgetExceeded:\n            reason\
+    \ = \"CALL_TOKEN_COST_BUDGET\"\n        except (ValueError, Refused) as error:\n\
+    \            if isinstance(error, Refused) and error.reason == \"CANCELLED_BEFORE_SEND\"\
+    :\n                reason = \"CANCELLED_BEFORE_SEND\"\n            else:\n   \
+    \             reason = \"EXECUTOR_RESULT_UNKNOWN_OR_INVALID\" if self.phase ==\
+    \ \"EXECUTING\" else \"VALIDATION_FAILED\"\n        except Exception:\n      \
+    \      reason = \"EXECUTION_OUTCOME_UNKNOWN\" if self.phase == \"EXECUTING\" else\
+    \ \"SESSION_FAILED\"\n        finally:\n            self.phase = \"STOPPED\"\n\
+    \            self.record(\"SESSION_STOPPED\", reason=reason, completed_rounds=self.rounds,\n\
+    \                        budget=self.adapter.budget.summary())\n        return\
+    \ self.receipt(reason)\n\n    def receipt(self, reason):\n        return dict(version=\"\
+    nemesis-functional/1\", purpose=PURPOSE, benchmark_eligible=False,\n         \
+    \           run_id=self.context[\"run_id\"], stop_reason=reason, completed_rounds=self.rounds,\n\
+    \                    budget=self.adapter.budget.summary(), records=deepcopy(self.records))\n"
+  1.py: "\"\"\"Explicit functional-session CLI. Default is PLAN_ONLY; live requires\
+    \ local files.\n\nSIGINT/SIGTERM stops new work. An already published worker command\
+    \ is allowed to\nexpire under its existing <=5s command deadline; no remote cancel\
+    \ is invented.\nThe output directory is exclusive per run, so restart never replays\
+    \ a session.\n\"\"\"\nimport argparse\nimport asyncio\nfrom copy import deepcopy\n\
+    import json\nimport os\nfrom pathlib import Path\nimport signal\nimport threading\n\
+    import time\n\nfrom kafka import KafkaConsumer, KafkaProducer, TopicPartition\n\
+    \nfrom event_pipeline.llm import Adapter, HttpxTransport, Limits, RunBudget\n\
+    from nemesis.command_guard import CommandGuard, Refused, fields, read_key, sign,\
+    \ strict_json\nfrom nemesis.session import PURPOSE, Session, SessionLimits\n\n\
+    \ndef read_json(path):\n    with Path(path).open(\"rb\") as stream:\n        return\
+    \ strict_json(stream.read(32769))\n\n\ndef config_valid(raw):\n    fields(raw,\
+    \ {\"purpose\", \"benchmark_eligible\", \"context\", \"limits\", \"max_calls\"\
+    , \"max_reserved_tokens\",\n                 \"max_estimated_usd\"})\n    if raw[\"\
+    purpose\"] != PURPOSE or raw[\"benchmark_eligible\"] is not False:\n        raise\
+    \ ValueError(\"FUNCTIONAL_SESSION_REQUIRED\")\n    fields(raw[\"limits\"], {\"\
+    max_rounds\", \"duration_s\", \"command_s\", \"allowed_templates\"})\n    if type(raw[\"\
+    limits\"][\"allowed_templates\"]) is not list:\n        raise ValueError(\"SESSION_TEMPLATES\"\
+    )\n    limits = SessionLimits(**dict(raw[\"limits\"], allowed_templates=tuple(raw[\"\
+    limits\"][\"allowed_templates\"])))\n    if type(raw[\"max_calls\"]) is not int\
+    \ or not 1 <= raw[\"max_calls\"] <= 3:\n        raise ValueError(\"SESSION_CALLS\"\
+    )\n    if type(raw[\"max_reserved_tokens\"]) is not int or not 1 <= raw[\"max_reserved_tokens\"\
+    ] <= 30_000:\n        raise ValueError(\"SESSION_TOKENS\")\n    if type(raw[\"\
+    max_estimated_usd\"]) not in (int, float) or not 0 < raw[\"max_estimated_usd\"\
+    ] <= .005:\n        raise ValueError(\"SESSION_COST\")\n    return limits\n\n\n\
+    class KafkaExecutor:\n    \"\"\"One worker owns construct/poll/send/close. No\
+    \ automatic send retry.\n\n    The worker result topic uses the existing lab trust\
+    \ boundary, not a new result\n    authentication protocol. Matching IDs/shape\
+    \ are necessary, not proof of MAC.\n    \"\"\"\n    def __init__(self, guard,\
+    \ key, ledger, servers, *, producer=KafkaProducer,\n                 consumer=KafkaConsumer,\
+    \ clock=time.monotonic):\n        self.guard, self.key, self.ledger = guard, key,\
+    \ ledger\n        self.servers = servers\n        # Functional sessions use their\
+    \ own topic pair, never formal run topics.\n        prefix = \"zer19-\" + guard.policy[\"\
+    context\"][\"run_id\"][4:16]\n        self.commands_topic, self.results_topic\
+    \ = prefix + \".commands\", prefix + \".results\"\n        self.producer_factory,\
+    \ self.consumer_factory, self.clock = producer, consumer, clock\n        self.stop_requested\
+    \ = threading.Event()\n        self.dispatch_lock = threading.Lock()\n\n    def\
+    \ request_stop(self):\n        # Linearize stop against the send invocation (bounded\
+    \ max_block_ms=2000).\n        with self.dispatch_lock:\n            self.stop_requested.set()\n\
+    \n    async def __call__(self, command):\n        stop = threading.Event()\n \
+    \       worker = asyncio.create_task(asyncio.to_thread(self._execute, deepcopy(command),\
+    \ stop))\n        try:\n            return await asyncio.shield(worker)\n    \
+    \    except asyncio.CancelledError:\n            stop.set()\n            try:\n\
+    \                await worker  # Drain owned clients before the session returns.\n\
+    \            except Exception:\n                pass  # Cancellation remains cancellation,\
+    \ not a successful receipt.\n            raise\n\n    def _execute(self, command,\
+    \ stop):\n        self.guard.enabled()\n        template = command[\"parameters\"\
+    ][\"customParams\"][\"template\"]\n        admitted = self.guard.command({\"attackType\"\
+    : \"SQLI\", \"template\": template,\n            \"durationSec\": command[\"parameters\"\
+    ][\"duration\"]}, command[\"commandId\"])\n        # Guard rebuilds timestamp;\
+    \ compare every authority-bearing field.\n        if any(command[k] != admitted[k]\
+    \ for k in admitted if k != \"timestamp\"):\n            raise Refused(\"SESSION_COMMAND_CHANGED\"\
+    )\n        previous = self.ledger.claim(command[\"commandId\"], {\"command\":\
+    \ command})\n        if previous is not None:\n            return previous\n \
+    \       producer = consumer = None\n        sent = False\n        end = self.clock()\
+    \ + command[\"parameters\"][\"duration\"] + 12\n        try:\n            consumer\
+    \ = self.consumer_factory(bootstrap_servers=self.servers.split(\",\"), group_id=None,\n\
+    \                enable_auto_commit=False, auto_offset_reset=\"none\", value_deserializer=None,\
+    \ api_version=(2, 5, 0),\n                request_timeout_ms=2000, session_timeout_ms=1000,\
+    \ max_partition_fetch_bytes=32768,\n                fetch_max_bytes=65536, max_poll_records=10)\n\
+    \            # kafka-python-ng 2.2.2 high-level partitions_for_topic()/position()\n\
+    \            # can poll indefinitely. Drive its pinned low-level metadata cache\n\
+    \            # in finite ticks, then use public end_offsets (request_timeout_ms).\n\
+    \            client = consumer._client\n            client.add_topic(self.results_topic)\n\
+    \            setup_end = min(end, self.clock() + 5)\n            partitions =\
+    \ None\n            while not stop.is_set() and not self.stop_requested.is_set()\
+    \ and self.clock() < setup_end:\n                partitions = client.cluster.partitions_for_topic(self.results_topic)\n\
+    \                if partitions:\n                    break\n                client.poll(timeout_ms=min(100,\
+    \ max(1, int((setup_end - self.clock()) * 1000))))\n            if stop.is_set()\
+    \ or self.stop_requested.is_set():\n                raise Refused(\"CANCELLED_BEFORE_SEND\"\
+    , 409)\n            if not partitions:\n                raise Refused(\"RESULT_TOPIC_UNAVAILABLE\"\
+    , 503)\n            assigned = [TopicPartition(self.results_topic, p) for p in\
+    \ sorted(partitions)]\n            consumer.assign(assigned)\n            offsets\
+    \ = consumer.end_offsets(assigned)  # Finite 2000ms including retries.\n     \
+    \       if set(offsets) != set(assigned):\n                raise Refused(\"RESULT_OFFSETS_UNAVAILABLE\"\
+    , 503)\n            for partition, offset in offsets.items():\n              \
+    \  consumer.seek(partition, offset)  # Set concrete offsets BEFORE publishing.\n\
+    \            producer = self.producer_factory(bootstrap_servers=self.servers.split(\"\
+    ,\"), acks=\"all\", retries=0,\n                api_version=(2, 5, 0), max_block_ms=2000,\
+    \ request_timeout_ms=3000,\n                value_serializer=lambda value: json.dumps(value,\
+    \ allow_nan=False).encode())\n            envelope = sign(command, self.key)\n\
+    \            with self.dispatch_lock:\n                if stop.is_set() or self.stop_requested.is_set()\
+    \ or self.clock() + command[\"parameters\"][\"duration\"] + 3 >= end:\n      \
+    \              raise Refused(\"CANCELLED_BEFORE_SEND\", 409)\n               \
+    \ sent = True  # Even an exception from send() leaves a durable UNKNOWN claim.\n\
+    \                pending = producer.send(self.commands_topic, envelope)\n    \
+    \        pending.get(timeout=3)\n            while not stop.is_set() and self.clock()\
+    \ < end:\n                records = consumer.poll(timeout_ms=250)\n          \
+    \      for batch in records.values():\n                    for message in batch:\n\
+    \                        try:\n                            value = strict_json(message.value)\n\
+    \                        except Refused:\n                            continue\n\
+    \                        if type(value) is dict and value.get(\"commandId\") ==\
+    \ command[\"commandId\"]:\n                            from nemesis.session import\
+    \ result_valid\n                            result_valid(value, command, self.guard.policy[\"\
+    sqli\"][\"maxSends\"])\n                            self.ledger.complete(command[\"\
+    commandId\"], value)\n                            return value\n            raise\
+    \ Refused(\"EXECUTOR_OUTCOME_UNKNOWN\", 503)\n        except Exception:\n    \
+    \        if not sent:\n                self.ledger.complete(command[\"commandId\"\
+    ], {\"status\": \"REJECTED\",\n                    \"commandId\": command[\"commandId\"\
+    ], \"reason\": \"PRE_SEND_FAILED\"})\n            raise\n        finally:\n  \
+    \          try:\n                if producer is not None:\n                  \
+    \  producer.close(timeout=1)\n            finally:\n                if consumer\
+    \ is not None:\n                    consumer.close(autocommit=False)\n\n\nasync\
+    \ def live(args):\n    config = read_json(args.config)\n    limits = config_valid(config)\n\
+    \    guard = CommandGuard.from_env()\n    operator = read_key(os.environ.get(\"\
+    ZD_OPERATOR_TOKEN_FILE\", \"\"), \"operator\")\n    guard.authorize(\"Bearer \"\
+    \ + operator[\"secret\"])\n    key, ledger = guard.signer(), guard.ledger()\n\
+    \    budget = RunBudget(config[\"context\"][\"run_id\"], max_calls=config[\"max_calls\"\
+    ],\n        max_reserved_tokens=config[\"max_reserved_tokens\"], max_estimated_usd=config[\"\
+    max_estimated_usd\"],\n        duration_s=limits.duration_s)\n    adapter = Adapter(HttpxTransport(os.environ.get(\"\
+    OPENAI_API_KEY\", \"\")), budget,\n        limits=Limits(attempts=1, timeout_s=20,\
+    \ deadline_s=25, retry_delay_s=0, max_output_tokens=256))\n    async def observe():\n\
+    \        return read_json(args.observation)\n    session = Session(purpose=config[\"\
+    purpose\"], guard=guard, adapter=adapter, observe=observe,\n        execute=KafkaExecutor(guard,\
+    \ key, ledger, os.environ.get(\"KAFKA_BOOTSTRAP_SERVERS\",\n                 \
+    \             \"kafka.zero-door.svc.cluster.local:9092\")),\n        context=config[\"\
+    context\"], limits=limits)\n    output = Path(args.output)\n    # Caller chooses\
+    \ a persistent parent; mkdir is the once-only run reservation.\n    destination\
+    \ = output / budget.run_id\n    destination.mkdir()  # Existing/unclosed attempt\
+    \ is NOT permission to replay.\n    (destination / \"started.json\").write_text(json.dumps({\"\
+    purpose\": PURPOSE, \"config\": config,\n        \"process\": os.getpid(), \"\
+    restart_allowed\": False}, indent=2) + \"\\n\", encoding=\"utf-8\")\n    with\
+    \ (destination / \"events.jsonl\").open(\"x\", encoding=\"utf-8\") as stream:\n\
+    \        def sink(item):\n            stream.write(json.dumps(item, allow_nan=False)\
+    \ + \"\\n\")\n            stream.flush()\n            os.fsync(stream.fileno())\n\
+    \        session.sink = sink\n        installed = []\n        for name in (signal.SIGINT,\
+    \ signal.SIGTERM):\n            installed.append((name, signal.getsignal(name)))\n\
+    \            signal.signal(name, lambda *_: session.stop())\n        try:\n  \
+    \          receipt = await session.start()\n        finally:\n            for\
+    \ name, handler in installed:\n                signal.signal(name, handler)\n\
+    \    (destination / \"receipt.json\").write_text(json.dumps(receipt, indent=2,\
+    \ allow_nan=False) + \"\\n\", encoding=\"utf-8\")\n    print(json.dumps({\"receipt\"\
+    : str(destination / \"receipt.json\"), \"stop_reason\": receipt[\"stop_reason\"\
+    ],\n                      \"completed_rounds\": receipt[\"completed_rounds\"]}))\n\
+    \    return 0 if receipt[\"stop_reason\"] in {\"MAX_ROUNDS\", \"CALL_BUDGET\"\
+    , \"MODEL_STOP\", \"CANCELLED\"} else 1\n\n\ndef main():\n    parser = argparse.ArgumentParser(description=__doc__)\n\
+    \    parser.add_argument(\"--live\", action=\"store_true\")\n    parser.add_argument(\"\
+    --config\")\n    parser.add_argument(\"--observation\")\n    parser.add_argument(\"\
+    --output\")\n    args = parser.parse_args()\n    if not args.live:\n        print(json.dumps({\"\
+    status\": \"PLAN_ONLY\", \"purpose\": PURPOSE,\n                          \"provider_calls\"\
+    : 0, \"executor_dispatches\": 0}))\n        return 0\n    if not all((args.config,\
+    \ args.observation, args.output)):\n        parser.error(\"--live requires --config,\
+    \ --observation and --output\")\n    try:\n        return asyncio.run(live(args))\n\
+    \    except Exception as error:\n        print(json.dumps({\"status\": \"FAILED_OR_UNKNOWN\"\
+    , \"error_type\": type(error).__name__}))\n        return 1\n\n\nif __name__ ==\
+    \ \"__main__\":\n    raise SystemExit(main())\n"
+  2.py: "\"\"\"Admission controls shared by the agents. No clients, threads or effects\
+    \ at import.\n\nThe command MAC signs exact payload bytes, not cross-language\
+    \ JSON reserialization.\nThe operator token and the fault signing key must be\
+    \ separate from O event credentials.\n\"\"\"\nfrom contextlib import contextmanager\n\
+    import base64\nimport hashlib\nimport hmac\nimport json\nimport math\nimport os\n\
+    from pathlib import Path\nimport re\nimport sqlite3\nimport time\nfrom urllib.parse\
+    \ import urlsplit\nimport uuid\n\n\nclass Refused(ValueError):\n    def __init__(self,\
+    \ reason, status=400):\n        super().__init__(reason)\n        self.reason,\
+    \ self.status = reason, status\n\n\ndef strict_json(raw):\n    if not isinstance(raw,\
+    \ bytes) or not 0 < len(raw) <= 32768:\n        raise Refused(\"PAYLOAD_SIZE\"\
+    )\n    def pairs(items):\n        result = {}\n        for key, value in items:\n\
+    \            if key in result:\n                raise Refused(\"DUPLICATE_KEY\"\
+    )\n            result[key] = value\n        return result\n    try:\n        value\
+    \ = json.loads(raw.decode(\"utf-8\"), object_pairs_hook=pairs,\n             \
+    \              parse_constant=lambda _: (_ for _ in ()).throw(Refused(\"NONFINITE\"\
+    )))\n        def depth(v, level=0):\n            if type(v) is float and not math.isfinite(v):\n\
+    \                raise Refused(\"NONFINITE\")\n            if level > 16:\n  \
+    \              raise Refused(\"PAYLOAD_DEPTH\")\n            for child in (v.values()\
+    \ if isinstance(v, dict) else v if isinstance(v, list) else ()):\n           \
+    \     depth(child, level + 1)\n        depth(value)\n        return value\n  \
+    \  except (UnicodeError, json.JSONDecodeError, RecursionError) as error:\n   \
+    \     raise Refused(\"INVALID_JSON\") from error\n\n\ndef fields(obj, required,\
+    \ optional=()):\n    if type(obj) is not dict or not set(required) <= set(obj)\
+    \ or set(obj) - set(required) - set(optional):\n        raise Refused(\"SCHEMA_FIELDS\"\
+    )\n\n\ndef integer(value, low, high):\n    if type(value) is not int or not low\
+    \ <= value <= high:\n        raise Refused(\"INTEGER_RANGE\")\n    return value\n\
+    \n\ndef identifier(value):\n    try:\n        if str(uuid.UUID(value, version=4))\
+    \ != value or uuid.UUID(value).version != 4:\n            raise ValueError()\n\
+    \    except (ValueError, AttributeError, TypeError):\n        raise Refused(\"\
+    COMMAND_ID\")\n    return value\n\n\ndef context_valid(context):\n    fields(context,\
+    \ {\"run_id\", \"trial_id\", \"group\"})\n    if not re.fullmatch(r\"run_[0-9a-f]{32}\"\
+    , str(context[\"run_id\"])) or not re.fullmatch(r\"trl_[0-9a-f]{32}\", str(context[\"\
+    trial_id\"])) or type(context[\"group\"]) is not str or context[\"group\"] not\
+    \ in {\"B0\", \"BM\", \"B1\", \"B2\", \"B3\"}:\n        raise Refused(\"RUN_CONTEXT\"\
+    )\n    return context\n\n\nSERVICES = {\"frontend\", \"cartservice\", \"productcatalogservice\"\
+    , \"currencyservice\", \"checkoutservice\", \"redis-cart\", \"shippingservice\"\
+    , \"paymentservice\", \"emailservice\"}\n\n# ZER-42 SQLi executor admission (parity\
+    \ with chaos-worker internal/attack/sqli.go and guard/policy.go).\nSQLI_SEARCH_PATH\
+    \ = \"/fixture/catalog/search\"\nSQLI_NAMESPACE = \"zd-sqli-lab\"\nSQLI_SERVICE\
+    \ = \"sqli-fixture\"\nSQLI_MAX_SENDS = 20\nSQLI_PER_COMMAND_SEC = 30\nSQLI_CONCURRENCY\
+    \ = 1\n# The locked catalog ids. The single source of truth is tests/fixtures/zer42/catalog-ids.json,\
+    \ which both the\n# Go and Python suites assert against so a cross-language drift\
+    \ fails a test rather than admitting a mismatch.\nSQLI_TEMPLATE_IDS = frozenset({\"\
+    disclose-restricted\", \"benign-apparel\", \"benign-home\", \"benign-electronics\"\
+    })\n# Exact private-ingress profile verified by ZER-41 runtime-02; no other service/namespace/port\
+    \ is admitted.\nSQLI_INGRESS_AUTHORITY = \"zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000\"\
+    \n\n\ndef sqli_endpoint_valid(raw):\n    \"\"\"Mirror of validation.ValidateSQLiEndpoint:\
+    \ exact private ingress authority and search path only.\"\"\"\n    try:\n    \
+    \    u = urlsplit(raw)\n        if (not isinstance(raw, str) or raw != raw.lower()\
+    \ or any(c in raw for c in \"\\\\%\\r\\n\\t ?#\") or u.scheme != \"http\" or\n\
+    \                u.username is not None or u.password is not None or not u.hostname\
+    \ or\n                u.netloc != SQLI_INGRESS_AUTHORITY or\n                u.path\
+    \ != SQLI_SEARCH_PATH or u.query or u.fragment):\n            raise ValueError()\n\
+    \        return raw\n    except (ValueError, TypeError, AttributeError):\n   \
+    \     raise Refused(\"SQLI_ENDPOINT\")\n\n\ndef url_valid(raw):\n    try:\n  \
+    \      u = urlsplit(raw)\n        if (not isinstance(raw, str) or any(c in raw\
+    \ for c in \"\\\\%\\r\\n\\t ?#\") or u.scheme != \"http\" or\n               \
+    \ u.username is not None or u.password is not None or u.hostname != \"frontend.target-app.svc.cluster.local\"\
+    \ or\n                u.port not in (None, 80) or u.path not in (\"\", \"/\")\
+    \ or u.query or u.fragment):\n            raise ValueError()\n        # Reject\
+    \ noncanonical authorities (e.g. a trailing colon).\n        if u.netloc not in\
+    \ {\"frontend.target-app.svc.cluster.local\", \"frontend.target-app.svc.cluster.local:80\"\
+    }:\n            raise ValueError()\n        return \"http://frontend.target-app.svc.cluster.local/\"\
+    \n    except (ValueError, TypeError, AttributeError):\n        raise Refused(\"\
+    TARGET_URL\")\n\n\ndef read_key(path, purpose):\n    try:\n        value = strict_json(Path(path).read_bytes())\n\
+    \        fields(value, {\"id\", \"secret\", \"purpose\"})\n        if value[\"\
+    purpose\"] != purpose or type(value[\"secret\"]) is not str or len(value[\"secret\"\
+    ].encode()) < 32 or not re.fullmatch(r\"[a-zA-Z0-9_-]{1,64}\", value[\"id\"]):\n\
+    \            raise Refused(\"KEY_CONFIG\", 503)\n        return value\n    except\
+    \ (OSError, KeyError, TypeError) as error:\n        raise Refused(\"KEY_CONFIG\"\
+    , 503) from error\n\n\ndef sign(command, key, now=None):\n    if key[\"purpose\"\
+    ] != \"fault\":\n        raise Refused(\"SIGNER_ROLE\", 403)\n    now = int(time.time())\
+    \ if now is None else now\n    payload = base64.b64encode(json.dumps(command,\
+    \ separators=(\",\", \":\"), ensure_ascii=True, allow_nan=False).encode()).decode()\n\
+    \    result = dict(version=\"zd-command/1\", keyId=key[\"id\"], purpose=\"fault\"\
+    , issuedAt=now, expiresAt=now + 60, payload=payload)\n    signed = \"\\n\".join(str(result[k])\
+    \ for k in (\"version\", \"keyId\", \"purpose\", \"issuedAt\", \"expiresAt\",\
+    \ \"payload\"))\n    result[\"signature\"] = hmac.new(key[\"secret\"].encode(),\
+    \ signed.encode(), hashlib.sha256).hexdigest()\n    return result\n\n\nclass Ledger:\n\
+    \    \"\"\"A claim survives errors/restart. Unknown outcomes never automatically\
+    \ reexecute.\"\"\"\n    def __init__(self, path):\n        self.path = Path(path)\n\
+    \        if self.path.is_symlink() or self.path.parent.is_symlink() or not self.path.parent.is_dir():\n\
+    \            raise Refused(\"LEDGER_PATH\", 503)\n        try:\n            with\
+    \ self.connect() as db:\n                db.execute(\"CREATE TABLE IF NOT EXISTS\
+    \ claims (id TEXT PRIMARY KEY, digest TEXT NOT NULL, result TEXT, created REAL\
+    \ NOT NULL)\")\n        except sqlite3.Error as error:\n            raise Refused(\"\
+    LEDGER_UNAVAILABLE\", 503) from error\n\n    @contextmanager\n    def connect(self):\n\
+    \        db = sqlite3.connect(self.path, timeout=2)\n        try:\n          \
+    \  db.execute(\"PRAGMA synchronous=FULL\")\n            with db:\n           \
+    \     yield db\n        finally:\n            db.close()\n\n    def claim(self,\
+    \ request_id, value, clock=time.time):\n        identifier(request_id)\n     \
+    \   digest = hashlib.sha256(json.dumps(value, sort_keys=True, separators=(\",\"\
+    , \":\"), allow_nan=False).encode()).hexdigest()\n        try:\n            with\
+    \ self.connect() as db:\n                db.execute(\"BEGIN IMMEDIATE\")\n   \
+    \             old = db.execute(\"SELECT digest,result FROM claims WHERE id=?\"\
+    , (request_id,)).fetchone()\n                if old:\n                    if old[0]\
+    \ != digest:\n                        raise Refused(\"ID_CONFLICT\", 409)\n  \
+    \                  if old[1] is None:\n                        raise Refused(\"\
+    OUTCOME_UNKNOWN\", 409)\n                    return json.loads(old[1])\n     \
+    \           count, active = db.execute(\"SELECT count(*),sum(result IS NULL) FROM\
+    \ claims\").fetchone()\n                if count >= 10000:\n                 \
+    \   raise Refused(\"LEDGER_FULL\", 503)\n                if active:\n        \
+    \            raise Refused(\"ACTIVE_OR_UNKNOWN_REQUEST\", 409)\n             \
+    \   # Atomic per-service admission pacing; errors don't refund the reservation.\n\
+    \                last = db.execute(\"SELECT max(created) FROM claims\").fetchone()[0]\n\
+    \                current = clock()\n                if last is not None and current\
+    \ - last < 6:\n                    raise Refused(\"ADMISSION_RATE\", 429)\n  \
+    \              db.execute(\"INSERT INTO claims VALUES (?,?,NULL,?)\", (request_id,\
+    \ digest, current))\n                return None\n        except sqlite3.Error\
+    \ as error:\n            raise Refused(\"LEDGER_UNAVAILABLE\", 503) from error\n\
+    \n    def complete(self, request_id, result):\n        try:\n            with\
+    \ self.connect() as db:\n                changed = db.execute(\"UPDATE claims\
+    \ SET result=? WHERE id=? AND result IS NULL\",\n                            \
+    \         (json.dumps(result, allow_nan=False), request_id)).rowcount\n      \
+    \          if changed != 1:\n                    raise Refused(\"LEDGER_COMPLETION\"\
+    , 503)\n        except sqlite3.Error as error:\n            raise Refused(\"LEDGER_UNAVAILABLE\"\
+    , 503) from error\n\n\nclass CommandGuard:\n    def __init__(self, policy):\n\
+    \        fields(policy, {\"version\", \"enabled\", \"context\", \"targets\", \"\
+    maxDurationSec\", \"maxConcurrency\", \"rps\"}, {\"sqli\"})\n        if policy[\"\
+    version\"] != \"zd-guard/1\" or type(policy[\"enabled\"]) is not bool:\n     \
+    \       raise Refused(\"POLICY_CONFIG\", 503)\n        context_valid(policy[\"\
+    context\"])\n        integer(policy[\"maxDurationSec\"], 1, 600)\n        integer(policy[\"\
+    maxConcurrency\"], 1, 50)\n        integer(policy[\"rps\"], 1, 100)\n        if\
+    \ type(policy[\"targets\"]) is not list or not policy[\"targets\"]:\n        \
+    \    raise Refused(\"POLICY_TARGETS\", 503)\n        seen = set()\n        for\
+    \ target in policy[\"targets\"]:\n            fields(target, {\"namespace\", \"\
+    service\", \"url\"})\n            if type(target[\"url\"]) is not str or target[\"\
+    namespace\"] != \"target-app\" or type(target[\"service\"]) is not str or target[\"\
+    service\"] not in SERVICES or target[\"service\"] in seen:\n                raise\
+    \ Refused(\"POLICY_TARGETS\", 503)\n            seen.add(target[\"service\"])\n\
+    \            if target[\"url\"] and (target[\"service\"] != \"frontend\" or url_valid(target[\"\
+    url\"]) != target[\"url\"]):\n                raise Refused(\"POLICY_TARGETS\"\
+    , 503)\n        if \"sqli\" in policy:\n            sqli = policy[\"sqli\"]\n\
+    \            fields(sqli, {\"enabled\", \"endpoint\", \"maxSends\", \"maxCommandSec\"\
+    })\n            if type(sqli[\"enabled\"]) is not bool:\n                raise\
+    \ Refused(\"SQLI_POLICY\", 503)\n            sqli_endpoint_valid(sqli[\"endpoint\"\
+    ])\n            integer(sqli[\"maxSends\"], 1, SQLI_MAX_SENDS)\n            integer(sqli[\"\
+    maxCommandSec\"], 1, SQLI_PER_COMMAND_SEC)\n        self.policy = policy\n\n \
+    \   @classmethod\n    def from_env(cls):\n        try:\n            policy = strict_json(Path(os.environ[\"\
+    ZD_COMMAND_POLICY_FILE\"]).read_bytes())\n            for env, field, high in\
+    \ ((\"MAX_ATTACK_DURATION_SEC\", \"maxDurationSec\", 600), (\"DEFAULT_CONCURRENCY\"\
+    , \"maxConcurrency\", 50), (\"DEFAULT_RPS\", \"rps\", 100)):\n               \
+    \ if env in os.environ:\n                    try:\n                        raw\
+    \ = os.environ[env]\n                        if not re.fullmatch(r\"[1-9][0-9]*\"\
+    , raw):\n                            raise ValueError()\n                    \
+    \    cap = integer(int(raw), 1, high)\n                    except (ValueError,\
+    \ TypeError):\n                        raise Refused(\"POLICY_LIMIT_CONFIG\",\
+    \ 503)\n                    policy[field] = min(integer(policy[field], 1, high),\
+    \ cap)\n            return cls(policy)\n        except (OSError, KeyError) as\
+    \ error:\n            raise Refused(\"POLICY_UNAVAILABLE\", 503) from error\n\n\
+    \    def authorize(self, authorization, purpose=\"operator\"):\n        if purpose\
+    \ not in {\"operator\", \"heal-operator\"}:\n            raise Refused(\"OPERATOR_ROLE\"\
+    , 403)\n        key = read_key(os.environ.get(\"ZD_OPERATOR_TOKEN_FILE\", \"\"\
+    ), purpose)\n        if not isinstance(authorization, str) or not hmac.compare_digest(authorization.encode(),\
+    \ (\"Bearer \" + key[\"secret\"]).encode()):\n            raise Refused(\"UNAUTHORIZED\"\
+    , 401)\n        return key[\"id\"]\n\n    def enabled(self):\n        if not self.policy[\"\
+    enabled\"]:\n            raise Refused(\"EXECUTOR_DISABLED\", 409)\n\n    def\
+    \ allow_model(self):\n        # All supported contexts are benchmark groups. Scenario\
+    \ generation stays\n        # outside the benchmark, independent of the treatment\
+    \ group.\n        raise Refused(\"BENCHMARK_SCENARIO_LLM_DISABLED\", 409)\n\n\
+    \    def command(self, body, request_id):\n        if type(body) is dict and body.get(\"\
+    attackType\") == \"SQLI\":\n            return self.sqli_command(body, request_id)\n\
+    \        fields(body, {\"attackType\", \"targetService\"}, {\"targetNamespace\"\
+    , \"targetURL\", \"durationSec\", \"intensity\", \"concurrency\"})\n        if\
+    \ type(body[\"attackType\"]) is not str or body[\"attackType\"] not in {\"HTTP_FLOOD\"\
+    , \"CPU_STRESS\", \"MEMORY_STRESS\", \"POD_KILL\"}:\n            raise Refused(\"\
+    COMMAND_TYPE\")\n        namespace, service = body.get(\"targetNamespace\", \"\
+    target-app\"), body[\"targetService\"]\n        if type(service) is not str or\
+    \ type(namespace) is not str:\n            raise Refused(\"TARGET_SERVICE\")\n\
+    \        matches = [t for t in self.policy[\"targets\"] if t[\"namespace\"] ==\
+    \ namespace and t[\"service\"] == service]\n        if len(matches) != 1:\n  \
+    \          raise Refused(\"TARGET_SERVICE\")\n        raw = body.get(\"targetURL\"\
+    , \"\")\n        if type(raw) is not str:\n            raise Refused(\"TARGET_URL\"\
+    )\n        if body[\"attackType\"] == \"HTTP_FLOOD\":\n            raw = url_valid(raw\
+    \ or f\"http://{service}.{namespace}.svc.cluster.local/\")\n            if matches[0][\"\
+    url\"] != raw:\n                raise Refused(\"TARGET_ROUTE\")\n        elif\
+    \ raw:\n            raise Refused(\"UNEXPECTED_URL\")\n        duration = integer(body.get(\"\
+    durationSec\", 30), 1, 86400)\n        concurrency = integer(body.get(\"concurrency\"\
+    , 1), 1, 10000)\n        intensity = body.get(\"intensity\", \"LOW\")\n      \
+    \  if type(intensity) is not str or intensity not in {\"LOW\", \"MEDIUM\", \"\
+    HIGH\"}:\n            raise Refused(\"INTENSITY\")\n        return {\"commandId\"\
+    : identifier(request_id), \"timestamp\": time.strftime(\"%Y-%m-%dT%H:%M:%SZ\"\
+    , time.gmtime()), \"source\": \"nemesis\",\n                \"context\": dict(self.policy[\"\
+    context\"]), \"attackType\": body[\"attackType\"],\n                \"target\"\
+    : {\"namespace\": namespace, \"service\": service, \"url\": raw},\n          \
+    \      \"parameters\": {\"duration\": min(duration, self.policy[\"maxDurationSec\"\
+    ]), \"intensity\": intensity,\n                               \"concurrency\"\
+    : min(concurrency, self.policy[\"maxConcurrency\"]), \"customParams\": {}},\n\
+    \                \"safetyLimits\": {\"maxDuration\": self.policy[\"maxDurationSec\"\
+    ], \"allowedNamespaces\": [\"target-app\"]}}\n\n    def sqli_command(self, body,\
+    \ request_id):\n        \"\"\"Admit one SQLI operator request into a signed command.\
+    \ The operator chooses only a locked template\n        id (and optionally a shorter\
+    \ duration); namespace, service and endpoint come from the opt-in policy\n   \
+    \     capability, never the operator, so this cannot be pointed anywhere but the\
+    \ configured fixture endpoint.\n        Produces the same command shape the Go\
+    \ guard re-admits, with customParams carrying only the template.\"\"\"\n     \
+    \   sqli = self.policy.get(\"sqli\")\n        if not sqli or not sqli[\"enabled\"\
+    ]:\n            raise Refused(\"SQLI_DISABLED\", 409)\n        fields(body, {\"\
+    attackType\", \"template\"}, {\"durationSec\"})\n        if body[\"attackType\"\
+    ] != \"SQLI\":\n            raise Refused(\"COMMAND_TYPE\")\n        template\
+    \ = body[\"template\"]\n        if type(template) is not str or template not in\
+    \ SQLI_TEMPLATE_IDS:\n            raise Refused(\"SQLI_TEMPLATE\")\n        endpoint\
+    \ = sqli_endpoint_valid(sqli[\"endpoint\"])\n        max_sec = integer(sqli[\"\
+    maxCommandSec\"], 1, SQLI_PER_COMMAND_SEC)\n        duration = integer(body.get(\"\
+    durationSec\", max_sec), 1, max_sec)\n        return {\"commandId\": identifier(request_id),\
+    \ \"timestamp\": time.strftime(\"%Y-%m-%dT%H:%M:%SZ\", time.gmtime()),\n     \
+    \           \"source\": \"nemesis\", \"context\": dict(self.policy[\"context\"\
+    ]), \"attackType\": \"SQLI\",\n                \"target\": {\"namespace\": SQLI_NAMESPACE,\
+    \ \"service\": SQLI_SERVICE, \"url\": endpoint},\n                \"parameters\"\
+    : {\"duration\": duration, \"intensity\": \"LOW\", \"concurrency\": SQLI_CONCURRENCY,\n\
+    \                               \"customParams\": {\"template\": template}},\n\
+    \                \"safetyLimits\": {\"maxDuration\": max_sec, \"allowedNamespaces\"\
+    : [SQLI_NAMESPACE]}}\n\n    def signer(self):\n        key = read_key(os.environ.get(\"\
+    ZD_COMMAND_SIGNER_FILE\", \"\"), \"fault\")\n        operator = read_key(os.environ.get(\"\
+    ZD_OPERATOR_TOKEN_FILE\", \"\"), \"operator\")\n        if hmac.compare_digest(key[\"\
+    secret\"], operator[\"secret\"]):\n            raise Refused(\"KEY_SEPARATION\"\
+    , 503)\n        return key\n\n    def ledger(self):\n        try:\n          \
+    \  return Ledger(os.environ[\"ZD_COMMAND_LEDGER_FILE\"])\n        except KeyError\
+    \ as error:\n            raise Refused(\"LEDGER_REQUIRED\", 503) from error\n"
+  3.py: '"""Versioned R1 transport and evidence boundary (not a KPI scorer)."""
+
+    '
+  4.py: "\"\"\"The transport subset of zd-event/1.0.0. Never infer missing provenance.\"\
+    \"\"\nimport copy\nimport json\nimport math\nimport re\nimport threading\nimport\
+    \ uuid\nfrom datetime import datetime, timezone\n\nVERSION = \"zd-event/1.0.0\"\
+    \nID = re.compile(r\"^(run|trl|inc|evt|alt|dec|act|cal|ing)_[0-9a-f]{12}4[0-9a-f]{3}[89ab][0-9a-f]{15}$\"\
+    )\nSTAMP = re.compile(r\"^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$\"\
+    )\nFORBIDDEN = frozenset((\n    \"case_class\", \"variant_id\", \"variant_ref\"\
+    , \"cause\", \"attack_type\", \"attack_command\",\n    \"fault_params\", \"s_att\"\
+    , \"decision_required\", \"acceptable_actions\", \"expected_action\",\n    \"\
+    known_good_revision\", \"seed\", \"onset_offset_ms\", \"schedule\", \"schedule_ref\"\
+    ,\n    \"canary_token\", \"t_eff\", \"t_rec\", \"recovery_verified_at\", \"probe_sample\"\
+    , \"incident_score\",\n))\n# Source is checked against the authenticated principal\
+    \ as well as this table.\nSOURCES = {\n    \"RUN_STARTED\": (\"H\", {\"harness\"\
+    }), \"RUN_CLOSED\": (\"H\", {\"harness\"}),\n    \"TRIAL_STARTED\": (\"H\", {\"\
+    harness\"}), \"TRIAL_ENDED\": (\"H\", {\"harness\"}),\n    \"HARNESS_MANIFEST\"\
+    : (\"H\", {\"harness\"}), \"GROUND_TRUTH_LOCKED\": (\"H\", {\"harness\"}),\n \
+    \   \"SCHEDULE_SEALED\": (\"H\", {\"harness\"}), \"SCHEDULE_ACCESS\": (\"H\",\
+    \ {\"harness\"}),\n    \"AUDIT_COVERAGE\": (\"H\", {\"harness\"}), \"CLOCK_SYNC\"\
+    : (\"H\", {\"harness\", \"probe\"}),\n    \"ATTACK_REQUESTED\": (\"H\", {\"harness\"\
+    }), \"ATTACK_STOPPED\": (\"H\", {\"harness\"}),\n    \"FAULT_EXECUTOR_RESULT\"\
+    : (\"H\", {\"fault_executor\"}),\n    \"EFFECT_EVALUATED\": (\"H\", {\"effect_evaluator\"\
+    }),\n    \"PROBE_SAMPLE\": (\"H\", {\"probe\"}), \"PROBE_HEARTBEAT\": (\"H\",\
+    \ {\"probe\"}),\n    \"RELAPSE\": (\"H\", {\"recovery_evaluator\"}),\n    \"RECOVERY_VERIFIED\"\
+    : (\"H\", {\"recovery_evaluator\"}),\n    \"CONTAINMENT_VERIFIED\": (\"H\", {\"\
+    recovery_evaluator\"}),\n    \"RUN_CONTEXT\": (\"O\", {\"harness\"}), \"TRIAL_CONTEXT\"\
+    : (\"O\", {\"harness\"}),\n    \"DETECTED\": (\"O\", {\"detector\"}),\n    \"\
+    DECISION\": (\"O\", {\"decision_rules\", \"decision_llm\", \"decision_single_llm\"\
+    , \"operator_console\"}),\n    \"LLM_CALL\": (\"O\", {\"decision_llm\", \"decision_single_llm\"\
+    }),\n    \"GUARD_VERDICT\": (\"O\", {\"guard\"}),\n    \"HEAL_STARTED\": (\"O\"\
+    , {\"executor\"}), \"API_ACCEPTED\": (\"O\", {\"executor\"}),\n    \"ACTION_COMPLETED\"\
+    : (\"O\", {\"executor\"}),\n    \"INCIDENT_LINK\": (\"S\", {\"scorer\"}), \"INCIDENT_SCORE\"\
+    : (\"S\", {\"scorer\"}),\n    \"LEAK_CHECK\": (\"S\", {\"scorer\"}),\n}\nREQUIRED_O\
+    \ = {\n    \"RUN_CONTEXT\": set(), \"TRIAL_CONTEXT\": set(),\n    \"DETECTED\"\
+    : {\"rule_id\", \"rule_version\", \"signature\", \"metric\", \"value\", \"threshold\"\
+    , \"severity\", \"description\"},\n    \"DECISION\": {\"stage\", \"decision_source\"\
+    , \"inputs\", \"response_kind\", \"proposal\", \"fallback\", \"fallback_of\",\
+    \ \"prompt_version\", \"prompt_sha256\", \"evidence_package_version\"},\n    \"\
+    LLM_CALL\": {\"attempt_no\", \"retry_reason\", \"provider\", \"model\", \"prompt_version\"\
+    , \"prompt_sha256\", \"latency_ms\", \"outcome\", \"usage\", \"cost\"},\n    \"\
+    GUARD_VERDICT\": {\"verdict\", \"reason_code\", \"guard_version\"},\n    \"HEAL_STARTED\"\
+    : {\"action_type\", \"params\", \"attempt_no\", \"retry_of\", \"initiator\"},\n\
+    \    \"API_ACCEPTED\": {\"api\", \"response_ref\"},\n    \"ACTION_COMPLETED\"\
+    : {\"status\", \"postcondition\", \"error\"},\n}\nREQUIRED_H = {\n    \"RUN_STARTED\"\
+    : {\"canary_token\", \"protocol_ref\", \"schedule_ref\", \"f01_params\", \"reference_clock_id\"\
+    },\n    \"RUN_CLOSED\": {\"close_reason\", \"recorder_manifest_ref\"},\n    \"\
+    TRIAL_STARTED\": {\"warmup_end\", \"planned_window\", \"probes\"}, \"TRIAL_ENDED\"\
+    : {\"end_reason\"},\n    \"HARNESS_MANIFEST\": {\"manifest_version\", \"allowlist_version\"\
+    , \"reveal_terms\", \"entries\"},\n    \"GROUND_TRUTH_LOCKED\": {\"variant_id\"\
+    , \"case_class\", \"cause\", \"decision_required\", \"acceptable_actions\", \"\
+    constraints\", \"label_version\", \"reviewers\", \"locked_at\"},\n    \"SCHEDULE_SEALED\"\
+    : {\"schedule_sha256\", \"sealed_at\", \"generated_after_label_lock\"},\n    \"\
+    SCHEDULE_ACCESS\": {\"actor_role\", \"scope_trial_ids\", \"accessed_at\"},\n \
+    \   \"AUDIT_COVERAGE\": {\"from\", \"to\", \"complete\"},\n    \"CLOCK_SYNC\"\
+    : {\"clock_id\", \"reference_clock_id\", \"offset_ms\", \"uncertainty_ms\", \"\
+    method\", \"measured_at\"},\n    \"ATTACK_REQUESTED\": {\"variant_ref\", \"fault_params\"\
+    , \"attack_command\", \"seed\", \"onset_offset_ms\", \"s_att\", \"known_good_revision\"\
+    , \"target_services\"},\n    \"ATTACK_STOPPED\": {\"stop_reason\", \"executor_confirmed\"\
+    },\n    \"FAULT_EXECUTOR_RESULT\": {\"executor_status\", \"command_ref\", \"duration_ms\"\
+    },\n    \"EFFECT_EVALUATED\": {\"status\", \"t_eff\", \"evidence_clock_id\", \"\
+    criteria_version\", \"w_eff_s\", \"evidence\", \"reason\"},\n    \"PROBE_SAMPLE\"\
+    : {\"probe_id\", \"flow\", \"sequence\", \"t_start\", \"t_end\", \"pass\", \"\
+    error_class\", \"latency_ms\", \"probe_version\"},\n    \"PROBE_HEARTBEAT\": {\"\
+    probe_id\", \"flow\", \"last_sequence\", \"probe_version\"},\n    \"RELAPSE\"\
+    : {\"flow\", \"candidate_t_rec\", \"failing_sample_t\", \"rule_version\"},\n \
+    \   \"RECOVERY_VERIFIED\": {\"flow\", \"probe_id\", \"probe_version\", \"evidence_clock_id\"\
+    , \"t_rec\", \"recovery_verified_at\", \"evidence_complete_at\", \"k\", \"s_s\"\
+    , \"delta_s\", \"l_ms\", \"gap_s\", \"cap_rec_s\", \"sample_seq_range\", \"samples_sha256\"\
+    , \"rule_version\"},\n    \"CONTAINMENT_VERIFIED\": {\"blocked_source_ref\", \"\
+    enforcement_point\", \"fixture_probe_ref\", \"boutique_probe_ref\", \"t_contained\"\
+    },\n}\nFIELDS = {\"schema_version\", \"event_id\", \"event_type\", \"plane\",\
+    \ \"run_id\", \"trial_id\", \"causation_id\",\n          \"group\", \"method_version\"\
+    , \"config_ref\", \"source_component\", \"source_instance\",\n          \"producer_version\"\
+    , \"stream\", \"seq\", \"target\", \"clock\", \"ts_event\", \"payload\"}\n\n\n\
+    def now():\n    return datetime.now(timezone.utc).isoformat(timespec=\"milliseconds\"\
+    ).replace(\"+00:00\", \"Z\")\n\n\ndef new_id(kind):\n    return f\"{kind}_{uuid.uuid4().hex}\"\
+    \n\n\ndef canonical(obj):\n    return json.dumps(obj, sort_keys=True, separators=(\"\
+    ,\", \":\"), ensure_ascii=False, allow_nan=False).encode(\"utf-8\")\n\n\ndef valid_id(value,\
+    \ kind):\n    return isinstance(value, str) and value.startswith(kind + \"_\"\
+    ) and bool(ID.fullmatch(value))\n\n\ndef forbidden_keys(value):\n    if isinstance(value,\
+    \ dict):\n        return any(str(k).lower() in FORBIDDEN or forbidden_keys(v)\
+    \ for k, v in value.items())\n    if isinstance(value, list):\n        return\
+    \ any(forbidden_keys(v) for v in value)\n    return False\n\n\ndef validate(event,\
+    \ plane=None, source=None):\n    try:\n        return _validate(event, plane,\
+    \ source)\n    except (KeyError, TypeError, ValueError, OverflowError):\n    \
+    \    return \"INVALID\"\n\n\ndef _validate(event, plane=None, source=None):\n\
+    \    \"\"\"Return classification; retain rejected envelopes separately, never\
+    \ forward them.\"\"\"\n    if not isinstance(event, dict) or not FIELDS <= event.keys():\n\
+    \        return \"MISSING_FIELD\"\n    try:\n        canonical(event)\n    except\
+    \ (ValueError, TypeError):\n        return \"INVALID\"\n    if event[\"schema_version\"\
+    ] != VERSION:\n        return \"UNSUPPORTED\"\n    typ = event[\"event_type\"\
+    ]\n    if not isinstance(typ, str) or typ not in SOURCES:\n        return \"UNSUPPORTED\"\
+    \n    expected_plane, allowed = SOURCES[typ]\n    if event[\"plane\"] != expected_plane\
+    \ or (plane and event[\"plane\"] != plane):\n        return \"PLANE_VIOLATION\"\
+    \n    if event[\"source_component\"] not in allowed or (source and event[\"source_component\"\
+    ] != source):\n        return \"SOURCE_VIOLATION\"\n    for field, kind in ((\"\
+    event_id\", \"evt\"), (\"run_id\", \"run\"), (\"trial_id\", \"trl\"),\n      \
+    \                  (\"incident_id\", \"inc\"), (\"alert_id\", \"alt\"), (\"decision_id\"\
+    , \"dec\"),\n                        (\"action_id\", \"act\"), (\"call_id\", \"\
+    cal\"), (\"causation_id\", \"evt\")):\n        value = event.get(field)\n    \
+    \    if value is not None and not valid_id(value, kind):\n            return \"\
+    INVALID_ID\"\n    if not valid_id(event[\"event_id\"], \"evt\") or not valid_id(event[\"\
+    run_id\"], \"run\"):\n        return \"INVALID_ID\"\n    if typ not in {\"RUN_STARTED\"\
+    , \"RUN_CLOSED\", \"RUN_CONTEXT\", \"GROUND_TRUTH_LOCKED\", \"SCHEDULE_SEALED\"\
+    , \"AUDIT_COVERAGE\", \"PROBE_HEARTBEAT\", \"PROBE_SAMPLE\"} and not valid_id(event.get(\"\
+    trial_id\"), \"trl\"):\n        return \"MISSING_FIELD\"\n    for key in (\"ts_event\"\
+    , \"ts_publish\"):\n        if key in event:\n            value = event[key]\n\
+    \            if not isinstance(value, str) or not STAMP.fullmatch(value):\n  \
+    \              return \"INVALID_TIMESTAMP\"\n            try:\n              \
+    \  datetime.fromisoformat(value.replace(\"Z\", \"+00:00\"))\n            except\
+    \ ValueError:\n                return \"INVALID_TIMESTAMP\"\n    if event[\"group\"\
+    ] not in {\"B0\", \"B1\", \"B2\", \"B3\", \"BM\"}:\n        return \"INVALID\"\
+    \n    if type(event[\"seq\"]) is not int or event[\"seq\"] < 0:\n        return\
+    \ \"INVALID\"\n    if not isinstance(event[\"config_ref\"], str) or not re.fullmatch(r\"\
+    sha256:[0-9a-f]{64}\", event[\"config_ref\"]):\n        return \"INVALID\"\n \
+    \   for key in (\"method_version\", \"source_instance\", \"producer_version\"\
+    , \"stream\"):\n        if not isinstance(event[key], str) or not event[key]:\n\
+    \            return \"INVALID\"\n    clock = event[\"clock\"]\n    if not isinstance(clock,\
+    \ dict) or not {\"clock_id\", \"clock_source\", \"resolution_ms\"} <= clock.keys():\n\
+    \        return \"MISSING_FIELD\"\n    if not isinstance(clock[\"clock_id\"],\
+    \ str) or clock[\"clock_source\"] not in {\"HOST_SHARED\", \"OFF_HOST\", \"UNKNOWN\"\
+    }:\n        return \"INVALID\"\n    resolution = clock[\"resolution_ms\"]\n  \
+    \  if resolution is not None and (type(resolution) not in (int, float) or not\
+    \ math.isfinite(resolution) or resolution <= 0):\n        return \"INVALID\"\n\
+    \    p = event[\"payload\"]\n    if not isinstance(p, dict):\n        return \"\
+    INVALID\"\n    if typ in {\"RUN_CONTEXT\", \"RUN_STARTED\", \"RUN_CLOSED\"} and\
+    \ (event[\"trial_id\"] is not None or event.get(\"incident_id\") is not None):\n\
+    \        return \"SEMANTIC\"\n    if typ == \"TRIAL_CONTEXT\" and not valid_id(event.get(\"\
+    trial_id\"), \"trl\"):\n        return \"MISSING_FIELD\"\n    if typ in REQUIRED_O\
+    \ and not REQUIRED_O[typ] <= p.keys():\n        return \"MISSING_FIELD\"\n   \
+    \ if typ in REQUIRED_H and not REQUIRED_H[typ] <= p.keys():\n        return \"\
+    MISSING_FIELD\"\n    if typ in {\"ATTACK_REQUESTED\", \"ATTACK_STOPPED\", \"FAULT_EXECUTOR_RESULT\"\
+    , \"EFFECT_EVALUATED\", \"RELAPSE\", \"RECOVERY_VERIFIED\", \"CONTAINMENT_VERIFIED\"\
+    } and not valid_id(event.get(\"incident_id\"), \"inc\"):\n        return \"MISSING_FIELD\"\
+    \n    if typ == \"EFFECT_EVALUATED\" and (p[\"status\"] not in {\"CONFIRMED\"\
+    , \"CONFIRMED_NO_EFFECT\", \"UNKNOWN_EFFECT\"} or ((p[\"status\"] == \"CONFIRMED\"\
+    ) != (p[\"t_eff\"] is not None))):\n        return \"SEMANTIC\"\n    if expected_plane\
+    \ == \"O\":\n        if forbidden_keys(event):\n            return \"LEAK_DETECTED\"\
+    \n        if typ in {\"RUN_CONTEXT\", \"TRIAL_CONTEXT\"} and p:\n            return\
+    \ \"LEAK_DETECTED\"\n        if typ == \"DETECTED\" and not valid_id(event.get(\"\
+    alert_id\"), \"alt\"):\n            return \"MISSING_FIELD\"\n        if typ ==\
+    \ \"DETECTED\":\n            if any(not isinstance(p[key], str) or not p[key]\
+    \ for key in (\"rule_id\", \"rule_version\", \"signature\", \"metric\", \"severity\"\
+    , \"description\")):\n                return \"INVALID\"\n            if any(type(p[key])\
+    \ not in (int, float) for key in (\"value\", \"threshold\")):\n              \
+    \  return \"INVALID\"\n            if not isinstance(event[\"target\"], dict)\
+    \ or not {\"namespace\", \"service\", \"flow\"} <= event[\"target\"].keys():\n\
+    \                return \"MISSING_FIELD\"\n        if typ in {\"DECISION\", \"\
+    LLM_CALL\", \"GUARD_VERDICT\", \"HEAL_STARTED\"} and not valid_id(event.get(\"\
+    decision_id\"), \"dec\"):\n            return \"MISSING_FIELD\"\n        if typ\
+    \ in {\"HEAL_STARTED\", \"API_ACCEPTED\", \"ACTION_COMPLETED\"} and not valid_id(event.get(\"\
+    action_id\"), \"act\"):\n            return \"MISSING_FIELD\"\n        if typ\
+    \ == \"ACTION_COMPLETED\":\n            post = p.get(\"postcondition\")\n    \
+    \        if not isinstance(post, dict) or not {\"name\", \"checked\", \"satisfied\"\
+    , \"observed\"} <= post.keys():\n                return \"MISSING_FIELD\"\n  \
+    \          if p[\"status\"] not in {\"SUCCESS\", \"FAILED\", \"PARTIAL\", \"TIMEOUT\"\
+    } or type(post[\"checked\"]) is not bool or type(post[\"satisfied\"]) is not bool:\n\
+    \                return \"INVALID\"\n            if (p[\"status\"] == \"SUCCESS\"\
+    ) != (post[\"checked\"] and post[\"satisfied\"]):\n                return \"SEMANTIC\"\
+    \n        if typ == \"DECISION\":\n            expected = {\"decision_rules\"\
+    : \"RULES\", \"decision_llm\": \"LLM\", \"decision_single_llm\": \"SINGLE_LLM\"\
+    , \"operator_console\": \"MANUAL\"}[event[\"source_component\"]]\n           \
+    \ if p[\"decision_source\"] != expected or p[\"stage\"] not in {\"ANALYSIS\",\
+    \ \"PROPOSAL\"}:\n                return \"SEMANTIC\"\n            if p[\"response_kind\"\
+    ] not in {\"ACTION\", \"NO_ACTION\", \"ABSTAIN\", \"SCHEMA_INVALID\", \"TIMEOUT\"\
+    , \"REFUSAL\"}:\n                return \"INVALID\"\n            if (p[\"proposal\"\
+    ] is not None) != (p[\"response_kind\"] == \"ACTION\") or type(p[\"fallback\"\
+    ]) is not bool or p[\"fallback\"] != (p[\"fallback_of\"] is not None):\n     \
+    \           return \"SEMANTIC\"\n            if p[\"fallback\"] and expected !=\
+    \ \"RULES\":\n                return \"SEMANTIC\"\n            if not isinstance(p[\"\
+    inputs\"], list) or any(not isinstance(i, dict) or not valid_id(i.get(\"event_id\"\
+    ), \"evt\") or not STAMP.fullmatch(i.get(\"received_at\", \"\")) for i in p[\"\
+    inputs\"]):\n                return \"INVALID\"\n            allowed = {\"B1\"\
+    : {\"RULES\"}, \"B2\": {\"RULES\", \"LLM\"}, \"B3\": {\"RULES\", \"SINGLE_LLM\"\
+    }, \"BM\": {\"MANUAL\"}, \"B0\": set()}\n            if expected not in allowed[event[\"\
+    group\"]]:\n                return \"MODE_VIOLATION\"\n            if expected\
+    \ == \"RULES\" and event[\"group\"] in {\"B2\", \"B3\"} and not p[\"fallback\"\
+    ]:\n                return \"MODE_VIOLATION\"\n            if p[\"fallback\"]\
+    \ and (event[\"group\"] not in {\"B2\", \"B3\"} or not valid_id(p[\"fallback_of\"\
+    ], \"dec\")):\n                return \"MODE_VIOLATION\"\n            if expected\
+    \ in {\"LLM\", \"SINGLE_LLM\"} and not p[\"prompt_sha256\"]:\n               \
+    \ return \"MISSING_FIELD\"\n        if typ == \"GUARD_VERDICT\" and p[\"verdict\"\
+    ] not in {\"ACCEPT\", \"REJECT\"}:\n            return \"INVALID\"\n        if\
+    \ typ == \"LLM_CALL\":\n            if not valid_id(event.get(\"call_id\"), \"\
+    cal\"):\n                return \"MISSING_FIELD\"\n            if (event[\"group\"\
+    ], event[\"source_component\"]) not in {(\"B2\", \"decision_llm\"), (\"B3\", \"\
+    decision_single_llm\")}:\n                return \"MODE_VIOLATION\"\n        if\
+    \ typ == \"HEAL_STARTED\" and (type(p[\"attempt_no\"]) is not int or p[\"attempt_no\"\
+    ] < 1 or (p[\"attempt_no\"] > 1) != (p[\"retry_of\"] is not None)):\n        \
+    \    return \"SEMANTIC\"\n        if event[\"group\"] == \"B0\" and typ not in\
+    \ {\"RUN_CONTEXT\", \"TRIAL_CONTEXT\", \"DETECTED\"}:\n            return \"MODE_VIOLATION\"\
+    \n        if typ == \"HEAL_STARTED\" and ((event[\"group\"] == \"BM\") != (p[\"\
+    initiator\"] == \"OPERATOR\")):\n            return \"MODE_VIOLATION\"\n    return\
+    \ None\n\n\nclass Producer:\n    \"\"\"A new random instance on restart prevents\
+    \ seq reuse under the same owner.\"\"\"\n    def __init__(self, source, version,\
+    \ clock):\n        self.source, self.version, self.clock = source, version, copy.deepcopy(clock)\n\
+    \        self.instance = \"src-\" + uuid.uuid4().hex\n        self.sequences =\
+    \ {}\n        self.lock = threading.Lock()\n\n    def event(self, context, typ,\
+    \ payload, stream, target=None, **ids):\n        with self.lock:\n           \
+    \ seq = self.sequences.get(stream, 0)\n            self.sequences[stream] = seq\
+    \ + 1\n        event = {k: copy.deepcopy(context[k]) for k in (\"run_id\", \"\
+    trial_id\", \"group\", \"method_version\", \"config_ref\")}\n        if context.get(\"\
+    incident_id\") and typ in {\"TRIAL_CONTEXT\", \"DETECTED\", \"DECISION\", \"LLM_CALL\"\
+    , \"GUARD_VERDICT\", \"HEAL_STARTED\", \"API_ACCEPTED\", \"ACTION_COMPLETED\"\
+    , \"ATTACK_REQUESTED\", \"ATTACK_STOPPED\", \"FAULT_EXECUTOR_RESULT\", \"EFFECT_EVALUATED\"\
+    , \"RELAPSE\", \"RECOVERY_VERIFIED\", \"CONTAINMENT_VERIFIED\", \"INCIDENT_LINK\"\
+    , \"INCIDENT_SCORE\"}:\n            event[\"incident_id\"] = context[\"incident_id\"\
+    ]\n        event.update(schema_version=VERSION, event_id=new_id(\"evt\"), event_type=typ,\
+    \ plane=SOURCES[typ][0],\n                     causation_id=None, source_component=self.source,\
+    \ source_instance=self.instance,\n                     producer_version=self.version,\
+    \ stream=stream, seq=seq, target=copy.deepcopy(target),\n                    \
+    \ clock=copy.deepcopy(self.clock), ts_event=now(), payload=copy.deepcopy(payload))\n\
+    \        event.update(ids)\n        error = validate(event)\n        if error:\n\
+    \            raise ValueError(error)\n        return event\n"
+  5.py: "\"\"\"Bounded async Responses adapter. No tool execution or agent wiring\
+    \ (ZER-48).\n\nThe caller owns one RunBudget for the entire run and persists returned\
+    \ LLM_CALL\nenvelopes through its authenticated recorder. This module never writes\
+    \ O/H archives.\nReservations are conservative policy estimates, not a provider\
+    \ billing hard cap.\n\"\"\"\nimport asyncio\nimport copy\nimport hashlib\nimport\
+    \ json\nimport math\nimport re\nimport threading\nimport time\nfrom dataclasses\
+    \ import dataclass\nfrom decimal import Decimal\n\nimport httpx\nfrom pydantic\
+    \ import BaseModel\n\nfrom .contract import Producer, canonical, forbidden_keys,\
+    \ new_id, valid_id\n\nMODEL = \"gpt-6-luna\"\nENDPOINT = \"https://api.openai.com/v1/responses\"\
+    \nPRICE_REF = \"https://developers.openai.com/api/docs/models/gpt-6-luna#pricing\"\
+    \nINPUT_RATE = Decimal(\"0.10\")\nOUTPUT_RATE = Decimal(\"0.50\")\nMAX_BYTES =\
+    \ 8192\nFATAL_CODES = {\"insufficient_quota\", \"organization_spend_limit_exceeded\"\
+    , \"project_spend_limit_exceeded\",\n               \"organization_usage_limit_exceeded\"\
+    , \"credit_balance_exhausted\"}\n\n\ndef _cost(inputs, outputs):\n    return (inputs\
+    \ * INPUT_RATE + outputs * OUTPUT_RATE) / Decimal(1_000_000)\n\n\ndef _integer(value,\
+    \ low, high):\n    return type(value) is int and low <= value <= high\n\n\ndef\
+    \ _seconds(value, high):\n    return type(value) in (float, int) and math.isfinite(value)\
+    \ and 0 < value <= high\n\n\ndef _usage(body):\n    u = body.get(\"usage\") if\
+    \ isinstance(body, dict) else None\n    fields = (\"input_tokens\", \"output_tokens\"\
+    , \"total_tokens\")\n    if (not isinstance(u, dict) or any(not _integer(u.get(k),\
+    \ 0, 10_000_000) for k in fields)\n            or u[\"total_tokens\"] != u[\"\
+    input_tokens\"] + u[\"output_tokens\"]):\n        return None\n    return {k:\
+    \ u[k] for k in fields}\n\n\ndef strict_json(text):\n    def pairs(items):\n \
+    \       result = {}\n        for key, value in items:\n            if key in result:\n\
+    \                raise ValueError(\"DUPLICATE_JSON_KEY\")\n            result[key]\
+    \ = value\n        return result\n    def invalid(_):\n        raise ValueError(\"\
+    NONFINITE_JSON\")\n    def finite(text):\n        value = float(text)\n      \
+    \  if not math.isfinite(value):\n            raise ValueError(\"NONFINITE_JSON\"\
+    )\n        return value\n    return json.loads(text, object_pairs_hook=pairs,\
+    \ parse_constant=invalid, parse_float=finite)\n\n\ndef _identifier(value):\n \
+    \   # Never retain arbitrary headers, provider errors or an echoed bearer token.\n\
+    \    if (isinstance(value, str) and re.fullmatch(r\"(?:req|resp)_[A-Za-z0-9_-]{1,150}\"\
+    , value)\n            and \"sk-\" not in value):\n        return value\n    return\
+    \ None\n\n\n@dataclass(frozen=True)\nclass Limits:\n    attempts: int = 2\n  \
+    \  timeout_s: float = 30\n    deadline_s: float = 65\n    retry_delay_s: float\
+    \ = 1\n    max_output_tokens: int = 512\n\n    def __post_init__(self):\n    \
+    \    if (not _integer(self.attempts, 1, 2) or not _integer(self.max_output_tokens,\
+    \ 1, 512)\n                or not _seconds(self.timeout_s, 30) or not _seconds(self.deadline_s,\
+    \ 65)\n                or type(self.retry_delay_s) not in (int, float)\n     \
+    \           or not math.isfinite(self.retry_delay_s) or not 0 <= self.retry_delay_s\
+    \ <= 1):\n            raise ValueError(\"LLM_LIMITS_INVALID\")\n\n\nclass BudgetExceeded(ValueError):\n\
+    \    pass\n\n\nclass RunBudget:\n    \"\"\"Reserve before every dispatch; never\
+    \ refund uncertain or cancelled attempts.\n\n    The byte-based input reservation\
+    \ includes 1024 tokens of overhead. This is a\n    documented bound assumption,\
+    \ not a tokenizer guarantee. Observed overages block\n    subsequent dispatch.\
+    \ Unknown usage stays unknown, with its reservation retained.\n    Reconstructing/resetting\
+    \ this object on restart does NOT prove durable budgets.\n    \"\"\"\n    def\
+    \ __init__(self, run_id, *, max_calls, max_reserved_tokens, max_estimated_usd,\n\
+    \                 duration_s=600, clock=time.monotonic):\n        try:\n     \
+    \       price = Decimal(str(max_estimated_usd))\n        except ArithmeticError\
+    \ as error:\n            raise ValueError(\"LLM_BUDGET_INVALID\") from error\n\
+    \        if (not valid_id(run_id, \"run\") or not _integer(max_calls, 1, 10_000)\n\
+    \                or not _integer(max_reserved_tokens, 1, 100_000_000)\n      \
+    \          or not price.is_finite() or price <= 0 or not _seconds(duration_s,\
+    \ 3600)):\n            raise ValueError(\"LLM_BUDGET_INVALID\")\n        self.run_id,\
+    \ self.max_calls, self.max_tokens, self.max_cost = run_id, max_calls, max_reserved_tokens,\
+    \ price\n        self.clock, self.started, self.duration = clock, clock(), duration_s\n\
+    \        self.lock = threading.Lock()\n        self.calls = self.tokens = self.unknown\
+    \ = self.input_tokens = self.output_tokens = 0\n        self.reserved_cost = self.known_cost\
+    \ = Decimal(0)\n        self.blocked = False\n\n    def remaining(self):\n   \
+    \     elapsed = self.clock() - self.started\n        return self.duration - elapsed\
+    \ if math.isfinite(elapsed) and elapsed >= 0 else 0\n\n    def reserve(self, run_id,\
+    \ input_tokens, output_tokens):\n        with self.lock:\n            elapsed\
+    \ = self.clock() - self.started\n            cost = _cost(input_tokens, output_tokens)\n\
+    \            if (run_id != self.run_id or not math.isfinite(elapsed) or not 0\
+    \ <= elapsed < self.duration\n                    or self.blocked or self.calls\
+    \ >= self.max_calls\n                    or self.tokens + input_tokens + output_tokens\
+    \ > self.max_tokens\n                    or self.reserved_cost + cost > self.max_cost):\n\
+    \                raise BudgetExceeded(\"LLM_RUN_BUDGET\")\n            self.calls\
+    \ += 1\n            self.tokens += input_tokens + output_tokens\n            self.reserved_cost\
+    \ += cost\n            self.unknown += 1\n\n    def account(self, usage, input_reserve,\
+    \ output_cap):\n        with self.lock:\n            if usage is None:\n     \
+    \           return\n            self.unknown -= 1\n            self.input_tokens\
+    \ += usage[\"input_tokens\"]\n            self.output_tokens += usage[\"output_tokens\"\
+    ]\n            self.known_cost += _cost(usage[\"input_tokens\"], usage[\"output_tokens\"\
+    ])\n            if usage[\"input_tokens\"] > input_reserve or usage[\"output_tokens\"\
+    ] > output_cap:\n                self.blocked = True\n\n    def summary(self):\n\
+    \        with self.lock:\n            return {\"run_id\": self.run_id, \"attempts_dispatched\"\
+    : self.calls,\n                    \"reserved_tokens\": self.tokens, \"reserved_estimate_usd\"\
+    : float(self.reserved_cost),\n                    \"known_input_tokens\": self.input_tokens,\
+    \ \"known_output_tokens\": self.output_tokens,\n                    \"known_cost_estimate_usd\"\
+    : float(self.known_cost), \"unknown_usage_attempts\": self.unknown,\n        \
+    \            \"cost_estimate_complete\": self.unknown == 0, \"blocked\": self.blocked,\n\
+    \                    \"accounting_scope\": \"PROCESS_SINGLE_SHARED_RUN_BUDGET\"\
+    ,\n                    \"price_ref\": PRICE_REF, \"price_checked\": \"2026-10-28\"\
+    ,\n                    \"price_basis\": \"UNCACHED_STANDARD_ESTIMATE_NOT_BILLING\"\
+    ,\n                    \"reservation_basis\": \"request_utf8_bytes_plus_1024_overhead_not_tokenizer_guarantee\"\
+    }\n\n\nclass HttpxTransport:\n    \"\"\"Fixed HTTPS destination, no proxy environment/redirects/SDK\
+    \ retries.\n\n    A supplied httpx transport is for offline tests. It cannot change\
+    \ the URL.\n    Client/response ownership is per attempt, including timeout/cancellation.\n\
+    \    \"\"\"\n    def __init__(self, api_key, *, transport=None):\n        if not\
+    \ isinstance(api_key, str) or not api_key or any(c.isspace() for c in api_key):\n\
+    \            raise ValueError(\"LLM_CREDENTIAL_REQUIRED\")\n        self._key,\
+    \ self._transport = api_key, transport\n\n    async def send(self, payload, timeout):\n\
+    \        async with httpx.AsyncClient(transport=self._transport, trust_env=False,\n\
+    \                                    follow_redirects=False, timeout=timeout)\
+    \ as client:\n            async with client.stream(\"POST\", ENDPOINT, json=payload,\n\
+    \                                     headers={\"Authorization\": \"Bearer \"\
+    \ + self._key}) as response:\n                chunks, size = [], 0\n         \
+    \       async for chunk in response.aiter_bytes():\n                    size +=\
+    \ len(chunk)\n                    if size > 1_048_576:\n                     \
+    \   raise ValueError(\"LLM_RESPONSE_TOO_LARGE\")\n                    chunks.append(chunk)\n\
+    \                try:\n                    body = strict_json(b\"\".join(chunks))\n\
+    \                except (ValueError, UnicodeError):\n                    body\
+    \ = None\n                return {\"status\": response.status_code, \"body\":\
+    \ body,\n                        \"request_id\": _identifier(response.headers.get(\"\
+    x-request-id\"))}\n\n\n@dataclass\nclass Result:\n    outcome: str\n    value:\
+    \ object\n    events: list\n    budget: dict\n    reason: str | None = None\n\n\
+    \    @property\n    def decision_source(self):\n        return \"LLM\" if self.outcome\
+    \ == \"OK\" else \"NONE\"\n\n\ndef _schema(model):\n    if (not isinstance(model,\
+    \ type) or not issubclass(model, BaseModel)\n            or model.model_config.get(\"\
+    extra\") != \"forbid\"):\n        raise ValueError(\"LLM_OUTPUT_MODEL_MUST_FORBID_EXTRA\"\
+    )\n    schema = model.model_json_schema()\n    def strict(node):\n        if isinstance(node,\
+    \ dict):\n            if node.get(\"type\") == \"object\":\n                if\
+    \ (node.get(\"additionalProperties\") is not False\n                        or\
+    \ set(node.get(\"required\", [])) != set(node.get(\"properties\", {}))):\n   \
+    \                 raise ValueError(\"LLM_OUTPUT_MODEL_MUST_BE_CLOSED_AND_REQUIRED\"\
+    )\n            for value in node.values():\n                strict(value)\n  \
+    \      elif isinstance(node, list):\n            for value in node:\n        \
+    \        strict(value)\n    strict(schema)\n    return schema\n\n\nclass Adapter:\n\
+    \    \"\"\"Common primitive; future agent callers supply O-only input and output\
+    \ models.\n\n    Local envelopes are bounded by the shared run call limit. They\
+    \ are NOT evidence\n    of authenticated delivery until a caller persists them\
+    \ through its recorder.\n    \"\"\"\n    def __init__(self, transport, budget,\
+    \ *, limits=Limits(), clock=time.monotonic):\n        self.transport, self.budget,\
+    \ self.limits, self.clock = transport, budget, limits, clock\n        self.producer\
+    \ = Producer(\"decision_llm\", \"zer48/1\", {\n            \"clock_id\": \"llm-host\"\
+    , \"clock_source\": \"UNKNOWN\", \"resolution_ms\": None})\n        self.events\
+    \ = []\n\n    async def call(self, context, *, decision_id, instructions, observation,\n\
+    \                   output_model, prompt_version, target=None, causation_id=None):\n\
+    \        if (not isinstance(context, dict) or context.get(\"group\") != \"B2\"\
+    \ or context.get(\"run_id\") != self.budget.run_id\n                or not isinstance(instructions,\
+    \ str) or not instructions.strip()\n                or not isinstance(prompt_version,\
+    \ str) or not prompt_version.strip()\n                or not isinstance(observation,\
+    \ dict) or forbidden_keys(observation)):\n            raise ValueError(\"LLM_INPUT_OR_MODE_INVALID\"\
+    )\n        context, target = copy.deepcopy(context), copy.deepcopy(target)\n \
+    \       observation = strict_json(canonical(observation))\n        if forbidden_keys(observation):\n\
+    \            raise ValueError(\"LLM_INPUT_OR_MODE_INVALID\")\n        payload\
+    \ = {\"model\": MODEL, \"store\": False, \"service_tier\": \"default\", \"tools\"\
+    : [],\n                   \"reasoning\": {\"effort\": \"none\"}, \"max_output_tokens\"\
+    : self.limits.max_output_tokens,\n                   \"instructions\": instructions,\
+    \ \"input\": canonical(observation).decode(),\n                   \"text\": {\"\
+    format\": {\"type\": \"json_schema\", \"name\": \"zd_output\", \"strict\": True,\n\
+    \                                       \"schema\": _schema(output_model)}}}\n\
+    \        encoded = canonical(payload)\n        if len(encoded) > MAX_BYTES:\n\
+    \            raise ValueError(\"LLM_REQUEST_TOO_LARGE\")\n        prompt_hash,\
+    \ call_id = \"sha256:\" + hashlib.sha256(encoded).hexdigest(), new_id(\"cal\"\
+    )\n        input_reserve = len(encoded) + 1024\n        base = {\"provider\":\
+    \ \"openai\", \"model\": MODEL, \"prompt_version\": prompt_version,\n        \
+    \        \"prompt_sha256\": prompt_hash, \"latency_ms\": 0, \"outcome\": \"HTTP_ERROR\"\
+    ,\n                \"usage\": {\"status\": \"UNKNOWN\"}, \"cost\": {\"usd\": None,\
+    \ \"status\": \"UNKNOWN\", \"price_ref\": PRICE_REF}}\n        # Validate the\
+    \ complete context before spending a reservation or making a request.\n      \
+    \  Producer(\"decision_llm\", \"validation-only\", self.producer.clock).event(\n\
+    \            context, \"LLM_CALL\", dict(base, attempt_no=1, retry_reason=None),\
+    \ \"o.decision\",\n            target=target, decision_id=decision_id, call_id=call_id,\
+    \ causation_id=causation_id)\n        started, events, reason = self.clock(),\
+    \ [], None\n        for number in range(1, self.limits.attempts + 1):\n      \
+    \      remaining = min(self.limits.deadline_s - (self.clock() - started), self.budget.remaining())\n\
+    \            if not math.isfinite(remaining) or not 0 < remaining <= self.limits.deadline_s:\n\
+    \                return Result(\"TIMEOUT\", None, events, self.budget.summary(),\
+    \ \"CALL_DEADLINE\")\n            self.budget.reserve(context[\"run_id\"], input_reserve,\
+    \ self.limits.max_output_tokens)\n            tick, usage, value, retryable =\
+    \ self.clock(), None, None, False\n            metadata = dict(base, attempt_no=number,\
+    \ retry_reason=reason)\n            cancelled = False\n            try:\n    \
+    \            response = await asyncio.wait_for(self.transport.send(copy.deepcopy(payload),\n\
+    \                    min(self.limits.timeout_s, remaining)), timeout=min(self.limits.timeout_s,\
+    \ remaining))\n                if not isinstance(response, dict) or type(response.get(\"\
+    status\")) is not int:\n                    raise ValueError(\"INVALID_TRANSPORT_RECEIPT\"\
+    )\n                body, status = response.get(\"body\"), response[\"status\"\
+    ]\n                usage = _usage(body)\n                metadata[\"request_id\"\
+    ] = _identifier(response.get(\"request_id\"))\n                if status != 200:\n\
+    \                    error = body.get(\"error\") if isinstance(body, dict) else\
+    \ None\n                    code = error.get(\"code\") if isinstance(error, dict)\
+    \ else None\n                    reason = \"HTTP_\" + str(status)\n          \
+    \          retryable = status in {500, 502, 503, 504} or (status == 429 and code\
+    \ == \"rate_limit_exceeded\")\n                    if isinstance(code, str) and\
+    \ code in FATAL_CODES:\n                        retryable = False\n          \
+    \          metadata[\"outcome\"] = \"HTTP_ERROR\"\n                else:\n   \
+    \                 value, reason = self._parse(body, output_model)\n          \
+    \          metadata[\"outcome\"] = \"OK\"\n                    metadata[\"response_id\"\
+    ] = _identifier(body.get(\"id\"))\n                    metadata[\"model_returned\"\
+    ] = body[\"model\"]\n                    metadata[\"model_revision\"] = \"UNKNOWN_NOT_INDEPENDENTLY_VERIFIED\"\
+    \n            except asyncio.CancelledError:\n                metadata[\"outcome\"\
+    ], reason, cancelled = \"TIMEOUT\", \"CANCELLED\", True\n            except (asyncio.TimeoutError,\
+    \ httpx.TimeoutException):\n                metadata[\"outcome\"], reason, retryable\
+    \ = \"TIMEOUT\", \"TIMEOUT\", True\n            except httpx.NetworkError:\n \
+    \               metadata[\"outcome\"], reason, retryable = \"HTTP_ERROR\", \"\
+    NETWORK\", True\n            except ValueError as error:\n                # Error\
+    \ strings are local fixed codes; never persist exception/provider text.\n    \
+    \            metadata[\"outcome\"] = \"REFUSAL\" if str(error) == \"PROVIDER_REFUSAL\"\
+    \ else \"SCHEMA_INVALID\"\n                reason = \"PROVIDER_REFUSAL\" if metadata[\"\
+    outcome\"] == \"REFUSAL\" else \"INVALID_RESPONSE\"\n            except Exception:\n\
+    \                metadata[\"outcome\"], reason = \"HTTP_ERROR\", \"TRANSPORT_ERROR\"\
+    \n            self.budget.account(usage, input_reserve, self.limits.max_output_tokens)\n\
+    \            if self.budget.blocked:\n                metadata[\"outcome\"], reason,\
+    \ retryable, value = \"SCHEMA_INVALID\", \"USAGE_RESERVATION_EXCEEDED\", False,\
+    \ None\n            if usage is not None:\n                metadata[\"usage\"\
+    ] = dict(usage, status=\"COMPLETE\")\n                metadata[\"cost\"] = {\"\
+    usd\": float(_cost(usage[\"input_tokens\"], usage[\"output_tokens\"])),\n    \
+    \                                \"status\": \"ESTIMATE\", \"price_ref\": PRICE_REF}\n\
+    \            elapsed = self.clock() - tick\n            if not math.isfinite(elapsed)\
+    \ or elapsed < 0:\n                metadata[\"outcome\"], reason, retryable, value\
+    \ = \"TIMEOUT\", \"CLOCK_INVALID\", False, None\n                elapsed = 0\n\
+    \            metadata.update(latency_ms=elapsed * 1000, reason_code=reason)\n\
+    \            event = self.producer.event(context, \"LLM_CALL\", metadata, \"o.decision\"\
+    , target=target,\n                decision_id=decision_id, call_id=call_id, causation_id=causation_id)\n\
+    \            events.append(event)\n            self.events.append(event)\n   \
+    \         if cancelled:\n                raise asyncio.CancelledError\n      \
+    \      if metadata[\"outcome\"] == \"OK\" or not retryable or number == self.limits.attempts:\n\
+    \                return Result(metadata[\"outcome\"], value, events, self.budget.summary(),\
+    \ reason)\n            remaining = min(self.limits.deadline_s - (self.clock()\
+    \ - started), self.budget.remaining())\n            if remaining <= self.limits.retry_delay_s:\n\
+    \                return Result(\"TIMEOUT\", None, events, self.budget.summary(),\
+    \ \"CALL_DEADLINE\")\n            await asyncio.sleep(self.limits.retry_delay_s)\n\
+    \n    @staticmethod\n    def _parse(body, output_model):\n        if (not isinstance(body,\
+    \ dict) or body.get(\"status\") != \"completed\" or body.get(\"error\")\n    \
+    \            or body.get(\"incomplete_details\") or not isinstance(body.get(\"\
+    model\"), str)\n                or not re.fullmatch(re.escape(MODEL) + r\"(?:-[0-9]{4}-[0-9]{2}-[0-9]{2})?\"\
+    , body[\"model\"])):\n            raise ValueError(\"RESPONSE_NOT_COMPLETE_OR_WRONG_MODEL\"\
+    )\n        parts = []\n        if not isinstance(body.get(\"output\"), list):\n\
+    \            raise ValueError(\"OUTPUT_INVALID\")\n        for item in body[\"\
+    output\"]:\n            if not isinstance(item, dict):\n                raise\
+    \ ValueError(\"OUTPUT_INVALID\")\n            if item.get(\"type\") == \"reasoning\"\
+    :\n                continue\n            if item.get(\"type\") != \"message\"\
+    \ or item.get(\"role\") != \"assistant\" or item.get(\"status\") != \"completed\"\
+    :\n                raise ValueError(\"OUTPUT_MESSAGE_INVALID\")\n            if\
+    \ not isinstance(item.get(\"content\"), list):\n                raise ValueError(\"\
+    OUTPUT_CONTENT_INVALID\")\n            for part in item[\"content\"]:\n      \
+    \          if not isinstance(part, dict):\n                    raise ValueError(\"\
+    OUTPUT_CONTENT_INVALID\")\n                if part.get(\"type\") == \"refusal\"\
+    :\n                    raise ValueError(\"PROVIDER_REFUSAL\")\n              \
+    \  if part.get(\"type\") != \"output_text\" or not isinstance(part.get(\"text\"\
+    ), str):\n                    raise ValueError(\"OUTPUT_CONTENT_INVALID\")\n \
+    \               parts.append(part[\"text\"])\n        if len(parts) != 1:\n  \
+    \          raise ValueError(\"OUTPUT_MISSING_OR_AMBIGUOUS\")\n        return output_model.model_validate(strict_json(parts[0]),\
+    \ strict=True), None\n"
+  config.json: "{\n  \"purpose\": \"FUNCTIONAL_ONLY_NOT_BENCHMARK\",\n  \"benchmark_eligible\"\
+    : false,\n  \"context\": {\n    \"run_id\": \"run_e0e0aea106134a6bae270af8ec29c298\"\
+    ,\n    \"trial_id\": \"trl_6f7b7b54f4c943dabdda1b8a4d65563b\",\n    \"incident_id\"\
+    : \"inc_766afc2ebe5c4fa4bda093b988003d0a\",\n    \"group\": \"B2\",\n    \"method_version\"\
+    : \"zer19-functional/1\",\n    \"config_ref\": \"sha256:6f35d5fa672aa66360a2e80d1ef2935e0c873865d9999ded567cfae73dc1796e\"\
+    \n  },\n  \"max_calls\": 1,\n  \"max_reserved_tokens\": 9472,\n  \"max_estimated_usd\"\
+    : 0.005,\n  \"limits\": {\n    \"max_rounds\": 1,\n    \"duration_s\": 120,\n\
+    \    \"command_s\": 1,\n    \"allowed_templates\": [\n      \"benign-apparel\"\
+    \n    ]\n  }\n}"

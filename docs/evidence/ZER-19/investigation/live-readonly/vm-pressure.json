@@ -1,0 +1,18 @@
+{
+  "at": 1793241664.3775737,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "sh",
+    "-c",
+    "for f in /proc/uptime /proc/loadavg /proc/pressure/cpu /proc/pressure/io /proc/pressure/memory /sys/fs/cgroup/cpu.max /sys/fs/cgroup/cpu.stat /sys/fs/cgroup/memory.events; do echo \"$f\"; cat \"$f\"; done"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.10999999999989996,
+  "stdout": "/proc/uptime\n192.31 614.76\n/proc/loadavg\n1.24 0.77 0.30 1/1135 2308\n/proc/pressure/cpu\nsome avg10=3.40 avg60=15.89 avg300=9.25 total=37264700\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n/proc/pressure/io\nsome avg10=0.00 avg60=1.49 avg300=1.51 total=7329707\nfull avg10=0.00 avg60=0.78 avg300=0.88 total=4512518\n/proc/pressure/memory\nsome avg10=0.00 avg60=0.00 avg300=0.00 total=103716\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=75234\n/sys/fs/cgroup/cpu.max\nmax 100000\n/sys/fs/cgroup/cpu.stat\nusage_usec 56500778\nuser_usec 48442597\nsystem_usec 8058181\nnice_usec 0\nnr_periods 0\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0\n/sys/fs/cgroup/memory.events\nlow 0\nhigh 0\nmax 250\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "stderr": ""
+}

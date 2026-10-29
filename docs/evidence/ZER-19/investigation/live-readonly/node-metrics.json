@@ -1,0 +1,16 @@
+{
+  "at": 1793241664.0036266,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "top",
+    "nodes"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.14099999999984902,
+  "stdout": "NAME                     CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   \nk3d-zero-door-agent-0    218m         8%       2041Mi          71%         \nk3d-zero-door-server-0   92m          9%       1529Mi          83%         \n",
+  "stderr": ""
+}

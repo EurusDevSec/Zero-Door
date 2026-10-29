@@ -1,0 +1,619 @@
+"""Single approved ZER-19 functional attempt. Default is plan-only; never retries a run.
+
+Reuses existing readiness/fixture policy controls. No build/import/pull/restart,
+new payload, broad cleanup, or formal benchmark traffic. Credentials are stdin
+Secret input only and are never recorded in command arguments or artifacts.
+"""
+import argparse
+import ctypes
+import hashlib
+import importlib.util
+import ipaddress
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import threading
+import time
+import uuid
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[4]
+HERE = Path(__file__).resolve().parent
+EVIDENCE = HERE.parent
+OUT = EVIDENCE / "runtime-01"
+NS = "zd-sqli-lab"
+NODE = "k3d-zero-door-agent-0"
+K = ["kubectl", "--context", "k3d-zero-door", "--request-timeout=8s"]
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load(path):
+    return json.loads(path.read_bytes())
+
+
+def specs(snapshot):
+    return {x["kind"] + "/" + x["metadata"]["namespace"] + "/" + x["metadata"]["name"]:
+            {"uid": x["metadata"]["uid"], "spec": x["spec"]} for x in snapshot["items"]
+            if x["kind"] in {"Deployment", "PersistentVolumeClaim"} and x["metadata"]["namespace"] != NS}
+
+
+def restarts(snapshot):
+    return {x["metadata"]["uid"] + "/" + c["name"]: c["restartCount"] for x in snapshot["items"]
+            if x["kind"] == "Pod" and x["metadata"]["namespace"] != NS
+            for c in x.get("status", {}).get("containerStatuses", [])}
+
+
+def authorize(attempt="runtime-01"):
+    authorization = load(EVIDENCE / "completion-authorization.json")
+    if authorization["status"] != "APPROVED" or authorization["max_attempts"] != 1:
+        raise RuntimeError("AUTHORIZATION_REQUIRED")
+    if sha(EVIDENCE / "approved-completion-proposal.md") != authorization["proposal_sha256"]:
+        raise RuntimeError("APPROVED_PROPOSAL_DRIFT")
+    if sha(EVIDENCE / "completion-proposal.md") != authorization["proposal_sha256"]:
+        raise RuntimeError("CURRENT_PROPOSAL_DRIFT")
+    if attempt == "runtime-02":
+        continuation = load(EVIDENCE / "continuation-authorization.json")
+        if (continuation.get("status") != "APPROVED" or continuation.get("max_attempts") != 1
+                or continuation.get("proposal_sha256") != sha(EVIDENCE / "continuation-proposal.md")
+                or continuation.get("original_authorization_sha256") != sha(EVIDENCE / "completion-authorization.json")):
+            raise RuntimeError("CONTINUATION_NOT_AUTHORIZED")
+        prior = load(EVIDENCE / "runtime-01/acceptance.json")
+        fixed = load(EVIDENCE / "runtime-01/review-probe-cleanup/receipt.json")
+        if (prior.get("provider_attempt_reserved") is not False or prior.get("fixture_http_reserved") != 0
+                or (EVIDENCE / "runtime-01/provider-attempt-reserved.json").exists()
+                or fixed.get("namespace_absent") is not True):
+            raise RuntimeError("PRIOR_OUTCOME_NOT_SAFE_TO_CONTINUE")
+    for path, expected in load(HERE / "source-manifest.json").items():
+        if sha(ROOT / path) != expected:
+            raise RuntimeError("SOURCE_DRIFT:" + path)
+
+
+class Lab:
+    def __init__(self):
+        self.started = time.time()
+        self.end = time.monotonic() + 1200
+        self.work_end = self.end - 300
+        self.stop = threading.Event()
+        self.lock = threading.Lock()
+        self.seq, self.http = 0, 0
+        self.failure, self.samples = [], []
+        self.cleaning = False
+        self.namespace_uid = None
+        self.namespace_creation_attempted = False
+        self.topics_created = []
+        self.topics_unknown = []
+        self.topics_foreign = []
+        self.before = None
+        self.env = dict(os.environ, MSYS_NO_PATHCONV="1", MSYS2_ARG_CONV_EXCL="*", PYTHONUTF8="1")
+        self.config = load(EVIDENCE / "runtime-config.json")
+        self.prefix = "zer19-" + self.config["context"]["run_id"][4:16]
+        self.topics = [self.prefix + ".commands", self.prefix + ".results"]
+        self.docs = list(yaml.safe_load_all((EVIDENCE / "runtime-rendered-disabled.yaml").read_text(encoding="utf-8")))
+        self.owner = next(d["metadata"]["labels"]["zero-door.io/run"] for d in self.docs if d["kind"] == "Namespace")
+
+    def save(self, name, value):
+        path = OUT / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(path.suffix + ".writing")
+        temporary.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+        temporary.replace(path)
+
+    def guard(self):
+        if time.monotonic() >= (self.end if self.cleaning else self.work_end):
+            raise RuntimeError("GLOBAL_OR_WORK_DEADLINE")
+        if self.stop.is_set() and not self.cleaning:
+            raise RuntimeError("RESOURCE_GUARD_STOP")
+
+    def command(self, args, *, timeout=15, stdin=None, allowed=(0,), label="command"):
+        self.guard()
+        with self.lock:
+            self.seq += 1
+            sequence = self.seq
+        receipt = {"at": time.time(), "args": args, "label": label}
+        process = subprocess.Popen(args, stdin=subprocess.PIPE if stdin is not None else subprocess.DEVNULL,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=self.env, cwd=ROOT,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        finish = min(time.monotonic() + timeout, self.end if self.cleaning else self.work_end)
+        supplied = False
+        try:
+            while True:
+                self.guard()
+                remaining = finish - time.monotonic()
+                if remaining <= 0:
+                    raise TimeoutError("COMMAND_DEADLINE")
+                try:
+                    stdout, stderr = process.communicate(input=stdin if not supplied else None,
+                                                         timeout=min(.25, remaining))
+                    break
+                except subprocess.TimeoutExpired:
+                    supplied = True
+            receipt.update(returncode=process.returncode, stdout=stdout.decode(errors="replace"),
+                           stderr=stderr.decode(errors="replace"))
+            if process.returncode not in allowed:
+                raise RuntimeError("COMMAND_FAILED:" + label)
+            return subprocess.CompletedProcess(args, process.returncode, stdout, stderr)
+        except Exception as error:
+            if process.poll() is None:
+                process.kill()  # Retained Popen handle, never a searched/reused PID.
+            process.communicate(timeout=3)
+            receipt["error_type"] = type(error).__name__
+            raise
+        finally:
+            self.save("raw/%04d-%s.json" % (sequence, label), receipt)
+
+    def kube(self, *args, **kwargs):
+        return self.command(K + list(args), **kwargs)
+
+    def get(self, *args, **kwargs):
+        return json.loads(self.kube(*args, "-o", "json", **kwargs).stdout)
+
+    def apply(self, docs, label):
+        # stdin is deliberately NOT part of command receipts (may contain Secret).
+        self.kube("apply", "-f", "-", stdin=yaml.safe_dump_all(docs).encode(), label=label, timeout=25)
+
+    def snapshot(self, label):
+        value = self.get("get", "deploy,pod,pvc", "-A", label=label)
+        self.save(label + ".json", value)
+        return value
+
+    def resources(self):
+        class MemoryStatus(ctypes.Structure):
+            _fields_ = [("length", ctypes.c_ulong), ("load", ctypes.c_ulong)] + [
+                (x, ctypes.c_ulonglong) for x in ("totalPhys", "availPhys", "totalPage", "availPage",
+                                                 "totalVirtual", "availVirtual", "availExtended")]
+        mem = MemoryStatus()
+        mem.length = ctypes.sizeof(mem)
+        if not ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(mem)):
+            raise RuntimeError("HOST_MEMORY_MISSING")
+        result = self.command(["docker", "--context", "desktop-linux", "exec", "k3d-zero-door-server-0",
+                               "cat", "/proc/meminfo", "/proc/pressure/memory"], timeout=4, label="memory")
+        import re
+        raw = result.stdout.decode()
+        available = re.search(r"MemAvailable:\s+(\d+)", raw)
+        psi = re.search(r"some avg10=([0-9.]+)", raw)
+        if not available or not psi:
+            raise RuntimeError("WSL_MEMORY_MISSING")
+        row = dict(at=time.time(), host_available=mem.availPhys, wsl_available_kib=int(available[1]), psi=float(psi[1]))
+        with self.lock:
+            self.samples.append(row)
+            self.save("resource-samples.json", self.samples)
+        if row["host_available"] < 1073741824 or row["wsl_available_kib"] < 1048576 or row["psi"] > 5:
+            raise RuntimeError("MEMORY_STOP")
+
+    def watch(self):
+        while not self.stop.wait(5):
+            try:
+                self.resources()
+            except Exception as error:
+                self.failure.append(type(error).__name__ + ":" + str(error))
+                self.stop.set()
+
+    def wait(self, seconds):
+        self.guard()
+        if self.stop.wait(seconds):
+            self.guard()
+
+    def cache(self):
+        current = json.loads(self.command(["docker", "--context", "desktop-linux", "exec", NODE,
+                                           "crictl", "images", "-o", "json"], label="cache-node").stdout)["images"]
+        for item in load(HERE / "cache-pins.json"):
+            host = self.command(["docker", "--context", "desktop-linux", "image", "inspect", item["tag"],
+                                 "--format", "{{.Id}}"], label="cache-host").stdout.decode().strip()
+            if host != item["host_id"]:
+                raise RuntimeError("HOST_CACHE_DRIFT")
+            matches = [x for x in current if x["id"] == item["node_id"] and
+                       (item["node_tag"] in x.get("repoTags", []) or item["tag"] in x.get("repoDigests", []))]
+            if len(matches) != 1:
+                raise RuntimeError("NODE_CACHE_DRIFT")
+        self.save("cache-admission.json", {"pins": load(HERE / "cache-pins.json"), "builds": 0, "pulls": 0, "imports": 0})
+
+    def topic(self, operation, name):
+        if name not in self.topics:
+            raise RuntimeError("TOPIC_SCOPE")
+        topic_argument = name if operation == "create" else "^" + re.escape(name) + "$"
+        args = ["-n", "zero-door", "exec", "kafka-controller-0", "-c", "kafka", "--",
+            "env", "-u", "JMX_PORT", "-u", "KAFKA_JMX_OPTS", "/opt/bitnami/kafka/bin/kafka-topics.sh",
+            "--bootstrap-server", "localhost:9092", "--" + operation, "--topic", topic_argument]
+        if operation == "create":
+            args += ["--partitions", "1", "--replication-factor", "1", "--config", "retention.ms=3600000"]
+        try:
+            result = self.kube(*args, timeout=40, allowed=(0, 1) if operation == "create" else (0,),
+                               label="topic-" + operation)
+        except Exception:
+            if operation == "create":
+                self.topics_unknown.append(name)
+            raise
+        if operation == "create":
+            if result.returncode == 0:
+                self.topics_created.append(name)
+            else:
+                message = (result.stdout + result.stderr).decode(errors="replace")
+                if "TopicExistsException" in message or "already exists" in message.lower():
+                    self.topics_foreign.append(name)
+                    raise RuntimeError("FOREIGN_TOPIC_CREATE_RACE")
+                self.topics_unknown.append(name)
+                raise RuntimeError("TOPIC_CREATE_OUTCOME_UNKNOWN")
+        return result.stdout.decode().splitlines()
+
+    def preflight(self):
+        if os.environ.get("DOCKER_HOST"):
+            raise RuntimeError("DOCKER_HOST_FORBIDDEN")
+        if self.command(["git", "rev-parse", "HEAD"], label="head").stdout.decode().strip() != "093e924000861da3096185427994d9ea736df36d":
+            raise RuntimeError("HEAD_DRIFT")
+        if self.command(["docker", "context", "show"], label="context").stdout.decode().strip() != "desktop-linux":
+            raise RuntimeError("DOCKER_CONTEXT")
+        nodes = self.get("get", "nodes", label="nodes")
+        if {n["metadata"]["name"] for n in nodes["items"]} != {NODE, "k3d-zero-door-server-0"}:
+            raise RuntimeError("NODES_DRIFT")
+        if any(not any(c["type"] == "Ready" and c["status"] == "True" for c in n["status"]["conditions"]) for n in nodes["items"]):
+            raise RuntimeError("NODE_NOT_READY")
+        if self.kube("get", "namespace", NS, "--ignore-not-found", "-o", "name", label="namespace-before").stdout.strip():
+            raise RuntimeError("NAMESPACE_PREEXISTS")
+        self.before = self.snapshot("before")
+        pvcs = [x for x in self.before["items"] if x["kind"] == "PersistentVolumeClaim"]
+        if len(pvcs) != 3 or any(x.get("status", {}).get("phase") != "Bound" for x in pvcs):
+            raise RuntimeError("PVC_PROFILE")
+        self.cache()
+        for name in self.topics:
+            if name in self.topic("list", name):
+                raise RuntimeError("TOPIC_PREEXISTS")
+        start = time.monotonic()
+        for number in range(25):
+            self.wait(max(0, start + number * 5 - time.monotonic()))
+            self.resources()
+        self.thread = threading.Thread(target=self.watch, daemon=True)
+        self.thread.start()
+        self.save("preflight.json", {"verdict": "READY_NOT_ISSUE_PASS", "samples": len(self.samples)})
+
+    def wait_pod(self, name=None, app=None, seconds=120):
+        end = min(self.work_end, time.monotonic() + seconds)
+        while time.monotonic() < end:
+            value = self.get("-n", NS, "get", "pods", *( [name] if name else ["-l", "app=" + app]), label="pod-wait")
+            pods = [value] if name else value["items"]
+            candidates = [p for p in pods if p["status"].get("podIP") and not p["metadata"].get("deletionTimestamp")
+                          and p["spec"].get("nodeName") == NODE and
+                          any(s.get("state", {}).get("running") for s in p["status"].get("containerStatuses", []))]
+            if len(candidates) == 1:
+                return candidates[0]
+            self.wait(1)
+        raise RuntimeError("POD_NOT_RUNNING")
+
+    def remote(self, code, *args, timeout=15, label="remote", allowed=(0,)):
+        return self.kube("-n", NS, "exec", "zer42-nemesis", "-c", "main", "--", "/usr/bin/python3",
+                         "-c", code, *args, timeout=timeout, label=label, allowed=allowed)
+
+    def prepare(self):
+        namespace = next(d for d in self.docs if d["kind"] == "Namespace")
+        self.namespace_creation_attempted = True
+        # Atomic create must not relabel/adopt a foreign namespace that appeared
+        # after the absent preflight. A failed/ambiguous create gets read-back,
+        # never an apply-based ownership overwrite.
+        self.kube("create", "-f", "-", stdin=yaml.safe_dump(namespace).encode(),
+                  label="namespace-create", timeout=20)
+        value = self.get("get", "namespace", NS, label="namespace-owned")
+        self.namespace_uid = value["metadata"]["uid"]
+        if value["metadata"]["labels"].get("zero-door.io/run") != self.owner:
+            raise RuntimeError("NAMESPACE_OWNER")
+        base = [d for d in self.docs if d["kind"] not in {"Namespace", "Pod", "Deployment"}]
+        self.apply(base, "private-config")
+        for app in ["zer41-private-ingress", "sqli-fixture"]:
+            self.apply([next(d for d in self.docs if d["kind"] == "Deployment" and d["metadata"]["name"] == app)], "start-" + app)
+            pod = self.wait_pod(app=app)
+            if app == "zer41-private-ingress":
+                self.proxy = pod
+                self.kube("-n", NS, "patch", "cm", "sqli-fixture-config", "--type=merge", "-p",
+                    json.dumps({"data": {"ZD_SQLI_TRUSTED_PROXIES": pod["status"]["podIP"] + "/32"}}), label="pin-proxy")
+            else:
+                self.fixture = pod
+        gate_end = min(self.work_end, time.monotonic() + 180)
+        needle = "POD name:" + self.fixture["metadata"]["name"] + " namespace: " + NS
+        while time.monotonic() < gate_end:
+            raw = self.command(["docker", "--context", "desktop-linux", "exec", NODE, "iptables-save", "-t", "filter"],
+                               timeout=15, allowed=(0, 1), label="policy-hook")
+            if raw.returncode == 0 and any(needle in line and self.fixture["status"]["podIP"] in line
+                                          for line in raw.stdout.decode(errors="replace").splitlines()):
+                current = self.get("-n", NS, "get", "pod", self.fixture["metadata"]["name"], label="fixture-uid")
+                if current["metadata"]["uid"] != self.fixture["metadata"]["uid"]:
+                    raise RuntimeError("FIXTURE_REPLACED")
+                self.kube("-n", NS, "exec", self.fixture["metadata"]["name"], "-c", "sqli-fixture", "--",
+                    "/usr/bin/python3", "-c", "from pathlib import Path; Path('/data/.policy-release').write_text('policy observed')",
+                    label="release-fixture")
+                break
+            self.wait(2)
+        else:
+            raise RuntimeError("POLICY_HOOK_MISSING")
+        ingress = self.get("-n", NS, "get", "service", "zer41-private-ingress", label="ingress-pin")["spec"]["clusterIP"]
+        if not ipaddress.ip_address(ingress).is_private:
+            raise RuntimeError("INGRESS_IP")
+        self.ingress = ingress
+        for name in self.topics:
+            self.topic("create", name)
+        secrets = []
+        for name, purpose in [("zer42-fault", "fault"), ("zer42-operator", "operator")]:
+            key = {"id": self.prefix + "-" + purpose, "purpose": purpose, "secret": uuid.uuid4().hex + uuid.uuid4().hex}
+            secrets.append({"apiVersion": "v1", "kind": "Secret", "metadata": {"name": name, "namespace": NS},
+                            "stringData": {"key.json": json.dumps(key)}})
+        api_key = os.environ.get("OPENAI_API_KEY", "")
+        if not api_key:
+            raise RuntimeError("PROVIDER_KEY_MISSING")
+        secrets.append({"apiVersion": "v1", "kind": "Secret", "metadata": {"name": "zer19-provider", "namespace": NS},
+                        "stringData": {"api-key": api_key}})
+        self.apply(secrets, "private-secrets")
+        # Both capabilities remain disabled until the direct-denial and baseline checks.
+        for app in ["zer42-nemesis"]:
+            pod = next(d for d in self.docs if d["kind"] == "Pod" and d["metadata"]["name"] == app)
+            self.apply([pod], "start-" + app)
+            self.wait_pod(name=app)
+        self.wait(2)
+
+    def benign(self, stage):
+        if self.http >= 3:
+            raise RuntimeError("HTTP_BUDGET")
+        self.http += 1  # Count dispatch/unknown, not just a returned response.
+        code = (HERE / "probe.py").read_text()
+        result = json.loads(self.remote(code, stage, label="benign-" + stage).stdout)
+        if result["status"] != 200:
+            raise RuntimeError("BASELINE_NOT_200")
+        self.save("benign-" + stage + ".json", result)
+        return result
+
+    def exercise(self):
+        self.remote("import socket; s=socket.socket(); s.settimeout(2)\ntry:\n s.connect(('sqli-fixture.zd-sqli-lab.svc.cluster.local',9140))\nexcept (TimeoutError,ConnectionRefusedError):\n print('DIRECT_DENIED')\nelse:\n raise RuntimeError('DIRECT_REACHABLE')\nfinally:\n s.close()", label="tcp-denial")
+        first = self.benign("before")
+        policy = json.loads(next(d["data"]["policy.json"] for d in self.docs if d["kind"] == "ConfigMap" and d["metadata"]["name"] == "zer42-policy"))
+        policy["enabled"] = policy["sqli"]["enabled"] = True
+        self.kube("-n", NS, "patch", "cm", "zer42-policy", "--type=merge", "-p",
+                   json.dumps({"data": {"policy.json": json.dumps(policy)}}), label="enable-private-policy")
+        # The Go worker exits its initialization path into a disabled wait loop;
+        # therefore create it only after capability enable. Do not restart it.
+        worker = next(d for d in self.docs if d["kind"] == "Pod" and d["metadata"]["name"] == "zer42-worker")
+        for item in worker["spec"]["containers"][0]["env"]:
+            if item["name"] == "ZD_SQLI_INGRESS_IP":
+                item["value"] = self.ingress
+        self.apply([worker], "start-zer42-worker")
+        self.wait_pod(name="zer42-worker")
+        group_end = min(self.work_end, time.monotonic() + 30)
+        while time.monotonic() < group_end:
+            state = self.kube("-n", "zero-door", "exec", "kafka-controller-0", "-c", "kafka", "--",
+                "env", "-u", "JMX_PORT", "-u", "KAFKA_JMX_OPTS",
+                "/opt/bitnami/kafka/bin/kafka-consumer-groups.sh", "--bootstrap-server", "localhost:9092",
+                "--describe", "--group", self.owner + ".worker", "--state", timeout=10, allowed=(0, 1),
+                label="worker-group")
+            if "Stable" in state.stdout.decode():
+                break
+            self.wait(1)
+        else:
+            raise RuntimeError("WORKER_CONSUMER_NOT_READY")
+        # Preserve the exact enabled private policy without waiting a kubelet
+        # projection cycle that could make the only baseline sample stale.
+        # This is the same owner-authored policy/caps, still revalidated by guard.
+        self.remote("import sys; from pathlib import Path; Path('/ledger/active-policy.json').write_text(sys.argv[1])",
+                    json.dumps(policy), label="private-policy-copy")
+        self.save("active-private-policy.json", policy)
+        observation = {"observed_at": first["observed_at"], "evidence": [{"id": "ev-health-01", "health": "HEALTHY"}]}
+        self.remote("import json,sys; from pathlib import Path; Path('/ledger/observation.json').write_text(sys.argv[1])",
+                    json.dumps(observation), label="observation-write")
+        self.http += 1  # Reserve the sole possible executor send even on unknown outcomes.
+        self.save("provider-attempt-reserved.json", {"at": time.time(), "max_calls": 1, "max_executor_dispatches": 1})
+        control = "\n".join([
+            "import os,signal,threading,time",
+            "from pathlib import Path",
+            "def watch_stop():",
+            " while not Path('/ledger/operator-stop').exists(): time.sleep(.1)",
+            " os.kill(os.getpid(),signal.SIGINT)",
+            "threading.Thread(target=watch_stop,daemon=True).start()"])
+        self.remote(control + "\nimport os,sys; os.environ['ZD_COMMAND_POLICY_FILE']='/ledger/active-policy.json'; "
+            "sys.argv=['nemesis.session_cli','--live','--config','/run-source/config.json',"
+            "'--observation','/ledger/observation.json','--output','/ledger']; "
+            "from nemesis.session_cli import main; raise SystemExit(main())", timeout=120, label="session-once", allowed=(0, 1))
+        receipt = json.loads(self.remote("from pathlib import Path; print(Path('/ledger/'+" + repr(self.config["context"]["run_id"]) + "+'/receipt.json').read_text())",
+                                        label="live-receipt").stdout)
+        self.save("live-receipt.json", receipt)
+        self.verify_receipt(receipt)
+        self.wait(1)
+        self.benign("after")
+        self.collect_logs()
+        self.join_logs(receipt)
+
+    def verify_receipt(self, receipt):
+        if (receipt["purpose"] != "FUNCTIONAL_ONLY_NOT_BENCHMARK" or receipt["benchmark_eligible"] is not False
+                or receipt["stop_reason"] != "MAX_ROUNDS" or receipt["completed_rounds"] != 1
+                or receipt["budget"]["attempts_dispatched"] != 1 or not receipt["budget"]["cost_estimate_complete"]):
+            raise RuntimeError("SESSION_AC_NOT_MET")
+        trace = [r["trace"] for r in receipt["records"] if r["event"] == "MODEL_TRACE"]
+        intent = [r["command"] for r in receipt["records"] if r["event"] == "DISPATCH_INTENT"]
+        results = [r["raw"] for r in receipt["records"] if r["event"] == "EXECUTOR_RESULT"]
+        if len(trace) != 1 or trace[0]["payload"]["outcome"] != "OK" or trace[0]["payload"]["model"] != "gpt-6-luna":
+            raise RuntimeError("TRACE_NOT_REAL_SUCCESS")
+        if len(intent) != 1 or len(results) != 1 or results[0]["commandId"] != intent[0]["commandId"]:
+            raise RuntimeError("COMMAND_RESULT_JOIN")
+        if intent[0]["parameters"]["customParams"]["template"] != "benign-apparel":
+            raise RuntimeError("TEMPLATE_DRIFT")
+        sends = results[0]["details"]["sqli"]["sends"]
+        if results[0]["status"] != "SUCCESS" or len(sends) != 1 or sends[0]["status"] != 200 or sends[0]["restrictedRows"] != 0:
+            raise RuntimeError("EXECUTOR_NOT_BENIGN_SUCCESS")
+
+    def collect_logs(self):
+        for name, app in [("fixture", "sqli-fixture"), ("proxy", "zer41-private-ingress")]:
+            pod = self.wait_pod(app=app, seconds=10)
+            value = self.kube("-n", NS, "logs", pod["metadata"]["name"], label="logs-" + name).stdout.decode()
+            self.save(name + "-logs.json", {"pod_uid": pod["metadata"]["uid"], "text": value})
+        self.save("worker-logs.json", {"text": self.kube("-n", NS, "logs", "zer42-worker", label="worker-logs").stdout.decode()})
+        self.save("owned-pods.json", self.get("-n", NS, "get", "pods", label="owned-pods"))
+
+    def join_logs(self, receipt):
+        records = {}
+        for line in load(OUT / "fixture-logs.json")["text"].splitlines():
+            try:
+                value = json.loads(line)
+            except ValueError:
+                continue
+            if value.get("request_id"):
+                records[value["request_id"]] = value
+        pods = load(OUT / "owned-pods.json")["items"]
+        worker_ip = next(p["status"]["podIP"] for p in pods if p["metadata"]["name"] == "zer42-worker")
+        raw = next(r["raw"] for r in receipt["records"] if r["event"] == "EXECUTOR_RESULT")
+        send = raw["details"]["sqli"]["sends"][0]
+        log = records.get(send.get("responseId"))
+        if (not log or log["correlation_id"] != send["requestId"] or log["client_ip"] != worker_ip
+                or log["source_confidence"] == "UNKNOWN" or log["status"] != 200 or log["restricted_rows"] != 0):
+            raise RuntimeError("RAW_JOIN_NOT_MET")
+        self.save("raw-join.json", {"response_id": send["responseId"], "correlation_id": send["requestId"],
+            "worker_ip": worker_ip, "fixture_pod_uid": load(OUT / "fixture-logs.json")["pod_uid"], "status": "MATCH"})
+
+    def harvest(self, stop_session=False):
+        """Best-effort capture of failures/unknowns BEFORE deleting owned emptyDir."""
+        self.stop.set()
+        if hasattr(self, "thread"):
+            self.thread.join(timeout=6)
+        self.cleaning = True
+        if not self.namespace_uid:
+            return
+        errors = []
+        try:
+            current = self.get("get", "namespace", NS, label="harvest-owner")
+            if current["metadata"]["uid"] != self.namespace_uid:
+                raise RuntimeError("HARVEST_OWNER_DRIFT")
+            if stop_session:
+                # The wrapper signals its own process; no searched/reused PID.
+                self.remote("from pathlib import Path; Path('/ledger/operator-stop').write_text('stop')",
+                            timeout=4, label="stop-owned-session", allowed=(0, 1))
+            code = "\n".join([
+                "import json",
+                "import time",
+                "from pathlib import Path",
+                "root=Path('/ledger')/" + repr(self.config["context"]["run_id"]),
+                "end=time.monotonic()+15",
+                "while (root/'started.json').exists() and not (root/'receipt.json').exists() and time.monotonic()<end: time.sleep(.2)",
+                "capture={}",
+                "for name in ['started.json','events.jsonl','receipt.json']:",
+                " p=root/name",
+                " capture[name]=p.read_text() if p.exists() else None",
+                "print(json.dumps(capture))"])
+            result = self.remote(code, timeout=18, label="capture-owned-trace", allowed=(0, 1))
+            if result.returncode == 0:
+                self.save("session-file-capture.json", json.loads(result.stdout))
+            else:
+                errors.append("SESSION_FILES_UNAVAILABLE")
+        except Exception as error:
+            errors.append(str(error))
+        try:
+            self.collect_logs()
+        except Exception as error:
+            errors.append(str(error))
+        self.save("harvest.json", {"errors": errors, "before_namespace_delete": True,
+                                   "status": "CAPTURED" if not errors else "PARTIAL"})
+
+    def cleanup(self):
+        self.stop.set()
+        if hasattr(self, "thread"):
+            self.thread.join(timeout=6)
+        self.cleaning = True
+        problems = []
+        if self.namespace_creation_attempted and self.namespace_uid is None:
+            try:
+                raw = self.kube("get", "namespace", NS, "--ignore-not-found", "-o", "json", label="ambiguous-create-readback").stdout
+                if raw.strip():
+                    current = json.loads(raw)
+                    if current["metadata"]["labels"].get("zero-door.io/run") != self.owner:
+                        raise RuntimeError("AMBIGUOUS_CREATE_OWNER_DRIFT")
+                    self.namespace_uid = current["metadata"]["uid"]
+            except Exception as error:
+                problems.append(str(error))
+        if self.namespace_uid:
+            try:
+                current = self.get("get", "namespace", NS, label="cleanup-identity")
+                if current["metadata"]["uid"] != self.namespace_uid or current["metadata"]["labels"].get("zero-door.io/run") != self.owner:
+                    raise RuntimeError("CLEANUP_OWNER_DRIFT")
+                deletion = json.dumps({"apiVersion": "v1", "kind": "DeleteOptions", "preconditions": {"uid": self.namespace_uid}}).encode()
+                self.kube("delete", "--raw", "/api/v1/namespaces/" + NS, "-f", "-", stdin=deletion, label="uid-delete", timeout=20)
+                end = min(self.end - 80, time.monotonic() + 120)
+                while time.monotonic() < end:
+                    if not self.kube("get", "namespace", NS, "--ignore-not-found", "-o", "name", label="namespace-absence").stdout.strip():
+                        break
+                    time.sleep(2)
+                else:
+                    raise RuntimeError("NAMESPACE_STILL_PRESENT")
+            except Exception as error:
+                problems.append(str(error))
+        try:
+            absent = not self.kube("get", "namespace", NS, "--ignore-not-found", "-o", "name", label="final-namespace").stdout.strip()
+            if not absent and self.topics_created:
+                raise RuntimeError("DO_NOT_DELETE_TOPICS_WITH_ACTIVE_CONSUMERS")
+            for name in self.topics_created:
+                if name in self.topic("list", name):
+                    self.topic("delete", name)
+                for _ in range(5):
+                    if name not in self.topic("list", name):
+                        break
+                    time.sleep(1)
+                else:
+                    raise RuntimeError("TOPIC_STILL_PRESENT:" + name)
+            for name in self.topics_unknown:
+                if name in self.topic("list", name):
+                    raise RuntimeError("TOPIC_OWNERSHIP_UNKNOWN_NOT_DELETED:" + name)
+            after = self.snapshot("after")
+            preserved = self.before is not None and specs(after) == specs(self.before) and restarts(after) == restarts(self.before)
+            if not preserved:
+                raise RuntimeError("SHARED_INVENTORY_DRIFT")
+            if not absent:
+                raise RuntimeError("NAMESPACE_NOT_ABSENT")
+        except Exception as error:
+            problems.append(str(error))
+        result = {"verdict": "CLEAN" if not problems else "INCOMPLETE", "problems": problems,
+                  "namespace_uid": self.namespace_uid, "topics_owned": self.topics_created,
+                  "topics_foreign_not_deleted": self.topics_foreign, "topic_create_unknown": self.topics_unknown,
+                  "provider_credentials_scope": "EPHEMERAL_NAMESPACE_SECRET_DELETED_WITH_NAMESPACE" if self.namespace_uid and not problems else "NO_SUCCESS_CLAIM",
+                  "fixture_http_reserved_or_dispatched": self.http}
+        self.save("cleanup.json", result)
+        return result
+
+
+def main():
+    global OUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--attempt", choices=("runtime-01", "runtime-02"), default="runtime-01")
+    args = parser.parse_args()
+    if not args.execute:
+        print("PLAN_ONLY:0 provider calls;0 lab mutations")
+        return 0
+    authorize(args.attempt)
+    OUT = EVIDENCE / args.attempt
+    OUT.mkdir()  # Exclusive one-attempt marker, including a stopped preflight.
+    lab = Lab()
+    lab.save("started.json", {"at": lab.started, "window_s": 1200, "cleanup_reserve_s": 300,
+                               "proposal_sha256": sha(EVIDENCE / "approved-completion-proposal.md")})
+    failure = None
+    try:
+        lab.preflight()
+        lab.prepare()
+        lab.exercise()
+    except Exception as error:
+        failure = {"type": type(error).__name__, "reason": str(error)}
+        lab.save("failure.json", failure)
+    finally:
+        try:
+            lab.harvest(stop_session=failure is not None or bool(lab.failure))
+        except Exception as error:
+            lab.save("harvest-failure.json", {"error_type": type(error).__name__})
+        finally:
+            cleanup = lab.cleanup()
+    verdict = "TECHNICAL_PASS_PENDING_REVIEW" if failure is None and not lab.failure and cleanup["verdict"] == "CLEAN" else "NOT_MET"
+    lab.save("acceptance.json", {"verdict": verdict, "failure": failure, "guard_failures": lab.failure,
+        "elapsed_s": time.time() - lab.started, "cleanup": cleanup["verdict"], "fixture_http_reserved": lab.http,
+        "provider_attempt_reserved": (OUT / "provider-attempt-reserved.json").exists(),
+        "retry_allowed": False, "benchmark_eligible": False, "publication": "PENDING_REVIEW" if verdict.startswith("TECHNICAL") else "BLOCKED"})
+    print(json.dumps({"verdict": verdict, "cleanup": cleanup["verdict"], "failure": failure}), flush=True)
+    return 0 if verdict.startswith("TECHNICAL") else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,16 @@
+{
+  "at": 1793200963.354365,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "image",
+    "inspect",
+    "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+    "--format",
+    "{{json .}}"
+  ],
+  "returncode": 0,
+  "stdout": "{\"Id\":\"sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\",\"RepoTags\":[\"traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\"],\"RepoDigests\":[\"traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\"],\"Comment\":\"buildkit.dockerfile.v0\",\"Created\":\"2026-10-06T17:48:04.120233275Z\",\"Config\":{\"ExposedPorts\":{\"80/tcp\":{}},\"Env\":[\"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"],\"Entrypoint\":[\"/entrypoint.sh\"],\"Cmd\":[\"traefik\"],\"WorkingDir\":\"/\",\"Labels\":{\"org.opencontainers.image.description\":\"A modern reverse-proxy\",\"org.opencontainers.image.documentation\":\"https://docs.traefik.io\",\"org.opencontainers.image.source\":\"https://github.com/traefik/traefik\",\"org.opencontainers.image.title\":\"Traefik\",\"org.opencontainers.image.url\":\"https://traefik.io\",\"org.opencontainers.image.vendor\":\"Traefik Labs\",\"org.opencontainers.image.version\":\"v3.7.14\"}},\"Architecture\":\"amd64\",\"Os\":\"linux\",\"Size\":252329273,\"RootFS\":{\"Type\":\"layers\",\"Layers\":[\"sha256:74d97c428c51a828f9051a7a40a53ff1fc99e54fc30323ce36760701b0b7f711\",\"sha256:275ab143d996dd0a54c239e9913e6cfd09b8fdae86a758cdb88bb93cd75c1221\",\"sha256:a5c4798852293125a9c60737cd801cebcc1b73ecda54f57bd445dcac4a7b3799\",\"sha256:a6869adabf77d94578ddb99cb3b9abaff02948373fdf2c505c457e4c3745bdd5\"]},\"Metadata\":{\"LastTagTime\":\"2026-10-28T03:23:13.705810467Z\"},\"Descriptor\":{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c\",\"size\":7714},\"Identity\":{\"Pull\":[{\"Repository\":\"docker.io/library/traefik\"}]}}\n",
+  "stderr": ""
+}

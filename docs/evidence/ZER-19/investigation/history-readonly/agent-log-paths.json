@@ -1,0 +1,18 @@
+{
+  "at": 1793241728.2566028,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-agent-0",
+    "ls",
+    "-l",
+    "/var/log"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.07800000000020191,
+  "stdout": "total 112\ndrwxr-xr-x  2 root root 24576 Oct 29 02:39 containers\n-rw-r--r--  1 root root   805 Oct 18 02:54 k3d-entrypoints_261018025456.log\n-rw-r--r--  1 root root   805 Oct 19 00:42 k3d-entrypoints_261019004220.log\n-rw-r--r--  1 root root   805 Oct 19 22:55 k3d-entrypoints_261019225510.log\n-rw-r--r--  1 root root   805 Oct 20 02:17 k3d-entrypoints_261020021745.log\n-rw-r--r--  1 root root   805 Oct 20 11:55 k3d-entrypoints_261020115546.log\n-rw-r--r--  1 root root   805 Oct 21 02:39 k3d-entrypoints_261021023903.log\n-rw-r--r--  1 root root   805 Oct 22 01:32 k3d-entrypoints_261022013221.log\n-rw-r--r--  1 root root   805 Oct 26 08:25 k3d-entrypoints_261026082540.log\n-rw-r--r--  1 root root   805 Oct 26 10:18 k3d-entrypoints_261026101801.log\n-rw-r--r--  1 root root   805 Oct 26 10:23 k3d-entrypoints_261026102359.log\n-rw-r--r--  1 root root   805 Oct 26 10:40 k3d-entrypoints_261026104008.log\n-rw-r--r--  1 root root   805 Oct 26 10:47 k3d-entrypoints_261026104733.log\n-rw-r--r--  1 root root   805 Oct 26 10:59 k3d-entrypoints_261026105947.log\n-rw-r--r--  1 root root   805 Oct 26 11:13 k3d-entrypoints_261026111354.log\n-rw-r--r--  1 root root   805 Oct 26 14:20 k3d-entrypoints_261026142053.log\n-rw-r--r--  1 root root   805 Oct 27 08:45 k3d-entrypoints_261027084529.log\n-rw-r--r--  1 root root   805 Oct 27 09:20 k3d-entrypoints_261027092048.log\n-rw-r--r--  1 root root   805 Oct 27 09:42 k3d-entrypoints_261027094236.log\n-rw-r--r--  1 root root   805 Oct 28 02:56 k3d-entrypoints_261028025609.log\n-rw-r--r--  1 root root   805 Oct 29 02:38 k3d-entrypoints_261029023842.log\ndrwxr-x--- 22 root root  4096 Oct 29 02:38 pods\n",
+  "stderr": ""
+}

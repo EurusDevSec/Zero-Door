@@ -1,0 +1,7 @@
+{
+  "response_id": "9c2088ccab634eefbd03bfe586a9c4de",
+  "correlation_id": "ed1b8005-0c3a-499a-b3f1-a68a30501b92/1",
+  "worker_ip": "10.42.0.237",
+  "fixture_pod_uid": "7bde36f7-4492-4079-8de3-4a66a965c705",
+  "status": "MATCH"
+}

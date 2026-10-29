@@ -1,0 +1,12 @@
+{
+  "verdict": "INCOMPLETE",
+  "problems": [
+    "SHARED_INVENTORY_DRIFT"
+  ],
+  "namespace_uid": "66fed02a-ec50-4bfb-ab1c-ebeda976d12d",
+  "topics_owned": [],
+  "topics_foreign_not_deleted": [],
+  "topic_create_unknown": [],
+  "provider_credentials_scope": "NO_SUCCESS_CLAIM",
+  "fixture_http_reserved_or_dispatched": 0
+}

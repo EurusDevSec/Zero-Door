@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-28T16:02:32.532Z",
+  "verdict": "BLOCKED_RUNTIME_NOT_MET_NO_AUTOMATIC_RETRY",
+  "technical_ac": "NOT_ACCEPTED",
+  "product_source": "9 reviewed pins unchanged; offline132 mainPython runs plus15 helpercases and37Bashchecks passed",
+  "attempt": "runtime-02",
+  "elapsed_s": 208.55945491790771,
+  "first_failed_boundary": {
+    "main": "RESOURCE_GUARD_STOP while release-fixture exec pending",
+    "guard": "docker exec k3d-zero-door-server-0 cat /proc/meminfo /proc/pressure/memory exceeded4s; sourceguard stopped correctly",
+    "artifact": "raw/0059-memory.json"
+  },
+  "observed_resources": {
+    "samples": 28,
+    "min_windows_available_bytes": 3019333632,
+    "min_wsl_available_kib": 2290360,
+    "max_memory_psi_avg10": 0.12,
+    "limit_windows_bytes": 1073741824,
+    "limit_wsl_kib": 1048576,
+    "limit_psi": 5,
+    "interpretation": "Valid samples meetlimits; sampling transport timeout isnot proof of RAM/PSI threshold violation; no causal attribution to Chrome/Claude"
+  },
+  "actual_activity": {
+    "provider_calls": 0,
+    "fixture_http_reserved": 0,
+    "tcp_control_started": false,
+    "topics_created": 0,
+    "private_secrets_created": 0,
+    "private_workloads_started": [
+      "safe fixture Deployment",
+      "private proxy Deployment"
+    ],
+    "worker_or_nemesis_pod_started": false,
+    "builds": 0,
+    "pulls": 0,
+    "imports": 0
+  },
+  "cleanup": {
+    "owned_namespace_uid": "66fed02a-ec50-4bfb-ab1c-ebeda976d12d",
+    "uid_delete_sent": true,
+    "namespace_absent": true,
+    "verification": "final-audit/00.json",
+    "owned_namespace_resources_removed": true,
+    "original_global_verdict": "INCOMPLETE",
+    "global_verdict_retained": true,
+    "reason": "Actual shared cartservice restartCount41→42; samePodUID, exit0Completed at15:55:55Z. Events record 1s readiness/liveness timeouts; no direct shared mutation byrunner, no proven commoncause with Docker timeout.",
+    "shared_spec_uid_changed": [],
+    "pvc_count": 3
+  },
+  "remaining": [
+    "One real Nemesis→existingexecutor→result functional proof and actual bounded session trace",
+    "Stable labcontrol/sampling and preserved shared run inventory",
+    "Conditionalpublication/CI/review/merge/owneracceptance not reached"
+  ],
+  "decision": "No runtime03, no publication, no Done, no nextissue. Keep originalfailures/raw and returnlabblocker forowner decision; do notlowerAC orguard.",
+  "limitations": [
+    "No actual inference/executor effect/recovery/benchmark/KPI/G3/G4 evidence inZER19",
+    "Postrun events/logs corroborateprobe instability, not definitive Docker/host rootcause"
+  ]
+}

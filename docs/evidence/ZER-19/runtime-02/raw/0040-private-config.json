@@ -1,0 +1,16 @@
+{
+  "at": 1793202911.6576078,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "apply",
+    "-f",
+    "-"
+  ],
+  "label": "private-config",
+  "returncode": 0,
+  "stdout": "serviceaccount/sqli-fixture created\nconfigmap/sqli-fixture-config created\nservice/sqli-fixture created\nnetworkpolicy.networking.k8s.io/default-deny created\nnetworkpolicy.networking.k8s.io/allow-ingress-controller-and-dns created\nconfigmap/zer41-private-ingress created\nservice/zer41-private-ingress created\nconfigmap/zer42-policy created\nservice/zer42-nemesis created\nnetworkpolicy.networking.k8s.io/private-proxy created\nnetworkpolicy.networking.k8s.io/zer42-worker created\nnetworkpolicy.networking.k8s.io/zer42-nemesis created\nconfigmap/zer19-session-source created\n",
+  "stderr": ""
+}

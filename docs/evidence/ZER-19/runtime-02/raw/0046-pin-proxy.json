@@ -1,0 +1,21 @@
+{
+  "at": 1793202916.1422698,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "patch",
+    "cm",
+    "sqli-fixture-config",
+    "--type=merge",
+    "-p",
+    "{\"data\": {\"ZD_SQLI_TRUSTED_PROXIES\": \"10.42.0.192/32\"}}"
+  ],
+  "label": "pin-proxy",
+  "returncode": 0,
+  "stdout": "configmap/sqli-fixture-config patched\n",
+  "stderr": ""
+}

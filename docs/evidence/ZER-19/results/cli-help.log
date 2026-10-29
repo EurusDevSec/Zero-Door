@@ -1,0 +1,15 @@
+usage: session_cli.py [-h] [--live] [--config CONFIG]
+                      [--observation OBSERVATION] [--output OUTPUT]
+
+Explicit functional-session CLI. Default is PLAN_ONLY; live requires local
+files. SIGINT/SIGTERM stops new work. An already published worker command is
+allowed to expire under its existing <=5s command deadline; no remote cancel
+is invented. The output directory is exclusive per run, so restart never
+replays a session.
+
+options:
+  -h, --help            show this help message and exit
+  --live
+  --config CONFIG
+  --observation OBSERVATION
+  --output OUTPUT

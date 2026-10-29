@@ -1,0 +1,16 @@
+{
+  "at": 1793202911.2782938,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "create",
+    "-f",
+    "-"
+  ],
+  "label": "namespace-create",
+  "returncode": 0,
+  "stdout": "namespace/zd-sqli-lab created\n",
+  "stderr": ""
+}

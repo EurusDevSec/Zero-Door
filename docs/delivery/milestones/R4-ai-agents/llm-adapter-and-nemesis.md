@@ -1,3 +1,7 @@
+## ZER-19 — nghiệm thu chức năng đạt; publication — 29/10/2026
+
+[Runtime-04](../../../evidence/ZER-19/runtime-04/README.md) và review độc lập xác nhận AC02/03 trong phạm vi SQLi-only:1inference gpt-6-luna/216+26tokens/3.211s/0.0000346USDestimate; observation→LLMplan→validate→executor→result,1benign-apparel send200/0restrictedRows,3HTTP200/1TCPdenied,MAX_ROUNDS1. CleanupCLEAN:namespace và2topic absent,sharedspec/UID/restart giữ nguyên,3PVCBound. AC01 dùng ZER48/PR34;132Python+37Bash kiểm sản phẩm và44helper kiểm offline đã đạt. 9productpins và43runtimepins khớp. Hoàng duyệt publication có điều kiện tại [gói](../../../evidence/ZER-19/publication-package.md); commit/PR/CI/review/merge và ownerconditionalacceptance còn là gate trước Done. Giữ raw01–03 NOT_MET/UNKNOWN; không formal benchmark/healing/KPI/G3/G4/live-cancel claim, không thêm lab/model/issue khác.
+
 ## ZER-48 — live adapter verified, đang publication — 28/10/2026
 
 Hoàng duyệt toàn bộ gói hoàn tất. [Live receipt](../../../evidence/ZER-48/live-receipt.json):1call/1attempt, NORMAL/health01,162+22tokens,4.625s,0.0000272USDestimate; source5pins và trace joins khớp, không retry/lab/deploy.144test lượt+review READY offline; review live evidence đã đối chiếu schema/model/usage/IDs/caps. **AC01 kỹ thuật đủ; chưa Done trước remoteCI/review/merge và acceptance.**

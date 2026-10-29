@@ -1,0 +1,138 @@
+"""Offline runner admission/ownership/deadline checks. No Docker/Kafka/Kubernetes/model."""
+import importlib.util,json,sys,tempfile,threading,time,unittest
+from pathlib import Path
+from unittest.mock import patch
+HERE=Path(__file__).resolve().parent
+sp=importlib.util.spec_from_file_location('zer19_runtime',HERE/'run.py')
+run=importlib.util.module_from_spec(sp);sp.loader.exec_module(run)
+class RunnerTests(unittest.TestCase):
+ def setUp(self):
+  self.original_popen=run.subprocess.Popen
+  def safe_process(args,*a,**kwargs):
+   if not isinstance(args,(list,tuple)) or args[0]!=sys.executable:
+    raise AssertionError('OFFLINE_EXTERNAL_CLIENT_FORBIDDEN')
+   return self.original_popen(args,*a,**kwargs)
+  self.offline_boundary=patch.object(run.subprocess,'Popen',side_effect=safe_process)
+  self.offline_boundary.start()
+ def tearDown(self):
+  self.offline_boundary.stop()
+ def test_offline_boundary_blocks_native_kubectl_before_spawn(self):
+  lab=run.Lab();lab.save=lambda *a:None
+  with self.assertRaisesRegex(AssertionError,'OFFLINE_EXTERNAL_CLIENT_FORBIDDEN'):
+   lab.command(['kubectl','version'])
+
+ def test_default_does_not_authorize_or_construct_lab(self):
+  with patch.object(sys,'argv',['run.py']),patch.object(run,'authorize',side_effect=AssertionError('no auth')),patch.object(run,'Lab',side_effect=AssertionError('no lab')):
+   self.assertEqual(0,run.main())
+ def test_auth_rejects_source_drift_before_outdir(self):
+  with patch.object(run,'sha',return_value='wrong'):
+   with self.assertRaisesRegex(RuntimeError,'PROPOSAL_DRIFT'):run.authorize()
+ def test_process_deadline_kills_only_owned_child(self):
+  lab=run.Lab();lab.save=lambda *a:None
+  t=time.monotonic()
+  with self.assertRaises(TimeoutError):lab.command([sys.executable,'-c','import time; time.sleep(5)'],timeout=.1)
+  self.assertLess(time.monotonic()-t,2)
+ def test_guard_stop_interrupts_owned_child(self):
+  lab=run.Lab();lab.save=lambda *a:None
+  timer=threading.Timer(.1,lab.stop.set);timer.start()
+  try:
+   with self.assertRaisesRegex(RuntimeError,'RESOURCE_GUARD_STOP'):lab.command([sys.executable,'-c','import time; time.sleep(5)'],timeout=2)
+  finally:timer.join()
+ def test_topic_allowlist_rejects_formal_names_without_command(self):
+  lab=run.Lab();lab.kube=lambda *a,**k:(_ for _ in ()).throw(AssertionError('no external client'))
+  with self.assertRaisesRegex(RuntimeError,'TOPIC_SCOPE'):lab.topic('delete','attack.commands')
+ def test_preflight_failure_no_owned_namespace_uses_readback_only(self):
+  lab=run.Lab();lab.before={'items':[]};lab.save=lambda *a:None
+  from subprocess import CompletedProcess
+  lab.kube=lambda *a,**k:CompletedProcess(a,0,b'',b'')
+  lab.snapshot=lambda *a:{'items':[]}
+  self.assertEqual('CLEAN',lab.cleanup()['verdict'])
+ def test_ambiguous_namespace_create_checks_owner_and_uid_before_delete(self):
+  lab=run.Lab();lab.namespace_creation_attempted=True;lab.before={'items':[]};lab.save=lambda *a:None
+  lab.snapshot=lambda *a:{'items':[]}
+  calls=[]
+  from subprocess import CompletedProcess
+  obj={'metadata':{'uid':'owned-uid','labels':{'zero-door.io/run':lab.owner}}}
+  def kube(*args,**kwargs):
+   calls.append((args,kwargs));raw=json.dumps(obj).encode() if kwargs.get('label') in {'ambiguous-create-readback','cleanup-identity'} else b''
+   return CompletedProcess(args,0,raw,b'')
+  lab.kube=kube
+  self.assertEqual('CLEAN',lab.cleanup()['verdict'])
+  deletion=next(kwargs['stdin'] for args,kwargs in calls if args[0]=='delete')
+  self.assertEqual('owned-uid',json.loads(deletion)['preconditions']['uid'])
+ def test_unknown_namespace_owner_never_deleted(self):
+  lab=run.Lab();lab.namespace_creation_attempted=True;lab.save=lambda *a:None
+  lab.before={'items':[]};lab.snapshot=lambda *a:{'items':[]}
+  from subprocess import CompletedProcess
+  called=[]
+  def kube(*args,**kwargs):
+   called.append(args)
+   if args[0]=='delete':raise AssertionError('no delete')
+   if kwargs.get('label')=='ambiguous-create-readback':return CompletedProcess(args,0,b'{"metadata":{"uid":"other","labels":{}}}',b'')
+   return CompletedProcess(args,0,b'exists',b'')
+  lab.kube=kube
+  self.assertEqual('INCOMPLETE',lab.cleanup()['verdict'])
+  self.assertFalse(any(args[0]=='delete' for args in called))
+ def test_raw_success_cannot_be_accepted_without_live_trace(self):
+  lab=run.Lab()
+  bad={'purpose':'FUNCTIONAL_ONLY_NOT_BENCHMARK','benchmark_eligible':False,'stop_reason':'MAX_ROUNDS','completed_rounds':1,'budget':{'attempts_dispatched':1,'cost_estimate_complete':True},'records':[]}
+  with self.assertRaisesRegex(RuntimeError,'TRACE_NOT_REAL_SUCCESS'):lab.verify_receipt(bad)
+ def test_foreign_namespace_race_at_create_is_not_adopted_or_deleted(self):
+  lab=run.Lab();lab.save=lambda *a:None;lab.before={'items':[]};lab.snapshot=lambda *a:{'items':[]}
+  calls=[]
+  from subprocess import CompletedProcess
+  foreign={'metadata':{'uid':'foreign-uid','labels':{'zero-door.io/run':'foreign-run'}}}
+  def kube(*args,**kwargs):
+   calls.append(args)
+   if len(calls)==1:
+    self.assertEqual('create',args[0]);raise RuntimeError('ALREADY_EXISTS')
+   if args[0]=='delete':raise AssertionError('foreign delete')
+   raw=json.dumps(foreign).encode() if kwargs.get('label')=='ambiguous-create-readback' else b'exists'
+   return CompletedProcess(args,0,raw,b'')
+  lab.kube=kube
+  with self.assertRaisesRegex(RuntimeError,'ALREADY_EXISTS'):lab.prepare()
+  self.assertIsNone(lab.namespace_uid)
+  self.assertEqual('INCOMPLETE',lab.cleanup()['verdict'])
+  self.assertFalse(any(args[0] in {'apply','delete'} for args in calls))
+ def test_topic_regex_is_anchored_literal_and_create_is_literal(self):
+  lab=run.Lab();calls=[]
+  from subprocess import CompletedProcess
+  import re
+  def kube(*args,**kwargs):calls.append(args);return CompletedProcess(args,0,b'',b'')
+  lab.kube=kube
+  name=lab.topics[0]
+  lab.topic('list',name);pattern=calls[-1][calls[-1].index('--topic')+1]
+  self.assertIsNotNone(re.fullmatch(pattern,name))
+  self.assertIsNone(re.fullmatch(pattern,name.replace('.','X')))
+  lab.topic('create',name);self.assertEqual(name,calls[-1][calls[-1].index('--topic')+1])
+  self.assertEqual([name],lab.topics_created)
+ def test_explicit_foreign_topic_create_race_is_never_owned_or_deleted(self):
+  lab=run.Lab();calls=[]
+  from subprocess import CompletedProcess
+  def kube(*args,**kwargs):calls.append(args);return CompletedProcess(args,1,b'',b'TopicExistsException: already exists')
+  lab.kube=kube
+  with self.assertRaisesRegex(RuntimeError,'FOREIGN_TOPIC_CREATE_RACE'):lab.topic('create',lab.topics[0])
+  self.assertEqual([],lab.topics_created);self.assertEqual([],lab.topics_unknown)
+  self.assertEqual([lab.topics[0]],lab.topics_foreign)
+  self.assertFalse(any('--delete' in args for args in calls))
+ def test_failure_receipt_and_events_are_captured_before_cleanup(self):
+  lab=run.Lab();lab.namespace_uid='own';calls=[];saved={}
+  lab.save=lambda name,obj:saved.update({name:obj})
+  lab.get=lambda *a,**k:{'metadata':{'uid':'own'}}
+  from subprocess import CompletedProcess
+  capture={'started.json':'{}','events.jsonl':'failed trace','receipt.json':'{"stop_reason":"MODEL_REFUSAL"}'}
+  def remote(*args,**kwargs):
+   calls.append(kwargs['label']);return CompletedProcess(args,0,json.dumps(capture).encode(),b'')
+  lab.remote=remote;lab.collect_logs=lambda:calls.append('logs')
+  lab.harvest(stop_session=True)
+  self.assertEqual(['stop-owned-session','capture-owned-trace','logs'],calls)
+  self.assertEqual('failed trace',saved['session-file-capture.json']['events.jsonl'])
+  self.assertEqual('CAPTURED',saved['harvest.json']['status'])
+ def test_continuation_gate_requires_new_authorization_before_source_lock(self):
+  original=run.load
+  def fake(path):
+   if path.name=='continuation-authorization.json':return {'status':'NOT_APPROVED'}
+   return original(path)
+  with patch.object(run,'load',side_effect=fake):
+   with self.assertRaisesRegex(RuntimeError,'CONTINUATION_NOT_AUTHORIZED'):run.authorize('runtime-02')
+if __name__=='__main__':unittest.main()

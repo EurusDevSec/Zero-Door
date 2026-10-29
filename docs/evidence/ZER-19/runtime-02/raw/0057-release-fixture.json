@@ -1,0 +1,21 @@
+{
+  "at": 1793202923.461417,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "sqli-fixture-69db7c8d8b-rc6qd",
+    "-c",
+    "sqli-fixture",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "from pathlib import Path; Path('/data/.policy-release').write_text('policy observed')"
+  ],
+  "label": "release-fixture",
+  "error_type": "RuntimeError"
+}

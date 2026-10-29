@@ -1,0 +1,9 @@
+{
+  "at": 1793246059.7598414,
+  "window_s": 1200,
+  "cleanup_reserve_s": 300,
+  "attempt": "runtime-04",
+  "proposal_sha256": "af59bcbde66316553b1b700210d8692d4f6189ed6b6f6b0017e80f75c5d713b2",
+  "source_manifest_sha256": "ff24b9463bc4302b19fd951136b30ca2d50a0ee0a3ac2da8fa486ba5eb9524ef",
+  "authorization_sha256": "f5986eb5c5f054e614788753491b9db7b898964b3e89b551a587cef0686bfa9a"
+}

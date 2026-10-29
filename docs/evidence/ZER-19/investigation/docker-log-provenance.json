@@ -1,0 +1,16 @@
+{
+  "captured_at": "2026-10-29T02:52:50.945Z",
+  "extract": "docker-exec-window.json",
+  "sources": [
+    {
+      "path": "C:/Users/ACER/AppData/Local/Docker/log/vm/init.log.20261028-225318.761",
+      "sha256": "01e15962180937205b38c1a195f6bc0ba6bde65dbda3b8f25e4fb8b208bc5c0b",
+      "bytes": 1048519
+    },
+    {
+      "path": "C:/Users/ACER/AppData/Local/Docker/log/vm/init.log.20261028-230808.007",
+      "sha256": "85b9f7025b7d668b3b2396fe1afedf15711b0c4a239d4d1560fc774ece7380c8",
+      "bytes": 1048445
+    }
+  ]
+}

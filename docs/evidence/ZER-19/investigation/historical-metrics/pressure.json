@@ -1,0 +1,645 @@
+{
+  "at": 1793241962.1771684,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "--raw",
+    "/api/v1/namespaces/monitoring/services/http:prometheus-kube-prometheus-prometheus:http-web/proxy/api/v1/query?query=%7B__name__%3D~%22node_pressure_%28cpu%7Cio%7Cmemory%29_%28waiting%7Cstalled%29_seconds_total%22%7D%5B6m%5D&time=2026-10-28T15%3A58%3A00Z&timeout=5s"
+  ],
+  "query": "{__name__=~\"node_pressure_(cpu|io|memory)_(waiting|stalled)_seconds_total\"}[6m]",
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.5630000000001019,
+  "stderr": "",
+  "response": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": [
+        {
+          "metric": {
+            "__name__": "node_pressure_cpu_waiting_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "2331.336975"
+            ],
+            [
+              1793202753.874,
+              "2332.125752"
+            ],
+            [
+              1793202783.874,
+              "2333.041531"
+            ],
+            [
+              1793202813.872,
+              "2335.980289"
+            ],
+            [
+              1793202843.871,
+              "2336.58548"
+            ],
+            [
+              1793202873.869,
+              "2337.246963"
+            ],
+            [
+              1793202903.867,
+              "2338.5338450000004"
+            ],
+            [
+              1793202947.979,
+              "2357.365617"
+            ],
+            [
+              1793202963.858,
+              "2371.128684"
+            ],
+            [
+              1793202993.863,
+              "2375.941857"
+            ],
+            [
+              1793203023.862,
+              "2376.843112"
+            ],
+            [
+              1793203053.86,
+              "2377.756381"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_cpu_waiting_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "2331.27574"
+            ],
+            [
+              1793202750.994,
+              "2332.090262"
+            ],
+            [
+              1793202780.992,
+              "2332.6664180000002"
+            ],
+            [
+              1793202810.991,
+              "2335.926434"
+            ],
+            [
+              1793202840.99,
+              "2336.540262"
+            ],
+            [
+              1793202870.988,
+              "2337.134328"
+            ],
+            [
+              1793202900.987,
+              "2338.486745"
+            ],
+            [
+              1793202947.978,
+              "2357.3607349999997"
+            ],
+            [
+              1793202960.977,
+              "2368.503568"
+            ],
+            [
+              1793202990.983,
+              "2375.847151"
+            ],
+            [
+              1793203020.981,
+              "2376.79461"
+            ],
+            [
+              1793203050.979,
+              "2377.732303"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_io_stalled_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "706.912551"
+            ],
+            [
+              1793202753.874,
+              "706.94254"
+            ],
+            [
+              1793202783.874,
+              "707.0101239999999"
+            ],
+            [
+              1793202813.872,
+              "707.099463"
+            ],
+            [
+              1793202843.871,
+              "707.133111"
+            ],
+            [
+              1793202873.869,
+              "707.1615790000001"
+            ],
+            [
+              1793202903.867,
+              "707.188424"
+            ],
+            [
+              1793202947.979,
+              "707.35969"
+            ],
+            [
+              1793202963.858,
+              "707.364135"
+            ],
+            [
+              1793202993.863,
+              "707.404781"
+            ],
+            [
+              1793203023.862,
+              "707.438348"
+            ],
+            [
+              1793203053.86,
+              "707.4681840000001"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_io_stalled_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "706.906402"
+            ],
+            [
+              1793202750.994,
+              "706.938709"
+            ],
+            [
+              1793202780.992,
+              "706.966613"
+            ],
+            [
+              1793202810.991,
+              "707.096454"
+            ],
+            [
+              1793202840.99,
+              "707.129784"
+            ],
+            [
+              1793202870.988,
+              "707.159072"
+            ],
+            [
+              1793202900.987,
+              "707.1839590000001"
+            ],
+            [
+              1793202947.978,
+              "707.35969"
+            ],
+            [
+              1793202960.977,
+              "707.363868"
+            ],
+            [
+              1793202990.983,
+              "707.402223"
+            ],
+            [
+              1793203020.981,
+              "707.4346139999999"
+            ],
+            [
+              1793203050.979,
+              "707.464561"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_io_waiting_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "1060.30317"
+            ],
+            [
+              1793202753.874,
+              "1060.335412"
+            ],
+            [
+              1793202783.874,
+              "1060.40795"
+            ],
+            [
+              1793202813.872,
+              "1060.503322"
+            ],
+            [
+              1793202843.871,
+              "1060.54073"
+            ],
+            [
+              1793202873.869,
+              "1060.572128"
+            ],
+            [
+              1793202903.867,
+              "1060.602248"
+            ],
+            [
+              1793202947.979,
+              "1063.7638559999998"
+            ],
+            [
+              1793202963.858,
+              "1063.825857"
+            ],
+            [
+              1793202993.863,
+              "1063.8735530000001"
+            ],
+            [
+              1793203023.862,
+              "1063.9117430000001"
+            ],
+            [
+              1793203053.86,
+              "1063.9446839999998"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_io_waiting_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "1060.2965689999999"
+            ],
+            [
+              1793202750.994,
+              "1060.33117"
+            ],
+            [
+              1793202780.992,
+              "1060.361393"
+            ],
+            [
+              1793202810.991,
+              "1060.500181"
+            ],
+            [
+              1793202840.99,
+              "1060.537151"
+            ],
+            [
+              1793202870.988,
+              "1060.569342"
+            ],
+            [
+              1793202900.987,
+              "1060.597577"
+            ],
+            [
+              1793202947.978,
+              "1063.7638559999998"
+            ],
+            [
+              1793202960.977,
+              "1063.8232560000001"
+            ],
+            [
+              1793202990.983,
+              "1063.8708470000001"
+            ],
+            [
+              1793203020.981,
+              "1063.9074850000002"
+            ],
+            [
+              1793203050.979,
+              "1063.940846"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_memory_stalled_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "49.488786999999995"
+            ],
+            [
+              1793202753.874,
+              "49.488786999999995"
+            ],
+            [
+              1793202783.874,
+              "49.494355000000006"
+            ],
+            [
+              1793202813.872,
+              "49.543032"
+            ],
+            [
+              1793202843.871,
+              "49.544832"
+            ],
+            [
+              1793202873.869,
+              "49.544832"
+            ],
+            [
+              1793202903.867,
+              "49.546707999999995"
+            ],
+            [
+              1793202947.979,
+              "52.413167"
+            ],
+            [
+              1793202963.858,
+              "52.417381999999996"
+            ],
+            [
+              1793202993.863,
+              "52.425639000000004"
+            ],
+            [
+              1793203023.862,
+              "52.427243000000004"
+            ],
+            [
+              1793203053.86,
+              "52.427243000000004"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_memory_stalled_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "49.488786999999995"
+            ],
+            [
+              1793202750.994,
+              "49.488786999999995"
+            ],
+            [
+              1793202780.992,
+              "49.489693"
+            ],
+            [
+              1793202810.991,
+              "49.543032"
+            ],
+            [
+              1793202840.99,
+              "49.544832"
+            ],
+            [
+              1793202870.988,
+              "49.544832"
+            ],
+            [
+              1793202900.987,
+              "49.546707999999995"
+            ],
+            [
+              1793202947.978,
+              "52.413167"
+            ],
+            [
+              1793202960.977,
+              "52.417381999999996"
+            ],
+            [
+              1793202990.983,
+              "52.425639000000004"
+            ],
+            [
+              1793203020.981,
+              "52.427243000000004"
+            ],
+            [
+              1793203050.979,
+              "52.427243000000004"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_memory_waiting_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "79.500284"
+            ],
+            [
+              1793202753.874,
+              "79.500284"
+            ],
+            [
+              1793202783.874,
+              "79.50702899999999"
+            ],
+            [
+              1793202813.872,
+              "79.557271"
+            ],
+            [
+              1793202843.871,
+              "79.560688"
+            ],
+            [
+              1793202873.869,
+              "79.560688"
+            ],
+            [
+              1793202903.867,
+              "79.56263700000001"
+            ],
+            [
+              1793202947.979,
+              "82.652334"
+            ],
+            [
+              1793202963.858,
+              "82.658062"
+            ],
+            [
+              1793202993.863,
+              "82.66652"
+            ],
+            [
+              1793203023.862,
+              "82.668288"
+            ],
+            [
+              1793203053.86,
+              "82.668288"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_pressure_memory_waiting_seconds_total",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "79.500284"
+            ],
+            [
+              1793202750.994,
+              "79.500284"
+            ],
+            [
+              1793202780.992,
+              "79.50120299999999"
+            ],
+            [
+              1793202810.991,
+              "79.557271"
+            ],
+            [
+              1793202840.99,
+              "79.560688"
+            ],
+            [
+              1793202870.988,
+              "79.560688"
+            ],
+            [
+              1793202900.987,
+              "79.56263700000001"
+            ],
+            [
+              1793202947.978,
+              "82.652334"
+            ],
+            [
+              1793202960.977,
+              "82.658061"
+            ],
+            [
+              1793202990.983,
+              "82.66652"
+            ],
+            [
+              1793203020.981,
+              "82.668288"
+            ],
+            [
+              1793203050.979,
+              "82.668288"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

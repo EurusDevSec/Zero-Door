@@ -11,7 +11,7 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/common.sh"
 zd_preflight
 zd_kubectl get deployment frontend -n target-app >/dev/null
 zd_build_import chaos-worker:latest "$ZD_ROOT/chaos-worker"
-zd_build_import nemesis:latest "$ZD_ROOT/agent-orchestrator/nemesis"
+zd_build_import nemesis:latest "$ZD_ROOT/agent-orchestrator" -f "$(zd_path "$ZD_ROOT/agent-orchestrator/nemesis/Dockerfile")"
 zd_apply "$ZD_INFRA/manifests/chaos-worker.yaml"
 zd_apply_nemesis
 zd_kubectl rollout restart deployment/chaos-worker -n zero-door

@@ -1,0 +1,28 @@
+{
+  "at": 1793244125.106441,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "zer42-worker"
+  ],
+  "label": "worker-logs",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 1,
+  "output_redacted": false,
+  "stdout": "",
+  "stderr": "error: error from server (NotFound): pods \"zer42-worker\" not found in namespace \"zd-sqli-lab\"\n",
+  "error_type": "RuntimeError",
+  "completion": "FAILED_OR_INTERRUPTED",
+  "reason": "COMMAND_FAILED:worker-logs",
+  "remote_outcome": "UNKNOWN",
+  "elapsed_s": 0.125
+}

@@ -1,0 +1,17 @@
+{
+  "at": 1793202781.8697097,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "image",
+    "inspect",
+    "zer41-fixture:37c7a045e098",
+    "--format",
+    "{{.Id}}"
+  ],
+  "label": "cache-host",
+  "returncode": 0,
+  "stdout": "sha256:e95d058b11defba91a76d3a13c703811f846ddc40e877bf3459fc8c1b6f6b17c\n",
+  "stderr": ""
+}

@@ -1,0 +1,15 @@
+{
+  "verdict": "NOT_MET",
+  "failure": {
+    "type": "RuntimeError",
+    "reason": "NAMESPACE_PREEXISTS"
+  },
+  "guard_failures": [],
+  "elapsed_s": 0.7336337566375732,
+  "cleanup": "INCOMPLETE",
+  "fixture_http_reserved": 0,
+  "provider_attempt_reserved": false,
+  "retry_allowed": false,
+  "benchmark_eligible": false,
+  "publication": "BLOCKED"
+}

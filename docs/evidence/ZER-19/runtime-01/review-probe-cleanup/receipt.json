@@ -1,0 +1,15 @@
+{
+  "status": "CLEAN_OWNED_REVIEW_PROBE_NAMESPACE_REMOVED",
+  "namespace_uid": "f1702f69-0515-4647-9685-cc09786b727a",
+  "owner": "zer42-e0e0aea10613",
+  "original_resource_names": [
+    "configmap/kube-root-ca.crt",
+    "serviceaccount/default"
+  ],
+  "namespace_absent": true,
+  "provider_calls": 0,
+  "fixture_http": 0,
+  "pods_created": 0,
+  "cleanup_scope": "UID_PRECONDITION_ONLY;NO_RETRY",
+  "at": 1793202299.2416708
+}

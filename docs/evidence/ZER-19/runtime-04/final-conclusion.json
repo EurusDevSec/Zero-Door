@@ -1,0 +1,72 @@
+{
+  "at": "2026-10-29T04:02:28.793Z",
+  "attempt": "runtime-04",
+  "verdict": "TECHNICAL_PASS_INDEPENDENTLY_REVIEWED_PUBLICATION_PENDING",
+  "technical_ac": {
+    "AC01": "REUSE_ZER48_PR34_ACCEPTED_ADAPTER_AND_REAL_TRACE",
+    "AC02": "MET_SCOPED_FUNCTIONAL_OBSERVATION_MODEL_GUARD_EXECUTOR_RESULT",
+    "AC03": "MET_OFFLINE_STOP_CANCEL_BOUNDARIES_PLUS_REAL_MAX_ROUNDS_SESSION"
+  },
+  "analysis": "analysis.json",
+  "independent_review": "independent-review.md",
+  "independent_review_sha256": "2d37b77b01b535d1582eef44ec843e11b04525ae65ef0f5d17167c9de9316447",
+  "elapsed_s": 229.58138513565063,
+  "provider": {
+    "calls": 1,
+    "model": "gpt-6-luna",
+    "input_tokens": 216,
+    "output_tokens": 26,
+    "latency_ms": 3210.9108439999545,
+    "cost_estimate_usd": 0.0000346,
+    "billing_cost_verified": false
+  },
+  "functional": {
+    "template": "benign-apparel",
+    "command_id": "ed1b8005-0c3a-499a-b3f1-a68a30501b92",
+    "executor_sends": 1,
+    "fixture_http_total": 3,
+    "http_statuses": [
+      200,
+      200,
+      200
+    ],
+    "restricted_rows": [
+      0,
+      0,
+      0
+    ],
+    "direct_tcp": "DENIED",
+    "raw_join": "MATCH",
+    "stop_reason": "MAX_ROUNDS",
+    "completed_rounds": 1
+  },
+  "resources": {
+    "samples": 33,
+    "min_windows_available_bytes": 1370882048,
+    "min_wsl_available_kib": 2320236,
+    "max_memory_psi_avg10": 0.29,
+    "guard_failures": []
+  },
+  "cleanup": {
+    "verdict": "CLEAN",
+    "namespace_uid": "025ef705-eb14-471b-8c53-6da69ae838e7",
+    "namespace_absent": true,
+    "topics_deleted_and_absent": 2,
+    "shared_spec_uid_restart_unchanged": true,
+    "bound_pvcs": 3
+  },
+  "source": {
+    "invocation_pins": 43,
+    "product_pins": 9,
+    "approval_hashes_match": true
+  },
+  "publication": "AUTHORIZED_CONDITIONALLY_NOT_YET_STARTED",
+  "done": false,
+  "retry_allowed": false,
+  "limitations": [
+    "Functional ZER19 acceptance only; not SQLi effect/healing/KPI/G3/G4/formal benchmark",
+    "No live cancel claim; bounded cancellation behavior covered offline",
+    "Older runtime01-03 failures/UNKNOWN unchanged",
+    "Publication/CI/merge/Done remain separate gates"
+  ]
+}

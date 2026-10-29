@@ -1,0 +1,174 @@
+{
+  "at": "2026-10-29T03:50:52.060Z",
+  "method": "Saved evidence only; no live commands. Snapshot check values are processed evidence, not raw firewall or traffic enforcement proof.",
+  "checksums_verified": 9,
+  "snapshots": [
+    {
+      "file": "00-before",
+      "at": "2026-10-29T03:40:30Z",
+      "checks": {
+        "agent": {
+          "docker_ip": "172.19.0.3",
+          "node_internal_ip": [
+            "172.19.0.3"
+          ],
+          "startup_log_ip": "172.19.0.4",
+          "startup_ip_matches": false,
+          "local_running_nonhost_pods": 19,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 19,
+          "reported_foreign_count": 3,
+          "reported_chains": 3,
+          "reported_ok": false
+        },
+        "server": {
+          "docker_ip": "172.19.0.4",
+          "node_internal_ip": [
+            "172.19.0.4"
+          ],
+          "startup_log_ip": "172.19.0.5",
+          "startup_ip_matches": false,
+          "local_running_nonhost_pods": 3,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 3,
+          "reported_foreign_count": 0,
+          "reported_chains": 0,
+          "reported_ok": false
+        }
+      },
+      "pvc_uids_equal": true,
+      "workload_uids_equal": true,
+      "all_pvcs_bound": true,
+      "all_24_pods_ready": true,
+      "bridge_equal": true,
+      "errors": {}
+    },
+    {
+      "file": "01-after-server",
+      "at": "2026-10-29T03:41:46Z",
+      "checks": {
+        "agent": {
+          "docker_ip": "172.19.0.3",
+          "node_internal_ip": [
+            "172.19.0.3"
+          ],
+          "startup_log_ip": "172.19.0.4",
+          "startup_ip_matches": false,
+          "local_running_nonhost_pods": 19,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 19,
+          "reported_foreign_count": 3,
+          "reported_chains": 3,
+          "reported_ok": false
+        },
+        "server": {
+          "docker_ip": "172.19.0.4",
+          "node_internal_ip": [
+            "172.19.0.4"
+          ],
+          "startup_log_ip": "172.19.0.4",
+          "startup_ip_matches": true,
+          "local_running_nonhost_pods": 3,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 0,
+          "reported_foreign_count": 0,
+          "reported_chains": 3,
+          "reported_ok": true
+        }
+      },
+      "pvc_uids_equal": true,
+      "workload_uids_equal": true,
+      "all_pvcs_bound": true,
+      "all_24_pods_ready": true,
+      "bridge_equal": true,
+      "errors": {}
+    },
+    {
+      "file": "02-after-agent",
+      "at": "2026-10-29T03:43:18Z",
+      "checks": {
+        "agent": {
+          "docker_ip": "172.19.0.3",
+          "node_internal_ip": [
+            "172.19.0.3"
+          ],
+          "startup_log_ip": "172.19.0.3",
+          "startup_ip_matches": true,
+          "local_running_nonhost_pods": 19,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 0,
+          "reported_foreign_count": 0,
+          "reported_chains": 19,
+          "reported_ok": true
+        },
+        "server": {
+          "docker_ip": "172.19.0.4",
+          "node_internal_ip": [
+            "172.19.0.4"
+          ],
+          "startup_log_ip": "172.19.0.4",
+          "startup_ip_matches": true,
+          "local_running_nonhost_pods": 3,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 0,
+          "reported_foreign_count": 0,
+          "reported_chains": 3,
+          "reported_ok": true
+        }
+      },
+      "pvc_uids_equal": true,
+      "workload_uids_equal": true,
+      "all_pvcs_bound": true,
+      "all_24_pods_ready": true,
+      "bridge_equal": true,
+      "errors": {}
+    },
+    {
+      "file": "03-stable",
+      "at": "2026-10-29T03:43:35Z",
+      "checks": {
+        "agent": {
+          "docker_ip": "172.19.0.3",
+          "node_internal_ip": [
+            "172.19.0.3"
+          ],
+          "startup_log_ip": "172.19.0.3",
+          "startup_ip_matches": true,
+          "local_running_nonhost_pods": 19,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 0,
+          "reported_foreign_count": 0,
+          "reported_chains": 19,
+          "reported_ok": true
+        },
+        "server": {
+          "docker_ip": "172.19.0.4",
+          "node_internal_ip": [
+            "172.19.0.4"
+          ],
+          "startup_log_ip": "172.19.0.4",
+          "startup_ip_matches": true,
+          "local_running_nonhost_pods": 3,
+          "reported_expected_matches_node_placement": true,
+          "reported_missing_count": 0,
+          "reported_foreign_count": 0,
+          "reported_chains": 3,
+          "reported_ok": true
+        }
+      },
+      "pvc_uids_equal": true,
+      "workload_uids_equal": true,
+      "all_pvcs_bound": true,
+      "all_24_pods_ready": true,
+      "bridge_equal": true,
+      "errors": {}
+    }
+  ],
+  "limits": [
+    "Underlying internal source of stale startup IP not established",
+    "Presence of firewall chains alone does not prove allow/deny enforcement",
+    "Post-agent stable snapshots are 17 seconds apart; fresh guarded 120s preflight remains required",
+    "Shared object UID preservation is evidenced; no claim that all specs or pod restartCounts stayed unchanged across the repairs",
+    "Claude scripts are historical evidence only; no authority to auto-restart nodes"
+  ]
+}

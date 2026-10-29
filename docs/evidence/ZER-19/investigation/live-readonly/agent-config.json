@@ -1,0 +1,17 @@
+{
+  "at": 1793241663.9490707,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "inspect",
+    "k3d-zero-door-agent-0",
+    "--format",
+    "{{json .State}} {{.HostConfig.NanoCpus}} {{.HostConfig.CpuQuota}} {{.HostConfig.Memory}}"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.04600000000004911,
+  "stdout": "{\"Dead\":false,\"Error\":\"\",\"ExitCode\":0,\"FinishedAt\":\"2026-10-28T16:13:16.32711662Z\",\"OOMKilled\":false,\"Paused\":false,\"Pid\":494,\"Restarting\":false,\"Running\":true,\"StartedAt\":\"2026-10-29T02:38:42.616131994Z\",\"Status\":\"running\"} 0 0 0\n",
+  "stderr": ""
+}

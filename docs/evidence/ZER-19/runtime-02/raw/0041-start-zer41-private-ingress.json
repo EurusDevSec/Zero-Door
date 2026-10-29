@@ -1,0 +1,16 @@
+{
+  "at": 1793202912.2640676,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "apply",
+    "-f",
+    "-"
+  ],
+  "label": "start-zer41-private-ingress",
+  "returncode": 0,
+  "stdout": "deployment.apps/zer41-private-ingress created\n",
+  "stderr": ""
+}

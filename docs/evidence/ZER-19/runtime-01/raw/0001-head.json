@@ -1,0 +1,12 @@
+{
+  "at": 1793202065.3466458,
+  "args": [
+    "git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "label": "head",
+  "returncode": 0,
+  "stdout": "093e924000861da3096185427994d9ea736df36d\n",
+  "stderr": ""
+}

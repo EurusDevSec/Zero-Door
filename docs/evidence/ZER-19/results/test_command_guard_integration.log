@@ -1,0 +1,449 @@
+test_actual_route_publishes_signed_capped_command_once_after_restart (__main__.EntrypointTests.test_actual_route_publishes_signed_capped_command_once_after_restart) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+2026-10-28 21:58:31,820 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:34,181 - asyncio - [WARNING] - Executing <Task finished name='Task-1' coro=<EntrypointTests.asyncSetUp() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_command_guard_integration.py:33> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 3.484 seconds
+2026-10-28 21:58:34,290 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:34,300 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+2026-10-28 21:58:34,321 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+2026-10-28 21:58:34,330 - nemesis-agent - [WARNING] - Command refused: ID_CONFLICT
+2026-10-28 21:58:34,341 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,349 - nemesis-agent - [WARNING] - Command refused: ID_CONFLICT
+2026-10-28 21:58:34,361 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_bad_schema_target_and_id_no_effects (__main__.EntrypointTests.test_bad_schema_target_and_id_no_effects) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:34,387 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:34,397 - nemesis-agent - [WARNING] - Command refused: DUPLICATE_KEY
+2026-10-28 21:58:34,399 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,399 - nemesis-agent - [WARNING] - Command refused: NONFINITE
+2026-10-28 21:58:34,400 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,401 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_DEPTH
+2026-10-28 21:58:34,401 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,402 - nemesis-agent - [WARNING] - Command refused: PAYLOAD_SIZE
+2026-10-28 21:58:34,404 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 413 Request Entity Too Large"
+2026-10-28 21:58:34,416 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-28 21:58:34,428 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,436 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-28 21:58:34,449 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,457 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-28 21:58:34,470 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,478 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-28 21:58:34,492 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,500 - nemesis-agent - [WARNING] - Command refused: INTEGER_RANGE
+2026-10-28 21:58:34,512 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,521 - nemesis-agent - [WARNING] - Command refused: SCHEMA_FIELDS
+2026-10-28 21:58:34,533 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,541 - nemesis-agent - [WARNING] - Command refused: COMMAND_TYPE
+2026-10-28 21:58:34,555 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,562 - nemesis-agent - [WARNING] - Command refused: INTENSITY
+2026-10-28 21:58:34,574 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,582 - nemesis-agent - [WARNING] - Command refused: TARGET_SERVICE
+2026-10-28 21:58:34,595 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,602 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-28 21:58:34,614 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,622 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-28 21:58:34,633 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,641 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-28 21:58:34,653 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,661 - nemesis-agent - [WARNING] - Command refused: TARGET_URL
+2026-10-28 21:58:34,673 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+2026-10-28 21:58:34,679 - nemesis-agent - [WARNING] - Command refused: COMMAND_ID
+2026-10-28 21:58:34,692 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 400 Bad Request"
+ok
+test_benchmark_model_scenario_generation_is_blocked_in_all_groups (__main__.EntrypointTests.test_benchmark_model_scenario_generation_is_blocked_in_all_groups) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:34,720 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:34,736 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-28 21:58:34,747 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,753 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-28 21:58:34,764 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,769 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-28 21:58:34,783 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,789 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-28 21:58:34,800 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,806 - nemesis-agent - [WARNING] - Command refused: BENCHMARK_SCENARIO_LLM_DISABLED
+2026-10-28 21:58:34,817 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 409 Conflict"
+ok
+test_disabled_config_and_ledger_failure_no_effects (__main__.EntrypointTests.test_disabled_config_and_ledger_failure_no_effects) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:34,854 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:34,878 - nemesis-agent - [WARNING] - Command refused: EXECUTOR_DISABLED
+2026-10-28 21:58:34,891 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,901 - nemesis-agent - [WARNING] - Command refused: LEDGER_PATH
+2026-10-28 21:58:34,913 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+ok
+test_healer_http_context_and_legacy_bypasses_cannot_execute (__main__.EntrypointTests.test_healer_http_context_and_legacy_bypasses_cannot_execute) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:34,941 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:34,958 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B0", "run_id": "run_d3e82fb7bd45409595369083c740ea78", "trial_id": "trl_b3a4d9966066497e914782c5fc36e3f7"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-28 21:58:34,970 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,977 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "BM", "run_id": "run_001ab00fd535409fb63f4cb00186a39f", "trial_id": "trl_a75f92cb7a6b4bd69a2049a4dfff491d"}, "reason": "R1_EXECUTOR_DISABLED", "route": "/heal/trigger"}
+2026-10-28 21:58:34,988 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:34,995 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B1", "run_id": "run_f8ab9a68eb2444b5b4060494e002d132", "trial_id": "trl_f2e339a4f4324a9b9c5d9d5330115cab"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-28 21:58:35,006 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:35,013 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B2", "run_id": "run_bcf3f0ced2c340509cfa746dd88c338b", "trial_id": "trl_e436ea51721d435b8720b904dfde5123"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-28 21:58:35,025 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:35,032 - hephaestus-agent - [WARNING] - MODE_AUDIT {"context": {"group": "B3", "run_id": "run_52f6188ce8a249d68c742904b5994f41", "trial_id": "trl_ffe4772f91be4c0fb0ece6aaa761395e"}, "reason": "MANUAL_GROUP_REQUIRED", "route": "/heal/trigger"}
+2026-10-28 21:58:35,081 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 409 Conflict"
+2026-10-28 21:58:35,083 - hephaestus-agent - [WARNING] - Legacy Kafka healing disabled; no authenticated R1 client configured.
+2026-10-28 21:58:35,103 - httpx - [INFO] - HTTP Request: POST http://offline/experiment/reset "HTTP/1.1 409 Conflict"
+ok
+test_ledger_failure_after_send_reports_unknown_without_replay (__main__.EntrypointTests.test_ledger_failure_after_send_reports_unknown_without_replay) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,134 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,167 - nemesis-agent - [ERROR] - Command outcome unknown after send: LEDGER_UNAVAILABLE
+2026-10-28 21:58:35,180 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,190 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-28 21:58:35,203 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_missing_or_wrong_operator_before_publish_and_model (__main__.EntrypointTests.test_missing_or_wrong_operator_before_publish_and_model) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,231 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,241 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,242 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,242 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,242 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,242 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,242 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,242 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,242 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,251 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,251 - httpx - [INFO] - HTTP Request: POST http://offline/attack/llm-plan "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,251 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,252 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 401 Unauthorized"
+ok
+test_native_model_key_is_not_in_url_or_response_log (__main__.EntrypointTests.test_native_model_key_is_not_in_url_or_response_log) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,275 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+ok
+test_operator_credentials_cannot_cross_fault_and_heal_roles (__main__.EntrypointTests.test_operator_credentials_cannot_cross_fault_and_heal_roles) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,312 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,321 - hephaestus-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,323 - httpx - [INFO] - HTTP Request: POST http://offline/heal/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,325 - nemesis-agent - [WARNING] - Command refused: UNAUTHORIZED
+2026-10-28 21:58:35,326 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 401 Unauthorized"
+2026-10-28 21:58:35,327 - nemesis-agent - [WARNING] - Command refused: KEY_CONFIG
+2026-10-28 21:58:35,327 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+ok
+test_publish_unknown_is_not_retried (__main__.EntrypointTests.test_publish_unknown_is_not_retried) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,356 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,386 - nemesis-agent - [ERROR] - Command outcome unknown: TimeoutError
+2026-10-28 21:58:35,398 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,407 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-28 21:58:35,420 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_reset_never_proxies_or_clears_state (__main__.EntrypointTests.test_reset_never_proxies_or_clears_state) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,452 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,461 - nemesis-agent - [WARNING] - Command refused: RESET_REQUIRES_HARNESS
+2026-10-28 21:58:35,463 - httpx - [INFO] - HTTP Request: POST http://offline/api/reset "HTTP/1.1 409 Conflict"
+ok
+test_send_invocation_error_stays_unknown_but_setup_error_is_terminal (__main__.EntrypointTests.test_send_invocation_error_stays_unknown_but_setup_error_is_terminal) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,489 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,526 - nemesis-agent - [ERROR] - Command refused before send: RuntimeError
+2026-10-28 21:58:35,539 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,549 - nemesis-agent - [WARNING] - Command refused: PRE_PUBLISH_FAILED
+2026-10-28 21:58:35,562 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,584 - nemesis-agent - [ERROR] - Command outcome unknown: RuntimeError
+2026-10-28 21:58:35,597 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,607 - nemesis-agent - [WARNING] - Command refused: OUTCOME_UNKNOWN
+2026-10-28 21:58:35,621 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 409 Conflict"
+ok
+test_unavailable_producer_is_terminal_and_does_not_poison_admission (__main__.EntrypointTests.test_unavailable_producer_is_terminal_and_does_not_poison_admission) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\nemesis\main.py:423: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+2026-10-28 21:58:35,653 - nemesis-agent - [WARNING] - Failed to mount static directory: Directory 'static' does not exist
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-28 21:58:35,686 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-28 21:58:35,699 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,709 - nemesis-agent - [WARNING] - Command refused: PRODUCER_UNAVAILABLE
+2026-10-28 21:58:35,724 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 503 Service Unavailable"
+2026-10-28 21:58:35,758 - httpx - [INFO] - HTTP Request: POST http://offline/attack/trigger "HTTP/1.1 200 OK"
+ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 5.081s
+
+OK

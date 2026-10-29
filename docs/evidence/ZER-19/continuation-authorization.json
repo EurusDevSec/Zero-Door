@@ -1,0 +1,17 @@
+{
+  "status": "APPROVED",
+  "at": "2026-10-28T15:52:50.851Z",
+  "owner": "Hoang",
+  "answer": "Duyệt một lượt bù giữ nguyên envelope",
+  "questionItemId": "[\"request_user_input_async\",\"call_ca595ae0461d41ad9b61d1c993e3f3b9\",0]",
+  "proposal_sha256": "8181ee8cb0eb70e08d96e6c25ea6f105591ebf8eba5feacf32e2b2e390632202",
+  "original_authorization_sha256": "0f35526a794224141dd5cc0bdde7e41fc719924add636b8c1a2e23878f1df44d",
+  "max_attempts": 1,
+  "attempt": "runtime-02",
+  "max_provider_calls": 1,
+  "max_fixture_http": 3,
+  "max_tcp_controls": 1,
+  "max_seconds": 1200,
+  "cleanup_reserve_seconds": 300,
+  "no_runtime03": true
+}

@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-28T15:50:40.893Z",
+  "status": "OWNED_REVIEW_PROBE_MUTATION_CLEANED",
+  "cause": "Reviewer probe mocked Lab.apply/get but not native subprocess; concurrent atomic-create fix changed the seam, so one real kubectl create escaped the fake.",
+  "unsafe_probe_sha256": "aab4492dee71e112ce84be8bfab066ee24434017b40b248fa298d1bff7d8a8d1",
+  "created_at": "2026-10-28T15:32:56Z",
+  "namespace_uid": "f1702f69-0515-4647-9685-cc09786b727a",
+  "owner": "zer42-e0e0aea10613",
+  "runtime01_started_at": "2026-10-28T15:41:05.278Z",
+  "actual_resources": [
+    "empty namespace",
+    "default serviceaccount",
+    "default kube-root-ca configmap"
+  ],
+  "pods_created": 0,
+  "provider_calls": 0,
+  "fixture_http": 0,
+  "model_secret_created": false,
+  "topics_created": 0,
+  "cleanup_receipt": "review-probe-cleanup/receipt.json",
+  "namespace_absent": true,
+  "original_runtime_verdict": "NOT_MET",
+  "original_cleanup_verdict": "INCOMPLETE",
+  "original_cleanup_reason_explanation": "SHARED_INVENTORY_DRIFT was emitted because before snapshot was never reached (before=None); it is not evidence of an observed shared drift.",
+  "original_receipts_unchanged": true,
+  "correction": "Scratch probe now denies all native Popen; runner offline tests deny all external clients by default and permit only known Python child checks.",
+  "offline_tests_after_fix": 15,
+  "automatic_retry": false
+}

@@ -1,0 +1,7 @@
+{
+  "verdict": "READY_NOT_ISSUE_PASS",
+  "samples": 25,
+  "control_path_returned": true,
+  "shared_restarts_unchanged": true,
+  "shared_inventory_unchanged": true
+}

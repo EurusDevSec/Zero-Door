@@ -1,0 +1,16 @@
+import importlib.util,json,sys
+from pathlib import Path
+from unittest.mock import patch
+root=Path(__file__).resolve().parents[2]
+spec=importlib.util.spec_from_file_location('runner',root/'docs/evidence/ZER-19/runtime-prep/run.py')
+runner=importlib.util.module_from_spec(spec);spec.loader.exec_module(runner)
+lab=runner.Lab();lab.save=lambda *args:None
+foreign={'metadata':{'uid':'foreign-namespace-uid','labels':{'zero-door.io/run':'another-owner'}}}
+def apply(docs,label):
+    if label=='namespace-create':foreign['metadata']['labels'].update(docs[0]['metadata']['labels'])
+    else:raise RuntimeError('offline stop after namespace ownership admission')
+lab.apply=apply
+lab.get=lambda *args,**kwargs:foreign
+try:lab.prepare()
+except RuntimeError:pass
+print(json.dumps({'foreign_uid_adopted':lab.namespace_uid,'foreign_owner_replaced':foreign['metadata']['labels']['zero-door.io/run']==lab.owner,'subsequent_cleanup_uid':lab.namespace_uid}))

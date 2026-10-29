@@ -1,0 +1,1033 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-29T03:56:33Z",
+        "generateName": "sqli-fixture-69db7c8d8b-",
+        "labels": {
+          "app": "sqli-fixture",
+          "pod-template-hash": "69db7c8d8b",
+          "zero-door.io/run": "zer42-e0e0aea10613"
+        },
+        "name": "sqli-fixture-69db7c8d8b-qwlcc",
+        "namespace": "zd-sqli-lab",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "sqli-fixture-69db7c8d8b",
+            "uid": "6285d9ec-d8c5-4d23-bdcc-d081c9957caf"
+          }
+        ],
+        "resourceVersion": "191179",
+        "uid": "7bde36f7-4492-4079-8de3-4a66a965c705"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "command": [
+              "/usr/bin/python3",
+              "-c",
+              "import os,time; from pathlib import Path; p=Path('/data/.policy-release'); exec(\"while not p.exists(): time.sleep(0.2)\"); os.execv('/usr/bin/python3',['/usr/bin/python3','/app/app.py'])"
+            ],
+            "envFrom": [
+              {
+                "configMapRef": {
+                  "name": "sqli-fixture-config"
+                }
+              }
+            ],
+            "image": "zer41-fixture:37c7a045e098",
+            "imagePullPolicy": "Never",
+            "name": "sqli-fixture",
+            "ports": [
+              {
+                "containerPort": 9140,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "150m",
+                "memory": "96Mi"
+              },
+              "requests": {
+                "cpu": "25m",
+                "memory": "32Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/data",
+                "name": "data"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "k3d-zero-door-agent-0",
+        "nodeSelector": {
+          "kubernetes.io/hostname": "k3d-zero-door-agent-0"
+        },
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 65532,
+          "runAsGroup": 65532,
+          "runAsNonRoot": true,
+          "runAsUser": 65532,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "sqli-fixture",
+        "serviceAccountName": "sqli-fixture",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "emptyDir": {
+              "sizeLimit": "64Mi"
+            },
+            "name": "data"
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:34Z",
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:33Z",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:34Z",
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:34Z",
+            "status": "True",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:33Z",
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "containerID": "containerd://5dd6cc359ad54dae34726c5aea01d2820b785cf295227d904f61c12be0b19ab4",
+            "image": "docker.io/library/zer41-fixture:37c7a045e098",
+            "imageID": "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f",
+            "lastState": {},
+            "name": "sqli-fixture",
+            "ready": true,
+            "restartCount": 0,
+            "started": true,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-29T03:56:34Z"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/data",
+                "name": "data"
+              }
+            ]
+          }
+        ],
+        "hostIP": "172.19.0.3",
+        "hostIPs": [
+          {
+            "ip": "172.19.0.3"
+          }
+        ],
+        "phase": "Running",
+        "podIP": "10.42.0.235",
+        "podIPs": [
+          {
+            "ip": "10.42.0.235"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-29T03:56:33Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-29T03:56:29Z",
+        "generateName": "zer41-private-ingress-57d6458855-",
+        "labels": {
+          "app": "zer41-private-ingress",
+          "pod-template-hash": "57d6458855",
+          "zero-door.io/run": "zer42-e0e0aea10613"
+        },
+        "name": "zer41-private-ingress-57d6458855-k94xk",
+        "namespace": "zd-sqli-lab",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "zer41-private-ingress-57d6458855",
+            "uid": "34aa10b3-dd06-4441-bd60-0cdf54d5a059"
+          }
+        ],
+        "resourceVersion": "191157",
+        "uid": "96421485-0ed7-4672-ab82-3c5737c45b42"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "args": [
+              "--global.checkNewVersion=false",
+              "--global.sendAnonymousUsage=false",
+              "--entrypoints.web.address=:8000",
+              "--providers.file.filename=/config/dynamic.yaml",
+              "--accesslog.fields.headers.defaultmode=drop",
+              "--accesslog.fields.headers.names.X-Correlation-Id=keep",
+              "--accesslog.fields.headers.names.X-Request-Id=keep",
+              "--accesslog=true",
+              "--accesslog.format=json",
+              "--log.format=json",
+              "--log.level=ERROR"
+            ],
+            "image": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+            "imagePullPolicy": "Never",
+            "name": "traefik",
+            "ports": [
+              {
+                "containerPort": 8000,
+                "name": "web",
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "150m",
+                "memory": "96Mi"
+              },
+              "requests": {
+                "cpu": "25m",
+                "memory": "32Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/config",
+                "name": "config",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "k3d-zero-door-agent-0",
+        "nodeSelector": {
+          "kubernetes.io/hostname": "k3d-zero-door-agent-0"
+        },
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 65532,
+          "runAsGroup": 65532,
+          "runAsNonRoot": true,
+          "runAsUser": 65532,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "zer41-private-ingress"
+            },
+            "name": "config"
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:31Z",
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:29Z",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:31Z",
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:31Z",
+            "status": "True",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:29Z",
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "containerID": "containerd://533cf0d40bed10ccda3b34fcc26644b59f323c13668594c4934513cf0b7e095a",
+            "image": "docker.io/library/traefik:v3.7.14",
+            "imageID": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+            "lastState": {},
+            "name": "traefik",
+            "ready": true,
+            "restartCount": 0,
+            "started": true,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-29T03:56:31Z"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/config",
+                "name": "config",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "172.19.0.3",
+        "hostIPs": [
+          {
+            "ip": "172.19.0.3"
+          }
+        ],
+        "phase": "Running",
+        "podIP": "10.42.0.234",
+        "podIPs": [
+          {
+            "ip": "10.42.0.234"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-29T03:56:29Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"zer42-nemesis\",\"zero-door.io/run\":\"zer42-e0e0aea10613\"},\"name\":\"zer42-nemesis\",\"namespace\":\"zd-sqli-lab\"},\"spec\":{\"activeDeadlineSeconds\":900,\"automountServiceAccountToken\":false,\"containers\":[{\"command\":[\"/usr/bin/python3\",\"-c\",\"import time; time.sleep(900)\"],\"env\":[{\"name\":\"KAFKA_BOOTSTRAP_SERVERS\",\"value\":\"kafka.zero-door.svc.cluster.local:9092\"},{\"name\":\"KAFKA_COMMANDS_TOPIC\",\"value\":\"zer19-e0e0aea10613.commands\"},{\"name\":\"KAFKA_RESULTS_TOPIC\",\"value\":\"zer19-e0e0aea10613.results\"},{\"name\":\"KAFKA_GROUP_ID\",\"value\":\"zer42-e0e0aea10613.nemesis\"},{\"name\":\"ZD_COMMAND_POLICY_FILE\",\"value\":\"/policy/policy.json\"},{\"name\":\"ZD_COMMAND_SIGNER_FILE\",\"value\":\"/fault/key.json\"},{\"name\":\"ZD_COMMAND_LEDGER_DIR\",\"value\":\"/ledger\"},{\"name\":\"ZD_OPERATOR_TOKEN_FILE\",\"value\":\"/operator/key.json\"},{\"name\":\"ZD_COMMAND_LEDGER_FILE\",\"value\":\"/ledger/nemesis.sqlite3\"},{\"name\":\"PYTHONPATH\",\"value\":\"/run-source:/usr/local/lib/python3.11/site-packages\"},{\"name\":\"OPENAI_API_KEY\",\"valueFrom\":{\"secretKeyRef\":{\"key\":\"api-key\",\"name\":\"zer19-provider\"}}}],\"image\":\"zer42-nemesis:e80bc554b7ef\",\"imagePullPolicy\":\"Never\",\"name\":\"main\",\"resources\":{\"limits\":{\"cpu\":\"200m\",\"memory\":\"192Mi\"},\"requests\":{\"cpu\":\"50m\",\"memory\":\"64Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true},\"volumeMounts\":[{\"mountPath\":\"/policy\",\"name\":\"policy\",\"readOnly\":true},{\"mountPath\":\"/fault\",\"name\":\"fault\",\"readOnly\":true},{\"mountPath\":\"/ledger\",\"name\":\"ledger\"},{\"mountPath\":\"/operator\",\"name\":\"operator\",\"readOnly\":true},{\"mountPath\":\"/run-source\",\"name\":\"session-source\",\"readOnly\":true}]}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"k3d-zero-door-agent-0\"},\"restartPolicy\":\"Never\",\"securityContext\":{\"fsGroup\":65532,\"runAsGroup\":65532,\"runAsNonRoot\":true,\"runAsUser\":65532,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"volumes\":[{\"configMap\":{\"name\":\"zer42-policy\"},\"name\":\"policy\"},{\"name\":\"fault\",\"secret\":{\"defaultMode\":288,\"secretName\":\"zer42-fault\"}},{\"emptyDir\":{\"sizeLimit\":\"16Mi\"},\"name\":\"ledger\"},{\"name\":\"operator\",\"secret\":{\"defaultMode\":288,\"secretName\":\"zer42-operator\"}},{\"configMap\":{\"items\":[{\"key\":\"0.py\",\"path\":\"nemesis/session.py\"},{\"key\":\"1.py\",\"path\":\"nemesis/session_cli.py\"},{\"key\":\"2.py\",\"path\":\"nemesis/command_guard.py\"},{\"key\":\"3.py\",\"path\":\"event_pipeline/__init__.py\"},{\"key\":\"4.py\",\"path\":\"event_pipeline/contract.py\"},{\"key\":\"5.py\",\"path\":\"event_pipeline/llm.py\"},{\"key\":\"config.json\",\"path\":\"config.json\"}],\"name\":\"zer19-session-source\"},\"name\":\"session-source\"}]}}\n"
+        },
+        "creationTimestamp": "2026-10-29T03:56:47Z",
+        "labels": {
+          "app": "zer42-nemesis",
+          "zero-door.io/run": "zer42-e0e0aea10613"
+        },
+        "name": "zer42-nemesis",
+        "namespace": "zd-sqli-lab",
+        "resourceVersion": "191202",
+        "uid": "4268fa12-b46f-4200-8e17-2bebd8d3cc4a"
+      },
+      "spec": {
+        "activeDeadlineSeconds": 900,
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "command": [
+              "/usr/bin/python3",
+              "-c",
+              "import time; time.sleep(900)"
+            ],
+            "env": [
+              {
+                "name": "KAFKA_BOOTSTRAP_SERVERS",
+                "value": "kafka.zero-door.svc.cluster.local:9092"
+              },
+              {
+                "name": "KAFKA_COMMANDS_TOPIC",
+                "value": "zer19-e0e0aea10613.commands"
+              },
+              {
+                "name": "KAFKA_RESULTS_TOPIC",
+                "value": "zer19-e0e0aea10613.results"
+              },
+              {
+                "name": "KAFKA_GROUP_ID",
+                "value": "zer42-e0e0aea10613.nemesis"
+              },
+              {
+                "name": "ZD_COMMAND_POLICY_FILE",
+                "value": "/policy/policy.json"
+              },
+              {
+                "name": "ZD_COMMAND_SIGNER_FILE",
+                "value": "/fault/key.json"
+              },
+              {
+                "name": "ZD_COMMAND_LEDGER_DIR",
+                "value": "/ledger"
+              },
+              {
+                "name": "ZD_OPERATOR_TOKEN_FILE",
+                "value": "/operator/key.json"
+              },
+              {
+                "name": "ZD_COMMAND_LEDGER_FILE",
+                "value": "/ledger/nemesis.sqlite3"
+              },
+              {
+                "name": "PYTHONPATH",
+                "value": "/run-source:/usr/local/lib/python3.11/site-packages"
+              },
+              {
+                "name": "OPENAI_API_KEY",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "key": "api-key",
+                    "name": "zer19-provider"
+                  }
+                }
+              }
+            ],
+            "image": "zer42-nemesis:e80bc554b7ef",
+            "imagePullPolicy": "Never",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "200m",
+                "memory": "192Mi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/policy",
+                "name": "policy",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/fault",
+                "name": "fault",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/ledger",
+                "name": "ledger"
+              },
+              {
+                "mountPath": "/operator",
+                "name": "operator",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/run-source",
+                "name": "session-source",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "k3d-zero-door-agent-0",
+        "nodeSelector": {
+          "kubernetes.io/hostname": "k3d-zero-door-agent-0"
+        },
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 65532,
+          "runAsGroup": 65532,
+          "runAsNonRoot": true,
+          "runAsUser": 65532,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "zer42-policy"
+            },
+            "name": "policy"
+          },
+          {
+            "name": "fault",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "zer42-fault"
+            }
+          },
+          {
+            "emptyDir": {
+              "sizeLimit": "16Mi"
+            },
+            "name": "ledger"
+          },
+          {
+            "name": "operator",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "zer42-operator"
+            }
+          },
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "key": "0.py",
+                  "path": "nemesis/session.py"
+                },
+                {
+                  "key": "1.py",
+                  "path": "nemesis/session_cli.py"
+                },
+                {
+                  "key": "2.py",
+                  "path": "nemesis/command_guard.py"
+                },
+                {
+                  "key": "3.py",
+                  "path": "event_pipeline/__init__.py"
+                },
+                {
+                  "key": "4.py",
+                  "path": "event_pipeline/contract.py"
+                },
+                {
+                  "key": "5.py",
+                  "path": "event_pipeline/llm.py"
+                },
+                {
+                  "key": "config.json",
+                  "path": "config.json"
+                }
+              ],
+              "name": "zer19-session-source"
+            },
+            "name": "session-source"
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:48Z",
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:47Z",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:48Z",
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:48Z",
+            "status": "True",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:47Z",
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "containerID": "containerd://224fa4532aa287148b47a4c96c842e3ea2828942c7ecb3c83124fd528843d484",
+            "image": "docker.io/library/zer42-nemesis:e80bc554b7ef",
+            "imageID": "sha256:050153eb4b84703b6f882e46901c51586c1d4b58a6acab5615f841bb209ec86b",
+            "lastState": {},
+            "name": "main",
+            "ready": true,
+            "restartCount": 0,
+            "started": true,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-29T03:56:48Z"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/policy",
+                "name": "policy",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/fault",
+                "name": "fault",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/ledger",
+                "name": "ledger"
+              },
+              {
+                "mountPath": "/operator",
+                "name": "operator",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/run-source",
+                "name": "session-source",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "172.19.0.3",
+        "hostIPs": [
+          {
+            "ip": "172.19.0.3"
+          }
+        ],
+        "phase": "Running",
+        "podIP": "10.42.0.236",
+        "podIPs": [
+          {
+            "ip": "10.42.0.236"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-29T03:56:47Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"zer42-worker\",\"zero-door.io/run\":\"zer42-e0e0aea10613\"},\"name\":\"zer42-worker\",\"namespace\":\"zd-sqli-lab\"},\"spec\":{\"activeDeadlineSeconds\":900,\"automountServiceAccountToken\":true,\"containers\":[{\"env\":[{\"name\":\"KAFKA_BOOTSTRAP_SERVERS\",\"value\":\"kafka.zero-door.svc.cluster.local:9092\"},{\"name\":\"KAFKA_COMMANDS_TOPIC\",\"value\":\"zer19-e0e0aea10613.commands\"},{\"name\":\"KAFKA_RESULTS_TOPIC\",\"value\":\"zer19-e0e0aea10613.results\"},{\"name\":\"KAFKA_GROUP_ID\",\"value\":\"zer42-e0e0aea10613.worker\"},{\"name\":\"ZD_COMMAND_POLICY_FILE\",\"value\":\"/policy/policy.json\"},{\"name\":\"ZD_COMMAND_SIGNER_FILE\",\"value\":\"/fault/key.json\"},{\"name\":\"ZD_COMMAND_LEDGER_DIR\",\"value\":\"/ledger\"},{\"name\":\"ZD_SQLI_INGRESS_IP\",\"value\":\"10.43.16.217\"}],\"image\":\"zer42-worker:e80bc554b7ef\",\"imagePullPolicy\":\"Never\",\"name\":\"main\",\"resources\":{\"limits\":{\"cpu\":\"200m\",\"memory\":\"128Mi\"},\"requests\":{\"cpu\":\"50m\",\"memory\":\"64Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"readOnlyRootFilesystem\":true},\"volumeMounts\":[{\"mountPath\":\"/policy\",\"name\":\"policy\",\"readOnly\":true},{\"mountPath\":\"/fault\",\"name\":\"fault\",\"readOnly\":true},{\"mountPath\":\"/ledger\",\"name\":\"ledger\"}]}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"k3d-zero-door-agent-0\"},\"restartPolicy\":\"Never\",\"securityContext\":{\"fsGroup\":65532,\"runAsGroup\":65532,\"runAsNonRoot\":true,\"runAsUser\":65532,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"volumes\":[{\"configMap\":{\"name\":\"zer42-policy\"},\"name\":\"policy\"},{\"name\":\"fault\",\"secret\":{\"defaultMode\":288,\"secretName\":\"zer42-fault\"}},{\"emptyDir\":{\"sizeLimit\":\"16Mi\"},\"name\":\"ledger\"}]}}\n"
+        },
+        "creationTimestamp": "2026-10-29T03:56:53Z",
+        "labels": {
+          "app": "zer42-worker",
+          "zero-door.io/run": "zer42-e0e0aea10613"
+        },
+        "name": "zer42-worker",
+        "namespace": "zd-sqli-lab",
+        "resourceVersion": "191214",
+        "uid": "3c048f08-c8c7-4779-8037-72b2e0a5674b"
+      },
+      "spec": {
+        "activeDeadlineSeconds": 900,
+        "automountServiceAccountToken": true,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "KAFKA_BOOTSTRAP_SERVERS",
+                "value": "kafka.zero-door.svc.cluster.local:9092"
+              },
+              {
+                "name": "KAFKA_COMMANDS_TOPIC",
+                "value": "zer19-e0e0aea10613.commands"
+              },
+              {
+                "name": "KAFKA_RESULTS_TOPIC",
+                "value": "zer19-e0e0aea10613.results"
+              },
+              {
+                "name": "KAFKA_GROUP_ID",
+                "value": "zer42-e0e0aea10613.worker"
+              },
+              {
+                "name": "ZD_COMMAND_POLICY_FILE",
+                "value": "/policy/policy.json"
+              },
+              {
+                "name": "ZD_COMMAND_SIGNER_FILE",
+                "value": "/fault/key.json"
+              },
+              {
+                "name": "ZD_COMMAND_LEDGER_DIR",
+                "value": "/ledger"
+              },
+              {
+                "name": "ZD_SQLI_INGRESS_IP",
+                "value": "10.43.16.217"
+              }
+            ],
+            "image": "zer42-worker:e80bc554b7ef",
+            "imagePullPolicy": "Never",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "200m",
+                "memory": "128Mi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/policy",
+                "name": "policy",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/fault",
+                "name": "fault",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/ledger",
+                "name": "ledger"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-mvcrr",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "k3d-zero-door-agent-0",
+        "nodeSelector": {
+          "kubernetes.io/hostname": "k3d-zero-door-agent-0"
+        },
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 65532,
+          "runAsGroup": 65532,
+          "runAsNonRoot": true,
+          "runAsUser": 65532,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "zer42-policy"
+            },
+            "name": "policy"
+          },
+          {
+            "name": "fault",
+            "secret": {
+              "defaultMode": 288,
+              "secretName": "zer42-fault"
+            }
+          },
+          {
+            "emptyDir": {
+              "sizeLimit": "16Mi"
+            },
+            "name": "ledger"
+          },
+          {
+            "name": "kube-api-access-mvcrr",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:54Z",
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:53Z",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:54Z",
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:54Z",
+            "status": "True",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-29T03:56:53Z",
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "containerID": "containerd://dfbfed8ae961c9e86d54859f467a47329c4a6fb075aafd00ca16739fbb3148ee",
+            "image": "docker.io/library/zer42-worker:e80bc554b7ef",
+            "imageID": "sha256:b2c1437752969102794e92251b7a3b0fb8652a7b8a2e89b62d7ffd079afeac24",
+            "lastState": {},
+            "name": "main",
+            "ready": true,
+            "restartCount": 0,
+            "started": true,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-29T03:56:54Z"
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/policy",
+                "name": "policy",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/fault",
+                "name": "fault",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/ledger",
+                "name": "ledger"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-mvcrr",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "172.19.0.3",
+        "hostIPs": [
+          {
+            "ip": "172.19.0.3"
+          }
+        ],
+        "phase": "Running",
+        "podIP": "10.42.0.237",
+        "podIPs": [
+          {
+            "ip": "10.42.0.237"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-29T03:56:53Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "verdict": "TECHNICAL_PASS_PENDING_REVIEW",
+  "failure": null,
+  "guard_failures": [],
+  "elapsed_s": 229.58138513565063,
+  "cleanup": "CLEAN",
+  "fixture_http_reserved": 3,
+  "provider_attempt_reserved": true,
+  "retry_allowed": false,
+  "benchmark_eligible": false,
+  "publication": "PENDING_REVIEW"
+}

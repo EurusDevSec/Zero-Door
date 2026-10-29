@@ -42,3 +42,10 @@ docs/evidence/ZER-46/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol
 docs/evidence/ZER-46/**/*.txt -whitespace
 docs/evidence/ZER-46/**/*.diff -whitespace
 docs/evidence/ZER-46/**/*.log -whitespace
+
+# ZER-19: preserve reviewed source snapshots and immutable runtime evidence bytes.
+docs/evidence/ZER-19/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+docs/evidence/ZER-19/**/*.txt -whitespace
+docs/evidence/ZER-19/**/*.patch -whitespace
+docs/evidence/ZER-19/**/*.diff -whitespace
+docs/evidence/ZER-19/**/*.log -whitespace

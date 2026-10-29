@@ -1,0 +1,35 @@
+{
+  "status": "PREPARED_NOT_AUTHORIZED_NOT_RUN",
+  "head": "093e924000861da3096185427994d9ea736df36d",
+  "branch": "codex/zer-19-nemesis-session",
+  "tests": 35,
+  "tests_log_sha256": "6ec419619240f04cbe3df3f9beab2e05dcfd169681aa5d5450768eeffb1a30a3",
+  "source_manifest_entries": 27,
+  "source_manifest_sha256": "ec1a0d0758516f812f0f951388e49c5253f229244bc2a46542cd18ea14c4bf7e",
+  "proposal_sha256": "502616a9d2af6828543f73d7c369dd202deedfaf482ceb5117549fc13c3ae977",
+  "runner_sha256": "5e7e719c94acee672640cce011b17e5810167048fb071062d9175e6538e1f87c",
+  "tests_sha256": "c7581a26d938953f9baf9ed1107aa21380806ba796015756f9890aa41eb48739",
+  "product_pins_unchanged": 9,
+  "prior_artifacts": 216,
+  "prior_current_delta": [
+    "README.md",
+    "runtime-prep/check_runner.py",
+    "runtime-prep/run.py"
+  ],
+  "historical_raw_and_authorizations_preserved": true,
+  "missing_approval_fails_closed": "RUNTIME03_NOT_AUTHORIZED",
+  "runtime03_exists": false,
+  "runtime03_authorization_exists": false,
+  "model_calls": 0,
+  "http_tcp_fixture": 0,
+  "lab_mutations": 0,
+  "publication": "NOT_STARTED",
+  "lab_stall_fixed": "NOT_VERIFIED",
+  "independent_review": {
+    "verdict": "READY_TO_REQUEST_SINGLE_ATTEMPT_APPROVAL",
+    "report": "runner-fix/independent-review-03.md",
+    "report_sha256": "b3b897b416975ace2f8307b60b3a32bbd31b8d9cd78805a5b07380efbc09caa3",
+    "source_read_only": true,
+    "executed_tests_or_probes": false
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "status": "OFFLINE_RENDER_VALID_NOT_APPLIED",
+  "source_projection": [
+    {
+      "path": "nemesis/session.py",
+      "source_sha256": "90be9849ee27069983cfa92249242dc09d102f82985731a1344fb1d45cc1a197",
+      "mounted_sha256": "90be9849ee27069983cfa92249242dc09d102f82985731a1344fb1d45cc1a197"
+    },
+    {
+      "path": "nemesis/session_cli.py",
+      "source_sha256": "4d88471971e9e134c19f6c7c05e71bcd25cf672c367badcf0e39d7496061a7f8",
+      "mounted_sha256": "4d88471971e9e134c19f6c7c05e71bcd25cf672c367badcf0e39d7496061a7f8"
+    },
+    {
+      "path": "nemesis/command_guard.py",
+      "source_sha256": "b966f60a4bd3dbd9cc93a6ed0b7b068848408f6c6d801283e0f92c5b34c1bcdd",
+      "mounted_sha256": "b966f60a4bd3dbd9cc93a6ed0b7b068848408f6c6d801283e0f92c5b34c1bcdd"
+    },
+    {
+      "path": "event_pipeline/__init__.py",
+      "source_sha256": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482",
+      "mounted_sha256": "d9f668a9ea4218cfe61e859c7e6e64772604f1c81cc853047c2268de5b9f5482"
+    },
+    {
+      "path": "event_pipeline/contract.py",
+      "source_sha256": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+      "mounted_sha256": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136"
+    },
+    {
+      "path": "event_pipeline/llm.py",
+      "source_sha256": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+      "mounted_sha256": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c"
+    }
+  ],
+  "config_match": true,
+  "policy_disabled": true,
+  "provider_calls": 0,
+  "lab_requests": 0
+}

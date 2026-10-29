@@ -1,0 +1,56 @@
+{
+  "issue": "ZER-19",
+  "head": "62d637b416256c6a01f7ab99d8b0e55f07172969",
+  "base_merge": "093e924000861da3096185427994d9ea736df36d",
+  "captured_at": "2026-10-28T14:50:21.358Z",
+  "writer": "Codex",
+  "authorization": "Owner: được hãy tiếp phần còn lại zer 19",
+  "code_allowlist": [
+    "agent-orchestrator/nemesis/session.py",
+    "agent-orchestrator/nemesis/session_cli.py",
+    "agent-orchestrator/nemesis/Dockerfile",
+    "tests/test_nemesis_session.py",
+    "tests/test_nemesis_session_io.py",
+    "infrastructure/scripts/verify-nemesis-session.sh",
+    "infrastructure/scripts/setup-phase3.sh",
+    "rebuild-nemesis.sh",
+    ".github/workflows/ci.yml"
+  ],
+  "metadata_allowlist": [
+    "docs/evidence/ZER-19/",
+    "prefix docs/delivery/NOW.md",
+    "prefix docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md"
+  ],
+  "actions": [
+    "source edits",
+    "offline fake transport and Kafka tests",
+    "read-only Git/Linear",
+    "local branch",
+    "offline render of disabled 4-workload runtime proposal; no apply"
+  ],
+  "excluded": [
+    "provider/lab/deploy",
+    "new payload/vector/target",
+    "alter guard or executor",
+    "benchmark scenario LLM",
+    "publication/Done"
+  ],
+  "verification": [
+    "session loop/round/call/time/cancel",
+    "schema/evidence/fatal transport no dispatch",
+    "signed command idempotency uncertainty",
+    "result join and raw validation",
+    "packaging/import/build entrypoint parity",
+    "direct regression on current production pins"
+  ],
+  "graph": {
+    "index_commit": "9567830",
+    "incomplete": [
+      "incremental-in-progress",
+      "FTS missing"
+    ],
+    "decision": "Owner scope forbids heavy refresh for checkpoint; direct source checks; no graph coverage claimed"
+  },
+  "head_after_branch": "093e924000861da3096185427994d9ea736df36d",
+  "branch": "codex/zer-19-nemesis-session"
+}

@@ -1,0 +1,32 @@
+{
+  "at": 1793246228.6989493,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "\"\"\"A single fixed benign catalog request, executed only inside owned Nemesis Pod.\"\"\"\nfrom datetime import datetime, timezone\nimport json\nimport sys\nfrom urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener\nimport uuid\n\nclass NoRedirect(HTTPRedirectHandler):\n    def redirect_request(self, *args, **kwargs):\n        raise RuntimeError(\"REDIRECT_REFUSED\")\n\nstage = sys.argv[1]\nif stage not in {\"before\", \"after\"}:\n    raise RuntimeError(\"PROBE_SCOPE\")\ncorrelation = \"zer19-\" + stage + \"-\" + uuid.uuid4().hex\nrequest = Request(\"http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search?category=apparel\",\n                  headers={\"X-Correlation-Id\": correlation})\nwith build_opener(ProxyHandler({}), NoRedirect()).open(request, timeout=3) as response:\n    raw = response.read(262145)\n    if len(raw) > 262144:\n        raise RuntimeError(\"BODY_LIMIT\")\n    body = json.loads(raw)\n    if response.status != 200 or sorted(x[\"sku\"] for x in body[\"results\"]) != [\"PUB-APP-001\", \"PUB-APP-002\"]:\n        raise RuntimeError(\"BENIGN_RESULT\")\n    print(json.dumps({\"status\": response.status, \"body\": body, \"request_id\": response.headers.get(\"X-Request-Id\"),\n                      \"correlation_id\": correlation, \"observed_at\": datetime.now(timezone.utc).isoformat()}))\n",
+    "after"
+  ],
+  "label": "benign-after",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "{\"status\": 200, \"body\": {\"results\": [{\"sku\": \"PUB-APP-001\", \"name\": \"Canvas Tote\", \"category\": \"apparel\", \"visibility\": \"public\", \"price_cents\": 1800}, {\"sku\": \"PUB-APP-002\", \"name\": \"Knit Scarf\", \"category\": \"apparel\", \"visibility\": \"public\", \"price_cents\": 2400}], \"count\": 2}, \"request_id\": \"3edcb1e165b64552967efc6b4276ceb2\", \"correlation_id\": \"zer19-after-9f5d070ddcff4880ad4a5151e44b2adb\", \"observed_at\": \"2026-10-29T03:57:09.747670+00:00\"}\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 1.0619999999998981
+}
