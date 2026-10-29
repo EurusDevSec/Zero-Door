@@ -1,0 +1,14 @@
+{
+  "issue": "ZER-49",
+  "approved": true,
+  "approved_at": "2026-10-29T04:48:32.037Z",
+  "source": "Direct owner response in this chat",
+  "questionItemId": "[\"request_user_input_async\",\"call_42a90531ea1e4dcbad436c7484b0e2ea\",0]",
+  "answer": "Duyệt toàn bộ gói hoàn tất ZER-49",
+  "proposal_sha256": "34fa4f581af2274024f9f86bd18b2c0f82da80eb5c64effba51e3bbf73931926",
+  "source_manifest_sha256": "cf47fcc57951921556e9aaa63edaa71130aefe3810a53c82ee7aa081e544397a",
+  "inference_attempts": 1,
+  "automatic_retry": false,
+  "conditional_publication": true,
+  "conditional_acceptance": "AC01 functional scope; Done only after inference/review/CI/merge gates"
+}

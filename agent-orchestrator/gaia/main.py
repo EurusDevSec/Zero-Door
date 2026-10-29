@@ -40,6 +40,9 @@ kafka_producer = None
 es_client = None
 r1_client = Client.from_env("detector")
 r1_detector = Detector(r1_client) if r1_client else None
+diagnosis_engine = diagnosis_journal = monitoring_task = None
+diagnosis_tasks = set()
+diagnosis_scheduled = 0
 if r1_client:
     PROMETHEUS_URL = r1_client.url + "/prometheus"
     ELASTICSEARCH_URL = r1_client.url + "/elasticsearch"
@@ -110,9 +113,9 @@ def publish_alert(alert_type: str, service: str, metric_name: str, current_value
             return
 
     if r1_detector:
-        r1_detector.publish(alert_type, service, metric_name, current_value, threshold, description, severity)
+        detected = r1_detector.publish(alert_type, service, metric_name, current_value, threshold, description, severity)
         alert_cooldowns[cooldown_key] = now
-        return
+        return detected
             
     alert_payload = {
         "alertId": str(uuid.uuid4()),
@@ -140,6 +143,30 @@ def publish_alert(alert_type: str, service: str, metric_name: str, current_value
             logger.error(f"Failed to publish alert to Kafka: {e}")
     else:
         logger.warning(f"[Local Alert - Kafka Offline] {description}")
+
+def observe_alert(*args, log_evidence=None, **kwargs):
+    """Publish detection first; bounded diagnosis tasks never delay the next poll."""
+    global diagnosis_scheduled
+    detected = publish_alert(*args, **kwargs)
+    if detected is None or diagnosis_engine is None:
+        return detected
+    if diagnosis_scheduled >= diagnosis_engine.adapter.budget.max_calls:
+        logger.info("Gaia diagnosis run limit reached; detection remains recorded.")
+        return detected
+    from gaia.diagnosis import observation_valid
+    p = detected["payload"]
+    observation = observation_valid(detected, {"metric": {"name": p["metric"], "value": p["value"],
+        "threshold": p["threshold"]}, "log": log_evidence})
+    diagnosis_scheduled += 1
+    task = asyncio.create_task(diagnosis_engine.analyze(observation["detection"], observation["evidence"]))
+    diagnosis_tasks.add(task)
+    def finished(task):
+        diagnosis_tasks.discard(task)
+        if not task.cancelled() and task.exception() is not None:
+            logger.error("Gaia diagnosis record failed: %s", type(task.exception()).__name__)
+    task.add_done_callback(finished)
+    return detected
+
 
 def get_service_name(pod: str, container: str) -> str:
     if not pod:
@@ -182,7 +209,7 @@ async def poll_prometheus_metrics():
                 threshold = limit * 0.8
                 
                 if val > threshold:
-                    publish_alert(
+                    observe_alert(
                         alert_type="HIGH_CPU",
                         service=service,
                         metric_name="cpu_usage_percent",
@@ -208,7 +235,7 @@ async def poll_prometheus_metrics():
                 threshold_bytes = limit_bytes * 0.8
                 
                 if val > threshold_bytes:
-                    publish_alert(
+                    observe_alert(
                         alert_type="HIGH_MEMORY",
                         service=service,
                         metric_name="memory_working_set_bytes",
@@ -230,7 +257,7 @@ async def poll_prometheus_metrics():
                 service = res.get("metric", {}).get("service")
                 val = float(res.get("value", [0, "0"])[1])
                 if val > 0.05:
-                    publish_alert(
+                    observe_alert(
                         alert_type="HIGH_ERROR_RATE",
                         service=service,
                         metric_name="http_5xx_rate",
@@ -252,7 +279,7 @@ async def poll_prometheus_metrics():
                 val = float(res.get("value", [0, "0"])[1])
                 # val is in seconds, if > 1.0 (1000ms)
                 if val > 1.0:
-                    publish_alert(
+                    observe_alert(
                         alert_type="HIGH_LATENCY",
                         service=service,
                         metric_name="http_p99_latency_ms",
@@ -274,7 +301,7 @@ async def poll_prometheus_metrics():
                 container = res.get("metric", {}).get("container")
                 val = float(res.get("value", [0, "0"])[1])
                 if val > 3.0:
-                    publish_alert(
+                    observe_alert(
                         alert_type="POD_CRASH",
                         service=container,
                         metric_name="restart_count_5m",
@@ -358,7 +385,7 @@ async def poll_elasticsearch_logs():
                     reason = f"Application error/exception occurred: {log_msg[:100]}"
             
             if anomaly_detected:
-                publish_alert(
+                observe_alert(
                     alert_type=alert_type,
                     service=container_name,
                     metric_name="log_pattern_match",
@@ -366,6 +393,7 @@ async def poll_elasticsearch_logs():
                     threshold=0.0,
                     description=f"Suspicious activity on pod '{pod_name}' container '{container_name}': {reason}",
                     severity=severity,
+                    log_evidence={"message": log_msg[:512], "observed_at": source.get("@timestamp")},
                     suggested_action="RESTART" if alert_type == "HIGH_MEMORY" else "BLOCK_IP"
                 )
     except Exception as e:
@@ -391,8 +419,30 @@ async def monitoring_loop():
 
 @app.on_event("startup")
 async def startup_event():
-    # Start the background loop
-    asyncio.create_task(monitoring_loop())
+    global diagnosis_engine, diagnosis_journal, monitoring_task
+    config_path = os.getenv("ZD_GAIA_DIAGNOSIS_CONFIG")
+    if config_path:
+        from gaia.diagnosis_cli import open_diagnoser, read_json
+        config = read_json(config_path)
+        if (r1_client is None or config["context"]["run_id"] != r1_client.run
+                or config["context"]["trial_id"] != r1_client.trial):
+            raise ValueError("GAIA_EXPLICIT_O_CONTEXT_REQUIRED")
+        diagnosis_engine, diagnosis_journal = open_diagnoser(config, os.environ["ZD_GAIA_DIAGNOSIS_OUTPUT"])
+    monitoring_task = asyncio.create_task(monitoring_loop())
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    # Stop admission before draining/cancelling the owned model tasks and journal.
+    if monitoring_task is not None:
+        monitoring_task.cancel()
+        await asyncio.gather(monitoring_task, return_exceptions=True)
+    pending = list(diagnosis_tasks)
+    for task in pending:
+        task.cancel()
+    await asyncio.gather(*pending, return_exceptions=True)
+    if diagnosis_journal is not None:
+        diagnosis_journal.close()
 
 @app.get("/")
 def read_root():

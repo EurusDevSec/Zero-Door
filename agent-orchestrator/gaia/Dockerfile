@@ -15,6 +15,7 @@ WORKDIR /app
 # Copy dependencies and source code
 COPY --from=builder /install /usr/local
 COPY gaia/main.py .
+COPY gaia/diagnosis.py gaia/diagnosis_cli.py /gaia/
 COPY event_pipeline /event_pipeline
 
 # Configure python path to find copied site-packages

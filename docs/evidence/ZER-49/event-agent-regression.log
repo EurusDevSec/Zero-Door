@@ -1,0 +1,137 @@
+test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy (__main__.AgentHttpTests.test_actual_gaia_elasticsearch_client_goes_through_gateway_proxy) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-29 11:32:34,607 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-29 11:32:34,618 - elastic_transport.transport - [INFO] - HEAD http://127.0.0.1:57409/elasticsearch/ [status:200 duration:0.011s]
+2026-10-29 11:32:34,618 - gaia-agent - [INFO] - Elasticsearch Client connected successfully.
+2026-10-29 11:32:34,649 - elastic_transport.transport - [INFO] - POST http://127.0.0.1:57409/elasticsearch/zero-door-logs-*/_search [status:200 duration:0.031s]
+2026-10-29 11:32:34,649 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+ok
+test_actual_gaia_http_and_healer_consumer_keep_ids (__main__.AgentHttpTests.test_actual_gaia_http_and_healer_consumer_keep_ids) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+ok
+test_actual_r1_entrypoints_and_telemetry_use_boundary (__main__.AgentHttpTests.test_actual_r1_entrypoints_and_telemetry_use_boundary) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+ok
+test_agent_refuses_a_key_file_with_another_actors_role (__main__.AgentHttpTests.test_agent_refuses_a_key_file_with_another_actors_role) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:501: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\hephaestus\main.py:511: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 15.375s
+
+OK

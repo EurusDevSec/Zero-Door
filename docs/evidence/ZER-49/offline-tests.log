@@ -1,0 +1,113 @@
+test_actual_log_poll_retains_log_input_and_disabled_path_stays_model_free (__main__.Cases.test_actual_log_poll_retains_log_input_and_disabled_path_stays_model_free) ... R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+  import multipart
+<frozen importlib._bootstrap>:1047: ImportWarning: _SixMetaPathImporter.find_spec() not found; falling back to find_module()
+<frozen importlib._bootstrap>:673: ImportWarning: _SixMetaPathImporter.exec_module() not found; falling back to load_module()
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+R:\_Projects\Eurus_Workspace\zero_door\scratch\zer12\production-nemesis\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  return self.router.on_event(event_type)
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-29 11:36:37,922 - gaia-agent - [INFO] - Starting Elasticsearch logs polling...
+2026-10-29 11:36:37,922 - gaia-agent - [INFO] - Elasticsearch log query returned 1 hits.
+2026-10-29 11:36:37,926 - asyncio - [WARNING] - Executing <Task pending name='Task-2' coro=<Cases.test_actual_log_poll_retains_log_input_and_disabled_path_stays_model_free() running at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_gaia_diagnosis.py:227> wait_for=<_GatheringFuture pending cb=[Task.task_wakeup()] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py:709> cb=[_run_until_complete_cb() at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\base_events.py:181] created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\runners.py:100> took 1.172 seconds
+ok
+test_actual_poll_does_not_wait_for_model_or_move_detection_timestamp (__main__.Cases.test_actual_poll_does_not_wait_for_model_or_move_detection_timestamp) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-29 11:36:37,990 - gaia-agent - [INFO] - Starting Prometheus metrics polling...
+2026-10-29 11:36:38,182 - asyncio - [WARNING] - Executing <Task finished name='Task-12' coro=<poll_prometheus_metrics() done, defined at C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:194> result=None created at C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\Lib\asyncio\tasks.py:680> took 0.188 seconds
+2026-10-29 11:36:38,194 - gaia-agent - [INFO] - Gaia diagnosis run limit reached; detection remains recorded.
+ok
+test_adapter_timeout_is_finite (__main__.Cases.test_adapter_timeout_is_finite) ... ok
+test_cancellation_retains_unknown_trace_and_never_reports_success (__main__.Cases.test_cancellation_retains_unknown_trace_and_never_reports_success) ... ok
+test_cli_live_path_uses_saved_observation_and_exclusive_receipts_with_fake_model (__main__.Cases.test_cli_live_path_uses_saved_observation_and_exclusive_receipts_with_fake_model) ... ok
+test_context_and_B1_never_call_model (__main__.Cases.test_context_and_B1_never_call_model) ... ok
+test_missing_log_mismatched_metric_and_hidden_fields_refuse_before_call (__main__.Cases.test_missing_log_mismatched_metric_and_hidden_fields_refuse_before_call) ... ok
+test_model_failures_are_not_diagnosis_or_fallback_success (__main__.Cases.test_model_failures_are_not_diagnosis_or_fallback_success) ... ok
+test_no_repeat_after_unknown_and_no_reset_budget_per_alert (__main__.Cases.test_no_repeat_after_unknown_and_no_reset_budget_per_alert) ... ok
+test_shutdown_drains_cancelled_model_before_closing_journal (__main__.Cases.test_shutdown_drains_cancelled_model_before_closing_journal) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+ok
+test_sink_failure_stops_before_provider (__main__.Cases.test_sink_failure_stops_before_provider) ... ok
+test_slow_evidence_disk_does_not_block_detection_and_cancel_drains_writer (__main__.Cases.test_slow_evidence_disk_does_not_block_detection_and_cancel_drains_writer) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+2026-10-29 11:36:38,582 - gaia-agent - [INFO] - Gaia diagnosis run limit reached; detection remains recorded.
+ok
+test_startup_default_has_no_model_client_and_stops_owned_loop (__main__.Cases.test_startup_default_has_no_model_client_and_stops_owned_loop) ... C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:420: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\gaia\main.py:434: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+ok
+test_success_has_metric_input_diagnosis_latency_and_join (__main__.Cases.test_success_has_metric_input_diagnosis_latency_and_join) ... ok
+test_unknown_is_abstain_not_success (__main__.Cases.test_unknown_is_abstain_not_success) ... ok
+test_config_caps_modes_and_context_are_validated (__main__.CliCases.test_config_caps_modes_and_context_are_validated) ... ok
+test_default_is_plan_only_and_does_not_construct_transport (__main__.CliCases.test_default_is_plan_only_and_does_not_construct_transport) ... ok
+test_exclusive_journal_prevents_restart_replay (__main__.CliCases.test_exclusive_journal_prevents_restart_replay) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 1.936s
+
+OK
+{"status": "OK", "receipt": "C:\\Users\\ACER\\AppData\\Local\\Temp\\tmpdpf3uu2_\\run_90fa8fd4a9d44e74a1ce762e29c7a872\\receipt.json"}
+{"status": "PLAN_ONLY", "provider_calls": 0, "executor_dispatches": 0}

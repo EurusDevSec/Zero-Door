@@ -1,0 +1,12 @@
+{
+  "issue": "ZER-49",
+  "phase": "PREPARED",
+  "base_head": "9b5287c140d704b8009f6dfe53f31f720b4b23a4",
+  "branch": "codex/zer-49-gaia-diagnosis",
+  "authorized": true,
+  "technical": "PASS",
+  "review": "READY_FOR_SCOPED_PUBLICATION",
+  "ci": "PENDING",
+  "merge": "PENDING",
+  "done": false
+}

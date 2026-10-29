@@ -1,0 +1,13 @@
+test_default_is_plan_only (__main__.Checks.test_default_is_plan_only) ... ok
+test_interrupted_wait_still_kills_and_reaps_native_child (__main__.Checks.test_interrupted_wait_still_kills_and_reaps_native_child) ... ok
+test_owned_native_process_completes_and_is_reaped (__main__.Checks.test_owned_native_process_completes_and_is_reaped) ... ok
+test_owner_approval_required_before_child (__main__.Checks.test_owner_approval_required_before_child) ... ok
+test_previous_attempt_must_have_confirmed_cleanup (__main__.Checks.test_previous_attempt_must_have_confirmed_cleanup) ... ok
+test_source_drift_stops_before_child (__main__.Checks.test_source_drift_stops_before_child) ... ok
+test_stalled_owned_native_process_is_killed_and_reaped (__main__.Checks.test_stalled_owned_native_process_is_killed_and_reaped) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.206s
+
+OK
+{"status": "PLAN_ONLY", "provider_calls": 0, "lab_calls": 0}

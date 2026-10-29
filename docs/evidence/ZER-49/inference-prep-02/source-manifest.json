@@ -1,0 +1,26 @@
+{
+  "issue": "ZER-49",
+  "base_head": "9b5287c140d704b8009f6dfe53f31f720b4b23a4",
+  "previous_attempt": "inference-01 NOT_MET PROCESS_REAPED",
+  "sha256": {
+    "agent-orchestrator/gaia/main.py": "ad25d846bacab6168007fb471593049115cf1d9304616d4b86e1df900ea501b1",
+    "agent-orchestrator/gaia/diagnosis.py": "2331fa3e3b45f0dcdf5b03be3138bab6b1689cec8e11bf4b25302a34675842aa",
+    "agent-orchestrator/gaia/diagnosis_cli.py": "a4fbd862d106d95cd8d025a67a135d0a6ed93304aa208deb9dcd0c5cc4e6cb32",
+    "agent-orchestrator/gaia/Dockerfile": "fcd4fd2e7d82e2282733ffdcc88f0988d432f1432caacb7979609c3d46b4ee6a",
+    "tests/test_gaia_diagnosis.py": "963458d6f54caec90977cf17b339f115ed251cb1490a56c51cf63aaa1ebef76d",
+    ".github/workflows/ci.yml": "f9a8a7842eac8d5770369bc9c6014a2df1f22c135f3f5f2df0420c6085ff04db",
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "agent-orchestrator/event_pipeline/contract.py": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+    "agent-orchestrator/event_pipeline/adapters.py": "83895229f3967339ab3fcb8d767f7ee300a451358198de1dd70b3a552c840e11",
+    "agent-orchestrator/gaia/requirements.lock": "550ab92832e95985a1dea2c94341fc56b97f63a4ecfbd857e4a8bbd65e1277cb",
+    "docs/evidence/ZER-49/run_once_02.py": "82d802fa8c639447d02e17df1e090040072467e6dcbc218318485a06572bead1",
+    "docs/evidence/ZER-49/inference-prep-02/prepare_input.py": "521259a2c87c4a7061e5152550badcb53a93a7343d24234835ac8bcfca908106",
+    "docs/evidence/ZER-49/inference-prep-02/test_runner.py": "2c2d8990ee57060885d4c71b9a7e215b1eccc4e779d9629ac57463bfe906fcfb",
+    "docs/evidence/ZER-49/inference-prep-02/policy.json": "b0894782b5a2ccf8edb637f2cb8ee506f3734f97fce839989caa1188d9acca5e",
+    "docs/evidence/ZER-49/inference-prep-02/config.json": "cd4ff76cc4bd389d6771c0c1a8a940209c4d3df51a61699e733cd8f47fc22c73",
+    "docs/evidence/ZER-49/inference-prep-02/observation.json": "7de78801aafe854596ce1a03aad111130a6e9c9d92ea127dd86c7cfa7aa7291f",
+    "docs/evidence/ZER-49/inference-prep-02/input-origin.json": "b9c2ded135b7da15fc473209fa58835ba122366bb946f16ccd5e3731a1376723",
+    "docs/evidence/ZER-49/inference-01/final-conclusion.json": "953f4aba469eef6429b3d5ab95b12b32bec6d77e7f9aa40255629ce44c9a5bde",
+    "docs/evidence/ZER-49/inference-01/run_ae3b8624ff6445d48972a591a4474e95/receipt.json": "064223c513eed873131d47e6269336d01ffcfaaf34dbd13f1e86b085bd241668"
+  }
+}

@@ -1,0 +1,1 @@
+{"async_overall_s":30,"attempts":1,"benchmark_eligible":false,"deadline_s":25,"input_class":"SYNTHETIC_APPLICATION_ERROR_FUNCTIONAL_ONLY","max_calls":1,"max_estimated_usd":0.005,"max_output_tokens":256,"model":"gpt-6-luna","process_timeout_s":40,"purpose":"GAIA_FUNCTIONAL_DIAGNOSIS","timeout_s":20,"window_s":300}

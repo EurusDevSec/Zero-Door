@@ -1,0 +1,12 @@
+{
+  "status": "NOT_MET",
+  "provider_calls": 1,
+  "cleanup": "PROCESS_REAPED",
+  "child": {
+    "pid": 4292,
+    "exit_code": 1,
+    "timed_out": false,
+    "process_reaped": true
+  },
+  "elapsed_s": 3.561999999999898
+}

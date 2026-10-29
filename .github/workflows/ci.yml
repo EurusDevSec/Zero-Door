@@ -128,6 +128,10 @@ jobs:
           python -B tests/check_r1_baselines.py
       - name: Shared async LLM adapter offline (ZER-48; no provider or lab)
         run: python -B tests/test_llm_adapter.py
+      - name: Gaia evidence diagnosis offline (ZER-49; no provider or lab)
+        run: |
+          python -B tests/test_gaia_diagnosis.py
+          python -B docs/evidence/ZER-49/inference-prep/test_runner.py
       - name: Nemesis functional session offline (ZER-19; fake model and executor)
         run: |
           python -B tests/test_nemesis_session.py
@@ -206,7 +210,7 @@ jobs:
           - image: gaia
             context: ./agent-orchestrator
             file: ./agent-orchestrator/gaia/Dockerfile
-            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import event_pipeline.llm"'
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import event_pipeline.llm; import gaia.diagnosis_cli; assert gaia.diagnosis_cli.main() == 0"'
             entrypoint: '--entrypoint /usr/bin/python3'
           - image: hephaestus
             context: ./agent-orchestrator
