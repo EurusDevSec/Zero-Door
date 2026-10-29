@@ -1,0 +1,17 @@
+{
+  "independent-review.md": "0a9056df346a3cb049ce5def8fab8490caa0a80cf6c01c188cc7c6395cf13d9b",
+  "offline/hephaestus-pins/results.json": "0644ea7f3894d137298ab38d271b3df5b00fd05434740af78679a485543c2c49",
+  "offline/hephaestus-pins/tests.log": "08df01b9e4684d8a3d67902008679eeb51dac4e4f2f2cdd87a1a6338fb1301f7",
+  "offline/hephaestus-pins/verify-initial.py": "d969765d693b7c6a484244d1ba99e5c28b6900c9f621abacfcd9cf0e1f38ab1c",
+  "offline/hephaestus-pins-fixed/results.json": "8e87ea5a8494b084b259b9cc604e83960db4b5c9436d9e01e63185ca65d7c1d2",
+  "offline/hephaestus-pins-fixed/tests.log": "6fb6895932bd7e8c34b409bade10863104287b8c9e97b2e570034380d41138ff",
+  "offline/hephaestus-pins-fixed-launch.log": "51317a12b35d37b52c96dfcae54607cdc0fb021525e4f89c5762508c4eabcc3e",
+  "offline/nemesis-pins/results.json": "41d598d141679c5a98d27885edf938a94b88c61c52dedd0fd7d7b85d2751a735",
+  "offline/nemesis-pins/tests.log": "1bffcf97539e4890d6c5797599bcb046c7a4e049a45d8840fb517b2f68be8099",
+  "offline/nemesis-pins-launch.log": "eef918c72ab2918aeee521d1d50c8eca4b3e7f3572e53f7cbb1e7e57b1d209f6",
+  "publication.json": "540a130541696209cbf1d047bca6298a909c23bbdab6fee9512b270c2f0ba0bc",
+  "README.md": "162177a608b6f42876ea240055152b95d1652ae26fbaa6ab0a617b1c12e0131a",
+  "scope.json": "0ec491f4ef3d24c1ae72931874bad0c2ace9a2b3d1d983e75c39af69f9a94185",
+  "verification.json": "feb50f660a40d42903a10062c9faae2a923f9da5a3e381ed1b25f8510a411bb6",
+  "verify.py": "7981e507e9e10b51d3a372a2a82f4fd4ba49dc3e3cec40aa7da76a9f45dfd4a5"
+}
