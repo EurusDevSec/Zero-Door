@@ -1,0 +1,41 @@
+# ZER-46 OFFLINE candidate, NOT_APPLIED. No Deployment/Service/Ingress changes in this file.
+# An approved runtime must replace scope/run/trial and pin the created ConfigMap UID before any write.
+# Mount policy.json read-only at /containment/policy.json using a normal ConfigMap volume, NOT subPath.
+# Opt in only on the private fixture Deployment using ZD_SQLI_CONTAINMENT_FILE=/containment/policy.json
+# and ZD_SQLI_CONTAINMENT_SCOPE=<the exact approved scope>. Both env vars are absent in the stock fixture.
+# No R1 executor is enabled by this manifest. RBAC cannot create/delete ConfigMaps or touch other names.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zer46-sqli-containment
+  namespace: zd-sqli-lab
+  labels:
+    zero-door.io/containment-scope: zer46-disabled
+data:
+  policy.json: |
+    {"version":"zer46-containment/1","scope":"zer46-disabled","run_id":"run_00000000000000000000000000000000","trial_id":"trl_00000000000000000000000000000000","rules":[]}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: zer46-containment-writer
+  namespace: zd-sqli-lab
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["zer46-sqli-containment"]
+    verbs: ["get", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: zer46-containment-writer
+  namespace: zd-sqli-lab
+subjects:
+  - kind: ServiceAccount
+    name: hephaestus-sa
+    namespace: zero-door
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: zer46-containment-writer

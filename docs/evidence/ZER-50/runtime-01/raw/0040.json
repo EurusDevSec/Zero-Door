@@ -1,0 +1,17 @@
+{
+  "at": 1793290020.6234097,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "apply",
+    "-f",
+    "C:\\Users\\ACER\\.codex\\worktrees\\zer-46-publication\\zero_door\\docs\\evidence\\ZER-50\\runtime-01\\bootstrap-proxy.yaml"
+  ],
+  "pid": 12972,
+  "returncode": 0,
+  "stdout": "deployment.apps/zer46-private-ingress created\n",
+  "stderr": "",
+  "ended_at": 1793290020.8329022
+}

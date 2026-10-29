@@ -1,0 +1,63 @@
+{
+  "detection": {
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "trial_id": "trl_99215791ca2346f69ecf86cb2eca689a",
+    "group": "B2",
+    "method_version": "zer50-native/1",
+    "config_ref": "sha256:bf50c7560e5b6735a6596962951305040985bf07c79cf9fe87c70df90994e56d",
+    "incident_id": "inc_79209365c6494bbfb2776835aa9acc64",
+    "schema_version": "zd-event/1.0.0",
+    "event_id": "evt_8791d71345ac4a2f97ab52898aaae04e",
+    "event_type": "DETECTED",
+    "plane": "O",
+    "causation_id": null,
+    "source_component": "detector",
+    "source_instance": "src-c86ffd319842400c89f6aa6738d62100",
+    "producer_version": "zer50-trusted-reader/1",
+    "stream": "o.alert",
+    "seq": 0,
+    "target": {
+      "namespace": "zd-sqli-lab",
+      "service": "sqli-fixture",
+      "flow": null
+    },
+    "clock": {
+      "clock_id": "host",
+      "clock_source": "UNKNOWN",
+      "resolution_ms": null
+    },
+    "ts_event": "2026-10-29T16:07:41.345Z",
+    "payload": {
+      "rule_id": "SUSPICIOUS_LOG",
+      "rule_version": "1",
+      "signature": "SQLI/fixture",
+      "metric": "log_pattern_match",
+      "value": 0,
+      "threshold": 0,
+      "severity": "WARNING",
+      "description": "Native access nominated for functional containment decision"
+    },
+    "alert_id": "alt_0efb31c0263e406ab39079e0d52d73f4"
+  },
+  "access": {
+    "request_id": "9fd2705ec6fd4c4db176fde88c2f389a",
+    "ts": 1793290060.3223314,
+    "client_ip": "10.42.0.25",
+    "tcp_peer": "10.42.0.23",
+    "source_method": "XFF_AFTER_TRUSTED",
+    "source_confidence": "PROXY_CHAIN",
+    "method": "GET",
+    "path": "/fixture/catalog/search",
+    "status": 200,
+    "rows": 1,
+    "restricted_rows": 0,
+    "delivered": true,
+    "ref": "http-002.json",
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "trial_id": "trl_99215791ca2346f69ecf86cb2eca689a",
+    "fixture_uid": "e22ec3ec-a7c5-45c8-a43d-ee9aa6ab6013",
+    "detection_event_id": "evt_8791d71345ac4a2f97ab52898aaae04e"
+  },
+  "raw_join_sha256": "d0144fcfd50f27516c985544645636ff67294c4f0bf41ef66164c6dff9cafbd5",
+  "http_sha256": "f9a9678191274799305ea59d8cf529f08b0bfb18f84f80925c4909b42820944a"
+}

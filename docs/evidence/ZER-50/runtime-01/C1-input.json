@@ -1,0 +1,63 @@
+{
+  "detection": {
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "trial_id": "trl_99215791ca2346f69ecf86cb2eca689a",
+    "group": "B2",
+    "method_version": "zer50-native/1",
+    "config_ref": "sha256:bf50c7560e5b6735a6596962951305040985bf07c79cf9fe87c70df90994e56d",
+    "incident_id": "inc_12375a3cf7ec4e0e97084d1e25cc80f2",
+    "schema_version": "zd-event/1.0.0",
+    "event_id": "evt_d448c5fb90af47fd8b1ef721b719d7a1",
+    "event_type": "DETECTED",
+    "plane": "O",
+    "causation_id": null,
+    "source_component": "detector",
+    "source_instance": "src-d5ce085c35344aab93e6a7d62dd708af",
+    "producer_version": "zer50-trusted-reader/1",
+    "stream": "o.alert",
+    "seq": 0,
+    "target": {
+      "namespace": "zd-sqli-lab",
+      "service": "sqli-fixture",
+      "flow": null
+    },
+    "clock": {
+      "clock_id": "host",
+      "clock_source": "UNKNOWN",
+      "resolution_ms": null
+    },
+    "ts_event": "2026-10-29T16:07:51.784Z",
+    "payload": {
+      "rule_id": "SUSPICIOUS_LOG",
+      "rule_version": "1",
+      "signature": "SQLI/fixture",
+      "metric": "log_pattern_match",
+      "value": 1,
+      "threshold": 0,
+      "severity": "WARNING",
+      "description": "Native access nominated for functional containment decision"
+    },
+    "alert_id": "alt_21c94b89645a46eea40b1f766ee2a561"
+  },
+  "access": {
+    "request_id": "3248c868ec0d4b78a14decfc76508198",
+    "ts": 1793290070.645636,
+    "client_ip": "10.42.0.24",
+    "tcp_peer": "10.42.0.23",
+    "source_method": "XFF_AFTER_TRUSTED",
+    "source_confidence": "PROXY_CHAIN",
+    "method": "GET",
+    "path": "/fixture/catalog/search",
+    "status": 200,
+    "rows": 3,
+    "restricted_rows": 3,
+    "delivered": true,
+    "ref": "http-003.json",
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "trial_id": "trl_99215791ca2346f69ecf86cb2eca689a",
+    "fixture_uid": "e22ec3ec-a7c5-45c8-a43d-ee9aa6ab6013",
+    "detection_event_id": "evt_d448c5fb90af47fd8b1ef721b719d7a1"
+  },
+  "raw_join_sha256": "9eb7c579cee02b3c5eabe8bade234ed4d55fb8a15e9cab60992f9105ff807326",
+  "http_sha256": "df6d51ecc8b8bce094488b2e32e3024504efcafab21c4a9a3411a3d70ce18c03"
+}

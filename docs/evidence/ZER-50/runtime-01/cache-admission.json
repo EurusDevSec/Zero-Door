@@ -1,0 +1,32 @@
+{
+  "at": 1793290018.488999,
+  "host_image_id": "sha256:d85043c06db6a60c98cddb53a1545f6e053b6def409d43b156179a625df55274",
+  "fixture_node_image": {
+    "id": "sha256:d85cb46078ed6e928af880acb2e1927056783ad03a1d18b30a69b8de2a922a16",
+    "repoTags": [
+      "docker.io/library/zer46-fixture:24662046a33f"
+    ],
+    "repoDigests": [],
+    "size": "19704851",
+    "uid": {
+      "value": "65532"
+    },
+    "username": "",
+    "pinned": false
+  },
+  "proxy_node_image": {
+    "id": "sha256:5a93040e5abdf181145d7c242964eca7999ffd700e0447b242ef212f3ee44d55",
+    "repoTags": [
+      "docker.io/library/traefik:v3.7.14"
+    ],
+    "repoDigests": [
+      "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c"
+    ],
+    "size": "55397211",
+    "username": "",
+    "pinned": false
+  },
+  "builds": 0,
+  "imports": 0,
+  "pulls": 0
+}

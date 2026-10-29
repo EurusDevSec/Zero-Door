@@ -132,6 +132,8 @@ jobs:
         run: |
           python -B tests/test_gaia_diagnosis.py
           python -B docs/evidence/ZER-49/inference-prep/test_runner.py
+      - name: Hephaestus guarded containment offline (ZER-50; fake model, API and probes)
+        run: python -B tests/test_hephaestus_recovery.py
       - name: Nemesis functional session offline (ZER-19; fake model and executor)
         run: |
           python -B tests/test_nemesis_session.py
@@ -215,7 +217,7 @@ jobs:
           - image: hephaestus
             context: ./agent-orchestrator
             file: ./agent-orchestrator/hephaestus/Dockerfile
-            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import hephaestus.sqli_action_state; import event_pipeline.llm"'
+            smoke: '-c "import sys; sys.path.insert(0, \"/app\"); import main; import hephaestus.sqli_action_state; import hephaestus.recovery; import event_pipeline.llm"'
             entrypoint: '--entrypoint /usr/bin/python3'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

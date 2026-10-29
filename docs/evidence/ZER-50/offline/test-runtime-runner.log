@@ -1,0 +1,22 @@
+test_actual_fixture_uid_must_remain_pinned_before_http (__main__.Runner.test_actual_fixture_uid_must_remain_pinned_before_http) ... ok
+test_cached_renderer_has_four_private_workloads_and_no_public_route (__main__.Runner.test_cached_renderer_has_four_private_workloads_and_no_public_route) ... ok
+test_default_is_plan_only (__main__.Runner.test_default_is_plan_only) ... ok
+test_direct_work_child_requires_approval_and_cannot_replay (__main__.Runner.test_direct_work_child_requires_approval_and_cannot_replay) ... ok
+test_existing_attempt_is_never_replayed (__main__.Runner.test_existing_attempt_is_never_replayed) ... ok
+test_expired_or_wrong_proposal_approval_stops_before_process (__main__.Runner.test_expired_or_wrong_proposal_approval_stops_before_process) ... ok
+test_failed_delivery_wrong_pod_request_correlation_time_and_counts_refused (__main__.Runner.test_failed_delivery_wrong_pod_request_correlation_time_and_counts_refused) ... ok
+test_fixture_http_budget_stops_before_dispatch (__main__.Runner.test_fixture_http_budget_stops_before_dispatch) ... ok
+test_foreign_endpoint_and_dynamic_auth_refused_without_kubectl (__main__.Runner.test_foreign_endpoint_and_dynamic_auth_refused_without_kubectl) ... ok
+test_foreign_namespace_cleanup_refuses_delete (__main__.Runner.test_foreign_namespace_cleanup_refuses_delete) ... ok
+test_interrupted_wait_still_closes_owned_tree (__main__.Runner.test_interrupted_wait_still_closes_owned_tree) ... ok
+test_manifest_rejects_drift_and_path_escape (__main__.Runner.test_manifest_rejects_drift_and_path_escape) ... ok
+test_owned_native_child_completes_and_is_reaped (__main__.Runner.test_owned_native_child_completes_and_is_reaped) ... ok
+test_owned_native_timeout_closes_tree_and_reaps_child (__main__.Runner.test_owned_native_timeout_closes_tree_and_reaps_child) ... ok
+test_success_delivery_is_projected_only_after_real_join (__main__.Runner.test_success_delivery_is_projected_only_after_real_join) ... ok
+test_unapproved_attempt_stops_before_output_or_process (__main__.Runner.test_unapproved_attempt_stops_before_output_or_process) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 2.610s
+
+OK
+{"status": "PLAN_ONLY", "provider_calls": 0, "lab_operations": 0}

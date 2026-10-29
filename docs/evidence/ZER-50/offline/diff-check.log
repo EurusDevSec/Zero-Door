@@ -1,0 +1,4 @@
+warning: in the working copy of '.github/workflows/ci.yml', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'agent-orchestrator/hephaestus/Dockerfile', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/delivery/NOW.md', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of 'docs/delivery/milestones/R3-recovery/block-ip-and-rollback.md', CRLF will be replaced by LF the next time Git touches it

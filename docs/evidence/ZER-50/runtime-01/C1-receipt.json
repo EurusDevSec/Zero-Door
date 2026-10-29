@@ -1,0 +1,201 @@
+{
+  "purpose": "HEPHAESTUS_FUNCTIONAL_CONTAINMENT",
+  "status": "ACTION_COMPLETED",
+  "reason": "SQLI_CONTAINMENT_VERIFIED",
+  "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+  "decision_id": "dec_1cc676afa8a242459810cbc2f61dba85",
+  "detection_event_id": "evt_d448c5fb90af47fd8b1ef721b719d7a1",
+  "action_id": "act_0a30885871374a2f8d54c57df286410b",
+  "decision": {
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "trial_id": "trl_99215791ca2346f69ecf86cb2eca689a",
+    "group": "B2",
+    "method_version": "zer50-native/1",
+    "config_ref": "sha256:bf50c7560e5b6735a6596962951305040985bf07c79cf9fe87c70df90994e56d",
+    "incident_id": "inc_12375a3cf7ec4e0e97084d1e25cc80f2",
+    "schema_version": "zd-event/1.0.0",
+    "event_id": "evt_aa025eeb972a40689918f4657413c2d4",
+    "event_type": "DECISION",
+    "plane": "O",
+    "causation_id": "evt_d448c5fb90af47fd8b1ef721b719d7a1",
+    "source_component": "decision_llm",
+    "source_instance": "src-fcba6357567245a297de6fd6b07b8f11",
+    "producer_version": "zer50/1",
+    "stream": "o.decision",
+    "seq": 0,
+    "target": {
+      "namespace": "zd-sqli-lab",
+      "service": "sqli-fixture",
+      "flow": null
+    },
+    "clock": {
+      "clock_id": "llm-host",
+      "clock_source": "UNKNOWN",
+      "resolution_ms": null
+    },
+    "ts_event": "2026-10-29T16:07:54.393Z",
+    "payload": {
+      "stage": "PROPOSAL",
+      "decision_source": "LLM",
+      "inputs": [
+        {
+          "event_id": "evt_d448c5fb90af47fd8b1ef721b719d7a1",
+          "received_at": "2026-10-29T16:07:51.794Z"
+        }
+      ],
+      "response_kind": "ACTION",
+      "proposal": {
+        "action_type": "BLOCK_IP",
+        "params": {
+          "service": "sqli-fixture",
+          "ttl_sec": 180
+        }
+      },
+      "fallback": false,
+      "fallback_of": null,
+      "prompt_version": "hephaestus-sqli-selector/1",
+      "prompt_sha256": "sha256:e9b221ae63037ee6a4e6d45fa97eea24ba2043008e3e6342e00d36368f2a3396",
+      "evidence_package_version": "hephaestus-joined-access/1",
+      "access_sha256": "f906f99a4bf758f8f809361f8b116c9c3d63235cdfae23db4fdd7e1020fd0d71",
+      "decision_latency_ms": 2593.9999999973224,
+      "reason": "SQLI_DISCLOSURE"
+    },
+    "decision_id": "dec_1cc676afa8a242459810cbc2f61dba85"
+  },
+  "plan": {
+    "action": "BLOCK_IP",
+    "reason": "SQLI_DISCLOSURE",
+    "evidence_ids": [
+      "evt_d448c5fb90af47fd8b1ef721b719d7a1"
+    ]
+  },
+  "decision_latency_ms": 2593.9999999973224,
+  "model_events": [
+    {
+      "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+      "trial_id": "trl_99215791ca2346f69ecf86cb2eca689a",
+      "group": "B2",
+      "method_version": "zer50-native/1",
+      "config_ref": "sha256:bf50c7560e5b6735a6596962951305040985bf07c79cf9fe87c70df90994e56d",
+      "incident_id": "inc_12375a3cf7ec4e0e97084d1e25cc80f2",
+      "schema_version": "zd-event/1.0.0",
+      "event_id": "evt_4f78ceba921142adb5c2f74ee7049fc0",
+      "event_type": "LLM_CALL",
+      "plane": "O",
+      "causation_id": "evt_d448c5fb90af47fd8b1ef721b719d7a1",
+      "source_component": "decision_llm",
+      "source_instance": "src-6935fcfbee43405ebd895bf6131a961b",
+      "producer_version": "zer48/1",
+      "stream": "o.decision",
+      "seq": 1,
+      "target": {
+        "namespace": "zd-sqli-lab",
+        "service": "sqli-fixture",
+        "flow": null
+      },
+      "clock": {
+        "clock_id": "llm-host",
+        "clock_source": "UNKNOWN",
+        "resolution_ms": null
+      },
+      "ts_event": "2026-10-29T16:07:54.393Z",
+      "payload": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "prompt_version": "hephaestus-sqli-selector/1",
+        "prompt_sha256": "sha256:e9b221ae63037ee6a4e6d45fa97eea24ba2043008e3e6342e00d36368f2a3396",
+        "latency_ms": 2593.9999999973224,
+        "outcome": "OK",
+        "usage": {
+          "input_tokens": 760,
+          "output_tokens": 49,
+          "total_tokens": 809,
+          "status": "COMPLETE"
+        },
+        "cost": {
+          "usd": 0.0001005,
+          "status": "ESTIMATE",
+          "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing"
+        },
+        "attempt_no": 1,
+        "retry_reason": null,
+        "request_id": "req_84942396760d49dca0695be0a19e398c",
+        "response_id": "resp_090aa40ee2820f47016ae36f59dbf487d09764e0a505d36906",
+        "model_returned": "gpt-6-luna",
+        "model_revision": "UNKNOWN_NOT_INDEPENDENTLY_VERIFIED",
+        "reason_code": null
+      },
+      "decision_id": "dec_1cc676afa8a242459810cbc2f61dba85",
+      "call_id": "cal_b1c6d6cdc5814a9c9a87213bab81405d"
+    }
+  ],
+  "budget": {
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "attempts_dispatched": 2,
+    "reserved_tokens": 8205,
+    "reserved_estimate_usd": 0.0010253,
+    "known_input_tokens": 1513,
+    "known_output_tokens": 94,
+    "known_cost_estimate_usd": 0.0001983,
+    "unknown_usage_attempts": 0,
+    "cost_estimate_complete": true,
+    "blocked": false,
+    "accounting_scope": "PROCESS_SINGLE_SHARED_RUN_BUDGET",
+    "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing",
+    "price_checked": "2026-10-28",
+    "price_basis": "UNCACHED_STANDARD_ESTIMATE_NOT_BILLING",
+    "reservation_basis": "request_utf8_bytes_plus_1024_overhead_not_tokenizer_guarantee"
+  },
+  "fallback": false,
+  "fallback_policy": null,
+  "decision_source": "LLM",
+  "api_result": {
+    "status": "API_ACCEPTED",
+    "replay": false,
+    "rule": {
+      "action_id": "act_0a30885871374a2f8d54c57df286410b",
+      "client_ip": "10.42.0.24",
+      "created_at": 1793290070,
+      "expires_at": 1793290250,
+      "request_id": "3248c868ec0d4b78a14decfc76508198"
+    },
+    "containment_verified": false
+  },
+  "action_state": {
+    "action_id": "act_0a30885871374a2f8d54c57df286410b",
+    "phase": "ACTION_COMPLETED",
+    "api_accepted_at": 1793290074.459921,
+    "deadline": 1793290194.459921,
+    "terminal": {
+      "status": "SUCCESS",
+      "postcondition": {
+        "name": "SQLI_SOURCE_CONTAINMENT",
+        "checked": true,
+        "satisfied": true,
+        "observed": {
+          "pod_uid": "e22ec3ec-a7c5-45c8-a43d-ee9aa6ab6013",
+          "policy_uid": "9aff6e02-b28d-4450-90ff-ae065c36669b",
+          "policy_sha256": "5cd7fbca361fa274f7c1bf6a63f03744b21dd731f31f2dc7ea6b754434e8e797",
+          "rule_expires_at": 1793290250,
+          "probe_refs": [
+            "http-004.json",
+            "http-005.json",
+            "http-006.json",
+            "http-007.json",
+            "http-008.json",
+            "http-009.json"
+          ]
+        }
+      },
+      "error": null
+    },
+    "completed_at": 1793290143.8492422,
+    "restart": null,
+    "recovery_verification": "EXTERNAL_PROBE_REQUIRED",
+    "causal_attribution": "UNPROVEN"
+  },
+  "recovery_verification": "EXTERNAL_H_PROBE_REQUIRED",
+  "benchmark_eligible": false,
+  "archive_delivery": "LOCAL_ONLY_NOT_AUTHENTICATED",
+  "restart_allowed": false
+}

@@ -1,0 +1,21 @@
+{
+  "at": 1793290065.7379231,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "get",
+    "cm",
+    "zer46-sqli-containment",
+    "-o",
+    "json"
+  ],
+  "pid": 27740,
+  "returncode": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"data\": {\n        \"policy.json\": \"{\\\"version\\\":\\\"zer46-containment/1\\\",\\\"scope\\\":\\\"zer46-a288c22fc1fb\\\",\\\"run_id\\\":\\\"run_dc3fa71f4a384c2da23930418a8b9dc3\\\",\\\"trial_id\\\":\\\"trl_99215791ca2346f69ecf86cb2eca689a\\\",\\\"rules\\\":[]}\"\n    },\n    \"kind\": \"ConfigMap\",\n    \"metadata\": {\n        \"annotations\": {\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"v1\\\",\\\"data\\\":{\\\"policy.json\\\":\\\"{\\\\\\\"version\\\\\\\":\\\\\\\"zer46-containment/1\\\\\\\",\\\\\\\"scope\\\\\\\":\\\\\\\"zer46-a288c22fc1fb\\\\\\\",\\\\\\\"run_id\\\\\\\":\\\\\\\"run_dc3fa71f4a384c2da23930418a8b9dc3\\\\\\\",\\\\\\\"trial_id\\\\\\\":\\\\\\\"trl_99215791ca2346f69ecf86cb2eca689a\\\\\\\",\\\\\\\"rules\\\\\\\":[]}\\\"},\\\"kind\\\":\\\"ConfigMap\\\",\\\"metadata\\\":{\\\"annotations\\\":{},\\\"labels\\\":{\\\"zero-door.io/containment-scope\\\":\\\"zer46-a288c22fc1fb\\\",\\\"zero-door.io/run\\\":\\\"zer46-a288c22fc1fb\\\"},\\\"name\\\":\\\"zer46-sqli-containment\\\",\\\"namespace\\\":\\\"zd-sqli-lab\\\"}}\\n\"\n        },\n        \"creationTimestamp\": \"2026-10-29T16:07:00Z\",\n        \"labels\": {\n            \"zero-door.io/containment-scope\": \"zer46-a288c22fc1fb\",\n            \"zero-door.io/run\": \"zer46-a288c22fc1fb\"\n        },\n        \"name\": \"zer46-sqli-containment\",\n        \"namespace\": \"zd-sqli-lab\",\n        \"resourceVersion\": \"199214\",\n        \"uid\": \"9aff6e02-b28d-4450-90ff-ae065c36669b\"\n    }\n}\n",
+  "stderr": "",
+  "ended_at": 1793290065.9446332
+}

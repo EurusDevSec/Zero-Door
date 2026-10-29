@@ -1,0 +1,129 @@
+{
+  "issue": "ZER-50",
+  "timestamp_utc": "2026-10-29T16:15:40.150166+00:00",
+  "head": "39d1bb7b5d2ec86a9cd2cdfdaf057529da7d4598",
+  "branch": "zer-50-hephaestus-guard",
+  "verdict": "TECHNICAL_FUNCTIONAL_PASS_PENDING_PUBLICATION",
+  "new_tests": 23,
+  "new_tests_pins": [
+    "existing production-nemesis",
+    "existing production-hephaestus"
+  ],
+  "regression_tests": 54,
+  "provider_calls": 2,
+  "lab_operations": "one approved runtime;9fixtureHTTP/2TCP/1dispatch/1replace",
+  "publication": false,
+  "linear_mutations": 0,
+  "independent_review": "READY_TECHNICAL_FUNCTIONAL_SCOPE",
+  "reviewed_source_hashes": {
+    "agent-orchestrator/hephaestus/recovery.py": "035b63f63ff8aac15a7c2f477cbc9d0a80e28a07f61eae8feb2f317eb098f00d",
+    "tests/test_hephaestus_recovery.py": "6feeed899ecf65ea6f84cd5c607f64dbca920f834524b9df18ddaa7ed62bfc3f",
+    "agent-orchestrator/hephaestus/Dockerfile": "aa794eac680b088ce967fadb0a79ea7aea4d025242de921a7010dfe722267836",
+    ".github/workflows/ci.yml": "132d6b602358b3e39d14c71d83d009b42281f6d69219455d86e8e44e11b68613"
+  },
+  "logs": {
+    "baseline.log": {
+      "sha256": "60e97396bb6c99bf6265e28c376c6429df92fe72a5fb45c8b14473cb8348bbec",
+      "tests": null,
+      "pass": true
+    },
+    "diff-check.log": {
+      "sha256": "bf04f2cdb61b7ef33a37a84c25c20630d1c268b2b34b73087decc1c061b50374",
+      "tests": null,
+      "pass": true
+    },
+    "test_command_modes.log": {
+      "sha256": "731259ac194f5160af4dac9fbe866d8e8a56c6c0d34d931c68ddc749a28c6f8e",
+      "tests": 3,
+      "pass": true
+    },
+    "test_hephaestus_consumer.log": {
+      "sha256": "792e77338ac83d81638e2ec164835ed281c916eb2dfa1268abe4b4dcf0f9a076",
+      "tests": 15,
+      "pass": true
+    },
+    "test_hephaestus_recovery-nemesis-pins.log": {
+      "sha256": "eea6165642dc44ac68865a2d61b29374057b7406047834f7c143b096a171c240",
+      "tests": 22,
+      "pass": true
+    },
+    "test_hephaestus_recovery.log": {
+      "sha256": "2793dd1b88db1023f186a4db7317a2292809686c9161c6be7b25d2d7b332d142",
+      "tests": 22,
+      "pass": true
+    },
+    "test_llm_adapter.log": {
+      "sha256": "19b0442fe293a95afad3d04a30cd9d0b21086fee8965ed3431cadb1e90b01913",
+      "tests": 22,
+      "pass": true
+    },
+    "test_sqli_action_state.log": {
+      "sha256": "54c2bde5cbb11df3d1250af5aca70472f2323e50920091130e2b6ab228a11b41",
+      "tests": 14,
+      "pass": true
+    },
+    "test-runtime-runner.log": {
+      "sha256": "c842aa4e7cd6df4d92e4dade37a8b048d92bbd848042fbc85e4c3da8a11c27c2",
+      "tests": 16,
+      "pass": true
+    },
+    "test-recovery-projection.log": {
+      "sha256": "9fab0447224248623ccf102679201201779d0233a37f220bbcef9e0e15f530d4",
+      "tests": 23,
+      "pass": true
+    },
+    "test-recovery-projection-nemesis-pins.log": {
+      "sha256": "38fae6f0bdfe04789f82b6dd1d56be7fda16965276998f276eb2dda018530885",
+      "tests": 23,
+      "pass": true
+    },
+    "baseline-prep.log": {
+      "sha256": "60e97396bb6c99bf6265e28c376c6429df92fe72a5fb45c8b14473cb8348bbec",
+      "tests": null,
+      "pass": true
+    },
+    "runner-default.log": {
+      "sha256": "3c80add1cb1d8cb949f5d943a691399749b55ca139b586a866678fcb3752064c",
+      "tests": null,
+      "pass": true
+    }
+  },
+  "dirty_before_paths": 33,
+  "unrelated_preserved": 31,
+  "existing_notes_bytes_preserved_as_suffix": true,
+  "index_empty": true,
+  "graph_coverage": "NOT_CLAIMED_STALE_INCOMPLETE",
+  "runtime_runner": "EXECUTED_ONCE_AND_INDEPENDENTLY_RECONCILED",
+  "remaining": [
+    "scoped publication/CI/review/merge/Hoang acceptance"
+  ],
+  "scope_adjustment": "No recovery_cli created; explicit trusted Python Healer API is the selected component seam. No default service activation.",
+  "runner_tests": 16,
+  "runtime_preparation_review": "READY_TO_REQUEST_SINGLE_ATTEMPT_APPROVAL",
+  "proposal_sha256": "6b1b6b4ffa5b4cd1d49bdc8760a44937c29675fac7456c36b3c7921e7e5b01a3",
+  "runtime_source_manifest_sha256": "bf50c7560e5b6735a6596962951305040985bf07c79cf9fe87c70df90994e56d",
+  "runtime_source_files": 78,
+  "runtime_authorized": true,
+  "runtime_directory_exists": true,
+  "current_live_issue_readback": "ZER-50 Backlog, zero-door URL/AC unchanged, 2026-10-29T15:55Z; no mutation",
+  "probe_timeout_change": "caller maximum30->120 seconds, default20 and TTL180 unchanged",
+  "regression_tests_provenance": "54 relevant methods from preceding source package; retained logs, not rerun for isolated timeout-bound/runner delta",
+  "runtime_summary": {
+    "elapsed_seconds": 290.735,
+    "cleanup": "CLEAN",
+    "model_calls": 2,
+    "fixture_http": 9,
+    "tcp_checks": 2,
+    "dispatches": 1,
+    "api_replace_attempts": 1,
+    "input_tokens": 1513,
+    "output_tokens": 94,
+    "known_cost_estimate_usd": 0.0001983,
+    "raw_commands": 191,
+    "source_snapshots_verified": 78
+  },
+  "image_build_pull_import": 0,
+  "shared_deployments_changed": 0,
+  "owned_fixture_workloads_created": 4,
+  "publication_review": "READY_FOR_SCOPED_PUBLICATION"
+}

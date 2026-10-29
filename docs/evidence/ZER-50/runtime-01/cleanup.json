@@ -1,0 +1,11 @@
+{
+  "namespace_absent": true,
+  "rules_and_owned_orders_removed_by_namespace_deletion": true,
+  "shared_specs_preserved": true,
+  "shared_restarts_preserved": true,
+  "errors": [],
+  "provider_calls": 0,
+  "fixture_http": 0,
+  "business_recovery_claim": false,
+  "verdict": "CLEAN"
+}

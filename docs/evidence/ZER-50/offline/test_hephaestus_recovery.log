@@ -1,0 +1,27 @@
+test_ambiguous_api_result_is_unknown_and_never_retried (__main__.Recovery.test_ambiguous_api_result_is_unknown_and_never_retried) ... ok
+test_api_ack_with_invalid_benign_content_is_not_completion (__main__.Recovery.test_api_ack_with_invalid_benign_content_is_not_completion) ... ok
+test_benign_guard_blocks_even_erroneous_model_action (__main__.Recovery.test_benign_guard_blocks_even_erroneous_model_action) ... ok
+test_budget_shared_not_reset_and_exhaustion_no_dispatch (__main__.Recovery.test_budget_shared_not_reset_and_exhaustion_no_dispatch) ... ok
+test_cancel_during_api_drains_owner_and_does_not_claim_undo (__main__.Recovery.test_cancel_during_api_drains_owner_and_does_not_claim_undo) ... ok
+test_expired_source_after_model_is_refused_before_write (__main__.Recovery.test_expired_source_after_model_is_refused_before_write) ... ok
+test_foreign_policy_uid_fails_closed (__main__.Recovery.test_foreign_policy_uid_fails_closed) ... ok
+test_missing_access_abstains_without_provider (__main__.Recovery.test_missing_access_abstains_without_provider) ... ok
+test_model_cancel_has_no_effect_and_durable_receipt (__main__.Recovery.test_model_cancel_has_no_effect_and_durable_receipt) ... ok
+test_model_cannot_block_benign_source_even_with_disclosure (__main__.Recovery.test_model_cannot_block_benign_source_even_with_disclosure) ... ok
+test_model_failures_refusals_reference_and_enum_never_dispatch (__main__.Recovery.test_model_failures_refusals_reference_and_enum_never_dispatch) ... ok
+test_no_action_benign_and_abstain_never_touch_api_or_probes (__main__.Recovery.test_no_action_benign_and_abstain_never_touch_api_or_probes) ... ok
+test_probe_timeout_is_terminal_and_not_success (__main__.Recovery.test_probe_timeout_is_terminal_and_not_success) ... ok
+test_real_product_chain_mode_guard_backend_and_postconditions (__main__.Recovery.test_real_product_chain_mode_guard_backend_and_postconditions) ... ok
+test_record_failure_before_model_or_dispatch_stops_effect (__main__.Recovery.test_record_failure_before_model_or_dispatch_stops_effect) ... ok
+test_same_instance_and_directory_cannot_replay (__main__.Recovery.test_same_instance_and_directory_cannot_replay) ... ok
+test_same_journal_cannot_be_reused_by_a_second_engine (__main__.Recovery.test_same_journal_cannot_be_reused_by_a_second_engine) ... ok
+test_shared_adapter_trace_does_not_claim_another_decision (__main__.Recovery.test_shared_adapter_trace_does_not_claim_another_decision) ... ok
+test_sink_failure_before_model_is_not_silently_ignored (__main__.Recovery.test_sink_failure_before_model_is_not_silently_ignored) ... ok
+test_untrusted_stale_nonfinite_or_extra_access_refuses_before_model (__main__.Recovery.test_untrusted_stale_nonfinite_or_extra_access_refuses_before_model) ... ok
+test_worker_api_does_not_block_event_loop (__main__.Recovery.test_worker_api_does_not_block_event_loop) ... ok
+test_wrong_mode_context_target_or_h_plane_refuse_before_model (__main__.Recovery.test_wrong_mode_context_target_or_h_plane_refuse_before_model) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 1.258s
+
+OK

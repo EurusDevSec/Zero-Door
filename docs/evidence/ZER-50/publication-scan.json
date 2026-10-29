@@ -1,0 +1,7 @@
+{
+  "files_scanned": 389,
+  "credential_pattern_file_hits": 0,
+  "scope": "API-key-shaped strings,private-key blocks,Doppler service-token-shaped strings;no matches printed;not general secret-proof",
+  "runtime_bytes_preserved": true,
+  "unrelated_files_preserved": 31
+}

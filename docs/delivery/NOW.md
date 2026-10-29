@@ -1,3 +1,15 @@
+## ZER-50 — runtime chức năng đạt, chờ publication — 29/10/2026
+
+[Raw/review/evidence](../evidence/ZER-50/runtime-01/README.md): một lượt được Hoàng duyệt,2modelcalls/9HTTP/2TCP/1dispatch/1replace;C0NO_ACTION/BENIGN4.375s, C1BLOCK_IP2.594s→guard→A403+B200/201/200/200/404→ACTION_COMPLETED/SUCCESS.1513+94tokens/estimate0.0001983USD.78snapshotpins/191rawcommands đã đối chiếu; review độc lập READY_TECHNICAL_FUNCTIONAL_SCOPE.290.735s,ownedprocessesreaped,namespaceabsent/sharedinventorypreserved,CLEAN.0lượt runtime bổ sung. Source/tests trước đó23Healer×2pins+16runner+54regression/baselinePASS. HEAD39d1bb7/branchzer-50-hephaestus-guard;31dirty ngoài2notes giữ nguyên. Next chỉ còn publication/CI/review/merge/Hoàngacceptance; chưa được cấp quyềnpublication/Linear/merge. Không mở parent20/G3/G4/Hrecovery/KPI. Checkpoint dưới là lịch sử.
+
+## ZER-50 — runner sẵn sàng xin quyền runtime — 29/10/2026
+
+[Gói chuẩn bị và proposal](../evidence/ZER-50/runtime-prep/README.md) đã review độc lập READY_TO_REQUEST_SINGLE_ATTEMPT_APPROVAL:16runner tests,23Healer tests trên2pins,baseline/diff/Bash/defaultPLAN_ONLYPASS.78filemanifest,actualPodUID/requestjoin,direct-childapproval/replay,ownedJob/process-tree vàcleanup riêng đã kiểmoffline. Boundprobe120s/default20/TTL180. Lượt đề nghị≤2modelcalls,9fixtureHTTP,2TCP,1dispatch,600swork+285scleanup;0provider/lab/key/build/publication/Linearwrite đã chạy trong chuẩn bị. HEAD39d1bb7/branchzer-50-hephaestus-guard;31dirty ngoài2notes giữhash,writerZD4duynhất. Approvaltemplatefalse/runtime-01absent. Next: xin Hoàng duyệt đúngproposal/hash rồi mới một lượt runtime +rawreview; chưaACruntime/Done/G3/G4/parent20. Các checkpoint dưới là lịch sử.
+
+## ZER-50 — source/offline đã review — 29/10/2026
+
+[Evidence/AC matrix](../evidence/ZER-50/README.md): Hephaestus explicit functional API nối shared Adapter → mode/SQLi guard → containment → independent postcondition.22 test mới đạt trên hai production pins;54 regression +baseline PASS, review độc lập source/offline READY. Context/fixture/detection access binding, one-shot journal, unknown/cancel owner-drain và benign no-action đã kiểm. Branch zer-50-hephaestus-guard/base39d1bb7;33dirty cũ giữ nguyên.0provider/lab/build/publication/Linear mutation. Chưa nghiệm thu runtime/Done/G3/G4; next là chuẩn bị/review native reader+probe/guarded acceptance envelope rồi xin quyền model/lab mới. Không mở ZER-20/issue khác. Checkpoint dưới là lịch sử.
+
 ## ZER-49 — functional inference đạt; publication —29/10/2026
 
 [Evidence/ACmatrix](../evidence/ZER-49/README.md):realinference02 APPLICATION_ERROR/IDsđúng/NO_ACTION,653+86tokens/6.140smodel/6.203sdiagnosis,0.0001083USDestimate;childreaped6.859s/0lab. Reviewsource/rawREADY,56testmethods+7runner02checks/baselinePASS.01NOT_MET/ABSTAIN giữ nguyên; không thêm model/lab/issue. [Publicationpackage](../evidence/ZER-49/publication-package.md) đã được duyệt; cần exactstage/PR/CI/review/merge trướcDone. Scopefunctional/syntheticO, khôngdeployed/archive/G3/G4/KPI/MTTDclaim. PrimaryR/dirtyngoàiscope giữ nguyên. Các checkpoint dưới là lịch sử.

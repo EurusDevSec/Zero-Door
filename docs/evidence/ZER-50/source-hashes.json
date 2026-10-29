@@ -1,0 +1,6 @@
+{
+  "agent-orchestrator/hephaestus/recovery.py": "035b63f63ff8aac15a7c2f477cbc9d0a80e28a07f61eae8feb2f317eb098f00d",
+  "tests/test_hephaestus_recovery.py": "6feeed899ecf65ea6f84cd5c607f64dbca920f834524b9df18ddaa7ed62bfc3f",
+  "agent-orchestrator/hephaestus/Dockerfile": "aa794eac680b088ce967fadb0a79ea7aea4d025242de921a7010dfe722267836",
+  ".github/workflows/ci.yml": "132d6b602358b3e39d14c71d83d009b42281f6d69219455d86e8e44e11b68613"
+}
