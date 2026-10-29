@@ -1,0 +1,26 @@
+{
+  "at": 1793246232.034299,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "delete",
+    "--raw",
+    "/api/v1/namespaces/zd-sqli-lab",
+    "-f",
+    "-"
+  ],
+  "label": "uid-delete",
+  "timeout_s": 20,
+  "stdin_supplied": true,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": true,
+  "stdout": "[REDACTED: stdin supplied]",
+  "stderr": "[REDACTED: stdin supplied]",
+  "completion": "RETURNED",
+  "elapsed_s": 0.125
+}

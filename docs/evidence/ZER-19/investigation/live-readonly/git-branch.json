@@ -1,0 +1,13 @@
+{
+  "at": 1793241663.2474794,
+  "args": [
+    "git",
+    "branch",
+    "--show-current"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.03199999999992542,
+  "stdout": "codex/zer-19-nemesis-session\n",
+  "stderr": ""
+}

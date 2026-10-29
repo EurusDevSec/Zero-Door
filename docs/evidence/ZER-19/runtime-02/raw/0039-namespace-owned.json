@@ -1,0 +1,18 @@
+{
+  "at": 1793202911.4567292,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "namespace",
+    "zd-sqli-lab",
+    "-o",
+    "json"
+  ],
+  "label": "namespace-owned",
+  "returncode": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"kind\": \"Namespace\",\n    \"metadata\": {\n        \"creationTimestamp\": \"2026-10-28T15:55:11Z\",\n        \"labels\": {\n            \"kubernetes.io/metadata.name\": \"zd-sqli-lab\",\n            \"zero-door.io/purpose\": \"sqli-fixture\",\n            \"zero-door.io/run\": \"zer42-e0e0aea10613\"\n        },\n        \"name\": \"zd-sqli-lab\",\n        \"resourceVersion\": \"186898\",\n        \"uid\": \"66fed02a-ec50-4bfb-ab1c-ebeda976d12d\"\n    },\n    \"spec\": {\n        \"finalizers\": [\n            \"kubernetes\"\n        ]\n    },\n    \"status\": {\n        \"phase\": \"Active\"\n    }\n}\n",
+  "stderr": ""
+}

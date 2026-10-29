@@ -1,0 +1,25 @@
+{
+  "at": 1793244124.961633,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "zer41-private-ingress-57d6458855-tkf22"
+  ],
+  "label": "logs-proxy",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.14099999999962165
+}

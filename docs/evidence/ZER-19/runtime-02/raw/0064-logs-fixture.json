@@ -1,0 +1,17 @@
+{
+  "at": 1793202949.2492816,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "sqli-fixture-69db7c8d8b-rc6qd"
+  ],
+  "label": "logs-fixture",
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

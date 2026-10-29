@@ -1,0 +1,57 @@
+{
+  "request": "Fix runner using the completed runtime-02 investigation, before any new attempt",
+  "at": "2026-10-29T02:57:35.257Z",
+  "expected_head": "093e924000861da3096185427994d9ea736df36d",
+  "writer": "Codex root only",
+  "edit_allowlist": [
+    "docs/evidence/ZER-19/runtime-prep/run.py",
+    "docs/evidence/ZER-19/runtime-prep/check_runner.py",
+    "docs/evidence/ZER-19/README.md",
+    "docs/evidence/ZER-19/artifact-sha256.json",
+    "docs/delivery/NOW.md",
+    "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md"
+  ],
+  "add_allowlist": [
+    "docs/evidence/ZER-19/runner-fix/*",
+    "scratch/zer19/runner-fix-*"
+  ],
+  "actions": [
+    "offline Python tests with native external clients denied",
+    "read-only Git state and diff checks",
+    "self review of delta, no independent-review claim"
+  ],
+  "excluded": [
+    "runtime-03",
+    "model/network/fixture probes",
+    "shared infrastructure mutations",
+    "commit/push/merge",
+    "Linear writes",
+    "changing historical runtime verdicts or source-manifest"
+  ],
+  "before": {
+    "docs/evidence/ZER-19/runtime-prep/run.py": {
+      "sha256": "fe9a595801c3e21cbcf912600118e00d47ef7003ff402bb9fdf182f5ae9cd5d9",
+      "bytes": 34531
+    },
+    "docs/evidence/ZER-19/runtime-prep/check_runner.py": {
+      "sha256": "c6e1ae3b8f8da71ff52fe2c91f212c68d18a27575deb82e9a94244048c5d75dd",
+      "bytes": 7970
+    },
+    "docs/evidence/ZER-19/README.md": {
+      "sha256": "a591f4b62f23230c0074e1e775d8cc715f62ba69a17977774f8955543916610f",
+      "bytes": 4935
+    },
+    "docs/evidence/ZER-19/artifact-sha256.json": {
+      "sha256": "44b095abf2a6563db47f6e91eb34f8621679a9b92af481848aff43f7dea78e4c",
+      "bytes": 31536
+    },
+    "docs/delivery/NOW.md": {
+      "sha256": "e680f4d5590e8fb31e3cd66be044fcaa6fedb949382765b5543cb07dd1c9ea11",
+      "bytes": 100357
+    },
+    "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md": {
+      "sha256": "7682178f76c267b31767c299b44e9be6877afe4786936d1bde7e019945ffcf3f",
+      "bytes": 17066
+    }
+  }
+}

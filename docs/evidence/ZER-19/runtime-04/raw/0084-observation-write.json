@@ -1,0 +1,32 @@
+{
+  "at": 1793246219.5904284,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import json,sys; from pathlib import Path; Path('/ledger/observation.json').write_text(sys.argv[1])",
+    "{\"observed_at\": \"2026-10-29T03:56:52.765547+00:00\", \"evidence\": [{\"id\": \"ev-health-01\", \"health\": \"HEALTHY\"}]}"
+  ],
+  "label": "observation-write",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.4849999999996726
+}

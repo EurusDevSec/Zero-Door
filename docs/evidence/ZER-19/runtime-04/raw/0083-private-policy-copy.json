@@ -1,0 +1,32 @@
+{
+  "at": 1793246219.1487598,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import sys; from pathlib import Path; Path('/ledger/active-policy.json').write_text(sys.argv[1])",
+    "{\"version\": \"zd-guard/1\", \"enabled\": true, \"context\": {\"run_id\": \"run_e0e0aea106134a6bae270af8ec29c298\", \"trial_id\": \"trl_6f7b7b54f4c943dabdda1b8a4d65563b\", \"group\": \"B2\"}, \"targets\": [{\"namespace\": \"target-app\", \"service\": \"frontend\", \"url\": \"http://frontend.target-app.svc.cluster.local/\"}], \"maxDurationSec\": 60, \"maxConcurrency\": 2, \"rps\": 5, \"sqli\": {\"enabled\": true, \"endpoint\": \"http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search\", \"maxSends\": 1, \"maxCommandSec\": 1}}"
+  ],
+  "label": "private-policy-copy",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.4219999999995707
+}

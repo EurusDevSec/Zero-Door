@@ -1,0 +1,16 @@
+{
+  "at": 1793241728.5003355,
+  "args": [
+    "wevtutil.exe",
+    "qe",
+    "System",
+    "/q:*[System[TimeCreated[@SystemTime>='2026-10-28T15:48:00.000Z' and @SystemTime<='2026-10-28T15:58:00.000Z'] and (Level=1 or Level=2 or Level=3 or EventID=42 or EventID=107 or EventID=1 or EventID=507 or EventID=506)]]",
+    "/f:xml",
+    "/c:40"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.10999999999989996,
+  "stdout": "",
+  "stderr": ""
+}

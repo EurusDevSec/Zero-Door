@@ -1,0 +1,14 @@
+{
+  "docs/delivery/NOW.md": {
+    "original_suffix_preserved": true,
+    "original_sha256": "6078930f961ad7906ee972c08a584e69b634dfb8c0cdac849603f7304617baaf"
+  },
+  "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md": {
+    "original_suffix_preserved": true,
+    "original_sha256": "a08b1bd5471a9ba4390fe94232faa84dcdf3bb3f783335a36f6403b09b551bd2"
+  },
+  "docs/evidence/ZER-19/README.md": {
+    "original_suffix_preserved": true,
+    "original_sha256": "e51912aa8ba8ef4be535d862f661cd2675c73a356ac9b5ec0cca0475dc5aeb72"
+  }
+}

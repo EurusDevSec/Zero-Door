@@ -1,0 +1,25 @@
+{
+  "status": 200,
+  "body": {
+    "results": [
+      {
+        "sku": "PUB-APP-001",
+        "name": "Canvas Tote",
+        "category": "apparel",
+        "visibility": "public",
+        "price_cents": 1800
+      },
+      {
+        "sku": "PUB-APP-002",
+        "name": "Knit Scarf",
+        "category": "apparel",
+        "visibility": "public",
+        "price_cents": 2400
+      }
+    ],
+    "count": 2
+  },
+  "request_id": "b4d592c34a164fc19a26232cfbe37a30",
+  "correlation_id": "zer19-before-6f92cddcca724a29b7f0dd1d14bebb59",
+  "observed_at": "2026-10-29T03:56:52.765547+00:00"
+}

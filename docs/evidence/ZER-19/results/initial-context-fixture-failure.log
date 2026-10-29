@@ -1,0 +1,27 @@
+..........EE.
+======================================================================
+ERROR: test_session_stop_during_metadata_and_offsets_never_publishes (__main__.IOTests.test_session_stop_during_metadata_and_offsets_never_publishes) (phase='metadata')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_nemesis_session_io.py", line 232, in test_session_stop_during_metadata_and_offsets_never_publishes
+    budget = RunBudget(context["run_id"], max_calls=1, max_reserved_tokens=20_000,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\event_pipeline\llm.py", line 117, in __init__
+    raise ValueError("LLM_BUDGET_INVALID")
+ValueError: LLM_BUDGET_INVALID
+
+======================================================================
+ERROR: test_session_stop_during_metadata_and_offsets_never_publishes (__main__.IOTests.test_session_stop_during_metadata_and_offsets_never_publishes) (phase='offsets')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\tests\test_nemesis_session_io.py", line 232, in test_session_stop_during_metadata_and_offsets_never_publishes
+    budget = RunBudget(context["run_id"], max_calls=1, max_reserved_tokens=20_000,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ACER\.codex\worktrees\zer-46-publication\zero_door\agent-orchestrator\event_pipeline\llm.py", line 117, in __init__
+    raise ValueError("LLM_BUDGET_INVALID")
+ValueError: LLM_BUDGET_INVALID
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.419s
+
+FAILED (errors=2)

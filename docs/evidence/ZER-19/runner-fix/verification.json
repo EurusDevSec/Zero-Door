@@ -1,0 +1,39 @@
+{
+  "status": "OFFLINE_FIX_VERIFIED_RUNTIME_NOT_RUN",
+  "head_verified": "093e924000861da3096185427994d9ea736df36d",
+  "branch_verified": "codex/zer-19-nemesis-session",
+  "offline_tests": 30,
+  "test_native_client_boundary": "DENY_BEFORE_SPAWN_EXCEPT_LOCAL_PYTHON_CHILDREN",
+  "default_entrypoint": "PLAN_ONLY_0_CALLS_0_MUTATIONS",
+  "bash_syntax": "PASS",
+  "git_diff_check": "PASS",
+  "git_index": "EMPTY",
+  "prior_artifacts": 216,
+  "unchanged_prior_artifacts": 213,
+  "expected_current_artifact_delta": [
+    "README.md",
+    "runtime-prep/check_runner.py",
+    "runtime-prep/run.py"
+  ],
+  "product_pins_unchanged": 9,
+  "historical_runtime02_pins": 26,
+  "expected_current_helper_delta": [
+    "docs/evidence/ZER-19/runtime-prep/run.py",
+    "docs/evidence/ZER-19/runtime-prep/check_runner.py"
+  ],
+  "historical_helper_versions_archived": true,
+  "historical_raw_verdicts_and_authorizations": "UNCHANGED",
+  "old_authorization_current_source_gate": "SOURCE_DRIFT:docs/evidence/ZER-19/runtime-prep/run.py",
+  "source_hashes": {
+    "docs/evidence/ZER-19/runtime-prep/run.py": "84f75d5b0a510298318866c4dc9b6df54c93e31441f27398ba70a123c6005bad",
+    "docs/evidence/ZER-19/runtime-prep/check_runner.py": "af3198a7d6fe3b2cff27beccd195017a9569edae0e91376d1c975c6a081b1397"
+  },
+  "review": "SELF_REVIEW_NO_NEW_INDEPENDENT_REVIEW_CLAIM",
+  "lab_stall_fixed": "NOT_VERIFIED",
+  "runtime03_exists": false,
+  "runtime_calls": 0,
+  "fixture_http_tcp": 0,
+  "lab_mutations": 0,
+  "publication": "NOT_STARTED",
+  "issue_done": false
+}

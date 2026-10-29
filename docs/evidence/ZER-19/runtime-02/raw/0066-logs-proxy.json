@@ -1,0 +1,17 @@
+{
+  "at": 1793202949.5913348,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "zer41-private-ingress-57d6458855-7rpxt"
+  ],
+  "label": "logs-proxy",
+  "returncode": 0,
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,12 @@
+{
+  "at": 1793202781.1514478,
+  "args": [
+    "docker",
+    "context",
+    "show"
+  ],
+  "label": "context",
+  "returncode": 0,
+  "stdout": "desktop-linux\n",
+  "stderr": ""
+}

@@ -1,0 +1,124 @@
+{
+  "verdict": "NOT_MET_POLICY_HOOK_MISSING_CLEANUP_CLEAN_NO_RETRY",
+  "elapsed_s": 357.2011282444,
+  "raw_receipts": 198,
+  "preflight": {
+    "verdict": "READY_NOT_ISSUE_PASS",
+    "samples": 25,
+    "control_path_returned": true,
+    "shared_restarts_unchanged": true,
+    "shared_inventory_unchanged": true
+  },
+  "resources": {
+    "samples": 61,
+    "guard_failures": [],
+    "min_host_available_bytes": 2243510272,
+    "min_wsl_available_kib": 2457208,
+    "max_memory_psi_avg10": 0.0,
+    "max_cpu_psi_avg10_diagnostic_only": 15.78,
+    "max_io_psi_avg10_diagnostic_only": 0.14,
+    "max_memory_read_elapsed_s": 0.1720000000004802
+  },
+  "fixture": {
+    "name": "sqli-fixture-69db7c8d8b-sss66",
+    "uid": "b3fd1113-36b1-4f09-97d3-d25b3db7d0c8",
+    "ip": "10.42.0.214",
+    "node": "k3d-zero-door-agent-0"
+  },
+  "policy_gate": {
+    "queries": 80,
+    "observed_span_s": 179.03866744041443,
+    "max_query_elapsed_s": 0.5929999999998472,
+    "all_returncode_zero": true,
+    "namespace_policy_rules_seen": true,
+    "fixture_name_or_ip_matches": 0,
+    "saved_firewall_comment_pod_associations": [
+      {
+        "namespace": "kube-system",
+        "pod": "svclb-traefik-2aaf11e4-6ktqh",
+        "node": "k3d-zero-door-server-0",
+        "ip": "10.42.1.45"
+      },
+      {
+        "namespace": "monitoring",
+        "pod": "elasticsearch-77f775cbbd-svvsz",
+        "node": "k3d-zero-door-server-0",
+        "ip": "10.42.1.43"
+      },
+      {
+        "namespace": "monitoring",
+        "pod": "fluent-bit-65b2j",
+        "node": "k3d-zero-door-server-0",
+        "ip": "10.42.1.44"
+      }
+    ],
+    "interpretation": "Isolation of this fixture was not proven by the required dataplane gate; controller/programming cause remains unresolved. No direct denial probe was dispatched."
+  },
+  "post_close_readonly_inventory": {
+    "commands": 2,
+    "current_docker_kube_node_ips": [
+      {
+        "node": "k3d-zero-door-agent-0",
+        "docker_ip": "172.19.0.3",
+        "kubernetes_internal_ip": "172.19.0.3",
+        "match": true
+      },
+      {
+        "node": "k3d-zero-door-server-0",
+        "docker_ip": "172.19.0.4",
+        "kubernetes_internal_ip": "172.19.0.4",
+        "match": true
+      }
+    ],
+    "current_ip_swap_hypothesis": "NOT_SUPPORTED"
+  },
+  "cleanup": {
+    "verdict": "CLEAN",
+    "namespace_uid": "7cda8172-90b2-469d-8f55-ba99452cad6e",
+    "uid_delete_returned_zero": true,
+    "namespace_absent_receipts": [
+      "0196-namespace-absence.json",
+      "0197-final-namespace.json"
+    ],
+    "shared_spec_uid_unchanged": true,
+    "shared_pod_restarts_unchanged": true,
+    "bound_pvc_count": 3,
+    "topics_created": 0,
+    "private_secrets_created": 0
+  },
+  "activity": {
+    "private_workloads_started": [
+      "proxy Deployment",
+      "gated safe fixture Deployment"
+    ],
+    "worker_nemesis_started": false,
+    "provider_attempts": 0,
+    "fixture_http": 0,
+    "tcp_denial_controls": 0,
+    "topics_created": 0,
+    "private_secrets_created": 0,
+    "build_import_pull": 0
+  },
+  "harvest": {
+    "errors": [
+      "SESSION_FILES_UNAVAILABLE",
+      "COMMAND_FAILED:worker-logs"
+    ],
+    "before_namespace_delete": true,
+    "status": "PARTIAL"
+  },
+  "source": {
+    "invocation_pins_verified": 27,
+    "product_pins_unchanged": 9,
+    "proposal_authorization_manifest_hashes_match": true
+  },
+  "publication": "BLOCKED",
+  "done": false,
+  "runtime04_allowed": false,
+  "limitations": [
+    "No Nemesis/model/executor functional verdict because that phase was not reached",
+    "No permanent resource stability fix proved by this one window",
+    "Current correct node IP mapping does not prove controller state or policy enforcement",
+    "Previous runtime01/02 failures/UNKNOWN/global cleanup verdicts unchanged"
+  ]
+}

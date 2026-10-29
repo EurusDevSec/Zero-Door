@@ -1,0 +1,17 @@
+{
+  "verdict": "NOT_MET",
+  "failure": {
+    "type": "RuntimeError",
+    "reason": "RESOURCE_GUARD_STOP"
+  },
+  "guard_failures": [
+    "TimeoutError:COMMAND_DEADLINE"
+  ],
+  "elapsed_s": 208.55945491790771,
+  "cleanup": "INCOMPLETE",
+  "fixture_http_reserved": 0,
+  "provider_attempt_reserved": false,
+  "retry_allowed": false,
+  "benchmark_eligible": false,
+  "publication": "BLOCKED"
+}

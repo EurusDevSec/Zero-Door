@@ -1,0 +1,18 @@
+{
+  "at": 1793203194.1827981,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "target-app",
+    "logs",
+    "cartservice-56b9fb479f-ppsgd",
+    "--previous",
+    "--tail=60"
+  ],
+  "returncode": 0,
+  "stdout": "Checking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\nChecking CartService Health\ninfo: Microsoft.Hosting.Lifetime[0]\n      Application is shutting down...\n",
+  "stderr": ""
+}

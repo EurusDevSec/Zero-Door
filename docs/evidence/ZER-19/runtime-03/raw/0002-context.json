@@ -1,0 +1,20 @@
+{
+  "at": 1793243807.1275551,
+  "args": [
+    "docker",
+    "context",
+    "show"
+  ],
+  "label": "context",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "desktop-linux\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.06300000000010186
+}

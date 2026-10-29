@@ -1,0 +1,31 @@
+{
+  "at": 1793246211.462903,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import socket; s=socket.socket(); s.settimeout(2)\ntry:\n s.connect(('sqli-fixture.zd-sqli-lab.svc.cluster.local',9140))\nexcept (TimeoutError,ConnectionRefusedError):\n print('DIRECT_DENIED')\nelse:\n raise RuntimeError('DIRECT_REACHABLE')\nfinally:\n s.close()"
+  ],
+  "label": "tcp-denial",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "DIRECT_DENIED\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.31300000000010186
+}

@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-29T02:52:10.745Z",
+  "status": "INVESTIGATION_COMPLETE_TRIGGER_UNRESOLVED_NO_RETRY",
+  "confirmed": [
+    "Docker exec-start transaction delayed16.911s",
+    "Concurrent K3s/Kine/housekeeping and Prometheus scrape stalls",
+    "CPU and memory pressure counter increases during missing guard sample",
+    "Cart cgroup quota throttling and liveness-associated restart",
+    "Owned namespace still absent"
+  ],
+  "not_proven": [
+    "Ultimate initiating process or host scheduling cause",
+    "Chrome/Claude/Defender attribution",
+    "Whether resource-limit changes would fix full VM stall",
+    "Current restarted lab stability under setup"
+  ],
+  "acceptance": "ZER-19 runtime NOT_MET; no publication/Done",
+  "changes": "Documentation and diagnostic receipts only;9product and26runtime pins unchanged",
+  "next": "Prepare minimal runner observability/readiness delta and review before requesting one new runtime package",
+  "new_acceptance_attempts": 0,
+  "model_calls": 0,
+  "fixture_http": 0,
+  "fixture_tcp": 0,
+  "lab_mutations": 0,
+  "read_only_external_commands": 21,
+  "original_cleanup": "INCOMPLETE due shared cart restart; retained",
+  "analysis": "analysis.json",
+  "report": "README.md"
+}

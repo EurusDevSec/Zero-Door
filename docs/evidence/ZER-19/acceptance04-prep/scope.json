@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-29T03:48:04.506Z",
+  "issue": "ZER-19",
+  "head": "093e924000861da3096185427994d9ea736df36d",
+  "branch": "codex/zer-19-nemesis-session",
+  "authority": "User supplied Claude completed repair and requested follow-up investigation/proposal; offline preparation only",
+  "writes": [
+    "docs/evidence/ZER-19/acceptance04-prep/",
+    "docs/evidence/ZER-19/acceptance-04-proposal.md",
+    "docs/evidence/ZER-19/runtime-prep/run.py",
+    "docs/evidence/ZER-19/runtime-prep/check_runner.py",
+    "docs/evidence/ZER-19/runtime-prep/source-manifest-04.json",
+    "docs/evidence/ZER-19/artifact-sha256.json",
+    "docs/evidence/ZER-19/README.md prefix",
+    "docs/delivery/NOW.md prefix",
+    "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md prefix",
+    "scratch/zer19/acceptance04-*"
+  ],
+  "actions": [
+    "Read/compare saved repair snapshots and SHA256SUMS",
+    "Offline admission04 delta and tests; preflight checks both node firewall maps, no weakening fixture gate",
+    "Prepare single-run proposal; no approval file, attempt directory or runtime execution",
+    "Keep Claude repair and all historical runtime raw unchanged"
+  ],
+  "forbidden": [
+    "lab/model/probes/restart",
+    "publication",
+    "Linear mutations",
+    "other issue edits",
+    "primary R writes"
+  ]
+}

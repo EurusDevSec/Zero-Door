@@ -1,0 +1,23 @@
+{
+  "purpose": "FUNCTIONAL_ONLY_NOT_BENCHMARK",
+  "benchmark_eligible": false,
+  "context": {
+    "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+    "trial_id": "trl_6f7b7b54f4c943dabdda1b8a4d65563b",
+    "incident_id": "inc_766afc2ebe5c4fa4bda093b988003d0a",
+    "group": "B2",
+    "method_version": "zer19-functional/1",
+    "config_ref": "sha256:6f35d5fa672aa66360a2e80d1ef2935e0c873865d9999ded567cfae73dc1796e"
+  },
+  "max_calls": 1,
+  "max_reserved_tokens": 9472,
+  "max_estimated_usd": 0.005,
+  "limits": {
+    "max_rounds": 1,
+    "duration_s": 120,
+    "command_s": 1,
+    "allowed_templates": [
+      "benign-apparel"
+    ]
+  }
+}

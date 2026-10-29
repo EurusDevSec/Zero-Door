@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "at": "2026-10-29T03:54:03.527Z",
+  "owner": "Hoang",
+  "answer": "Duyệt runtime-04 và publication có điều kiện",
+  "questionItemId": "[\"request_user_input_async\",\"call_b4c2b024a7fe4e4a99ddb44ce9a5136c\",0]",
+  "attempt": "runtime-04",
+  "max_attempts": 1,
+  "proposal_sha256": "af59bcbde66316553b1b700210d8692d4f6189ed6b6f6b0017e80f75c5d713b2",
+  "source_manifest_sha256": "ff24b9463bc4302b19fd951136b30ca2d50a0ee0a3ac2da8fa486ba5eb9524ef",
+  "original_authorization_sha256": "0f35526a794224141dd5cc0bdde7e41fc719924add636b8c1a2e23878f1df44d",
+  "max_provider_calls": 1,
+  "max_fixture_http": 3,
+  "max_tcp_controls": 1,
+  "max_seconds": 1200,
+  "cleanup_reserve_seconds": 300,
+  "conditional_publication": true,
+  "automatic_retry": false,
+  "shared_infrastructure_mutations": false
+}

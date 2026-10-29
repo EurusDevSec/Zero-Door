@@ -1,0 +1,429 @@
+{
+  "at": 1793241962.8604627,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "--raw",
+    "/api/v1/namespaces/monitoring/services/http:prometheus-kube-prometheus-prometheus:http-web/proxy/api/v1/query?query=%7B__name__%3D~%22container_cpu_%28cfs_throttled_seconds_total%7Ccfs_throttled_periods_total%7Ccfs_periods_total%7Cusage_seconds_total%29%22%2Cnamespace%3D%22target-app%22%2Cpod%3D%22cartservice-56b9fb479f-ppsgd%22%2Ccontainer%3D%22server%22%7D%5B6m%5D&time=2026-10-28T15%3A58%3A00Z&timeout=5s"
+  ],
+  "query": "{__name__=~\"container_cpu_(cfs_throttled_seconds_total|cfs_throttled_periods_total|cfs_periods_total|usage_seconds_total)\",namespace=\"target-app\",pod=\"cartservice-56b9fb479f-ppsgd\",container=\"server\"}[6m]",
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.1089999999999236,
+  "stderr": "",
+  "response": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": [
+        {
+          "metric": {
+            "__name__": "container_cpu_cfs_periods_total",
+            "container": "server",
+            "endpoint": "https-metrics",
+            "id": "/kubepods/burstable/pod1d6d204d-d075-45df-9972-3b98cd3231be/7895a60cd67aac9fae954a31b5f6b44396fecaa6ec5e5210040aa6a9d0e3057a",
+            "image": "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5",
+            "instance": "172.19.0.4:10250",
+            "job": "kubelet",
+            "metrics_path": "/metrics/cadvisor",
+            "name": "7895a60cd67aac9fae954a31b5f6b44396fecaa6ec5e5210040aa6a9d0e3057a",
+            "namespace": "target-app",
+            "node": "k3d-zero-door-agent-0",
+            "pod": "cartservice-56b9fb479f-ppsgd",
+            "service": "prometheus-kube-prometheus-kubelet"
+          },
+          "values": [
+            [
+              1793202724.082,
+              "211"
+            ],
+            [
+              1793202735.974,
+              "224"
+            ],
+            [
+              1793202751.472,
+              "238"
+            ],
+            [
+              1793202762.997,
+              "248"
+            ],
+            [
+              1793202773.061,
+              "256"
+            ],
+            [
+              1793202783.879,
+              "262"
+            ],
+            [
+              1793202799.17,
+              "272"
+            ],
+            [
+              1793202819.053,
+              "288"
+            ],
+            [
+              1793202830.01,
+              "296"
+            ],
+            [
+              1793202844.075,
+              "314"
+            ],
+            [
+              1793202862.923,
+              "326"
+            ],
+            [
+              1793202881.787,
+              "344"
+            ],
+            [
+              1793202892.917,
+              "376"
+            ],
+            [
+              1793202907.056,
+              "384"
+            ],
+            [
+              1793202924.989,
+              "392"
+            ],
+            [
+              1793202948.449,
+              "558"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "container_cpu_cfs_periods_total",
+            "container": "server",
+            "endpoint": "https-metrics",
+            "id": "/kubepods/burstable/pod1d6d204d-d075-45df-9972-3b98cd3231be/c31e60e2d781e96e136f921085fef81e717c3c647a37a3d95657b6d2e918a322",
+            "image": "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5",
+            "instance": "172.19.0.4:10250",
+            "job": "kubelet",
+            "metrics_path": "/metrics/cadvisor",
+            "name": "c31e60e2d781e96e136f921085fef81e717c3c647a37a3d95657b6d2e918a322",
+            "namespace": "target-app",
+            "node": "k3d-zero-door-agent-0",
+            "pod": "cartservice-56b9fb479f-ppsgd",
+            "service": "prometheus-kube-prometheus-kubelet"
+          },
+          "values": [
+            [
+              1793202955.726,
+              "0"
+            ],
+            [
+              1793202971.331,
+              "59"
+            ],
+            [
+              1793202989.536,
+              "98"
+            ],
+            [
+              1793203003.362,
+              "121"
+            ],
+            [
+              1793203014.54,
+              "138"
+            ],
+            [
+              1793203024.807,
+              "149"
+            ],
+            [
+              1793203044.551,
+              "165"
+            ],
+            [
+              1793203064.236,
+              "182"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "container_cpu_cfs_throttled_periods_total",
+            "container": "server",
+            "endpoint": "https-metrics",
+            "id": "/kubepods/burstable/pod1d6d204d-d075-45df-9972-3b98cd3231be/7895a60cd67aac9fae954a31b5f6b44396fecaa6ec5e5210040aa6a9d0e3057a",
+            "image": "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5",
+            "instance": "172.19.0.4:10250",
+            "job": "kubelet",
+            "metrics_path": "/metrics/cadvisor",
+            "name": "7895a60cd67aac9fae954a31b5f6b44396fecaa6ec5e5210040aa6a9d0e3057a",
+            "namespace": "target-app",
+            "node": "k3d-zero-door-agent-0",
+            "pod": "cartservice-56b9fb479f-ppsgd",
+            "service": "prometheus-kube-prometheus-kubelet"
+          },
+          "values": [
+            [
+              1793202724.082,
+              "65"
+            ],
+            [
+              1793202735.974,
+              "70"
+            ],
+            [
+              1793202751.472,
+              "74"
+            ],
+            [
+              1793202762.997,
+              "74"
+            ],
+            [
+              1793202773.061,
+              "74"
+            ],
+            [
+              1793202783.879,
+              "74"
+            ],
+            [
+              1793202799.17,
+              "74"
+            ],
+            [
+              1793202819.053,
+              "74"
+            ],
+            [
+              1793202830.01,
+              "74"
+            ],
+            [
+              1793202844.075,
+              "74"
+            ],
+            [
+              1793202862.923,
+              "74"
+            ],
+            [
+              1793202881.787,
+              "76"
+            ],
+            [
+              1793202892.917,
+              "102"
+            ],
+            [
+              1793202907.056,
+              "102"
+            ],
+            [
+              1793202924.989,
+              "102"
+            ],
+            [
+              1793202948.449,
+              "266"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "container_cpu_cfs_throttled_periods_total",
+            "container": "server",
+            "endpoint": "https-metrics",
+            "id": "/kubepods/burstable/pod1d6d204d-d075-45df-9972-3b98cd3231be/c31e60e2d781e96e136f921085fef81e717c3c647a37a3d95657b6d2e918a322",
+            "image": "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5",
+            "instance": "172.19.0.4:10250",
+            "job": "kubelet",
+            "metrics_path": "/metrics/cadvisor",
+            "name": "c31e60e2d781e96e136f921085fef81e717c3c647a37a3d95657b6d2e918a322",
+            "namespace": "target-app",
+            "node": "k3d-zero-door-agent-0",
+            "pod": "cartservice-56b9fb479f-ppsgd",
+            "service": "prometheus-kube-prometheus-kubelet"
+          },
+          "values": [
+            [
+              1793202955.726,
+              "0"
+            ],
+            [
+              1793202971.331,
+              "44"
+            ],
+            [
+              1793202989.536,
+              "55"
+            ],
+            [
+              1793203003.362,
+              "58"
+            ],
+            [
+              1793203014.54,
+              "60"
+            ],
+            [
+              1793203024.807,
+              "61"
+            ],
+            [
+              1793203044.551,
+              "64"
+            ],
+            [
+              1793203064.236,
+              "68"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "container_cpu_usage_seconds_total",
+            "container": "server",
+            "cpu": "total",
+            "endpoint": "https-metrics",
+            "id": "/kubepods/burstable/pod1d6d204d-d075-45df-9972-3b98cd3231be/7895a60cd67aac9fae954a31b5f6b44396fecaa6ec5e5210040aa6a9d0e3057a",
+            "image": "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5",
+            "instance": "172.19.0.4:10250",
+            "job": "kubelet",
+            "metrics_path": "/metrics/cadvisor",
+            "name": "7895a60cd67aac9fae954a31b5f6b44396fecaa6ec5e5210040aa6a9d0e3057a",
+            "namespace": "target-app",
+            "node": "k3d-zero-door-agent-0",
+            "pod": "cartservice-56b9fb479f-ppsgd",
+            "service": "prometheus-kube-prometheus-kubelet"
+          },
+          "values": [
+            [
+              1793202724.082,
+              "1.72506"
+            ],
+            [
+              1793202735.974,
+              "1.836311"
+            ],
+            [
+              1793202751.472,
+              "1.934374"
+            ],
+            [
+              1793202762.997,
+              "1.944277"
+            ],
+            [
+              1793202773.061,
+              "1.950796"
+            ],
+            [
+              1793202783.879,
+              "1.962611"
+            ],
+            [
+              1793202799.17,
+              "1.973436"
+            ],
+            [
+              1793202819.053,
+              "1.989746"
+            ],
+            [
+              1793202830.01,
+              "1.996945"
+            ],
+            [
+              1793202844.075,
+              "2.017424"
+            ],
+            [
+              1793202862.923,
+              "2.03111"
+            ],
+            [
+              1793202881.787,
+              "2.104292"
+            ],
+            [
+              1793202892.917,
+              "2.650003"
+            ],
+            [
+              1793202907.056,
+              "2.658065"
+            ],
+            [
+              1793202924.989,
+              "2.681999"
+            ],
+            [
+              1793202948.449,
+              "4.385081"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "container_cpu_usage_seconds_total",
+            "container": "server",
+            "cpu": "total",
+            "endpoint": "https-metrics",
+            "id": "/kubepods/burstable/pod1d6d204d-d075-45df-9972-3b98cd3231be/c31e60e2d781e96e136f921085fef81e717c3c647a37a3d95657b6d2e918a322",
+            "image": "us-central1-docker.pkg.dev/google-samples/microservices-demo/cartservice:v0.10.5",
+            "instance": "172.19.0.4:10250",
+            "job": "kubelet",
+            "metrics_path": "/metrics/cadvisor",
+            "name": "c31e60e2d781e96e136f921085fef81e717c3c647a37a3d95657b6d2e918a322",
+            "namespace": "target-app",
+            "node": "k3d-zero-door-agent-0",
+            "pod": "cartservice-56b9fb479f-ppsgd",
+            "service": "prometheus-kube-prometheus-kubelet"
+          },
+          "values": [
+            [
+              1793202955.726,
+              "0.013254"
+            ],
+            [
+              1793202971.331,
+              "0.946382"
+            ],
+            [
+              1793202989.536,
+              "1.238408"
+            ],
+            [
+              1793203003.362,
+              "1.33709"
+            ],
+            [
+              1793203014.54,
+              "1.421922"
+            ],
+            [
+              1793203024.807,
+              "1.470213"
+            ],
+            [
+              1793203044.551,
+              "1.580949"
+            ],
+            [
+              1793203064.236,
+              "1.705461"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

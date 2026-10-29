@@ -1,0 +1,23 @@
+{
+  "at": 1793202948.9793048,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import json\nimport time\nfrom pathlib import Path\nroot=Path('/ledger')/'run_e0e0aea106134a6bae270af8ec29c298'\nend=time.monotonic()+15\nwhile (root/'started.json').exists() and not (root/'receipt.json').exists() and time.monotonic()<end: time.sleep(.2)\ncapture={}\nfor name in ['started.json','events.jsonl','receipt.json']:\n p=root/name\n capture[name]=p.read_text() if p.exists() else None\nprint(json.dumps(capture))"
+  ],
+  "label": "capture-owned-trace",
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "Error from server (NotFound): pods \"zer42-nemesis\" not found\n"
+}

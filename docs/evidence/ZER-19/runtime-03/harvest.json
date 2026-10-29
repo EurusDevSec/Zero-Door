@@ -1,0 +1,8 @@
+{
+  "errors": [
+    "SESSION_FILES_UNAVAILABLE",
+    "COMMAND_FAILED:worker-logs"
+  ],
+  "before_namespace_delete": true,
+  "status": "PARTIAL"
+}

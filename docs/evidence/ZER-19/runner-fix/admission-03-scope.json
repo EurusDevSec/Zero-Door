@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-29T03:09:37.986Z",
+  "head": "093e924000861da3096185427994d9ea736df36d",
+  "branch": "codex/zer-19-nemesis-session",
+  "writer": "root only; review reads only",
+  "scope": [
+    "runtime-prep/run.py",
+    "runtime-prep/check_runner.py",
+    "runtime-prep/source-manifest-03.json",
+    "acceptance-03-proposal.md",
+    "runner-fix/admission-03-*",
+    "runner-fix/independent-review-03.md",
+    "README prefix and artifact-sha256.json",
+    "delivery NOW and issue-note prefix",
+    "scratch/zer19/acceptance03-*"
+  ],
+  "actions": [
+    "offline admission/review/tests",
+    "prepare new one-attempt proposal; authorization remains absent"
+  ],
+  "excluded": [
+    "runtime-03 execution without fresh explicit approval",
+    "model/lab/shared mutations",
+    "publication/Linear mutation",
+    "modifying old authorizations, manifests, raw or verdicts"
+  ],
+  "before": {
+    "runtime-prep/run.py": {
+      "sha256": "84f75d5b0a510298318866c4dc9b6df54c93e31441f27398ba70a123c6005bad",
+      "bytes": 38527
+    },
+    "runtime-prep/check_runner.py": {
+      "sha256": "af3198a7d6fe3b2cff27beccd195017a9569edae0e91376d1c975c6a081b1397",
+      "bytes": 18503
+    },
+    "README.md": {
+      "sha256": "2b7c3019383b14196b0d1fb087f15a84af510ad2bc4ed0e2ba5d2088941971a1",
+      "bytes": 5386
+    },
+    "artifact-sha256.json": {
+      "sha256": "24acfde2cd9322ed30007d62efdaa43fa63ad7e4ddc7c328414e5e4678d5aeac",
+      "bytes": 32950
+    }
+  }
+}

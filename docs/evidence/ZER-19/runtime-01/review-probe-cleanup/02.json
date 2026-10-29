@@ -1,0 +1,18 @@
+{
+  "at": 1793202292.639494,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "get",
+    "all,cm,secret,networkpolicy,sa,role,rolebinding,pvc",
+    "-o",
+    "name"
+  ],
+  "returncode": 0,
+  "stdout": "configmap/kube-root-ca.crt\nserviceaccount/default\n",
+  "stderr": ""
+}

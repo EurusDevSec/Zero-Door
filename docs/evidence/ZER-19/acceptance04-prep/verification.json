@@ -1,0 +1,86 @@
+{
+  "at": "2026-10-29T03:52:03.088Z",
+  "status": "PREPARED_OFFLINE_VERIFIED_RUNTIME04_NOT_AUTHORIZED",
+  "head": "093e924000861da3096185427994d9ea736df36d",
+  "branch": "codex/zer-19-nemesis-session",
+  "repair": {
+    "checksums_verified": 9,
+    "readme_sha256": "3ddaa0c5a80069304c7357be5cf4ffc86b1e06f9b10f82c667e6473bea7a836c",
+    "audit": "repair-audit.json",
+    "accepted_layer": "Saved post-repair firewall map and UID/PVC evidence; no traffic enforcement or ZER19 functional acceptance"
+  },
+  "tests": {
+    "command": "python -B docs/evidence/ZER-19/runtime-prep/check_runner.py",
+    "count": 44,
+    "seconds": 5.306,
+    "result": "PASS_OFFLINE",
+    "log_sha256": "edc1f623d0eaaedd217630c9e05c4b1546be8a4e2006db5ab6d05838b75c16d4",
+    "native_external_clients": "Blocked before Popen; only sys.executable local children allowed"
+  },
+  "source": {
+    "product_pins": [
+      {
+        "path": "agent-orchestrator/nemesis/session.py",
+        "ok": true
+      },
+      {
+        "path": "agent-orchestrator/nemesis/session_cli.py",
+        "ok": true
+      },
+      {
+        "path": "agent-orchestrator/nemesis/Dockerfile",
+        "ok": true
+      },
+      {
+        "path": "tests/test_nemesis_session.py",
+        "ok": true
+      },
+      {
+        "path": "tests/test_nemesis_session_io.py",
+        "ok": true
+      },
+      {
+        "path": "infrastructure/scripts/verify-nemesis-session.sh",
+        "ok": true
+      },
+      {
+        "path": "infrastructure/scripts/setup-phase3.sh",
+        "ok": true
+      },
+      {
+        "path": "rebuild-nemesis.sh",
+        "ok": true
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "ok": true
+      }
+    ],
+    "manifest_entries": 43,
+    "manifest_sha256": "ff24b9463bc4302b19fd951136b30ca2d50a0ee0a3ac2da8fa486ba5eb9524ef",
+    "runner_sha256": "1f6e6d726d09e1bbd361dc6b48997721d8656dce4131d71c497b84e215812a8a",
+    "checks_sha256": "6b841783ed950a9bfebd8a3238781583bdf76a098ffea4407eb4c8987c0965a3",
+    "prior_helper_bytes_archived": true
+  },
+  "proposal_sha256": "af59bcbde66316553b1b700210d8692d4f6189ed6b6f6b0017e80f75c5d713b2",
+  "checks": {
+    "plan_only": "0 provider calls;0 lab mutations",
+    "bash_syntax": "PASS",
+    "git_diff_check": "PASS",
+    "index": "EMPTY"
+  },
+  "review": {
+    "method": "Single combined local domain/architecture/Python/DoD/simplicity pass; direct source + focused tests",
+    "graph": "Primary stale 2026-10-27 branch/FTS missing; helper untracked/not indexed; context/impact/PDG unresolved. detect_changes 0 symbols does not cover helper. No complete graph/taint/PDG coverage claimed.",
+    "findings": []
+  },
+  "activity": {
+    "live_diagnostic_commands": 0,
+    "new_lab_attempts": 0,
+    "provider_calls": 0,
+    "infra_mutations": 0,
+    "publication": 0,
+    "linear_writes": 0
+  },
+  "next": "Await one explicit runtime04 approval; retain fixture UID/IP release gate and deny/allow probes; no automatic restart/retry."
+}

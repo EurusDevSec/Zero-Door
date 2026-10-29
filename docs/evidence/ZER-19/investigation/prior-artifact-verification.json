@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-29T02:48:56.557Z",
+  "manifest_sha256": "8edfd6c52206c4eec7d2653e41778721b1ffe4029dad1d6e11f64584b8b57cea",
+  "schema": "path -> {sha256,bytes}",
+  "checked": 183,
+  "mismatches": [],
+  "checker_note": "Initial scratch comparison treated each manifest object as a digest string; corrected to sha256 and bytes before interpretation. No artifacts changed."
+}

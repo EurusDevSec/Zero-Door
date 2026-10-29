@@ -1,0 +1,35 @@
+{
+  "pins": [
+    {
+      "name": "sqli-fixture",
+      "tag": "zer41-fixture:37c7a045e098",
+      "host_id": "sha256:e95d058b11defba91a76d3a13c703811f846ddc40e877bf3459fc8c1b6f6b17c",
+      "node_id": "sha256:703664716e063e062f5babef7487f519647e3b9ca901a30afba823aef8b3370f",
+      "node_tag": "docker.io/library/zer41-fixture:37c7a045e098"
+    },
+    {
+      "name": "zer41-private-ingress",
+      "tag": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+      "host_id": "sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+      "node_id": "sha256:5a93040e5abdf181145d7c242964eca7999ffd700e0447b242ef212f3ee44d55",
+      "node_tag": "docker.io/library/traefik:v3.7.14"
+    },
+    {
+      "name": "zer42-worker",
+      "tag": "zer42-worker:e80bc554b7ef",
+      "host_id": "sha256:250be486034d652fc74e0e15d6c7c61bc4f54e826ffcbb54b8803153c9e5cace",
+      "node_id": "sha256:b2c1437752969102794e92251b7a3b0fb8652a7b8a2e89b62d7ffd079afeac24",
+      "node_tag": "docker.io/library/zer42-worker:e80bc554b7ef"
+    },
+    {
+      "name": "zer42-nemesis",
+      "tag": "zer42-nemesis:e80bc554b7ef",
+      "host_id": "sha256:d1896d5e4e9f1ea2b97e33fab518f3718b40525ff87ae12b5b511ae0ba07f199",
+      "node_id": "sha256:050153eb4b84703b6f882e46901c51586c1d4b58a6acab5615f841bb209ec86b",
+      "node_tag": "docker.io/library/zer42-nemesis:e80bc554b7ef"
+    }
+  ],
+  "builds": 0,
+  "pulls": 0,
+  "imports": 0
+}

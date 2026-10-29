@@ -1,0 +1,27 @@
+{
+  "at": 1793243864.8514824,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "cat",
+    "/proc/meminfo",
+    "/proc/pressure/memory",
+    "/proc/pressure/cpu",
+    "/proc/pressure/io"
+  ],
+  "label": "memory",
+  "timeout_s": 4,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "MemTotal:        6068836 kB\nMemFree:           94620 kB\nMemAvailable:    2483824 kB\nBuffers:          149908 kB\nCached:          2389272 kB\nSwapCached:           12 kB\nActive:          1334716 kB\nInactive:        4186560 kB\nActive(anon):       9196 kB\nInactive(anon):  3021320 kB\nActive(file):    1325520 kB\nInactive(file):  1165240 kB\nUnevictable:         292 kB\nMlocked:               0 kB\nSwapTotal:       2097152 kB\nSwapFree:        2096676 kB\nDirty:              1100 kB\nWriteback:            12 kB\nAnonPages:       2982160 kB\nMapped:          1293904 kB\nShmem:             48452 kB\nKReclaimable:      61440 kB\nSlab:             144244 kB\nSReclaimable:      61440 kB\nSUnreclaim:        82804 kB\nKernelStack:       18424 kB\nPageTables:        26120 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     5131568 kB\nCommitted_AS:    7485984 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       28796 kB\nVmallocChunk:          0 kB\nPercpu:             2960 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:     32768 kB\nFilePmdMapped:     10240 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:       82944 kB\nDirectMap2M:     4110336 kB\nDirectMap1G:    11534336 kB\nsome avg10=0.00 avg60=0.00 avg300=0.00 total=149314\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=119278\nsome avg10=2.43 avg60=3.09 avg300=2.16 total=90500197\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\nsome avg10=0.00 avg60=0.00 avg300=0.00 total=12702342\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=9542741\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.09400000000005093
+}

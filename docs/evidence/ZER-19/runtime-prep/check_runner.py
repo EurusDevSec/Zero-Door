@@ -1,0 +1,504 @@
+"""Offline runner admission/ownership/deadline checks. No Docker/Kafka/Kubernetes/model."""
+import copy,importlib.util,json,sys,tempfile,threading,time,unittest
+from types import SimpleNamespace
+from pathlib import Path
+from unittest.mock import patch
+HERE=Path(__file__).resolve().parent
+sp=importlib.util.spec_from_file_location('zer19_runtime',HERE/'run.py')
+run=importlib.util.module_from_spec(sp);sp.loader.exec_module(run)
+class RunnerTests(unittest.TestCase):
+ def setUp(self):
+  self.original_popen=run.subprocess.Popen
+  def safe_process(args,*a,**kwargs):
+   if not isinstance(args,(list,tuple)) or args[0]!=sys.executable:
+    raise AssertionError('OFFLINE_EXTERNAL_CLIENT_FORBIDDEN')
+   return self.original_popen(args,*a,**kwargs)
+  self.offline_boundary=patch.object(run.subprocess,'Popen',side_effect=safe_process)
+  self.offline_boundary.start()
+ def tearDown(self):
+  self.offline_boundary.stop()
+ def test_offline_boundary_blocks_native_kubectl_before_spawn(self):
+  lab=run.Lab();lab.save=lambda *a:None
+  with self.assertRaisesRegex(AssertionError,'OFFLINE_EXTERNAL_CLIENT_FORBIDDEN'):
+   lab.command(['kubectl','version'])
+
+ def test_default_does_not_authorize_or_construct_lab(self):
+  with patch.object(sys,'argv',['run.py']),patch.object(run,'authorize',side_effect=AssertionError('no auth')),patch.object(run,'Lab',side_effect=AssertionError('no lab')):
+   self.assertEqual(0,run.main())
+ def test_auth_rejects_source_drift_before_outdir(self):
+  with patch.object(run,'sha',return_value='wrong'):
+   with self.assertRaisesRegex(RuntimeError,'PROPOSAL_DRIFT'):run.authorize()
+ def test_process_deadline_kills_only_owned_child(self):
+  lab=run.Lab();lab.save=lambda *a:None
+  t=time.monotonic()
+  with self.assertRaises(TimeoutError):lab.command([sys.executable,'-c','import time; time.sleep(5)'],timeout=.1)
+  self.assertLess(time.monotonic()-t,2)
+ def test_guard_stop_interrupts_owned_child(self):
+  lab=run.Lab();lab.save=lambda *a:None
+  timer=threading.Timer(.1,lab.stop.set);timer.start()
+  try:
+   with self.assertRaisesRegex(RuntimeError,'RESOURCE_GUARD_STOP'):lab.command([sys.executable,'-c','import time; time.sleep(5)'],timeout=2)
+  finally:timer.join()
+ def test_topic_allowlist_rejects_formal_names_without_command(self):
+  lab=run.Lab();lab.kube=lambda *a,**k:(_ for _ in ()).throw(AssertionError('no external client'))
+  with self.assertRaisesRegex(RuntimeError,'TOPIC_SCOPE'):lab.topic('delete','attack.commands')
+ def test_preflight_failure_no_owned_namespace_uses_readback_only(self):
+  lab=run.Lab();lab.before={'items':[]};lab.save=lambda *a:None
+  from subprocess import CompletedProcess
+  lab.kube=lambda *a,**k:CompletedProcess(a,0,b'',b'')
+  lab.snapshot=lambda *a:{'items':[]}
+  self.assertEqual('CLEAN',lab.cleanup()['verdict'])
+ def test_ambiguous_namespace_create_checks_owner_and_uid_before_delete(self):
+  lab=run.Lab();lab.namespace_creation_attempted=True;lab.before={'items':[]};lab.save=lambda *a:None
+  lab.snapshot=lambda *a:{'items':[]}
+  calls=[]
+  from subprocess import CompletedProcess
+  obj={'metadata':{'uid':'owned-uid','labels':{'zero-door.io/run':lab.owner}}}
+  def kube(*args,**kwargs):
+   calls.append((args,kwargs));raw=json.dumps(obj).encode() if kwargs.get('label') in {'ambiguous-create-readback','cleanup-identity'} else b''
+   return CompletedProcess(args,0,raw,b'')
+  lab.kube=kube
+  self.assertEqual('CLEAN',lab.cleanup()['verdict'])
+  deletion=next(kwargs['stdin'] for args,kwargs in calls if args[0]=='delete')
+  self.assertEqual('owned-uid',json.loads(deletion)['preconditions']['uid'])
+ def test_unknown_namespace_owner_never_deleted(self):
+  lab=run.Lab();lab.namespace_creation_attempted=True;lab.save=lambda *a:None
+  lab.before={'items':[]};lab.snapshot=lambda *a:{'items':[]}
+  from subprocess import CompletedProcess
+  called=[]
+  def kube(*args,**kwargs):
+   called.append(args)
+   if args[0]=='delete':raise AssertionError('no delete')
+   if kwargs.get('label')=='ambiguous-create-readback':return CompletedProcess(args,0,b'{"metadata":{"uid":"other","labels":{}}}',b'')
+   return CompletedProcess(args,0,b'exists',b'')
+  lab.kube=kube
+  self.assertEqual('INCOMPLETE',lab.cleanup()['verdict'])
+  self.assertFalse(any(args[0]=='delete' for args in called))
+ def test_raw_success_cannot_be_accepted_without_live_trace(self):
+  lab=run.Lab()
+  bad={'purpose':'FUNCTIONAL_ONLY_NOT_BENCHMARK','benchmark_eligible':False,'stop_reason':'MAX_ROUNDS','completed_rounds':1,'budget':{'attempts_dispatched':1,'cost_estimate_complete':True},'records':[]}
+  with self.assertRaisesRegex(RuntimeError,'TRACE_NOT_REAL_SUCCESS'):lab.verify_receipt(bad)
+ def test_foreign_namespace_race_at_create_is_not_adopted_or_deleted(self):
+  lab=run.Lab();lab.save=lambda *a:None;lab.before={'items':[]};lab.snapshot=lambda *a:{'items':[]}
+  calls=[]
+  from subprocess import CompletedProcess
+  foreign={'metadata':{'uid':'foreign-uid','labels':{'zero-door.io/run':'foreign-run'}}}
+  def kube(*args,**kwargs):
+   calls.append(args)
+   if len(calls)==1:
+    self.assertEqual('create',args[0]);raise RuntimeError('ALREADY_EXISTS')
+   if args[0]=='delete':raise AssertionError('foreign delete')
+   raw=json.dumps(foreign).encode() if kwargs.get('label')=='ambiguous-create-readback' else b'exists'
+   return CompletedProcess(args,0,raw,b'')
+  lab.kube=kube
+  with self.assertRaisesRegex(RuntimeError,'ALREADY_EXISTS'):lab.prepare()
+  self.assertIsNone(lab.namespace_uid)
+  self.assertEqual('INCOMPLETE',lab.cleanup()['verdict'])
+  self.assertFalse(any(args[0] in {'apply','delete'} for args in calls))
+ def test_topic_regex_is_anchored_literal_and_create_is_literal(self):
+  lab=run.Lab();calls=[]
+  from subprocess import CompletedProcess
+  import re
+  def kube(*args,**kwargs):calls.append(args);return CompletedProcess(args,0,b'',b'')
+  lab.kube=kube
+  name=lab.topics[0]
+  lab.topic('list',name);pattern=calls[-1][calls[-1].index('--topic')+1]
+  self.assertIsNotNone(re.fullmatch(pattern,name))
+  self.assertIsNone(re.fullmatch(pattern,name.replace('.','X')))
+  lab.topic('create',name);self.assertEqual(name,calls[-1][calls[-1].index('--topic')+1])
+  self.assertEqual([name],lab.topics_created)
+ def test_explicit_foreign_topic_create_race_is_never_owned_or_deleted(self):
+  lab=run.Lab();calls=[]
+  from subprocess import CompletedProcess
+  def kube(*args,**kwargs):calls.append(args);return CompletedProcess(args,1,b'',b'TopicExistsException: already exists')
+  lab.kube=kube
+  with self.assertRaisesRegex(RuntimeError,'FOREIGN_TOPIC_CREATE_RACE'):lab.topic('create',lab.topics[0])
+  self.assertEqual([],lab.topics_created);self.assertEqual([],lab.topics_unknown)
+  self.assertEqual([lab.topics[0]],lab.topics_foreign)
+  self.assertFalse(any('--delete' in args for args in calls))
+ def test_failure_receipt_and_events_are_captured_before_cleanup(self):
+  lab=run.Lab();lab.namespace_uid='own';calls=[];saved={}
+  lab.save=lambda name,obj:saved.update({name:obj})
+  lab.get=lambda *a,**k:{'metadata':{'uid':'own'}}
+  from subprocess import CompletedProcess
+  capture={'started.json':'{}','events.jsonl':'failed trace','receipt.json':'{"stop_reason":"MODEL_REFUSAL"}'}
+  def remote(*args,**kwargs):
+   calls.append(kwargs['label']);return CompletedProcess(args,0,json.dumps(capture).encode(),b'')
+  lab.remote=remote;lab.collect_logs=lambda:calls.append('logs')
+  lab.harvest(stop_session=True)
+  self.assertEqual(['stop-owned-session','capture-owned-trace','logs'],calls)
+  self.assertEqual('failed trace',saved['session-file-capture.json']['events.jsonl'])
+  self.assertEqual('CAPTURED',saved['harvest.json']['status'])
+ def test_continuation_gate_requires_new_authorization_before_source_lock(self):
+  original=run.load
+  def fake(path):
+   if path.name=='continuation-authorization.json':return {'status':'NOT_APPROVED'}
+   return original(path)
+  with patch.object(run,'load',side_effect=fake):
+   with self.assertRaisesRegex(RuntimeError,'CONTINUATION_NOT_AUTHORIZED'):run.authorize('runtime-02')
+
+ def receipt_lab(self):
+  lab=run.Lab();saved={};lab.save=lambda name,obj:saved.update({name:obj})
+  return lab,saved
+
+ def test_timeout_records_partial_output_elapsed_and_local_reap_without_remote_success(self):
+  lab,saved=self.receipt_lab()
+  with self.assertRaisesRegex(TimeoutError,'COMMAND_DEADLINE'):
+   lab.command([sys.executable,'-u','-c',"import time; print('partial'); time.sleep(5)"],timeout=.6)
+  row=next(iter(saved.values()))
+  self.assertIn('partial',row['stdout']);self.assertGreaterEqual(row['elapsed_s'],.6)
+  self.assertTrue(row['kill_requested']);self.assertTrue(row['child_reaped'])
+  self.assertIsNotNone(row['returncode']);self.assertEqual('COMMAND_DEADLINE',row['reason'])
+  self.assertEqual('UNKNOWN',row['remote_outcome'])
+
+ def test_stop_receipt_distinguishes_guard_from_command_timeout(self):
+  lab,saved=self.receipt_lab();timer=threading.Timer(.15,lab.stop.set);timer.start()
+  try:
+   with self.assertRaisesRegex(RuntimeError,'RESOURCE_GUARD_STOP'):
+    lab.command([sys.executable,'-c','import time; time.sleep(5)'],timeout=5)
+  finally:timer.join()
+  row=next(iter(saved.values()))
+  self.assertEqual('RESOURCE_GUARD_STOP',row['reason']);self.assertTrue(row['child_reaped'])
+
+ def test_spawn_failure_is_recorded_without_claiming_a_child_exited(self):
+  lab,saved=self.receipt_lab()
+  with patch.object(run.subprocess,'Popen',side_effect=OSError('spawn failed')):
+   with self.assertRaises(OSError):lab.command([sys.executable,'-c','pass'])
+  row=next(iter(saved.values()))
+  self.assertFalse(row['child_spawned']);self.assertFalse(row['child_reaped'])
+  self.assertIsNone(row['returncode']);self.assertEqual('OSError',row['error_type'])
+
+ def test_allowed_nonzero_return_still_preserves_output_and_exit_code(self):
+  lab,saved=self.receipt_lab()
+  result=lab.command([sys.executable,'-c',"print('known absent'); raise SystemExit(7)"],allowed=(0,7))
+  row=next(iter(saved.values()))
+  self.assertEqual(7,result.returncode);self.assertEqual(7,row['returncode'])
+  self.assertEqual('RETURNED',row['completion']);self.assertIn('known absent',row['stdout'])
+  self.assertTrue(row['child_reaped']);self.assertFalse(row['kill_requested'])
+
+ def test_cleanup_error_preserves_original_timeout_and_marks_unreaped(self):
+  lab,saved=self.receipt_lab()
+  class StuckChild:
+   returncode=None
+   def poll(self):return None
+   def kill(self):pass
+   def communicate(self,**kwargs):raise run.subprocess.TimeoutExpired('owned-child',kwargs['timeout'])
+  with patch.object(run.subprocess,'Popen',return_value=StuckChild()):
+   with self.assertRaisesRegex(TimeoutError,'COMMAND_DEADLINE'):
+    lab.command([sys.executable],timeout=.01)
+  row=next(iter(saved.values()))
+  self.assertFalse(row['child_reaped']);self.assertTrue(row['kill_requested'])
+  self.assertEqual('TimeoutExpired',row['child_cleanup_error_type'])
+  self.assertEqual('COMMAND_DEADLINE',row['reason'])
+
+ def test_stdin_echo_never_leaks_into_success_or_failure_receipts(self):
+  for exitcode in (0,9):
+   lab,saved=self.receipt_lab();secret=b'provider-key-test-sentinel'
+   code='import sys; data=sys.stdin.read(); print(data); print(data,file=sys.stderr); sys.exit('+str(exitcode)+')'
+   if exitcode:
+    with self.assertRaisesRegex(RuntimeError,'COMMAND_FAILED'):
+     lab.command([sys.executable,'-c',code],stdin=secret)
+   else:
+    result=lab.command([sys.executable,'-c',code],stdin=secret)
+    self.assertIn(secret,result.stdout)  # caller still receives the actual result
+   self.assertNotIn(secret.decode(),json.dumps(saved))
+   self.assertTrue(next(iter(saved.values()))['output_redacted'])
+
+ def test_timeout_stdin_echo_is_also_redacted(self):
+  lab,saved=self.receipt_lab();secret=b'private-key-sentinel'
+  code="import sys,time; print(sys.stdin.read(),flush=True); time.sleep(5)"
+  with self.assertRaises(TimeoutError):
+   lab.command([sys.executable,'-u','-c',code],stdin=secret,timeout=.6)
+  self.assertNotIn(secret.decode(),json.dumps(saved))
+  self.assertTrue(next(iter(saved.values()))['child_reaped'])
+
+ def sample_pressure(self,*,memory=.08,cpu=99,io=99,host=2**31,wsl=2340268):
+  lab,saved=self.receipt_lab();calls=[]
+  raw='MemAvailable: '+str(wsl)+' kB\n'
+  for value in (memory,cpu,io):
+   raw+='some avg10='+str(value)+' avg60=0.01 avg300=0.00 total=12345\n'
+   raw+='full avg10=0.00 avg60=0.00 avg300=0.00 total=900\n'
+  def command(args,**kwargs):
+   calls.append((args,kwargs));return run.subprocess.CompletedProcess(args,0,raw.encode(),b'')
+  lab.command=command
+  def available(ptr):ptr._obj.availPhys=host;return 1
+  kernel=SimpleNamespace(kernel32=SimpleNamespace(GlobalMemoryStatusEx=available))
+  return lab,saved,calls,kernel
+
+ def test_pressure_same_single_read_four_second_limit_and_diagnostic_cpu_io(self):
+  lab,saved,calls,kernel=self.sample_pressure()
+  with patch.object(run.ctypes,'windll',kernel,create=True):lab.resources()
+  self.assertEqual(1,len(calls));self.assertEqual(4,calls[0][1]['timeout'])
+  self.assertEqual(['/proc/meminfo','/proc/pressure/memory','/proc/pressure/cpu','/proc/pressure/io'],calls[0][0][-4:])
+  row=lab.samples[0]
+  self.assertEqual(.08,row['psi']);self.assertEqual(99,row['pressure']['cpu']['some']['avg10'])
+  self.assertEqual(12345,row['pressure']['io']['some']['total'])
+
+ def test_parse_saved_real_psi_format_without_touching_lab(self):
+  lab,saved,calls,kernel=self.sample_pressure()
+  captured=json.loads((HERE.parent/'investigation/live-readonly/vm-pressure.json').read_bytes())['stdout']
+  raw='MemAvailable: 2340268 kB\n'
+  for kind in ('memory','cpu','io'):
+   block=captured.split('/proc/pressure/'+kind+'\n',1)[1].splitlines()[:2]
+   raw+='\n'.join(block)+'\n'
+  lab.command=lambda *a,**k:run.subprocess.CompletedProcess(a,0,raw.encode(),b'')
+  with patch.object(run.ctypes,'windll',kernel,create=True):lab.resources()
+  self.assertEqual(3.4,lab.samples[0]['pressure']['cpu']['some']['avg10'])
+  self.assertEqual(75234,lab.samples[0]['pressure']['memory']['full']['total'])
+
+ def test_existing_memory_thresholds_still_fail_closed(self):
+  for values in ({'memory':5.01},{'host':2**30-1},{'wsl':1048575}):
+   lab,saved,calls,kernel=self.sample_pressure(**values)
+   with patch.object(run.ctypes,'windll',kernel,create=True):
+    with self.assertRaisesRegex(RuntimeError,'MEMORY_STOP'):lab.resources()
+
+ def test_missing_or_malformed_cpu_io_cannot_relabel_memory_as_valid_sample(self):
+  for raw in (b'MemAvailable: 2000000 kB\nsome avg10=0.01\n',
+              b'MemAvailable: 2000000 kB\n'+b'some avg10=nan avg60=0 avg300=0 total=0\n'*6):
+   lab,saved,calls,kernel=self.sample_pressure()
+   lab.command=lambda *a,**k:run.subprocess.CompletedProcess(a,0,raw,b'')
+   with patch.object(run.ctypes,'windll',kernel,create=True):
+    with self.assertRaisesRegex(RuntimeError,'WSL_PRESSURE_'):lab.resources()
+   self.assertEqual([],lab.samples)
+
+ def preflight_lab(self,change=None):
+  lab,saved=self.receipt_lab();calls=[]
+  snapshot={'items':[{'kind':'PersistentVolumeClaim','metadata':{'name':str(i),'namespace':'monitoring','uid':str(i)},'spec':{},'status':{'phase':'Bound'}} for i in range(3)]}
+  snapshot['items'].append({'kind':'Pod','metadata':{'uid':'cart-uid','namespace':'target-app'},'status':{'containerStatuses':[{'name':'server','restartCount':41}]}})
+  after=copy.deepcopy(snapshot)
+  if change:change(after)
+  def snapshot_read(label):
+   calls.append(label)
+   if label=='preflight-end' and isinstance(after,Exception):raise after
+   return snapshot if label=='before' else after
+  lab.snapshot=snapshot_read
+  def command(args,**kwargs):
+   value='093e924000861da3096185427994d9ea736df36d' if args[0]=='git' else 'desktop-linux'
+   return run.subprocess.CompletedProcess(args,0,value.encode(),b'')
+  lab.command=command
+  lab.get=lambda *a,**k:{'items':[{'metadata':{'name':name},'status':{'conditions':[{'type':'Ready','status':'True'}]}} for name in (run.NODE,'k3d-zero-door-server-0')]}
+  lab.kube=lambda *a,**k:run.subprocess.CompletedProcess(a,0,b'',b'')
+  lab.cache=lambda:None;lab.topic=lambda *a:[]
+  lab.wait=lambda seconds:calls.append(('wait',seconds))
+  lab.resources=lambda:lab.samples.append({'offline':True})
+  return lab,saved,calls
+
+ def test_preflight_retains_25_samples_and_checks_shared_state_before_watcher(self):
+  lab,saved,calls=self.preflight_lab()
+  with patch.dict(run.os.environ,{'DOCKER_HOST':''}),patch.object(run.threading,'Thread') as thread:
+   lab.preflight()
+   thread.return_value.start.assert_called_once()
+  self.assertEqual(25,len(lab.samples));self.assertEqual('preflight-end',calls[-1])
+  self.assertGreater(calls[-2][1],119)  # scheduled 120s, no real sleeping
+  self.assertEqual('READY_NOT_ISSUE_PASS',saved['preflight.json']['verdict'])
+  self.assertFalse(lab.namespace_creation_attempted)
+
+ def test_preflight_restart_or_replacement_is_no_go_before_fixture(self):
+  for field,value in (('restartCount',42),('uid','new-cart-uid')):
+   def change(snapshot):
+    pod=snapshot['items'][-1]
+    if field=='uid':pod['metadata']['uid']=value
+    else:pod['status']['containerStatuses'][0][field]=value
+   lab,saved,calls=self.preflight_lab(change)
+   with patch.dict(run.os.environ,{'DOCKER_HOST':''}),patch.object(run.threading,'Thread') as thread:
+    with self.assertRaisesRegex(RuntimeError,'PREFLIGHT_SHARED_DRIFT'):lab.preflight()
+    thread.assert_not_called()
+   self.assertEqual('NO_GO',saved['preflight.json']['verdict'])
+   self.assertFalse(lab.namespace_creation_attempted)
+
+ def test_preflight_inventory_change_is_no_go(self):
+  lab,saved,calls=self.preflight_lab(lambda s:s['items'][0]['spec'].update({'changed':True}))
+  with patch.dict(run.os.environ,{'DOCKER_HOST':''}),patch.object(run.threading,'Thread') as thread:
+   with self.assertRaisesRegex(RuntimeError,'PREFLIGHT_SHARED_DRIFT'):lab.preflight()
+   thread.assert_not_called()
+  self.assertFalse(saved['preflight.json']['shared_inventory_unchanged'])
+
+ def test_preflight_end_api_timeout_is_no_go_and_starts_no_watcher(self):
+  lab,saved,calls=self.preflight_lab();original=lab.snapshot
+  def snapshot(label):
+   if label=='preflight-end':raise TimeoutError('COMMAND_DEADLINE')
+   return original(label)
+  lab.snapshot=snapshot
+  with patch.dict(run.os.environ,{'DOCKER_HOST':''}),patch.object(run.threading,'Thread') as thread:
+   with self.assertRaises(TimeoutError):lab.preflight()
+   thread.assert_not_called()
+  self.assertEqual('NO_GO',saved['preflight.json']['verdict'])
+  self.assertFalse(saved['preflight.json']['control_path_returned'])
+  self.assertFalse(lab.namespace_creation_attempted)
+
+ def admission_fixture(self,directory):
+  root=Path(directory);e=root/'evidence';here=e/'runtime-prep'
+  here.mkdir(parents=True);(e/'runtime-02').mkdir()
+  def write(path,value):path.write_text(json.dumps(value),encoding='utf8')
+  for name in ('completion-proposal.md','approved-completion-proposal.md'):
+   (e/name).write_text('original bounded protocol',encoding='utf8')
+  write(e/'completion-authorization.json',{'status':'APPROVED','max_attempts':1,'proposal_sha256':run.sha(e/'completion-proposal.md')})
+  (e/'acceptance-03-proposal.md').write_text('new bounded protocol',encoding='utf8')
+  (root/'source.py').write_text('offline test source',encoding='utf8')
+  write(here/'source-manifest-03.json',{'source.py':run.sha(root/'source.py')})
+  write(e/'runtime-02/acceptance.json',{'provider_attempt_reserved':False,'fixture_http_reserved':0})
+  write(e/'runtime-02/final-conclusion.json',{'cleanup':{'namespace_absent':True},'actual_activity':{'topics_created':0,'private_secrets_created':0}})
+  auth={'status':'APPROVED','max_attempts':1,'attempt':'runtime-03',
+        'proposal_sha256':run.sha(e/'acceptance-03-proposal.md'),
+        'source_manifest_sha256':run.sha(here/'source-manifest-03.json'),
+        'original_authorization_sha256':run.sha(e/'completion-authorization.json')}
+  return root,e,here,auth,write
+
+ def test_runtime03_missing_authorization_stops_before_outdir_or_lab(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root,e,here,auth,write=self.admission_fixture(directory)
+   with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here),patch.object(run,'Lab') as lab,patch.object(sys,'argv',['run.py','--execute','--attempt','runtime-03']):
+    with self.assertRaisesRegex(RuntimeError,'RUNTIME03_NOT_AUTHORIZED'):run.main()
+    lab.assert_not_called()
+   self.assertFalse((e/'runtime-03').exists())
+
+ def test_runtime03_fresh_authorization_requires_exact_scope_and_pins(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root,e,here,auth,write=self.admission_fixture(directory)
+   with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here):
+    for key,bad in (('status','NOT_APPROVED'),('attempt','runtime-04'),('max_attempts',2),('proposal_sha256','wrong'),('source_manifest_sha256','wrong'),('original_authorization_sha256','wrong')):
+     write(e/'acceptance-03-authorization.json',dict(auth,**{key:bad}))
+     with self.assertRaisesRegex(RuntimeError,'RUNTIME03_NOT_AUTHORIZED'):run.authorize('runtime-03')
+    write(e/'acceptance-03-authorization.json',auth)
+    admitted=run.authorize('runtime-03')
+    self.assertEqual(here/'source-manifest-03.json',admitted['manifest'])
+    (root/'source.py').write_text('changed after review',encoding='utf8')
+    with self.assertRaisesRegex(RuntimeError,'SOURCE_DRIFT'):run.authorize('runtime-03')
+
+ def test_runtime03_replay_marker_prevents_constructing_lab(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root,e,here,auth,write=self.admission_fixture(directory)
+   write(e/'acceptance-03-authorization.json',auth);(e/'runtime-03').mkdir()
+   with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here),patch.object(run,'OUT',run.OUT),patch.object(run,'Lab') as lab,patch.object(sys,'argv',['run.py','--execute','--attempt','runtime-03']):
+    with self.assertRaises(FileExistsError):run.main()
+    lab.assert_not_called()
+
+ def test_runtime03_rejects_prior_unknown_or_unclean_owned_resources(self):
+  for case in ('provider','http','namespace','topic','secret','marker'):
+   with tempfile.TemporaryDirectory() as directory:
+    root,e,here,auth,write=self.admission_fixture(directory)
+    write(e/'acceptance-03-authorization.json',auth)
+    prior=run.load(e/'runtime-02/acceptance.json');closed=run.load(e/'runtime-02/final-conclusion.json')
+    if case=='provider':prior['provider_attempt_reserved']=True
+    if case=='http':prior['fixture_http_reserved']=1
+    if case=='namespace':closed['cleanup']['namespace_absent']=False
+    if case=='topic':closed['actual_activity']['topics_created']=1
+    if case=='secret':closed['actual_activity']['private_secrets_created']=1
+    if case=='marker':(e/'runtime-02/provider-attempt-reserved.json').write_text('{}')
+    write(e/'runtime-02/acceptance.json',prior);write(e/'runtime-02/final-conclusion.json',closed)
+    with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here):
+     with self.assertRaisesRegex(RuntimeError,'PRIOR_OUTCOME_NOT_SAFE_TO_CONTINUE'):run.authorize('runtime-03')
+
+ def test_unknown_attempt_never_uses_an_existing_authorization(self):
+  with self.assertRaisesRegex(RuntimeError,'UNKNOWN_ATTEMPT'):run.authorize('runtime-05')
+
+ def admission04_fixture(self,directory):
+  root,e,here,auth,write=self.admission_fixture(directory)
+  (e/'runtime-03').mkdir()
+  (e/'acceptance-04-proposal.md').write_text('one attempt after repaired node map',encoding='utf8')
+  write(here/'source-manifest-04.json',{'source.py':run.sha(root/'source.py')})
+  write(e/'runtime-03/acceptance.json',{'provider_attempt_reserved':False,'fixture_http_reserved':0,'cleanup':'CLEAN'})
+  write(e/'runtime-03/final-conclusion.json',{'cleanup':{'verdict':'CLEAN','namespace_absent_receipts':['absent']},'activity':{'topics_created':0,'private_secrets_created':0}})
+  auth.update(attempt='runtime-04',proposal_sha256=run.sha(e/'acceptance-04-proposal.md'),source_manifest_sha256=run.sha(here/'source-manifest-04.json'))
+  return root,e,here,auth,write
+
+ def test_runtime04_missing_approval_cannot_create_output_or_lab(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root,e,here,auth,write=self.admission04_fixture(directory)
+   with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here),patch.object(run,'Lab') as lab,patch.object(sys,'argv',['run.py','--execute','--attempt','runtime-04']):
+    with self.assertRaisesRegex(RuntimeError,'RUNTIME04_NOT_AUTHORIZED'):run.main()
+    lab.assert_not_called()
+   self.assertFalse((e/'runtime-04').exists())
+
+ def test_runtime04_requires_new_exact_approval_and_source(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root,e,here,auth,write=self.admission04_fixture(directory)
+   with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here):
+    for key,bad in (('status','NOT_APPROVED'),('attempt','runtime-03'),('max_attempts',2),('proposal_sha256','wrong'),('source_manifest_sha256','wrong'),('original_authorization_sha256','wrong')):
+     write(e/'acceptance-04-authorization.json',dict(auth,**{key:bad}))
+     with self.assertRaisesRegex(RuntimeError,'RUNTIME04_NOT_AUTHORIZED'):run.authorize('runtime-04')
+    write(e/'acceptance-04-authorization.json',auth)
+    self.assertEqual(here/'source-manifest-04.json',run.authorize('runtime-04')['manifest'])
+    (root/'source.py').write_text('changed')
+    with self.assertRaisesRegex(RuntimeError,'SOURCE_DRIFT'):run.authorize('runtime-04')
+
+ def test_runtime04_existing_attempt_never_constructs_lab(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root,e,here,auth,write=self.admission04_fixture(directory)
+   write(e/'acceptance-04-authorization.json',auth);(e/'runtime-04').mkdir()
+   with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here),patch.object(run,'Lab') as lab,patch.object(sys,'argv',['run.py','--execute','--attempt','runtime-04']):
+    with self.assertRaises(FileExistsError):run.main()
+    lab.assert_not_called()
+
+ def test_runtime04_rejects_used_budget_or_unclosed_prior_attempt(self):
+  for case in ('provider','http','cleanup','absent','topic','secret','marker'):
+   with tempfile.TemporaryDirectory() as directory:
+    root,e,here,auth,write=self.admission04_fixture(directory)
+    write(e/'acceptance-04-authorization.json',auth)
+    prior=run.load(e/'runtime-03/acceptance.json');closed=run.load(e/'runtime-03/final-conclusion.json')
+    if case=='provider':prior['provider_attempt_reserved']=True
+    if case=='http':prior['fixture_http_reserved']=1
+    if case=='cleanup':prior['cleanup']='INCOMPLETE'
+    if case=='absent':closed['cleanup']['namespace_absent_receipts']=[]
+    if case=='topic':closed['activity']['topics_created']=1
+    if case=='secret':closed['activity']['private_secrets_created']=1
+    if case=='marker':(e/'runtime-03/provider-attempt-reserved.json').write_text('{}')
+    write(e/'runtime-03/acceptance.json',prior);write(e/'runtime-03/final-conclusion.json',closed)
+    with patch.object(run,'ROOT',root),patch.object(run,'EVIDENCE',e),patch.object(run,'HERE',here):
+     with self.assertRaisesRegex(RuntimeError,'PRIOR_OUTCOME_NOT_SAFE_TO_CONTINUE'):run.authorize('runtime-04')
+
+ def netpol_lab(self):
+  lab,saved=self.receipt_lab();snapshot={'items':[]};nodes={'items':[]};ips={};raw={};calls=[]
+  for i,node in enumerate((run.NODE,'k3d-zero-door-server-0')):
+   ips[node]='172.19.0.'+str(i+3)
+   nodes['items'].append({'metadata':{'name':node},'status':{'addresses':[{'type':'InternalIP','address':ips[node]}]}})
+   snapshot['items'].append({'kind':'Pod','metadata':{'name':'p'+str(i),'namespace':'lab'},'spec':{'nodeName':node},'status':{'phase':'Running'}})
+   raw[node]='-A KUBE-POD-FW --comment "rule to jump traffic from POD name:p'+str(i)+' namespace: lab to chain"'
+  lab.get=lambda *a,**k:nodes
+  def command(args,**kwargs):
+   calls.append((args,kwargs));node=args[4]
+   return run.subprocess.CompletedProcess(args,0,(ips[node] if args[3]=='inspect' else raw[node]).encode(),b'')
+  lab.command=command
+  return lab,saved,snapshot,nodes,ips,raw,calls
+
+ def test_netpol_gate_checks_both_node_maps_with_bounded_readonly_commands(self):
+  lab,saved,snapshot,nodes,ips,raw,calls=self.netpol_lab()
+  lab.networkpolicy_preflight(snapshot)
+  self.assertEqual('READY_NOT_ENFORCEMENT_PROOF',saved['networkpolicy-preflight.json']['verdict'])
+  self.assertEqual(4,len(calls))
+  self.assertTrue(all(k['timeout']==8 for _,k in calls))
+  self.assertEqual({'inspect','exec'},{a[3] for a,_ in calls})
+  self.assertTrue(all(a[3]=='inspect' or a[5:]==['iptables-save','-t','filter'] for a,_ in calls))
+
+ def test_netpol_gate_rejects_observed_wrong_node_chains(self):
+  for case in ('swapped','missing','foreign','empty'):
+   lab,saved,snapshot,nodes,ips,raw,calls=self.netpol_lab()
+   if case=='swapped':raw[run.NODE],raw['k3d-zero-door-server-0']=raw['k3d-zero-door-server-0'],raw[run.NODE]
+   if case=='missing':raw[run.NODE]=''
+   if case=='foreign':raw[run.NODE]+=raw['k3d-zero-door-server-0']
+   if case=='empty':snapshot['items']=[]
+   with self.assertRaisesRegex(RuntimeError,'NETWORKPOLICY_NODE_MAP_DRIFT'):lab.networkpolicy_preflight(snapshot)
+   self.assertEqual('NO_GO',saved['networkpolicy-preflight.json']['verdict'])
+
+ def test_netpol_gate_rejects_docker_kube_ip_mismatch(self):
+  lab,saved,snapshot,nodes,ips,raw,calls=self.netpol_lab()
+  nodes['items'][0]['status']['addresses'][0]['address']='172.19.0.4'
+  with self.assertRaisesRegex(RuntimeError,'NETWORKPOLICY_NODE_MAP_DRIFT'):lab.networkpolicy_preflight(snapshot)
+  self.assertFalse(saved['networkpolicy-preflight.json']['checks'][run.NODE]['ok'])
+
+ def test_netpol_read_timeout_is_not_ready(self):
+  lab,saved,snapshot,nodes,ips,raw,calls=self.netpol_lab()
+  lab.command=lambda *a,**k:(_ for _ in ()).throw(TimeoutError('COMMAND_DEADLINE'))
+  with self.assertRaises(TimeoutError):lab.networkpolicy_preflight(snapshot)
+  self.assertNotIn('networkpolicy-preflight.json',saved)
+
+ def test_runtime04_node_gate_runs_before_prepare_with_resource_watcher_active(self):
+  lab,saved,calls=self.preflight_lab();lab.attempt='runtime-04'
+  with patch.dict(run.os.environ,{'DOCKER_HOST':''}),patch.object(run.threading,'Thread') as thread:
+   def gate(snapshot):
+    thread.return_value.start.assert_called_once()
+    self.assertFalse(lab.namespace_creation_attempted)
+    raise RuntimeError('NETWORKPOLICY_NODE_MAP_DRIFT')
+   lab.networkpolicy_preflight=gate
+   with self.assertRaisesRegex(RuntimeError,'NETWORKPOLICY_NODE_MAP_DRIFT'):lab.preflight()
+if __name__=='__main__':unittest.main()

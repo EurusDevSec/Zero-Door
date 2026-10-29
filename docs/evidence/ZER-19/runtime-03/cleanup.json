@@ -1,0 +1,10 @@
+{
+  "verdict": "CLEAN",
+  "problems": [],
+  "namespace_uid": "7cda8172-90b2-469d-8f55-ba99452cad6e",
+  "topics_owned": [],
+  "topics_foreign_not_deleted": [],
+  "topic_create_unknown": [],
+  "provider_credentials_scope": "EPHEMERAL_NAMESPACE_SECRET_DELETED_WITH_NAMESPACE",
+  "fixture_http_reserved_or_dispatched": 0
+}

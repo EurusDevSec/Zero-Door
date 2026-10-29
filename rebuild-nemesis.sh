@@ -9,7 +9,7 @@ fi
 [[ $# == 0 || ( $# == 1 && $1 == --no-forward ) ]] || { printf 'Unknown argument\n' >&2; exit 2; }
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/infrastructure/scripts/lib/common.sh"
 zd_preflight
-zd_build_import nemesis:latest "$ZD_ROOT/agent-orchestrator/nemesis" --no-cache
+zd_build_import nemesis:latest "$ZD_ROOT/agent-orchestrator" -f "$(zd_path "$ZD_ROOT/agent-orchestrator/nemesis/Dockerfile")" --no-cache
 zd_kubectl rollout restart deployment/nemesis -n zero-door
 zd_kubectl rollout status deployment/nemesis -n zero-door --timeout=90s
 zd_verify_image nemesis:latest zero-door nemesis

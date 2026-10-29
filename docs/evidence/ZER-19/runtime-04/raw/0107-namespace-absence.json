@@ -1,0 +1,27 @@
+{
+  "at": 1793246234.2785296,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "namespace",
+    "zd-sqli-lab",
+    "--ignore-not-found",
+    "-o",
+    "name"
+  ],
+  "label": "namespace-absence",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "namespace/zd-sqli-lab\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.125
+}

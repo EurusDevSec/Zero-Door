@@ -1,0 +1,31 @@
+{
+  "at": 1793246220.0787275,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "import os,signal,threading,time\nfrom pathlib import Path\ndef watch_stop():\n while not Path('/ledger/operator-stop').exists(): time.sleep(.1)\n os.kill(os.getpid(),signal.SIGINT)\nthreading.Thread(target=watch_stop,daemon=True).start()\nimport os,sys; os.environ['ZD_COMMAND_POLICY_FILE']='/ledger/active-policy.json'; sys.argv=['nemesis.session_cli','--live','--config','/run-source/config.json','--observation','/ledger/observation.json','--output','/ledger']; from nemesis.session_cli import main; raise SystemExit(main())"
+  ],
+  "label": "session-once",
+  "timeout_s": 120,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "{\"receipt\": \"/ledger/run_e0e0aea106134a6bae270af8ec29c298/receipt.json\", \"stop_reason\": \"MAX_ROUNDS\", \"completed_rounds\": 1}\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 7.186999999999898
+}

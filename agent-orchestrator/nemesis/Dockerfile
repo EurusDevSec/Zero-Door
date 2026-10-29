@@ -3,7 +3,7 @@ FROM python:3.11-slim@sha256:e529028263dbe6910a2d96f7d2b8f5266385e917fd45d286ef1
 
 WORKDIR /app
 
-COPY requirements.lock .
+COPY nemesis/requirements.lock .
 RUN pip install --no-cache-dir --prefix=/install --require-hashes -r requirements.lock
 
 # ---- Stage 2: Runtime ----
@@ -14,13 +14,16 @@ WORKDIR /app
 
 # Copy dependencies and source code
 COPY --from=builder /install /usr/local
-COPY main.py .
-COPY command_guard.py /nemesis/command_guard.py
-COPY measurement_view.py /nemesis/measurement_view.py
-COPY static ./static
+COPY nemesis/main.py .
+COPY nemesis/command_guard.py /nemesis/command_guard.py
+COPY nemesis/measurement_view.py /nemesis/measurement_view.py
+COPY nemesis/session.py /nemesis/session.py
+COPY nemesis/session_cli.py /nemesis/session_cli.py
+COPY event_pipeline /event_pipeline
+COPY nemesis/static ./static
 
 # Configure python path to find copied site-packages
-ENV PYTHONPATH=/usr/local/lib/python3.11/site-packages
+ENV PYTHONPATH=/usr/local/lib/python3.11/site-packages:/
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000

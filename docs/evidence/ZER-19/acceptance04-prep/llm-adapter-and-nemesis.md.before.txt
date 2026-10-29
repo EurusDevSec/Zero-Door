@@ -1,0 +1,132 @@
+## ZER-19 — runtime-03 đã đóng: NOT_MET, cleanup CLEAN — 29/10/2026
+
+[Kết luận và review](../../../evidence/ZER-19/runtime-03/README.md):357.201s, dừng POLICY_HOOK_MISSING;80 lần đọc policy trong179s không thấy hook tên/IP fixture.61guard samples đạt/không guard failure;0model/HTTP/TCP/topic/Secret/worker/Nemesis. UID-delete namespace và absent, sharedspec/UID/restart/3PVC giữ nguyên; review độc lập xác nhận. IP Docker/Kube hiện khớp; bất thường dataplane chưa có root cause đủ. Không coi stall đã chữa, không runtime04/publication/Done. Bước tiếp cần xử lý blocker NetworkPolicy/node agent bằng gói hạ tầng riêng, không retry nghiệm thu để dò. Checkpoint dưới là lịch sử.
+
+## ZER-19 — gói runtime-03 đã review, chờ duyệt một lượt — 29/10/2026
+
+[Proposal runtime-03](../../../evidence/ZER-19/acceptance-03-proposal.md):35 test offline đạt, [review độc lập](../../../evidence/ZER-19/runner-fix/independent-review-03.md) READY_TO_REQUEST_SINGLE_ATTEMPT_APPROVAL trên pin cụ thể. Admission mới đòi approval riêng/hash proposal+manifest, chặn replay và kết quả cũ bất định. Giữ20 phút/5cleanup,1call/3HTTP+1TCP,cache-only và mọi guard. Chưa authorization/runtime-03/model/publication/Done; stall lab chưa được chứng minh đã hết. Không tự retry. Checkpoint dưới là lịch sử.
+
+## ZER-19 — đã sửa runner offline, chưa chạy lại — 29/10/2026
+
+[Runner fix](../../../evidence/ZER-19/runner-fix/README.md): 30/30 test offline đạt. Receipt timeout/cancel/child cleanup có dữ liệu rõ và che output khi có stdin; thêm CPU/IO vào cùng mẫu 4 giây; preflight 120 giây kiểm shared restart/UID/spec và API trước tạo fixture. Giữ guard/AC, 9 pin sản phẩm và raw cũ. Chưa chứng minh stall lab đã được sửa; runtime-02 giữ NOT_MET/cleanup INCOMPLETE, không runtime-03/model/publication/Done. Cần review delta và proposal/admission/quyền mới trước một lượt nghiệm thu; không dùng lại quyền đã tiêu thụ. Phần dưới là checkpoint lịch sử.
+
+## ZER-19 — handoff điều tra nguyên nhân, 29/10/2026
+
+[Điều tra và bước tiếp theo](../../../evidence/ZER-19/investigation/README.md): Docker exec-start chậm 16.911 giây, K3s/Kine và scrape cùng chậm; Prometheus xác nhận CPU/memory pressure tăng trong khoảng mẫu guard bị mất. Cart bị throttle 164/166 chu kỳ và restart theo liveness. Chưa biết tiến trình khởi phát; không quy cho Chrome/Claude hoặc khẳng định đã sửa lab. 9 pin sản phẩm/26 pin runtime giữ nguyên, namespace absent; runtime-02 NOT_MET và cleanup INCOMPLETE giữ nguyên. Chưa chạy runtime-03/model/publication. Bước tiếp: delta nhỏ cho receipt/CPU-I/O observability và kiểm shared restart trong preflight hiện có, review trước một gói runtime mới. Phần dưới là checkpoint lịch sử.
+
+## ZER-19 — BLOCKED sau lượt bù, chưa Done — 28/10/2026
+
+[Final conclusion](../../../evidence/ZER-19/runtime-02/final-conclusion.json): guard Docker exec sampling timeout4s trong setup;28mẫu RAM/PSI hợp lệ đạt ngưỡng, không quy cho Chrome/Claude.0model/fixtureHTTP/topic/privateSecret; chỉ safe fixture/proxy đã tạo rồi UID-delete namespace và live absent. Globalcleanup giữ INCOMPLETE vì cartservice restart41→42/liveness1s; sharedspec/UID/3PVCkhôngđổi. Source9pins/offline132Python+37Bash+15helperchecks giữ kết quả riêng. Lỗi reviewprobe lượt01 đã audit/cleanup, không xoá raw. **Không runtime03/publication/merge/Done hoặc mở issue khác.** Cần quyết định riêng về ổn định lab/control path trước nghiệm thu. Checkpoint dưới là lịch sử.
+
+## ZER-19 — runtime-01 dừng do lỗi probe của agent; đã cleanup — 28/10/2026
+
+[Incident](../../../evidence/ZER-19/runtime-01/incident-conclusion.json): probe review thiếu mock native client đã tạo nhầm namespace rỗng; lượt nghiệm thu dừng NAMESPACE_PREEXISTS trước model/HTTP. Đã xóa đúng UID và xác minh namespace absent; 0 Pod/model/fixture HTTP/topic/provider Secret. Raw NOT_MET/INCOMPLETE giữ nguyên; before snapshot chưa có nên không suy actual shared drift. Đã chặn native external clients mặc định trong kiểm offline; 15 helper checks đạt, 9 product source pins không đổi. **Chưa Done, không tự retry/publication.** [Đúng một lượt bù](../../../evidence/ZER-19/continuation-proposal.md) giữ nguyên envelope, cần quyền mới vì gói trước quy định không tự retry. Checkpoint dưới là lịch sử.
+
+## ZER-19 — Nemesis offline đã review; chờ một lượt xác minh thật — 28/10/2026
+
+Hoàng giao tiếp AC02/03; AC01 dùng lại ZER48/PR34. [Evidence](../../../evidence/ZER-19/README.md):132Pythonlượt chính/37Bashchecks đạt, reviewđộc lậpREADY exact9pins. Branchcodex/zer-19-nemesis-session/base093e924. Registry-onlyfunctionalCLI, boundedround/call/cancel, durableunknown/stop fixes; endpointbenchmarkgiữnguyên.0provider/lab/build/publication; **chưaDone**. [Gói hoàn tất](../../../evidence/ZER-19/completion-proposal.md) đã renderdisabled vàreviewREADY_TO_REQUEST_AUTHORIZATION; cầnHoàng duyệt model/lab/publicationriêngtheoWORKFLOW. Khôngretry/mởissuekhác; dirtycũ/primaryRgiữnguyên. Checkpointdưới làlịch sử.
+
+## ZER-48 — published, AC01 accepted — 28/10/2026
+
+[PR34](https://github.com/EurusDevSec/Zero-Door/pull/34) merge093e924,18CIjobs đạt, independent reviewREADY exacthead62d637b/40files/source5pins; mergetree khớp. Hoàng conditionalacceptance đủgate; Linear đọc lạiZER48Done/AC01checked. [Receipt](../../../evidence/ZER-48/publication.json) giữ actual1call/162+22tokens/4.625s/0.0000272USDestimate,144testlượt/review/hash/CI/provenance. Khônglab/deploy/nextissue. ParentZER19AC02/03 chưa được đóng; consumerintegration/G3/G4/KPI/end-to-end giữ riêng. Dirtyhandoff/queue/R3/16/17/18/primaryR nguyên; closingledger local, technicalevidence đã merge. Checkpoint dưới là lịch sử.
+
+## ZER-48 — live adapter verified, đang publication — 28/10/2026
+
+Hoàng duyệt toàn bộ gói hoàn tất. [Live receipt](../../../evidence/ZER-48/live-receipt.json):1call/1attempt, NORMAL/health01,162+22tokens,4.625s,0.0000272USDestimate; source5pins và trace joins khớp, không retry/lab/deploy.144test lượt+review READY offline; review live evidence đã đối chiếu schema/model/usage/IDs/caps. **AC01 kỹ thuật đủ; chưa Done trước remoteCI/review/merge và acceptance.**
+
+Publication branchcodex/zer-48-llm-adapter được neo lên main33001a3, tree bằng reviewed0b72edd, để không cuốn lịch sử ZER18. [Evidence](../../../evidence/ZER-48/README.md) và [authorization](../../../evidence/ZER-48/completion-authorization.json). Chỉ đưa code5paths/evidenceZER48 và prefixZER48 của note/NOW trên cleanbase vào commit; giữ nguyên dirty handoff/queue/R3/16/17/18 vàprimaryR. Không mở issue sau; checkpoint dưới là lịch sử.
+
+## Codex tiếp nhận ZER-48 — gói offline đã review, chờ quyền hoàn tất — 28/10/2026
+
+Hoàng đổi người thực hiện từ Claude sang Codex và yêu cầu làm riêng ZER-48. Branch codex/zer-48-llm-adapter/base0b72edd; một writer, giữ dirty handoff/R3/ZER16/17/18/primaryR. [Evidence](../../../evidence/ZER-48/README.md): shared async adapter/schema/trace/budget, helper bounded;22focused tests mỗi pin+100regression=144lượt đạt, independent reviewer READY sau sửa3finding.5sourcefile đã khóa, không dependency/agent executor/guard change; module được COPY theo package Gaia/Hephaestus, Nemesis integration thuộc ZER19.
+
+AC01 **chưa đủ Done** vì mới OFFLINE_SIMULATED;0provider/lab calls, chưa publication/Linear write. [Gói hoàn tất chờ duyệt](../../../evidence/ZER-48/completion-proposal.md) gồm đúng1inference lành tính/1attempt/256output/20s timeout/25s call/30s overall,0.005USDreservation-estimate và publication có điều kiện nếu đủ gate. Không tự thử lại hoặc mở issue tiếp theo. Hướng dẫn giao Claude dưới đây là checkpoint lịch sử; Codex đã tiếp nhận theo yêu cầu mới.
+
+Exact file/action allowlist và hash: [verification](../../../evidence/ZER-48/verification.json), [source pins](../../../evidence/ZER-48/source-hashes.json). Code5paths, evidenceZER48, prefixnote/NOW; metadata gói mới không cuốn dirty trước. Graph/PDG không đủ, source/direct probes được dùng; G3 vẫnNOT_VERIFIED, không G4/KPI/end-to-end claim. Thông báo một lần qua app đã được đặt theo yêu cầu Hoàng, không bảo đảm đánh thức khi thiết bị ngủ.
+
+<a id="goi-giao-claude-zer-48"></a>
+## Gói giao Claude — chỉ ZER-48, 28/10/2026
+
+Hoàng yêu cầu Codex lấy các issue kế tiếp để Hoàng giao Claude làm; đây là gói thực hiện đầu tiên, không phải lệnh đã gửi sang phiên Claude. Codex đã kết thúc phần ghi tài liệu chuẩn bị, không sửa code. Claude tiếp nhận một writer trên checkout này; Codex review khi Hoàng mang kết quả về. Các issue sau nằm ở [hàng đợi R4](README.md), không tự mở cùng lúc.
+
+### Outcome và AC sống
+
+[ZER-48 — Dựng LLM adapter và trace dùng chung](https://linear.app/zero-door/issue/ZER-48/dung-llm-adapter-va-trace-dung-chung), parent ZER-19; project f6343559-080f-465f-aa7a-eda6074de51f, team865d41a7-ef26-474c-a9f8-36e781569fc8. Read-back 2026-10-28 13:02:31 UTC. Prerequisite ZER-36/37 đều Done. Tại lúc chuẩn bị, ZER-48 vẫn Backlog: gói tài liệu chưa phải thực hiện hay Ready/Done acceptance.
+
+> AC-01 (R4-T01-S01): Dựng adapter async dùng chung: schema, model/prompt version, usage, timeout. Interface và trace thật; quota/cost được cộng theo run.
+
+Giữ AC này đầy đủ. ZER-48 chỉ cung cấp AC01 cho parent; không tự nghiệm thu Nemesis AC02/03, Gaia, Hephaestus hoặc G3/G4. R0 đã chứng minh backend riêng, chưa chứng minh adapter R4 mới.
+
+### Checkout, tài liệu bắt buộc và scope
+
+Làm tại C:/Users/ACER/.codex/worktrees/zer-46-publication/zero_door. HEAD đọc lại 0b72eddff03e86fea0d19ac593da34c59479aaaa; tree tương ứng main merge33001a34e4e0283fee4c2b710ab3abb4a4bd0a94. Đây là checkpoint, Claude phải kiểm HEAD/dirty hiện tại trước sửa; không chạy trên primary R còn mã cũ/dirty.
+
+Đọc theo thứ tự:
+1. AGENTS.md tại checkout; [agent safeguards primary](R:/_Projects/Eurus_Workspace/zero_door/docs/runbooks/agent-safeguards.md) bắt buộc kể cả sau mất context.
+2. docs/delivery/README.md, NOW.md, WORKFLOW.md; .agent/rules/CONTEXT.md và .agent/workflows/session_memory.md chỉ làm ngữ cảnh, xác minh với Git/source.
+3. [SCOPE primary — quyết định SQLi-only28/10](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/SCOPE.md), note này và AC sống ZER-48/ZER-19 qua named connection linear_zero_door. Không dùng connector S-cool; thiếu công cụ không là lý do thay auth/tokens. Nếu không đọc live được, nêu rõ đang dùng snapshot ngày trên.
+4. docs/evidence/ZER-36/{README.md,verification.md,live-receipt.json,retest.json}; infrastructure/scripts/verify-llm-backend.py và .sh; docs/evidence/ZER-37/ và agent-orchestrator/event_pipeline/contract.py cho trace/schema. Chỉ mở dữ liệu liên quan, không dump raw thư mục hoặc credentials.
+5. docs/evidence/R3-G3/README.md để giữ ranh giới component/integration.
+
+Chỉ dùng Bash cho terminal. Giữ nguyên toàn bộ dirty ZER-16/17/18, R3-G3, NOW và primary R; không reset/checkout/stage tất cả hoặc copy code primary sang đây. Khi cần nhánh/checkout, kiểm current refs và ownership trước, không làm mất dirty work. Không index refresh nặng chỉ để có graph đẹp; graph đang trỏ primary cũ/incomplete, dùng source trực tiếp khi graph không đáp ứng.
+
+Trước edit, Claude ghi exact file/action allowlist và hashes vào phạm vi phiên trong note này. Vùng ứng viên: helper adapter nhỏ dùng chung trong agent-orchestrator/, tests adapter/consumer trực tiếp, dependency/Docker COPY chỉ khi adapter thật sự cần, docs/evidence/ZER-48/, note này và checkpoint NOW. Chọn đường dẫn/module cụ thể sau đọc mã; đây không phải quyền sửa mọi agent/CI hoặc đại tu kiến trúc. Không bật executor, sửa writer/fixture/guard hoặc thay raw cũ cho ZER-48.
+
+### Gói thực hiện đủ để review
+
+- Tận dụng backend/interface/giới hạn đã chọn ở R0 và contract R1. Xây adapter async nhỏ, injectable transport/clock cho kiểm offline; không framework agent/RAG/model mới. CLI probe R0 không tự trở thành async adapter hay bằng chứng integration.
+- Validate cấu trúc đầu vào/đầu ra, refusal/incomplete/malformed/thiếu evidence; backend/model/prompt/config version có provenance. Không bịa immutable revision, request ID, usage hoặc trace provider không trả.
+- Trace join được theo run/trial/incident/call phù hợp contract; tách kết quả LLM, RULES fallback và UNKNOWN. Không dùng field tự khai để vượt source/auth boundary; không ghi key/header Authorization/cookie vào argv/log/artifact.
+- Giới hạn timeout/deadline, attempts, cancel và run call/token/cost budget; retry không vượt trần và không nhân retry SDK với wrapper. Không retry auth/quota/budget/refusal chỉ để lấy PASS. Accounting theo run, kể cả failed/timeout attempt; usage không biết giữ UNKNOWN, không coi bằng0 hoặc suy hết quota từ một header.
+- Test offline hành vi thật ở ranh giới: async không chặn luồng khác; schema/refusal/incomplete; timeout/cancel;429 tạm thời so với hard quota; bounded attempts và exhausted budget; nhiều call cộng usage/budget; trace/version/join; thiếu usage và secret redaction. Dùng fake transport hoặc loopback server do test sở hữu, không tự gọi provider/Kafka/Kubernetes hoặc lab. Không nhân test để tăng số lượng.
+- Tự review source và consumer/import/packaging trực tiếp, sửa gom finding rồi retest phần ảnh hưởng. Chạy trên dependency pin hiện hành phù hợp, không tự cài model/dependency toàn máy. Test fixtures/mock phải mang nhãn offline, không gọi là inference thật.
+
+Phần code/test/offline trong gói được Hoàng giao Claude sau khi nhận prompt: làm xuyên suốt, không hỏi lại sau từng sửa nhỏ. Với model/lab/publication, chỉ thực hiện khi có quyền cụ thể tương ứng còn hiệu lực. Quyền probe R0 đã dùng và quyền publication R3 không tự cho phép lượt mới. Nếu chưa có quyền inference, hoàn tất code/test/review offline trước, rồi chuẩn bị **một gói xác minh adapter mới** có model/endpoint, số call/attempt/token, thời lượng/deadline, accounting/stop và cleanup cụ thể để Hoàng duyệt; không gửi request thử hoặc đòi lỗi429/provider outage thật. Không cần Kubernetes hoặc SQLi load cho xác minh adapter nếu AC không đòi hỏi.
+
+### Bàn giao và điểm dừng
+
+Bàn giao một gói: HEAD/base/dirty và allowlist, diff/source hashes, AC → case → expected/actual/verdict, lệnh/log kiểm, initial failures và fixes/retest, trace mẫu đã che bí mật, số gọi model thật (0 nếu chưa được phép), giới hạn còn lại. Lưu evidence ZER-48 và handoff trong note này, NOW chỉ trỏ next action; không tạo các file handoff mới sau mỗi checkpoint.
+
+**Offline đạt chưa đủ Done cho AC có trace thật.** Receipt inference lịch sử R0 không thay lượt qua adapter mới. Không tự claim G3/G4/end-to-end/KPI hoặc chọn checkpoint trung gian làm PASS. Nếu bị chặn, kết luận đúng nguyên nhân/phần đã xong/phần thiếu trong một gói; không tự retry lab/model. Publication/CI/review/merge/Hoàng acceptance theo WORKFLOW trước Done, trong quyền được giao. Kết thúc riêng ZER-48; không tự mở ZER-19/49/50 hoặc chuyển cả hàng đợi sang In Progress.
+
+# Issue — LLM adapter chung và Nemesis
+
+[Milestone R4](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/milestones/R4-ai-agents/README.md) · [Checkpoint](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/NOW.md)
+
+**Issue Linear:** [ZER-19](https://linear.app/zero-door/issue/ZER-19/llm-adapter-chung-va-nemesis). Nguồn đối chiếu: `R4-T01`. Ghi chú này giữ yêu cầu kỹ thuật và bàn giao; AC/trạng thái/lịch hiện hành đọc issue Linear.
+
+## Phạm vi kỹ thuật
+
+Chưa mở bước sửa mã. Khi giao bước cụ thể, ghi danh sách đường dẫn được sửa (kể cả test/probe/schema), owner và base HEAD trong mục Phạm vi phiên này. Bản kế hoạch không tự cấp quyền sửa mọi file liên quan.
+
+## Đầu ra và cách chia issue
+
+| Nguồn | Đầu ra / bước nghiệm thu | Liên kết Linear / checklist |
+| --- | --- | --- |
+| R4-T01-S01 | Dựng adapter async dùng chung: schema, model/prompt version, usage, timeout. | [ZER-48](https://linear.app/zero-door/issue/ZER-48/dung-llm-adapter-va-trace-dung-chung) |
+| R4-T01-S02 | Nối observation → kế hoạch Nemesis → executor → kết quả. | AC của [ZER-19](https://linear.app/zero-door/issue/ZER-19/llm-adapter-chung-va-nemesis) |
+| R4-T01-S03 | Thêm start/stop, max rounds/calls và điều kiện dừng. | AC của [ZER-19](https://linear.app/zero-door/issue/ZER-19/llm-adapter-chung-va-nemesis) |
+
+## Yêu cầu kiểm chứng từ kế hoạch nguồn
+
+### R4-T01-S01
+
+Interface và trace thật; quota/cost được cộng theo run.
+
+### R4-T01-S02
+
+LLM chọn kế hoạch trong registry hợp lệ; kế hoạch được kiểm tra trước khi thực thi.
+
+### R4-T01-S03
+
+Một phiên tự kết thúc trong budget; log stop/cancel và số gọi model.
+
+## Phụ thuộc cần đối chiếu
+
+[R0-T03](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/milestones/R0-foundations/llm-backend.md), [R2-T01](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/milestones/R2-chaos-scenarios/sqli-fixture.md), [R2-T03](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/milestones/R2-chaos-scenarios/combined-run-and-cleanup.md).
+
+Đây là prerequisite candidate; đọc contract/evidence trước khi tạo relation, không chặn theo thứ tự thư mục.
+
+## Bàn giao kỹ thuật
+
+Chưa có bàn giao thực thi mới. Khi thực hiện, ghi issue Linear và thời điểm đọc AC, HEAD/dirty, phạm vi file/thao tác, kiểm tra/kết quả, evidence, giới hạn và bước tiếp theo. Theo [WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); trạng thái, lịch và phân công cập nhật trên Linear.

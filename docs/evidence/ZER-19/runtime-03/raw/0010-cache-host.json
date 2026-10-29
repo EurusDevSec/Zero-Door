@@ -1,0 +1,25 @@
+{
+  "at": 1793243808.240362,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "image",
+    "inspect",
+    "zer42-nemesis:e80bc554b7ef",
+    "--format",
+    "{{.Id}}"
+  ],
+  "label": "cache-host",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "sha256:d1896d5e4e9f1ea2b97e33fab518f3718b40525ff87ae12b5b511ae0ba07f199\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.11000000000012733
+}

@@ -1,0 +1,22 @@
+{
+  "at": 1793241663.831706,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "logs",
+    "--timestamps",
+    "--since",
+    "2026-10-28T15:48:00Z",
+    "--until",
+    "2026-10-28T15:58:00Z",
+    "--tail",
+    "1500",
+    "k3d-zero-door-agent-0"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.06199999999989814,
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,645 @@
+{
+  "at": 1793241998.6533978,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "--raw",
+    "/api/v1/namespaces/monitoring/services/http:prometheus-kube-prometheus-prometheus:http-web/proxy/api/v1/query?query=%7B__name__%3D~%22node_vmstat_%28pgmajfault%7Cpgscan_direct%7Cpgscan_kswapd%7Cpswpin%7Cpswpout%7Coom_kill%7Ccompact_stall%29%7Cnode_memory_MemAvailable_bytes%22%7D%5B6m%5D&time=2026-10-28T15%3A58%3A00Z&timeout=5s"
+  ],
+  "query": "{__name__=~\"node_vmstat_(pgmajfault|pgscan_direct|pgscan_kswapd|pswpin|pswpout|oom_kill|compact_stall)|node_memory_MemAvailable_bytes\"}[6m]",
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.125,
+  "stderr": "",
+  "response": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": [
+        {
+          "metric": {
+            "__name__": "node_memory_MemAvailable_bytes",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "2379739136"
+            ],
+            [
+              1793202753.874,
+              "2350886912"
+            ],
+            [
+              1793202783.874,
+              "2365952000"
+            ],
+            [
+              1793202813.872,
+              "2426662912"
+            ],
+            [
+              1793202843.871,
+              "2385780736"
+            ],
+            [
+              1793202873.869,
+              "2380681216"
+            ],
+            [
+              1793202903.867,
+              "2367811584"
+            ],
+            [
+              1793202947.979,
+              "2368757760"
+            ],
+            [
+              1793202963.858,
+              "2381086720"
+            ],
+            [
+              1793202993.863,
+              "2405273600"
+            ],
+            [
+              1793203023.862,
+              "2428182528"
+            ],
+            [
+              1793203053.86,
+              "2420805632"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_memory_MemAvailable_bytes",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "2380288000"
+            ],
+            [
+              1793202750.994,
+              "2353778688"
+            ],
+            [
+              1793202780.992,
+              "2350706688"
+            ],
+            [
+              1793202810.991,
+              "2416619520"
+            ],
+            [
+              1793202840.99,
+              "2374168576"
+            ],
+            [
+              1793202870.988,
+              "2377863168"
+            ],
+            [
+              1793202900.987,
+              "2365747200"
+            ],
+            [
+              1793202947.978,
+              "2371031040"
+            ],
+            [
+              1793202960.977,
+              "2395750400"
+            ],
+            [
+              1793202990.983,
+              "2401804288"
+            ],
+            [
+              1793203020.981,
+              "2435350528"
+            ],
+            [
+              1793203050.979,
+              "2415116288"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_oom_kill",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "0"
+            ],
+            [
+              1793202753.874,
+              "0"
+            ],
+            [
+              1793202783.874,
+              "0"
+            ],
+            [
+              1793202813.872,
+              "0"
+            ],
+            [
+              1793202843.871,
+              "0"
+            ],
+            [
+              1793202873.869,
+              "0"
+            ],
+            [
+              1793202903.867,
+              "0"
+            ],
+            [
+              1793202947.979,
+              "0"
+            ],
+            [
+              1793202963.858,
+              "0"
+            ],
+            [
+              1793202993.863,
+              "0"
+            ],
+            [
+              1793203023.862,
+              "0"
+            ],
+            [
+              1793203053.86,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_oom_kill",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "0"
+            ],
+            [
+              1793202750.994,
+              "0"
+            ],
+            [
+              1793202780.992,
+              "0"
+            ],
+            [
+              1793202810.991,
+              "0"
+            ],
+            [
+              1793202840.99,
+              "0"
+            ],
+            [
+              1793202870.988,
+              "0"
+            ],
+            [
+              1793202900.987,
+              "0"
+            ],
+            [
+              1793202947.978,
+              "0"
+            ],
+            [
+              1793202960.977,
+              "0"
+            ],
+            [
+              1793202990.983,
+              "0"
+            ],
+            [
+              1793203020.981,
+              "0"
+            ],
+            [
+              1793203050.979,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_pgmajfault",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "23480"
+            ],
+            [
+              1793202753.874,
+              "23480"
+            ],
+            [
+              1793202783.874,
+              "23508"
+            ],
+            [
+              1793202813.872,
+              "23553"
+            ],
+            [
+              1793202843.871,
+              "23564"
+            ],
+            [
+              1793202873.869,
+              "23564"
+            ],
+            [
+              1793202903.867,
+              "23571"
+            ],
+            [
+              1793202947.979,
+              "23662"
+            ],
+            [
+              1793202963.858,
+              "23699"
+            ],
+            [
+              1793202993.863,
+              "23723"
+            ],
+            [
+              1793203023.862,
+              "23733"
+            ],
+            [
+              1793203053.86,
+              "23733"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_pgmajfault",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "23480"
+            ],
+            [
+              1793202750.994,
+              "23480"
+            ],
+            [
+              1793202780.992,
+              "23484"
+            ],
+            [
+              1793202810.991,
+              "23553"
+            ],
+            [
+              1793202840.99,
+              "23564"
+            ],
+            [
+              1793202870.988,
+              "23564"
+            ],
+            [
+              1793202900.987,
+              "23571"
+            ],
+            [
+              1793202947.978,
+              "23662"
+            ],
+            [
+              1793202960.977,
+              "23699"
+            ],
+            [
+              1793202990.983,
+              "23723"
+            ],
+            [
+              1793203020.981,
+              "23733"
+            ],
+            [
+              1793203050.979,
+              "23733"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_pswpin",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "692"
+            ],
+            [
+              1793202753.874,
+              "692"
+            ],
+            [
+              1793202783.874,
+              "695"
+            ],
+            [
+              1793202813.872,
+              "695"
+            ],
+            [
+              1793202843.871,
+              "695"
+            ],
+            [
+              1793202873.869,
+              "695"
+            ],
+            [
+              1793202903.867,
+              "695"
+            ],
+            [
+              1793202947.979,
+              "720"
+            ],
+            [
+              1793202963.858,
+              "727"
+            ],
+            [
+              1793202993.863,
+              "736"
+            ],
+            [
+              1793203023.862,
+              "739"
+            ],
+            [
+              1793203053.86,
+              "739"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_pswpin",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "692"
+            ],
+            [
+              1793202750.994,
+              "692"
+            ],
+            [
+              1793202780.992,
+              "692"
+            ],
+            [
+              1793202810.991,
+              "695"
+            ],
+            [
+              1793202840.99,
+              "695"
+            ],
+            [
+              1793202870.988,
+              "695"
+            ],
+            [
+              1793202900.987,
+              "695"
+            ],
+            [
+              1793202947.978,
+              "720"
+            ],
+            [
+              1793202960.977,
+              "727"
+            ],
+            [
+              1793202990.983,
+              "736"
+            ],
+            [
+              1793203020.981,
+              "739"
+            ],
+            [
+              1793203050.979,
+              "739"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_pswpout",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "18238"
+            ],
+            [
+              1793202753.874,
+              "18238"
+            ],
+            [
+              1793202783.874,
+              "18238"
+            ],
+            [
+              1793202813.872,
+              "18335"
+            ],
+            [
+              1793202843.871,
+              "18335"
+            ],
+            [
+              1793202873.869,
+              "18335"
+            ],
+            [
+              1793202903.867,
+              "18335"
+            ],
+            [
+              1793202947.979,
+              "18576"
+            ],
+            [
+              1793202963.858,
+              "18586"
+            ],
+            [
+              1793202993.863,
+              "18665"
+            ],
+            [
+              1793203023.862,
+              "18665"
+            ],
+            [
+              1793203053.86,
+              "18665"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_vmstat_pswpout",
+            "container": "node-exporter",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "18238"
+            ],
+            [
+              1793202750.994,
+              "18238"
+            ],
+            [
+              1793202780.992,
+              "18238"
+            ],
+            [
+              1793202810.991,
+              "18335"
+            ],
+            [
+              1793202840.99,
+              "18335"
+            ],
+            [
+              1793202870.988,
+              "18335"
+            ],
+            [
+              1793202900.987,
+              "18335"
+            ],
+            [
+              1793202947.978,
+              "18576"
+            ],
+            [
+              1793202960.977,
+              "18586"
+            ],
+            [
+              1793202990.983,
+              "18665"
+            ],
+            [
+              1793203020.981,
+              "18665"
+            ],
+            [
+              1793203050.979,
+              "18665"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

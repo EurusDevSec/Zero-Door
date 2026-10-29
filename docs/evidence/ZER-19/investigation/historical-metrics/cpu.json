@@ -1,0 +1,1561 @@
+{
+  "at": 1793241962.7310982,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "--raw",
+    "/api/v1/namespaces/monitoring/services/http:prometheus-kube-prometheus-prometheus:http-web/proxy/api/v1/query?query=node_cpu_seconds_total%7Bmode%3D~%22idle%7Ciowait%7Csteal%22%7D%5B6m%5D&time=2026-10-28T15%3A58%3A00Z&timeout=5s"
+  ],
+  "query": "node_cpu_seconds_total{mode=~\"idle|iowait|steal\"}[6m]",
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.125,
+  "stderr": "",
+  "response": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": [
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "0",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "42660.71"
+            ],
+            [
+              1793202753.874,
+              "42689.1"
+            ],
+            [
+              1793202783.874,
+              "42716.92"
+            ],
+            [
+              1793202813.872,
+              "42744.16"
+            ],
+            [
+              1793202843.871,
+              "42772.33"
+            ],
+            [
+              1793202873.869,
+              "42800.55"
+            ],
+            [
+              1793202903.867,
+              "42828.47"
+            ],
+            [
+              1793202947.979,
+              "42848.98"
+            ],
+            [
+              1793202963.858,
+              "42861.24"
+            ],
+            [
+              1793202993.863,
+              "42888.08"
+            ],
+            [
+              1793203023.862,
+              "42916.24"
+            ],
+            [
+              1793203053.86,
+              "42944.53"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "0",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "585.5"
+            ],
+            [
+              1793202753.874,
+              "585.53"
+            ],
+            [
+              1793202783.874,
+              "585.59"
+            ],
+            [
+              1793202813.872,
+              "585.67"
+            ],
+            [
+              1793202843.871,
+              "585.71"
+            ],
+            [
+              1793202873.869,
+              "585.73"
+            ],
+            [
+              1793202903.867,
+              "585.75"
+            ],
+            [
+              1793202947.979,
+              "586.08"
+            ],
+            [
+              1793202963.858,
+              "586.14"
+            ],
+            [
+              1793202993.863,
+              "586.18"
+            ],
+            [
+              1793203023.862,
+              "586.2"
+            ],
+            [
+              1793203053.86,
+              "586.23"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "0",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "0"
+            ],
+            [
+              1793202753.874,
+              "0"
+            ],
+            [
+              1793202783.874,
+              "0"
+            ],
+            [
+              1793202813.872,
+              "0"
+            ],
+            [
+              1793202843.871,
+              "0"
+            ],
+            [
+              1793202873.869,
+              "0"
+            ],
+            [
+              1793202903.867,
+              "0"
+            ],
+            [
+              1793202947.979,
+              "0"
+            ],
+            [
+              1793202963.858,
+              "0"
+            ],
+            [
+              1793202993.863,
+              "0"
+            ],
+            [
+              1793203023.862,
+              "0"
+            ],
+            [
+              1793203053.86,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "0",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "42658.1"
+            ],
+            [
+              1793202750.994,
+              "42686.42"
+            ],
+            [
+              1793202780.992,
+              "42714.7"
+            ],
+            [
+              1793202810.991,
+              "42741.56"
+            ],
+            [
+              1793202840.99,
+              "42769.7"
+            ],
+            [
+              1793202870.988,
+              "42797.88"
+            ],
+            [
+              1793202900.987,
+              "42825.82"
+            ],
+            [
+              1793202947.978,
+              "42848.98"
+            ],
+            [
+              1793202960.977,
+              "42858.69"
+            ],
+            [
+              1793202990.983,
+              "42885.38"
+            ],
+            [
+              1793203020.981,
+              "42913.62"
+            ],
+            [
+              1793203050.979,
+              "42941.81"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "0",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "585.5"
+            ],
+            [
+              1793202750.994,
+              "585.53"
+            ],
+            [
+              1793202780.992,
+              "585.55"
+            ],
+            [
+              1793202810.991,
+              "585.67"
+            ],
+            [
+              1793202840.99,
+              "585.71"
+            ],
+            [
+              1793202870.988,
+              "585.73"
+            ],
+            [
+              1793202900.987,
+              "585.75"
+            ],
+            [
+              1793202947.978,
+              "586.08"
+            ],
+            [
+              1793202960.977,
+              "586.14"
+            ],
+            [
+              1793202990.983,
+              "586.17"
+            ],
+            [
+              1793203020.981,
+              "586.2"
+            ],
+            [
+              1793203050.979,
+              "586.23"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "0",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "0"
+            ],
+            [
+              1793202750.994,
+              "0"
+            ],
+            [
+              1793202780.992,
+              "0"
+            ],
+            [
+              1793202810.991,
+              "0"
+            ],
+            [
+              1793202840.99,
+              "0"
+            ],
+            [
+              1793202870.988,
+              "0"
+            ],
+            [
+              1793202900.987,
+              "0"
+            ],
+            [
+              1793202947.978,
+              "0"
+            ],
+            [
+              1793202960.977,
+              "0"
+            ],
+            [
+              1793202990.983,
+              "0"
+            ],
+            [
+              1793203020.981,
+              "0"
+            ],
+            [
+              1793203050.979,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "1",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "42722.32"
+            ],
+            [
+              1793202753.874,
+              "42750.52"
+            ],
+            [
+              1793202783.874,
+              "42778.3"
+            ],
+            [
+              1793202813.872,
+              "42805.48"
+            ],
+            [
+              1793202843.871,
+              "42833.68"
+            ],
+            [
+              1793202873.869,
+              "42861.77"
+            ],
+            [
+              1793202903.867,
+              "42889.89"
+            ],
+            [
+              1793202947.979,
+              "42910.31"
+            ],
+            [
+              1793202963.858,
+              "42922.62"
+            ],
+            [
+              1793202993.863,
+              "42949.67"
+            ],
+            [
+              1793203023.862,
+              "42977.86"
+            ],
+            [
+              1793203053.86,
+              "43006.14"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "1",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "568.32"
+            ],
+            [
+              1793202753.874,
+              "568.36"
+            ],
+            [
+              1793202783.874,
+              "568.43"
+            ],
+            [
+              1793202813.872,
+              "568.54"
+            ],
+            [
+              1793202843.871,
+              "568.57"
+            ],
+            [
+              1793202873.869,
+              "568.6"
+            ],
+            [
+              1793202903.867,
+              "568.63"
+            ],
+            [
+              1793202947.979,
+              "569.22"
+            ],
+            [
+              1793202963.858,
+              "569.26"
+            ],
+            [
+              1793202993.863,
+              "569.31"
+            ],
+            [
+              1793203023.862,
+              "569.35"
+            ],
+            [
+              1793203053.86,
+              "569.38"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "1",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "0"
+            ],
+            [
+              1793202753.874,
+              "0"
+            ],
+            [
+              1793202783.874,
+              "0"
+            ],
+            [
+              1793202813.872,
+              "0"
+            ],
+            [
+              1793202843.871,
+              "0"
+            ],
+            [
+              1793202873.869,
+              "0"
+            ],
+            [
+              1793202903.867,
+              "0"
+            ],
+            [
+              1793202947.979,
+              "0"
+            ],
+            [
+              1793202963.858,
+              "0"
+            ],
+            [
+              1793202993.863,
+              "0"
+            ],
+            [
+              1793203023.862,
+              "0"
+            ],
+            [
+              1793203053.86,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "1",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "42719.64"
+            ],
+            [
+              1793202750.994,
+              "42747.88"
+            ],
+            [
+              1793202780.992,
+              "42775.96"
+            ],
+            [
+              1793202810.991,
+              "42802.83"
+            ],
+            [
+              1793202840.99,
+              "42831.12"
+            ],
+            [
+              1793202870.988,
+              "42859.24"
+            ],
+            [
+              1793202900.987,
+              "42887.24"
+            ],
+            [
+              1793202947.978,
+              "42910.31"
+            ],
+            [
+              1793202960.977,
+              "42920.03"
+            ],
+            [
+              1793202990.983,
+              "42946.97"
+            ],
+            [
+              1793203020.981,
+              "42975.17"
+            ],
+            [
+              1793203050.979,
+              "43003.42"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "1",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "568.32"
+            ],
+            [
+              1793202750.994,
+              "568.35"
+            ],
+            [
+              1793202780.992,
+              "568.4"
+            ],
+            [
+              1793202810.991,
+              "568.53"
+            ],
+            [
+              1793202840.99,
+              "568.57"
+            ],
+            [
+              1793202870.988,
+              "568.6"
+            ],
+            [
+              1793202900.987,
+              "568.62"
+            ],
+            [
+              1793202947.978,
+              "569.22"
+            ],
+            [
+              1793202960.977,
+              "569.26"
+            ],
+            [
+              1793202990.983,
+              "569.31"
+            ],
+            [
+              1793203020.981,
+              "569.35"
+            ],
+            [
+              1793203050.979,
+              "569.38"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "1",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "0"
+            ],
+            [
+              1793202750.994,
+              "0"
+            ],
+            [
+              1793202780.992,
+              "0"
+            ],
+            [
+              1793202810.991,
+              "0"
+            ],
+            [
+              1793202840.99,
+              "0"
+            ],
+            [
+              1793202870.988,
+              "0"
+            ],
+            [
+              1793202900.987,
+              "0"
+            ],
+            [
+              1793202947.978,
+              "0"
+            ],
+            [
+              1793202960.977,
+              "0"
+            ],
+            [
+              1793202990.983,
+              "0"
+            ],
+            [
+              1793203020.981,
+              "0"
+            ],
+            [
+              1793203050.979,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "2",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "42655.65"
+            ],
+            [
+              1793202753.874,
+              "42683.89"
+            ],
+            [
+              1793202783.874,
+              "42711.76"
+            ],
+            [
+              1793202813.872,
+              "42738.87"
+            ],
+            [
+              1793202843.871,
+              "42767"
+            ],
+            [
+              1793202873.869,
+              "42795.18"
+            ],
+            [
+              1793202903.867,
+              "42823.09"
+            ],
+            [
+              1793202947.979,
+              "42843.48"
+            ],
+            [
+              1793202963.858,
+              "42855.68"
+            ],
+            [
+              1793202993.863,
+              "42882.4"
+            ],
+            [
+              1793203023.862,
+              "42910.54"
+            ],
+            [
+              1793203053.86,
+              "42938.92"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "2",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "614.71"
+            ],
+            [
+              1793202753.874,
+              "614.75"
+            ],
+            [
+              1793202783.874,
+              "614.83"
+            ],
+            [
+              1793202813.872,
+              "614.9"
+            ],
+            [
+              1793202843.871,
+              "614.94"
+            ],
+            [
+              1793202873.869,
+              "614.97"
+            ],
+            [
+              1793202903.867,
+              "615.02"
+            ],
+            [
+              1793202947.979,
+              "615.6"
+            ],
+            [
+              1793202963.858,
+              "615.62"
+            ],
+            [
+              1793202993.863,
+              "615.67"
+            ],
+            [
+              1793203023.862,
+              "615.7"
+            ],
+            [
+              1793203053.86,
+              "615.74"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "2",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "0"
+            ],
+            [
+              1793202753.874,
+              "0"
+            ],
+            [
+              1793202783.874,
+              "0"
+            ],
+            [
+              1793202813.872,
+              "0"
+            ],
+            [
+              1793202843.871,
+              "0"
+            ],
+            [
+              1793202873.869,
+              "0"
+            ],
+            [
+              1793202903.867,
+              "0"
+            ],
+            [
+              1793202947.979,
+              "0"
+            ],
+            [
+              1793202963.858,
+              "0"
+            ],
+            [
+              1793202993.863,
+              "0"
+            ],
+            [
+              1793203023.862,
+              "0"
+            ],
+            [
+              1793203053.86,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "2",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "42652.96"
+            ],
+            [
+              1793202750.994,
+              "42681.23"
+            ],
+            [
+              1793202780.992,
+              "42709.52"
+            ],
+            [
+              1793202810.991,
+              "42736.2"
+            ],
+            [
+              1793202840.99,
+              "42764.41"
+            ],
+            [
+              1793202870.988,
+              "42792.53"
+            ],
+            [
+              1793202900.987,
+              "42820.51"
+            ],
+            [
+              1793202947.978,
+              "42843.48"
+            ],
+            [
+              1793202960.977,
+              "42853.18"
+            ],
+            [
+              1793202990.983,
+              "42879.77"
+            ],
+            [
+              1793203020.981,
+              "42907.84"
+            ],
+            [
+              1793203050.979,
+              "42936.21"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "2",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "614.7"
+            ],
+            [
+              1793202750.994,
+              "614.75"
+            ],
+            [
+              1793202780.992,
+              "614.77"
+            ],
+            [
+              1793202810.991,
+              "614.89"
+            ],
+            [
+              1793202840.99,
+              "614.93"
+            ],
+            [
+              1793202870.988,
+              "614.96"
+            ],
+            [
+              1793202900.987,
+              "615.01"
+            ],
+            [
+              1793202947.978,
+              "615.6"
+            ],
+            [
+              1793202960.977,
+              "615.62"
+            ],
+            [
+              1793202990.983,
+              "615.67"
+            ],
+            [
+              1793203020.981,
+              "615.7"
+            ],
+            [
+              1793203050.979,
+              "615.73"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "2",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "0"
+            ],
+            [
+              1793202750.994,
+              "0"
+            ],
+            [
+              1793202780.992,
+              "0"
+            ],
+            [
+              1793202810.991,
+              "0"
+            ],
+            [
+              1793202840.99,
+              "0"
+            ],
+            [
+              1793202870.988,
+              "0"
+            ],
+            [
+              1793202900.987,
+              "0"
+            ],
+            [
+              1793202947.978,
+              "0"
+            ],
+            [
+              1793202960.977,
+              "0"
+            ],
+            [
+              1793202990.983,
+              "0"
+            ],
+            [
+              1793203020.981,
+              "0"
+            ],
+            [
+              1793203050.979,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "3",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "42703.68"
+            ],
+            [
+              1793202753.874,
+              "42731.87"
+            ],
+            [
+              1793202783.874,
+              "42759.78"
+            ],
+            [
+              1793202813.872,
+              "42786.91"
+            ],
+            [
+              1793202843.871,
+              "42815.02"
+            ],
+            [
+              1793202873.869,
+              "42843.31"
+            ],
+            [
+              1793202903.867,
+              "42871.31"
+            ],
+            [
+              1793202947.979,
+              "42891.87"
+            ],
+            [
+              1793202963.858,
+              "42904.17"
+            ],
+            [
+              1793202993.863,
+              "42931.09"
+            ],
+            [
+              1793203023.862,
+              "42959.33"
+            ],
+            [
+              1793203053.86,
+              "42987.58"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "3",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "624.86"
+            ],
+            [
+              1793202753.874,
+              "624.88"
+            ],
+            [
+              1793202783.874,
+              "624.95"
+            ],
+            [
+              1793202813.872,
+              "625.01"
+            ],
+            [
+              1793202843.871,
+              "625.03"
+            ],
+            [
+              1793202873.869,
+              "625.06"
+            ],
+            [
+              1793202903.867,
+              "625.07"
+            ],
+            [
+              1793202947.979,
+              "625.24"
+            ],
+            [
+              1793202963.858,
+              "625.32"
+            ],
+            [
+              1793202993.863,
+              "625.36"
+            ],
+            [
+              1793203023.862,
+              "625.4"
+            ],
+            [
+              1793203053.86,
+              "625.43"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "3",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.4:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-7rmk6",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202723.876,
+              "0"
+            ],
+            [
+              1793202753.874,
+              "0"
+            ],
+            [
+              1793202783.874,
+              "0"
+            ],
+            [
+              1793202813.872,
+              "0"
+            ],
+            [
+              1793202843.871,
+              "0"
+            ],
+            [
+              1793202873.869,
+              "0"
+            ],
+            [
+              1793202903.867,
+              "0"
+            ],
+            [
+              1793202947.979,
+              "0"
+            ],
+            [
+              1793202963.858,
+              "0"
+            ],
+            [
+              1793202993.863,
+              "0"
+            ],
+            [
+              1793203023.862,
+              "0"
+            ],
+            [
+              1793203053.86,
+              "0"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "3",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "idle",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "42701.04"
+            ],
+            [
+              1793202750.994,
+              "42729.17"
+            ],
+            [
+              1793202780.992,
+              "42757.58"
+            ],
+            [
+              1793202810.991,
+              "42784.25"
+            ],
+            [
+              1793202840.99,
+              "42812.39"
+            ],
+            [
+              1793202870.988,
+              "42840.63"
+            ],
+            [
+              1793202900.987,
+              "42868.65"
+            ],
+            [
+              1793202947.978,
+              "42891.87"
+            ],
+            [
+              1793202960.977,
+              "42901.56"
+            ],
+            [
+              1793202990.983,
+              "42928.58"
+            ],
+            [
+              1793203020.981,
+              "42956.6"
+            ],
+            [
+              1793203050.979,
+              "42984.93"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "3",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "iowait",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "624.85"
+            ],
+            [
+              1793202750.994,
+              "624.88"
+            ],
+            [
+              1793202780.992,
+              "624.9"
+            ],
+            [
+              1793202810.991,
+              "625.01"
+            ],
+            [
+              1793202840.99,
+              "625.03"
+            ],
+            [
+              1793202870.988,
+              "625.06"
+            ],
+            [
+              1793202900.987,
+              "625.07"
+            ],
+            [
+              1793202947.978,
+              "625.24"
+            ],
+            [
+              1793202960.977,
+              "625.32"
+            ],
+            [
+              1793202990.983,
+              "625.36"
+            ],
+            [
+              1793203020.981,
+              "625.4"
+            ],
+            [
+              1793203050.979,
+              "625.42"
+            ]
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "node_cpu_seconds_total",
+            "container": "node-exporter",
+            "cpu": "3",
+            "endpoint": "http-metrics",
+            "instance": "172.19.0.5:9100",
+            "job": "node-exporter",
+            "mode": "steal",
+            "namespace": "monitoring",
+            "pod": "prometheus-prometheus-node-exporter-5vjcw",
+            "service": "prometheus-prometheus-node-exporter"
+          },
+          "values": [
+            [
+              1793202720.995,
+              "0"
+            ],
+            [
+              1793202750.994,
+              "0"
+            ],
+            [
+              1793202780.992,
+              "0"
+            ],
+            [
+              1793202810.991,
+              "0"
+            ],
+            [
+              1793202840.99,
+              "0"
+            ],
+            [
+              1793202870.988,
+              "0"
+            ],
+            [
+              1793202900.987,
+              "0"
+            ],
+            [
+              1793202947.978,
+              "0"
+            ],
+            [
+              1793202960.977,
+              "0"
+            ],
+            [
+              1793202990.983,
+              "0"
+            ],
+            [
+              1793203020.981,
+              "0"
+            ],
+            [
+              1793203050.979,
+              "0"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

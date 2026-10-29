@@ -1,0 +1,222 @@
+{
+  "version": "nemesis-functional/1",
+  "purpose": "FUNCTIONAL_ONLY_NOT_BENCHMARK",
+  "benchmark_eligible": false,
+  "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+  "stop_reason": "MAX_ROUNDS",
+  "completed_rounds": 1,
+  "budget": {
+    "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+    "attempts_dispatched": 1,
+    "reserved_tokens": 2460,
+    "reserved_estimate_usd": 0.0003484,
+    "known_input_tokens": 216,
+    "known_output_tokens": 26,
+    "known_cost_estimate_usd": 3.46e-05,
+    "unknown_usage_attempts": 0,
+    "cost_estimate_complete": true,
+    "blocked": false,
+    "accounting_scope": "PROCESS_SINGLE_SHARED_RUN_BUDGET",
+    "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing",
+    "price_checked": "2026-10-28",
+    "price_basis": "UNCACHED_STANDARD_ESTIMATE_NOT_BILLING",
+    "reservation_basis": "request_utf8_bytes_plus_1024_overhead_not_tokenizer_guarantee"
+  },
+  "records": [
+    {
+      "event": "SESSION_STARTED",
+      "at": "2026-10-29T03:57:02.894672+00:00",
+      "purpose": "FUNCTIONAL_ONLY_NOT_BENCHMARK",
+      "benchmark_eligible": false
+    },
+    {
+      "event": "OBSERVATION",
+      "at": "2026-10-29T03:57:02.895832+00:00",
+      "round": 1,
+      "observation": {
+        "observed_at": "2026-10-29T03:56:52.765547+00:00",
+        "evidence": [
+          {
+            "id": "ev-health-01",
+            "health": "HEALTHY"
+          }
+        ]
+      },
+      "sha256": "9bcd709c3651b3ef3d7e88c6585d92a2fcd90e60fcc51b7f52ab02182c7976fc"
+    },
+    {
+      "event": "MODEL_TRACE",
+      "at": "2026-10-29T03:57:06.109677+00:00",
+      "trace": {
+        "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+        "trial_id": "trl_6f7b7b54f4c943dabdda1b8a4d65563b",
+        "group": "B2",
+        "method_version": "zer19-functional/1",
+        "config_ref": "sha256:6f35d5fa672aa66360a2e80d1ef2935e0c873865d9999ded567cfae73dc1796e",
+        "incident_id": "inc_766afc2ebe5c4fa4bda093b988003d0a",
+        "schema_version": "zd-event/1.0.0",
+        "event_id": "evt_23c0fa7728d14c90a4b9408446aaba5e",
+        "event_type": "LLM_CALL",
+        "plane": "O",
+        "causation_id": null,
+        "source_component": "decision_llm",
+        "source_instance": "src-acd3676dbb044ce9a3a6e79073ec0f14",
+        "producer_version": "zer48/1",
+        "stream": "o.decision",
+        "seq": 0,
+        "target": null,
+        "clock": {
+          "clock_id": "llm-host",
+          "clock_source": "UNKNOWN",
+          "resolution_ms": null
+        },
+        "ts_event": "2026-10-29T03:57:06.109Z",
+        "payload": {
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "prompt_version": "zer19-registry-selector/1",
+          "prompt_sha256": "sha256:fe8611990118b3bc0abd8f8402e5ba928f59cd62aedf3de78b70617f9b7fada5",
+          "latency_ms": 3210.9108439999545,
+          "outcome": "OK",
+          "usage": {
+            "input_tokens": 216,
+            "output_tokens": 26,
+            "total_tokens": 242,
+            "status": "COMPLETE"
+          },
+          "cost": {
+            "usd": 3.46e-05,
+            "status": "ESTIMATE",
+            "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing"
+          },
+          "attempt_no": 1,
+          "retry_reason": null,
+          "request_id": "req_0935d860a6a14723b68c9bfe4a496e8c",
+          "response_id": "resp_089ed6b73452a9c4016ae2c411a01087d0bc31b12c29186986",
+          "model_returned": "gpt-6-luna",
+          "model_revision": "UNKNOWN_NOT_INDEPENDENTLY_VERIFIED",
+          "reason_code": null
+        },
+        "decision_id": "dec_9bfe9303601548628ec2e25c69f4ab31",
+        "call_id": "cal_7bbc4fd5318c4fdfb07ed00068b68d25"
+      }
+    },
+    {
+      "event": "PLAN",
+      "at": "2026-10-29T03:57:06.110961+00:00",
+      "round": 1,
+      "decision_id": "dec_9bfe9303601548628ec2e25c69f4ab31",
+      "decision_source": "LLM",
+      "plan": {
+        "template": "benign-apparel",
+        "evidence_ids": [
+          "ev-health-01"
+        ]
+      }
+    },
+    {
+      "event": "GUARD_ACCEPTED",
+      "at": "2026-10-29T03:57:06.111795+00:00",
+      "command_id": "ed1b8005-0c3a-499a-b3f1-a68a30501b92",
+      "decision_id": "dec_9bfe9303601548628ec2e25c69f4ab31"
+    },
+    {
+      "event": "DISPATCH_INTENT",
+      "at": "2026-10-29T03:57:06.112388+00:00",
+      "round": 1,
+      "command": {
+        "commandId": "ed1b8005-0c3a-499a-b3f1-a68a30501b92",
+        "timestamp": "2026-10-29T03:57:06Z",
+        "source": "nemesis",
+        "context": {
+          "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+          "trial_id": "trl_6f7b7b54f4c943dabdda1b8a4d65563b",
+          "group": "B2"
+        },
+        "attackType": "SQLI",
+        "target": {
+          "namespace": "zd-sqli-lab",
+          "service": "sqli-fixture",
+          "url": "http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search"
+        },
+        "parameters": {
+          "duration": 1,
+          "intensity": "LOW",
+          "concurrency": 1,
+          "customParams": {
+            "template": "benign-apparel"
+          }
+        },
+        "safetyLimits": {
+          "maxDuration": 1,
+          "allowedNamespaces": [
+            "zd-sqli-lab"
+          ]
+        }
+      },
+      "decision_id": "dec_9bfe9303601548628ec2e25c69f4ab31"
+    },
+    {
+      "event": "EXECUTOR_RESULT",
+      "at": "2026-10-29T03:57:07.137190+00:00",
+      "round": 1,
+      "raw": {
+        "resultId": "1beedea5-caae-4b67-906d-6198df7ff6f0",
+        "commandId": "ed1b8005-0c3a-499a-b3f1-a68a30501b92",
+        "timestamp": "2026-10-29T03:57:07.019957819Z",
+        "source": "chaos-worker",
+        "status": "SUCCESS",
+        "attackType": "SQLI",
+        "duration": 4,
+        "details": {
+          "requestsSent": 1,
+          "sqli": {
+            "templateId": "benign-apparel",
+            "kind": "benign",
+            "clockId": "chaos-worker-local",
+            "clockSource": "UNKNOWN",
+            "windowStart": "2026-10-29T03:57:07.019Z",
+            "sends": [
+              {
+                "seq": 1,
+                "startedAt": "2026-10-29T03:57:07.021Z",
+                "observedAt": "2026-10-29T03:57:07.024Z",
+                "requestId": "ed1b8005-0c3a-499a-b3f1-a68a30501b92/1",
+                "responseId": "9c2088ccab634eefbd03bfe586a9c4de",
+                "status": 200,
+                "rows": 2,
+                "restrictedRows": 0
+              }
+            ]
+          }
+        }
+      },
+      "sha256": "8b7dd69c91f78c59fd24dc6ff54b351e4f2738737ecadc2421d96ee91a4e9dfd",
+      "effect": "NOT_EVALUATED",
+      "remote_cancel_confirmed": false
+    },
+    {
+      "event": "SESSION_STOPPED",
+      "at": "2026-10-29T03:57:07.138130+00:00",
+      "reason": "MAX_ROUNDS",
+      "completed_rounds": 1,
+      "budget": {
+        "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+        "attempts_dispatched": 1,
+        "reserved_tokens": 2460,
+        "reserved_estimate_usd": 0.0003484,
+        "known_input_tokens": 216,
+        "known_output_tokens": 26,
+        "known_cost_estimate_usd": 3.46e-05,
+        "unknown_usage_attempts": 0,
+        "cost_estimate_complete": true,
+        "blocked": false,
+        "accounting_scope": "PROCESS_SINGLE_SHARED_RUN_BUDGET",
+        "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing",
+        "price_checked": "2026-10-28",
+        "price_basis": "UNCACHED_STANDARD_ESTIMATE_NOT_BILLING",
+        "reservation_basis": "request_utf8_bytes_plus_1024_overhead_not_tokenizer_guarantee"
+      }
+    }
+  ]
+}

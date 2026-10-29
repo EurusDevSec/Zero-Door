@@ -1,0 +1,23 @@
+[
+  {
+    "path": "docs/delivery/NOW.md",
+    "prefix_bytes": 890,
+    "old_bytes": 102516,
+    "old_sha256": "302feb66e32b1096c8139070e40397c50bafb7155f38d80a6e799d217e3b1c5e",
+    "suffix_matches": true
+  },
+  {
+    "path": "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md",
+    "prefix_bytes": 902,
+    "old_bytes": 19249,
+    "old_sha256": "aa22f0edb9f9ff63fedf04573f1b8ce00e982b5f4ab8969d7efe15477abc2fec",
+    "suffix_matches": true
+  },
+  {
+    "path": "docs/evidence/ZER-19/README.md",
+    "prefix_bytes": 852,
+    "old_bytes": 6352,
+    "old_sha256": "24b3feb228c2b731ff8bd7822a4f829c41860917fe82fc01d0a1f31c5f79e7b1",
+    "suffix_matches": true
+  }
+]

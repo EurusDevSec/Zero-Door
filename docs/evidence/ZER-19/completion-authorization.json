@@ -1,0 +1,15 @@
+{
+  "status": "APPROVED",
+  "at": "2026-10-28T15:20:48.698Z",
+  "owner": "Hoang",
+  "answer": "Duyệt toàn bộ gói hoàn tất ZER-19",
+  "questionItemId": "[\"request_user_input_async\",\"call_0a084885b9724e85b05cbd2a0fd08de4\",0]",
+  "proposal_sha256": "dd5fd926252cc3de731d5f42fdd5830454ab04e848a203232ff542cef9839b84",
+  "max_attempts": 1,
+  "max_provider_calls": 1,
+  "max_fixture_http": 3,
+  "max_tcp_controls": 1,
+  "max_seconds": 1200,
+  "cleanup_reserve_seconds": 300,
+  "conditional_publication": true
+}

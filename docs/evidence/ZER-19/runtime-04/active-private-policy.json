@@ -1,0 +1,25 @@
+{
+  "version": "zd-guard/1",
+  "enabled": true,
+  "context": {
+    "run_id": "run_e0e0aea106134a6bae270af8ec29c298",
+    "trial_id": "trl_6f7b7b54f4c943dabdda1b8a4d65563b",
+    "group": "B2"
+  },
+  "targets": [
+    {
+      "namespace": "target-app",
+      "service": "frontend",
+      "url": "http://frontend.target-app.svc.cluster.local/"
+    }
+  ],
+  "maxDurationSec": 60,
+  "maxConcurrency": 2,
+  "rps": 5,
+  "sqli": {
+    "enabled": true,
+    "endpoint": "http://zer41-private-ingress.zd-sqli-lab.svc.cluster.local:8000/fixture/catalog/search",
+    "maxSends": 1,
+    "maxCommandSec": 1
+  }
+}

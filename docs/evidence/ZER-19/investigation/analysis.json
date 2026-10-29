@@ -1,0 +1,142 @@
+{
+  "scope": "OFFLINE_ANALYSIS_OF_SAVED_EVIDENCE_NOT_NEW_ACCEPTANCE",
+  "docker_exec": {
+    "exec_id": "ff65663e2c5e017b4d2d1a253d211d97cd46a6cb6612b928455d4007cf5ad901",
+    "request_at": "2026-10-28T15:55:32.028900254Z",
+    "response_at": "2026-10-28T15:55:48.939656330Z",
+    "request_span_s": 16.91075611114502,
+    "meaning": "Daemon/proxy exec-start transaction span, not an isolated cat CPU runtime."
+  },
+  "pressure_intervals": [
+    {
+      "metric": "node_pressure_cpu_waiting_seconds_total",
+      "from": "2026-10-28T15:55:00.987000+00:00",
+      "to": "2026-10-28T15:55:47.978000+00:00",
+      "elapsed_s": 46.990999937057495,
+      "counter_delta_s": 18.873989999999594,
+      "interval_stall_percent": 40.165116778277806,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_cpu_waiting_seconds_total",
+      "from": "2026-10-28T15:55:47.978000+00:00",
+      "to": "2026-10-28T15:56:00.977000+00:00",
+      "elapsed_s": 12.999000072479248,
+      "counter_delta_s": 11.142833000000337,
+      "interval_stall_percent": 85.72069342157569,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_io_stalled_seconds_total",
+      "from": "2026-10-28T15:55:00.987000+00:00",
+      "to": "2026-10-28T15:55:47.978000+00:00",
+      "elapsed_s": 46.990999937057495,
+      "counter_delta_s": 0.17573099999992792,
+      "interval_stall_percent": 0.37396735595180425,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_io_stalled_seconds_total",
+      "from": "2026-10-28T15:55:47.978000+00:00",
+      "to": "2026-10-28T15:56:00.977000+00:00",
+      "elapsed_s": 12.999000072479248,
+      "counter_delta_s": 0.00417800000002444,
+      "interval_stall_percent": 0.032140933738971714,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_io_waiting_seconds_total",
+      "from": "2026-10-28T15:55:00.987000+00:00",
+      "to": "2026-10-28T15:55:47.978000+00:00",
+      "elapsed_s": 46.990999937057495,
+      "counter_delta_s": 3.166278999999804,
+      "interval_stall_percent": 6.7380541044900175,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_io_waiting_seconds_total",
+      "from": "2026-10-28T15:55:47.978000+00:00",
+      "to": "2026-10-28T15:56:00.977000+00:00",
+      "elapsed_s": 12.999000072479248,
+      "counter_delta_s": 0.059400000000323416,
+      "interval_stall_percent": 0.45695822501056643,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_memory_stalled_seconds_total",
+      "from": "2026-10-28T15:55:00.987000+00:00",
+      "to": "2026-10-28T15:55:47.978000+00:00",
+      "elapsed_s": 46.990999937057495,
+      "counter_delta_s": 2.866459000000006,
+      "interval_stall_percent": 6.100017032707347,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_memory_stalled_seconds_total",
+      "from": "2026-10-28T15:55:47.978000+00:00",
+      "to": "2026-10-28T15:56:00.977000+00:00",
+      "elapsed_s": 12.999000072479248,
+      "counter_delta_s": 0.004214999999994973,
+      "interval_stall_percent": 0.03242557101694871,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_memory_waiting_seconds_total",
+      "from": "2026-10-28T15:55:00.987000+00:00",
+      "to": "2026-10-28T15:55:47.978000+00:00",
+      "elapsed_s": 46.990999937057495,
+      "counter_delta_s": 3.089696999999987,
+      "interval_stall_percent": 6.575082471406245,
+      "not_avg10": true
+    },
+    {
+      "metric": "node_pressure_memory_waiting_seconds_total",
+      "from": "2026-10-28T15:55:47.978000+00:00",
+      "to": "2026-10-28T15:56:00.977000+00:00",
+      "elapsed_s": 12.999000072479248,
+      "counter_delta_s": 0.005727000000007365,
+      "interval_stall_percent": 0.04405723492634058,
+      "not_avg10": true
+    }
+  ],
+  "cart": {
+    "from": "2026-10-28T15:55:24.989000+00:00",
+    "to": "2026-10-28T15:55:48.449000+00:00",
+    "deltas": {
+      "container_cpu_cfs_periods_total": 166.0,
+      "container_cpu_cfs_throttled_periods_total": 164.0,
+      "container_cpu_usage_seconds_total": 1.7030819999999998
+    },
+    "throttled_active_periods_percent": 98.79518072289157,
+    "not_wall_time_percent": true,
+    "cpu_limit_millicores": 200,
+    "interpretation": "Quota throttling corroborates cart scheduling pressure; does not identify the global stall initiator."
+  },
+  "slow_scrapes": [
+    {
+      "metric": {
+        "__name__": "scrape_duration_seconds",
+        "endpoint": "https-metrics",
+        "instance": "172.19.0.5:10250",
+        "job": "kubelet",
+        "metrics_path": "/metrics/cadvisor",
+        "namespace": "kube-system",
+        "node": "k3d-zero-door-server-0",
+        "service": "prometheus-kube-prometheus-kubelet"
+      },
+      "at": "2026-10-28T15:55:32.022000+00:00",
+      "duration_s": 16.654978309
+    }
+  ],
+  "oom_kill_counters_all_zero": true,
+  "valid_guard_samples": 28,
+  "product_pins_verified": 9,
+  "runtime_invocation_pins_verified": 26,
+  "source_drift": [],
+  "limits": [
+    "Cumulative PSI deltas do not reconstruct the missing avg10 guard sample.",
+    "CPU, memory, and I/O stall intervals can overlap; do not sum them.",
+    "No process-level Windows scheduling trace; ultimate triggering process remains unknown.",
+    "Current Docker/WSL has restarted since incident; fresh counters are not historical proof."
+  ]
+}

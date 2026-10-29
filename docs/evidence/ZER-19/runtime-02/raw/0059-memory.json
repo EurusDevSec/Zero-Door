@@ -1,0 +1,15 @@
+{
+  "at": 1793202931.6253147,
+  "args": [
+    "docker",
+    "--context",
+    "desktop-linux",
+    "exec",
+    "k3d-zero-door-server-0",
+    "cat",
+    "/proc/meminfo",
+    "/proc/pressure/memory"
+  ],
+  "label": "memory",
+  "error_type": "TimeoutError"
+}

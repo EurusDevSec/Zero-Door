@@ -1,0 +1,31 @@
+{
+  "at": 1793244124.3254938,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "-n",
+    "zd-sqli-lab",
+    "exec",
+    "zer42-nemesis",
+    "-c",
+    "main",
+    "--",
+    "/usr/bin/python3",
+    "-c",
+    "from pathlib import Path; Path('/ledger/operator-stop').write_text('stop')"
+  ],
+  "label": "stop-owned-session",
+  "timeout_s": 4,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 1,
+  "output_redacted": false,
+  "stdout": "",
+  "stderr": "Error from server (NotFound): pods \"zer42-nemesis\" not found\n",
+  "completion": "RETURNED",
+  "elapsed_s": 0.125
+}

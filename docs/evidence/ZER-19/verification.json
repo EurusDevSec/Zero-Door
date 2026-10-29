@@ -1,0 +1,106 @@
+{
+  "issue": "ZER-19",
+  "at": "2026-10-28T15:17:53.595Z",
+  "branch": "codex/zer-19-nemesis-session",
+  "head": "093e924000861da3096185427994d9ea736df36d",
+  "verdict": "BLOCKED_RUNTIME02_GUARD_IO_TIMEOUT_AND_SHARED_RESTART",
+  "source_manifest": "source-hashes.json",
+  "ac": {
+    "AC-01": {
+      "status": "REUSED_ACCEPTED_CHILD",
+      "issue": "ZER-48",
+      "pr": "https://github.com/EurusDevSec/Zero-Door/pull/34",
+      "merge": "093e924000861da3096185427994d9ea736df36d"
+    },
+    "AC-02": {
+      "offline": "PASS",
+      "runtime": "NOT_RUN",
+      "cases": [
+        "fresh closed O projection",
+        "real shared Adapter with fake transport",
+        "registry plan/evidence validation before guard",
+        "guard-derived target/caps",
+        "signed command and raw worker result join",
+        "durable unknown no replay"
+      ]
+    },
+    "AC-03": {
+      "offline": "PASS",
+      "runtime": "NOT_RUN",
+      "cases": [
+        "max rounds/calls/shared token-cost deadline",
+        "six second pacing respecting ledger",
+        "stop during observation/inference/setup and execution",
+        "metadata/offset cancellation with owned drain",
+        "no dispatch after stop; no retry on uncertain send"
+      ]
+    }
+  },
+  "verification": {
+    "focused": {
+      "cases": 27,
+      "production_pins": [
+        "nemesis",
+        "hephaestus"
+      ],
+      "runs": 54,
+      "result": "PASS"
+    },
+    "regression": {
+      "runs": 78,
+      "result": "PASS",
+      "suites": {
+        "test_command_guards": 7,
+        "test_command_modes": 3,
+        "test_command_guard_integration": 13,
+        "test_command_guard_ci": 6,
+        "test_sqli_executor": 24,
+        "test_llm_adapter": 22,
+        "test_nemesis_consumer": 3
+      }
+    },
+    "python_total_primary_runs": 132,
+    "independent_retests": "12 IO cases on each pin; additional to primary count",
+    "bash_behavioral_checks": 37,
+    "bash_syntax": "PASS",
+    "cli_default": "PLAN_ONLY_0_CALLS_0_DISPATCH",
+    "bandit": "0 HIGH severity/high confidence findings; not all severity scan claim",
+    "runtime_manifest": "OpenAPI PASS; initial policy disabled; six source projections byte-identical; NOT_APPLIED"
+  },
+  "source_review": "READY exact 9 pins; four findings fixed, no remaining actionable defects",
+  "real_activity": {
+    "provider_calls": 0,
+    "fixture_requests": 0,
+    "pods_created": 2,
+    "topics_created": 0,
+    "provider_secret_created": false,
+    "lab_mutations": [
+      "review probe created empty owned namespace",
+      "UID cleanup removed that namespace",
+      "runtime02 created safe fixture/proxy inownednamespace thenUIDdeletednamespace"
+    ],
+    "builds": 0,
+    "pulls": 0,
+    "publication": false,
+    "done": false
+  },
+  "limits": [
+    "No provider-backed Nemesis-to-executor proof yet",
+    "No authenticated O/H archive or benchmark evidence",
+    "No effect/recovery/KPI/G3/G4 claim",
+    "Graph stale/incomplete; no taint or PDG coverage",
+    "Existing main /attack/llm-plan remains refused for benchmark groups",
+    "Budget process-local; CLI exclusive run directory prevents replay, not distributed budget durability"
+  ],
+  "failures_retained": [
+    "initial-fixture-contract-failure.log: missing role/status in fake response, fixed without weakening parser",
+    "initial-usage-fixture-failure.log: fake usage missing total_tokens, fixed",
+    "initial-context-fixture-failure.log: old fixture ID lacked UUID4 bits, new neutral context IDs used"
+  ],
+  "publication": "NOT_AUTHORIZED_NOT_STARTED",
+  "live_issue_snapshot": "Backlog at intake; no Linear mutation in this package",
+  "runtime01": "runtime-01/incident-conclusion.json",
+  "runner_offline_tests": 15,
+  "next": "No runtime03 authorized. Ownerdecisionaboutlabcontrolstability/acceptanceenvironment required; no publication/Done.",
+  "runtime02": "runtime-02/final-conclusion.json"
+}

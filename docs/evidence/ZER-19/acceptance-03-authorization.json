@@ -1,0 +1,14 @@
+{
+  "status": "APPROVED",
+  "attempt": "runtime-03",
+  "max_attempts": 1,
+  "approved_at": "2026-10-29T03:16:42.967Z",
+  "approved_by": "Hoang — direct human reply in this chat",
+  "question_item_id": "[\"request_user_input_async\",\"call_5454a4340a2044b8b3303a41b551ad8f\",0]",
+  "answer": "Duyệt toàn bộ runtime-03 và publication có điều kiện",
+  "proposal_sha256": "502616a9d2af6828543f73d7c369dd202deedfaf482ceb5117549fc13c3ae977",
+  "source_manifest_sha256": "ec1a0d0758516f812f0f951388e49c5253f229244bc2a46542cd18ea14c4bf7e",
+  "original_authorization_sha256": "0f35526a794224141dd5cc0bdde7e41fc719924add636b8c1a2e23878f1df44d",
+  "retry_allowed": false,
+  "publication": "CONDITIONAL_ON_RUNTIME_REVIEW_CI_MERGE_ACCEPTANCE"
+}

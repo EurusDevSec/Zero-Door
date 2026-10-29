@@ -1,0 +1,20 @@
+{
+  "at": 1793241663.274365,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "namespace",
+    "zd-sqli-lab",
+    "--ignore-not-found",
+    "-o",
+    "name"
+  ],
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.4839999999999236,
+  "stdout": "",
+  "stderr": ""
+}

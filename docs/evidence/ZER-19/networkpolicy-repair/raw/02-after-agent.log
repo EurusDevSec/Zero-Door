@@ -1,0 +1,55 @@
+restart k3d-zero-door-agent-0 at 2026-10-29T03:42:07Z
+k3d-zero-door-agent-0
+started_at 2026-10-29T03:42:08.031758211Z ip 172.19.0.3
+wait_state READY after 71 s at 2026-10-29T03:43:18Z
+{
+ "at": "2026-10-29T03:43:18Z",
+ "bridge": {
+  "k3d-zero-door-serverlb": "172.19.0.5",
+  "k3d-zero-door-tools": "172.19.0.2",
+  "k3d-zero-door-agent-0": "172.19.0.3",
+  "k3d-zero-door-server-0": "172.19.0.4"
+ },
+ "nodes": [
+  {
+   "name": "k3d-zero-door-agent-0",
+   "internal_ip": [
+    "172.19.0.3"
+   ],
+   "ready": [
+    "True"
+   ]
+  },
+  {
+   "name": "k3d-zero-door-server-0",
+   "internal_ip": [
+    "172.19.0.4"
+   ],
+   "ready": [
+    "True"
+   ]
+  }
+ ],
+ "check": {
+  "agent": {
+   "container_ip": "172.19.0.3",
+   "startup_node_ip_log": "I1029 03:42:11.094262      39 server.go:677] \"Successfully retrieved node IP(s)\" IPs=[\"172.19.0.3\"]",
+   "chains": 19,
+   "expected_local_pods": 19,
+   "foreign": [],
+   "ok": true,
+   "missing_count": 0
+  },
+  "server": {
+   "container_ip": "172.19.0.4",
+   "startup_node_ip_log": "I1029 03:41:14.972564      39 server.go:677] \"Successfully retrieved node IP(s)\" IPs=[\"172.19.0.4\"]",
+   "chains": 3,
+   "expected_local_pods": 3,
+   "foreign": [],
+   "ok": true,
+   "missing_count": 0
+  }
+ },
+ "pods_not_ready": [],
+ "pvc_not_bound": []
+}

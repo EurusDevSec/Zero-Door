@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-29T02:40:09.329Z",
+  "request": "Investigate thoroughly before any new attempt",
+  "head": "093e924000861da3096185427994d9ea736df36d",
+  "writer": "Codex root only",
+  "writes": [
+    "docs/evidence/ZER-19/investigation/*",
+    "docs/evidence/ZER-19/README.md (link only)",
+    "docs/evidence/ZER-19/artifact-sha256.json",
+    "docs/delivery/NOW.md (prefix only)",
+    "docs/delivery/milestones/R4-ai-agents/llm-adapter-and-nemesis.md (prefix only)",
+    "scratch/zer19/investigation-*"
+  ],
+  "actions": [
+    "Analyze existing immutable runtime01/02 evidence and runner",
+    "Read relevant local Docker logs",
+    "Bounded read-only Docker/Kubernetes diagnostics if necessary; no acceptance run"
+  ],
+  "excluded": [
+    "No model/fixture HTTP/TCP acceptance probes",
+    "No create/apply/patch/delete/restart/build/pull/import",
+    "No runtime03 or altered authorization/source manifest",
+    "No publication/Linear mutation",
+    "No product source change"
+  ],
+  "preserve": "All preexisting dirty files and raw evidence"
+}

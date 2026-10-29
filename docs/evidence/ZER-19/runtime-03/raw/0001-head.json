@@ -1,0 +1,20 @@
+{
+  "at": 1793243807.0978782,
+  "args": [
+    "git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "label": "head",
+  "timeout_s": 15,
+  "stdin_supplied": false,
+  "child_spawned": true,
+  "kill_requested": false,
+  "child_reaped": true,
+  "returncode": 0,
+  "output_redacted": false,
+  "stdout": "093e924000861da3096185427994d9ea736df36d\n",
+  "stderr": "",
+  "completion": "RETURNED",
+  "elapsed_s": 0.03099999999994907
+}

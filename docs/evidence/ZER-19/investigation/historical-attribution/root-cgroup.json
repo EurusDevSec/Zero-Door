@@ -1,0 +1,24 @@
+{
+  "at": 1793241998.7760117,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=8s",
+    "get",
+    "--raw",
+    "/api/v1/namespaces/monitoring/services/http:prometheus-kube-prometheus-prometheus:http-web/proxy/api/v1/query?query=container_cpu_usage_seconds_total%7Bid%3D%22%2F%22%7D%5B6m%5D&time=2026-10-28T15%3A58%3A00Z&timeout=5s"
+  ],
+  "query": "container_cpu_usage_seconds_total{id=\"/\"}[6m]",
+  "read_only": true,
+  "returncode": 0,
+  "elapsed_s": 0.125,
+  "stderr": "",
+  "response": {
+    "status": "success",
+    "data": {
+      "resultType": "matrix",
+      "result": []
+    }
+  }
+}

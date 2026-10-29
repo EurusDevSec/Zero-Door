@@ -1,0 +1,15 @@
+{
+  "verdict": "NOT_MET",
+  "failure": {
+    "type": "RuntimeError",
+    "reason": "POLICY_HOOK_MISSING"
+  },
+  "guard_failures": [],
+  "elapsed_s": 357.2011282444,
+  "cleanup": "CLEAN",
+  "fixture_http_reserved": 0,
+  "provider_attempt_reserved": false,
+  "retry_allowed": false,
+  "benchmark_eligible": false,
+  "publication": "BLOCKED"
+}

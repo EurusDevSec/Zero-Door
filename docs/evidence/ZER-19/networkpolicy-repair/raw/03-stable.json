@@ -1,0 +1,525 @@
+{
+ "label": "C:/Users/ACER/AppData/Local/Temp/claude/R---Projects-Eurus-Workspace-zero-door/72673ecd-48ab-4aca-af94-ce489834233e/scratchpad/netpol/03-stable.json",
+ "at": "2026-10-29T03:43:35Z",
+ "bridge": {
+  "k3d-zero-door-serverlb": "172.19.0.5",
+  "k3d-zero-door-tools": "172.19.0.2",
+  "k3d-zero-door-agent-0": "172.19.0.3",
+  "k3d-zero-door-server-0": "172.19.0.4"
+ },
+ "containers": [
+  "/k3d-zero-door-agent-0 running 2026-10-29T03:42:08.031758211Z",
+  "/k3d-zero-door-server-0 running 2026-10-29T03:41:11.307654558Z"
+ ],
+ "nodes": [
+  {
+   "name": "k3d-zero-door-agent-0",
+   "internal_ip": [
+    "172.19.0.3"
+   ],
+   "ready": [
+    "True"
+   ]
+  },
+  {
+   "name": "k3d-zero-door-server-0",
+   "internal_ip": [
+    "172.19.0.4"
+   ],
+   "ready": [
+    "True"
+   ]
+  }
+ ],
+ "check": {
+  "agent": {
+   "container_ip": "172.19.0.3",
+   "startup_node_ip_log": "I1029 03:42:11.094262      39 server.go:677] \"Successfully retrieved node IP(s)\" IPs=[\"172.19.0.3\"]",
+   "chains": 19,
+   "expected_local_pods": 19,
+   "missing": [],
+   "foreign": [],
+   "ok": true
+  },
+  "server": {
+   "container_ip": "172.19.0.4",
+   "startup_node_ip_log": "I1029 03:41:14.972564      39 server.go:677] \"Successfully retrieved node IP(s)\" IPs=[\"172.19.0.4\"]",
+   "chains": 3,
+   "expected_local_pods": 3,
+   "missing": [],
+   "foreign": [],
+   "ok": true
+  }
+ },
+ "pods": [
+  {
+   "ns": "kube-system",
+   "name": "coredns-ccb96694c-drjgp",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.225",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 20
+  },
+  {
+   "ns": "kube-system",
+   "name": "local-path-provisioner-5cf85fd84d-mb74p",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.231",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 22
+  },
+  {
+   "ns": "kube-system",
+   "name": "metrics-server-5985cbc9d7-s6h86",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.215",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 40
+  },
+  {
+   "ns": "kube-system",
+   "name": "svclb-traefik-2aaf11e4-6ktqh",
+   "node": "k3d-zero-door-server-0",
+   "hostIP": "172.19.0.4",
+   "podIP": "10.42.1.48",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 45
+  },
+  {
+   "ns": "kube-system",
+   "name": "svclb-traefik-2aaf11e4-bsq7z",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.232",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 39
+  },
+  {
+   "ns": "kube-system",
+   "name": "traefik-75bb84786-v4rz5",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.220",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 28
+  },
+  {
+   "ns": "monitoring",
+   "name": "elasticsearch-77f775cbbd-gtrxw",
+   "node": "k3d-zero-door-server-0",
+   "hostIP": "172.19.0.4",
+   "podIP": "10.42.1.46",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 0
+  },
+  {
+   "ns": "monitoring",
+   "name": "fluent-bit-65b2j",
+   "node": "k3d-zero-door-server-0",
+   "hostIP": "172.19.0.4",
+   "podIP": "10.42.1.47",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 20
+  },
+  {
+   "ns": "monitoring",
+   "name": "fluent-bit-ccs6v",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.233",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 19
+  },
+  {
+   "ns": "monitoring",
+   "name": "prometheus-kube-prometheus-operator-6484987889-6mtzh",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.227",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 43
+  },
+  {
+   "ns": "monitoring",
+   "name": "prometheus-kube-state-metrics-c86b89bdf-6gkcs",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.230",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 37
+  },
+  {
+   "ns": "monitoring",
+   "name": "prometheus-prometheus-kube-prometheus-prometheus-0",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.221",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 42
+  },
+  {
+   "ns": "monitoring",
+   "name": "prometheus-prometheus-node-exporter-5vjcw",
+   "node": "k3d-zero-door-server-0",
+   "hostIP": "172.19.0.4",
+   "podIP": "172.19.0.4",
+   "hostNetwork": true,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 33
+  },
+  {
+   "ns": "monitoring",
+   "name": "prometheus-prometheus-node-exporter-7rmk6",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "172.19.0.3",
+   "hostNetwork": true,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 38
+  },
+  {
+   "ns": "target-app",
+   "name": "cartservice-56b9fb479f-ppsgd",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.228",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 44
+  },
+  {
+   "ns": "target-app",
+   "name": "checkoutservice-7cdb898bbb-qqhsp",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.219",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 20
+  },
+  {
+   "ns": "target-app",
+   "name": "currencyservice-6b7ffcdb66-8tdq9",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.229",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 26
+  },
+  {
+   "ns": "target-app",
+   "name": "emailservice-574b6fbcc9-p6gtx",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.226",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 42
+  },
+  {
+   "ns": "target-app",
+   "name": "frontend-5d888b777-2js94",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.216",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 1
+  },
+  {
+   "ns": "target-app",
+   "name": "paymentservice-7f8b7fd8d8-26f7p",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.222",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 31
+  },
+  {
+   "ns": "target-app",
+   "name": "productcatalogservice-5cc4fdfd64-c7wdg",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.224",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 33
+  },
+  {
+   "ns": "target-app",
+   "name": "redis-cart-558f8d8d44-kz7kj",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.218",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 16
+  },
+  {
+   "ns": "target-app",
+   "name": "shippingservice-7bf88f7cd4-5tp7g",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.217",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 40
+  },
+  {
+   "ns": "zero-door",
+   "name": "kafka-controller-0",
+   "node": "k3d-zero-door-agent-0",
+   "hostIP": "172.19.0.3",
+   "podIP": "10.42.0.223",
+   "hostNetwork": false,
+   "phase": "Running",
+   "ready": true,
+   "restarts": 38
+  }
+ ],
+ "pvcs": [
+  {
+   "ns": "monitoring",
+   "name": "elasticsearch-data",
+   "uid": "77dd28b6-44e0-402f-aca3-0f2c8dee3b79",
+   "phase": "Bound"
+  },
+  {
+   "ns": "monitoring",
+   "name": "prometheus-prometheus-kube-prometheus-prometheus-db-prometheus-prometheus-kube-prometheus-prometheus-0",
+   "uid": "ae141e1f-312f-40c3-9efd-6a69801e4848",
+   "phase": "Bound"
+  },
+  {
+   "ns": "zero-door",
+   "name": "data-kafka-controller-0",
+   "uid": "26544729-8428-47ee-a197-7448e1f3ac78",
+   "phase": "Bound"
+  }
+ ],
+ "owners": [
+  {
+   "kind": "Deployment",
+   "ns": "kube-system",
+   "name": "coredns",
+   "uid": "964cf239-8ad0-4089-bcd3-eda1e0b6a60e",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "kube-system",
+   "name": "local-path-provisioner",
+   "uid": "0a3c55a5-003c-41fe-85fd-31091148a8ad",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "kube-system",
+   "name": "metrics-server",
+   "uid": "99215ea8-ebc4-49fd-8373-3d04e732623a",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "kube-system",
+   "name": "traefik",
+   "uid": "3f28613b-94ea-45b5-ac42-aa016c562d60",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "monitoring",
+   "name": "elasticsearch",
+   "uid": "4f2cb705-d8d6-4278-90bc-ceefd54d23c1",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "monitoring",
+   "name": "prometheus-grafana",
+   "uid": "5c0415f6-597f-49d1-8faf-54364b08bc9e",
+   "generation": 4
+  },
+  {
+   "kind": "Deployment",
+   "ns": "monitoring",
+   "name": "prometheus-kube-prometheus-operator",
+   "uid": "7877a1c6-7594-44a9-9118-075d5bc48204",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "monitoring",
+   "name": "prometheus-kube-state-metrics",
+   "uid": "31028e81-20df-4104-b5ea-85a80ff84e78",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "cartservice",
+   "uid": "8cd9e24f-05b8-45bb-a842-f66ae2420d0f",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "checkoutservice",
+   "uid": "5c1f8e0f-abe9-4a82-a76d-f84ac0744cf7",
+   "generation": 6
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "currencyservice",
+   "uid": "dd585d53-0398-45fb-b514-dc8239252e7a",
+   "generation": 4
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "emailservice",
+   "uid": "d0e90b18-0d2e-4fd0-89c4-0e33e4c762f7",
+   "generation": 4
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "frontend",
+   "uid": "b3a696e2-cb3f-4bc3-b807-ace82d3c4f3e",
+   "generation": 7
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "paymentservice",
+   "uid": "a0847341-2bc0-445d-b12f-627bb2989449",
+   "generation": 2
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "productcatalogservice",
+   "uid": "7431191e-ea13-4338-aba6-17e83172d56a",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "redis-cart",
+   "uid": "9c4ab813-a90d-4140-b09a-d45f6f1055a1",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "target-app",
+   "name": "shippingservice",
+   "uid": "6b4cd4fd-f099-4261-888b-d349a8d70d41",
+   "generation": 1
+  },
+  {
+   "kind": "Deployment",
+   "ns": "zero-door",
+   "name": "chaos-worker",
+   "uid": "f3e16900-b585-486a-84c1-10bb66cec4f0",
+   "generation": 5
+  },
+  {
+   "kind": "Deployment",
+   "ns": "zero-door",
+   "name": "gaia",
+   "uid": "e00d21d9-bdd5-4820-84a1-4b93b081b959",
+   "generation": 16
+  },
+  {
+   "kind": "Deployment",
+   "ns": "zero-door",
+   "name": "hephaestus",
+   "uid": "898a458b-26a9-485d-a50e-bdf352736790",
+   "generation": 18
+  },
+  {
+   "kind": "Deployment",
+   "ns": "zero-door",
+   "name": "nemesis",
+   "uid": "d8ca18f4-904b-4cd2-8c43-950e7af6f390",
+   "generation": 6
+  },
+  {
+   "kind": "StatefulSet",
+   "ns": "monitoring",
+   "name": "prometheus-prometheus-kube-prometheus-prometheus",
+   "uid": "dc5928d5-b468-443f-a7cf-8af81a10a7a7",
+   "generation": 1
+  },
+  {
+   "kind": "StatefulSet",
+   "ns": "zero-door",
+   "name": "kafka-controller",
+   "uid": "05ba235b-1e0e-4bdf-9be1-e2aa0b22a97a",
+   "generation": 2
+  },
+  {
+   "kind": "DaemonSet",
+   "ns": "kube-system",
+   "name": "svclb-traefik-2aaf11e4",
+   "uid": "04954c70-f742-43fc-95da-54e30ed75126",
+   "generation": 1
+  },
+  {
+   "kind": "DaemonSet",
+   "ns": "monitoring",
+   "name": "fluent-bit",
+   "uid": "bc32564a-69d2-4417-9d91-30d5118a876d",
+   "generation": 1
+  },
+  {
+   "kind": "DaemonSet",
+   "ns": "monitoring",
+   "name": "prometheus-prometheus-node-exporter",
+   "uid": "8dd75f50-537e-4401-88e1-dc8f6780dfa9",
+   "generation": 1
+  }
+ ],
+ "errors": {}
+}

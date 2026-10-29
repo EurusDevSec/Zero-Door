@@ -1,0 +1,1712 @@
+[
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4543,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-agent-0/exec",
+    "time": "2026-10-28T15:53:01.709108128Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4544,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-agent-0/exec",
+    "time": "2026-10-28T15:53:01.709925680Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4545,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/681305560c0db682833309b477d2a01f0d93ee8f4e06726a169f4c437047a614/start",
+    "time": "2026-10-28T15:53:01.711344142Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4546,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/681305560c0db682833309b477d2a01f0d93ee8f4e06726a169f4c437047a614/start",
+    "time": "2026-10-28T15:53:01.858518877Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4547,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/681305560c0db682833309b477d2a01f0d93ee8f4e06726a169f4c437047a614/json",
+    "time": "2026-10-28T15:53:01.860331111Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4548,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/681305560c0db682833309b477d2a01f0d93ee8f4e06726a169f4c437047a614/json",
+    "time": "2026-10-28T15:53:01.860844327Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4619,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:11.245308275Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4620,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:11.245936092Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4621,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/3c9c29f9a569174260358a135a63aaa270578f2e41666c0cebf5d835815fcc7c/start",
+    "time": "2026-10-28T15:53:11.247600614Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4622,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/3c9c29f9a569174260358a135a63aaa270578f2e41666c0cebf5d835815fcc7c/start",
+    "time": "2026-10-28T15:53:11.292730834Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4623,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/3c9c29f9a569174260358a135a63aaa270578f2e41666c0cebf5d835815fcc7c/json",
+    "time": "2026-10-28T15:53:11.294883085Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4624,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/3c9c29f9a569174260358a135a63aaa270578f2e41666c0cebf5d835815fcc7c/json",
+    "time": "2026-10-28T15:53:11.295407077Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4654,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:16.234487892Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4655,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:16.234957935Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4656,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/30202228ae23c11e6480f5d6a8ed1f7443adf197ef62521118eded03a08d3a46/start",
+    "time": "2026-10-28T15:53:16.236163609Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4657,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/30202228ae23c11e6480f5d6a8ed1f7443adf197ef62521118eded03a08d3a46/start",
+    "time": "2026-10-28T15:53:16.261954951Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4658,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/30202228ae23c11e6480f5d6a8ed1f7443adf197ef62521118eded03a08d3a46/json",
+    "time": "2026-10-28T15:53:16.263595669Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-225318.761",
+    "line": 4659,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/30202228ae23c11e6480f5d6a8ed1f7443adf197ef62521118eded03a08d3a46/json",
+    "time": "2026-10-28T15:53:16.264057899Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 21,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:21.232843634Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 22,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:21.233348587Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 23,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/3af4478abd95dd559ca15adb57b7911572ca87b575cbf34c435b6cf3e91b2db2/start",
+    "time": "2026-10-28T15:53:21.234635910Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 24,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/3af4478abd95dd559ca15adb57b7911572ca87b575cbf34c435b6cf3e91b2db2/start",
+    "time": "2026-10-28T15:53:21.255655008Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 25,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/3af4478abd95dd559ca15adb57b7911572ca87b575cbf34c435b6cf3e91b2db2/json",
+    "time": "2026-10-28T15:53:21.257442213Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 26,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/3af4478abd95dd559ca15adb57b7911572ca87b575cbf34c435b6cf3e91b2db2/json",
+    "time": "2026-10-28T15:53:21.257818739Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 56,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:26.249715271Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 57,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:26.250495671Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 58,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/7e4265d232ab7b8a5f0ca121e2548e2feebfb68b24cd83057a867f3bfea4e54f/start",
+    "time": "2026-10-28T15:53:26.251928877Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 59,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/7e4265d232ab7b8a5f0ca121e2548e2feebfb68b24cd83057a867f3bfea4e54f/start",
+    "time": "2026-10-28T15:53:26.276694917Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 60,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/7e4265d232ab7b8a5f0ca121e2548e2feebfb68b24cd83057a867f3bfea4e54f/json",
+    "time": "2026-10-28T15:53:26.278572349Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 61,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/7e4265d232ab7b8a5f0ca121e2548e2feebfb68b24cd83057a867f3bfea4e54f/json",
+    "time": "2026-10-28T15:53:26.278974378Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 91,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:31.235723830Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 92,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:31.236133643Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 93,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/a9f1725390dfcbc0bb0f9d7c3aa96b92b34477579b72f2d272e2c1bbad837b70/start",
+    "time": "2026-10-28T15:53:31.237402690Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 94,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/a9f1725390dfcbc0bb0f9d7c3aa96b92b34477579b72f2d272e2c1bbad837b70/start",
+    "time": "2026-10-28T15:53:31.263852710Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 95,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/a9f1725390dfcbc0bb0f9d7c3aa96b92b34477579b72f2d272e2c1bbad837b70/json",
+    "time": "2026-10-28T15:53:31.265287295Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 96,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/a9f1725390dfcbc0bb0f9d7c3aa96b92b34477579b72f2d272e2c1bbad837b70/json",
+    "time": "2026-10-28T15:53:31.265683826Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 126,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:36.245065470Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 127,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:36.245502889Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 128,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/f885c836d5d164bb47eee8f4a15d331843388814229f915b5f8b49f110d7cb7c/start",
+    "time": "2026-10-28T15:53:36.246822827Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 129,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/f885c836d5d164bb47eee8f4a15d331843388814229f915b5f8b49f110d7cb7c/start",
+    "time": "2026-10-28T15:53:36.276277414Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 130,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/f885c836d5d164bb47eee8f4a15d331843388814229f915b5f8b49f110d7cb7c/json",
+    "time": "2026-10-28T15:53:36.277721813Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 131,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/f885c836d5d164bb47eee8f4a15d331843388814229f915b5f8b49f110d7cb7c/json",
+    "time": "2026-10-28T15:53:36.278180992Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 161,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:41.236514472Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 162,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:41.237123947Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 163,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/55fbca712d945a5dd211793a6e586eeaac9fba59c3dfec522fee9da48dcb09e3/start",
+    "time": "2026-10-28T15:53:41.238514664Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 164,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/55fbca712d945a5dd211793a6e586eeaac9fba59c3dfec522fee9da48dcb09e3/start",
+    "time": "2026-10-28T15:53:41.268025567Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 165,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/55fbca712d945a5dd211793a6e586eeaac9fba59c3dfec522fee9da48dcb09e3/json",
+    "time": "2026-10-28T15:53:41.270133264Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 166,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/55fbca712d945a5dd211793a6e586eeaac9fba59c3dfec522fee9da48dcb09e3/json",
+    "time": "2026-10-28T15:53:41.270622607Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 196,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:46.242486056Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 197,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:46.243006420Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 198,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/dba046bb3bfc819cc5ba127c751ddb62bb39a83b102a00b23cee4adb58918bec/start",
+    "time": "2026-10-28T15:53:46.244317234Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 199,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/dba046bb3bfc819cc5ba127c751ddb62bb39a83b102a00b23cee4adb58918bec/start",
+    "time": "2026-10-28T15:53:46.276056996Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 200,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/dba046bb3bfc819cc5ba127c751ddb62bb39a83b102a00b23cee4adb58918bec/json",
+    "time": "2026-10-28T15:53:46.277862763Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 201,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/dba046bb3bfc819cc5ba127c751ddb62bb39a83b102a00b23cee4adb58918bec/json",
+    "time": "2026-10-28T15:53:46.278363335Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 231,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:51.234219139Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 232,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:51.234779840Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 233,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/f4da980570d016b115f52ba8ca68446e3b3b12de619dbaed63ca4bc795e2dd6f/start",
+    "time": "2026-10-28T15:53:51.236034150Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 234,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/f4da980570d016b115f52ba8ca68446e3b3b12de619dbaed63ca4bc795e2dd6f/start",
+    "time": "2026-10-28T15:53:51.260362016Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 235,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/f4da980570d016b115f52ba8ca68446e3b3b12de619dbaed63ca4bc795e2dd6f/json",
+    "time": "2026-10-28T15:53:51.262057112Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 236,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/f4da980570d016b115f52ba8ca68446e3b3b12de619dbaed63ca4bc795e2dd6f/json",
+    "time": "2026-10-28T15:53:51.262390451Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 266,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:56.239337398Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 267,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:53:56.239843128Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 268,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/76547091f77fba8f25cc0a5e5ee16fe088ab8d297c75ba743f048b0ded8439ca/start",
+    "time": "2026-10-28T15:53:56.241063407Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 269,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/76547091f77fba8f25cc0a5e5ee16fe088ab8d297c75ba743f048b0ded8439ca/start",
+    "time": "2026-10-28T15:53:56.270308093Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 270,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/76547091f77fba8f25cc0a5e5ee16fe088ab8d297c75ba743f048b0ded8439ca/json",
+    "time": "2026-10-28T15:53:56.272095466Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 271,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/76547091f77fba8f25cc0a5e5ee16fe088ab8d297c75ba743f048b0ded8439ca/json",
+    "time": "2026-10-28T15:53:56.272439159Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 301,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:01.248434788Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 302,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:01.249166980Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 303,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/a2d9e9c772e7a76b85efb615f10707ef7cba7d62a3fb1dfec7415e5fbc7e09d8/start",
+    "time": "2026-10-28T15:54:01.250737495Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 304,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/a2d9e9c772e7a76b85efb615f10707ef7cba7d62a3fb1dfec7415e5fbc7e09d8/start",
+    "time": "2026-10-28T15:54:01.275387542Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 305,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/a2d9e9c772e7a76b85efb615f10707ef7cba7d62a3fb1dfec7415e5fbc7e09d8/json",
+    "time": "2026-10-28T15:54:01.278026931Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 306,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/a2d9e9c772e7a76b85efb615f10707ef7cba7d62a3fb1dfec7415e5fbc7e09d8/json",
+    "time": "2026-10-28T15:54:01.278472329Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 336,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:06.239190103Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 337,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:06.239670149Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 338,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/a2fefa313771b0025ebe3194d49c84b032192b406ddb1cf0ad82e08bb3d98a33/start",
+    "time": "2026-10-28T15:54:06.240941506Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 339,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/a2fefa313771b0025ebe3194d49c84b032192b406ddb1cf0ad82e08bb3d98a33/start",
+    "time": "2026-10-28T15:54:06.273335869Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 340,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/a2fefa313771b0025ebe3194d49c84b032192b406ddb1cf0ad82e08bb3d98a33/json",
+    "time": "2026-10-28T15:54:06.275142669Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 341,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/a2fefa313771b0025ebe3194d49c84b032192b406ddb1cf0ad82e08bb3d98a33/json",
+    "time": "2026-10-28T15:54:06.275490161Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 371,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:11.253053212Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 372,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:11.253553256Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 373,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/07aaf5d4a8b2fcf5209786476ecbcd7f64aedef969377d364b234e6b39aeebd1/start",
+    "time": "2026-10-28T15:54:11.254857179Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 374,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/07aaf5d4a8b2fcf5209786476ecbcd7f64aedef969377d364b234e6b39aeebd1/start",
+    "time": "2026-10-28T15:54:11.286978095Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 375,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/07aaf5d4a8b2fcf5209786476ecbcd7f64aedef969377d364b234e6b39aeebd1/json",
+    "time": "2026-10-28T15:54:11.289275627Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 376,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/07aaf5d4a8b2fcf5209786476ecbcd7f64aedef969377d364b234e6b39aeebd1/json",
+    "time": "2026-10-28T15:54:11.289696220Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 406,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:16.251059184Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 407,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:16.251595674Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 408,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/f7a108c6030e6d5f78258c8864fa92f9ffbe67752456f82d50fc8050d717cf46/start",
+    "time": "2026-10-28T15:54:16.252843374Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 409,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/f7a108c6030e6d5f78258c8864fa92f9ffbe67752456f82d50fc8050d717cf46/start",
+    "time": "2026-10-28T15:54:16.291818031Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 410,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/f7a108c6030e6d5f78258c8864fa92f9ffbe67752456f82d50fc8050d717cf46/json",
+    "time": "2026-10-28T15:54:16.294017472Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 411,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/f7a108c6030e6d5f78258c8864fa92f9ffbe67752456f82d50fc8050d717cf46/json",
+    "time": "2026-10-28T15:54:16.294397717Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 441,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:21.248150941Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 442,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:21.248758223Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 443,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/a8534fca971009833d5e92bafdddb038ac23187efbf482c6d8ff1d87c1e9012e/start",
+    "time": "2026-10-28T15:54:21.250206346Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 444,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/a8534fca971009833d5e92bafdddb038ac23187efbf482c6d8ff1d87c1e9012e/start",
+    "time": "2026-10-28T15:54:21.289099998Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 445,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/a8534fca971009833d5e92bafdddb038ac23187efbf482c6d8ff1d87c1e9012e/json",
+    "time": "2026-10-28T15:54:21.291129342Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 446,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/a8534fca971009833d5e92bafdddb038ac23187efbf482c6d8ff1d87c1e9012e/json",
+    "time": "2026-10-28T15:54:21.291472159Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 476,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:26.240988941Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 477,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:26.241711875Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 478,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/b137b9898f8e009beedea9e682bab1bb47d86f67c073cb2c42ede641d0c29e71/start",
+    "time": "2026-10-28T15:54:26.243095734Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 479,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/b137b9898f8e009beedea9e682bab1bb47d86f67c073cb2c42ede641d0c29e71/start",
+    "time": "2026-10-28T15:54:26.269436239Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 480,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/b137b9898f8e009beedea9e682bab1bb47d86f67c073cb2c42ede641d0c29e71/json",
+    "time": "2026-10-28T15:54:26.270826921Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 481,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/b137b9898f8e009beedea9e682bab1bb47d86f67c073cb2c42ede641d0c29e71/json",
+    "time": "2026-10-28T15:54:26.271225077Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 511,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:31.253258998Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 512,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:31.253816353Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 513,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/a02257a31e0de925b679989cb8c27b9bdf5bee0dcb8ed8092c20bbc131a421a0/start",
+    "time": "2026-10-28T15:54:31.255251899Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 514,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/a02257a31e0de925b679989cb8c27b9bdf5bee0dcb8ed8092c20bbc131a421a0/start",
+    "time": "2026-10-28T15:54:31.276783401Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 515,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/a02257a31e0de925b679989cb8c27b9bdf5bee0dcb8ed8092c20bbc131a421a0/json",
+    "time": "2026-10-28T15:54:31.278613775Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 516,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/a02257a31e0de925b679989cb8c27b9bdf5bee0dcb8ed8092c20bbc131a421a0/json",
+    "time": "2026-10-28T15:54:31.278941540Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 546,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:36.235268053Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 547,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:36.235707907Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 548,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/12e13e72e601b7135b1d05dde9426e4d0ab54a7bba513b61840435cce532ee9a/start",
+    "time": "2026-10-28T15:54:36.236991509Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 549,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/12e13e72e601b7135b1d05dde9426e4d0ab54a7bba513b61840435cce532ee9a/start",
+    "time": "2026-10-28T15:54:36.262086777Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 550,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/12e13e72e601b7135b1d05dde9426e4d0ab54a7bba513b61840435cce532ee9a/json",
+    "time": "2026-10-28T15:54:36.263550516Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 551,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/12e13e72e601b7135b1d05dde9426e4d0ab54a7bba513b61840435cce532ee9a/json",
+    "time": "2026-10-28T15:54:36.263920000Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 581,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:41.239974895Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 582,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:41.240535322Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 583,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/7bd6dbb0fe6404551796154324a48375fbacf22cc18c1410e739cc66e6c61bda/start",
+    "time": "2026-10-28T15:54:41.241906336Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 584,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/7bd6dbb0fe6404551796154324a48375fbacf22cc18c1410e739cc66e6c61bda/start",
+    "time": "2026-10-28T15:54:41.265295211Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 585,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/7bd6dbb0fe6404551796154324a48375fbacf22cc18c1410e739cc66e6c61bda/json",
+    "time": "2026-10-28T15:54:41.266884738Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 586,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/7bd6dbb0fe6404551796154324a48375fbacf22cc18c1410e739cc66e6c61bda/json",
+    "time": "2026-10-28T15:54:41.267384808Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 616,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:46.247083117Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 617,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:46.247783054Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 618,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/551f82f6810f63fc4cd179a0d6cb6e432f706d242fd6b85fb225045a458d16b2/start",
+    "time": "2026-10-28T15:54:46.249456368Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 619,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/551f82f6810f63fc4cd179a0d6cb6e432f706d242fd6b85fb225045a458d16b2/start",
+    "time": "2026-10-28T15:54:46.273232759Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 620,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/551f82f6810f63fc4cd179a0d6cb6e432f706d242fd6b85fb225045a458d16b2/json",
+    "time": "2026-10-28T15:54:46.274690762Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 621,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/551f82f6810f63fc4cd179a0d6cb6e432f706d242fd6b85fb225045a458d16b2/json",
+    "time": "2026-10-28T15:54:46.274985505Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 651,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:51.249501780Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 652,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:51.250034403Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 653,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/c1609ef16149747ed84ea63aced0e964a37bf08a6cfe7366965355d39d23085b/start",
+    "time": "2026-10-28T15:54:51.251576765Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 654,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/c1609ef16149747ed84ea63aced0e964a37bf08a6cfe7366965355d39d23085b/start",
+    "time": "2026-10-28T15:54:51.286396613Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 655,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/c1609ef16149747ed84ea63aced0e964a37bf08a6cfe7366965355d39d23085b/json",
+    "time": "2026-10-28T15:54:51.288719026Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 656,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/c1609ef16149747ed84ea63aced0e964a37bf08a6cfe7366965355d39d23085b/json",
+    "time": "2026-10-28T15:54:51.289674912Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 686,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:56.250640328Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 687,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:54:56.251167648Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 688,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/a7dd32f6029b2772577630a9c38e843de16b7d209f7da14117802e93f96732ff/start",
+    "time": "2026-10-28T15:54:56.252919048Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 689,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/a7dd32f6029b2772577630a9c38e843de16b7d209f7da14117802e93f96732ff/start",
+    "time": "2026-10-28T15:54:56.275742901Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 690,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/a7dd32f6029b2772577630a9c38e843de16b7d209f7da14117802e93f96732ff/json",
+    "time": "2026-10-28T15:54:56.277526229Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 691,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/a7dd32f6029b2772577630a9c38e843de16b7d209f7da14117802e93f96732ff/json",
+    "time": "2026-10-28T15:54:56.277903173Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 721,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:01.237705333Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 722,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:01.238284806Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 723,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/7f4d1b18431d1638be31aec26399bff4dd2173f1dea8fff1bc5f4256adcf364c/start",
+    "time": "2026-10-28T15:55:01.239553520Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 724,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/7f4d1b18431d1638be31aec26399bff4dd2173f1dea8fff1bc5f4256adcf364c/start",
+    "time": "2026-10-28T15:55:01.268984612Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 725,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/7f4d1b18431d1638be31aec26399bff4dd2173f1dea8fff1bc5f4256adcf364c/json",
+    "time": "2026-10-28T15:55:01.270414258Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 726,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/7f4d1b18431d1638be31aec26399bff4dd2173f1dea8fff1bc5f4256adcf364c/json",
+    "time": "2026-10-28T15:55:01.270774744Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 756,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:06.251474751Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 757,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:06.252001047Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 758,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/62413a8ecc5dd4660df3270a0b71071b7bcdb35b96369bdefeb25506202685bc/start",
+    "time": "2026-10-28T15:55:06.253390945Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 759,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/62413a8ecc5dd4660df3270a0b71071b7bcdb35b96369bdefeb25506202685bc/start",
+    "time": "2026-10-28T15:55:06.275208799Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 760,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/62413a8ecc5dd4660df3270a0b71071b7bcdb35b96369bdefeb25506202685bc/json",
+    "time": "2026-10-28T15:55:06.276570827Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 761,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/62413a8ecc5dd4660df3270a0b71071b7bcdb35b96369bdefeb25506202685bc/json",
+    "time": "2026-10-28T15:55:06.276979415Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 791,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:11.238446711Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 792,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:11.238965568Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 793,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/40a273b4a2aa0c92126591fab3d3195a2e64aea5824f2309cd57a016fc0af04e/start",
+    "time": "2026-10-28T15:55:11.240321844Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 794,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/40a273b4a2aa0c92126591fab3d3195a2e64aea5824f2309cd57a016fc0af04e/start",
+    "time": "2026-10-28T15:55:11.263300717Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 795,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/40a273b4a2aa0c92126591fab3d3195a2e64aea5824f2309cd57a016fc0af04e/json",
+    "time": "2026-10-28T15:55:11.264867720Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 796,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/40a273b4a2aa0c92126591fab3d3195a2e64aea5824f2309cd57a016fc0af04e/json",
+    "time": "2026-10-28T15:55:11.265586685Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 826,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:16.342614206Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 827,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:16.343198721Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 828,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/b0741f87c5e420450950e1ded32bd262b55778ed865a79a182a09887ea2d99f5/start",
+    "time": "2026-10-28T15:55:16.344963102Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 829,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/b0741f87c5e420450950e1ded32bd262b55778ed865a79a182a09887ea2d99f5/start",
+    "time": "2026-10-28T15:55:16.383671128Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 830,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/b0741f87c5e420450950e1ded32bd262b55778ed865a79a182a09887ea2d99f5/json",
+    "time": "2026-10-28T15:55:16.385198587Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 831,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/b0741f87c5e420450950e1ded32bd262b55778ed865a79a182a09887ea2d99f5/json",
+    "time": "2026-10-28T15:55:16.385827353Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 856,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-agent-0/exec",
+    "time": "2026-10-28T15:55:20.094536369Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 857,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-agent-0/exec",
+    "time": "2026-10-28T15:55:20.095328319Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 858,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/568f6b58c7290a962a234fc837b172c1bf1bbbfc915733f846fc5d099b6f7f9d/start",
+    "time": "2026-10-28T15:55:20.096795095Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 859,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/568f6b58c7290a962a234fc837b172c1bf1bbbfc915733f846fc5d099b6f7f9d/start",
+    "time": "2026-10-28T15:55:20.610819636Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 860,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/568f6b58c7290a962a234fc837b172c1bf1bbbfc915733f846fc5d099b6f7f9d/json",
+    "time": "2026-10-28T15:55:20.613379908Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 861,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/568f6b58c7290a962a234fc837b172c1bf1bbbfc915733f846fc5d099b6f7f9d/json",
+    "time": "2026-10-28T15:55:20.614020788Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 871,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:21.466189947Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 872,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:21.466809192Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 873,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/903dcaf86141defe85019a43f53b5bbcd1f26f7256c96fb4923a1a7332197ede/start",
+    "time": "2026-10-28T15:55:21.468424419Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 874,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/903dcaf86141defe85019a43f53b5bbcd1f26f7256c96fb4923a1a7332197ede/start",
+    "time": "2026-10-28T15:55:21.506929004Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 875,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/903dcaf86141defe85019a43f53b5bbcd1f26f7256c96fb4923a1a7332197ede/json",
+    "time": "2026-10-28T15:55:21.508719816Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 876,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/903dcaf86141defe85019a43f53b5bbcd1f26f7256c96fb4923a1a7332197ede/json",
+    "time": "2026-10-28T15:55:21.509185075Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 900,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-agent-0/exec",
+    "time": "2026-10-28T15:55:22.687806780Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 901,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-agent-0/exec",
+    "time": "2026-10-28T15:55:22.688263597Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 902,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/0076a8af135eb30911afc15892b9222f3f6c0ae5a3d3e8bcd7be36bf2b00e0c2/start",
+    "time": "2026-10-28T15:55:22.689623842Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 903,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/0076a8af135eb30911afc15892b9222f3f6c0ae5a3d3e8bcd7be36bf2b00e0c2/start",
+    "time": "2026-10-28T15:55:23.240533820Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 904,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/0076a8af135eb30911afc15892b9222f3f6c0ae5a3d3e8bcd7be36bf2b00e0c2/json",
+    "time": "2026-10-28T15:55:23.243112216Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 905,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/0076a8af135eb30911afc15892b9222f3f6c0ae5a3d3e8bcd7be36bf2b00e0c2/json",
+    "time": "2026-10-28T15:55:23.243813979Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 916,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:26.585911972Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 917,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:26.586485900Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 918,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/8e9f031dd7861b93d58a6c834d16b9dd3a2a9257fc50786916b15c0f810c211e/start",
+    "time": "2026-10-28T15:55:26.587852031Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 919,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/8e9f031dd7861b93d58a6c834d16b9dd3a2a9257fc50786916b15c0f810c211e/start",
+    "time": "2026-10-28T15:55:26.611073693Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 920,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> GET /v1.56/exec/8e9f031dd7861b93d58a6c834d16b9dd3a2a9257fc50786916b15c0f810c211e/json",
+    "time": "2026-10-28T15:55:26.612781459Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 921,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< GET /v1.56/exec/8e9f031dd7861b93d58a6c834d16b9dd3a2a9257fc50786916b15c0f810c211e/json",
+    "time": "2026-10-28T15:55:26.613270525Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 946,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:32.026897717Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 947,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/containers/k3d-zero-door-server-0/exec",
+    "time": "2026-10-28T15:55:32.027541624Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 948,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": ">> POST /v1.56/exec/ff65663e2c5e017b4d2d1a253d211d97cd46a6cb6612b928455d4007cf5ad901/start",
+    "time": "2026-10-28T15:55:32.028900254Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  },
+  {
+    "source": "init.log.20261028-230808.007",
+    "line": 1007,
+    "component": "apiproxy",
+    "level": "info",
+    "msg": "<< POST /v1.56/exec/ff65663e2c5e017b4d2d1a253d211d97cd46a6cb6612b928455d4007cf5ad901/start",
+    "time": "2026-10-28T15:55:48.939656330Z",
+    "user_agent": "Docker-Client/29.8.2 (windows)"
+  }
+]

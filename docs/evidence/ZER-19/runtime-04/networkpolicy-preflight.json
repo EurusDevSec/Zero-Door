@@ -1,0 +1,27 @@
+{
+  "verdict": "READY_NOT_ENFORCEMENT_PROOF",
+  "checks": {
+    "k3d-zero-door-agent-0": {
+      "docker_ip": "172.19.0.3",
+      "internal_ips": [
+        "172.19.0.3"
+      ],
+      "local_running_pods": 19,
+      "observed_chains": 19,
+      "missing": [],
+      "foreign": [],
+      "ok": true
+    },
+    "k3d-zero-door-server-0": {
+      "docker_ip": "172.19.0.4",
+      "internal_ips": [
+        "172.19.0.4"
+      ],
+      "local_running_pods": 3,
+      "observed_chains": 3,
+      "missing": [],
+      "foreign": [],
+      "ok": true
+    }
+  }
+}

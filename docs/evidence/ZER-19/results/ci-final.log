@@ -1,0 +1,11 @@
+test_disabled_manifest_boundary_and_credentials (__main__.CIChecks.test_disabled_manifest_boundary_and_credentials) ... ok
+test_docker_base_images_match_registry_receipts (__main__.CIChecks.test_docker_base_images_match_registry_receipts) ... ok
+test_every_resolved_python_dependency_is_versioned_and_hashed (__main__.CIChecks.test_every_resolved_python_dependency_is_versioned_and_hashed) ... ok
+test_guard_wiring_mutants_and_sequential_rollout (__main__.CIChecks.test_guard_wiring_mutants_and_sequential_rollout) ... ok
+test_production_test_lock_preserves_every_image_pin (__main__.CIChecks.test_production_test_lock_preserves_every_image_pin) ... ok
+test_workflow_and_counterexamples (__main__.CIChecks.test_workflow_and_counterexamples) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.099s
+
+OK
