@@ -1,0 +1,12 @@
+{
+  "status": "TECHNICAL_PASS_PENDING_REVIEW_PUBLICATION",
+  "provider_calls": 1,
+  "cleanup": "PROCESS_REAPED",
+  "child": {
+    "pid": 20656,
+    "exit_code": 0,
+    "timed_out": false,
+    "process_reaped": true
+  },
+  "elapsed_s": 6.859000000000378
+}

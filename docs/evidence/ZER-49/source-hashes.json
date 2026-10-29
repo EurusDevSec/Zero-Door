@@ -1,0 +1,12 @@
+{
+  "base_head": "9b5287c140d704b8009f6dfe53f31f720b4b23a4",
+  "branch": "codex/zer-49-gaia-diagnosis",
+  "sha256": {
+    "agent-orchestrator/gaia/main.py": "ad25d846bacab6168007fb471593049115cf1d9304616d4b86e1df900ea501b1",
+    "agent-orchestrator/gaia/diagnosis.py": "2331fa3e3b45f0dcdf5b03be3138bab6b1689cec8e11bf4b25302a34675842aa",
+    "agent-orchestrator/gaia/diagnosis_cli.py": "a4fbd862d106d95cd8d025a67a135d0a6ed93304aa208deb9dcd0c5cc4e6cb32",
+    "agent-orchestrator/gaia/Dockerfile": "fcd4fd2e7d82e2282733ffdcc88f0988d432f1432caacb7979609c3d46b4ee6a",
+    "tests/test_gaia_diagnosis.py": "963458d6f54caec90977cf17b339f115ed251cb1490a56c51cf63aaa1ebef76d",
+    ".github/workflows/ci.yml": "f9a8a7842eac8d5770369bc9c6014a2df1f22c135f3f5f2df0420c6085ff04db"
+  }
+}

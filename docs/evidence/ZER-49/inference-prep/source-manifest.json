@@ -1,0 +1,23 @@
+{
+  "issue": "ZER-49",
+  "base_head": "9b5287c140d704b8009f6dfe53f31f720b4b23a4",
+  "sha256": {
+    "agent-orchestrator/gaia/main.py": "ad25d846bacab6168007fb471593049115cf1d9304616d4b86e1df900ea501b1",
+    "agent-orchestrator/gaia/diagnosis.py": "2331fa3e3b45f0dcdf5b03be3138bab6b1689cec8e11bf4b25302a34675842aa",
+    "agent-orchestrator/gaia/diagnosis_cli.py": "a4fbd862d106d95cd8d025a67a135d0a6ed93304aa208deb9dcd0c5cc4e6cb32",
+    "agent-orchestrator/gaia/Dockerfile": "fcd4fd2e7d82e2282733ffdcc88f0988d432f1432caacb7979609c3d46b4ee6a",
+    "tests/test_gaia_diagnosis.py": "963458d6f54caec90977cf17b339f115ed251cb1490a56c51cf63aaa1ebef76d",
+    ".github/workflows/ci.yml": "f9a8a7842eac8d5770369bc9c6014a2df1f22c135f3f5f2df0420c6085ff04db",
+    "agent-orchestrator/event_pipeline/llm.py": "29b3b6af6f099eb4d19a5510ac3c9a1c8835c1cf08e89e0e28401b06a94eac9c",
+    "agent-orchestrator/event_pipeline/contract.py": "5c4a890e1cb4b72431a63641061f66b3887111afa2d54ea0e83332160cab7136",
+    "agent-orchestrator/event_pipeline/adapters.py": "83895229f3967339ab3fcb8d767f7ee300a451358198de1dd70b3a552c840e11",
+    "agent-orchestrator/gaia/requirements.lock": "550ab92832e95985a1dea2c94341fc56b97f63a4ecfbd857e4a8bbd65e1277cb",
+    "docs/evidence/ZER-49/run_once.py": "f16aadc6f18291fc7b85ef3a15d6afdc894f1464fd207aa32efccb298f10b3cb",
+    "docs/evidence/ZER-49/inference-prep/prepare_input.py": "c41d6533e36038e73057ed09f52f3a136874ec1eba206fb5f2df6aa3d837364a",
+    "docs/evidence/ZER-49/inference-prep/test_runner.py": "72b75bba056f0b3c2ecffd089a543ab516679f1884a36ea69ed97d9f73013f2b",
+    "docs/evidence/ZER-49/inference-prep/policy.json": "35a43ecf8323ed1a061343e7058745b0b2c1eaf40390dd6876d455f5d6402a39",
+    "docs/evidence/ZER-49/inference-prep/config.json": "28572f33ea42e9003966aa929757b23a916cd375b7774f0b0298447618f2729b",
+    "docs/evidence/ZER-49/inference-prep/observation.json": "f7b73490e5fcdec73f9eb6edd40317a5756c017eca73d16abbe9fa38240ec9ca",
+    "docs/evidence/ZER-49/inference-prep/input-origin.json": "d8db77987de392729dbd38475f5d66021dbdda9e565b154ba7db23ed007972dc"
+  }
+}

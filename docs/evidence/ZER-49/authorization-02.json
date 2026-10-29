@@ -1,0 +1,14 @@
+{
+  "issue": "ZER-49",
+  "approved": true,
+  "approved_at": "2026-10-29T05:27:35.467Z",
+  "source": "Direct owner response in current chat",
+  "questionItemId": "[\"request_user_input_async\",\"call_a041dacc73274baf9e4d4b3403a4ef6a\",0]",
+  "answer": "Duyệt một lượt bù và publication có điều kiện",
+  "proposal_sha256": "f29190565163bf2c6655c96a4847b608b1eaed8f77db1a5994db688c9670c6aa",
+  "source_manifest_sha256": "90a97fda6a6d542ad913ae63751d1bb536083835f00ba216d39c6da8bcd88f2e",
+  "attempts": 1,
+  "no_automatic_03": true,
+  "conditional_publication": true,
+  "conditional_owner_acceptance": "AC01 functional scope; Done only after inference/evidence review/CI/merge gates"
+}
