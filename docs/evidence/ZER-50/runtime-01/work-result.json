@@ -1,0 +1,9 @@
+{
+  "status": "OBSERVED_PENDING_REVIEW",
+  "error": null,
+  "guard_failures": [],
+  "provider_calls": 2,
+  "fixture_http": 9,
+  "tcp_checks": 2,
+  "benchmark_eligible": false
+}

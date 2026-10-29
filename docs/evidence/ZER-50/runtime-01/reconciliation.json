@@ -1,0 +1,49 @@
+{
+  "status": "TECHNICAL_FUNCTIONAL_PASS_PENDING_INDEPENDENT_REVIEW_PUBLICATION",
+  "source_snapshots_verified": 78,
+  "raw_command_receipts": 191,
+  "http_count": 9,
+  "tcp_count": 2,
+  "dispatch_count": 1,
+  "api_replace_attempts": 1,
+  "cases": {
+    "C0": {
+      "status": "NO_ACTION",
+      "reason": "BENIGN",
+      "action": "NO_ACTION",
+      "decision_latency_ms": 4375.0
+    },
+    "C1": {
+      "status": "ACTION_COMPLETED",
+      "reason": "SQLI_CONTAINMENT_VERIFIED",
+      "action": "BLOCK_IP",
+      "decision_latency_ms": 2593.9999999973224
+    }
+  },
+  "usage": {
+    "run_id": "run_dc3fa71f4a384c2da23930418a8b9dc3",
+    "attempts_dispatched": 2,
+    "reserved_tokens": 8205,
+    "reserved_estimate_usd": 0.0010253,
+    "known_input_tokens": 1513,
+    "known_output_tokens": 94,
+    "known_cost_estimate_usd": 0.0001983,
+    "unknown_usage_attempts": 0,
+    "cost_estimate_complete": true,
+    "blocked": false,
+    "accounting_scope": "PROCESS_SINGLE_SHARED_RUN_BUDGET",
+    "price_ref": "https://developers.openai.com/api/docs/models/gpt-6-luna#pricing",
+    "price_checked": "2026-10-28",
+    "price_basis": "UNCACHED_STANDARD_ESTIMATE_NOT_BILLING",
+    "reservation_basis": "request_utf8_bytes_plus_1024_overhead_not_tokenizer_guarantee"
+  },
+  "cleanup": "CLEAN",
+  "postcondition_reconstructed": true,
+  "native_processes_reaped": true,
+  "resource_samples": 50,
+  "limits": [
+    "nominated DETECTED wrapper, not deployed Gaia/Kafka integration",
+    "containment postcondition, not H availability recovery or G3/G4/KPI",
+    "publication/CI/merge/owner acceptance pending"
+  ]
+}

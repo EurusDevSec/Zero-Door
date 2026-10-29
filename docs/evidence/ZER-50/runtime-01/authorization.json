@@ -1,0 +1,12 @@
+{
+  "approved": true,
+  "issue": "ZER-50",
+  "attempt": "runtime-01",
+  "proposal_sha256": "6b1b6b4ffa5b4cd1d49bdc8760a44937c29675fac7456c36b3c7921e7e5b01a3",
+  "source_manifest_sha256": "bf50c7560e5b6735a6596962951305040985bf07c79cf9fe87c70df90994e56d",
+  "expires_epoch": 1793297058.9192116,
+  "owner_reply": "\u0111\u01b0u\u1ecdc h\u00e3y ho\u00e0n th\u00e0nh n\u00f3",
+  "note": "Template only; never change approved/expiry without the corresponding human approval.",
+  "approved_at_epoch": 1793289858.9192116,
+  "authority": "Direct human reply approves the preceding single runtime-01 proposal; no publication/Linear/merge authority added."
+}

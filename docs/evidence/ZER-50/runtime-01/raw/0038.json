@@ -1,0 +1,19 @@
+{
+  "at": 1793290019.7705722,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "create",
+    "-f",
+    "C:\\Users\\ACER\\.codex\\worktrees\\zer-46-publication\\zero_door\\docs\\evidence\\ZER-50\\runtime-01\\namespace-create.json",
+    "-o",
+    "json"
+  ],
+  "pid": 9040,
+  "returncode": 0,
+  "stdout": "{\n    \"apiVersion\": \"v1\",\n    \"kind\": \"Namespace\",\n    \"metadata\": {\n        \"creationTimestamp\": \"2026-10-29T16:06:59Z\",\n        \"labels\": {\n            \"kubernetes.io/metadata.name\": \"zd-sqli-lab\",\n            \"zero-door.io/containment-scope\": \"zer46-a288c22fc1fb\",\n            \"zero-door.io/purpose\": \"sqli-fixture\",\n            \"zero-door.io/run\": \"zer46-a288c22fc1fb\"\n        },\n        \"name\": \"zd-sqli-lab\",\n        \"resourceVersion\": \"199197\",\n        \"uid\": \"6f3e0709-9794-4728-bbc6-3ec218991bbb\"\n    },\n    \"spec\": {\n        \"finalizers\": [\n            \"kubernetes\"\n        ]\n    },\n    \"status\": {\n        \"phase\": \"Active\"\n    }\n}\n",
+  "stderr": "",
+  "ended_at": 1793290020.0856738
+}

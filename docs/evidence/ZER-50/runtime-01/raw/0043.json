@@ -1,0 +1,17 @@
+{
+  "at": 1793290027.2738876,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "apply",
+    "-f",
+    "C:\\Users\\ACER\\.codex\\worktrees\\zer-46-publication\\zero_door\\docs\\evidence\\ZER-50\\runtime-01\\zer46-source-a.yaml"
+  ],
+  "pid": 11856,
+  "returncode": 0,
+  "stdout": "pod/zer46-source-a created\n",
+  "stderr": "",
+  "ended_at": 1793290027.4831746
+}

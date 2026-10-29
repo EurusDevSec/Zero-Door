@@ -1,0 +1,16 @@
+{
+  "issue": "ZER-50",
+  "timestamp_utc": "2026-10-29T16:27:22.386247+00:00",
+  "owner_reply": "được",
+  "authorization_context": "Direct reply approving commit/push, PR/CI, conditional merge and owner functional acceptance to close ZER-50 only.",
+  "owner_functional_acceptance": true,
+  "commit_push_pr_authorized": true,
+  "merge_authorized_if_ci_and_final_review_pass": true,
+  "linear_done_authorized_after_merge": true,
+  "extra_lab_model_runs": false,
+  "state": "AUTHORIZED_PENDING_COMMIT_PR_CI_MERGE",
+  "head_before": "39d1bb7b5d2ec86a9cd2cdfdaf057529da7d4598",
+  "preserved_unrelated_paths": 31,
+  "runtime_evidence": "runtime-01/final-conclusion.json",
+  "publication_review": "publication-review.md"
+}

@@ -1,0 +1,42 @@
+{
+  "who": "a",
+  "request": {
+    "path": "/fixture/catalog/search?category=zzz%27%20OR%20visibility%3D%27restricted%27%20--",
+    "method": "GET",
+    "body": null,
+    "headers": {},
+    "correlation": "59187bc6a46c47068eb19df00a5b80bb"
+  },
+  "response": {
+    "begin": 1793290070.5411887,
+    "end": 1793290070.740836,
+    "status": 200,
+    "request_id": "3248c868ec0d4b78a14decfc76508198",
+    "body": {
+      "results": [
+        {
+          "sku": "RES-INT-001",
+          "name": "Unreleased Prototype Watch",
+          "category": "internal",
+          "visibility": "restricted",
+          "price_cents": 0
+        },
+        {
+          "sku": "RES-INT-002",
+          "name": "Staff Pricing Sheet",
+          "category": "internal",
+          "visibility": "restricted",
+          "price_cents": 0
+        },
+        {
+          "sku": "RES-APP-900",
+          "name": "Embargoed Jacket",
+          "category": "apparel",
+          "visibility": "restricted",
+          "price_cents": 9900
+        }
+      ],
+      "count": 3
+    }
+  }
+}

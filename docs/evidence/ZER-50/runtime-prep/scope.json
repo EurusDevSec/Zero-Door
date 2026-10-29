@@ -1,0 +1,15 @@
+{
+  "issue": "ZER-50",
+  "head": "39d1bb7b5d2ec86a9cd2cdfdaf057529da7d4598",
+  "outcome": "Prepare and independently review single-use native acceptance runner and exact envelope",
+  "scope": [
+    "docs/evidence/ZER-50/runtime-prep/",
+    "docs/evidence/ZER-50/",
+    "docs/delivery/NOW.md",
+    "docs/delivery/milestones/R4-ai-agents/gaia-and-hephaestus.md",
+    "agent-orchestrator/hephaestus/recovery.py",
+    "tests/test_hephaestus_recovery.py"
+  ],
+  "boundary": "OFFLINE ONLY: no model credentials, lab/client requests, build/deploy, publication or Linear writes. Runtime approval pending.",
+  "probeAdjustment": "trusted timeout upper bound 120s for ConfigMap projection; default20 and absolute180TTL unchanged"
+}

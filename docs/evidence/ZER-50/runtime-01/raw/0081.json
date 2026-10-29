@@ -1,0 +1,21 @@
+{
+  "at": 1793290060.6966186,
+  "args": [
+    "kubectl",
+    "--context",
+    "k3d-zero-door",
+    "--request-timeout=12s",
+    "-n",
+    "zd-sqli-lab",
+    "logs",
+    "pod/sqli-fixture-59bb5bccc-krbp2",
+    "-c",
+    "sqli-fixture",
+    "--tail=500"
+  ],
+  "pid": 24840,
+  "returncode": 0,
+  "stdout": "zd-sqli-fixture listening on 0.0.0.0:9140 (db created)\n{\"ts\":1793290044.953953,\"request_id\":\"5582178d21eb45c482e1b1defd4f3d1b\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.457,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793290045.730834,\"request_id\":\"9effce3b66d347c09ed14bb1fb50e97a\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":1.299,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793290054.008922,\"request_id\":\"0a7f482bf62d478bb7ec1ccbf16592d7\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":2.129,\"tcp_peer\":\"10.42.0.23\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.24\",\"correlation_id\":\"9fd074d718cd41f981bdaf1902c9ca27\",\"enforcement_point\":\"sqli-fixture/trusted-client\",\"policy_sha256\":\"4304de92850e671cef23dc070f188e6bd36548b9c48cb15f11a5d5e21cf9fbeb\",\"blocked\":false,\"action_ids\":[],\"rows\":1,\"restricted_rows\":0}\n{\"ts\":1793290054.9531562,\"request_id\":\"49f5ad1bd7034263bbc65e4e4581fe57\",\"method\":\"GET\",\"path\":\"/health\",\"status\":200,\"duration_ms\":0.75,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793290054.9536552,\"request_id\":\"3f10cea845a94f8d95cf0f0ab0e163d1\",\"method\":\"GET\",\"path\":\"/ready\",\"status\":200,\"duration_ms\":0.994,\"tcp_peer\":null,\"source_method\":null,\"source_confidence\":null,\"client_ip\":null,\"correlation_id\":null}\n{\"ts\":1793290060.3223314,\"request_id\":\"9fd2705ec6fd4c4db176fde88c2f389a\",\"method\":\"GET\",\"path\":\"/fixture/catalog/search\",\"status\":200,\"duration_ms\":0.91,\"tcp_peer\":\"10.42.0.23\",\"source_method\":\"XFF_AFTER_TRUSTED\",\"source_confidence\":\"PROXY_CHAIN\",\"client_ip\":\"10.42.0.25\",\"correlation_id\":\"012c4ede60ea4045b098af05c21dea95\",\"enforcement_point\":\"sqli-fixture/trusted-client\",\"policy_sha256\":\"4304de92850e671cef23dc070f188e6bd36548b9c48cb15f11a5d5e21cf9fbeb\",\"blocked\":false,\"action_ids\":[],\"rows\":1,\"restricted_rows\":0}\n",
+  "stderr": "",
+  "ended_at": 1793290060.9045353
+}
