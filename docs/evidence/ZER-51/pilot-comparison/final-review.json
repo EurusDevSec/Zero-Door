@@ -1,0 +1,137 @@
+{
+  "issue": "ZER-21",
+  "child": "ZER-51",
+  "at_utc": "2026-10-30T15:33:03.768017+00:00",
+  "target": "LOCAL_UNSTAGED_SOURCE_AND_UNTRACKED_EVIDENCE_ALLOWLIST",
+  "checkout": "C:\\Users\\ACER\\.codex\\worktrees\\zer-46-publication\\zero_door",
+  "base_sha": "a593885e15dc474b83590c4dcf1b214395492fcf",
+  "head_sha": "a593885e15dc474b83590c4dcf1b214395492fcf",
+  "branch": "zer-21-linked-agent-cycle",
+  "default_branch": "main verified by GitHub metadata",
+  "staged_files": 0,
+  "product_source_sha256": {
+    "agent-orchestrator/nemesis/session.py": "dfad697f9a5c1bd39222a761784c63a0b54f8de75f19f19b04a5e87c0d2c20fb",
+    "agent-orchestrator/nemesis/session_cli.py": "53496a0965646c879ff86d565afa64e3f8582932ebe51d0a79283049098d38b3",
+    "tests/test_nemesis_session.py": "b6136498a143a7962a1fcd2cc69d47b23d9cfed78df7bd9067a2bf35c87ddd0f",
+    "tests/test_nemesis_session_io.py": "33fe5cd57d345608b1c296a90d85c3de9dcc28948d12f7fb8d966c1d9b2f0ddf"
+  },
+  "runtime_boundary": "NO_NEW_LAB_OR_MODEL; prior runtime authority consumed",
+  "verdict": "READY_FOR_TECHNICAL_ACCEPTANCE",
+  "blocking_findings": [],
+  "ac_matrix": [
+    {
+      "issue": "ZER-21",
+      "ac": "AC-01",
+      "verdict": "TECHNICAL_PASS",
+      "evidence": "ZER-21/runtime-07/cycle-receipt.json, worker-native-join.json, native joins/action state/cleanup",
+      "reason": "Three real model calls with linked IDs, native worker/action/business probes; RULES detection distinguished from LLM decisions"
+    },
+    {
+      "issue": "ZER-21",
+      "ac": "AC-02",
+      "verdict": "TECHNICAL_PASS_PILOT_WITH_DISCLOSED_LIMITATIONS",
+      "evidence": "ZER-51/pilot-comparison/reconciliation.json",
+      "reason": "Six native observations, same operational workload/evidence/guard/probe/HPA; scoring/containment/usage and failure/abstention retained"
+    },
+    {
+      "issue": "ZER-51",
+      "ac": "AC-01",
+      "verdict": "TECHNICAL_PASS_PILOT_WITH_DISCLOSED_LIMITATIONS",
+      "evidence": "same parent AC02 pilot, independently reviewed and explicitly integrated"
+    }
+  ],
+  "independent_reviewers": [
+    {
+      "agent": "selector_final_review",
+      "scope": "Selector v2 four-file diff and direct consumers",
+      "verdict": "READY_SOURCE_OFFLINE_SELECTOR_V2",
+      "findings": [],
+      "verification": "31/31 actual Session/IO tests PASS in 13.458s. Fake model/Kafka; outbound connection/subprocess denied, internal Windows asyncio socketpair permitted",
+      "log": "final-review-selector-tests.log"
+    },
+    {
+      "agent": "pilot_contract_review",
+      "scope": "Pilot scoring, input equivalence, fixed guard/probe/HPA, six-cell raw facts, failure denominator and usage",
+      "verdict": "READY_FOR_TECHNICAL_ACCEPTANCE",
+      "findings": [],
+      "verification": "2243 runtime02/03 ledger entries rehashed independently; six native worker/request/fixtureUID/probe joins, totals and no-oracle boundary verified",
+      "anchors": [
+        "runtime-prep-03/pilot.py:24-38,41-64,77-85,119-147",
+        "runtime-prep-03/lab.py:165-175,183-210,225-230"
+      ]
+    },
+    {
+      "agent": "runtime_lifecycle_review",
+      "scope": "Watcher drain, one-shot admission, deadline/key isolation, resource/owner/broker cleanup gates, four native continuation receipts",
+      "verdict": "READY",
+      "findings": [],
+      "verification": "4/4 focused lifecycle tests independently PASS in 2.043s, fake native ports, socket/subprocess denied; native work/cleanup receipts exit0/reaped/CLEAN",
+      "anchors": [
+        "runtime-prep-03/lab.py:42-70,255-261",
+        "runtime-prep-03/run.py:27-87",
+        "ZER-21/runtime-prep-07/lab.py:292-314,543-587"
+      ]
+    }
+  ],
+  "root_verification": "final-review-raw-audit.json",
+  "tests": {
+    "selector_session_io_independent": 31,
+    "watch_lifecycle_independent": 4,
+    "prior_full_pilot_watch_baseline": 23,
+    "prior_full_suite_basis": "Prior offline evidence credited, not all rerun in this review"
+  },
+  "pilot_quality": {
+    "planned_cells": 6,
+    "native_observed_cells": 6,
+    "whole_trial_success": 5,
+    "whole_trial_guard_failure": 1,
+    "preserved_guard_failure_cell": 2,
+    "controller_decisions_required": 4,
+    "correct_first_actions": 3,
+    "incorrect_or_missing_first_actions": 1,
+    "false_actions_c0": 0,
+    "all_six_cleanups": "CLEAN",
+    "operational_evidence_matched_per_case": true,
+    "shared_seed_guard_probe_hpa_profile_matched": true,
+    "identity_envelopes_byte_identical": false
+  },
+  "pilot_usage": {
+    "model_calls": 3,
+    "input_tokens": 1923,
+    "output_tokens": 205,
+    "cost_usd": 0.0002948,
+    "http": 48,
+    "tcp": 12,
+    "worker_sends": 6,
+    "sqli_sends": 3,
+    "replaces": 2
+  },
+  "graph_coverage": {
+    "alias": "zero_door_zd4",
+    "initial_head": "a593885e15dc474b83590c4dcf1b214395492fcf",
+    "initial_state": "incremental-in-progress",
+    "observed": "query/context Session, unstaged detect_changes, upstream impact, explain, bounded PDG controls",
+    "refresh": "Attempted --pdg --index-only --name zero_door_zd4 --workers 2; no progress beyond banner, stopped only owned exec session Ctrl-C/exit1",
+    "limitation": "No complete fresh graph/taint coverage claimed; direct diff/source/consumers, tests and raw native evidence establish review. Zero hits not proof of safety."
+  },
+  "limitations": [
+    "one native observation/cell, no statistical superiority/formal dataset/RQ2",
+    "5/6 whole-trial success; original B1 shutdown NOT_MET retained; six cells ran and six cleanups CLEAN",
+    "Gaia C0 ABSTAIN lacks correct NO_ACTION, no false heal",
+    "fixture containment/business cycle not Boutique/external H recovery/KPI",
+    "watcher fix between two original and four continuation cells is disclosed protocol deviation",
+    "crosshost clock/model revision independently UNKNOWN",
+    "b617abae ZIP is frozen pre-final-review evidence; this review is a separate addendum"
+  ],
+  "publication_state": {
+    "commit": false,
+    "push": false,
+    "pr": false,
+    "ci": false,
+    "merge": false,
+    "linear_write": false,
+    "owner_final_acceptance": false
+  },
+  "formal_done": false,
+  "runtime_required_for_current_ac": false
+}

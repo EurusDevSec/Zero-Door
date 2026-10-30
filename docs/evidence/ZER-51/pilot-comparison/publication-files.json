@@ -1,0 +1,42 @@
+{
+  "status": "FINAL_REVIEW_READY_NOT_STAGED_NOT_PUBLISHED",
+  "files": {
+    "agent-orchestrator/nemesis/session.py": "dfad697f9a5c1bd39222a761784c63a0b54f8de75f19f19b04a5e87c0d2c20fb",
+    "agent-orchestrator/nemesis/session_cli.py": "53496a0965646c879ff86d565afa64e3f8582932ebe51d0a79283049098d38b3",
+    "tests/test_nemesis_session.py": "b6136498a143a7962a1fcd2cc69d47b23d9cfed78df7bd9067a2bf35c87ddd0f",
+    "tests/test_nemesis_session_io.py": "33fe5cd57d345608b1c296a90d85c3de9dcc28948d12f7fb8d966c1d9b2f0ddf",
+    "docs/delivery/milestones/R4-ai-agents/multi-agent-evidence.md": "1f32ef3707c2db9a9cab0e6da93d2e5c69735c97ee035bafaee3d53b9ccd3997",
+    "docs/evidence/ZER-51/pilot-comparison/README.md": "65c3bd010ff43b6207fbc5d9501660d1538786ae7b04c6d950de47b36cc56f59",
+    "docs/evidence/ZER-51/pilot-comparison/comparison.csv": "08e5fed0a473ba0b2c7335f05328c50f3fc5f12b6ef8b326c493cb412d969bd3",
+    "docs/evidence/ZER-51/pilot-comparison/reconciliation.json": "973a31aaa4766838c3e1896631ca4758d6ee438285f7b6e9cf704290bfa32214",
+    "docs/evidence/ZER-51/pilot-comparison/final-verification.json": "bb75d97a66da2b90317f7649150bac848dc815dd187c583dba01f03220b3d6d0",
+    "docs/evidence/ZER-51/pilot-comparison/pr-description.md": "757dee0e9a4843e9a652b76b0ae957595bb2e8d0964e63974aee304734bff790",
+    "docs/evidence/ZER-51/pilot-comparison/publication-inventory.json": "dd43a9015322ec59371061d8a477b21533b06ef276430a0844576725fc3a68b0",
+    "docs/evidence/ZER-51/pilot-comparison/evidence-bundle.zip": "b617abaec795693e6486a9c4c3ecea7956ae7e129d8bb6d1758e8545c365b375",
+    "docs/evidence/ZER-51/pilot-comparison/bundle-index.json": "8be885a63b6c8e70c47700a311019d07dffbad7ce35baf94993912d4d88f790b",
+    "docs/evidence/ZER-51/pilot-comparison/final-review.md": "c59c123143acaf167631a9bc27d646c57efa377694dcb55ef226b5d91192bc5f",
+    "docs/evidence/ZER-51/pilot-comparison/final-review.json": "10f2f7c395a36d9abae5bb6e343be3c14e5a8931c63c01e91ce1285537ede3b1",
+    "docs/evidence/ZER-51/pilot-comparison/final-review-live-ac.json": "ec5aa7789af5379e2209bec72970cde4ed0849704151f1d9617e8b17933235de",
+    "docs/evidence/ZER-51/pilot-comparison/final-review-raw-audit.json": "aa03e20830442e69863e8bfb75fcd58b51046568dc3684dc2dce92a348e6ef0d",
+    "docs/evidence/ZER-51/pilot-comparison/final-review-selector-tests.log": "0cada02e38fe724a48003aa99bc315c520a0bc35332c22a66680eb2b60cdaf8e",
+    "docs/evidence/ZER-51/pilot-comparison/final-review-sha256.json": "591f59944eafb0d87b3e674f9fddd70a9424580b762a9c3c0662593e9f61115e"
+  },
+  "archive_policy": "All original raw/source/failure evidence preserved byte-for-byte inside the verified archive; reviewer may extract locally. No historical ledger changes.",
+  "excluded": "Unrelated dirty files and mixed NOW history. Do not stage with git add -A.",
+  "required_before_publication": "Apply only exact appended attributes then verify Git blob bytes; stage explicit allowlist plus this plan. No unrelated dirty/NOW wholesale.",
+  "gates": [
+    "owner permission for commit/push/PR",
+    "required CI and repository review gates",
+    "merge authority and owner acceptance",
+    "authorized Linear AC/status updates only after merge"
+  ],
+  "review": "final-review.md",
+  "review_sha256": "c59c123143acaf167631a9bc27d646c57efa377694dcb55ef226b5d91192bc5f",
+  "required_gitattributes_patch": {
+    "path": ".gitattributes",
+    "before_sha256": "8cf785c447fcecb6dd2e988f133bad6127131f4e4b3a468d5e8466bf283f5a17",
+    "append_utf8": "\n# ZER-21/51: preserve exact review/archive publication bytes.\ndocs/evidence/ZER-51/pilot-comparison/** -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof\ndocs/delivery/milestones/R4-ai-agents/multi-agent-evidence.md -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof\n",
+    "after_sha256": "ce1fdf4926b4d3a18ee995123b0ff36b08a4f90c69795e20c809c761981a145b",
+    "applied": false
+  }
+}

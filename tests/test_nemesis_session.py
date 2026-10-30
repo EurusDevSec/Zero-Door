@@ -9,7 +9,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "agent-orchestrator"))
-from event_pipeline.contract import new_id, validate
+from event_pipeline.contract import forbidden_keys, new_id, validate
 from event_pipeline.llm import Adapter, Limits, MODEL, RunBudget
 from nemesis.command_guard import CommandGuard
 from nemesis.session import PURPOSE, Plan, Session, SessionLimits, result_valid
@@ -25,7 +25,7 @@ def reply(plan=None, *, status=200, body=None):
         body = {"status": "completed", "model": MODEL, "id": "resp_offline",
                 "usage": {"input_tokens": 100, "output_tokens": 20, "total_tokens": 120},
                 "output": [{"type": "message", "role": "assistant", "status": "completed", "content": [{"type": "output_text", "text": json.dumps(
-                    plan or {"template": "benign-apparel", "evidence_ids": ["ev-health-01"]})}]}]}
+                    plan or {"template": "benign-apparel", "evidence_ids": ["ev-health-01"], "stop_reason": "NONE"})}]}]}
     return {"status": status, "body": body, "request_id": "req_offline"}
 
 
@@ -107,9 +107,49 @@ class SessionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual((1, 1), (len(self.fake.requests), len(self.sent)))
 
     async def test_stop_proposal_never_dispatches(self):
-        receipt = await self.session(Fake([reply({"template": "STOP", "evidence_ids": ["ev-health-01"]})])).start()
+        receipt = await self.session(Fake([reply({"template": "STOP", "evidence_ids": ["ev-health-01"],
+                                                  "stop_reason": "UNSPECIFIED"})])).start()
         self.assertEqual("MODEL_STOP", receipt["stop_reason"])
         self.assertEqual([], self.sent)
+
+    async def test_v2_request_carries_task_and_versions(self):
+        receipt = await self.session(limits=SessionLimits(required_rounds=1)).start()
+        self.assertEqual(("MAX_ROUNDS", 1), (receipt["stop_reason"], receipt["completed_rounds"]))
+        self.assertEqual("nemesis-functional/2", receipt["version"])
+        self.assertEqual("zer19-registry-selector/2", self.adapter.events[0]["payload"]["prompt_version"])
+        sent = json.loads(self.fake.requests[0]["input"])
+        self.assertEqual({"purpose": PURPOSE, "required_rounds": 1, "completed_rounds": 0}, sent["task"])
+        self.assertEqual({"observed_at", "evidence", "previous_execution_status", "allowed_templates", "task"}, set(sent))
+        self.assertFalse(forbidden_keys(sent))
+        self.assertIn("stop_reason", self.fake.requests[0]["text"]["format"]["schema"]["required"])
+
+    async def test_next_round_task_carries_actual_completed_count(self):
+        await self.session(limits=SessionLimits(max_rounds=2, required_rounds=2)).start()
+        counts = [json.loads(r["input"])["task"]["completed_rounds"] for r in self.fake.requests]
+        self.assertEqual([0, 1], counts)
+
+    async def test_stop_reason_is_recorded_claim_never_counted_rounds(self):
+        # ROUNDS_COMPLETE contradicts required=1/completed=0: kept as the model's claim, still MODEL_STOP.
+        for reason in ("ROUNDS_COMPLETE", "NO_SUITABLE_TEMPLATE", "UNSPECIFIED"):
+            with self.subTest(reason=reason):
+                plan = {"template": "STOP", "evidence_ids": ["ev-health-01"], "stop_reason": reason}
+                receipt = await self.session(Fake([reply(plan)]), limits=SessionLimits(required_rounds=1)).start()
+                self.assertEqual(("MODEL_STOP", 0), (receipt["stop_reason"], receipt["completed_rounds"]))
+                self.assertEqual(plan, next(e["plan"] for e in receipt["records"] if e["event"] == "PLAN"))
+                self.assertEqual([], self.sent)
+
+    async def test_stop_reason_schema_violations_are_schema_invalid(self):
+        for plan in [{"template": "STOP", "evidence_ids": ["ev-health-01"], "stop_reason": "NONE"},
+                     {"template": "benign-apparel", "evidence_ids": ["ev-health-01"], "stop_reason": "ROUNDS_COMPLETE"},
+                     {"template": "STOP", "evidence_ids": ["ev-health-01"]},
+                     {"template": "STOP", "evidence_ids": ["ev-health-01"], "stop_reason": "HEALTHY"},
+                     {"template": "STOP", "evidence_ids": ["ev-health-01"], "stop_reason": None}]:
+            with self.subTest(plan=plan):
+                receipt = await self.session(Fake([reply(plan)])).start()
+                self.assertEqual("MODEL_SCHEMA_INVALID", receipt["stop_reason"])
+                self.assertEqual("SCHEMA_INVALID", self.adapter.events[0]["payload"]["outcome"])
+                self.assertNotIn("PLAN", [e["event"] for e in receipt["records"]])
+                self.assertEqual([], self.sent)
 
     async def test_missing_usage_stops_without_executor_or_false_zero_cost(self):
         response = reply()
@@ -121,15 +161,16 @@ class SessionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([], self.sent)
 
     async def test_bad_model_schema_or_evidence_or_restricted_subset_never_dispatches(self):
-        for plan in [{"template": "HTTP_FLOOD", "evidence_ids": ["ev-health-01"]},
-                     {"template": "benign-apparel", "evidence_ids": ["ev-health-01"], "target": "x"},
-                     {"template": "benign-apparel", "evidence_ids": ["ev-missing"]},
-                     {"template": "benign-apparel", "evidence_ids": ["ev-health-01", "ev-health-01"]},
-                     {"template": "disclose-restricted", "evidence_ids": ["ev-health-01"]}]:
+        ok = {"evidence_ids": ["ev-health-01"], "stop_reason": "NONE"}
+        for plan, outcome in [(dict(ok, template="HTTP_FLOOD"), "MODEL_SCHEMA_INVALID"),
+                              (dict(ok, template="benign-apparel", target="x"), "MODEL_SCHEMA_INVALID"),
+                              (dict(ok, template="benign-apparel", evidence_ids=["ev-missing"]), "VALIDATION_FAILED"),
+                              (dict(ok, template="benign-apparel", evidence_ids=["ev-health-01"] * 2), "VALIDATION_FAILED"),
+                              (dict(ok, template="disclose-restricted"), "VALIDATION_FAILED")]:
             with self.subTest(plan=plan):
                 receipt = await self.session(Fake([reply(plan)]), limits=SessionLimits(
                     allowed_templates=("benign-apparel",))).start()
-                self.assertIn(receipt["stop_reason"], {"MODEL_SCHEMA_INVALID", "VALIDATION_FAILED"})
+                self.assertEqual(outcome, receipt["stop_reason"])
                 self.assertEqual([], self.sent)
 
     async def test_429_timeout_refusal_do_not_fallback_or_retry(self):
@@ -238,9 +279,12 @@ class SessionTests(unittest.IsolatedAsyncioTestCase):
             Session(purpose="B2", guard=session.guard, adapter=self.adapter, observe=session.observe,
                     execute=session.execute, context=self.ctx)
         for kwargs in [{"max_rounds": True}, {"max_rounds": 4}, {"command_s": 6},
-                       {"allowed_templates": ("new",)}, {"duration_s": 181}]:
+                       {"allowed_templates": ("new",)}, {"duration_s": 181},
+                       {"required_rounds": True}, {"required_rounds": -1}, {"required_rounds": 2},
+                       {"required_rounds": "1"}, {"required_rounds": 1.0}, {"required_rounds": None}]:
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 SessionLimits(**kwargs)
+        self.assertEqual((0, 3), (SessionLimits().required_rounds, SessionLimits(max_rounds=3, required_rounds=3).required_rounds))
 
 
 if __name__ == "__main__":
