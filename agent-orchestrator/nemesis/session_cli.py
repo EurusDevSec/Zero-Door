@@ -31,7 +31,7 @@ def config_valid(raw):
                  "max_estimated_usd"})
     if raw["purpose"] != PURPOSE or raw["benchmark_eligible"] is not False:
         raise ValueError("FUNCTIONAL_SESSION_REQUIRED")
-    fields(raw["limits"], {"max_rounds", "duration_s", "command_s", "allowed_templates"})
+    fields(raw["limits"], {"max_rounds", "duration_s", "command_s", "allowed_templates"}, {"required_rounds"})
     if type(raw["limits"]["allowed_templates"]) is not list:
         raise ValueError("SESSION_TEMPLATES")
     limits = SessionLimits(**dict(raw["limits"], allowed_templates=tuple(raw["limits"]["allowed_templates"])))

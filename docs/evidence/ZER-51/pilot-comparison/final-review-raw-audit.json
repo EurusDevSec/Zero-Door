@@ -1,0 +1,47 @@
+{
+  "at_utc": "2026-10-30T15:29:36.839011+00:00",
+  "boundary": "OFFLINE_RAW_REVIEW_ONLY_NO_LAB_MODEL_PUBLICATION",
+  "ac01_lineage": "PASS_THREE_REAL_MODEL_EVENTS_NATIVE_WORKER_ACTION_AND_BUSINESS_JOIN",
+  "ac01_tokens": {
+    "input": 1686,
+    "output": 157
+  },
+  "ledgers": [
+    {
+      "path": "docs/evidence/ZER-21/runtime-07",
+      "entries": 517,
+      "mismatches": 0
+    },
+    {
+      "path": "docs/evidence/ZER-51/runtime-01",
+      "entries": 823,
+      "mismatches": 0
+    },
+    {
+      "path": "docs/evidence/ZER-51/runtime-02",
+      "entries": 800,
+      "mismatches": 0
+    },
+    {
+      "path": "docs/evidence/ZER-51/runtime-03",
+      "entries": 1443,
+      "mismatches": 0
+    },
+    {
+      "path": "docs/evidence/ZER-51/baseline-02",
+      "entries": 29,
+      "mismatches": 0
+    },
+    {
+      "path": "docs/evidence/ZER-51/pilot-comparison",
+      "entries": 3,
+      "mismatches": 0
+    }
+  ],
+  "source_pins": 154,
+  "archive_entries": 5632,
+  "archive_sha256": "b617abaec795693e6486a9c4c3ecea7956ae7e129d8bb6d1758e8545c365b375",
+  "archive_byte_hash_and_crc": "PASS",
+  "provider_revision_and_crosshost_clock": "UNKNOWN",
+  "formal_done": false
+}

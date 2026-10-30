@@ -1,0 +1,51 @@
+{
+  "at_utc": "2026-10-30T10:03:13.428125+00:00",
+  "issue": "ZER-21",
+  "child": "ZER-51",
+  "head": "a593885e15dc474b83590c4dcf1b214395492fcf",
+  "boundary": "OFFLINE_RECONCILIATION_ONLY_NO_MORE_RUNTIME",
+  "ledgers": [
+    {
+      "ledger": "docs/evidence/ZER-21/runtime-07/artifact-sha256.json",
+      "entries": 517,
+      "mismatches": []
+    },
+    {
+      "ledger": "docs/evidence/ZER-51/runtime-01/artifact-sha256.json",
+      "entries": 823,
+      "mismatches": []
+    },
+    {
+      "ledger": "docs/evidence/ZER-51/runtime-02/artifact-sha256.json",
+      "entries": 800,
+      "mismatches": []
+    },
+    {
+      "ledger": "docs/evidence/ZER-51/runtime-03/artifact-sha256.json",
+      "entries": 1443,
+      "mismatches": []
+    },
+    {
+      "ledger": "docs/evidence/ZER-51/baseline-02/artifact-sha256.json",
+      "entries": 29,
+      "mismatches": []
+    },
+    {
+      "ledger": "docs/evidence/ZER-51/pilot-comparison/artifact-sha256.json",
+      "entries": 3,
+      "mismatches": []
+    }
+  ],
+  "prep03_source_pins": 154,
+  "source_pin_mismatches": [],
+  "native_cells": 6,
+  "whole_trial_success": 5,
+  "cleanups_clean": 6,
+  "ac01": "TECHNICAL_FUNCTIONAL_PASS_RUNTIME07",
+  "ac02": "PILOT_EVIDENCE_PRESENT_WITH_DISCLOSED_SHUTDOWN_FAILURE_AND_GAIA_C0_ABSTENTION",
+  "independent_final_review": "NOT_YET_OBTAINED",
+  "publication": "NOT_AUTHORIZED_NOT_PERFORMED",
+  "merge": "NOT_AUTHORIZED_NOT_PERFORMED",
+  "linear_write": false,
+  "issue_done": false
+}

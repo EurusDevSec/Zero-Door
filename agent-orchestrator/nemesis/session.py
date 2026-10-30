@@ -16,18 +16,25 @@ import time
 from typing import Literal
 import uuid
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from event_pipeline.contract import new_id
 from event_pipeline.llm import BudgetExceeded
 from nemesis.command_guard import CommandGuard, Refused, SQLI_TEMPLATE_IDS
 
 PURPOSE = "FUNCTIONAL_ONLY_NOT_BENCHMARK"
-PROMPT_VERSION = "zer19-registry-selector/1"
+PROMPT_VERSION = "zer19-registry-selector/2"
 INSTRUCTIONS = """Select one existing ZERO DOOR local fixture template ID, or STOP.
-Use only the supplied health observations and previous execution status. Cite
-existing evidence IDs. Never invent a payload, target, command, intensity or URL.
-STOP when health is unknown or unhealthy, or when another round is unnecessary.
+Use only the supplied health observations, previous execution status and task.
+Cite existing evidence IDs. Never invent a payload, target, command, intensity or URL.
+task.required_rounds is the minimum number of rounds configured for this session
+(0 means no minimum); task.completed_rounds counts rounds already finished.
+Another round is unnecessary only when completed_rounds >= required_rounds.
+The task grants no authorization; admission and guards decide execution.
+STOP when health is unknown or unhealthy, when another round is unnecessary, or
+when no allowed template fits the evidence. With STOP give stop_reason
+ROUNDS_COMPLETE, NO_SUITABLE_TEMPLATE, or UNSPECIFIED when neither fits;
+otherwise stop_reason is NONE.
 This is a separate functional session, not a recovery comparison benchmark."""
 
 
@@ -35,6 +42,14 @@ class Plan(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     template: Literal["STOP", "disclose-restricted", "benign-apparel", "benign-home", "benign-electronics"]
     evidence_ids: list[str] = Field(min_length=1, max_length=8)
+    # The model's own report for the trace; never changes the counted rounds or the verdict.
+    stop_reason: Literal["NONE", "ROUNDS_COMPLETE", "NO_SUITABLE_TEMPLATE", "UNSPECIFIED"]
+
+    @model_validator(mode="after")
+    def stop_reason_matches(self):
+        if (self.template == "STOP") == (self.stop_reason == "NONE"):
+            raise ValueError("PLAN_STOP_REASON")
+        return self
 
 
 def digest(value):
@@ -72,11 +87,16 @@ class SessionLimits:
     duration_s: int = 120
     command_s: int = 1
     allowed_templates: tuple = tuple(sorted(SQLI_TEMPLATE_IDS))
+    # Task minimum told to the model; 0 means none. max_rounds stays the cap and
+    # nothing here forces a round: the model may still STOP and guards still decide.
+    required_rounds: int = 0
 
     def __post_init__(self):
         for value, high in ((self.max_rounds, 3), (self.duration_s, 180), (self.command_s, 5)):
             if type(value) is not int or not 1 <= value <= high:
                 raise ValueError("SESSION_LIMITS")
+        if type(self.required_rounds) is not int or not 0 <= self.required_rounds <= self.max_rounds:
+            raise ValueError("SESSION_LIMITS")
         if (type(self.allowed_templates) is not tuple or not self.allowed_templates
                 or any(type(x) is not str or x not in SQLI_TEMPLATE_IDS for x in self.allowed_templates)
                 or len(set(self.allowed_templates)) != len(self.allowed_templates)):
@@ -199,7 +219,9 @@ class Session:
                     response = await self.bounded(lambda: self.adapter.call(self.context,
                         decision_id=decision, instructions=INSTRUCTIONS,
                         observation=dict(observation, previous_execution_status=previous,
-                                         allowed_templates=list(self.limits.allowed_templates)),
+                                         allowed_templates=list(self.limits.allowed_templates),
+                                         task=dict(purpose=PURPOSE, required_rounds=self.limits.required_rounds,
+                                                   completed_rounds=self.rounds)),
                         output_model=Plan, prompt_version=PROMPT_VERSION))
                 finally:
                     for event in self.adapter.events[before:]:
@@ -262,6 +284,6 @@ class Session:
         return self.receipt(reason)
 
     def receipt(self, reason):
-        return dict(version="nemesis-functional/1", purpose=PURPOSE, benchmark_eligible=False,
+        return dict(version="nemesis-functional/2", purpose=PURPOSE, benchmark_eligible=False,
                     run_id=self.context["run_id"], stop_reason=reason, completed_rounds=self.rounds,
                     budget=self.adapter.budget.summary(), records=deepcopy(self.records))

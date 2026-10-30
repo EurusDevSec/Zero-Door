@@ -1,0 +1,11 @@
+{
+  "status": "LOCAL_ONLY_NOT_UPLOADED",
+  "archive": "evidence-bundle.zip",
+  "sha256": "b617abaec795693e6486a9c4c3ecea7956ae7e129d8bb6d1758e8545c365b375",
+  "bytes": 26057693,
+  "entries": 5632,
+  "uncompressed_bytes": 211303924,
+  "entry_manifest": "publication-inventory.json",
+  "verified": "Every uncompressed entry byte hash equals the inventory; CRC verified. Original files unchanged.",
+  "extract": "Extract to an empty directory; archive paths are repository-relative. Historical manifests retain their as-executed HEAD and bytes; this does not authorize another runtime."
+}

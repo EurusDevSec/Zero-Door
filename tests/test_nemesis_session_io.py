@@ -178,9 +178,13 @@ class IOTests(unittest.IsolatedAsyncioTestCase):
                       max_reserved_tokens=10_000, max_estimated_usd=.001,
                       limits=dict(max_rounds=1, duration_s=120, command_s=1,
                                   allowed_templates=["benign-apparel"]))
-        self.assertEqual(1, config_valid(config).max_rounds)
+        self.assertEqual((1, 0), (config_valid(config).max_rounds, config_valid(config).required_rounds))
+        self.assertEqual(1, config_valid(dict(config, limits=dict(config["limits"], required_rounds=1))).required_rounds)
         for change in [dict(benchmark_eligible=True), dict(purpose="formal"), dict(max_calls=4),
-                       dict(max_reserved_tokens=30_001), dict(max_estimated_usd=.006), dict(extra="x")]:
+                       dict(max_reserved_tokens=30_001), dict(max_estimated_usd=.006), dict(extra="x"),
+                       dict(limits=dict(config["limits"], required_rounds=2)),
+                       dict(limits=dict(config["limits"], required_rounds=True)),
+                       dict(limits=dict(config["limits"], minimum_rounds=1))]:
             with self.subTest(change=change), self.assertRaises((ValueError, Refused)):
                 config_valid(dict(config, **change))
 
