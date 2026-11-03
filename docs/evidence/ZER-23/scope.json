@@ -1,0 +1,55 @@
+{
+  "issue": "ZER-23",
+  "outcome": "Version-pinned SQLi/C0 effect -> Gaia -> authenticated Kafka handoff -> Healer -> independent native probe; failure/cancel/cleanup evidence",
+  "authorization": "User 2026-11-03: được hãy làm (tôi cấp quyền cho bạn trong phạm vi dự án để khỏi hỏi ) làm zer 23",
+  "head": "d5b22414a66ddec3f02f549b4d18143f9b0c5880",
+  "branch": "zer-23-sqli-pipeline",
+  "writer": "Codex",
+  "checkout": "C:/Users/ACER/.codex/worktrees/zer-46-publication/zero_door",
+  "files": [
+    "agent-orchestrator/gaia/sqli_observer.py",
+    "agent-orchestrator/event_pipeline/sqli_handoff.py",
+    "agent-orchestrator/hephaestus/sqli_pipeline.py",
+    "tests/test_sqli_pipeline.py",
+    "docs/evidence/ZER-23/**",
+    "docs/delivery/milestones/R5-integration/end-to-end-pipeline.md",
+    "docs/delivery/NOW.md",
+    ".github/workflows/ci.yml",
+    ".gitattributes"
+  ],
+  "boundary": {
+    "offline": "New modules/tests/render/protocol checks, no real network in unit tests",
+    "runtime": "Bounded local integration only after frozen manifest and offline review. No shared rollout, cloud, new payload or target; existing guards unchanged."
+  },
+  "preserve": "All existing dirty paths/raw R4 evidence remain unchanged except NOW prefix. No replays of old attempts.",
+  "runtime_limits": {
+    "cases": [
+      "SQLI",
+      "C0",
+      "CANCEL"
+    ],
+    "max_model_calls": 5,
+    "max_estimated_usd": 0.03,
+    "http": 17,
+    "tcp": 6,
+    "sqli_sends": 1,
+    "benign_worker_sends": 1,
+    "configmap_replace": 1,
+    "namespaces_sequential": 3,
+    "topics_per_case": 3,
+    "work_seconds_per_case": 900,
+    "cleanup_seconds_per_case": 300,
+    "batch_seconds": 3600,
+    "shared_rollout": false,
+    "build_pull_import": false,
+    "retry": false
+  },
+  "verbatim_publication_dependencies": [
+    "docs/evidence/ZER-21/runtime-prep-07/lab.py",
+    "docs/evidence/ZER-21/runtime-prep-07/run.py",
+    "docs/evidence/ZER-21/runtime-prep-07/cycle.py",
+    "docs/evidence/ZER-51/runtime-prep-03/lab.py",
+    "docs/evidence/ZER-51/runtime-prep-03/pilot.py"
+  ],
+  "baseline_recovery": "User explicitly approved exactly one agent restart. Completed once in47.016s, BASELINE_READY,19native podFW hooks, same nodeUID/IP, deployment specs and3PVC UIDs; owned process closed/reaped. Server not restarted."
+}

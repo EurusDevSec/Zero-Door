@@ -1,3 +1,7 @@
+## ZER-23 — kỹ thuật READY, đang publication — 03/11/2026
+
+SQLi đi qua effect→Gaia→Kafka→Healer→native containment/business probe; C0 an toàn, Gaia ABSTAIN/Healer NOT_RUN giữ nguyên. Batch runtime02 NOT_MET vì ca CANCEL bị host RAM guard dừng trước model/traffic; cancel kiểm offline. Cleanup cuối toàn bộ CLEAN sau continuation riêng, failure gốc không đổi.110 offline và16 clean-source tests PASS; hai lens review READY. Không cần runtime03. Đọc docs/evidence/ZER-23/README.md/final-review.md/final-audit.json. Còn publication, CI/merge và Hoàng acceptance để Done; giữ dirty ngoài scope. Các checkpoint dưới là lịch sử.
+
 ## ZER-20 — đối chiếu AC cha và lỗi/fallback offline — 29/10/2026
 
 [Gói nghiệm thu chức năng](../evidence/ZER-20/README.md): reuse ZER-49/50 đã merge/Hoàng chấp nhận, không tự đóng cha từ child Done.63 existing tests (18Gaia+23Healer+22adapter),59subcases PASS trên mỗi dependency pin; JSON/timeout/429/missing/enum/refusal/fallback không tạo action ngoài allowlist hoặc AI success giả. Lỗi harness socketpair Windows ban đầu giữ nguyên; đã sửa riêng harness và chạy lại, không sửa product. HEADa917843/branchzer-20-gaia-hephaestus-acceptance; 38dirtyhash cũ giữ nguyên,0provider/lab/build/publication/Linearwrite. Review độc lập READY_PARENT_FUNCTIONAL_ACCEPTANCE, không còn blocker kỹ thuật. Next: xin Hoàng nghiệm thu/publication/đóng riêng ZER-20 theo gate. Không claim tích hợp SQLi/G3/G4/H/KPI. Checkpoint dưới là lịch sử.

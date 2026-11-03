@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "clean_source": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer23-clean-h1ttzohw",
+  "head": "d5b22414a66ddec3f02f549b4d18143f9b0c5880",
+  "verbatim_archive_dependencies": [
+    "docs/evidence/ZER-21/runtime-prep-07/lab.py",
+    "docs/evidence/ZER-21/runtime-prep-07/run.py",
+    "docs/evidence/ZER-21/runtime-prep-07/cycle.py",
+    "docs/evidence/ZER-51/runtime-prep-03/lab.py",
+    "docs/evidence/ZER-51/runtime-prep-03/pilot.py"
+  ],
+  "rows": [
+    {
+      "test": "tests/test_sqli_pipeline.py",
+      "exit_code": 0,
+      "log_sha256": "859b21aad7ccd6eb471ffe9c329a504517fa1ce4546b9f96ff4186441127178a"
+    },
+    {
+      "test": "docs/evidence/ZER-23/runtime-prep-02/test_runtime.py",
+      "exit_code": 0,
+      "log_sha256": "d278ef493f4e8381cbc9ab03a7abf041c8054315c2d94a06c1daae2f5d7c441a"
+    }
+  ],
+  "lab_operations": 0,
+  "provider_calls": 0
+}
