@@ -134,6 +134,10 @@ jobs:
           python -B docs/evidence/ZER-49/inference-prep/test_runner.py
       - name: Hephaestus guarded containment offline (ZER-50; fake model, API and probes)
         run: python -B tests/test_hephaestus_recovery.py
+      - name: SQLi integration transport offline (ZER-23; fake provider, broker, API)
+        run: |
+          python -B tests/test_sqli_pipeline.py
+          python -B docs/evidence/ZER-23/runtime-prep-02/test_runtime.py
       - name: Nemesis functional session offline (ZER-19; fake model and executor)
         run: |
           python -B tests/test_nemesis_session.py

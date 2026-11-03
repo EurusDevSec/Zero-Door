@@ -1,0 +1,1130 @@
+{
+  "issue": "ZER-23",
+  "status": "AC_EVIDENCE_READY_WITH_DISCLOSED_FAILURES",
+  "checks": [
+    {
+      "check": "batch_failure_retained",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:.github/workflows/ci.yml",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/__init__.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/adapters.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/audit.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/client.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/contract.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/decision_journal.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/gateway.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/llm.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/sqli_handoff.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/store.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/event_pipeline/telemetry.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/gaia/diagnosis.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/gaia/diagnosis_cli.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/gaia/main.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/gaia/sqli_observer.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/Dockerfile",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/command_guard.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/main.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/recovery.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/sqli_action_state.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/sqli_containment.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/hephaestus/sqli_pipeline.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/__init__.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/__main__.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/clock.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/config.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/flows.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/metrics.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/output.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/probe.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/raw.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/recovery.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/scorer.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/measurement/sink.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/nemesis/command_guard.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/nemesis/main.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/nemesis/measurement_view.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/nemesis/session.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:agent-orchestrator/nemesis/session_cli.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/Dockerfile",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/cmd/loop_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/cmd/main.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/cmd/main_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/go.mod",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/go.sum",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/cpu_stress.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/executor.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/guards_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/http_flood.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/kube_guard_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/pod_kill.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/sqli.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/sqli_executor_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/attack/sqli_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/config/config.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/config/config_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/auth.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/dispatch.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/guard_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/ledger.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/policy.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/review_regression_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/sqli_restart_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/guard/sqli_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/kafka/client.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/kafka/client_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/validation/sqli_target_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/validation/target.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:chaos-worker/internal/validation/target_test.go",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-19/runtime-prep/cache-pins.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-19/runtime-rendered-disabled.yaml",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-21/runtime-prep-07/cycle.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-21/runtime-prep-07/lab.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-21/runtime-prep-07/run.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/policy-diagnostic/recover_policy.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/policy-diagnostic/supervise_recovery.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/policy-recovery-authorization.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/policy-recovery-process.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/policy-recovery/result.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/README.md",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/kafka_handoff.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/lab.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/proposal.md",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/remote.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/render.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/run.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/run.sh",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/runtime-prep-02/test_runtime.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-23/scope.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-41/runtime-02/scripts/runtime-recovered.yaml",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-42/runtime-01/zer42-d042c1ab05f1/raw/006-build-worker.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-42/runtime-01/zer42-d042c1ab05f1/raw/008-image-worker.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-42/runtime-01/zer42-d042c1ab05f1/source-manifest.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-04/source-manifest.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_acceptance_admission.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_agent_fixture.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_cached_fixture.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_complete_runner.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_component.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_fixture_only.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_preflight.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_psi_resolution.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/check_stop_audit.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/client_diagnostic.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/preflight.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_completed_protocol.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_runtime03.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_runtime04.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_runtime05.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_runtime06.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_runtime07.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/reconcile_runtime08_stop.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/render.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/run_acceptance.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/run_agent_fixture.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/run_agent_retry.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/run_cached_fixture.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/run_component.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/run_fixture_only.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/writer_process.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/runtime-prep/writer_worker.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-46/source-hashes.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-50/runtime-prep/lab.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-50/runtime-prep/render.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-50/runtime-prep/run.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-50/runtime-prep/run.sh",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-50/runtime-prep/source-manifest.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-50/runtime-prep/test_runner.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-51/runtime-prep-03/lab.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:docs/evidence/ZER-51/runtime-prep-03/pilot.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:infrastructure/manifests/sqli-containment-lab.yaml",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:services/sqli-fixture/Dockerfile",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:services/sqli-fixture/app.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:services/sqli-fixture/containment.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:services/sqli-fixture/seed.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/check_guard_manifests.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/fixtures/zer10/plan-synthetic-boutique.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/fixtures/zer41/expected.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/test_hephaestus_recovery.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/test_nemesis_session.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/test_nemesis_session_io.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source_snapshot:tests/test_sqli_pipeline.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:whole_case",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:owned_tree_closed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:cleanup",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:usage_complete",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:topic_owned:zer19-dabc3a75a50f.commands",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:topic_absent:zer19-dabc3a75a50f.commands",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:topic_owned:zer19-dabc3a75a50f.results",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:topic_absent:zer19-dabc3a75a50f.results",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:topic_owned:zer19-dabc3a75a50f.observations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:topic_absent:zer19-dabc3a75a50f.observations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:three_topics",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:native_fixture_identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:native_counts_source",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "nemesis_real_round",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:single_worker_effect",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:worker_native_join",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:transport_exact_bytes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:transport_observation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:native_kafka_record",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:durable_receiver_claim",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:separate_native_receipts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:receiver_before_healer",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "SQLI:business_statuses",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "sql_effect_disclosed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "sql_native_containment",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "sql_one_policy_write",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:whole_case",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:owned_tree_closed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:cleanup",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:usage_complete",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:topic_owned:zer19-2af38ba4cb0a.commands",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:topic_absent:zer19-2af38ba4cb0a.commands",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:topic_owned:zer19-2af38ba4cb0a.results",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:topic_absent:zer19-2af38ba4cb0a.results",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:topic_owned:zer19-2af38ba4cb0a.observations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:topic_absent:zer19-2af38ba4cb0a.observations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:three_topics",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:native_fixture_identity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:native_counts_source",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:single_worker_effect",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:worker_native_join",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:abstention_retained",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "C0:business_statuses",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "benign_native_control",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "fresh_fixture_per_effect_case",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cancel_case_guard_stop_retained",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cancel_no_dispatch_or_fixture",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cancel_owned_processes_closed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "host_memory_cause",
+      "passed": true,
+      "detail": {
+        "at": 1793713253.2743552,
+        "hostAvailable": 671129600,
+        "wslAvailableKiB": 2301268,
+        "memoryPsiAvg10": 0.0
+      }
+    },
+    {
+      "check": "guard_blocks_topic_effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cleanup_resume_exact_state",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "cleanup_resume_clean",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "resume_topic_absent:zer19-d1fcc6c6d3d7.commands",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "resume_topic_absent:zer19-d1fcc6c6d3d7.results",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "resume_topic_absent:zer19-d1fcc6c6d3d7.observations",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "offline_cancel_scenarios_pass",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "budget_totals",
+      "passed": true,
+      "detail": {
+        "model_calls": 4,
+        "input_tokens": 2331,
+        "output_tokens": 253,
+        "cost_estimate_usd": 0.0003596,
+        "http": 16,
+        "tcp": 4,
+        "api_replace": 1
+      }
+    }
+  ],
+  "limits": {
+    "model_calls": 5,
+    "estimated_usd": 0.03,
+    "http": 17,
+    "tcp": 6,
+    "api_replace": 1
+  },
+  "benchmark_eligible": false,
+  "source_pins": 143,
+  "offline_verification": {
+    "offline_tests": 110,
+    "all_passed": true,
+    "source_pins": 167,
+    "proposal_sha256": "e2c76d63b88843bdf923cf2ec7f9c69a6cda706025affcc8043b7031650930c1",
+    "manifest_sha256": "ed96a95ce45bb70b77816466e18caab75f1154a076139d0b86cb5c335228a034",
+    "logs": {
+      "test_gaia_diagnosis.log": "e04a86480c0e8a8577583e4a5f0894477f89e8902fa20e6a90a1a32dbc0e2b43",
+      "test_hephaestus_recovery.log": "e36d7435006420c04184a17a6dacdc22d38a14d14b4dd9c8619c466d37126d5d",
+      "test_llm_adapter.log": "6ba3d20b646988cfe2ca679ced74399c2212014108de01e531a992161a74047b",
+      "test_nemesis_session.log": "ae1479d0962764aa8ad8ad68f7592d7ec30d5cc8a286f07c548d31bba2aaa214",
+      "test_nemesis_session_io.log": "bedf0749342c06b2e3777a28681c2b33190f9e6f40f27ae15fdfbc4d78c4b849",
+      "test_runtime.log": "1827fffade8bfdd7357518f1e36dbf7c477d6cf4af17231baf8433411646e8ab",
+      "test_sqli_pipeline.log": "4130e16d8e0348be26c16d13c65bbb68259ec2ead9aa2c041b518c29c318631c"
+    }
+  },
+  "clean_ci_verification": {
+    "status": "PASS",
+    "clean_source": "R:\\_Projects\\Eurus_Workspace\\zero_door\\scratch\\zer23-clean-h1ttzohw",
+    "head": "d5b22414a66ddec3f02f549b4d18143f9b0c5880",
+    "verbatim_archive_dependencies": [
+      "docs/evidence/ZER-21/runtime-prep-07/lab.py",
+      "docs/evidence/ZER-21/runtime-prep-07/run.py",
+      "docs/evidence/ZER-21/runtime-prep-07/cycle.py",
+      "docs/evidence/ZER-51/runtime-prep-03/lab.py",
+      "docs/evidence/ZER-51/runtime-prep-03/pilot.py"
+    ],
+    "rows": [
+      {
+        "test": "tests/test_sqli_pipeline.py",
+        "exit_code": 0,
+        "log_sha256": "859b21aad7ccd6eb471ffe9c329a504517fa1ce4546b9f96ff4186441127178a"
+      },
+      {
+        "test": "docs/evidence/ZER-23/runtime-prep-02/test_runtime.py",
+        "exit_code": 0,
+        "log_sha256": "d278ef493f4e8381cbc9ab03a7abf041c8054315c2d94a06c1daae2f5d7c441a"
+      }
+    ],
+    "lab_operations": 0,
+    "provider_calls": 0
+  },
+  "batch_status": "NOT_MET",
+  "issue_done": false,
+  "totals": {
+    "model_calls": 4,
+    "input_tokens": 2331,
+    "output_tokens": 253,
+    "cost_estimate_usd": 0.0003596,
+    "http": 16,
+    "tcp": 4,
+    "api_replace": 1
+  },
+  "cases": [
+    {
+      "case": "SQLI",
+      "provider_calls": 3,
+      "http": 8,
+      "tcp": 2,
+      "cleanup": "CLEAN",
+      "fixture_uid": "468b0f90-fdee-45ba-853b-5f6cb78fff54",
+      "gaia": "OK",
+      "healer": "ACTION_COMPLETED",
+      "restricted_rows": 3,
+      "action_id": "act_9e2ce160172d4d94ad7283a3b95f3b31"
+    },
+    {
+      "case": "C0",
+      "provider_calls": 1,
+      "http": 8,
+      "tcp": 2,
+      "cleanup": "CLEAN",
+      "fixture_uid": "27a91bef-c77e-4287-8240-e24bc56025ad",
+      "gaia": "ABSTAIN",
+      "healer": "NOT_RUN",
+      "restricted_rows": 0
+    },
+    {
+      "case": "CANCEL",
+      "status": "NOT_MET_MEMORY_STOP_BEFORE_CANCEL",
+      "model_calls": 0,
+      "http": 0,
+      "tcp": 0,
+      "original_cleanup": "INCOMPLETE",
+      "cleanup_resume": "CLEAN",
+      "live_cancellation_executed": false
+    }
+  ],
+  "limitations": [
+    "Host-composed Gaia/privateKafka/Healer, not deployed autonomous main consumers",
+    "Fixture containment/business only; no Boutique incident recovery or KPI/RQ2 claim",
+    "Cached worker full source build-context unavailable; exact artifacts/3sourcepins retained",
+    "Clock synchronization independently UNKNOWN",
+    "Live CANCEL not reached because host memory guard stopped work; cancellation behavior verified offline with real Session and in-flight transport tests",
+    "C0 Gaia ABSTAIN preserved; no Healer call or classification accuracy claim",
+    "HMAC key not retained; posthoc MAC recomputation unavailable"
+  ]
+}
