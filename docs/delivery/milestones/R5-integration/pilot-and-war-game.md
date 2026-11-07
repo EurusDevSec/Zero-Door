@@ -43,4 +43,10 @@ Bảng kết quả tái tính; không lọc failure hoặc sửa số để đ�
 
 ## Bàn giao kỹ thuật
 
-Chưa có bàn giao thực thi mới. Khi thực hiện, ghi issue Linear và thời điểm đọc AC, HEAD/dirty, phạm vi file/thao tác, kiểm tra/kết quả, evidence, giới hạn và bước tiếp theo. Theo [WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); trạng thái, lịch và phân công cập nhật trên Linear.
+### ZER-52 — Pilot Runtime07
+
+[Hồ sơ pilot Runtime07](../../../evidence/ZER-52/README.md) lưu 12 ca, hai mẫu mỗi tổ hợp B0/B1/B2 × SQLi/C0, cùng kết quả review, cleanup và ước tính thời lượng cho ZER-53. Hồ sơ đáp ứng phần pilot AC-01 của ZER-24.
+
+### Quy ước bàn giao
+
+Mỗi lượt thực thi cần ghi issue Linear, thời điểm đọc AC, HEAD và thay đổi cục bộ, phạm vi file và thao tác, kết quả kiểm tra, bằng chứng, giới hạn và bước tiếp theo. Xem [quy trình bàn giao](../../WORKFLOW.md). Trạng thái, lịch và phân công cập nhật trên Linear.
