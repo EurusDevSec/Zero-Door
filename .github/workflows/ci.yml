@@ -9,7 +9,7 @@ on:
 jobs:
   bash-tooling:
     name: Bash syntax and isolated CLI tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -40,7 +40,7 @@ jobs:
 
   r1-measurement-offline:
     name: R1 independent measurement offline (probe, recovery evaluator, raw scorer)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -60,7 +60,7 @@ jobs:
 
   r1-agent-http:
     name: R1 agents over loopback HTTP (no Kafka, Kubernetes or LLM)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -97,7 +97,7 @@ jobs:
 
   r1-production-http:
     name: Guard entrypoints on production dependency pins
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     strategy:
       matrix:
@@ -145,7 +145,7 @@ jobs:
 
   r2-fixture:
     name: R2 fixture offline (${{ matrix.agent }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       matrix:
@@ -252,7 +252,7 @@ jobs:
   # ─────────────────────────────────────────────
   helm-lint:
     name: Helm Chart Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -287,7 +287,7 @@ jobs:
   # ─────────────────────────────────────────────
   python-build:
     name: Build Python Agent Orchestrator
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         agent: [gaia, nemesis, hephaestus]
