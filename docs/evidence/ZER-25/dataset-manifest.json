@@ -1,0 +1,1377 @@
+{
+  "schema": "zer25-dataset/1",
+  "as_of": "2026-11-08T06:17:53.850Z",
+  "evidence_root": "scratch/zer52-checkout/docs/evidence/ZER-52",
+  "publication_base": "90efe53f9a35f140f168166a5bd8b74a6cae2abb",
+  "legacy": {
+    "kind": "HISTORICAL_ONLY",
+    "date_from_attack_start": "2026-06-25",
+    "files": [
+      {
+        "path": "docs/experiments/raw_data/e1_cpu_stress/results_20260625T153348.csv",
+        "sha256": "0e876cd8f41b22ada2c787f46580e5f61206d974ec3d76bebaeba2f68d0346e9",
+        "run_ids": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e1_cpu_stress/results_20260625T154933.csv",
+        "sha256": "136801666107b472e419de24eed301740dcfe4a98ef48307a3b4de42169e4fc4",
+        "run_ids": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e2_http_flood/results_20260625T153523.csv",
+        "sha256": "b5b92eb7a57d2ac547320203cea4b463de233039394d01c8b21c990775c5218a",
+        "run_ids": [
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e2_http_flood/results_20260625T155104.csv",
+        "sha256": "22c2bd19acc44904c1e980bf2e15cdfa71649db1fe5e88117ad8e3e7642aa78c",
+        "run_ids": [
+          "6",
+          "7",
+          "8",
+          "9",
+          "10"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e3_pod_kill/results_20260625T154325.csv",
+        "sha256": "73ab7e3f8ac051118d758a7550f3a8bb389ce0c1696ceba5a01268e3dcd921ad",
+        "run_ids": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e3_pod_kill/results_20260625T155238.csv",
+        "sha256": "ceaac463963e2e235e6a3eefaf01140eea21c869d085e611247d8eacd27f266e",
+        "run_ids": [
+          "11",
+          "12",
+          "13",
+          "14",
+          "15"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e4_combined/results_20260625T154540.csv",
+        "sha256": "9e8db70bdd9a0df0cb238f460e23e9e8c05d0af2a9398eb80ecd879ab150c69c",
+        "run_ids": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      {
+        "path": "docs/experiments/raw_data/e4_combined/results_20260625T155428.csv",
+        "sha256": "e0a4e7d67e714aeb9eafa1b9fa14c20fc3577b84dfc2ad753c1d5739a6cbe239",
+        "run_ids": [
+          "16",
+          "17",
+          "18",
+          "19",
+          "20"
+        ]
+      }
+    ]
+  },
+  "pilot": {
+    "kind": "DESCRIPTIVE_ONLY",
+    "method_version": "zer52-repeated-pilot/3-fixed-quiet-create30",
+    "analyzer_version": "zer52-descriptive-analysis/4",
+    "analyzer": {
+      "path": "analysis-v4.py",
+      "sha256": "8a0594ff6264867b91e9fc0dfd754e27480c41f4b6e334307c03be836ee013c9"
+    },
+    "batch": "runtime-07",
+    "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+    "source_manifest": {
+      "path": "runtime-07/source-manifest.json",
+      "sha256": "8e0f4c9137d45b1f57aece83262a0f7a20bd95b963913b20246d5466883459f6"
+    },
+    "prepared_source_manifest": {
+      "path": "runtime-prep-07/source-manifest.json",
+      "sha256": "da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+    },
+    "protocol": {
+      "path": "runtime-07/protocol.json",
+      "sha256": "5f66e9307c6fb50a436037f2715e3b41e1ffde8a2d57c397bb139fe415b529e9"
+    },
+    "seal": {
+      "path": "session-20261107/runtime07-sha256.json",
+      "sha256": "d1b2a99c179db096dc48c9af90159467a65bc9c21b73565a0b6f4868b1ac5c3a"
+    },
+    "reference": {
+      "path": "session-20261107/runtime07-analysis-v4.json",
+      "sha256": "e7b4946f0e2b38dd4c7f0b4524337e4eb0f2cb08caf134647dabb70106a2a43b"
+    },
+    "terminal": {
+      "path": "session-20261107/runtime07-terminal-r2/result.json",
+      "sha256": "545f5da26d87fd653c09435656ba272891d9b24ecb3eb2c88d57c01b7ac74aed"
+    },
+    "idle_55": {
+      "path": "session-20261107/wsl55-validation/result.json",
+      "sha256": "3074170160de1566bb40458e60b0bbbfa7dc162101ecca40fa52fcd9da5d3751"
+    },
+    "original_status": "RECONCILE_REQUIRED",
+    "adjudication": "Accepted Runtime07 descriptive pilot, independent review and Hoàng acceptance recorded in ZER-52",
+    "adjudication_source": {
+      "path": "session-20261107/runtime07-result.md",
+      "sha256": "e756a91b7e09e940b0fcde3bba8b02c6c258a364706c94640180eb2bdfdef72f"
+    },
+    "trials": [
+      {
+        "trial": "trial-01",
+        "index": 0,
+        "block": 1,
+        "group": "B0",
+        "case": "C0",
+        "run_id": "run_30d06ab321354378b1181e45d09b049a",
+        "trial_id": "trl_4ef44a3e864c44f890d50460f48c6dc8",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-02",
+        "index": 1,
+        "block": 1,
+        "group": "B1",
+        "case": "SQLI",
+        "run_id": "run_014cedc1c22847f6ab6047222f0977fd",
+        "trial_id": "trl_656fce3c33164b47acbc55c8afd35314",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-03",
+        "index": 2,
+        "block": 1,
+        "group": "B2",
+        "case": "C0",
+        "run_id": "run_e11561b6c9024b089b04de07a5d40a16",
+        "trial_id": "trl_40d0260ec46c4d7ba353ac4a2a51a2e8",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-04",
+        "index": 3,
+        "block": 1,
+        "group": "B0",
+        "case": "SQLI",
+        "run_id": "run_a82df685ab50482288c1b58dcce243c6",
+        "trial_id": "trl_6165606c01964478bc87aa363f8588d4",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-05",
+        "index": 4,
+        "block": 1,
+        "group": "B1",
+        "case": "C0",
+        "run_id": "run_4e6478dfd9704912bcc87daca47863c7",
+        "trial_id": "trl_27d7c255ef214797abb2f8b129ac13e5",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-06",
+        "index": 5,
+        "block": 1,
+        "group": "B2",
+        "case": "SQLI",
+        "run_id": "run_95c7c09ca89643ceb7e62aa99184e4ee",
+        "trial_id": "trl_5d8b14dd049947009f27c78b82345720",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-07",
+        "index": 6,
+        "block": 2,
+        "group": "B2",
+        "case": "SQLI",
+        "run_id": "run_cd03da2e26604aaaab8995fcefb358a7",
+        "trial_id": "trl_0ff15ebf4c7e450ca66438f26b25d2c0",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-08",
+        "index": 7,
+        "block": 2,
+        "group": "B1",
+        "case": "C0",
+        "run_id": "run_cccb394821a94161aa3efdf0551b7ce9",
+        "trial_id": "trl_d44a450162fe4f39854c369439c658a3",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-09",
+        "index": 8,
+        "block": 2,
+        "group": "B0",
+        "case": "SQLI",
+        "run_id": "run_1919eea8c3f24d48ab888daa67b813f9",
+        "trial_id": "trl_b3e77116ce9f498aa8b6744af8e01811",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-10",
+        "index": 9,
+        "block": 2,
+        "group": "B2",
+        "case": "C0",
+        "run_id": "run_bc0681db6f404e9d9933eb450032b2ad",
+        "trial_id": "trl_5fbd2b14a8bc4a53adf6cce3f43b6d66",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-11",
+        "index": 10,
+        "block": 2,
+        "group": "B1",
+        "case": "SQLI",
+        "run_id": "run_b7cb0aba753b42c39d37a1dbb2058bb8",
+        "trial_id": "trl_a0d2c96a533f4768b949504238f5ebb3",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      },
+      {
+        "trial": "trial-12",
+        "index": 11,
+        "block": 2,
+        "group": "B0",
+        "case": "C0",
+        "run_id": "run_7a362e27b9f346358e0636743ba9a583",
+        "trial_id": "trl_2f257772214e4576b2baf4bbb720026b",
+        "config_ref": "sha256:da2500aef035cfa89f5b1adf946e4fdba6605a58cbf4c5072bfbd996b8d1c142"
+      }
+    ],
+    "excluded_batches": [
+      {
+        "batch": "runtime-01",
+        "started_at": "2026-11-03T18:24:32.196Z",
+        "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+        "status": "INCOMPLETE",
+        "reason": "Missing required NetworkPolicy hook at admission",
+        "acceptance": {
+          "path": "runtime-01/acceptance.json",
+          "sha256": "78a437e6c2ad3de5746cc34323ef9ee3c65c99700d580ea649044800452a0df4"
+        },
+        "protocol": {
+          "path": "runtime-01/protocol.json",
+          "sha256": "3e4161d905c17ac783fdc76f2a6406f199bcf77bcb2c7e21e005a52f01255ed4"
+        },
+        "rows": [
+          {
+            "index": 0,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_MET",
+            "work": "NOT_MET",
+            "cleanup": "CLEAN",
+            "work_error": "RuntimeError",
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 1,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 2,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 3,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 4,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 5,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 6,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 7,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 8,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 9,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 10,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 11,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          }
+        ]
+      },
+      {
+        "batch": "runtime-02",
+        "started_at": "2026-11-03T19:12:46.796Z",
+        "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+        "status": "INCOMPLETE",
+        "reason": "MEMORY_STOP; original cleanup INCOMPLETE and separately reconciled",
+        "acceptance": {
+          "path": "runtime-02/acceptance.json",
+          "sha256": "6c9945a61eb94452dbf3b58417b60f96fc597ef6873c89c39672a2bd2b436c6a"
+        },
+        "protocol": {
+          "path": "runtime-02/protocol.json",
+          "sha256": "3e4161d905c17ac783fdc76f2a6406f199bcf77bcb2c7e21e005a52f01255ed4"
+        },
+        "rows": [
+          {
+            "index": 0,
+            "group": "B0",
+            "case": "C0",
+            "run_id": "run_64367cef2e174abbb171a971c51f0ec9",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-02/trial-01/pilot-cell.json",
+              "sha256": "68323c23bb837a0bdd51e3834f816ca498b9c0dcda446757065afacbe3729b30"
+            }
+          },
+          {
+            "index": 1,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": "run_6bc3bb603444423e959b50e7113e705d",
+            "status": "NOT_MET",
+            "work": "NOT_MET",
+            "cleanup": "INCOMPLETE",
+            "work_error": "RuntimeError",
+            "guard_failures": [
+              "MEMORY_STOP"
+            ],
+            "run_id_source": {
+              "path": "runtime-02/trial-02/state.json",
+              "sha256": "a4a7150f38b2d008ebd5236222a6205389eeec5fa6c4521c468ec131a08cf567"
+            }
+          },
+          {
+            "index": 2,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 3,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 4,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 5,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 6,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 7,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 8,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 9,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 10,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 11,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          }
+        ],
+        "reconciliation": {
+          "path": "session-20261104/cleanup-01/result.json",
+          "sha256": "8d03572fbf3ebd7e21f357a22686f5a36dd246476ee4f1b5f2f284f5a0bf8b02",
+          "expected_status": "CLEAN"
+        }
+      },
+      {
+        "batch": "runtime-03",
+        "started_at": "2026-11-04T11:32:36.797Z",
+        "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+        "status": "INCOMPLETE",
+        "reason": "Memory settle PSI 1.18 > 1",
+        "acceptance": {
+          "path": "runtime-03/acceptance.json",
+          "sha256": "b5aeb0cd41581fd1678abbf4237ca2dc3e5345bc26ff4d7adb747a3b249e3506"
+        },
+        "protocol": {
+          "path": "runtime-03/protocol.json",
+          "sha256": "3e4161d905c17ac783fdc76f2a6406f199bcf77bcb2c7e21e005a52f01255ed4"
+        },
+        "rows": [
+          {
+            "index": 0,
+            "group": "B0",
+            "case": "C0",
+            "run_id": "run_cea41589a2b34a56bf701b782e858ccb",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-03/trial-01/pilot-cell.json",
+              "sha256": "456156f832601b7f588602d751784a2c0dad0210c8669e43072a954375664ede"
+            }
+          },
+          {
+            "index": 1,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": "run_d60c948eedf840edabe1d7f8fcf50b3a",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-03/trial-02/pilot-cell.json",
+              "sha256": "22a420a53ec3ffee1de3472ca9c0602d2a1f105a3c646caf661316608350adcf"
+            }
+          },
+          {
+            "index": 2,
+            "group": "B2",
+            "case": "C0",
+            "run_id": "run_b46bfca371964970965e07138f086af8",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-03/trial-03/pilot-cell.json",
+              "sha256": "c9442aa9db43257b25ff84cf1f02ae79d744769f3e5f54e48562fb0233aaf179"
+            }
+          },
+          {
+            "index": 3,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": "run_33f0992ffb784773b4c91a03350c07ed",
+            "status": "NOT_MET",
+            "work": "NOT_MET",
+            "cleanup": "CLEAN",
+            "work_error": "ValueError:MEMORY_NOT_SETTLED",
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-03/trial-04/state.json",
+              "sha256": "a791d8d557104badc77e9f493661ca0e1969a060bb1464b8fc0dd046df659993"
+            }
+          },
+          {
+            "index": 4,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 5,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 6,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 7,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 8,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 9,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 10,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 11,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          }
+        ]
+      },
+      {
+        "batch": "runtime-04",
+        "started_at": "2026-11-04T12:41:41.258Z",
+        "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+        "status": "INCOMPLETE",
+        "reason": "Kafka topic create timeout; ownership UNKNOWN and separately reconciled",
+        "acceptance": {
+          "path": "runtime-04/acceptance.json",
+          "sha256": "4e044779c1ec5e5777bd51bb38da4ce9782d22bf1fac6009466c1d89199d6b27"
+        },
+        "protocol": {
+          "path": "runtime-04/protocol.json",
+          "sha256": "fed429ec58a861d7a89e3ff466062116e04e9a6b894dc56b7a37b59d77c3918f"
+        },
+        "rows": [
+          {
+            "index": 0,
+            "group": "B0",
+            "case": "C0",
+            "run_id": "run_b386a4815fc14531bcf1271e07d0a753",
+            "status": "NOT_MET",
+            "work": "NOT_MET",
+            "cleanup": "INCOMPLETE",
+            "work_error": "RuntimeError",
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-04/trial-01/state.json",
+              "sha256": "9cc5514e2885dd86e31ece461ade86a15362d36c0b3a0b6aecfb01228bfa3b32"
+            }
+          },
+          {
+            "index": 1,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 2,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 3,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 4,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 5,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 6,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 7,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 8,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 9,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 10,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 11,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          }
+        ],
+        "reconciliation": {
+          "path": "session-20261104/cleanup04/result.json",
+          "sha256": "5713be6ba875cc7ed4ad3b373a10a40b33164ea747fcaf273c8ef8bd9a30cc14",
+          "expected_status": "CLEAN"
+        }
+      },
+      {
+        "batch": "runtime-05",
+        "started_at": "2026-11-07T03:07:38.046Z",
+        "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+        "status": "INCOMPLETE",
+        "reason": "Windows Available 899 MiB < 1024 MiB",
+        "acceptance": {
+          "path": "runtime-05/acceptance.json",
+          "sha256": "edfde63e3a4a532c64fb8adc5b4bdf1e83a9e3f5fdc896e4e83584644c48c6d2"
+        },
+        "protocol": {
+          "path": "runtime-05/protocol.json",
+          "sha256": "5f66e9307c6fb50a436037f2715e3b41e1ffde8a2d57c397bb139fe415b529e9"
+        },
+        "rows": [
+          {
+            "index": 0,
+            "group": "B0",
+            "case": "C0",
+            "run_id": "run_074af0eaaa4340ff88d0d0781c686fa3",
+            "status": "NOT_MET",
+            "work": "NOT_MET",
+            "cleanup": "CLEAN",
+            "work_error": "RuntimeError",
+            "guard_failures": [
+              "MEMORY_STOP"
+            ],
+            "run_id_source": {
+              "path": "runtime-05/trial-01/state.json",
+              "sha256": "6237e560645c8f27052b838d6c83dc36f928a4e05b29c7634c99133c3f2e14d8"
+            }
+          },
+          {
+            "index": 1,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 2,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 3,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 4,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 5,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 6,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 7,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 8,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 9,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 10,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 11,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          }
+        ]
+      },
+      {
+        "batch": "runtime-06",
+        "started_at": "2026-11-07T03:32:09.282Z",
+        "source_base": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+        "status": "INCOMPLETE",
+        "reason": "MEMORY_STOP during transport readiness, source UNKNOWN",
+        "acceptance": {
+          "path": "runtime-06/acceptance.json",
+          "sha256": "684875fad1eb2fa34ea9dfb0463be3e9e0f894fd5293cc132c9ca35fd0d81a2e"
+        },
+        "protocol": {
+          "path": "runtime-06/protocol.json",
+          "sha256": "5f66e9307c6fb50a436037f2715e3b41e1ffde8a2d57c397bb139fe415b529e9"
+        },
+        "rows": [
+          {
+            "index": 0,
+            "group": "B0",
+            "case": "C0",
+            "run_id": "run_ca7bee51a19446eaa962747c2905fbaf",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-06/trial-01/pilot-cell.json",
+              "sha256": "fc031da00c0a86ebc64a0a2f72045633dfe916365356603df81b78c20dbf554d"
+            }
+          },
+          {
+            "index": 1,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": "run_284774a1ba2641af93eff9f3651dabd8",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-06/trial-02/pilot-cell.json",
+              "sha256": "71fd18d9d8f71af9cbca2a5346da171e2e18d34013c298c0664f2bc57c5a4df0"
+            }
+          },
+          {
+            "index": 2,
+            "group": "B2",
+            "case": "C0",
+            "run_id": "run_10e4d6cea2c64376a456ec2bbcbb89a5",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-06/trial-03/pilot-cell.json",
+              "sha256": "7e0aa6c3df3057487185f9657392507ba053c229aafc607311362e19ea23e79a"
+            }
+          },
+          {
+            "index": 3,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": "run_6c34796610224d75925bffc15b1370c2",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-06/trial-04/pilot-cell.json",
+              "sha256": "79ebeee26029c1b8f277b8199f923ef987af603edb4b450b1b428f8ebbf29ed1"
+            }
+          },
+          {
+            "index": 4,
+            "group": "B1",
+            "case": "C0",
+            "run_id": "run_32407ebd630d46888ae2059567c2ecb3",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-06/trial-05/pilot-cell.json",
+              "sha256": "1c93dcdc537ddbbaf88d1464eb055f128bc9023621b03c9dea01d8a21625e2c3"
+            }
+          },
+          {
+            "index": 5,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": "run_f09a2898bc0b4d25bfe0d8bd68f10ee5",
+            "status": "RECONCILE_REQUIRED",
+            "work": "OBSERVED_PENDING_REVIEW",
+            "cleanup": "CLEAN",
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": {
+              "path": "runtime-06/trial-06/pilot-cell.json",
+              "sha256": "0cf29453fdb037dc50da8b9c8fec1dbed3c8849491e313d820078960e6c38055"
+            }
+          },
+          {
+            "index": 6,
+            "group": "B2",
+            "case": "SQLI",
+            "run_id": "run_e780eb10df87499e872a31c03638fd79",
+            "status": "NOT_MET",
+            "work": "NOT_MET",
+            "cleanup": "CLEAN",
+            "work_error": "ValueError:TRANSPORT_DEPENDENCIES_NOT_READY",
+            "guard_failures": [
+              "MEMORY_STOP"
+            ],
+            "run_id_source": {
+              "path": "runtime-06/trial-07/state.json",
+              "sha256": "af7dabfcf8d0b6607f5b86501c4d26f438fce54250d654a27335aa865bfa8ed8"
+            }
+          },
+          {
+            "index": 7,
+            "group": "B1",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 8,
+            "group": "B0",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 9,
+            "group": "B2",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 10,
+            "group": "B1",
+            "case": "SQLI",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          },
+          {
+            "index": 11,
+            "group": "B0",
+            "case": "C0",
+            "run_id": null,
+            "status": "NOT_RUN",
+            "work": null,
+            "cleanup": null,
+            "work_error": null,
+            "guard_failures": [],
+            "run_id_source": null
+          }
+        ]
+      },
+      {
+        "batch": "runtime07-terminal-first",
+        "status": "WINDOW_FAILED",
+        "reason": "Kubernetes API ServiceUnavailable before batch claim",
+        "receipt": {
+          "path": "session-20261107/runtime07-terminal/result.json",
+          "sha256": "4bd0491c8c3cf77e68ffe22ea5f56a59bd04bfd7131fbffb84b7f2f66d722628"
+        },
+        "rows": [],
+        "source_error": "docker exec k3d-zero-door-server-0 kubectl --request-timeout=15s get nodes -o name: Error from server (ServiceUnavailable): the server is currently unable to handle the request (get nodes)"
+      }
+    ],
+    "build_snapshot": {
+      "source_directory": "runtime-07/source",
+      "source_pin_count": 265,
+      "recorded_images": {
+        "worker_host_image_id": "sha256:250be486034d652fc74e0e15d6c7c61bc4f54e826ffcbb54b8803153c9e5cace",
+        "worker_node_image_id": "sha256:b2c1437752969102794e92251b7a3b0fb8652a7b8a2e89b62d7ffd079afeac24",
+        "fixture_host_image_id": "sha256:d85043c06db6a60c98cddb53a1545f6e053b6def409d43b156179a625df55274",
+        "fixture_node_image_id": "sha256:d85cb46078ed6e928af880acb2e1927056783ad03a1d18b30a69b8de2a922a16",
+        "proxy_node_image_id": "sha256:5a93040e5abdf181145d7c242964eca7999ffd700e0447b242ef212f3ee44d55",
+        "proxy_registry_digest": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+        "nemesis_host_image_id": "sha256:d1896d5e4e9f1ea2b97e33fab518f3718b40525ff87ae12b5b511ae0ba07f199",
+        "nemesis_node_image_id": "sha256:050153eb4b84703b6f882e46901c51586c1d4b58a6acab5615f841bb209ec86b"
+      },
+      "image_cache_receipts": 12,
+      "launcher_and_profile_observed_at_handoff": [
+        {
+          "path": "infrastructure/scripts/local_lab_profile.py",
+          "sha256": "50c54cd8afbb1882830b4706846a20f096fe25223c1d076d7827f0912e14a71b"
+        },
+        {
+          "path": "scratch/zer52-checkout/docs/evidence/ZER-52/session-20261107/terminal-runtime07.py",
+          "sha256": "5c35cfa3c64c85dedc8aefdb33ad8fc8cd4499dc172ed5f7c7c880e15ccbf496"
+        },
+        {
+          "path": "scratch/zer52-checkout/docs/evidence/ZER-52/session-20261107/run-terminal07.sh",
+          "sha256": "5cbe46929f39398515b31e45459621a4b6eed851b9b015a1a111e65c10f362e2"
+        },
+        {
+          "path": "scratch/local-lab-profile/20261107T164442-11676.json",
+          "sha256": "56fccc9c7973bc9577f6e14fbb78e6669b6d8a42da9aab19398ad39833591621"
+        }
+      ],
+      "rebuild_boundary": "Exact retained file snapshot and observed cache IDs. Separate evidence covers fixture and worker rebuilds. Nemesis is identified in the pilot, but its rebuild from the retained snapshot is unverified. Historical worker full build context and formal image/config identity remain unverified.",
+      "launcher_as_executed_revision": "UNKNOWN",
+      "evidence_archive": {
+        "path": "scratch/zer25-freeze/r5-pilot-private.zip",
+        "verification_receipt": "verification.json",
+        "scope": "Private local recovery copy; remote/long-term access not arranged"
+      }
+    }
+  },
+  "formal": {
+    "kind": "FORMAL_HOLD",
+    "runs": [],
+    "protocol": {
+      "path": "docs/evidence/ZER-53/protocol.md",
+      "sha256": "c9a6950de02a0d7e33417194da82afef317ee69a3e429e06653cc844b81ecfd8"
+    },
+    "execution_manifest": null,
+    "missing_pins": [
+      "formal runtime image digests and dependencies",
+      "formal runner and resolved profile",
+      "detector and rules on five held-out seeds",
+      "pre-guard resolver and pinned formal scorer/output schema",
+      "clock joins and independent effect/business probe",
+      "B2 model/prompt/sampling and H/O/S access audit",
+      "sealed private schedule and seed manifest",
+      "BM availability and separate scorer",
+      "loaded B2/C5 at 5.5 GiB"
+    ],
+    "protocol_erratum": {
+      "path": "docs/evidence/ZER-25/protocol-erratum.md",
+      "sha256": "10aa1724254ac3fd3772c1ba0e23332c1f46605fa36fecf5d259f5596d589198",
+      "section": "Đính chính §3",
+      "minimum_full_cycle_sample_sd_s": 0.298399,
+      "display_range_s": [
+        0.3,
+        15.08
+      ]
+    }
+  }
+}

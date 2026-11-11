@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="352" viewBox="0 0 760 352" role="img" aria-labelledby="title desc">
+<title id="title">Thời gian workflow Runtime07</title>
+<desc id="desc">Hai điểm theo block cho mỗi nhóm và case. SQLi B2 có thời lượng cao nhất. Đơn vị giây.</desc>
+<rect width="760" height="352" fill="#fff"/>
+<g font-family="Arial,sans-serif" fill="#1d2838">
+<text x="30" y="32" font-size="20" font-weight="bold">Thời gian workflow · Pilot Runtime07</text>
+<text x="30" y="55" font-size="13">WSL 6 GiB · 2 ca mỗi ô · observation ready đến hết probe</text>
+<line x1="150" x2="150" y1="74" y2="271" stroke="#dbe1e8"/><text x="150" y="289" text-anchor="middle" font-size="12">0</text>
+<line x1="250.5" x2="250.5" y1="74" y2="271" stroke="#dbe1e8"/><text x="250.5" y="289" text-anchor="middle" font-size="12">15</text>
+<line x1="351" x2="351" y1="74" y2="271" stroke="#dbe1e8"/><text x="351" y="289" text-anchor="middle" font-size="12">30</text>
+<line x1="451.5" x2="451.5" y1="74" y2="271" stroke="#dbe1e8"/><text x="451.5" y="289" text-anchor="middle" font-size="12">45</text>
+<line x1="552" x2="552" y1="74" y2="271" stroke="#dbe1e8"/><text x="552" y="289" text-anchor="middle" font-size="12">60</text>
+<line x1="652.5" x2="652.5" y1="74" y2="271" stroke="#dbe1e8"/><text x="652.5" y="289" text-anchor="middle" font-size="12">75</text>
+<line x1="719.5" x2="719.5" y1="74" y2="271" stroke="#dbe1e8"/><text x="719.5" y="289" text-anchor="middle" font-size="12">85</text>
+<text x="30" y="95" font-size="14">B0 / C0</text>
+<line x1="150" x2="719.5" y1="91" y2="91" stroke="#eef1f5"/>
+<circle cx="265.05240000000003" cy="87" r="4" fill="#135d95"/>
+<rect x="263.8731" y="92" width="8" height="8" fill="#af4a1e"/>
+<text x="30" y="127" font-size="14">B0 / SQLi</text>
+<line x1="150" x2="719.5" y1="123" y2="123" stroke="#eef1f5"/>
+<circle cx="268.1947" cy="119" r="4" fill="#135d95"/>
+<rect x="264.0875" y="124" width="8" height="8" fill="#af4a1e"/>
+<text x="30" y="159" font-size="14">B1 / C0</text>
+<line x1="150" x2="719.5" y1="155" y2="155" stroke="#eef1f5"/>
+<circle cx="268.0875" cy="151" r="4" fill="#135d95"/>
+<rect x="264.5096" y="156" width="8" height="8" fill="#af4a1e"/>
+<text x="30" y="191" font-size="14">B1 / SQLi</text>
+<line x1="150" x2="719.5" y1="187" y2="187" stroke="#eef1f5"/>
+<circle cx="421.5577" cy="183" r="4" fill="#135d95"/>
+<rect x="477.7505" y="188" width="8" height="8" fill="#af4a1e"/>
+<text x="30" y="223" font-size="14">B2 / C0</text>
+<line x1="150" x2="719.5" y1="219" y2="219" stroke="#eef1f5"/>
+<circle cx="299.812" cy="215" r="4" fill="#135d95"/>
+<rect x="283.55769999999995" y="220" width="8" height="8" fill="#af4a1e"/>
+<text x="30" y="255" font-size="14">B2 / SQLi</text>
+<line x1="150" x2="719.5" y1="251" y2="251" stroke="#eef1f5"/>
+<circle cx="690.6096" cy="247" r="4" fill="#135d95"/>
+<rect x="546.1106" y="252" width="8" height="8" fill="#af4a1e"/>
+<text x="435" y="311" text-anchor="middle" font-size="13">Giây</text>
+<circle cx="31" cy="330" r="4" fill="#135d95"/><text x="42" y="334" font-size="13">Block 1</text>
+<rect x="119" y="326" width="8" height="8" fill="#af4a1e"/><text x="137" y="334" font-size="13">Block 2</text>
+</g>
+</svg>
