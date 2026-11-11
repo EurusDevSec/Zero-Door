@@ -1,0 +1,163 @@
+{
+  "python": "3.11.9",
+  "result": "PASS",
+  "offline": {
+    "tests": 57,
+    "seconds": 2.581,
+    "launch": "scratch/zer25-work/retest.sh",
+    "cases": [
+      "test_drop_after_headroom_prevents_batch_claim (test_headroom.HeadroomTests.test_drop_after_headroom_prevents_batch_claim)",
+      "test_full_window_at_floor (test_headroom.HeadroomTests.test_full_window_at_floor)",
+      "test_low_headroom_prevents_key_and_batch_claim (test_headroom.HeadroomTests.test_low_headroom_prevents_key_and_batch_claim)",
+      "test_low_sample_and_missing_interval_fail_closed (test_headroom.HeadroomTests.test_low_sample_and_missing_interval_fail_closed)",
+      "test_runtime05_raw_cleanup_is_required (test_headroom.HeadroomTests.test_runtime05_raw_cleanup_is_required)",
+      "test_actual_source_lock_and_each_authorization_pin (test_runtime.Runtime.test_actual_source_lock_and_each_authorization_pin)",
+      "test_b0_entire_cases_native_control_without_provider_or_api (test_runtime.Runtime.test_b0_entire_cases_native_control_without_provider_or_api)",
+      "test_baseline_gate_requires_exact_new_recovery_identity_and_closed_process (test_runtime.Runtime.test_baseline_gate_requires_exact_new_recovery_identity_and_closed_process)",
+      "test_cached_worker_three_source_pins_match_this_checkout (test_runtime.Runtime.test_cached_worker_three_source_pins_match_this_checkout)",
+      "test_cleanup_pin_is_reachable_without_work_authorization (test_runtime.Runtime.test_cleanup_pin_is_reachable_without_work_authorization)",
+      "test_cleanup_stdin_gate_precedes_native_checks (test_runtime.Runtime.test_cleanup_stdin_gate_precedes_native_checks)",
+      "test_controls_reject_provider_key_before_any_decider_api (test_runtime.Runtime.test_controls_reject_provider_key_before_any_decider_api)",
+      "test_default_and_stale_auth_have_no_effects (test_runtime.Runtime.test_default_and_stale_auth_have_no_effects)",
+      "test_factory_all_groups_and_template_schema (test_runtime.Runtime.test_factory_all_groups_and_template_schema)",
+      "test_live_identity_rejects_drift_without_mutation (test_runtime.Runtime.test_live_identity_rejects_drift_without_mutation)",
+      "test_real_rules_treatment_uses_shared_guard_and_native_postcondition (test_runtime.Runtime.test_real_rules_treatment_uses_shared_guard_and_native_postcondition)",
+      "test_static_target_rejected_before_any_native_read (test_runtime.Runtime.test_static_target_rejected_before_any_native_read)",
+      "test_two_complete_blocks_and_key_isolation (test_runtime.Runtime.test_two_complete_blocks_and_key_isolation)",
+      "test_unknown_process_tree_and_failure_stop_all_later_cells (test_runtime.Runtime.test_unknown_process_tree_and_failure_stop_all_later_cells)",
+      "test_cancel_during_quiet_prevents_original_gate (test_quiet.Quiet.test_cancel_during_quiet_prevents_original_gate)",
+      "test_exact_fixed_quiet_before_one_original_gate (test_quiet.Quiet.test_exact_fixed_quiet_before_one_original_gate)",
+      "test_existing_hard_guard_failure_prevents_gate (test_quiet.Quiet.test_existing_hard_guard_failure_prevents_gate)",
+      "test_original_strict_failure_is_not_retried (test_quiet.Quiet.test_original_strict_failure_is_not_retried)",
+      "test_foreign_topic_and_broker_do_not_create (test_topic.Topic.test_foreign_topic_and_broker_do_not_create)",
+      "test_global_guard_still_cancels_inside_forwarded_command (test_topic.Topic.test_global_guard_still_cancels_inside_forwarded_command)",
+      "test_list_delete_and_other_native_timeout_unchanged (test_topic.Topic.test_list_delete_and_other_native_timeout_unchanged)",
+      "test_nonzero_success_stdout_does_not_promote_ownership (test_topic.Topic.test_nonzero_success_stdout_does_not_promote_ownership)",
+      "test_only_owned_create_gets30_and_owned_requires_exit0 (test_topic.Topic.test_only_owned_create_gets30_and_owned_requires_exit0)",
+      "test_prior_cleanup_and_all_owned_trees_required (test_topic.Topic.test_prior_cleanup_and_all_owned_trees_required)",
+      "test_timeout_keeps_unknown_and_never_retries (test_topic.Topic.test_timeout_keeps_unknown_and_never_retries)",
+      "test_completed_command_failure_not_called_interrupted (test_telemetry.Telemetry.test_completed_command_failure_not_called_interrupted)",
+      "test_exact_existing_read_only_and_order (test_telemetry.Telemetry.test_exact_existing_read_only_and_order)",
+      "test_guard_cancel_is_interrupted_unknown_and_preserves_cause (test_telemetry.Telemetry.test_guard_cancel_is_interrupted_unknown_and_preserves_cause)",
+      "test_import_success_still_passes (test_telemetry.Telemetry.test_import_success_still_passes)",
+      "test_missing_memory_cannot_fall_back_to_io (test_telemetry.Telemetry.test_missing_memory_cannot_fall_back_to_io)",
+      "test_other_command_unchanged (test_telemetry.Telemetry.test_other_command_unchanged)",
+      "test_prior06_actual_and_corruption (test_telemetry.Telemetry.test_prior06_actual_and_corruption)",
+      "test_prior06_rejects_raw_leftover_and_pattern_drift (test_telemetry.Telemetry.test_prior06_rejects_raw_leftover_and_pattern_drift)",
+      "test_wrong_completed_import_fails (test_telemetry.Telemetry.test_wrong_completed_import_fails)",
+      "test_duplicate_or_foreign_schedule_refused (original_tests.Analysis.test_duplicate_or_foreign_schedule_refused)",
+      "test_failed_but_reaped_worker_is_not_labelled_unclosed (original_tests.Analysis.test_failed_but_reaped_worker_is_not_labelled_unclosed)",
+      "test_failure_kept_and_no_lock_even_with_native_cell (original_tests.Analysis.test_failure_kept_and_no_lock_even_with_native_cell)",
+      "test_missing_cells_remain_in_planned_denominator (original_tests.Analysis.test_missing_cells_remain_in_planned_denominator)",
+      "test_missing_or_wrong_typed_evidence_never_supports_lock (original_tests.Analysis.test_missing_or_wrong_typed_evidence_never_supports_lock)",
+      "test_nan_and_profile_drift_cannot_support_lock (original_tests.Analysis.test_nan_and_profile_drift_cannot_support_lock)",
+      "test_repeated_stats_and_abstention_not_relabelled (original_tests.Analysis.test_repeated_stats_and_abstention_not_relabelled)",
+      "test_failed_cleanup_does_not_erase_usage (<run_path>.Reporting.test_failed_cleanup_does_not_erase_usage)",
+      "test_final_budget_survives_missing_pilot_cell (<run_path>.Reporting.test_final_budget_survives_missing_pilot_cell)",
+      "test_healer_abstention_after_gaia_ok (<run_path>.Reporting.test_healer_abstention_after_gaia_ok)",
+      "test_missing_budget_is_explicit (<run_path>.Reporting.test_missing_budget_is_explicit)",
+      "test_revision2_requires_method_and_fixed_quiet (<run_path>.Reporting.test_revision2_requires_method_and_fixed_quiet)",
+      "test_revision2_wrong_method_and_retained_protocol_rejected (<run_path>.Reporting.test_revision2_wrong_method_and_retained_protocol_rejected)",
+      "test_revision3_missing_setup_timeout_rejected_even_uniformly (<run_path>.Reporting.test_revision3_missing_setup_timeout_rejected_even_uniformly)",
+      "test_revision3_wrong_setup_timeout_rejected_even_uniformly (<run_path>.Reporting.test_revision3_wrong_setup_timeout_rejected_even_uniformly)",
+      "test_unknown_usage_is_reported_on_failed_attempt (<run_path>.Reporting.test_unknown_usage_is_reported_on_failed_attempt)",
+      "test_permanent_error_or_expired_deadline_does_not_retry (__main__.Readiness.test_permanent_error_or_expired_deadline_does_not_retry)",
+      "test_temporary_api_unavailability_retries_then_waits_for_ready (__main__.Readiness.test_temporary_api_unavailability_retries_then_waits_for_ready)"
+    ],
+    "first_attempt": "14 tests failed at asyncio initialization because the wrapper blocked Windows socketpair. Narrowed exemption to the stdlib internal 127.0.0.1 socketpair. Re-ran the same 57 cases without modifying lab or archived source.",
+    "boundary": "Fake data; subprocess and os.system denied, DNS and socket connect denied except Windows asyncio private loopback socketpair.",
+    "driver_sha256": "752c9735b42767b9905c655cebc7af37fbaa9e40eb2c5035bbc56bd7068f4fac",
+    "recovery_boundary": "The private ZIP supports replay with the handoff checkout. The complete 57-case suite also needs the separate driver and local inputs described in runbook.md."
+  },
+  "replay": {
+    "legacy_files": 8,
+    "legacy_rows": 40,
+    "pilot_rows": 12,
+    "source_pins": 265,
+    "raw_files": 4549,
+    "stopped_batches": 6,
+    "pre_claim_failed_windows": 1,
+    "formal_rows": 0,
+    "wrong_manifest_hash": "REJECTED",
+    "missing_evidence": "REJECTED",
+    "reference_sha256": "e7b4946f0e2b38dd4c7f0b4524337e4eb0f2cb08caf134647dabb70106a2a43b",
+    "image_cache_receipts": 12,
+    "protocol_erratum_sha256": "10aa1724254ac3fd3772c1ba0e23332c1f46605fa36fecf5d259f5596d589198",
+    "final_replay": "PASS",
+    "post_review_negative_cases": [
+      {
+        "case": "excluded run ID drift",
+        "result": "REJECTED"
+      },
+      {
+        "case": "original guard failure mismatch",
+        "result": "REJECTED"
+      },
+      {
+        "case": "reconciliation status mismatch",
+        "result": "REJECTED"
+      },
+      {
+        "case": "image ID mismatch",
+        "result": "REJECTED"
+      }
+    ]
+  },
+  "source_scope": "Frozen historical source and retained receipts. Local launcher/profile was verified as observed at handoff. Fresh build and loaded 5.5 GiB runtime remain unverified.",
+  "verified_at": "2026-11-08T06:37:21.077Z",
+  "manifest_sha256": "e8a8ef96141c8051124a5017c15211a213c7beb37dab7d7f3cf2949aa04a59ab",
+  "private_archive": {
+    "scope": "private local recovery copy",
+    "files": 9968,
+    "bytes": 57533117,
+    "sha256": "82406f6e27e3a6baba7442c3d438d5c361e4e1ac99ae0135e5a4aca8fca60bff",
+    "path": "scratch/zer25-freeze/r5-pilot-private.zip",
+    "readback": "PASS, every archived file rehashed"
+  },
+  "independent_review": {
+    "reviewer": "Claude Code",
+    "method": "Read-only review of condensed package; no direct raw/source files or local execution",
+    "reviewed_manifest_sha256": "8e3838917baa3f134d732417a202196be370b06bd0d84abafd61fcafbdc790f8",
+    "review_receipt": "scratch/zer25-work/claude-review.md",
+    "disposition": {
+      "F1": "OPEN: pilot image rebuild validation",
+      "F2": "PARTIAL: private local ZIP verified; durable location and Hòa access open",
+      "F3": "Addressed and replayed",
+      "F4": "Cache IDs rechecked; as-executed launcher revision UNKNOWN",
+      "F5": "Addressed; traceability and denominators clarified",
+      "F6": "Erratum pinned separately, protocol bytes unchanged"
+    }
+  },
+  "review_followup": {
+    "date_local": "2026-11-08",
+    "timezone": "Asia/Saigon",
+    "review_basis": {
+      "manifest_sha256": "869e91fc7f45d2dd456e75e5ce95ab15385aac31845725793f8108e81da3c8e8",
+      "method": "Independent Claude review over original data and a restored copy, as supplied by Hoàng"
+    },
+    "manifest_sha256": "e8a8ef96141c8051124a5017c15211a213c7beb37dab7d7f3cf2949aa04a59ab",
+    "scope_sha256": "7d7b365a3e84b0e716939b1129895bd067663a08934fca253bdff98407ebb8cd",
+    "changes": {
+      "F7": "Copied the existing 28 October owner-approved scope decision to the handoff checkout and checked README links.",
+      "F8": "Pinned the standalone erratum. Replay passed after a delivery note edit; a mutated erratum was rejected.",
+      "F9": "Documented that full regression needs additional local inputs. Claude reported 51 of 57 recoverable from the ZIP snapshot; all 57 passed with the complete local inputs."
+    },
+    "retest": {
+      "tests": 57,
+      "seconds": 3.414,
+      "exit_code": 0
+    },
+    "replay_from_extracted_zip": {
+      "result": "PASS",
+      "member_hashes_verified": 9968,
+      "pilot_rows": 12,
+      "reference_sha256": "e7b4946f0e2b38dd4c7f0b4524337e4eb0f2cb08caf134647dabb70106a2a43b"
+    },
+    "remaining": {
+      "F1": "Image rebuild unverified. Live AC still requires a reproducible build.",
+      "F2": "Durable storage and Hòa access pending.",
+      "formal": "FORMAL_HOLD",
+      "linear": "ZER-25 and ZER-55 both Backlog at read-back; acceptance criteria unchanged."
+    }
+  }
+}

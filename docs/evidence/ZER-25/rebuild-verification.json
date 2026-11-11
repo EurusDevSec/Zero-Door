@@ -1,0 +1,195 @@
+{
+  "issue": [
+    "ZER-55 AC-01",
+    "ZER-25 AC-02"
+  ],
+  "started_at": "2026-11-11T05:13:39Z",
+  "ended_at": "2026-11-11T05:13:43Z",
+  "verdict": "PARTIAL_REBUILD_VERIFICATION",
+  "pins": {
+    "checkout": "90efe53f9a35f140f168166a5bd8b74a6cae2abb",
+    "source_manifest": "8e0f4c9137d45b1f57aece83262a0f7a20bd95b963913b20246d5466883459f6",
+    "dataset_manifest": "710d9846209a13bd1d7553d2b332b6abd54dea0fd2a1464b53cc2836669ecabf",
+    "locked_protocol": "c9a6950de02a0d7e33417194da82afef317ee69a3e429e06653cc844b81ecfd8",
+    "previous_dataset_manifest": "d4ffcb7f38e2e74c69537ccd0a399e93afa96a279500f8ef1ea95920b391cb40",
+    "replay_sha256": "ec736dc3e7a9de0b6f391a56647af325d3edd70ce6775342b4128b999c78a407"
+  },
+  "source": {
+    "head": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+    "files_verified": 265,
+    "mismatches": 0
+  },
+  "fixture": {
+    "verdict": "PASS_SAFE_STARTUP",
+    "platform": "linux/amd64",
+    "docker_context": "desktop-linux",
+    "server_version": "29.8.2",
+    "base": "gcr.io/distroless/python3-debian12:nonroot@sha256:0f8ca62dea61023c1fe02e445bd154ee02b2d97aec377f965ae3c641ec838e61",
+    "inputs": {
+      "Dockerfile": "5fb3345371ff51e204cc67e8d4b75ce47e6a136b028b96bc8f9bc9210756b1a6",
+      "app.py": "f187074b6ea6519bd10ad8d3ab285262fa5a00e12afa71993a2fa3a50a7a7a3e",
+      "containment.py": "d54284a2871d967906b5c675af7ba708efd26ed993e4bef73e9d645fd99e8e89",
+      "seed.json": "ec9f818b85a3dce1dbe4b7d87572890b6bbf244ffaea33df549f6079612af90b"
+    },
+    "build": {
+      "flags": [
+        "--platform linux/amd64",
+        "--network none",
+        "--pull=false",
+        "--no-cache"
+      ],
+      "exit_code": 0,
+      "tag": "zer55-fixture-rebuild:20261111051313-c5d692",
+      "image_id": "sha256:1fd121e4382dc897e843d56195d684efa4f122e57ba3de89ff78f0550c1a345f",
+      "historical_node_image_id": "sha256:d85cb46078ed6e928af880acb2e1927056783ad03a1d18b30a69b8de2a922a16"
+    },
+    "smoke": {
+      "profile": "safe",
+      "entrypoint_child": [
+        "/usr/bin/python3",
+        "/app/app.py"
+      ],
+      "network": "none",
+      "host_ports": 0,
+      "read_only_root": true,
+      "tmpfs_mib": 16,
+      "container_limit_mib": 128,
+      "container_limit_cpu": 0.5,
+      "user": 65532,
+      "expected": {
+        "health": 200,
+        "ready": 200
+      },
+      "observed": {
+        "health": 200,
+        "ready": 200
+      },
+      "exit_code": 0,
+      "owned_containers_after": 0
+    },
+    "limitation": "Fresh build passes safe startup and SQLite readiness. Historical pilot image identity, pilot actions and formal readiness are outside this check.",
+    "historical_build_receipt": {
+      "path": "ZER-46/runtime-04/raw/0037.json",
+      "sha256": "f49dfad6449c897400117a1aa6267bfb88b29bb91179386991845486f15f3b67",
+      "exit_code": 0
+    }
+  },
+  "worker": {
+    "verdict": "EXISTING_CI_BUILD_VERIFIED",
+    "pilot_cache": {
+      "name": "zer42-worker",
+      "tag": "zer42-worker:e80bc554b7ef",
+      "host_id": "sha256:250be486034d652fc74e0e15d6c7c61bc4f54e826ffcbb54b8803153c9e5cace",
+      "node_id": "sha256:b2c1437752969102794e92251b7a3b0fb8652a7b8a2e89b62d7ffd079afeac24",
+      "node_tag": "docker.io/library/zer42-worker:e80bc554b7ef",
+      "matching_trials": 12,
+      "historical_build_receipt": "ZER-42/runtime-01/zer42-d042c1ab05f1/raw/006-build-worker.json",
+      "historical_build_receipt_sha256": "200138de8847b4000e5e8459343a896be66c779e5c5237a21f2809847d429da5",
+      "historical_build_exit_code": 0,
+      "host_manifest_list_matches": true,
+      "node_image_config_matches": true,
+      "full_historical_build_context_attested": false
+    },
+    "source_comparison": {
+      "pilot_source_revision": "7f806f13bc989934b7c880dcef5dfb6897c73695",
+      "ci_revision": "90efe53f9a35f140f168166a5bd8b74a6cae2abb",
+      "files_byte_exact": 30,
+      "absent": 0,
+      "extra": 0
+    },
+    "ci": {
+      "job": "https://github.com/EurusDevSec/Zero-Door/actions/runs/42453718435/job/128648162818",
+      "build": "SUCCESS",
+      "startup_check": "REJECTS_MISSING_CONFIGURATION_WITHOUT_OPENING_CLIENTS",
+      "startup_check_result": "SUCCESS"
+    },
+    "local_rebuild": "NOT_RUN",
+    "local_startup": "NOT_RUN"
+  },
+  "proxy": {
+    "verdict": "PILOT_ID_AND_UPSTREAM_DIGEST_RECORDED",
+    "upstream": "docker.io/library/traefik@sha256:575fa15b135078fe5e50aa847987d96dbddd7b093c172429618404df73f3fa7c",
+    "rebuild": "THIRD_PARTY"
+  },
+  "pilot_cache_receipts_verified": 12,
+  "local_evidence": {
+    "directory": "scratch/zer25-work/fixture-rebuild-20261111051313-c5d692",
+    "sha256": {
+      "scope.json": "f3df5e074baed1116e5b82af0e0bd117325769671c2d5b11355e08914bd6a56b",
+      "check.sh": "3c13a385b9fdb97359542ff473dec273ccc826749c621861e2a5818ccc18bab8",
+      "smoke.py": "c3aebe22618fc01b6888d9ae42fc9c18b8f0e580b221c341554058bbb43c2766",
+      "build-and-smoke.log": "32086505e205f71596464044c1e3d608a13e4dcfd4f04d395d1dea73c058efd6",
+      "readback.sh": "43c03da36885b08b9e6ab7f616270e7f4b90915cc0383f0dc985d30e646f248d",
+      "readback.log": "96d4cb68be42e3306db79b0f5eac82fe86edb1b6578d79e9ca2c36ab131488d3"
+    }
+  },
+  "remaining": [
+    "Full build-context attestation for the historical cached worker binary is unavailable in the retained receipts.",
+    "Nemesis rebuild from the retained snapshot is unverified. The historical and CI build contexts differ.",
+    "Delta review and owner acceptance remain open."
+  ],
+  "formal": "HOLD",
+  "correction": {
+    "previous_receipt_sha256": "f137779e493eb4ca3dd7a1085eb0736c873c45a36ae3efca586ae087c372f3af",
+    "detail": "The host ID d85043c0… belongs to the fixture. Use the sealed worker-cache-admission.json per trial for the worker host and node IDs.",
+    "fixture_host_image_id": "sha256:d85043c06db6a60c98cddb53a1545f6e053b6def409d43b156179a625df55274"
+  },
+  "recheck": {
+    "result": "PASS",
+    "pilot_rows": 12,
+    "sealed_batch_files": 4549,
+    "reference_sha256": "e7b4946f0e2b38dd4c7f0b4524337e4eb0f2cb08caf134647dabb70106a2a43b",
+    "regressions": {
+      "swapped_worker_fixture_ids": true,
+      "wrong_worker_node_id": true,
+      "wrong_nemesis_host_id": true,
+      "wrong_nemesis_node_id": true
+    },
+    "private_archive_sha256": "82406f6e27e3a6baba7442c3d438d5c361e4e1ac99ae0135e5a4aca8fca60bff",
+    "python": "3.11.9"
+  },
+  "nemesis": {
+    "verdict": "PILOT_IMAGE_IDENTIFIED_REBUILD_UNVERIFIED",
+    "pilot_cache": {
+      "name": "zer42-nemesis",
+      "tag": "zer42-nemesis:e80bc554b7ef",
+      "host_id": "sha256:d1896d5e4e9f1ea2b97e33fab518f3718b40525ff87ae12b5b511ae0ba07f199",
+      "node_id": "sha256:050153eb4b84703b6f882e46901c51586c1d4b58a6acab5615f841bb209ec86b",
+      "matching_trials": 12
+    },
+    "pilot_use": {
+      "pod": "zer46-source-a",
+      "container": "zer21-transport",
+      "receipt": "pods-latest.json",
+      "matching_trials": 12
+    },
+    "historical_build_context": "agent-orchestrator/nemesis",
+    "ci_build_context": "./agent-orchestrator",
+    "missing_from_snapshot": [
+      "agent-orchestrator/nemesis/Dockerfile",
+      "agent-orchestrator/nemesis/requirements.lock"
+    ],
+    "historical_receipts": [
+      {
+        "path": "ZER-42/runtime-01/zer42-d042c1ab05f1/raw/009-build-nemesis.json",
+        "sha256": "948c219ef4fa88446927bf8e8ebe76d69557687dc30b31b358ca11361eeb8b6b",
+        "exit_code": 0
+      },
+      {
+        "path": "ZER-42/runtime-01/zer42-d042c1ab05f1/raw/010-import-nemesis.json",
+        "sha256": "387c6595858fe8a477a1f3f3e3ab1aabe2e064e0bb6c763f8861959df074a455",
+        "exit_code": 0
+      },
+      {
+        "path": "ZER-42/runtime-01/zer42-d042c1ab05f1/raw/011-image-nemesis.json",
+        "sha256": "c0c05ae816f08b7688636d2fce3ac6166178d0612c92685e84dab68ef1c70cb5",
+        "exit_code": 0
+      }
+    ],
+    "local_rebuild": "NOT_RUN"
+  },
+  "storage": {
+    "decision": "OWNER_SELECTED_LOCAL_LAPTOP",
+    "path": "local-evidence/ZER-55/"
+  }
+}
