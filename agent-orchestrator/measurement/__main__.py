@@ -32,6 +32,7 @@ def score(args):
     from .raw import RawError, load
     from .scorer import Scorer, SCORER_VERSION
     from .metrics import run_metrics
+    from .formal import FormalEvidenceError, METHOD, read_evidence
     from .output import OutputError, write
     options = json.loads(Path(args.options).read_text()) if args.options else {}
     if args.required_flow:
@@ -46,17 +47,32 @@ def score(args):
     except (RawError, OSError, ValueError) as error:
         print(f"REFUSED raw export: {error}", file=sys.stderr)
         return 3
-    scorer = Scorer(h, o, options, others)
-    scored = scorer.run()
+    try:
+        if args.formal_audit_dir and not args.formal_evidence:
+            raise FormalEvidenceError("--formal-audit-dir requires --formal-evidence")
+        formal_trials, evidence_sha256 = (read_evidence(args.formal_evidence, h, o, audit_directory=args.formal_audit_dir)
+                                          if args.formal_evidence else (None, None))
+    except (OSError, ValueError) as error:
+        print(f"REFUSED scoring evidence: {error}", file=sys.stderr)
+        return 3
+    scorer = Scorer(h, o, options, others, formal_trials=formal_trials)
+    try:
+        scored = scorer.run()
+    except FormalEvidenceError as error:
+        print(f"REFUSED scoring evidence: {error}", file=sys.stderr)
+        return 3
     scored["metrics"] = run_metrics(scorer, scored, options)
     document = {"scorer_version": SCORER_VERSION, "options": options,
                 "inputs": {"h_export_json_sha256": h.meta_sha256, "o_export_json_sha256": o.meta_sha256 if o else None,
                            "run_id": h.run_id, "other_exports": [{"run_id": x.run_id, "plane": x.plane,
                                                                   "export_json_sha256": x.meta_sha256} for x in others]},
                 "runs": [scored]}
+    if evidence_sha256 is not None:
+        document["method_version"] = METHOD
+        document["inputs"]["formal_evidence_sha256"] = evidence_sha256
     try:
-        # Every input export, the other runs' too, is outside the output boundary.
-        out = write(args.output, document, [args.h_export, args.o_export] + list(args.other_export or []))
+        inputs = [args.h_export, args.o_export, args.formal_evidence, args.formal_audit_dir]
+        out = write(args.output, document, inputs + list(args.other_export or []))
     except OutputError as error:
         print(f"REFUSED output: {error}", file=sys.stderr)
         return 4
@@ -150,6 +166,8 @@ def main(argv=None):
     s.add_argument("--output", required=True, help="new directory; never overwritten")
     s.add_argument("--required-flow", action="append", help="F-04 required flow for uptime (repeatable)")
     s.add_argument("--options", help="JSON options: criteria_version, benign, surfaces")
+    s.add_argument("--formal-evidence", help="evaluator trial evidence for locked ZER-53 (offline)")
+    s.add_argument("--formal-audit-dir", help="private directory of trial-scoped audit JSON records named by SHA-256")
     s.add_argument("--other-export", action="append",
                    help="export of another run of the same archive, for cross-run LINK_CONFLICT (repeatable)")
     p = sub.add_parser("plan-check", help="validate a probe plan (offline)")

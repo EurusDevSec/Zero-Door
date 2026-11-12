@@ -1,6 +1,6 @@
 """Bounded functional Gaia diagnosis from saved O-only evidence. PLAN_ONLY by default.
 
---live makes only the explicitly configured model request. No lab, broker or healer.
+--live uses the configured model transport and, in formal mode, the role-bound O archive.
 An exclusive run directory prevents replay after success, failure or unknown outcome.
 """
 import argparse
@@ -10,6 +10,8 @@ import os
 from pathlib import Path
 
 from event_pipeline.contract import canonical, valid_id, new_id, Producer
+from event_pipeline.formal_capture import METHOD
+from event_pipeline.formal_config import open_formal_o_sink
 from event_pipeline.llm import Adapter, HttpxTransport, Limits, RunBudget, strict_json
 from gaia.diagnosis import Diagnoser, PURPOSE, observation_valid
 
@@ -61,13 +63,16 @@ class Journal:
 
 def open_diagnoser(config, output):
     config_valid(config)
-    budget = RunBudget(config["context"]["run_id"], max_calls=config["max_calls"],
+    context = config["context"]
+    formal_o_sink = (open_formal_o_sink(context, keys_file=os.getenv("ZD_FORMAL_O_KEYS_FILE"))
+                     if context["method_version"] == METHOD else None)
+    budget = RunBudget(context["run_id"], max_calls=config["max_calls"],
         max_reserved_tokens=config["max_reserved_tokens"], max_estimated_usd=config["max_estimated_usd"],
         duration_s=config["duration_s"])
     adapter = Adapter(HttpxTransport(os.environ.get("OPENAI_API_KEY", "")), budget,
         limits=Limits(attempts=1, timeout_s=20, deadline_s=25, retry_delay_s=0, max_output_tokens=256))
     journal = Journal(output, config)
-    return Diagnoser(adapter, config["context"], journal), journal
+    return Diagnoser(adapter, context, journal, formal_o_sink=formal_o_sink), journal
 
 
 async def live(args):

@@ -19,6 +19,8 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from event_pipeline.contract import Producer, canonical, forbidden_keys, new_id, now, validate
+from event_pipeline.formal_capture import (ADAPTER_INPUT_REJECTIONS, METHOD, DecisionArchiveError,
+                                           archive_decision, prepare_decision, terminal_model_decision)
 from event_pipeline.llm import BudgetExceeded
 from hephaestus.command_guard import ModeGate
 from hephaestus.sqli_action_state import SqliActionState, uid
@@ -37,6 +39,12 @@ CONTEXT_KEYS = ("run_id", "trial_id", "incident_id", "group", "method_version", 
 ACCESS_KEYS = {"ref", "request_id", "ts", "client_ip", "tcp_peer", "source_method",
                "source_confidence", "method", "path", "status", "rows", "restricted_rows", "delivered",
                "run_id", "trial_id", "fixture_uid", "detection_event_id"}
+
+
+def healer_resolver_sha256(ttl_sec=180):
+    """Bind pre-guard resolution to this source revision and the configured TTL."""
+    source_sha256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    return hashlib.sha256(canonical({"source_sha256": source_sha256, "ttl_s": ttl_sec})).hexdigest()
 
 
 class Choice(BaseModel):
@@ -89,7 +97,8 @@ class Healer:
     on cancellation. A containing process must bound stuck native I/O separately.
     """
     def __init__(self, adapter, context, *, api, pins, fixture_uid, journal, probe,
-                 ttl_sec=180, probe_timeout_s=20, clock=time.monotonic, wall_clock=time.time):
+                 ttl_sec=180, probe_timeout_s=20, clock=time.monotonic, wall_clock=time.time,
+                 formal_o_sink=None, resolver_sha256=None):
         context, pins = deepcopy(context), deepcopy(pins)
         if (set(context) != set(CONTEXT_KEYS) or context.get("group") != "B2"
                 or context.get("run_id") != adapter.budget.run_id or adapter.limits.attempts != 1
@@ -99,6 +108,13 @@ class Healer:
                 or type(probe_timeout_s) not in (int, float) or not math.isfinite(probe_timeout_s)
                 or not 0 < probe_timeout_s <= 120):
             raise ValueError("HEAL_CONFIGURATION")
+        self.formal = context["method_version"] == METHOD
+        if self.formal:
+            if not callable(formal_o_sink):
+                raise ValueError("HEAL_FORMAL_O_SINK_REQUIRED")
+            if ttl_sec != 180 or resolver_sha256 != healer_resolver_sha256(ttl_sec):
+                raise ValueError("HEAL_FORMAL_RESOLVER_PIN_MISMATCH")
+        self.formal_o_sink, self.resolver_sha256 = formal_o_sink, resolver_sha256
         self.backend = SqliContainment(api, **pins, clock=wall_clock)
         self.context, self.pins, self.fixture_uid = context, pins, fixture_uid
         self.adapter, self.journal, self.probe = adapter, journal, probe
@@ -183,17 +199,32 @@ class Healer:
     async def run(self, detected, access):
         if self.started:
             raise ValueError("HEAL_ALREADY_STARTED")
-        detected, access = deepcopy(detected), self.observation(detected, access)
+        detected = deepcopy(detected)
+        invalid_access = False
+        if self.formal:
+            self.observation(detected, None)
+        try:
+            access = self.observation(detected, access)
+        except ValueError:
+            if not self.formal:
+                raise
+            access, invalid_access = None, True
         self.journal.claim()
         self.started = True
         decision_id, action_id = new_id("dec"), new_id("act")
         received, start, trace_start = now(), self.clock(), len(self.adapter.events)
         status, reason, plan, decision, latency = "ABSTAIN", "INSUFFICIENT_EVIDENCE", None, None, None
-        cancelled = False
+        cancelled, terminal_kind = False, None
         await self.record("OBSERVATION", detection=detected, access=access, decision_id=decision_id,
                           pins=self.pins, fixture_uid=self.fixture_uid, ttl_sec=self.ttl_sec)
         try:
-            if access is not None:
+            if invalid_access:
+                status, reason, terminal_kind = "SCHEMA_INVALID", "INPUT_REJECTED", "SCHEMA_INVALID"
+            elif access is None and self.formal:
+                status, reason, terminal_kind = "ABSTAIN", "ACCESS_MISSING", "ABSTAIN"
+            elif access is not None and self.formal and not self.adapter.budget.summary()["cost_estimate_complete"]:
+                status, reason = "NOT_RUN", "HEAL_USAGE_UNKNOWN_OR_OVER_BUDGET"
+            elif access is not None:
                 response = await self.adapter.call(self.context, decision_id=decision_id,
                     instructions=INSTRUCTIONS, observation={"detection": detected, "access": access},
                     output_model=Choice, prompt_version=PROMPT_VERSION, target=detected["target"],
@@ -201,12 +232,25 @@ class Healer:
                 latency = (self.clock() - start) * 1000
                 status, reason = response.outcome, response.reason
                 if not math.isfinite(latency) or latency < 0:
-                    raise ValueError("HEAL_CLOCK")
+                    if not self.formal:
+                        raise ValueError("HEAL_CLOCK")
+                    status, reason, latency = "CLOCK_UNVERIFIED", "HEAL_CLOCK", None
+                elif self.formal:
+                    if reason == "CLOCK_INVALID":
+                        status = "CLOCK_UNVERIFIED"
+                    elif reason == "USAGE_RESERVATION_EXCEEDED" or (status == "OK" and (
+                            not response.budget["cost_estimate_complete"] or self.adapter.budget.blocked)):
+                        status, reason = "NOT_RUN", "HEAL_USAGE_UNKNOWN_OR_OVER_BUDGET"
+                    elif status in {"SCHEMA_INVALID", "REFUSAL"} or (
+                            status == "TIMEOUT" and reason in {"TIMEOUT", "CALL_DEADLINE"}):
+                        terminal_kind = status
                 if status == "OK":
                     candidate = response.value.model_dump()
                     if (candidate["evidence_ids"] != [detected["event_id"]]
                             or candidate["reason"] != {"BLOCK_IP": "SQLI_DISCLOSURE", "NO_ACTION": "BENIGN",
                                 "ABSTAIN": "INSUFFICIENT_EVIDENCE"}[candidate["action"]]):
+                        if self.formal:
+                            terminal_kind, reason = "SCHEMA_INVALID", "HEAL_MODEL_REFERENCE_OR_REASON"
                         raise ValueError("HEAL_MODEL_REFERENCE_OR_REASON")
                     if not response.budget["cost_estimate_complete"] or self.adapter.budget.blocked:
                         raise ValueError("HEAL_USAGE_UNKNOWN_OR_OVER_BUDGET")
@@ -224,7 +268,15 @@ class Healer:
                         "decision_latency_ms": latency, "reason": plan["reason"]},
                         "o.decision", target=detected["target"], decision_id=decision_id,
                         causation_id=detected["event_id"])
+                    if self.formal and plan["action"] == "BLOCK_IP":
+                        resolution = {"status": "RESOLVED", "source": access["client_ip"],
+                                      "fixture_uid": access["fixture_uid"], "ttl_s": self.ttl_sec}
+                        decision = prepare_decision(decision, resolution=resolution,
+                                                    resolver_sha256=self.resolver_sha256)
                     await self.record("DECISION", event=decision)
+                    if self.formal:
+                        archived = await archive_decision(self.formal_o_sink, decision)
+                        await self.record("DECISION_ARCHIVED", receipt=archived)
                     if plan["action"] != "BLOCK_IP":
                         status, reason = plan["action"], plan["reason"]
                         await self.guard_record(decision, "MODEL_" + status, False)
@@ -251,6 +303,8 @@ class Healer:
                         status = "ACTION_COMPLETED" if terminal and terminal["status"] == "SUCCESS" else "NOT_VERIFIED"
                         reason = "SQLI_CONTAINMENT_VERIFIED" if status == "ACTION_COMPLETED" else "POSTCONDITION_NOT_MET"
                         await self.record("ACTION_POSTCONDITION", action_id=action_id, proof=proof, state=snapshot)
+        except DecisionArchiveError:
+            status, reason = "FAILED", "FORMAL_DECISION_ARCHIVE_UNVERIFIED"
         except BudgetExceeded:
             status, reason = "NOT_RUN", "RUN_BUDGET"
         except (Refused, ModeRefused) as error:
@@ -262,20 +316,41 @@ class Healer:
             status, reason, cancelled = "CANCELLED", "ACTION_MAY_REMAIN" if self.dispatched else "PRE_DISPATCH", True
         except asyncio.TimeoutError:
             status, reason = ("NOT_VERIFIED", "PROBE_TIMEOUT") if self.state is not None else ("ACTION_OUTCOME_UNKNOWN", "API_TIMEOUT")
-        except ValueError:
-            status, reason = ("NOT_VERIFIED", "INVALID_POSTCONDITION") if self.dispatched else ("SCHEMA_INVALID", "MODEL_OR_INPUT_INVALID")
+        except ValueError as error:
+            if self.dispatched:
+                status, reason = "NOT_VERIFIED", "INVALID_POSTCONDITION"
+            elif self.formal and terminal_kind is None and decision is None and str(error) in ADAPTER_INPUT_REJECTIONS:
+                status, reason, terminal_kind = "SCHEMA_INVALID", "INPUT_REJECTED", "SCHEMA_INVALID"
+            elif self.formal and terminal_kind is None:
+                status, reason = "FAILED", "LOCAL_RECORD_OR_MODEL_FAILURE"
+            else:
+                status = "SCHEMA_INVALID"
+                if not self.formal:
+                    reason = "MODEL_OR_INPUT_INVALID"
         except Exception:
             status, reason = ("ACTION_OUTCOME_UNKNOWN", "DISPATCH_OR_PROBE_FAILED") if self.dispatched else ("FAILED", "LOCAL_RECORD_OR_MODEL_FAILURE")
+        traces = deepcopy([event for event in self.adapter.events[trace_start:]
+                           if event.get("decision_id") == decision_id])
+        if terminal_kind is not None:
+            decision = terminal_model_decision(self.producer, self.context, detected, decision_id, received,
+                kind=terminal_kind, reason=reason, prompt_version=PROMPT_VERSION, traces=traces,
+                evidence_version="hephaestus-joined-access/1")
+            await self.record("DECISION", event=decision)
+            try:
+                archived = await archive_decision(self.formal_o_sink, decision)
+            except DecisionArchiveError:
+                status, reason = "FAILED", "FORMAL_DECISION_ARCHIVE_UNVERIFIED"
+            else:
+                await self.record("DECISION_ARCHIVED", receipt=archived)
         if self.state is not None and self.state.terminal is None:
             self.state.fail("TIMEOUT" if reason == "PROBE_TIMEOUT" else "PARTIAL", reason, now=self.wall_clock())
         receipt = {"purpose": PURPOSE, "status": status, "reason": reason,
             "run_id": self.context["run_id"], "decision_id": decision_id,
             "detection_event_id": detected["event_id"], "action_id": action_id if self.dispatched else None,
             "decision": decision, "plan": plan, "decision_latency_ms": latency,
-            "model_events": deepcopy([e for e in self.adapter.events[trace_start:]
-                                      if e.get("decision_id") == decision_id]), "budget": self.adapter.budget.summary(),
+            "model_events": traces, "budget": self.adapter.budget.summary(),
             "fallback": plan is None, "fallback_policy": "ABSTAIN_NO_DISPATCH" if plan is None else None,
-            "decision_source": "LLM" if plan is not None else "NONE", "api_result": deepcopy(self.api_result),
+            "decision_source": "LLM" if decision is not None else "NONE", "api_result": deepcopy(self.api_result),
             "action_state": self.state.snapshot() if self.state else None,
             "recovery_verification": "EXTERNAL_H_PROBE_REQUIRED", "benchmark_eligible": False,
             "archive_delivery": "LOCAL_ONLY_NOT_AUTHENTICATED", "restart_allowed": False}

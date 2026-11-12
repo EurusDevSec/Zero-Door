@@ -53,6 +53,8 @@ jobs:
       - name: Measurement suites and sealed E01 recompute (stdlib only, loopback fakes, socket guard)
         shell: bash
         run: bash infrastructure/scripts/verify-measurement.sh --offline
+      - name: ZER-27 formal scorer, C5 coverage and audit artifacts offline
+        run: python -B -m unittest discover -s tests -p test_measurement_formal.py
       - name: Every measurement mutant is caught by the suites
         run: python -B docs/evidence/ZER-10/check_mutants.py
       - name: Scorer agrees with the accepted ZER-37 contract cases (hand-computed expectations)
@@ -134,6 +136,10 @@ jobs:
           python -B docs/evidence/ZER-49/inference-prep/test_runner.py
       - name: Hephaestus guarded containment offline (ZER-50; fake model, API and probes)
         run: python -B tests/test_hephaestus_recovery.py
+      - name: ZER-27 formal capture, durable B2 budget and containment joins offline
+        run: |
+          python -B -m unittest discover -s tests -p test_formal_config.py
+          python -B -m unittest discover -s tests -p test_formal_readiness.py
       - name: SQLi integration transport offline (ZER-23; fake provider, broker, API)
         run: |
           python -B tests/test_sqli_pipeline.py

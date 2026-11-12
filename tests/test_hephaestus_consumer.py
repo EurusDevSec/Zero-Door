@@ -21,6 +21,7 @@ from event_pipeline.adapters import RulesConsumer
 from event_pipeline.client import Client
 from event_pipeline.contract import Producer, new_id
 from event_pipeline.decision_journal import DecisionJournal
+from event_pipeline.formal_config import rules_options_from_env
 from hephaestus.command_guard import GuardedRules
 
 CLOCK = {"clock_id": "clk_offline", "clock_source": "UNKNOWN", "resolution_ms": None}
@@ -242,7 +243,8 @@ class LifecycleTests(unittest.IsolatedAsyncioTestCase):
             def context(self):
                 return dict(run_id=self.run, trial_id=self.trial, group="B1")
         ns = dict(threading=threading, asyncio=asyncio, os=SimpleNamespace(getenv=lambda _: "offline-only-path"), r1_client=ClientStub(),
-                  RulesConsumer=Adapter, GuardedRules=GuardedRules, decide_action=lambda *_: None,
+                  RulesConsumer=Adapter, rules_options_from_env=rules_options_from_env,
+                  GuardedRules=GuardedRules, decide_action=lambda *_: None,
                   consumer_state={}, logger=logging.getLogger("offline"), audit_refusal=lambda *_: None)
         exec(compile(ast.Module(body=functions, type_ignores=[]), str(source), "exec"), ns)
         task = asyncio.create_task(ns["alert_consumer_loop"]())
@@ -268,7 +270,8 @@ class LifecycleTests(unittest.IsolatedAsyncioTestCase):
             for path in (None, ":memory:", str(Path(folder) / "absent" / "decisions.sqlite")):
                 client = Fake([detection()])
                 ns = dict(threading=threading, os=SimpleNamespace(getenv=lambda _, path=path: path),
-                          r1_client=client, RulesConsumer=RulesConsumer, GuardedRules=GuardedRules,
+                          r1_client=client, RulesConsumer=RulesConsumer, rules_options_from_env=rules_options_from_env,
+                          GuardedRules=GuardedRules,
                           decide_action=lambda *_: "BLOCK_IP", consumer_state={}, logger=logging.getLogger("offline"))
                 exec(compile(ast.Module(body=[function], type_ignores=[]), str(source), "exec"), ns)
                 ns["_kafka_consumer_thread"]()
