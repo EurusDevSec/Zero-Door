@@ -61,7 +61,7 @@ def threshold_metric(eligible, counts, value_of, threshold_s, missing_of, unobse
             "note": "mean is descriptive; verdict per ZER-32 D-01; '<' is strict"}
 
 
-def kpi(incidents, f01, cohort=None):
+def kpi(incidents, f01, cohort=None, *, recovery_excluded=None):
     counts, eligible = base_counts(incidents)
     labels = {}
     for r in incidents:
@@ -71,14 +71,23 @@ def kpi(incidents, f01, cohort=None):
                           "note": "MTTR resolution is bounded by delta and K (ZER-32 3.4)"}}
     out["mttd"] = threshold_metric(eligible, counts, lambda r: r["mttd"], 60, lambda r: r["mttd"] == "MISSING",
                                    lambda r: r["mttd"] == "MISSED")
+    out["reaction"] = threshold_metric(eligible, counts, lambda r: r["reaction"], 60,
+                                       lambda r: r["reaction"] == "MISSING",
+                                       lambda r: r["reaction"] in ("NO_SUCCESS", "NO_DETECT"))
+    if recovery_excluded:
+        out["resolution"] = {"delta_s": f01["delta_s"]}
+        if cohort is not None and not cohort["complete"]:
+            counts["cohort"] = "INCOMPLETE"
+            out["cohort_problems"] = cohort["problems"]
+            for key in ("mttd", "reaction"):
+                out[key].update(verdict="UNKNOWN", verdict_reason="COHORT_INCOMPLETE")
+        out["recovery"] = dict.fromkeys(("MTTR", "TotalRecovery", "M7", "M8"), recovery_excluded)
+        return out
     for theta in (120, 180):
         out[f"mttr_{theta}"] = threshold_metric(
             eligible, counts, lambda r: r["mttr"] if r["label"] == "RECOVERED" else None, theta,
             lambda r: r["label"] in MISSING_LABELS, lambda r: r["label"] != "RECOVERED",
             mean_pool=lambda r: r["label"] == "RECOVERED")
-    out["reaction"] = threshold_metric(eligible, counts, lambda r: r["reaction"], 60,
-                                       lambda r: r["reaction"] == "MISSING",
-                                       lambda r: r["reaction"] in ("NO_SUCCESS", "NO_DETECT"))
     if counts["status"] == "OK":
         n = counts["N"]
         recovered = sum(1 for r in eligible if r["label"] in RECOVERED)
@@ -807,14 +816,23 @@ def m6(scorer, trial_id, model, start, w0, w1, cfg):
 
 
 def containment(scorer, results):
-    """M12: CONTAINMENT_VERIFIED on C2/C5 incidents; never inferred from availability."""
+    """M12 containment observations. Formal requires independently joined proof."""
+    formal_run = scorer.formal_trials is not None
     rows = []
     for r in results:
         inc = scorer.inc[r["incident_id"]]
         gt, problems = gt_view(inc)
         cls = None if gt is None or "case_class" in problems else gt["case_class"]
-        if cls in ("C2", "C5") and r["label"] != "CONFIRMED_NO_EFFECT":
+        if formal_run:
+            if scorer.formal_trials[r["trial_id"]]["case"] == "C5" and r["effect"] in ("CONFIRMED", "UNKNOWN_EFFECT"):
+                rows.append({"incident_id": r["incident_id"], "class": cls, "status": "UNVERIFIED",
+                             "containment_event_ids": [e["event_id"] for e in inc["containment"]]})
+        elif cls in ("C2", "C5") and r["label"] != "CONFIRMED_NO_EFFECT":
             rows.append({"incident_id": r["incident_id"], "class": cls, "verified": bool(inc["containment"])})
+    if formal_run and rows:
+        return {"status": "UNVERIFIED", "N": len(rows), "numerator": 0, "unknown": len(rows),
+                "rate": {"status": "MISSING"}, "rows": rows,
+                "reason": "formal source, fixture UID, policy and probe references are not independently joined"}
     if not rows:
         return {"status": "EMPTY", "reason": "no C2/C5 incident with ground truth in this run"}
     k = sum(1 for x in rows if x["verified"])
@@ -826,17 +844,27 @@ def run_metrics(scorer, scored, options):
     results = scored["incidents"]
     decisions = decision_metrics(scorer, results)
     flows = options.get("required_flows") or []
-    return {
-        "kpi": kpi(results, scorer.f01, scored.get("cohort")),
+    formal_run = scorer.formal_trials is not None
+    from .formal import NOT_EVALUABLE, decision_summary
+    incident_cohort = ([row for row in results if scorer.formal_trials[row["trial_id"]]["case"] == "C5"]
+                       if formal_run else results)
+    output = {
+        "kpi": kpi(incident_cohort, scorer.f01, scored.get("cohort"),
+                   recovery_excluded=NOT_EVALUABLE if formal_run else None),
         # A trial known only from its context or incidents (no usable TRIAL_STARTED) stays listed as UNKNOWN.
-        "uptime": {trial: uptime(scorer, trial, flows) for trial in sorted(t for t in
+        "uptime": {"status": "NOT_MEASURED"} if formal_run else {trial: uptime(scorer, trial, flows) for trial in sorted(t for t in
             set(scorer.trial) | {e["trial_id"] for e in scorer.of("TRIAL_CONTEXT")} | {i["trial"] for i in scorer.inc.values()}
             if isinstance(t, str))},
         "decisions": decisions,
-        "M2_funnel": funnel(results, decisions),
+        "M2_funnel": funnel(incident_cohort, decisions),
         "M5_M6_benign": benign(scorer, options),
         "M11_usage": usage(scorer),
         "M12_containment": containment(scorer, results),
         "cpu_P179": {"status": "MISSING", "reason": "no container CPU usage/limit series in the H/O exports (ZER-38/44)"},
         "request_success_rate": {"status": "MISSING", "reason": "benign client request log not in the exports"},
     }
+    if formal_run:
+        output["M2_funnel"].pop("recovered")
+        output["decisions"].update(decision_summary(scorer, scored))
+        output["decisions"].get("M4", {}).pop("recovery_of_fallback", None)
+    return output

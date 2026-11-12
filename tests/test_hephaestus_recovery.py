@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "agent-orchestrator"))
 from event_pipeline.contract import Producer, new_id, validate
 from event_pipeline.llm import Adapter, Limits, MODEL, RunBudget
-from hephaestus.recovery import Healer, Journal
+from hephaestus.recovery import Healer, Journal, healer_resolver_sha256
 from test_sqli_action_state import PINS, POD, probes
 
 CLOCK = {"clock_id": "test", "clock_source": "UNKNOWN", "resolution_ms": None}
@@ -126,6 +126,156 @@ class Recovery(unittest.IsolatedAsyncioTestCase):
 
     def records(self):
         return [json.loads(line) for line in (self.journal.directory / "events.jsonl").read_text().splitlines()]
+
+    async def test_formal_decision_is_archived_before_guard(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        archived = []
+
+        def publish(event):
+            self.assertEqual("DECISION", self.records()[-1]["kind"])
+            self.assertEqual(0, self.api.writes)
+            archived.append(event)
+            return {"status": "RECORDED", "event_id": event["event_id"]}
+
+        engine = self.engine(formal_o_sink=publish, resolver_sha256=healer_resolver_sha256())
+        original_guard = engine.action_guard
+
+        def guard(*args):
+            self.assertEqual("DECISION_ARCHIVED", self.records()[-1]["kind"])
+            self.assertEqual(1, len(archived))
+            return original_guard(*args)
+
+        with patch.object(engine, "action_guard", side_effect=guard):
+            receipt = await engine.run(self.detected, self.access)
+        self.assertEqual("ACTION_COMPLETED", receipt["status"])
+        event, = archived
+        self.assertEqual(event, receipt["decision"])
+        self.assertEqual({"decision_event_id": event["event_id"], "resolver_sha256": healer_resolver_sha256(),
+                          "status": "RESOLVED", "source": self.access["client_ip"], "fixture_uid": POD,
+                          "ttl_s": 180}, event["payload"]["pre_guard"])
+
+    async def test_formal_archive_acknowledgment_must_match_before_guard(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        engine = self.engine(formal_o_sink=lambda e: {"status": "RECORDED", "event_id": new_id("evt")},
+                             resolver_sha256=healer_resolver_sha256())
+        with patch.object(engine, "action_guard") as guard:
+            receipt = await engine.run(self.detected, self.access)
+        self.assertEqual(("FAILED", "FORMAL_DECISION_ARCHIVE_UNVERIFIED"), (receipt["status"], receipt["reason"]))
+        guard.assert_not_called()
+        self.assertEqual(0, self.api.writes)
+        self.assertIsNone(receipt["action_id"])
+
+    async def test_formal_archives_terminal_failures_without_dispatch(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        for mode, kind, access in (("TIMEOUT", "TIMEOUT", self.access),
+                                   ("JSON", "SCHEMA_INVALID", self.access),
+                                   ("REFERENCE", "SCHEMA_INVALID", self.access),
+                                   ("REFUSAL", "REFUSAL", self.access),
+                                   ("BLOCK_IP", "ABSTAIN", None),
+                                   ("BLOCK_IP", "SCHEMA_INVALID", {})):
+            with self.subTest(mode=mode, kind=kind), tempfile.TemporaryDirectory() as out:
+                archived = []
+
+                def publish(event):
+                    archived.append(event)
+                    return {"status": "RECORDED", "event_id": event["event_id"]}
+
+                engine = self.engine(mode, output=out, formal_o_sink=publish,
+                                     resolver_sha256=healer_resolver_sha256())
+                receipt = await engine.run(self.detected, access)
+                event, = archived
+                self.assertEqual(event, receipt["decision"])
+                self.assertEqual((kind, None), (event["payload"]["response_kind"], event["payload"]["proposal"]))
+                if mode == "REFERENCE":
+                    self.assertEqual("HEAL_MODEL_REFERENCE_OR_REASON", event["payload"]["reason_code"])
+                self.assertEqual(access is self.access, bool(event["payload"]["prompt_sha256"]))
+                self.assertEqual(access is self.access, bool(self.model.requests))
+                self.assertEqual(0, self.api.writes)
+                self.assertNotIn("GUARD_VERDICT", [row["kind"] for row in self.records()])
+                self.journal.close()
+
+    async def test_formal_usage_failure_stops_without_a_model_decision(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        for case in ("PRIOR_UNKNOWN", "USAGE", "OVERRUN"):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as out:
+                archived = []
+                engine = self.engine(case, output=out, formal_o_sink=archived.append,
+                                     resolver_sha256=healer_resolver_sha256())
+                if case == "PRIOR_UNKNOWN":
+                    engine.adapter.budget.reserve(self.ctx["run_id"], 1024, 256)
+
+                original_send = self.model.send
+
+                async def send(payload, timeout):
+                    response = await original_send(payload, timeout)
+                    if case == "OVERRUN":
+                        response["body"]["usage"].update(output_tokens=257, total_tokens=357)
+                    return response
+
+                with engine.journal.stream, patch.object(self.model, "send", side_effect=send):
+                    receipt = await engine.run(self.detected, self.access)
+                self.assertEqual(("NOT_RUN", "HEAL_USAGE_UNKNOWN_OR_OVER_BUDGET", None),
+                                 (receipt["status"], receipt["reason"], receipt["decision"]))
+                self.assertEqual(int(case != "PRIOR_UNKNOWN"), len(self.model.requests))
+                self.assertEqual(int(case != "PRIOR_UNKNOWN"), len(receipt["model_events"]))
+                self.assertFalse(archived)
+                self.assertEqual(0, self.api.writes)
+
+    async def test_formal_clock_failures_stay_unverified_without_a_model_decision(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        for reason in ("HEAL_CLOCK", "CLOCK_INVALID"):
+            with self.subTest(reason=reason), tempfile.TemporaryDirectory() as out:
+                archived = []
+                engine = self.engine(output=out, formal_o_sink=archived.append,
+                                     resolver_sha256=healer_resolver_sha256())
+                if reason == "HEAL_CLOCK":
+                    engine.clock = iter((2, 1)).__next__
+                else:
+                    engine.adapter.clock = iter((1, 1, 2, 1)).__next__
+                with engine.journal.stream:
+                    receipt = await engine.run(self.detected, self.access)
+                self.assertEqual(("CLOCK_UNVERIFIED", reason, None),
+                                 (receipt["status"], receipt["reason"], receipt["decision"]))
+                self.assertEqual(1, len(receipt["model_events"]))
+                self.assertFalse(archived)
+                self.assertEqual(0, self.api.writes)
+
+    async def test_formal_provider_http_failure_remains_a_separate_receipt(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        archived = []
+        engine = self.engine("429", formal_o_sink=archived.append,
+                             resolver_sha256=healer_resolver_sha256())
+        receipt = await engine.run(self.detected, self.access)
+        self.assertEqual(("HTTP_ERROR", "HTTP_429", None),
+                         (receipt["status"], receipt["reason"], receipt["decision"]))
+        self.assertEqual("HTTP_ERROR", receipt["model_events"][0]["payload"]["outcome"])
+        self.assertFalse(archived)
+        self.assertEqual(0, self.api.writes)
+
+    def test_formal_requires_pin_for_source_and_locked_ttl(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = self.detected["method_version"] = METHOD
+        self.assertNotEqual(healer_resolver_sha256(), healer_resolver_sha256(179))
+        for ttl, pin in ((180, "1" * 64), (179, healer_resolver_sha256(179))):
+            with self.subTest(ttl=ttl), tempfile.TemporaryDirectory() as out:
+                with self.assertRaisesRegex(ValueError, "HEAL_FORMAL_RESOLVER_PIN_MISMATCH"):
+                    self.engine(output=out, ttl_sec=ttl, formal_o_sink=lambda _: None, resolver_sha256=pin)
+                self.assertFalse(self.model.requests)
+                self.assertEqual(0, self.api.reads)
+                self.journal.close()
 
     def test_projection_probe_timeout_bound(self):
         engine = self.engine(probe_timeout_s=120)

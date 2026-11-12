@@ -343,6 +343,65 @@ class BoundaryTests(unittest.TestCase):
         detector.publish("HIGH_CPU", "frontend", "cpu", 0.99, 0.8, "changed symptom", "WARNING")
         self.assertEqual(fake.sent[0], fake.sent[1])
 
+    def test_formal_rules_journals_o_resolution_once_before_retry(self):
+        from event_pipeline.formal_capture import METHOD
+
+        ctx = dict(context("B1"), method_version=METHOD)
+        alert = detected(ctx)
+        proposals, resolved = [], []
+
+        class Fake:
+            trial = ctx["trial_id"]
+            producer = Producer("decision_rules", "test", CLOCK)
+
+            def records(self):
+                return [{"envelope": alert}]
+
+            def publish(self, event):
+                proposals.append(event)
+                if len(proposals) == 1:
+                    raise TimeoutError("simulated ambiguous receipt")
+                return {"status": "RECORDED", "event_id": event["event_id"]}
+
+        def resolver(event):
+            resolved.append(event["event_id"])
+            self.assertEqual("O", event["plane"])
+            return {"status": "RESOLVED", "source": "192.0.2.1", "fixture_uid": "fixture-uid", "ttl_s": 180}
+
+        consumer = RulesConsumer(Fake(), lambda *_: "BLOCK_IP", resolve_o=resolver, resolver_sha256="1" * 64)
+        self.addCleanup(consumer.close)
+        with self.assertRaises(TimeoutError):
+            consumer.poll()
+        consumer.poll()
+        self.assertEqual([alert["event_id"]], resolved)
+        self.assertEqual(proposals[0], proposals[1])
+        event = proposals[0]
+        self.assertEqual({"decision_event_id": event["event_id"], "resolver_sha256": "1" * 64,
+                          "status": "RESOLVED", "source": "192.0.2.1", "fixture_uid": "fixture-uid",
+                          "ttl_s": 180}, event["payload"]["pre_guard"])
+
+    def test_formal_block_ip_requires_a_configured_resolver(self):
+        from event_pipeline.formal_capture import METHOD
+
+        ctx = dict(context("B1"), method_version=METHOD)
+        alert = detected(ctx)
+
+        class Fake:
+            trial = ctx["trial_id"]
+            producer = Producer("decision_rules", "test", CLOCK)
+
+            def records(self):
+                return [{"envelope": alert}]
+
+            def publish(self, event):
+                raise AssertionError("unconfigured formal decision was published")
+
+        consumer = RulesConsumer(Fake(), lambda *_: "BLOCK_IP")
+        self.addCleanup(consumer.close)
+        with self.assertRaisesRegex(ValueError, "FORMAL_RULES_RESOLVER_REQUIRED"):
+            consumer.poll()
+        self.assertIsNone(consumer.journal.get(alert["event_id"]))
+
     def test_rules_dedup_and_mode_boundary(self):
         for group, expected in (("B0", 0), ("B1", 1), ("B2", 0), ("B3", 0), ("BM", 0)):
             ctx = context(group)

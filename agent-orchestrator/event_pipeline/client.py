@@ -11,6 +11,7 @@ from .contract import Producer, canonical, valid_id
 # Each actor's key file holds exactly its own producer role plus reader (ZR9-04). A file that also
 # carries another producer, harness or evaluator key is refused, so one actor cannot write as another.
 ACTOR_KEYS = {"detector": {"detector", "reader"}, "decision_rules": {"decision_rules", "reader"},
+              "decision_llm": {"decision_llm", "reader"},
               "operator_console": {"operator_console", "reader"}}
 
 
@@ -31,12 +32,12 @@ class Client:
         self.run, self.trial, self.producer = run, trial, producer
 
     @classmethod
-    def from_env(cls, source):
+    def from_env(cls, source, *, keys_file=None):
         url = os.getenv("ZD_EVENT_URL")
         if not url:
             return None
         # Only the O key file is mounted into the producer/consumer container.
-        keys = json.loads(Path(os.environ["ZD_O_KEYS_FILE"]).read_text())
+        keys = json.loads(Path(keys_file if keys_file is not None else os.environ["ZD_O_KEYS_FILE"]).read_text())
         if source not in ACTOR_KEYS or not isinstance(keys, dict) or set(keys) != ACTOR_KEYS[source]:
             raise ValueError("O key file must hold exactly the roles " + str(sorted(ACTOR_KEYS.get(source, ()))))
         producer = Producer(source, os.environ["ZD_PRODUCER_VERSION"], {

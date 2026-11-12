@@ -44,3 +44,10 @@ Hash/version và ma trận claim → RQ/cấu hình/metric/trace; bỏ claim ưu
 ## Bàn giao kỹ thuật
 
 Chưa có bàn giao thực thi mới. Khi thực hiện, ghi issue Linear và thời điểm đọc AC, HEAD/dirty, phạm vi file/thao tác, kiểm tra/kết quả, evidence, giới hạn và bước tiếp theo. Theo [WORKFLOW](R:/_Projects/Eurus_Workspace/zero_door/docs/delivery/WORKFLOW.md); trạng thái, lịch và phân công cập nhật trên Linear.
+
+
+## ZER-27 checkpoint — 12/11/2026
+
+Preserved opt-in formal decision capture, durable B2 budget/call evidence, formal scorer and containment-join code with regression tests. The [checkpoint report](../../../evidence/ZER-27/README.md) records the successful benign 330-second window and native O integration with a synthetic provider, including limits and failed attempts. Raw evidence stays owner-held.
+
+Hoàng selected solo BM operation with hidden schedule/onset, deterministic scoring and post-cohort technical review. The [addendum](../../../evidence/ZER-53/solo-operation-addendum.md) remains review-required before formal; the locked base protocol is unchanged. AC-01 remains incomplete and FORMAL_HOLD: real B2/C5 readiness, five detector variants, actual BM interaction, live audit/M12 capture, common-profile review and account budget still need verification. Merging this checkpoint is not formal admission or issue acceptance.

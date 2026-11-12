@@ -19,6 +19,7 @@ from kubernetes.client.rest import ApiException
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from event_pipeline.client import Client
 from event_pipeline.adapters import RulesConsumer
+from event_pipeline.formal_config import rules_options_from_env
 from hephaestus.command_guard import ModeGate, GuardedRules
 from nemesis.command_guard import CommandGuard, Refused, strict_json, fields
 
@@ -448,7 +449,8 @@ def _kafka_consumer_thread(stop=None):
             logger.error("Decision consumer requires an explicit mounted ZD_RULES_STATE_FILE; not started.")
             return
         try:
-            adapter = RulesConsumer(r1_client, decide_action, journal_path=state_path)
+            adapter = RulesConsumer(r1_client, decide_action, journal_path=state_path,
+                                    **rules_options_from_env(r1_client))
         except Exception as error:
             consumer_state.update(status="FAILED", last_error=type(error).__name__)
             logger.error("Decision state unavailable: %s", type(error).__name__)

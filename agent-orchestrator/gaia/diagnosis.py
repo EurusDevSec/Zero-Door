@@ -13,6 +13,8 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from event_pipeline.contract import Producer, canonical, forbidden_keys, new_id, now, validate
+from event_pipeline.formal_capture import (ADAPTER_INPUT_REJECTIONS, METHOD, archive_decision,
+                                           prepare_decision, terminal_model_decision)
 from event_pipeline.llm import BudgetExceeded
 
 PURPOSE = "GAIA_FUNCTIONAL_DIAGNOSIS"
@@ -57,12 +59,15 @@ def observation_valid(detected, evidence):
 
 
 class Diagnoser:
-    def __init__(self, adapter, context, sink, *, clock=time.monotonic):
+    def __init__(self, adapter, context, sink, *, clock=time.monotonic, formal_o_sink=None):
         self.context = deepcopy(context)
         if (context.get("group") != "B2" or context.get("run_id") != adapter.budget.run_id
                 or not callable(sink) or adapter.limits.attempts != 1):
             raise ValueError("GAIA_CONTEXT_OR_SINK_INVALID")
+        if context.get("method_version") == METHOD and not callable(formal_o_sink):
+            raise ValueError("GAIA_FORMAL_O_SINK_REQUIRED")
         self.adapter, self.sink, self.clock = adapter, sink, clock
+        self.formal_o_sink = formal_o_sink
         self.producer = Producer("decision_llm", "zer49/1", adapter.producer.clock)
         self.lock, self.seen = asyncio.Lock(), set()
 
@@ -78,10 +83,17 @@ class Diagnoser:
             raise
 
     async def analyze(self, detected, evidence):
-        observation = observation_valid(detected, evidence)
-        detected = observation["detection"]
-        if any(detected.get(k) != self.context.get(k) for k in CONTEXT_KEYS):
+        formal = self.context["method_version"] == METHOD
+        if (validate(detected, "O", "detector") or detected["event_type"] != "DETECTED"
+                or any(detected.get(k) != self.context.get(k) for k in CONTEXT_KEYS)):
             raise ValueError("GAIA_CONTEXT_MISMATCH")
+        try:
+            observation = observation_valid(detected, evidence)
+        except ValueError:
+            if not formal:
+                raise
+            observation = None
+        detected = deepcopy(detected) if observation is None else observation["detection"]
         async with self.lock:
             # No automatic replay, even after a timeout/unknown result. The output
             # directory owns restart admission; this bounded set owns same-process IDs.
@@ -96,11 +108,15 @@ class Diagnoser:
             started, trace_start = self.clock(), len(self.adapter.events)
             response, value, reason, outcome, cancelled = None, None, None, "INPUT_REJECTED", False
             try:
+                if observation is None:
+                    raise ValueError("GAIA_EVIDENCE_INVALID")
                 response = await self.adapter.call(self.context, decision_id=decision_id,
                     instructions=INSTRUCTIONS, observation=observation, output_model=Diagnosis,
                     prompt_version=PROMPT_VERSION, target=detected["target"],
                     causation_id=detected["event_id"])
                 outcome, reason = response.outcome, response.reason
+                if formal and reason == "USAGE_RESERVATION_EXCEEDED":
+                    outcome, reason = "NOT_RUN", "GAIA_USAGE_RESERVATION_EXCEEDED"
                 if outcome == "OK":
                     candidate = response.value.model_dump()
                     if candidate["evidence_ids"] != [detected["event_id"]]:
@@ -111,8 +127,10 @@ class Diagnoser:
                             outcome, reason = "ABSTAIN", "INSUFFICIENT_EVIDENCE"
             except BudgetExceeded:
                 outcome, reason = "NOT_RUN", "RUN_BUDGET"
-            except ValueError:
+            except ValueError as error:
                 outcome, reason = "INPUT_REJECTED", "ADAPTER_INPUT_INVALID"
+                if formal and str(error) not in ADAPTER_INPUT_REJECTIONS | {"GAIA_EVIDENCE_INVALID"}:
+                    outcome, reason = "FAILED", "GAIA_INTERNAL_FAILURE"
             except asyncio.CancelledError:
                 outcome, reason, cancelled = "CANCELLED", "CANCELLED", True
             elapsed = (self.clock() - started) * 1000
@@ -132,14 +150,28 @@ class Diagnoser:
                     "diagnosis_latency_ms": elapsed,
                 }, "o.decision", target=detected["target"], decision_id=decision_id,
                    causation_id=detected["event_id"])
+            terminal = formal and decision is not None and outcome == "ABSTAIN"
+            if terminal:
+                decision = prepare_decision(decision, terminal_abstain=True)
+            elif formal and (outcome in {"SCHEMA_INVALID", "REFUSAL", "INPUT_REJECTED"}
+                             or outcome == "TIMEOUT" and reason in {"TIMEOUT", "CALL_DEADLINE"}):
+                kind = "SCHEMA_INVALID" if outcome == "INPUT_REJECTED" else outcome
+                code = "INPUT_REJECTED" if outcome == "INPUT_REJECTED" else reason
+                decision = terminal_model_decision(self.producer, self.context, detected, decision_id, received,
+                    kind=kind, reason=code, prompt_version=PROMPT_VERSION, traces=traces,
+                    evidence_version="gaia-observation/1")
+                terminal = True
             receipt = {"kind": "INCIDENT_DIAGNOSIS", "status": outcome, "reason": reason,
                 "decision_id": decision_id, "detection_event_id": detected["event_id"],
                 "detected_at": detected["ts_event"], "finished_at": now(),
                 "latency_ms": elapsed, "diagnosis": value, "decision": decision,
-                "decision_source": "LLM" if value is not None else "NONE", "fallback": False,
+                "decision_source": "LLM" if decision is not None else "NONE", "fallback": False,
                 "model_events": traces, "budget": self.adapter.budget.summary(),
                 "benchmark_eligible": False, "archive_delivery": "LOCAL_ONLY_NOT_AUTHENTICATED"}
             await self.record(receipt)
+            if terminal:
+                archived = await archive_decision(self.formal_o_sink, decision)
+                await self.record({"kind": "DECISION_ARCHIVED", "receipt": archived})
             if cancelled:
                 raise asyncio.CancelledError
             return receipt

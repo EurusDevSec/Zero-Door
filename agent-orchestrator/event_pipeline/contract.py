@@ -8,6 +8,9 @@ import uuid
 from datetime import datetime, timezone
 
 VERSION = "zd-event/1.0.0"
+FORMAL_METHOD = "zer53-formal-v3"
+FORMAL_PRE_MODEL_FAILURES = {("SCHEMA_INVALID", "INPUT_REJECTED"), ("ABSTAIN", "ACCESS_MISSING"),
+                             ("TIMEOUT", "CALL_DEADLINE")}
 ID = re.compile(r"^(run|trl|inc|evt|alt|dec|act|cal|ing)_[0-9a-f]{12}4[0-9a-f]{3}[89ab][0-9a-f]{15}$")
 STAMP = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$")
 FORBIDDEN = frozenset((
@@ -221,7 +224,13 @@ def _validate(event, plane=None, source=None):
             if p["fallback"] and (event["group"] not in {"B2", "B3"} or not valid_id(p["fallback_of"], "dec")):
                 return "MODE_VIOLATION"
             if expected in {"LLM", "SINGLE_LLM"} and not p["prompt_sha256"]:
-                return "MISSING_FIELD"
+                pre_model = (event["method_version"] == FORMAL_METHOD and expected == "LLM"
+                             and p["stage"] == "PROPOSAL" and p["prompt_version"] is None
+                             and p["prompt_sha256"] is None and any(
+                                 p["response_kind"] == kind and p.get("reason_code") == reason
+                                 for kind, reason in FORMAL_PRE_MODEL_FAILURES))
+                if not pre_model:
+                    return "MISSING_FIELD"
         if typ == "GUARD_VERDICT" and p["verdict"] not in {"ACCEPT", "REJECT"}:
             return "INVALID"
         if typ == "LLM_CALL":

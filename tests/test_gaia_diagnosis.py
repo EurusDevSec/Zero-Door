@@ -82,13 +82,13 @@ class Cases(unittest.IsolatedAsyncioTestCase):
         self.ctx, self.rows = context(), []
         self.event = detection(self.ctx)
 
-    def engine(self, mode="OK", *, calls=1, sink=None, timeout=1):
+    def engine(self, mode="OK", *, calls=1, sink=None, timeout=1, formal_o_sink=None):
         self.fake = Fake(mode)
         budget = RunBudget(self.ctx["run_id"], max_calls=calls, max_reserved_tokens=30000,
                            max_estimated_usd=.005, duration_s=60)
         self.adapter = Adapter(self.fake, budget, limits=Limits(attempts=1, timeout_s=timeout,
             deadline_s=2, retry_delay_s=0, max_output_tokens=256))
-        return Diagnoser(self.adapter, self.ctx, sink or self.rows.append)
+        return Diagnoser(self.adapter, self.ctx, sink or self.rows.append, formal_o_sink=formal_o_sink)
 
     async def test_success_has_metric_input_diagnosis_latency_and_join(self):
         engine = self.engine()
@@ -121,6 +121,91 @@ class Cases(unittest.IsolatedAsyncioTestCase):
                 self.assertIsNone(result["decision"])
                 self.assertFalse(result["fallback"])
                 self.assertEqual(1, len(self.fake.requests))
+
+    async def test_formal_terminal_abstain_is_recorded_in_o(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = METHOD
+        self.event = detection(self.ctx)
+        o_events = []
+
+        def publish(event):
+            self.assertEqual("INCIDENT_DIAGNOSIS", self.rows[-1]["kind"])
+            o_events.append(event)
+            return {"status": "RECORDED", "event_id": event["event_id"]}
+
+        result = await self.engine("UNKNOWN", formal_o_sink=publish).analyze(self.event, evidence(self.event))
+        self.assertEqual([result["decision"]], o_events)
+        self.assertEqual("PROPOSAL", o_events[0]["payload"]["stage"])
+        self.assertEqual("ABSTAIN", o_events[0]["payload"]["response_kind"])
+        self.assertEqual("DECISION_ARCHIVED", self.rows[-1]["kind"])
+
+    async def test_formal_archives_terminal_model_and_input_failures(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = METHOD
+        self.event = detection(self.ctx)
+        for mode, expected in (("TIMEOUT", "TIMEOUT"), ("JSON", "SCHEMA_INVALID"),
+                               ("REFUSAL", "REFUSAL"), ("BAD_INPUT", "SCHEMA_INVALID")):
+            with self.subTest(mode=mode):
+                archived = []
+
+                def publish(event):
+                    archived.append(event)
+                    return {"status": "RECORDED", "event_id": event["event_id"]}
+
+                observed = {} if mode == "BAD_INPUT" else evidence(self.event)
+                engine = self.engine(mode, formal_o_sink=publish)
+                result = await engine.analyze(self.event, observed)
+                event, = archived
+                payload = event["payload"]
+                self.assertEqual(event, result["decision"])
+                self.assertEqual((expected, "PROPOSAL", None),
+                                 (payload["response_kind"], payload["stage"], payload["proposal"]))
+                self.assertEqual(self.event["event_id"], event["causation_id"])
+                self.assertEqual(mode != "BAD_INPUT", bool(payload["prompt_sha256"]))
+                self.assertEqual(mode != "BAD_INPUT", bool(self.fake.requests))
+                if mode == "BAD_INPUT":
+                    self.assertEqual("INPUT_REJECTED", payload["reason_code"])
+                    legacy = dict(event, method_version="legacy")
+                    self.assertEqual("MISSING_FIELD", validate(legacy, "O"))
+
+    async def test_formal_budget_stop_is_reported_separately(self):
+        from event_pipeline.formal_capture import METHOD
+        from event_pipeline.llm import BudgetExceeded
+
+        self.ctx["method_version"] = METHOD
+        self.event = detection(self.ctx)
+
+        def publish(event):
+            raise AssertionError("budget exhaustion is not a model decision")
+
+        engine = self.engine(formal_o_sink=publish)
+        with patch.object(engine.adapter, "call", side_effect=BudgetExceeded):
+            result = await engine.analyze(self.event, evidence(self.event))
+        self.assertEqual(("NOT_RUN", "RUN_BUDGET", None),
+                         (result["status"], result["reason"], result["decision"]))
+
+    async def test_formal_adapter_usage_overrun_is_not_a_schema_failure(self):
+        from event_pipeline.formal_capture import METHOD
+
+        self.ctx["method_version"] = METHOD
+        self.event = detection(self.ctx)
+        archived = []
+        engine = self.engine(formal_o_sink=archived.append)
+        original_send = self.fake.send
+
+        async def send(payload, timeout):
+            response = await original_send(payload, timeout)
+            response["body"]["usage"].update(output_tokens=257, total_tokens=357)
+            return response
+
+        with patch.object(self.fake, "send", side_effect=send):
+            result = await engine.analyze(self.event, evidence(self.event))
+        self.assertEqual(("NOT_RUN", "GAIA_USAGE_RESERVATION_EXCEEDED", None),
+                         (result["status"], result["reason"], result["decision"]))
+        self.assertEqual("USAGE_RESERVATION_EXCEEDED", result["model_events"][0]["payload"]["reason_code"])
+        self.assertFalse(archived)
 
     async def test_unknown_is_abstain_not_success(self):
         result = await self.engine("UNKNOWN").analyze(self.event, evidence(self.event))

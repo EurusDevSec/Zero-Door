@@ -14,6 +14,7 @@ from event_pipeline.audit import audit
 from . import VERSION
 from .clock import ClockModel, Instant, duration, parse
 from .config import ConfigError, f01 as check_f01
+from . import formal
 from .recovery import evaluate, joined, samples_sha256
 
 SCORER_VERSION = VERSION + "/scorer"
@@ -135,7 +136,8 @@ class Scorer:
     another run that carries this run's incident_id/trial_id a LINK_CONFLICT; without them that check
     cannot be made and the run carries CROSS_RUN_LINKS_UNCHECKED.
     """
-    def __init__(self, h, o, options=None, others=None):
+    def __init__(self, h, o, options=None, others=None, formal_trials=None):
+        self.formal_trials = formal_trials
         self.h, self.o, self.options = h, o, dict(options or {})
         self.others = list(others or [])
         self.findings = {"duplicates": 0, "integrity_errors": [], "invalid": [], "source_violations": [],
@@ -817,10 +819,16 @@ class Scorer:
         success = sorted((s for s in success_all if s is not None), key=lambda i: i.ms)
         success_unknown = len(success) < len(success_all)  # a SUCCESS that cannot be placed may be the first one
         r["terminal"] = {s: sum(1 for c in completed if c["payload"]["status"] == s) for s in ("SUCCESS", "FAILED", "PARTIAL", "TIMEOUT")}
+        formal_case = self.formal_trials[inc["trial"]] if self.formal_trials is not None else None
+        measure_duration = formal.bounded_duration if formal_case else duration
         # recovery (7.5): D-04 on the probe clock's own readings
         R, rec = None, None
         clock_bad = False
-        if f and status == "CONFIRMED" and t_eff is not None:
+        if formal_case and formal_case["case"] == "C5":
+            flow = formal_case["continuous_flow"]
+            r["business_probe"] = {flow: formal.observe_flow(self, inc, flow)}
+            r["recovery_probe"] = formal.NOT_EVALUABLE
+        elif not formal_case and f and status == "CONFIRMED" and t_eff is not None:
             stream, probe_clock = self.stream(inc)
             if stream is not None:
                 e_local = self.local(inc, t_eff, probe_clock)
@@ -847,6 +855,8 @@ class Scorer:
             label = "CONFIRMED_NO_EFFECT"
         elif clock_bad:
             label = "MISSING"
+        elif formal_case:
+            label = status
         elif rec is None:
             label = "MISSING_PROBE"
         elif R is not None:
@@ -893,7 +903,7 @@ class Scorer:
             elif D is None:
                 r["mttd"], r["reaction"] = "MISSED", "NO_DETECT"
             else:
-                d = duration(t_eff, D)
+                d = measure_duration(t_eff, D)
                 if d is None:
                     clock_bad, r["mttd"] = True, "MISSING"
                 else:
@@ -903,14 +913,15 @@ class Scorer:
                 cap_base = t_eff if t_eff is not None and t_eff.comparable(D) else inc["t_req"]
                 if cap_base is not t_eff:
                     flags.add("REACTION_CAP_FROM_T_REQ")
-                placed = [s for s in success if s.comparable(D) and s.comparable(cap_base)]
+                placed = [s for s in success if measure_duration(D, s) is not None
+                          and measure_duration(cap_base, s) is not None]
                 ok = [s for s in placed if s.ms >= D.ms and s.ms <= cap_base.ms + f["cap_rec_s"] * 1000]
-                if len(placed) < len(success) or success_unknown:
+                if len(placed) < len(success) or success_unknown or (formal_case and cap_base is not t_eff):
                     # A SUCCESS on an unverified executor clock may be the first one: reaction unknown, not NO_SUCCESS.
                     flags.update({"CLOCK_UNVERIFIED", "ACTION_CLOCK_UNVERIFIED"})
                     r["reaction"] = "MISSING"
                 else:
-                    r["reaction"] = self.put(r, "reaction", duration(D, ok[0])) if ok else "NO_SUCCESS"
+                    r["reaction"] = self.put(r, "reaction", measure_duration(D, ok[0])) if ok else "NO_SUCCESS"
             if det_unknown:
                 r["mttr"] = "MISSING"
             elif R is not None and D is not None:
@@ -933,6 +944,9 @@ class Scorer:
         r["flags"] = sorted(flags)
         r["milestones"] = {k: (None if v is None else {"t_ms": round(v.ms, 3), "clock_id": v.clock_id, "verified": v.verified})
                            for k, v in (("t_req", inc["t_req"]), ("t_eff", t_eff), ("t_det", D), ("t_rec", R), ("t_stop", t_stop))}
+        if formal_case:
+            r["mttr"], r["total"] = formal.NOT_EVALUABLE, None
+            r["milestones"].pop("t_rec")
         r["clock_state"] = {cid: self.trial[inc["trial"]]["clock"].state(cid)[1] for cid in sorted(self.trial[inc["trial"]]["clock"].meta)} if inc["trial"] in self.trial else {}
         return r
 
@@ -992,7 +1006,14 @@ class Scorer:
         for trial in sorted(self.trial):
             h = [e for p, e in self.events if p == "H" and e.get("trial_id") in (trial, None)]
             o = [e for p, e in self.events if p == "O" and e.get("trial_id") == trial]
-            result = audit(h, o, surfaces=self.options.get("surfaces", {}).get(trial, ()), access_complete=False)
+            surfaces = self.options.get("surfaces", {}).get(trial, ())
+            if self.formal_trials is None:
+                result = audit(h, o, surfaces=surfaces, access_complete=False)
+            else:
+                evidence = self.formal_trials[trial]
+                result = formal.audit_trial(h, o, trial, evidence.get("audit_review"),
+                                            evidence.get("audit_artifacts", {}),
+                                            evidence.get("audit_material", ()))
             leaked = [e.get("event_id") for e in self.findings["quarantined_leaks"] if e.get("trial_id") == trial]
             if leaked:
                 result = dict(result, result="LEAK_DETECTED", findings=sorted(set(result["findings"]) | {"QUARANTINED_O_LEAK"}))
@@ -1004,6 +1025,7 @@ class Scorer:
         self.classify()
         self.trials()
         self.incidents()
+        formal.verify_run(self)
         if self.f01 is not None:
             for inc in self.inc.values():
                 self.effect_cache(inc)

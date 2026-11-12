@@ -3,9 +3,12 @@
 No R1 action is executed until a separate approved guard/executor is wired in.
 No action status is synthesized from the legacy API-only success messages.
 """
+from copy import deepcopy
+
 from .client import permanent
 from .contract import canonical, new_id, now, validate
 from .decision_journal import DecisionJournal
+from .formal_capture import METHOD, is_sha256, prepare_decision
 
 
 class Detector:
@@ -34,8 +37,12 @@ class Detector:
 
 
 class RulesConsumer:
-    def __init__(self, client, decide, *, journal_path=None, clock=None):
+    def __init__(self, client, decide, *, journal_path=None, clock=None, resolve_o=None, resolver_sha256=None):
+        if ((resolve_o is None) != (resolver_sha256 is None)
+                or resolve_o is not None and (not callable(resolve_o) or not is_sha256(resolver_sha256))):
+            raise ValueError("invalid O resolver and pin")
         self.client, self.decide = client, decide
+        self.resolve_o, self.resolver_sha256 = resolve_o, resolver_sha256
         self.journal = DecisionJournal(journal_path, **({"clock": clock} if clock else {}))
 
     def close(self):
@@ -75,7 +82,7 @@ class RulesConsumer:
                 p = event["payload"]
                 action = self.decide(p["rule_id"], p["severity"])
                 ctx = {key: event[key] for key in ("run_id", "trial_id", "group", "method_version", "config_ref", "incident_id") if key in event}
-                return self.client.producer.event(ctx, "DECISION", {
+                decision = self.client.producer.event(ctx, "DECISION", {
                     "stage": "PROPOSAL", "decision_source": "RULES",
                     "inputs": [{"event_id": event["event_id"], "received_at": received_at}],
                     "response_kind": "ACTION" if action else "NO_ACTION",
@@ -83,6 +90,12 @@ class RulesConsumer:
                     "fallback": False, "fallback_of": None, "prompt_version": None, "prompt_sha256": None,
                     "evidence_package_version": "o-envelope/1.0.0",
                 }, "o.decision", target=event["target"], decision_id=new_id("dec"), causation_id=event["event_id"])
+                if ctx["method_version"] == METHOD and action == "BLOCK_IP":
+                    if self.resolve_o is None:
+                        raise ValueError("FORMAL_RULES_RESOLVER_REQUIRED")
+                    resolution = self.resolve_o(deepcopy(event)) or {"status": "RESOLVER_ERROR"}
+                    return prepare_decision(decision, resolution=resolution, resolver_sha256=self.resolver_sha256)
+                return decision
             try:
                 row = self.journal.reserve(event, build)
             except ValueError as error:
