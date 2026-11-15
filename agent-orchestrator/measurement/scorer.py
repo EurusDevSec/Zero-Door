@@ -17,7 +17,7 @@ from .config import ConfigError, f01 as check_f01
 from . import formal
 from .recovery import evaluate, joined, samples_sha256
 
-SCORER_VERSION = VERSION + "/scorer"
+SCORER_VERSION = VERSION + "/scorer/m12-join-1"
 MANDATORY = {"ATTACK_REQUESTED", "ATTACK_STOPPED", "EFFECT_EVALUATED", "PROBE_SAMPLE", "DETECTED", "DECISION",
              "HEAL_STARTED", "API_ACCEPTED", "ACTION_COMPLETED"}
 O_LINKED = {"DETECTED", "DECISION", "LLM_CALL", "GUARD_VERDICT", "HEAL_STARTED", "API_ACCEPTED", "ACTION_COMPLETED"}

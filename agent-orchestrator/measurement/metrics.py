@@ -815,7 +815,7 @@ def m6(scorer, trial_id, model, start, w0, w1, cfg):
             "M6_verdict": "OK" if log_complete else "UNKNOWN"}
 
 
-def containment(scorer, results):
+def containment(scorer, results, audit_verdicts=None):
     """M12 containment observations. Formal requires independently joined proof."""
     formal_run = scorer.formal_trials is not None
     rows = []
@@ -825,14 +825,19 @@ def containment(scorer, results):
         cls = None if gt is None or "case_class" in problems else gt["case_class"]
         if formal_run:
             if scorer.formal_trials[r["trial_id"]]["case"] == "C5" and r["effect"] in ("CONFIRMED", "UNKNOWN_EFFECT"):
-                rows.append({"incident_id": r["incident_id"], "class": cls, "status": "UNVERIFIED",
-                             "containment_event_ids": [e["event_id"] for e in inc["containment"]]})
+                from .formal_containment import evaluate
+                clean=(audit_verdicts or {}).get(r["trial_id"],{}).get("result")=="CLEAN"
+                result=evaluate(scorer,inc,scorer.formal_trials[r["trial_id"]],audit_clean=clean)
+                rows.append(dict(result,**{"class":cls}))
         elif cls in ("C2", "C5") and r["label"] != "CONFIRMED_NO_EFFECT":
             rows.append({"incident_id": r["incident_id"], "class": cls, "verified": bool(inc["containment"])})
     if formal_run and rows:
-        return {"status": "UNVERIFIED", "N": len(rows), "numerator": 0, "unknown": len(rows),
-                "rate": {"status": "MISSING"}, "rows": rows,
-                "reason": "formal source, fixture UID, policy and probe references are not independently joined"}
+        if scorer.group=="B0":
+            return {"status":"CONTROL","N":0,"control_N":len(rows),"rows":rows,
+                    "reason":"B0 reports source/business controls, not ZERO DOOR containment"}
+        from .containment_join import summarize
+        summary=summarize(rows)
+        return dict(summary,rows=rows,rate={"status":"MISSING"} if summary.get("unknown") else ratio(summary["numerator"],summary["N"]))
     if not rows:
         return {"status": "EMPTY", "reason": "no C2/C5 incident with ground truth in this run"}
     k = sum(1 for x in rows if x["verified"])
@@ -859,7 +864,7 @@ def run_metrics(scorer, scored, options):
         "M2_funnel": funnel(incident_cohort, decisions),
         "M5_M6_benign": benign(scorer, options),
         "M11_usage": usage(scorer),
-        "M12_containment": containment(scorer, results),
+        "M12_containment": containment(scorer, results, scored.get("leak",{})),
         "cpu_P179": {"status": "MISSING", "reason": "no container CPU usage/limit series in the H/O exports (ZER-38/44)"},
         "request_success_rate": {"status": "MISSING", "reason": "benign client request log not in the exports"},
     }

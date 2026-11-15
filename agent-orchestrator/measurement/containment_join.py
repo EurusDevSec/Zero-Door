@@ -1,8 +1,7 @@
 """ZER-53 M12: join one containment claim to source, fixture UID, policy and probes.
 
-Prepared method only. The formal scorer does not call this module, so M12 stays UNVERIFIED until
-the H artifact format and the time conditions (window, clock bound, observation to end of S, TTL
-or cleanup) are approved. Nothing here evaluates time.
+The formal adapter calls this identity/content join after checking the archived H claim and
+clock/window/TTL bounds. This module alone does not evaluate time or admit a formal run.
 
 A CONTAINMENT_VERIFIED event names four artifacts by "sha256:<digest>": the enforcement policy
 (enforcement_point), the probe from the blocked source (blocked_source_ref), a benign fixture
