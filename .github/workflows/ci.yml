@@ -54,7 +54,11 @@ jobs:
         shell: bash
         run: bash infrastructure/scripts/verify-measurement.sh --offline
       - name: ZER-27 formal scorer, C5 coverage and audit artifacts offline
-        run: python -B -m unittest discover -s tests -p test_measurement_formal.py
+        env:
+          PYTHONPATH: agent-orchestrator
+        run: |
+          python -B -m unittest discover -s tests -p test_measurement_formal.py
+          python -B -m unittest discover -s tests -p test_formal_containment.py
       - name: Every measurement mutant is caught by the suites
         run: python -B docs/evidence/ZER-10/check_mutants.py
       - name: Scorer agrees with the accepted ZER-37 contract cases (hand-computed expectations)
