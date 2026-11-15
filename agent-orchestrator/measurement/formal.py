@@ -47,7 +47,7 @@ def read_evidence(path, h, o, *, audit_directory=None):
     for trial_id, entry in trials.items():
         artifacts, material = read_audit_artifacts(entry.get("audit_review"), directory, h.run_id, trial_id)
         normalized[trial_id] = dict(entry, resolver_sha256=resolver, audit_artifacts=artifacts,
-                                    audit_material=material)
+                                    audit_material=material,containment_directory=directory)
     return normalized, hashlib.sha256(raw).hexdigest()
 
 

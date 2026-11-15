@@ -19,7 +19,8 @@ RESOLVER_PIN = "1" * 64
 class FormalScore(unittest.TestCase):
     def fixture(self, directory, *, response="ACTION", change=None, gap=False, failure=False,
                 decision=True, detector=True, audit="CLEAN", group="B2", stage="PROPOSAL",
-                terminal=False, receipt_change=None, containment_event=False, c0_effect=None):
+                terminal=False, receipt_change=None, containment_event=False, c0_effect=None,
+                joined_containment=False):
         trace = Trace(group, f01=F01)
         trace.run_started()
         trace.events[0][1]["payload"]["protocol_ref"] = "sha256:" + PROTOCOL_SHA256
@@ -61,6 +62,29 @@ class FormalScore(unittest.TestCase):
             if receipt_change:
                 recorded["payload"]["pre_guard"].update(receipt_change)
             trace.events[-1] = ("O", recorded)
+        containment_spec=None
+        if joined_containment:
+            from measurement.clock import parse
+            from measurement.containment_join import REFS,write_artifact
+            start=len(trace.events);started=trace.action(recorded,started=134,api=135,done=139)
+            started['payload'].update(action_type='BLOCK_IP',params={'service':'fixture','ttl_sec':180})
+            common={'run_id':trace.run,'trial_id':trace.trial,'clock_id':HOST['clock_id']}
+            created=parse(iso(135))/1000;aid=started['action_id']
+            documents={
+                'policy':dict(common,kind='policy',observed_at=iso(139),policy_uid='policy-uid',scope='scope',
+                    fixture_uid=fields['fixture_uid'],rules=[{'action_id':aid,'client_ip':fields['source'],
+                    'created_at':created,'expires_at':created+180}]),
+                'blocked_source_probe':dict(common,kind='blocked_source_probe',observed_at=iso(140),
+                    source=fields['source'],fixture_uid=fields['fixture_uid'],status=403,error='SOURCE_BLOCKED',action_ids=[aid]),
+                'benign_fixture_probe':dict(common,kind='benign_fixture_probe',observed_at=iso(141),
+                    source='192.0.2.2',fixture_uid=fields['fixture_uid'],status=200,restricted_rows=0),
+                'boutique_probe':dict(common,kind='boutique_probe',observed_at=iso(142),flow='boutique_purchase',ok=True)}
+            originals=directory.parent/'audit-originals';originals.mkdir()
+            refs={REFS[k]:write_artifact(originals,d,run_id=trace.run,trial_id=trace.trial) for k,d in documents.items()}
+            trace.env('CONTAINMENT_VERIFIED','H','recovery_evaluator',143,dict(refs,t_contained=iso(142)),action_id=aid)
+            for _,event in trace.events[start:]:event['method_version']=METHOD
+            containment_spec={'action_id':aid,'claim':refs,'expected':dict(fields,policy_uid='policy-uid',
+                policy_scope='scope',benign_source='192.0.2.2',boutique_flow='boutique_purchase')}
         c5_trial = trace.trial
         if c0_effect is not None:
             start = len(trace.events)
@@ -76,9 +100,10 @@ class FormalScore(unittest.TestCase):
         self.assertEqual([], rejected)
         exports = load(h, o)
         entry = {"case": "C5", "decision_coverage": True, "continuous_flow": "checkout", "expected": fields}
+        if containment_spec:entry['containment']=containment_spec
         if audit == "CLEAN":
             originals = directory.parent / "audit-originals"
-            originals.mkdir()
+            originals.mkdir(exist_ok=True)
             review = {
                 "run_id": trace.run, "trial_id": c5_trial, "evaluator": "synthetic evaluator",
                 "from": iso(10), "to": iso(450), "clock_id": HOST["clock_id"],
@@ -156,6 +181,11 @@ class FormalScore(unittest.TestCase):
         self.assertEqual({"status": "MISSING"}, result["rate"])
         row, = result["rows"]
         self.assertEqual(1, len(row["containment_event_ids"]))
+
+    def test_formal_m12_scores_a_sealed_h_claim_o_action_and_actual_artifact_bytes(self):
+        result=self.scored(joined_containment=True)['metrics']['M12_containment']
+        self.assertEqual(('OK',1,1,0),(result['status'],result['N'],result['numerator'],result['unknown']))
+        self.assertEqual('VERIFIED',result['rows'][0]['status'])
 
     def test_formal_incident_metrics_keep_c0_out_of_c5_denominators(self):
         scored = self.scored(c0_effect="UNKNOWN_EFFECT")

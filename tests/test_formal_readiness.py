@@ -734,10 +734,7 @@ class ContainmentJoin(unittest.TestCase):
         self.assertIsNone(bad["boutique_ok"])
         self.assertIn("boutique_probe:CONTROL_FLOW_MISMATCH", bad["missing"])
 
-    def test_readiness_m12_join_is_not_wired_into_the_formal_scorer(self):
-        package = ROOT / "agent-orchestrator" / "measurement"
-        for name in ("metrics.py", "scorer.py", "formal.py", "__main__.py"):
-            self.assertNotIn("containment_join", (package / name).read_text(encoding="utf-8"), name)
+    def test_readiness_m12_join_remains_a_pure_artifact_evaluator(self):
         self.assertNotIn("time", {name for name in vars(containment_join) if not name.startswith("_")})
 
 

@@ -1,3 +1,50 @@
+# ZER-27 — AC-01 readiness verified, 15 November 2026
+
+**The AC-01 technical checks are complete. Zero formal trials.** This replaces the remaining-work list in the historical checkpoint below. Readiness observations do not enter the formal dataset or establish comparative results.
+
+| Required outcome | Verified evidence | Limit |
+| --- | --- | --- |
+| Five sealed catalog variants | All five independently confirmed restricted-row responses and triggered the unchanged native detector; catalog/oracle hashes were sealed beforehand | Five catalog variants, not general SQLi accuracy; no miss was replaced |
+| Real B2/C5 | Gaia → Hephaestus → signed Kafka → one accepted action; H joined actual policy UID/scope, blocked source, benign-source probe and Boutique purchase; sealed O retains both calls and pre-guard decision | One readiness cycle, no provider retry or formal superiority claim |
+| Measurement window | 66/66 samples at 5-second spacing across 330s, common-kernel clocks, native role/write checks and sealed exports | One window, not multi-trial memory stability |
+| Actual BM | Owner received O alert and chose BLOCK_IP; native decision, API write, blocked source and benign CRUD recorded. Display uncertainty31.8ms; 66/66 continuous samples; zero calls | BM containment NOT_VERIFIED because Boutique transaction timed out. This negative stays, with no positive H claim |
+| M12 scorer connection | Adapter checks sealed H claim, archived action/API, artifact hashes, independent expected scope, clock/window/TTL. Fixture CLI/regressions and actual-artifact arithmetic passed | Actual readiness H lacks complete formal RUN/TRIAL/HARNESS audit. Its formal-audit gate stays UNVERIFIED; conditional arithmetic is not formal acceptance |
+| Resources/cleanup | WSL5.5GiB; admission min Windows/guest3077/3079MiB; work min2771/2789MiB; max memoryPSI0. Monitoring/logging specs and PVC identities/bindings restored; owned namespace/topics/helpers/readers removed; nodes stopped | Fixed native-reader profile, no comparison with monitoring-enabled profile or unique RAM/I/O cause claim |
+
+B2 retained **2 calls, 1364 input + 136 output tokens**, complete usage, estimated cost **USD0.0002044** (not a billing statement). Earlier paid B2 usage stays UNKNOWN/NOT_RECONCILED with original claim and conservative full-budget provision. The separately authorized additional allocation is settled; no calls remain authorized in it.
+
+The successful B2 H baseline preceded the actual C5 request, after one bounded full-checkout warm-up:43.0ms baseline,200.2ms post-action purchase, unchanged2000ms healthy threshold. Earlier cold timeouts, stale projection, preparation/file-lock failures and BM's failed business probe remain intact. BM's old “before” probe occurred before action but after C5; it is not relabeled pre-fault.
+
+## Frozen method and operating scope
+
+Base protocol unchanged, SHA-256: c9a6950de02a0d7e33417194da82afef317ee69a3e429e06653cc844b81ecfd8.
+
+Owner-selected solo BM addendum unchanged, SHA-256: 935482198bad6fb4e7b05665b48e092d4457f79f4ed479c24fe5473da65fb0a4. This dated disposition records technical review without editing its historical review-required heading. One human operates BM; the pinned scorer computes results; technical review is disclosed. There is no second independent human evaluator or fully blinded human evaluation. BM remains descriptive; its second position per block remains UNBLINDED_BY_DESIGN.
+
+Common native profile /2 is fixed for later comparisons: pause Prometheus CR/StatefulSet, its operator and kube-state-metrics, plus Elasticsearch/Fluent Bit; preserve nine Boutique services, Kafka, metrics-server/HPA and PVCs. Restore exact specs after agent stop. Successful run/rollback readbacks support this bounded profile; they do not replace trial-level audit.
+
+Closure source manifest SHA-256: cb3d491e25bdcc2351db5677a2b2a9830d9a48ac3eda03a1bab3114a53e92f24. It pins protocol/addendum, analysis, native reader, console, preparation and restoration code. Each run retained its own pre-mutation source manifest.
+
+Keep WSL5632MiB/4CPU/2GiBswap; pre-start5288MiB; admission25samples/120s at2868MiB; work/cleanup floors1024MiB and PSI≤5; quiet/settle, request/call caps, TTL180s and outer deadlines. No threshold was lowered. Full-checkout warm-up reuses the bounded helper. Only transient file writes retry; faults/provider/actions do not. Projection wait≤100s within115s host/120s action envelope; underlying projection delay remains unexplained.
+
+## Evidence and verification
+
+Owner-held laptop snapshot: local-evidence/ZER-27/ac01-20261115/. It retains successes/failures/raw/claims/source/tests, checksum manifest (SHA-256 3e547757ff8394d42818e381ada402b04fb90cca209b6415f30e9dfc7595abd7) and a read-only replay entry point. Replay from that separate copy reports READINESS_CHECKS_VERIFIED for B2/five variants and PARTIAL for BM, preserving the negative business result. This is not off-laptop backup, a public dataset, clean-machine rebuild or portable lab launcher. Raw remains private.
+
+Receipts in checkout/scratch/ac01-b2c5/: final-verification.json, bm-verification.json, actual-scorer-calibration.json, additional-readiness-completion.json. Calibration invokes production M1/M12 on actual archives, synthesizes zero events, and reports pre-guard arithmetic CORRECT. With actual incomplete audit, M12 remains UNVERIFIED/AUDIT_UNVERIFIED. Only separately labeled conditional arithmetic reports VERIFIED. No missing historical metadata was fabricated.
+
+Offline checks passed:154measurement regressions,11focusedM12,28formal-readiness,5configuration; final runner/console/profile20/18/8. These are software checks, not research samples. M12 production changes received independent Codex review; a separate read-only Codex reviewer checked final evidence/source hashes. No final-delta Claude review is claimed. GitNexus index was stale/unavailable for the new adapter; direct source/call-site/test/raw review was used, with no graph-completeness claim.
+
+Docker Desktop stopped after empty running-container inventory; no global WSL shutdown or unrelated process kill. Windows available memory afterward approximately6.8GiB.
+
+## Boundary for the next step
+
+AC-02/ZER-58 has not started. Before its first request, the existing session entry point must pin source/protocol/addendum/profile, seal the prescribed schedule and capture full RUN/TRIAL/HARNESS metadata, exact prompts and all eight audit surfaces from the start. Stop before traffic if capture is absent. Do not directly import readiness traces or backfill missing events. Budget/attendance/resource/clock gates apply to the actual session.
+
+MTTR/TotalRecovery/M7/M8 remain NOT_EVALUABLE_BY_DESIGN. All failed/UNKNOWN attempts remain. This checkpoint does not complete ZER-27 as a whole, AC-02/03/04 or the original out-of-scope commitments.
+
+---
+
 # ZER-27 — Formal measurement checkpoint, 12 November 2026
 
 **AC-01 incomplete. FORMAL_HOLD. No formal trials are reported here.** This checkpoint preserves completed code and readiness observations so work can resume without repeating the day’s investigation. Merging this checkpoint does not authorize a formal experiment or activate the formal configuration.
